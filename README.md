@@ -182,9 +182,10 @@ as genericicity is a hallmark of mathematics. Alexander Stepanov's criticism of 
 > I find OOP philosophically unsound. It claims that everything is an object. Even if it is true it is not very
 > interesting - saying that everything is an object is saying nothing at all.
 
-To further this prototyping aim the documentation is intended to be thorough with a user-friendly interface:
-Along with the narratives and themes described here to orient ones reading, the documentation style will be similar
-to that of the Qt C++ library. I gotta say, I'm a fan of their quality documentation.
+To further this prototyping aim, in addition to genericicity, the documentation is intended to be thorough
+with a user-friendly interface: Along with the narratives and themes described here to orient ones reading,
+the documentation style will be similar to that of the Qt library. I gotta say, I'm a fan of their
+quality documentation.
 
 ## Intersectionality - Bringing the angles together.
 
@@ -197,19 +198,21 @@ This is the overall design. The code organization is broken down into folders:
 
 As for object disorientation: efficient vs safe classes, the efficient reusable but unsafe classes are organized into
 the *context* and *semiotic* folders. The safe general user-friendly classes are in the *media* folder. As the
-"reusability" is largely implemented with template meta-programming, there is a special folder *meta* which holds
-specifically template metacode.
+"reusability" of code is largely implemented with template meta-programming, there is a special folder *meta* which holds
+specifically template metacode, which is more along the lines of overhead and configurations than anything else.
 
 From the interpretation of a technology space, we narrow our scope to a *computability space*, which means we interpret
-general contexts as memory or data. As C++ privilegs classes, you might be tempted to think abstract classes would fill
+general contexts as memory or data. As C++ privilges classes, you might be tempted to think abstract classes would fill
 the context folder, but it's actually the opposite: classes are representations, constructs of our memory, and so from
-this point of view it makes sense for such generic classes to compose the *semiotic* folder. Even within a computability
-space, memory as context is infinite in interpreting its possible structure, and so it is in fact the generic typefree
-template procedures which form the bulk of the *context* folder.
+this point of view it makes sense for such generic classes to compose the *semiotic* folder.
 
-As said above, the *media* folder holds polished safe classes. It is the interface for the general user, the one who
+Within the restricted a computability space (as technology space), memory as context is still a weak specification,
+meaning it is infinite in the interpretation of its possible structures, and so it is in fact the generic type-free
+template (and reusable) procedures which form the bulk of the *context* folder.
+
+As said above, the *media* folder holds safe polished classes. It is the interface for the general user, the one who
 wants to prototype without worry of safeties. At this level of complexity and optimization; at this order of magnitude,
-we hold our interactive hardware classes categorized themselves into the following folders:
+we hold our interactive hardware classes---categorized themselves into the following folders:
 
 + *graphic*
 + *kinesthetic*
