@@ -173,11 +173,18 @@ C++ is known to be slower in production. It takes longer to code. With a strongl
 more difficult to prototype applications on the fly. The design of the nik library aims to address this---within reason,
 as it is still a strongly typed compiled language.
 
-The **nik** design privileges unified literary narrative/theme designs as well as unified implementation designs. As such
-the code is intended to be modular and extensible with as much reusable code as possible. To further this aim the documentation
-is intended to be thorough with a user-friendly interface: Along with the narratives and themes described here to orient
-ones reading, the documentation style will be similar to that of the Qt C++ library. I gotta say, I'm a fan of their
-quality documentation.
+The **nik** design privileges unified literary narrative/theme designs as well as unified implementation designs. As such,
+the code is intended to be modular and extensible with as much reusable code as possible. This is also very math-oriented,
+as genericicity is a hallmark of mathematics. Alexander Stepanov's criticism of OOP states this well:
+
+> I find OOP technically unsound.. It attempts to decompose the world in terms of interfaces that vary on a single type.
+> To deal with the real problems you need multisorted algebras - families of interfaces that span multiple types.
+> I find OOP philosophically unsound. It claims that everything is an object. Even if it is true it is not very
+> interesting - saying that everything is an object is saying nothing at all.
+
+To further this prototyping aim the documentation is intended to be thorough with a user-friendly interface:
+Along with the narratives and themes described here to orient ones reading, the documentation style will be similar
+to that of the Qt C++ library. I gotta say, I'm a fan of their quality documentation.
 
 ## Intersectionality - Bringing the angles together.
 
