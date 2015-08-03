@@ -20,18 +20,16 @@ irregular landscape of programming and computing science documentation.
 in honors math---but my philosophy is I shouldn't be allowed to use a tool unless I can reinvent it myself.
 I shouldn't be allowed to use a theorem unless I can prove it (or know the proof of it) myself. I'm more
 than happy to use the tools of others---certainly there's not enough time in one's life or career to actually
-reinvent everything---but in theory I should be able to reinvent the wheel myself if I had to.  Best way to
-learn how to code is to recode paradigms, methods and structures.
-3. **Legacy**: Although I'm using the GNU open source license, the primary copyright is myself, and the secondary
-copyright is The Inuit Nation. As far as I get here, the unified stories and tools I provide are my legacy to
-future generations of Inuit. It is the *Inuit Way* to leave this world better off than it was before you as an
-individual came into it. I aim to see my people prosper.
+reinvent everything---but in theory I should be able to reinvent any tools I use if I had to.  Best way to
+learn how to code is to recode the best existing paradigms, methods and structures of a language.
+3. **Legacy**: Although I'm using the GNU open source license for my own code, the primary copyright is still
+myself, but the secondary copyright is *The Inuit Nation*. As far as I get **here**, the unified stories and
+tools I provide are my legacy to future generations of Inuit. It is the *Inuit Way* to leave this world better
+off than it was before you as an individual came into it. I aim to see my people prosper.
 
-There are further reasons, but the list of these three will suffice.
+There are further reasons of course, but this list of three will suffice.
 
-# Motivation
-
-## Design:
+# Design:
 
 The design can be thought of as *intersectional*. Meaning it is a single design at the intersection of a few persectives.
 This also means access to the representation/explanation of this design comes from a few differing angles.
