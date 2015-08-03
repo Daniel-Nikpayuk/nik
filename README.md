@@ -76,18 +76,19 @@ The humanist angle provides a nice modular form for code organization and refere
 Key phrase: **technology space**. This is my own personal design paradigm inspired by literary theory.
 
 Although I do borrow from the humanist perspective, their wisdom still needs to be recontextualized in a computing science
-framework---what I have learned from critiquing the human experienced follows a forced conversion as a weak mathematical model.
+framework---what I have learned from critiquing the human experience follows a forced conversion as a weak mathematical model.
 
 A *technology space* is a weak specification with three parts: a *context space*, a *semiotic space*, and a *media space*.
-As a technology space is meant to represent a *digit* human experience, the context space represents the digital context of
-the digital human social process being described. The semiotic space are the labels and names and general concepts used to
-interact with the context. Context is existential, and exists on its own regardless of how we humans describe it. But when
-we do describe it, we do it with constructs and signs and signfiers and signfieds that make sense to us, and this is the
-semiotic space.
+As a technology space is meant to represent a *digit* human experience,
 
-Finally, the media space is the logic system which puts a constraint upon the relationships between the
-context and its semiotic space. Basically, with the semiotic space, we can combinatorially prescribe any representation
-or order of representation we want; it is a basic trait of human language design: natural language is adaptive. Regardless,
+1. The **context space**: represents the digital context of the digital human social process being described.
+2. The **semiotic space**: is made up of the labels and names and general concepts used to interact with the context.
+Context is existential, and exists on its own regardless of how we humans describe it. But when we do describe it,
+we do it with constructs and signs and signfiers and signfieds that make sense to us, and this is the semiotic space.
+3. The **media space**: is the logic system which puts constraints upon the relationships between the context and its semiotic space.
+
+Basically, with the semiotic space, we can combinatorially prescribe any representation or order of representation we want in
+regards to the context being described; it is a basic trait of human language design: Natural language is adaptive. Regardless,
 this freedom to imbue is still gradual---over any short period of time, things remain fairly stable, otherwise it would
 be hard to communicate in a social setting. We'd all be speaking different languages. This system of constraints that
 make up the media space is a mediator of meaning: media constructs are semantics.
