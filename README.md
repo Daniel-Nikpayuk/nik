@@ -3,7 +3,7 @@ nik
 
 A personal C++ library, designed as a partially compatible alternative to the STL library.
 
-# Status
+#### Status
 
 Nowhere near release yet.
 
@@ -34,13 +34,13 @@ There are further reasons of course, but this list of three will suffice.
 The design can be thought of as *intersectional*. Meaning it is a single design at the intersection of several persectives.
 This also means access to the representation/explanation of this design comes from a few differing angles.
 
-### Angle: Language
+## Angle: Language
 
 C++ is a mix-bag of many paradigms. As it remains backwards compatible with C it puts emphasis on efficiency by providing
 a semiotic space---a refined language/grammar---to discuss models of the *CPU* and of the *RAM* of a computer's hardware.
 As amazing job it does in that area, it also tends to go downhill in its ease of use from there on.
 
-### Angle: Hardware
+## Angle: Hardware
 
 As C++'s claim to fame is Object Oriented Programming, I've always found it odd the choice of api classes it provides
 to its coders.  More importantly, I've always found it odd it doesn't run narratives or themes around hardware.
@@ -53,7 +53,7 @@ The design of the **nik** library revolves around hardware. At the same time, if
 lens, hardware is largely the representation of the interactivity of our human senses: 
 
 + **graphic** - representative hardware: *screens*. Pixels, colors, bezier curves, fonts, etc.
-+ **kinesthetic** - representative hardware: *mouse*. Trackpad, clicks, motion analysis and interpretation.
++ **kinetic** - representative hardware: *mouse*. Trackpad, clicks, motion analysis and interpretation.
 + **literic** - representative hardware: *keyboard*. Characters, unicode, regular expressions, textual analysis.
 + **numeric** - representative hardware: *processor*. CPU, registers, numbers, math, memory storage, numerical analysis.
 + **phonetic** - representative hardware: *soundcard*. Speakers, headphones, fourier transforms, signal processing.
@@ -71,7 +71,7 @@ existing options in communicating or expressing themselves. The list goes on.
 All the human uses of design have been long studied by *humanists* in their aim to understand the human experience.
 The humanist angle provides a nice modular form for code organization and reference.
 
-### Angle: Humanist
+## Angle: Humanist
 
 Key phrase: **technology space**. This is my own personal design paradigm inspired by literary theory.
 
@@ -104,7 +104,7 @@ but in theory you can take the precision as far as you need to sufficiently appr
 With a technology space, no one expects you to take infinitely many refinements of a given space; take only as many
 refinements as you need for your design.
 
-### Angle: Object Disorientation
+## Angle: Object Disorientation
 
 C++ privileges the Object Oriented Paradigm (OOP). As the grammar is sufficiently (and problematically) expressive,
 you can as it turns out avoid the OOP altogether if you'd like.
@@ -167,7 +167,7 @@ existing class. That place where sharing and non-sharing meet is where OOP shows
 The Object Disorientation paradigm seperates efficient classes from safe classes, aiming for the best of both worlds when it
 comes to reusability of code as well as efficiency, safety and optimization.
 
-### Angle: Prototyping
+## Angle: Prototyping
 
 C++ is known to be slower in production. It takes longer to code. With a strongly typed compiled language like this, it's
 more difficult to prototype applications on the fly. The design of the nik library aims to address this---within reason,
@@ -215,7 +215,7 @@ wants to prototype without worry of safeties. At this level of complexity and op
 we hold our interactive hardware classes---categorized themselves into the following folders:
 
 + *graphic*
-+ *kinesthetic*
++ *kinetic*
 + *literic*
 + *numeric*
 + *phonetic*
@@ -223,4 +223,64 @@ we hold our interactive hardware classes---categorized themselves into the follo
 + *generic*
 
 Again, generic is for safe classes which aren't limited to hardware; this is to say: generic data structures like lists and vectors.
+
+# Integrity
+
+One of the biggest influences here is actually Donald Knuth's *TeX*.
+
+When I was in my early 20s I spent a lot of time learning typography and typesetting best practices from teaching myself *TeX*.
+I found the corresponding graphics packages insufficient until Andy Hammerlindl, one year a senior to me in my undergraduate
+career, introduced me to *Asymptote*, which is a vector graphics programming language in the style of C, which although independent
+of TeX and *LaTeX* was also compatible so that you could include it in LaTeX source files.
+
+In practice, using this composite system, it occurred to me from a narrative point of view, that it made no sense for a vector
+graphics programming language to be built on top of a typesetting system, and in fact it should be the other way around.
+With a vector graphics programming language, you should in theory be able to read in font files directly and render the fonts
+with the graphics tools already available. As it is a full Turing language, you should be able to build and organize all the
+necessary typesetting algorithms which make TeX work in the first place. Typesetting is at least in part a product of graphics.
+
+I understand the historical reason the design is inverted. TeX was made in the 1980s when personal computing and powerful
+processors with plentiful memory capacity wasn't realistic. What's more, TeX doesn't natively support Unicode. Again,
+it's historical. It's true there are mods and branches which try to rectify the internationalization issues, but these
+are after-thoughts to the original design.
+
+## Multimedia Privilege
+
+For me, the integrity of this comes from wanting to build education and storytelling apps to promote, extend, and practice
+my own Inuit culture---and for other Inuit to have nice Inuit tools to do so as well. I've always wanted a **multimedia
+programming language**, and although this library will be multipurpose, one of the leading directions for future development
+will be for such a multimedia language.
+
+# Legacy
+
+As I am only one Inuk working on this library, for as far as I get, other Inuit will have to take it further in the long run.
+
+There's the English saying: "Jack of all trades, master of none". I'm fairly well rounded in my math and computing science
+education and skill-set, which I believe lends itself to a quality overall design. I've done my best to make things modular,
+but regarding each and every module, I can't guarantee each such component (independent of each other) is as optimal as it
+can be. Part of the intent of this library is for **educational purposes**. When other Inuit learn to code---and they're
+interested in this library---they can improve themselves in layers: With a unified library in a single language, they can
+code at the level needed for their interest, and if ever they need to understand their tools better to further their own
+*multimedia* art form, they will then have the motivation to go to the next layer of complexity of this library.
+
+Those who become experts will likely find improvements they themselves can make within certain modules. To keep the code
+alive, as a useful resource for further generations still.
+
+## Limitations
+
+Keyword: *hardness*. At the time of writing this section, I have recently completed a Cryptography MOOC, and the theory of
+security is starting to sink in. I know a bit about computational virology, and some theoretical exploits like oracle-padding
+as well as buffer/stack overflows: I'm not completely naive, but the bottom line is I don't have the practice or experience
+to think like a serious hacker; and so I also don't know how best to harden this library against the world of *cracking*,
+or as the mainstream media likes to call *hacking*.
+
+Until I am more comfortable and have an intuitive understanding and a feel for how best to harden this library for strong
+security, I will leave that aspect out. If it's something I don't greatly improve upon, I leave it as part of the legacy.
+
+If you're an arbitrary user of this code, please keep this in mind.
+
+Pijariiqpunga.
+
+
+Daniel Nikpayuk
 
