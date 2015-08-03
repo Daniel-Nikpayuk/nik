@@ -79,7 +79,7 @@ Although I do borrow from the humanist perspective, their wisdom still needs to 
 framework---what I have learned from critiquing the human experience follows a forced conversion as a weak mathematical model.
 
 A *technology space* is a weak specification with three parts: a *context space*, a *semiotic space*, and a *media space*.
-As a technology space is meant to represent a *digit* human experience,
+A technology space is meant to represent a *digit* human experience:
 
 1. The **context space**: represents the digital context of the digital human social process being described.
 2. The **semiotic space**: is made up of the labels and names and general concepts used to interact with the context.
@@ -89,9 +89,10 @@ we do it with constructs and signs and signfiers and signfieds that make sense t
 
 Basically, with the semiotic space, we can combinatorially prescribe any representation or order of representation we want in
 regards to the context being described; it is a basic trait of human language design: Natural language is adaptive. Regardless,
-this freedom to imbue is still gradual---over any short period of time, things remain fairly stable, otherwise it would
-be hard to communicate in a social setting. We'd all be speaking different languages. This system of constraints that
-make up the media space is a mediator of meaning: media constructs are semantics.
+this freedom to imbue is still gradual---over any short period of time, things remain fairly stable---otherwise it would
+be hard to communicate in a social setting. We'd all be speaking different languages thinking we were speaking the same
+one. We actually kind of do that anyway, but we somehow manage. In anycase, this system of constraints that makes up the media space
+is a mediator of meaning: media constructs are semantics.
 
 There's one last important feature of a technology space: It is *recursive*. A technology space is decomposed into its
 context, semiotics, and media, but each of these spaces themselves are technology spaces: meaning each can be broken
@@ -103,13 +104,13 @@ but in theory you can take the precision as far as you need to sufficiently appr
 With a technology space, no one expects you to take infinitely many refinements of a given space; take only as many
 refinements as you need for your design.
 
-This angle is also embedded in the organization of code of the nik library.
-
 ### Angle: Object Disorientation
 
 C++ privileges the Object Oriented Paradigm (OOP). As the grammar is sufficiently (and problematically) expressive,
-you can as it turns out avoid the OOP altogether if you'd like. The OOP has its strengths and pitfalls. A quote from
-the *Structure and Interpretation of Computer Programs* explains brilliantly in fact:
+you can as it turns out avoid the OOP altogether if you'd like.
+
+In anycase, the OOP has its strengths and pitfalls. A quote from the *Structure and Interpretation of Computer Programs*
+explains brilliantly in fact:
 
 > The object model approximates the world by dividing it into separate pieces. The functional model does not modularize along
 > object boundaries. The object model is useful when the unshared state of the ``objects'' is much larger than the state that
@@ -118,8 +119,9 @@ the *Structure and Interpretation of Computer Programs* explains brilliantly in 
 > programming, but rather with fundamental epistemological issues. (3.5 Streams, footnote 76)
 
 When you're designing a library for processor as well as memory efficiency, you will often have to apply the engineering technique
-of multiplexing: Sharing space. The other strength of C++ is template programming: genericicity. As it turns out, the generic
-programming paradigm is functional in nature, and as the above quote points out, it and the OOP are not always an easy match.
+of *multiplexing*: sharing space. The other strength of C++ is template programming: *genericicity*. As it turns out, the generic
+(and thus template) programming paradigm is functional in nature, and as the above quote points out, it and the OOP are not always
+an easy match.
 
 The Object Disorientation paradigm here considers this and looks to strike a balance between the two to maintain a certain
 level of efficiency.
@@ -142,10 +144,10 @@ pseudocode (for clarity of explanation, it is coded without optimization):
 > >	}
 > }
 
-The focus of this style of code is to modularize the efficient and reusable but otherwise unsafe algorithm from the safe but
-contextually efficient and otherwise less portable code. The *_gcd* is fast as it does not need to check each time whether or
-not *a >= b*, it simply assumes it is. The *gcd* checks types and conditions and branches its logic which as an effect is
-expensive and restrictive on its potential use, but it's the gatekeeper and provides a safe environment for the efficient
+The focus of this style of code is to modularize the efficient and reusable---but otherwise unsafe---algorithm from the
+safe--- but otherwise less portable---code. The *_gcd* method is fast as it does not need to check each time whether or
+not *a >= b*, it simply assumes it is. The *gcd* method checks types and conditions and branches its logic which as an effect
+is expensive and restrictive on its potential use, but it's the gatekeeper and provides a safe environment for the efficient
 version to run properly. It only needs to be run once, and then the recursive and efficient application can be called to run
 its cycles.
 
@@ -155,11 +157,12 @@ In my head, it intuitively looks and feels like this:
 
 From the outside looking in, you have a clean *handle*, an interface to work with safely, but the innards are messy wires,
 which you are free to work with directly if you know what you're doing. If you don't know what you're doing, don't mess with
-the low level designs, but you should still be given a choice. This is my biggest pet peeve with the GNU STL, yeah it works,
-but it holds your hand whenever you want to do something else. As it's open source, yeah you're free to change it, but it's
-not designed with reusability in mind. Every time you want something new, you have to make it new from scratch, even if it's
-otherwise quite similar (but not similar enough) to some existing class. That place where sharing and non-sharing meet is
-where OOP shows its weakness.
+the low level designs, but you should still be given a choice.
+
+This is my biggest pet peeve with the GNU STL, yeah it works, but it holds your hand whenever you want to do something else.
+As it's open source, yeah you're free to change it, but it's not designed with reusability in mind. Every time you want
+something new, you have to make it new from scratch, even if it's otherwise quite similar (but not similar enough) to some
+existing class. That place where sharing and non-sharing meet is where OOP shows its weakness.
 
 The Object Disorientation paradigm seperates efficient classes from safe classes, aiming for the best of both worlds when it
 comes to reusability of code as well as efficiency, safety and optimization.
@@ -167,9 +170,11 @@ comes to reusability of code as well as efficiency, safety and optimization.
 ### Angle: Prototyping
 
 C++ is known to be slower in production. It takes longer to code. With a strongly typed compiled language like this, it's
-more difficult to prototype applications on the fly. The design of the nik library aims to address this---within reason.
-The design privileges unified literary narrative/theme designs as well as unified implementation designs. As such the
-code is intended to be modular and extensible with as much reusable code as possible. To further this aim the documentation
+more difficult to prototype applications on the fly. The design of the nik library aims to address this---within reason,
+as it is still a strongly typed compiled language.
+
+The **nik** design privileges unified literary narrative/theme designs as well as unified implementation designs. As such
+the code is intended to be modular and extensible with as much reusable code as possible. To further this aim the documentation
 is intended to be thorough with a user-friendly interface: Along with the narratives and themes described here to orient
 ones reading, the documentation style will be similar to that of the Qt C++ library. I gotta say, I'm a fan of their
 quality documentation.
