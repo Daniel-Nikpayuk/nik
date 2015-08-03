@@ -19,7 +19,7 @@ irregular landscape of programming and computing science documentation.
 2. **Integrity**: This goes back to my pride and how I was raised as an Inuk---as well as my training
 in honors math---but my philosophy is I shouldn't be allowed to use a tool unless I can reinvent it myself.
 I shouldn't be allowed to use a theorem unless I can prove it (or know the proof of it) myself. I'm more
-than happy to use the tools of others---certainly there's not enough time in one's life or career to actually
+than happy to use the tools of others---certainly there's not enough time in ones life or career to actually
 reinvent everything---but in theory I should be able to reinvent any tools I use if I had to.  Best way to
 learn how to code is to recode the best existing paradigms, methods and structures of a language.
 3. **Legacy**: Although I'm using the GNU open source license for my own code, the primary copyright is still
@@ -31,23 +31,23 @@ There are further reasons of course, but this list of three will suffice.
 
 # Design:
 
-The design can be thought of as *intersectional*. Meaning it is a single design at the intersection of a few persectives.
+The design can be thought of as *intersectional*. Meaning it is a single design at the intersection of several persectives.
 This also means access to the representation/explanation of this design comes from a few differing angles.
 
 ### Angle: Language
 
 C++ is a mix-bag of many paradigms. As it remains backwards compatible with C it puts emphasis on efficiency by providing
-a semiotic space---a refined language/grammar---to discuss models of the *CPU* and of the *RAM*. As amazing job it does in
-that area, it goes downhill in its ease of use from there.
+a semiotic space---a refined language/grammar---to discuss models of the *CPU* and of the *RAM* of a computer's hardware.
+As amazing job it does in that area, it also tends to go downhill in its ease of use from there on.
 
 ### Angle: Hardware
 
-As C++'s claim to fame is Object Oriented Programming, I've always found it odd the choice of classes it provides to its coders.
-More importantly, I've always found it odd it doesn't run narratives or themes around hardware.
+As C++'s claim to fame is Object Oriented Programming, I've always found it odd the choice of api classes it provides
+to its coders.  More importantly, I've always found it odd it doesn't run narratives or themes around hardware.
 
-Hardware is modular, and swappable and changes over time, but it doesn't change that quickly, and even for all the changes there
-effectively are types of hardware as abstract concepts. Why not represent all these other components of the computer in addition
-to the CPU and RAM for which it privileges?
+Hardware is modular, and swappable and changes over time, but it doesn't change that quickly, and even for all the changes
+there effectively are types of hardware as abstract concepts which persist. Why not represent all these other components
+of the computer in addition to the hardware (CPU and RAM) for which it privileges?
 
 The design of the **nik** library revolves around hardware. At the same time, if you take all of this from a broader sociological
 lens, hardware is largely the representation of the interactivity of our human senses: 
@@ -55,26 +55,28 @@ lens, hardware is largely the representation of the interactivity of our human s
 + **graphic** - representative hardware: *screens*. Pixels, colors, bezier curves, fonts, etc.
 + **kinesthetic** - representative hardware: *mouse*. Trackpad, clicks, motion analysis and interpretation.
 + **literic** - representative hardware: *keyboard*. Characters, unicode, regular expressions, textual analysis.
-+ **numeric** - representative hardware: *cpu*. Numbers, math, memory storage, numerical analysis.
++ **numeric** - representative hardware: *processor*. CPU, registers, numbers, math, memory storage, numerical analysis.
 + **phonetic** - representative hardware: *soundcard*. Speakers, headphones, fourier transforms, signal processing.
 + **interic** - representative hardware: network card. MAC protocol, TCP/IP protocols, internet protocols.
-+ **generic** - representative hardware: *adaptive*. Templates. Generic patterns found across the previous senses.
++ **generic** - representative hardware: *adaptive*. Templates. Generic patterns found across the previously listed hardware.
 
-Whatever app, for whatever purpose is designed, it still needs to be implemented with hardware in mind, which is why my library
-privileges hardware types. If you look at it from a sociological lens however, all *apps* are representations of some human
-social process---existing or new.  The point being, when someone is designing a new app, they are designing for human use,
-as a tool to suppliment their existing abilities; to resolve a personal or social problem they are otherwise unable to resolve;
-to relieve stress; to augment their existing options in communicating or expressing themselves. All the human uses of design
-have been long studied by *humanists* in their aim to understand the human experience.
+Whatever app, for whatever purpose it is designed, it still needs to be implemented with hardware in mind, which is why my library
+privileges hardware types.
 
+If you look at it from a sociological lens however, all *apps* are representations of some human social process---existing or new.
+The point being, when someone is designing a new app, they are designing for human use, as a tool to supplement their existing
+abilities; to aid in a personal or social problem they are otherwise unable to resolve alone; to relieve stress; to augment their
+existing options in communicating or expressing themselves. The list goes on.
+
+All the human uses of design have been long studied by *humanists* in their aim to understand the human experience.
 The humanist angle provides a nice modular form for code organization and reference.
 
 ### Angle: Humanist
 
 Key phrase: **technology space**. This is my own personal design paradigm inspired by literary theory.
 
-Although I do borrow from the humanist perspective, as their wisdom needs to be recontextualized in a computing science frame,
-what I have learned from critiquing the human experienced follows a forced conversion as a weak mathematical model.
+Although I do borrow from the humanist perspective, their wisdom still needs to be recontextualized in a computing science
+framework---what I have learned from critiquing the human experienced follows a forced conversion as a weak mathematical model.
 
 A *technology space* is a weak specification with three parts: a *context space*, a *semiotic space*, and a *media space*.
 As a technology space is meant to represent a *digit* human experience, the context space represents the digital context of
