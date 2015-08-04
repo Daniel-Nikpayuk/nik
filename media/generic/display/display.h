@@ -30,9 +30,35 @@ namespace nik
 		{
 			void print(int v) { printf("%d", v); }
 			void print(char v) { printf("%c", v); }
+		};
+
+		struct verbatim_printer
+		{
+			void print(int v) { printf("%d", v); }
+			void print(char v) { printf("%c", v); }
+/*
+	Assumes descending order.
+	
+	Decrementing the pointers is bad practice in general, but is here optimized for efficiency.
+*/
+			template<typename Iterator, size_t N>
+			struct _block
+			{
+				static void print(const char *format, Iterator i)
+				{
+					printf(format, *i);
+					_block<Iterator, N-1>::print(format, --i);
+				}
+			};
+
+			template<typename Iterator>
+			struct _block<Iterator, 1>
+			{
+				static void print(const char *format, Iterator i) { printf(format, *i); }
+			};
 
 			template<typename Block> void print(const Block & v)
-				{ context::block<size_t,Block::dimension>::print_verbatim("%zu ", v); }
+				{ _block<typename Block::const_iterator, Block::dimension>::print("%zu ", v.end()-1); }
 		};
 
 		template<typename S, typename T>
@@ -44,7 +70,9 @@ namespace nik
 	}
 
 	char endl='\n'; // portable ?
+
 	media::printer display;
+	media::verbatim_printer display_verbatim;
 }
 
 #endif

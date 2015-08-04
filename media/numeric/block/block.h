@@ -69,6 +69,14 @@ namespace nik
 						return *this;
 					}
 				public:
+						// iterators:
+					iterator begin() { return block::array; }
+					const_iterator begin() const { return block::array; }
+					const_iterator cbegin() const { return block::array; }
+					iterator end() { return block::array+BlockSize; }
+					const_iterator end() const { return block::array+BlockSize; }
+					const_iterator cend() const { return block::array+BlockSize; }
+				public:
 					bool operator == (const _block & n) const
 						{ return method::equal(block::array, n.array); }
 					bool operator != (const _block & n) const

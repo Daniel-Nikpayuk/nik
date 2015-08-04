@@ -95,19 +95,6 @@ namespace nik
 				else return block<T, N-1>::greater_than_or_equal(--in1, --in2);
 			}
 /*
-	Assumes descending order.
-	
-	Decrementing the pointers is bad practice in general, but is here optimized for efficiency.
-*/
-			static void _print_verbatim(const char *format, const T *in)
-			{
-				printf(format, *in);
-				block<T, N-1>::_print_verbatim(format, --in);
-			}
-
-			template<typename Block>
-			static void print_verbatim(const char *format, const Block & b) { _print_verbatim(format, b.array); }
-/*
 	Assumes ascending order.
 	
 	Incrementing the pointers is bad practice in general, but is here optimized for efficiency.
@@ -129,8 +116,6 @@ namespace nik
 			static bool less_than_or_equal(const T *in1, const T *in2) { return (*in1 <= *in2); }
 			static bool greater_than(const T *in1, const T *in2) { return (*in1 > *in2); }
 			static bool greater_than_or_equal(const T *in1, const T *in2) { return (*in1 >= *in2); }
-
-			static void _print_verbatim(const char *format, const T *in) { printf(format, *in); }
 
 			static void copy(T *out, const T *in) { *out=*in; }
 		};
