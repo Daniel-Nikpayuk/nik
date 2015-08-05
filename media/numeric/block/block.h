@@ -18,6 +18,7 @@
 #ifndef MEDIA_BLOCK_H
 #define MEDIA_BLOCK_H
 
+#include"../../../context/block/block.h"
 #include"../../../semiotic/block/block.h"
 
 /*
@@ -45,7 +46,8 @@ namespace nik
 			class _block : protected semiotic::block<size_t, size_t, BlockSize>
 			{
 				protected:
-					typedef context::block<size_t, BlockSize> method;
+					typedef context::block<size_t> method;
+					typedef typename method::recursive<BlockSize> method_recursive;
 					friend method;
 					typedef semiotic::block<size_t, size_t, BlockSize> block;
 					typedef typename block::pointer pointer;
@@ -61,11 +63,16 @@ namespace nik
 					static const size_type dimension=BlockSize;
 
 					_block() : block() { }
-					_block(const _block & n) : block(n) { }
-					const _block operator = (const _block & n)
+					_block(size_type n) : block()
+					{
+						*block::array=n;
+						method::recursive<BlockSize-1>::assign(block::array+1, 0);
+					}
+					_block(const _block & b) : block(b) { }
+					const _block operator = (const _block & b)
 					{
 						block::terminalize();
-						block::copy(n);
+						block::copy(b);
 						return *this;
 					}
 				public:
@@ -77,18 +84,39 @@ namespace nik
 					const_iterator end() const { return block::array+BlockSize; }
 					const_iterator cend() const { return block::array+BlockSize; }
 				public:
-					bool operator == (const _block & n) const
-						{ return method::equal(block::array, n.array); }
-					bool operator != (const _block & n) const
-						{ return method::not_equal(block::array, n.array); }
-					bool operator < (const _block & n) const
-						{ return method::less_than(block::array, n.array); }
-					bool operator <= (const _block & n) const
-						{ return method::less_than_or_equal(block::array, n.array); }
-					bool operator > (const _block & n) const
-						{ return method::greater_than(block::array, n.array); }
-					bool operator >= (const _block & n) const
-						{ return method::greater_than_or_equal(block::array, n.array); }
+					bool operator == (const _block & b) const
+						{ return method_recursive::equal(block::array, b.array); }
+					bool operator != (const _block & b) const
+						{ return method_recursive::not_equal(block::array, b.array); }
+					bool operator < (const _block & b) const
+						{ return method_recursive::less_than(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
+					bool operator <= (const _block & b) const
+						{ return method_recursive::
+							less_than_or_equal(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
+					bool operator > (const _block & b) const
+						{ return method_recursive::greater_than(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
+					bool operator >= (const _block & b) const
+						{ return method_recursive::
+							greater_than_or_equal(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
+				public:
+/*
+					bool operator << (_block b, size_type m) const
+						{ return method_recursive::left_shift(b.array, m, 0); }
+*/
+				public:
+					_block operator + (const _block & b) const
+					{
+						_block out;
+						method_recursive::plus(out.array, block::array, b.array, 0);
+						return out;
+					}
+
+					_block operator * (const _block & b) const
+					{
+						_block out;
+						method_recursive::asterisk(out.array, block::array, b.array, 0);
+						return out;
+					}
 			};
 		}
 

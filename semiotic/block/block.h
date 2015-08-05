@@ -18,8 +18,6 @@
 #ifndef SEMIOTIC_BLOCK_H
 #define SEMIOTIC_BLOCK_H
 
-#include"../../context/block/block.h"
-
 namespace nik
 {
 	namespace semiotic
@@ -72,7 +70,25 @@ namespace nik
 		Defining pointers in reference to 'v' is intentional---fewer assumptions
 		made about "this" makes this function more portable for outside use.
 */
-			void copy(const block & v) { context::block<value_type, N>::copy(array, v.array); }
+			template<size_type Dim, typename Filler=void>
+			struct recursive
+			{
+				template<typename OutputIterator, typename InputIterator>
+				static void copy(OutputIterator out, InputIterator in)
+				{
+					*out=*in;
+					recursive<Dim-1>::copy(++out, ++in);
+				}
+			};
+
+			template<typename Filler>
+			struct recursive<1, Filler>
+			{
+				template<typename OutputIterator, typename InputIterator>
+				static void copy(OutputIterator out, InputIterator in) { *out=*in; }
+			};
+
+			void copy(const block & v) { recursive<N>::copy(array, v.array); }
 			block(const block & v)
 			{
 				initialize();
