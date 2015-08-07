@@ -114,7 +114,7 @@ namespace nik
 					_block operator * (const _block & b) const
 					{
 						_block out;
-						method_recursive::asterisk(out.array, block::array, b.array, 0);
+						method_recursive::scale(out.array, block::array, b.array, 0);
 						return out;
 					}
 			};

@@ -25,7 +25,11 @@
 	a const reference to one.
 
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
-	but is here used for optimized for efficiency.
+	but is here used for optimized efficiency.
+
+	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
+	regardless. The assumption is if you're using these block classes in the first place you have some memory to spare;
+	as well, it's expected you're doing some heavy number theoretic computations and so the speed optimization is preferred.
 */
 
 namespace nik
@@ -44,31 +48,41 @@ namespace nik
 		{
 			static const size_type bit_length = (8*sizeof(size_type));
 			static const size_type half_length = (bit_length>>1);
-			static const size_type low_pass = (1<<half_length)-1;
+			static const size_type low_pass = ((size_type) 1<<half_length)-1;
 
 /*
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
+
+	Adds to the existing out regardless of its initial value.
+
+
+	if 1 < base, then 0 < base-1.
+	Since -1 < 1, then base-1 < base+1.
+	Hence (base-1)^2 < base^2-1.
+	Thus carry < base^2.
 */
 			template<typename ValueType>
 			static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
 			{
 				ValueType low_in1=(low_pass & mid1), high_in1 = (mid1>>half_length);
 				ValueType low_in2=(low_pass & mid2), high_in2 = (mid2>>half_length);
+					// mid1, mid2 are now free.
 
 				mid2=low_in1*high_in2;
-				mid1=high_in1*low_in2+mid2;
+				mid1=high_in1*low_in2+mid2; // possible carry of 1.
 
-				out=low_in1*low_in2;
-				low_in1 = (mid1<<half_length);
-				out+=low_in1;
+				low_in2*=low_in1;
+				low_in1=low_in2+(mid1<<half_length); // possible carry of 1.
 
-				return	high_in1*high_in2+
-					(out < low_in1)+
+				out+=low_in1; // possible carry of 1.
+
+				return high_in1*high_in2+
+					(mid1>>half_length)+
 					((mid1 < mid2)<<half_length)+
-					(mid1>>half_length);
+					(low_in1 < low_in2)+
+					(out < low_in1);
 			}
-
 /*
 	recursive:
 			Most contextual structs aren't templated, while their methods are.
@@ -150,6 +164,15 @@ namespace nik
 					recursive<N-1>::assign(++out, in);
 				}
 /*
+	Assumes ascending order.
+*/
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in)
+				{
+					*out=in;
+					return recursive<N-1>::rep(++out, in);
+				}
+/*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 				static void left_shift(typename Block::pointer out,
@@ -179,13 +202,18 @@ namespace nik
 				}
 /*
 	Assumes ascending order.
+
+	Obfuscated code ?
 */
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void asterisk(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+				static void scale(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+					{ recursive<N-1>::scale(++out, ++in1, ++in2, times(*out=carry, *in1, *in2)); }
+/*
+				static void asterisk
 				{
-					*out=carry;
-					recursive<N-1>::asterisk(++out, ++in1, ++in2, times(*out, *in1, *in2));
+					recursive<N>::scale(recursive<N-M>::rep(out, 0), in)
 				}
+*/
 			};
 
 			template<typename Filler>
@@ -209,13 +237,18 @@ namespace nik
 				static void copy(OutputIterator out, InputIterator in) { *out=*in; }
 				template<typename Iterator, typename ValueType>
 				static void assign(Iterator out, ValueType in) { *out=in; }
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in) { *out=in; return out; }
 
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
 					{ *out=*in1 + *in2 + carry; }
+/*
+	Obfuscated code ?
+*/
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void asterisk(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
-					{ times(*out, *in1, *in2); }
+				static void scale(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+					{ times(*out=carry, *in1, *in2); }
 			};
 		};
 	}
