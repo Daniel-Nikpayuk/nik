@@ -193,12 +193,21 @@ namespace nik
 */
 /*
 	Assumes ascending order.
+
+	Choice of (*out < *in2) is intentional as it provides higher entropy---it allows in1 == out (but in2 != out).
 */
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
 				{
 					*out=*in1 + *in2 + carry;
-					recursive<N-1>::plus(++out, ++in1, ++in2, (*out < *in1));
+					recursive<N-1>::plus(++out, ++in1, ++in2, (*out < *in2));
+				}
+
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
+				{
+					*out+=*in + carry;
+					recursive<N-1>::plus_assign(++out, ++in, (*out < *in));
 				}
 /*
 	Assumes ascending order.
@@ -206,14 +215,34 @@ namespace nik
 	Obfuscated code ?
 */
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void scale(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
-					{ recursive<N-1>::scale(++out, ++in1, ++in2, times(*out=carry, *in1, *in2)); }
-/*
-				static void asterisk
+				static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+					{ recursive<N-1>::scale(++out, ++in1, in2, times(*out=carry, *in1, in2)); }
+
+				template<size_type M, typename SubFiller=void>
+				struct subrecursive
 				{
-					recursive<N>::scale(recursive<N-M>::rep(out, 0), in)
-				}
+/*
+	Does not assume anything about the existing value of out1.
 */
+					template<typename OutputIterator, typename InputIterator>
+					static void asterisk(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+					{
+						recursive<M>::scale(recursive<N-M>::rep(out2, 0), in1, *in2, (size_type) 0);
+						plus_assign(out1, out2, 0);
+						subrecursive<M-1>::asterisk(out1, out2, in1, ++in2);
+					}
+				};
+
+				template<typename SubFiller>
+				struct subrecursive<1, SubFiller>
+				{
+					template<typename OutputIterator, typename InputIterator>
+					static void asterisk(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+					{
+						recursive<1>::scale(recursive<N-1>::rep(out2, 0), in1, *in2, (size_type) 0);
+						plus_assign(out1, out2, 0);
+					}
+				};
 			};
 
 			template<typename Filler>
@@ -238,17 +267,28 @@ namespace nik
 				template<typename Iterator, typename ValueType>
 				static void assign(Iterator out, ValueType in) { *out=in; }
 				template<typename Iterator, typename ValueType>
-				static Iterator rep(Iterator out, ValueType in) { *out=in; return out; }
+				static Iterator rep(Iterator out, ValueType in) { *out=in; return ++out; }
 
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
 					{ *out=*in1 + *in2 + carry; }
+
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
+					{ *out+=*in + carry; }
 /*
 	Obfuscated code ?
 */
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void scale(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
-					{ times(*out=carry, *in1, *in2); }
+				static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+					{ times(*out=carry, *in1, in2); }
+			};
+
+			template<typename Filler>
+			struct recursive<0, Filler>
+			{
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in) { return out; }
 			};
 		};
 	}

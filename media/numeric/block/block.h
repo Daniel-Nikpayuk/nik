@@ -111,10 +111,19 @@ namespace nik
 						return out;
 					}
 
-					_block operator * (const _block & b) const
+					_block operator * (size_type b) const
 					{
 						_block out;
-						method_recursive::scale(out.array, block::array, b.array, 0);
+						method_recursive::scale(out.array, block::array, b, (size_type) 0);
+						return out;
+					}
+
+					_block operator * (const _block & b) const
+					{
+						_block out, tmp;
+						method_recursive::assign(out.array, 0);
+						method_recursive::template subrecursive<BlockSize>::
+							asterisk(out.array, tmp.array, block::array, b.array);
 						return out;
 					}
 			};
