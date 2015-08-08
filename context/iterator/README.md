@@ -1,10 +1,17 @@
 iterator
 ========
 
-<!--<a href="#decrement_assign">decrement_assign</a>-->
-
+<table>
+ <tr>
+  <td>static OutputIterator</td>
+  <td>
 template&lt;typename OutputIterator, typename InputIterator&gt;<br>
-static OutputIterator [decrement\_assign]("#decrement_assign")(OutputIterator, InputIterator, const InputIterator)
+<a href="#decrement_assign">decrement_assign</a>
+(OutputIterator *out*, InputIterator, const InputIterator)
+  </td>
+ </tr>
+</table>
+
 
 <div id="decrement_assign"/>
 
