@@ -3,11 +3,13 @@ iterator
 
 <table>
  <tr>
-  <td>static OutputIterator</td>
+  <td><br>static OutputIterator</td>
   <td>
+
 template&lt;typename OutputIterator, typename InputIterator&gt;<br>
 <a href="#decrement_assign">decrement_assign</a>
 (OutputIterator *out*, InputIterator, const InputIterator)
+
   </td>
  </tr>
 </table>
