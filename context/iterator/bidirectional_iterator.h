@@ -32,10 +32,10 @@ namespace nik
 			static OutputType plus(InputType x) { return +x; }
 */
 			template<typename Iterator, typename SizeType>
-			static Iterator plus(Iterator i, SizeType n)
+			static Iterator plus(Iterator out, SizeType n)
 			{
-				for (SizeType k(0); k != n; ++k) ++i;
-				return i;
+				while (n--) ++out;
+				return out;
 			}
 /*
 	-:
@@ -46,10 +46,10 @@ namespace nik
 			static OutputType minus(InputType1 x, InputType2 y) { return x-y; }
 */
 			template<typename Iterator, typename SizeType>
-			static Iterator minus(Iterator i, SizeType n)
+			static Iterator minus(Iterator out, SizeType n)
 			{
-				for (SizeType k(0); k != n; ++k) --i;
-				return i;
+				while (n--) --out;
+				return out;
 			}
 /*
 	*:
@@ -116,20 +116,14 @@ namespace nik
 	+=:
 */
 			template<typename Iterator, typename SizeType>
-			static Iterator & plus_assign(Iterator & i, SizeType n)
-			{
-				for (SizeType k(0); k != n; ++k) ++i;
-				return i;
-			}
+			static void plus_assign(Iterator & out, SizeType n)
+				{ while (n--) ++out; }
 /*
 	-=:
 */
 			template<typename Iterator, typename SizeType>
-			static Iterator & minus_assign(Iterator & i, SizeType n)
-			{
-				for (SizeType k(0); k != n; ++k) --i;
-				return i;
-			}
+			static void minus_assign(Iterator & out, SizeType n)
+				{ while (n--) --out; }
 /*
 	*=:
 			template<typename OutputType, typename InputType1, typename InputType2>
