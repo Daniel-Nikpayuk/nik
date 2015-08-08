@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_BLOCK_H
-#define CONTEXT_BLOCK_H
+#ifndef CONTEXT_REGISTER_H
+#define CONTEXT_REGISTER_H
 
 #include<stddef.h>
 
@@ -46,19 +46,12 @@ namespace nik
 		template<typename size_type>
 		struct block
 		{
+/*
+	Move these constants (at least their values) to template meta folder.
+*/
 			static const size_type bit_length = (8*sizeof(size_type));
 			static const size_type half_length = (bit_length>>1);
 			static const size_type low_pass = ((size_type) 1<<half_length)-1;
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-*/
-			template<typename OutputIterator, typename ValueType>
-			static void left_shift_assign(OutputIterator out, size_type in)
-			{
-				recursive<N-M>::backcopy(out+(N-1), out+(M-1));
-				recursive<M>::assign(out, 0);
-			}
 /*
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.

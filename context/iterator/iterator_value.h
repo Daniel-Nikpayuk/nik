@@ -272,6 +272,221 @@ namespace nik
 			template<typename OutputIterator, typename InputIterator>
 			static OutputIterator decrement_assign(OutputIterator out, InputIterator in, const InputIterator end)
 				{ while (in != end) *(out--)=*(in--); return out; }
+/*
+	recursive:
+			Most contextual structs aren't templated, while their methods are.
+			The few structs that are pass instances of types (eg. digit: "size_type base")
+			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
+
+			Generally having a template parameter which isn't directly used implies lower generic entropy if it
+			isn't used directly in any of the methods (for example its subtypes are used instead). The recursive struct
+			below is an exception to the exising design for no other reason than the need for partial template
+			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
+*/
+			template<size_type N, typename Filler=void>
+			struct recursive
+			{
+/*
+	Assumes ascending order.
+*/
+				template<typename Iterator>
+				static bool equal(Iterator in1, Iterator in2)
+					{ return (*in1 == *in2) && recursive<N-1>::equal(++in1, ++in2); }
+/*
+	Assumes ascending order.
+*/
+				template<typename Iterator>
+				static bool not_equal(Iterator in1, Iterator in2)
+					{ return (*in1 != *in2) || recursive<N-1>::not_equal(++in1, ++in2); }
+/*
+	Assumes descending order.
+*/
+				template<typename Iterator>
+				static bool less_than(Iterator in1, Iterator in2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					else return recursive<N-1>::less_than(--in1, --in2);
+				}
+/*
+	Assumes descending order.
+*/
+				template<typename Iterator>
+				static bool less_than_or_equal(Iterator in1, Iterator in2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					else return recursive<N-1>::less_than_or_equal(--in1, --in2);
+				}
+/*
+	Assumes descending order.
+*/
+				template<typename Iterator>
+				static bool greater_than(Iterator in1, Iterator in2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					else return recursive<N-1>::greater_than(--in1, --in2);
+				}
+/*
+	Assumes descending order.
+*/
+				template<typename Iterator>
+				static bool greater_than_or_equal(Iterator in1, Iterator in2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					else return recursive<N-1>::greater_than_or_equal(--in1, --in2);
+				}
+/*
+	Assumes ascending order.
+*/
+				template<typename OutputIterator, typename InputIterator>
+				static void copy(OutputIterator out, InputIterator in)
+				{
+					*out=*in;
+					recursive<N-1>::copy(++out, ++in);
+				}
+/*
+	Assumes ascending order.
+*/
+				template<typename Iterator, typename ValueType>
+				static void assign(Iterator out, ValueType in)
+				{
+					*out=in;
+					recursive<N-1>::assign(++out, in);
+				}
+/*
+	Assumes ascending order.
+*/
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in)
+				{
+					*out=in;
+					return recursive<N-1>::rep(++out, in);
+				}
+/*
+	Assumes ascending order.
+
+	Choice of (*out < *in2) is intentional as it provides higher entropy---it allows in1 == out (but in2 != out).
+*/
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+				{
+					*out=*in1 + *in2 + carry;
+					recursive<N-1>::plus(++out, ++in1, ++in2, (*out < *in2));
+				}
+
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
+				{
+					*out+=*in + carry;
+					recursive<N-1>::plus_assign(++out, ++in, (*out < *in));
+				}
+/*
+	Assumes ascending order.
+*/
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+				{
+					*out=*in1 - *in2 - carry;
+					recursive<N-1>::minus(++out, ++in1, ++in2, (*out > *in2));
+				} out+in2+carry=in1	in1 < out, in1 < in2
+
+/*
+	Assumes ascending order.
+
+	Obfuscated code ?
+*/
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+					{ recursive<N-1>::scale(++out, ++in1, in2, times(*out=carry, *in1, in2)); }
+
+				template<size_type M, typename SubFiller=void>
+				struct subrecursive
+				{
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+*/
+					template<typename OutputIterator, typename ValueType>
+					static void left_shift_assign(OutputIterator out)
+					{
+						recursive<N-M>::backcopy(out+(N-1), out+(M-1));
+						recursive<M>::assign(out, 0);
+					}
+/*
+	Does not assume anything about the existing value of out1.
+*/
+					template<typename OutputIterator, typename InputIterator>
+					static void asterisk(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+					{
+						recursive<M>::scale(recursive<N-M>::rep(out2, 0), in1, *in2, (size_type) 0);
+						plus_assign(out1, out2, 0);
+						subrecursive<M-1>::asterisk(out1, out2, in1, ++in2);
+					}
+				};
+
+				template<typename SubFiller>
+				struct subrecursive<1, SubFiller>
+				{
+					template<typename OutputIterator, typename ValueType>
+					static void left_shift_assign(OutputIterator out)
+					{
+						recursive<N-1>::backcopy(out+(N-1), out);
+						recursive<1>::assign(out, 0);
+					}
+
+					template<typename OutputIterator, typename InputIterator>
+					static void asterisk(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+					{
+						recursive<1>::scale(recursive<N-1>::rep(out2, 0), in1, *in2, (size_type) 0);
+						plus_assign(out1, out2, 0);
+					}
+				};
+			};
+
+			template<typename Filler>
+			struct recursive<1, Filler>
+			{
+				template<typename Iterator>
+				static bool equal(Iterator in1, Iterator in2) { return (*in1 == *in2); }
+				template<typename Iterator>
+				static bool not_equal(Iterator in1, Iterator in2) { return (*in1 != *in2); }
+
+				template<typename Iterator>
+				static bool less_than(Iterator in1, Iterator in2) { return (*in1 < *in2); }
+				template<typename Iterator>
+				static bool less_than_or_equal(Iterator in1, Iterator in2) { return (*in1 <= *in2); }
+				template<typename Iterator>
+				static bool greater_than(Iterator in1, Iterator in2) { return (*in1 > *in2); }
+				template<typename Iterator>
+				static bool greater_than_or_equal(Iterator in1, Iterator in2) { return (*in1 >= *in2); }
+
+				template<typename OutputIterator, typename InputIterator>
+				static void copy(OutputIterator out, InputIterator in) { *out=*in; }
+				template<typename Iterator, typename ValueType>
+				static void assign(Iterator out, ValueType in) { *out=in; }
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in) { *out=in; return ++out; }
+
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+					{ *out=*in1 + *in2 + carry; }
+
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
+					{ *out+=*in + carry; }
+/*
+	Obfuscated code ?
+*/
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+					{ times(*out=carry, *in1, in2); }
+			};
+
+			template<typename Filler>
+			struct recursive<0, Filler>
+			{
+				template<typename Iterator, typename ValueType>
+				static Iterator rep(Iterator out, ValueType in) { return out; }
+			};
 		};
 	}
 }
