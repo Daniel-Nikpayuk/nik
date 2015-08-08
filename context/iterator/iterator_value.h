@@ -15,13 +15,27 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_FORWARD_ITERATOR_H
-#define CONTEXT_FORWARD_ITERATOR_H
+#ifndef CONTEXT_ITERATOR_VALUE_H
+#define CONTEXT_ITERATOR_VALUE_H
 
-#include"iterator.h"
+#include"iterator_macro.h"
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
+
+	overload:
+		38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
+
+		Componentwise operators are similar enough to factorize and pass the specific operator
+		as a method, but it is more cpu efficient to NOT---especially given there are few practical
+		contexts in which many different such operators will all be used together.
+
+		Side effects at the general coder level is bad policy, but at this intended low level where
+		safety is minimal it is more memory efficient given the dynamic size of arrays.
+		No assumption is made toward the referenced output vector to being empty. The method mapped
+		values from the input vector(s) are appended to the output vector.
+
+		The other reason for passing the output vector as a reference is that it allows for type deduction.
 */
 
 namespace nik
@@ -29,38 +43,14 @@ namespace nik
 	namespace context
 	{
 /*
-			forward_iterator:
-				The minimal specification (axiomatic properties) of a forward_iterator are:
+			iterator_value:
+				The minimal specification (axiomatic properties) of a iterator_value are:
 				typedefs:
 				constructors:
 				accessors:
 */
-		struct forward_iterator : public iterator
+		struct iterator_value
 		{
-			#define overload1(method, op) \
-			template<typename OutputIterator, typename InputIterator> \
-			static OutputIterator method(OutputIterator out, InputIterator in, const InputIterator end) \
-				{ while (in != end) *(out++)op(*(in++)); return out; }
-
-			#define overload2(method, op) \
-			template<typename OutputIterator, typename InputIterator1, typename InputIterator2> \
-			static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, const InputIterator2 end2) \
-				{ while (in2 != end2) *(out++)=(*(in1++))op(*(in2++)); return out; }
-/*
-			overload:
-				38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
-
-				Componentwise operators are similar enough to factorize and pass the specific operator
-				as a method, but it is more cpu efficient to NOT---especially given there are few practical
-				contexts in which many different such operators will all be used together.
-
-				Side effects at the general coder level is bad policy, but at this intended low level where
-				safety is minimal it is more memory efficient given the dynamic size of arrays.
-				No assumption is made toward the referenced output vector to being empty. The method mapped
-				values from the input vector(s) are appended to the output vector.
-
-				The other reason for passing the output vector as a reference is that it allows for type deduction.
-*/
 /*
 	+:
 */
@@ -271,24 +261,17 @@ namespace nik
 			static OutputIterator brackets(OutputIterator out,
 				InputIterator1 in1, InputIterator2 in2, const InputIterator2 end2)
 					{ while (in2 != end2) *(out++)=(*(in1++))[*(in2++)]; return out; }
-
-/*
-	size:
-*/
-			template<typename SizeType, typename Iterator>
-			static SizeType size(Iterator out, const Iterator end)
-			{
-				SizeType length=0;
-				while (out++ != end) ++length;
-				return length;
-			}
 /*
 	repeat:
 		Assumes out memory already allocated and is simply being overwritten instead of constructed and assigned.
 */
 			template<typename Iterator, typename ValueType>
-			static void repeat(Iterator out, const Iterator end, const ValueType & value)
+			static void assign(Iterator out, const Iterator end, const ValueType & value)
 				{ while (out != end) *(out++)=value; }
+
+			template<typename OutputIterator, typename InputIterator>
+			static OutputIterator decrement_assign(OutputIterator out, InputIterator in, const InputIterator end)
+				{ while (in != end) *(out--)=*(in--); return out; }
 		};
 	}
 }

@@ -47,6 +47,63 @@ namespace nik
 			template<typename Iterator1, typename Iterator2>
 			static bool not_equals(Iterator1 x, Iterator2 y) { return x != y; }
 		};
+
+		struct forward_iterator : public iterator
+		{
+/*
+	size:
+*/
+			template<typename SizeType, typename Iterator>
+			static SizeType size(Iterator out, const Iterator end)
+			{
+				SizeType length=0;
+				while (out++ != end) ++length;
+				return length;
+			}
+/*
+	+:
+			template<typename OutputType, typename InputType>
+			static OutputType plus(InputType x) { return +x; }
+*/
+			template<typename Iterator, typename SizeType>
+			static Iterator plus(Iterator out, SizeType n)
+			{
+				while (n--) ++out;
+				return out;
+			}
+/*
+	+=:
+*/
+			template<typename Iterator, typename SizeType>
+			static void plus_assign(Iterator & out, SizeType n)
+				{ while (n--) ++out; }
+		};
+
+		struct bidirectional_iterator : public forward_iterator
+		{
+/*
+	-:
+*/
+			template<typename Iterator, typename SizeType>
+			static Iterator minus(Iterator out, SizeType n)
+			{
+				while (n--) --out;
+				return out;
+			}
+/*
+	-=:
+*/
+			template<typename Iterator, typename SizeType>
+			static void minus_assign(Iterator & out, SizeType n)
+				{ while (n--) --out; }
+		};
+
+		struct random_access_iterator : public bidirectional_iterator
+		{
+			template<typename SizeType, typename Iterator>
+			static SizeType size(Iterator out, const Iterator end)
+				{ return end-out; }
+		};
 	}
 }
 

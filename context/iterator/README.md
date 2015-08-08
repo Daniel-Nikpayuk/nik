@@ -1,7 +1,20 @@
 iterator
 ========
 
-# Bidirectional Iterator
+Iterators are a universal currency in templated C++, and so there should be a strong iterator library. It's also worth
+the time thinking harder as to what an iterator is. Namely, an iterator is a vehicle, which provides access to content
+of interest. An iterator itself is overhead, but given it can't be avoided, there are algorithms to make interaction
+with them directly easier to use. Mostly though, the vast majority of generic iterator algorithms will be as means to
+interact with the data referenced by such iterators.
+
+Each generic iterator class is narrowed by an attribute, a modifier, so for example "forward iterator" generic algorithms
+act on iterators which are known to have an accessible forward direction. In the case of "iterator value", this collection
+of algorithms don't put their emphasis on accessing or modifying the iterators themselves, rather it privileges acts upon
+the iterator values.
+
+#### Forward Iterator
+
+#### Bidirectional Iterator
 
 <table>
  <tr>
