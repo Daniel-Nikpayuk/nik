@@ -1,6 +1,6 @@
 /*************************************************************************************************************************
 **
-** Copyright 2015 Daniel Nikpayuk
+** Copyright 2015 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
