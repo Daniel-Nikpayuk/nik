@@ -1,26 +1,20 @@
 iterator
 ========
 
-<section id="bidirectional_iterator">
-<nav>
- <ul>
-  <li>
-   <a href="#decrement_assign">
-	template&lt;typename OutputIterator, typename InputIterator&gt;<br>
+<a href="#decrement_assign">
+	template<typename OutputIterator, typename InputIterator><br>
 	static OutputIterator decrement_assign(OutputIterator, InputIterator, const InputIterator)
-   </a>
- </ul>
-</nav>
- <div id="decrement_assign">
-	template&lt;typename OutputIterator, typename InputIterator&gt;<br>
-	decrement_assign(OutputIterator out, InputIterator in, const InputIterator end)
+</a>
 
-	<em>out</em>, <em>in</em>--><em>end</em> are preallocated structures with <em>in</em> &gt; <em>end</em>&;
-	both <em>out</em> and <em>in</em> are decremented.
+<div id="decrement_assign"/>
 
-	Assigns values iterated from <em>in</em>--<em>end</em> to <em>out</em> until <em>in</em> reaches <em>end</em>.
+template<typename OutputIterator, typename InputIterator><br>
+decrement_assign(OutputIterator out, InputIterator in, const InputIterator end)
 
-	Primarily useful when shifting values rightward.
- </div>
-</section>
+*out*, *in*-->*end* are preallocated structures with *in* > *end*;
+both *out* and *in* are decremented.
+
+Assigns values iterated from *in*--*end* to *out* until *in* reaches *end*.
+
+Primarily useful when shifting values rightward.
 
