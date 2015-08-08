@@ -49,7 +49,16 @@ namespace nik
 			static const size_type bit_length = (8*sizeof(size_type));
 			static const size_type half_length = (bit_length>>1);
 			static const size_type low_pass = ((size_type) 1<<half_length)-1;
-
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+*/
+			template<typename OutputIterator, typename ValueType>
+			static void left_shift_assign(OutputIterator out, size_type in)
+			{
+				recursive<N-M>::backcopy(out+(N-1), out+(M-1));
+				recursive<M>::assign(out, 0);
+			}
 /*
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
@@ -173,25 +182,6 @@ namespace nik
 					return recursive<N-1>::rep(++out, in);
 				}
 /*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-				static void left_shift(typename Block::pointer out,
-					typename Block::size_type in, typename Block::value_type carry)
-				{
-					typename Block::value_type new_carry=*out>>(bit_length-in);
-					(*out<<=in)+=carry;
-					recursive<Block, N-1>::left_shift(++out, ++in);
-				}
-		
-				static void left_shift(typename Block::pointer out,
-					typename Block::size_type in, typename Block::value_type carry)
-				{
-					typename Block::value_type new_carry=*out>>(bit_length-in);
-					(*out<<=in)+=carry;
-					recursive<Block, N-1>::left_shift(++out, ++in);
-				}
-*/
-/*
 	Assumes ascending order.
 
 	Choice of (*out < *in2) is intentional as it provides higher entropy---it allows in1 == out (but in2 != out).
@@ -211,6 +201,16 @@ namespace nik
 				}
 /*
 	Assumes ascending order.
+*/
+				template<typename OutputIterator, typename InputIterator, typename ValueType>
+				static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+				{
+					*out=*in1 - *in2 - carry;
+					recursive<N-1>::minus(++out, ++in1, ++in2, (*out > *in2));
+				} out+in2+carry=in1	in1 < out, in1 < in2
+
+/*
+	Assumes ascending order.
 
 	Obfuscated code ?
 */
@@ -221,6 +221,16 @@ namespace nik
 				template<size_type M, typename SubFiller=void>
 				struct subrecursive
 				{
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+*/
+					template<typename OutputIterator, typename ValueType>
+					static void left_shift_assign(OutputIterator out)
+					{
+						recursive<N-M>::backcopy(out+(N-1), out+(M-1));
+						recursive<M>::assign(out, 0);
+					}
 /*
 	Does not assume anything about the existing value of out1.
 */
@@ -236,6 +246,13 @@ namespace nik
 				template<typename SubFiller>
 				struct subrecursive<1, SubFiller>
 				{
+					template<typename OutputIterator, typename ValueType>
+					static void left_shift_assign(OutputIterator out)
+					{
+						recursive<N-1>::backcopy(out+(N-1), out);
+						recursive<1>::assign(out, 0);
+					}
+
 					template<typename OutputIterator, typename InputIterator>
 					static void asterisk(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
 					{

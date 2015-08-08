@@ -99,10 +99,14 @@ namespace nik
 						{ return method_recursive::
 							greater_than_or_equal(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
 				public:
-/*
-					bool operator << (_block b, size_type m) const
-						{ return method_recursive::left_shift(b.array, m, 0); }
-*/
+					_block operator << (_block b, size_type m) const
+					{
+						m%=BlockSize;
+						_block out(b);
+						while (m-- != 0) method_recursive::template
+								subrecursive<1>::left_shift_assign(out.array, b.array);
+						return out;
+					}
 				public:
 					_block operator + (const _block & b) const
 					{
