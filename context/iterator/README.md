@@ -1,15 +1,15 @@
 iterator
 ========
 
-<a href="#decrement_assign">
-	template<typename OutputIterator, typename InputIterator><br>
-	static OutputIterator decrement_assign(OutputIterator, InputIterator, const InputIterator)
-</a>
+<!--<a href="#decrement_assign">decrement_assign</a>-->
+
+template&lt;typename OutputIterator, typename InputIterator&gt;<br>
+static OutputIterator [decrement\_assign]("#decrement_assign")(OutputIterator, InputIterator, const InputIterator)
 
 <div id="decrement_assign"/>
 
-template<typename OutputIterator, typename InputIterator><br>
-decrement_assign(OutputIterator out, InputIterator in, const InputIterator end)
+template&lt;typename OutputIterator, typename InputIterator&gt;<br>
+decrement\_assign(OutputIterator out, InputIterator in, const InputIterator end)
 
 *out*, *in*-->*end* are preallocated structures with *in* > *end*;
 both *out* and *in* are decremented.
