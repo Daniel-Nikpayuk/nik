@@ -187,6 +187,13 @@ with a user-friendly interface: Along with the narratives and themes described h
 the documentation style will be similar to that of the Qt library. I gotta say, I'm a fan of their
 quality documentation.
 
+## Angle: Errorology
+
+Though I have no immediate goals of implementing an error typology---and error type deduction system---any time soon,
+I will like this to be part of the design. I can leave it out for now as it is intended to be modular: It would be
+an extension of comments, a formalized way of categorizing known potential errors with a given method for example,
+and so when compiling, a more robust type deduction system could be utilitized for error recognition.
+
 ## Intersectionality - Bringing the angles together.
 
 This is the overall design. The code organization is broken down into folders:
