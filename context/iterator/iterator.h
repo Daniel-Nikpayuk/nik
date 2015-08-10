@@ -55,6 +55,7 @@ namespace nik
 			Methods that have more than one template typename (eg. Iterator1, Iterator2) have so for higher
 			entropy, but in practice you may need to optimize (eg. Iterator2=const Iterator1 &).
 */
+		template<typename size_type>
 		struct iterator
 		{
 		};
@@ -64,55 +65,57 @@ namespace nik
 /*
 		Strictly speaking, there are infinitely many different "plus" methods based on side effects.
 */
-		struct forward_iterator : public iterator
+		template<typename size_type>
+		struct forward_iterator : public iterator<size_type>
 		{
 /////////////////////////////////////////////////////////////
 //	Iterator modifiers
 /////////////////////////////////////////////////////////////
 /*
 	size:
-		You need to specify SizeType in use as type deduction will fail.
 */
-			template<typename SizeType, typename InputIterator, typename TerminalIterator>
-			static SizeType size(InputIterator in, TerminalIterator end)
+			template<typename InputIterator, typename TerminalIterator>
+			static size_type size(InputIterator in, TerminalIterator end)
 			{
-				SizeType length(0);
-				while (out++ != end) ++length;
+				size_type length(0);
+				while (in++ != end) ++length;
 				return length;
 			}
 /*
 	Breaks for n < 0.
 
-	Alternative is to code as "while (--n) ++out; return ++out;" which optimizes better but breaks for n <= 0.
+	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
+	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
+	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
 */
-			template<typename Iterator, typename SizeType>
-			static Iterator left_increment(Iterator & out, SizeType n)
+			template<typename Iterator>
+			static void left_increment(Iterator out, size_type n)
+				{ while (n--) ++out; }
+/*
+	Breaks for n < 0.
+
+	Alternative is to code as "while (--n) ++out; return ++out;" which optimizes better but breaks for n <= 0.
+
+	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
+*/
+			template<typename Iterator>
+			static Iterator left_increment(Iterator out, size_type n)
 			{
 				while (n--) ++out;
 				return out;
 			}
 /*
 	Breaks for n < 0.
+
+	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
 */
-			template<typename Iterator, typename SizeType>
-			static Iterator right_increment(Iterator & out, SizeType n)
+			template<typename Iterator>
+			static Iterator right_increment(Iterator out, size_type n)
 			{
 				Iterator rtn(out);
 				while (n--) ++out;
 				return rtn;
 			}
-/*
-	Breaks for n < 0.
-*/
-			template<typename Iterator, typename SizeType>
-			static void advance(Iterator & out, SizeType n)
-				{ while (n--) ++out; }
-/*
-	Breaks for n < 0.
-*/
-			template<typename Iterator, typename SizeType>
-			static Iterator forward(Iterator out, SizeType n)
-				{ while (n--) ++out; return out; }
 /////////////////////////////////////////////////////////////
 //	Iterator value (dereference) modifiers
 /////////////////////////////////////////////////////////////
@@ -218,7 +221,7 @@ namespace nik
 	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
 */
 			void_overload1(++, assign, =)
-			const_overload1(++, assign, =)
+			const_overload1(++, repeat, =)
 			return_overload1(++, assign, =)
 /*
 	<:
@@ -242,7 +245,7 @@ namespace nik
 	There's no need for a "return" version of "constant value" plus_assign as the out iterator equals the end iterator upon halting.
 */
 			void_overload1(++, plus_assign, +=)
-			const_overload1(++, plus_assign, +=)
+			const_overload1(++, plus_repeat, +=)
 			return_overload1(++, plus_assign, +=)
 /*
 	-=:
@@ -250,7 +253,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, minus_assign, -=)
-			const_overload1(++, minus_assign, -=)
+			const_overload1(++, minus_repeat, -=)
 			return_overload1(++, minus_assign, -=)
 /*
 	*=:
@@ -258,7 +261,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, asterisk_assign, *=)
-			const_overload1(++, asterisk_assign, *=)
+			const_overload1(++, asterisk_repeat, *=)
 			return_overload1(++, asterisk_assign, *=)
 /*
 	/=:
@@ -266,7 +269,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, slash_assign, /=)
-			const_overload1(++, slash_assign, /=)
+			const_overload1(++, slash_repeat, /=)
 			return_overload1(++, slash_assign, /=)
 /*
 	%=:
@@ -274,7 +277,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, percent_assign, %=)
-			const_overload1(++, percent_assign, %=)
+			const_overload1(++, percent_repeat, %=)
 			return_overload1(++, percent_assign, %=)
 /*
 	ˆ=:
@@ -282,7 +285,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, caret_assign, ^=)
-			const_overload1(++, caret_assign, ^=)
+			const_overload1(++, caret_repeat, ^=)
 			return_overload1(++, caret_assign, ^=)
 /*
 	&=:
@@ -290,7 +293,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, ampersand_assign, &=)
-			const_overload1(++, ampersand_assign, &=)
+			const_overload1(++, ampersand_repeat, &=)
 			return_overload1(++, ampersand_assign, &=)
 /*
 	|=:
@@ -298,7 +301,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, bar_assign, |=)
-			const_overload1(++, bar_assign, |=)
+			const_overload1(++, bar_repeat, |=)
 			return_overload1(++, bar_assign, |=)
 /*
 	<<:
@@ -320,7 +323,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, right_shift_assign, >>=)
-			const_overload1(++, right_shift_assign, >>=)
+			const_overload1(++, right_shift_repeat, >>=)
 			return_overload1(++, right_shift_assign, >>=)
 /*
 	<<=:
@@ -328,7 +331,7 @@ namespace nik
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(++, left_shift_assign, <<=)
-			const_overload1(++, left_shift_assign, <<=)
+			const_overload1(++, left_shift_repeat, <<=)
 			return_overload1(++, left_shift_assign, <<=)
 /*
 	==:
@@ -403,7 +406,7 @@ namespace nik
 
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
-			return_overload2(++, point, ->)
+			return_overload2(++, point, .operator->)
 /*
 	():
 
@@ -535,14 +538,14 @@ namespace nik
 				}
 /*
 	Assumes ascending order.
-*/
+
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
 				{
 					*out=*in1 - *in2 - carry;
 					unroll<N-1>::minus(++out, ++in1, ++in2, (*out > *in2));
 				} out+in2+carry=in1	in1 < out, in1 < in2
-
+*/
 /*
 	Assumes ascending order.
 
@@ -645,15 +648,16 @@ namespace nik
 
 /************************************************************************************************************************/
 
-		struct bidirectional_iterator : public forward_iterator
+		template<typename size_type>
+		struct bidirectional_iterator : public forward_iterator<size_type>
 		{
 /*
 	Breaks for n < 0.
 
 	Alternative is to code as "while (--n) --out; return --out;" which optimizes better but breaks for n <= 0.
 */
-			template<typename Iterator, typename SizeType>
-			static Iterator left_decrement(Iterator & out, SizeType n)
+			template<typename Iterator>
+			static Iterator left_decrement(Iterator & out, size_type n)
 			{
 				while (n--) --out;
 				return out;
@@ -661,8 +665,8 @@ namespace nik
 /*
 	Breaks for n < 0.
 */
-			template<typename Iterator, typename SizeType>
-			static Iterator right_decrement(Iterator & out, SizeType n)
+			template<typename Iterator>
+			static Iterator right_decrement(Iterator & out, size_type n)
 			{
 				Iterator rtn(out);
 				while (n--) --out;
@@ -671,30 +675,31 @@ namespace nik
 /*
 	Breaks for n < 0.
 */
-			template<typename Iterator, typename SizeType>
-			static void backward(Iterator & out, SizeType n)
+			template<typename Iterator>
+			static void backward(Iterator & out, size_type n)
 				{ while (n--) --out; }
 /*
 	Breaks for n < 0.
 */
-			template<typename Iterator, typename SizeType>
-			static Iterator backward(Iterator out, SizeType n)
+			template<typename Iterator>
+			static Iterator backward(Iterator out, size_type n)
 				{ while (n--) --out; return out; }
 /*
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
 			void_overload1(--, assign, =)
-			const_overload1(--, assign, =)
+			const_overload1(--, repeat, =)
 			return_overload1(--, assign, =)
 		};
 
 /************************************************************************************************************************/
 
-		struct random_access_iterator : public bidirectional_iterator
+		template<typename size_type>
+		struct random_access_iterator : public bidirectional_iterator<size_type>
 		{
-			template<typename SizeType, typename Iterator>
-			static SizeType size(Iterator out, const Iterator end)
-				{ return end-out; }
+			template<typename InputIterator, typename TerminalIterator>
+			static size_type size(InputIterator in, TerminalIterator end)
+				{ return end-in; }
 		};
 	}
 }

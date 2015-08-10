@@ -1,0 +1,436 @@
+<!--Copyright 2015 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation-->
+<html>
+  <head>
+    <title>Nik - Forward Iterator</title>
+  </head>
+  <body>
+   <table>
+    <tr><td>Header:</td><td>#include niksys(context, iterator)</td></tr>
+    <tr><td>Inherited By:</td><td></td></tr>
+   </table>
+    Template Typenames
+   <table>
+    <tr><td>size_type</td></tr>
+   </table>
+    Method Template Typenames
+   <table>
+    <tr><td>InputIterator</td></tr>
+    <tr><td>InputIterator1</td></tr>
+    <tr><td>InputIterator2</td></tr>
+    <tr><td>Iterator</td></tr>
+    <tr><td>OutputIterator</td></tr>
+    <tr><td>TerminalIterator</td></tr>
+    <tr><td>ValueType</td></tr>
+   </table>
+    Static Type Methods
+   <table>
+
+    <tr><td>static size_type</td>
+     <td><a href="#">size</a>(InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_increment</a>(Iterator <em>out</em>, size_type n)
+     </td></tr>
+
+    <tr><td>static Iterator</td>
+     <td><a href="#">left_increment</a>(Iterator <em>out</em>, size_type n)
+     </td></tr>
+
+    <tr><td>static Iterator</td>
+     <td><a href="#">right_increment</a>(Iterator <em>out</em>, size_type n)
+     </td></tr>
+
+   </table>
+    Static Subtype Methods
+   <table>
+
+    <tr><td>static void</td>
+     <td><a href="#">plus</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">plus</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">plus</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">plus</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">minus</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">minus</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">minus</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">minus</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">asterisk</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">asterisk</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">asterisk</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">asterisk</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">slash</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">slash</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">percent</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">percent</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">caret</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">caret</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">ampersand</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">ampersand</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">ampersand</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">ampersand</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">bar</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">bar</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">tilde</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">tilde</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">exclamation</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">exclamation</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">less_than</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">less_than</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">greater_than</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">greater_than</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">plus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">plus_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">plus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">minus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">minus_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">minus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">asterisk_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">asterisk_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">asterisk_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">slash_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">slash_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">slash_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">percent_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">percent_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">percent_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">caret_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">caret_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">caret_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">ampersand_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">ampersand_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">ampersand_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">bar_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">bar_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">bar_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_shift</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">left_shift</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">right_shift</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">right_shift</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">right_shift_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">right_shift_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">right_shift_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_shift_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_shift_repeat</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>, ValueType value)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">left_shift_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">equals</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">equals</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">not_equals</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">not_equals</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">less_than_or_equal</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">less_than_or_equal</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">greater_than_or_equal</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">greater_than_or_equal</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">logical_and</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">logical_and</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">logical_or</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">logical_or</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_increment</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">right_increment</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">left_decrement</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">right_decrement</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">point_asterisk</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">point_asterisk</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">point</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">parentheses</a>(OutputIterator <em>out</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">parentheses</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">parentheses</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">parentheses</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">parentheses</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static void</td>
+     <td><a href="#">brackets</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+    <tr><td>static OutputIterator</td>
+     <td><a href="#">brackets</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end2</em>)
+     </td></tr>
+
+   </table>
+   <div id=""/>
+  </body>
+</html>
+<!--
+    <tr><td></td>
+     <td><a href="#"></a>
+     </td></tr>
+-->

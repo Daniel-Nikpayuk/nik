@@ -34,7 +34,7 @@
 #define left_overload0(dir, method, op) \
 template<typename OutputIterator, typename TerminalIterator> \
 static void method(OutputIterator out, TerminalIterator end) \
-	{ while (out != end) op(*(outdir)); }
+	{ while (out != end) op(*(out dir)); }
 
 /*
 	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
@@ -42,7 +42,7 @@ static void method(OutputIterator out, TerminalIterator end) \
 #define right_overload0(dir, method, op) \
 template<typename OutputIterator, typename TerminalIterator> \
 static void method(OutputIterator out, TerminalIterator end) \
-	{ while (out != end) (*(outdir))op; }
+	{ while (out != end) (*(out dir))op; }
 
 /************************************************************************************************************************/
 
@@ -54,7 +54,7 @@ static void method(OutputIterator out, TerminalIterator end) \
 #define void_overload1(dir, method, op) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
-	{ while (in != end) *(outdir)op(*(indir)); }
+	{ while (in != end) *(out dir)op(*(in dir)); }
 
 /*
 	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
@@ -62,7 +62,7 @@ static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
 #define const_overload1(dir, method, op) \
 template<typename OutputIterator, typename TerminalIterator, typename ValueType> \
 static void method(OutputIterator out, TerminalIterator end, ValueType value) \
-	{ while (out != end) *(outdir)opvalue; }
+	{ while (out != end) *(out dir)op value; }
 
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
@@ -72,7 +72,7 @@ static void method(OutputIterator out, TerminalIterator end, ValueType value) \
 #define return_overload1(dir, method, op) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator in, TerminalIterator end) \
-	{ while (in != end) *(outdir)op(*(indir)); return out; }
+	{ while (in != end) *(out dir)op(*(in dir)); return out; }
 
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
@@ -82,7 +82,7 @@ static OutputIterator method(OutputIterator out, InputIterator in, TerminalItera
 #define right_void_overload1(dir, method, op, r) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
-	{ while (in != end) *(outdir)op(*(indir))r; }
+	{ while (in != end) *(out dir)op(*(in dir))r; }
 
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
@@ -92,7 +92,7 @@ static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
 #define right_return_overload1(dir, method, op, r) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator in, TerminalIterator end) \
-	{ while (in != end) *(outdir)op(*(indir))r; return out; }
+	{ while (in != end) *(out dir)op(*(in dir))r; return out; }
 
 /************************************************************************************************************************/
 
@@ -104,7 +104,7 @@ static OutputIterator method(OutputIterator out, InputIterator in, TerminalItera
 #define void_overload2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
-	{ while (in2 != end2) *(outdir)=(*(in1dir))op(*(in2dir)); }
+	{ while (in2 != end2) *(out dir)=(*(in1 dir))op(*(in2 dir)); }
 
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
@@ -114,7 +114,7 @@ static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, T
 #define return_overload2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
-	{ while (in2 != end2) *(outdir)=(*(in1dir))op(*(in2dir)); return out; }
+	{ while (in2 != end2) *(out dir)=(*(in1 dir))op(*(in2 dir)); return out; }
 
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
@@ -124,7 +124,7 @@ static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterat
 #define bracket_void_overload2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
-	{ while (in2 != end2) *(outdir)=(*(in1dir))op[*(in2dir)]; }
+	{ while (in2 != end2) *(out dir)=(*(in1 dir))op[*(in2 dir)]; }
 
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
@@ -134,6 +134,6 @@ static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, T
 #define bracket_return_overload2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
-	{ while (in2 != end2) *(outdir)=(*(in1dir))op[*(in2dir)]; return out; }
+	{ while (in2 != end2) *(out dir)=(*(in1 dir))op[*(in2 dir)]; return out; }
 
 #endif
