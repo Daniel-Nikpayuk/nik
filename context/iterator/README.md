@@ -24,6 +24,72 @@ the iterator values.
 
 #### Forward Iterator
 
+<table>
+ <tr>
+  <td><br>static SizeType</td>
+  <td>
+template&lt;typename SizeType, typename InputIterator, typename TerminalIterator&gt;<br>
+<a href="#forward_size">size</a>(InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static Iterator</td>
+  <td>
+template&lt;typename Iterator, typename SizeType&gt;<br>
+<a href="#forward_left_increment">left_increment</a>(Iterator & <em>out</em>, SizeType <em>n</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static Iterator</td>
+  <td>
+template&lt;typename Iterator, typename SizeType&gt;<br>
+<a href="#forward_right_increment">right_increment</a>(Iterator & <em>out</em>, SizeType <em>n</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static void</td>
+  <td>
+template&lt;typename Iterator, typename SizeType&gt;<br>
+<a href="#forward_advance">advance</a>(Iterator & <em>out</em>, SizeType <em>n</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static Iterator</td>
+  <td>
+template&lt;typename Iterator, typename SizeType&gt;<br>
+<a href="#forward_forward">forward</a>(Iterator <em>out</em>, SizeType <em>n</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static void</td>
+  <td>
+template&lt;typename OutputIterator, typename InputIterator, typename TerminalIterator&gt;<br>
+<a href="#forward_plus_assign1">plus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static OutputIterator</td>
+  <td>
+template&lt;typename OutputIterator, typename InputIterator, typename TerminalIterator&gt;<br>
+<a href="#forward_plus_assign2">plus_assign</a>(OutputIterator <em>out</em>, InputIterator <em>in</em>, TerminalIterator <em>end</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static void</td>
+  <td>
+template&lt;typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator&gt;<br>
+<a href="#forward_plus1">plus</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end</em>)
+  </td>
+ </tr>
+ <tr>
+  <td><br>static OutputIterator</td>
+  <td>
+template&lt;typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator&gt;<br>
+<a href="#forward_plus_assign2">plus_assign</a>(OutputIterator <em>out</em>, InputIterator1 <em>in1</em>, InputIterator2 <em>in2</em>, TerminalIterator <em>end</em>)
+  </td>
+ </tr>
+</table>
+
 #### Bidirectional Iterator
 
 <table>
