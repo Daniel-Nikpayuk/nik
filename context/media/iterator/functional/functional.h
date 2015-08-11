@@ -15,33 +15,19 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_ITERATOR_H
-#define CONTEXT_ITERATOR_H
-
-#include"iterator_macro.h"
+#ifndef CONTEXT_MEDIA_ITERATOR_H
+#define CONTEXT_MEDIA_ITERATOR_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
-
-	overload:
-		38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
-
-		Componentwise operators are similar enough to factorize and pass the specific operator
-		as a method, but it is more cpu efficient to NOT---especially given there are few practical
-		contexts in which many different such operators will all be used together.
-
-		Side effects at the general coder level is bad policy, but at this intended low level where
-		safety is minimal it is more memory efficient given the dynamic size of arrays.
-		No assumption is made toward the referenced output vector to being empty. The method mapped
-		values from the input vector(s) are appended to the output vector.
-
-		The other reason for passing the output vector as a reference is that it allows for type deduction.
 */
 
 namespace nik
 {
 	namespace context
 	{
+		namespace forward_iterator
+		{
 /*
 			iterator:
 				The minimal specification (axiomatic properties) of an iterator are:

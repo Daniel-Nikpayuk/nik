@@ -21,8 +21,8 @@
 #define stringify(string) \
 #string
 
-#define niksys(space, header) \
-stringify(../nik/space/header/header.h)
+#define niksys(space, navigator, header) \
+stringify(../nik/space/navigator/header/header.h)
 
 #define nikapi(category, header) \
 stringify(../nik/media/category/header/header.h)
