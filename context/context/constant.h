@@ -15,10 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef META_CONSTANT_H
-#define META_CONSTANT_H
-
-#include"binary.h"
+#ifndef CONTEXT_META_CONSTANT_H
+#define CONTEXT_META_CONSTANT_H
 
 #define ZERO 0
 #define ONE 1
@@ -26,15 +24,27 @@
 
 #define BYTE_LENGTH 8
 
-namespace meta
+namespace nik
 {
-	template<typename SizeType>
-	struct constant
+	namespace context
 	{
-		static const SizeType half_max=binary<SizeType>::template left_shift<ONE, (BYTE_LENGTH/TWO)*sizeof(SizeType)>::value;
+		namespace meta
+		{
+			template<typename SizeType>
+			struct constant
+			{
+				static const SizeType bit_length = (BYTE_LENGTH*sizeof(SizeType));
+				static const SizeType half_length = (bit_length>>ONE);
 
-		static const SizeType max_binary_power=binary<SizeType>::template left_shift<ONE, BYTE_LENGTH*sizeof(SizeType)-ONE>::value;
-	};
+				static const SizeType low_pass = (((SizeType) ONE<<half_length)-ONE);
+				static const SizeType high_pass = (low_pass<<half_length);
+
+				static const SizeType half_max = (ONE<<half_length);
+
+				static const SizeType max_binary_power = (ONE<<(bit_length-ONE));
+			};
+		}
+	}
 }
 
 #undef BYTE_LENGTH

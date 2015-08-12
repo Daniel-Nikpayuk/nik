@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_OVERLOAD_MACRO_H
-#define CONTEXT_OVERLOAD_MACRO_H
+#ifndef CONTEXT_ITERATOR_OVERLOAD_MACRO_H
+#define CONTEXT_ITERATOR_OVERLOAD_MACRO_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).

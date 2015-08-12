@@ -15,13 +15,22 @@
 **
 *************************************************************************************************************************/
 
-#ifndef META_META_H
-#define META_META_H
+#ifndef CONTEXT_META_META_H
+#define CONTEXT_META_META_H
 
-namespace meta
+namespace nik
 {
-	template<bool conditional, typename if_true, typename if_false> struct if_then_else { typedef if_true return_type; };
-	template<typename if_true, typename if_false> struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
+	namespace context
+	{
+		namespace meta
+		{
+			template<bool conditional, typename if_true, typename if_false>
+			struct if_then_else { typedef if_true return_type; };
+
+			template<typename if_true, typename if_false>
+			struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
+		}
+	}
 }
 
 #endif

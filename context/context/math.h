@@ -15,39 +15,45 @@
 **
 *************************************************************************************************************************/
 
-#ifndef META_MATH_H
-#define META_MATH_H
+#ifndef CONTEXT_META_MATH_H
+#define CONTEXT_META_MATH_H
 
 #include"meta.h"
 
-namespace meta
+namespace nik
 {
-	template<typename size_type>
-	struct math
+	namespace context
 	{
-		template<size_type x> struct square { enum : size_type { value=x*x }; };
-
-		template<size_type base, size_type exponent>
-		struct exp
+		namespace meta
 		{
-			template<size_type primary, size_type secondary, size_type n>
-			struct fast_exp
+			template<typename size_type>
+			struct math
 			{
-				enum : size_type
+				template<size_type x> struct square { enum : size_type { value=x*x }; };
+
+				template<size_type base, size_type exponent>
+				struct exp
 				{
-					value=if_then_else<n%2,
-						fast_exp<primary*secondary, secondary, n-1>,
-						fast_exp<primary, square<secondary>::value, n/2>
-							>::return_type::value
+					template<size_type primary, size_type secondary, size_type n>
+					struct fast_exp
+					{
+						enum : size_type
+						{
+							value=if_then_else<n%2,
+								fast_exp<primary*secondary, secondary, n-1>,
+								fast_exp<primary, square<secondary>::value, n/2>
+									>::return_type::value
+						};
+					};
+
+					template<size_type primary, size_type secondary>
+					struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
+
+					enum : size_type { value=fast_exp<1, base, exponent>::value };
 				};
 			};
-
-			template<size_type primary, size_type secondary>
-			struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
-
-			enum : size_type { value=fast_exp<1, base, exponent>::value };
-		};
-	};
+		}
+	}
 }
 
 #endif

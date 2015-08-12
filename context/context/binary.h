@@ -15,19 +15,25 @@
 **
 *************************************************************************************************************************/
 
-#ifndef META_BINARY_H
-#define META_BINARY_H
+#ifndef CONTEXT_META_BINARY_H
+#define CONTEXT_META_BINARY_H
 
 #include"meta.h"
 
-namespace meta
+namespace nik
 {
-	template<typename size_type>
-	struct binary
+	namespace context
 	{
-		template<size_type x, size_type n> struct left_shift { enum : size_type { value=x<<n }; };
-		template<size_type x, size_type n> struct right_shift { enum : size_type { value=x>>n }; };
-	};
+		namespace meta
+		{
+			template<typename size_type>
+			struct binary
+			{
+				template<size_type x, size_type n> struct left_shift { enum : size_type { value=x<<n }; };
+				template<size_type x, size_type n> struct right_shift { enum : size_type { value=x>>n }; };
+			};
+		}
+	}
 }
 
 #endif

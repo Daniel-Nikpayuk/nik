@@ -15,10 +15,12 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_REGISTER_H
-#define CONTEXT_REGISTER_H
+#ifndef CONTEXT_SEMIOTIC_REGISTER_H
+#define CONTEXT_SEMIOTIC_REGISTER_H
 
 #include<stddef.h>
+
+#include"../../../context/context/constant.h"
 
 /*
 	As block types are intended to hold int types, it's more efficient to pass the given value_type instead of
@@ -36,6 +38,8 @@ namespace nik
 {
 	namespace context
 	{
+		namespace semiotic
+		{
 /*
 			block:
 				typename The minimal specification (axiomatic properties) of a block class are:
@@ -43,15 +47,9 @@ namespace nik
 				constructors:
 				accessors:
 */
-		template<typename size_type>
-		struct block
-		{
-/*
-	Move these constants (at least their values) to template meta folder.
-*/
-			static const size_type bit_length = (8*sizeof(size_type));
-			static const size_type half_length = (bit_length>>1);
-			static const size_type low_pass = ((size_type) 1<<half_length)-1;
+			template<typename size_type>
+			struct block
+			{
 /*
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
@@ -66,28 +64,31 @@ namespace nik
 
 	This shouldn't be categorized in "block" but rather in one of the generic math classes.
 */
-			template<typename ValueType>
-			static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
-			{
-				ValueType low_in1=(low_pass & mid1), high_in1 = (mid1>>half_length);
-				ValueType low_in2=(low_pass & mid2), high_in2 = (mid2>>half_length);
+				template<typename ValueType>
+				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
+				{
+					ValueType	low_in1=(context::meta::constant<size_type>::low_pass & mid1),
+							high_in1 = (mid1>>context::meta::constant<size_type>::half_length);
+					ValueType	low_in2=(context::meta::constant<size_type>::low_pass & mid2),
+							high_in2 = (mid2>>context::meta::constant<size_type>::half_length);
 					// mid1, mid2 are now free.
 
-				mid2=low_in1*high_in2;
-				mid1=high_in1*low_in2+mid2; // possible carry of 1.
+					mid2=low_in1*high_in2;
+					mid1=high_in1*low_in2+mid2; // possible carry of 1.
 
-				low_in2*=low_in1;
-				low_in1=low_in2+(mid1<<half_length); // possible carry of 1.
+					low_in2*=low_in1;
+					low_in1=low_in2+(mid1<<context::meta::constant<size_type>::half_length); // possible carry of 1.
 
-				out+=low_in1; // possible carry of 1.
+					out+=low_in1; // possible carry of 1.
 
-				return high_in1*high_in2+
-					(mid1>>half_length)+
-					((mid1 < mid2)<<half_length)+
-					(low_in1 < low_in2)+
-					(out < low_in1);
-			}
-		};
+					return high_in1*high_in2+
+						(mid1>>context::meta::constant<size_type>::half_length)+
+						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
+						(low_in1 < low_in2)+
+						(out < low_in1);
+				}
+			};
+		}
 	}
 }
 

@@ -20,15 +20,14 @@
 
 #include<stddef.h>
 
-/*
-	As block types are intended to hold int types, it's more efficient to pass the given value_type instead of
-	a const reference to one.
+#include"../componentwise/componentwise.h"
 
+/*
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
-	regardless. The assumption is if you're using these block classes in the first place you have some memory to spare;
+	regardless. The assumption is if you're using these such unrolling in the first place you have some memory to spare;
 	as well, it's expected you're doing some heavy number theoretic computations and so the speed optimization is preferred.
 */
 
@@ -38,63 +37,35 @@ namespace nik
 	{
 		namespace iterator
 		{
-/*
-			block:
-				typename The minimal specification (axiomatic properties) of a block class are:
-				typedefs:
-				constructors:
-				accessors:
-*/
 			template<typename size_type>
 			struct arithmetic
 			{
-				static const size_type bit_length = (8*sizeof(size_type));
-				static const size_type half_length = (bit_length>>1);
-				static const size_type low_pass = ((size_type) 1<<half_length)-1;
+				typedef forward::componentwise forward;
+				typedef backward::componentwise backward;
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	This could be buggy because of out-1. Probably need to change.
+*/
+				template<typename OutputIterator, typename ValueType>
+				static void left_shift_assign(OutputIterator out, size_type length, size_type in)
+				{
+					size_type last(length-1), diff(last-in);
+					backward::assign(out+last, out+diff, out-1);
+					forward::repeat(out, out+(diff+1), 0);
+				}
+
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 */
 				template<typename OutputIterator, typename ValueType>
-				static void left_shift_assign(OutputIterator out, size_type in)
+				static void right_shift_assign(OutputIterator out, size_type length, size_type in)
 				{
-					recursive<N-M>::backcopy(out+(N-1), out+(M-1));
-					recursive<M>::assign(out, 0);
-				}
-/*
-	Has been optimized, but it might just be better to not reuse variables for reading clarity,
-	and just let the compiler optimize.
-
-	Adds to the existing out regardless of its initial value.
-
-
-	if 1 < base, then 0 < base-1.
-	Since -1 < 1, then base-1 < base+1.
-	Hence (base-1)^2 < base^2-1.
-	Thus carry < base^2.
-
-	This shouldn't be categorized in "block" but rather in one of the generic math classes.
-*/
-				template<typename ValueType>
-				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
-				{
-					ValueType low_in1=(low_pass & mid1), high_in1 = (mid1>>half_length);
-					ValueType low_in2=(low_pass & mid2), high_in2 = (mid2>>half_length);
-						// mid1, mid2 are now free.
-
-					mid2=low_in1*high_in2;
-					mid1=high_in1*low_in2+mid2; // possible carry of 1.
-
-					low_in2*=low_in1;
-					low_in1=low_in2+(mid1<<half_length); // possible carry of 1.
-
-					out+=low_in1; // possible carry of 1.
-
-					return high_in1*high_in2+
-						(mid1>>half_length)+
-						((mid1 < mid2)<<half_length)+
-						(low_in1 < low_in2)+
-						(out < low_in1);
+					size_type last(length-1), diff(last-in);
+					forward::assign(out, out+in, out+length);
+					backward::repeat(out+last, out+diff, 0);
 				}
 /*
 	unroll:
