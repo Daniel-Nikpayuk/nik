@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_CHAIN_H
-#define SEMIOTIC_CHAIN_H
+#ifndef SEMIOTIC_ITERATOR_CHAIN_H
+#define SEMIOTIC_ITERATOR_CHAIN_H
 
 #include"../topos/topos.h"
 
@@ -24,6 +24,8 @@ namespace nik
 {
 	namespace semiotic
 	{
+		namespace iterator
+		{
 /*
 	chain:
 		Basic intuitive members are first (pointer), last (pointer), and length (size_type). Any one can be determined
@@ -63,47 +65,47 @@ namespace nik
 			(reduce to an initialized state) as seperate operations (not to mention the convenience roles they play
 			within the constructors and destructors).
 */
-		template<typename T, typename SizeType>
-		struct chain
-		{
-			typedef topos2<T> node;
-			typedef typename node::value_type value_type;
-			typedef typename node::reference reference;
-			typedef typename node::value_type const & const_reference;
-			typedef node* pointer;
-			typedef node const * const_pointer;
-			typedef typename topos2<T, SizeType>::pointer iterator;
-			typedef typename topos2<T, SizeType>::const_pointer const_iterator;
-			typedef SizeType size_type;
+			template<typename T, typename SizeType>
+			struct chain
+			{
+				typedef topos2<T> node;
+				typedef typename node::value_type value_type;
+				typedef typename node::reference reference;
+				typedef typename node::value_type const & const_reference;
+				typedef node* pointer;
+				typedef node const * const_pointer;
+				typedef typename topos2<T, SizeType>::pointer iterator;
+				typedef typename topos2<T, SizeType>::const_pointer const_iterator;
+				typedef SizeType size_type;
 
-			pointer first;
-			pointer last;
+				pointer first;
+				pointer last;
 /*
 		The empty constructor is useful as this is a weak class, meaning as few assumptions as possible are made
 		about its use. first and last are initialized for general safety.
 */
-			chain() { }
+				chain() { }
 /*
 		Note as last == first the chain is technically empty.
 */
-			void initialize() { first=last=new node(); }
-			void initialize(pointer f, pointer l) { first=last=new node(f, l); }
+				void initialize() { first=last=new node(); }
+				void initialize(pointer f, pointer l) { first=last=new node(f, l); }
 /*
 		Worth having ?
 */
-			chain(const value_type & v)
-			{
-				initialize(0, 0);
-				first=first->edge0=new node(v, 0, first);
-			}
+				chain(const value_type & v)
+				{
+					initialize(0, 0);
+					first=first->edge0=new node(v, 0, first);
+				}
 /*
 		Breaks for n < 0.
 */
-			chain(size_type n, const value_type & v)
-			{
-				initialize(0, 0);
-				while (n--) first=first->edge0=new node(v, 0, first);
-			}
+				chain(size_type n, const value_type & v)
+				{
+					initialize(0, 0);
+					while (n--) first=first->edge0=new node(v, 0, first);
+				}
 /*
 	copy:
 		Defining pointers relative to 'l' is intentional---fewer assumptions
@@ -111,60 +113,61 @@ namespace nik
 
 		Assumes first and last as well as l.first and l.last are already instantiated.
 */
-			void copy(const chain & l)
-			{
-				for (const_pointer k(l.first); k != l.last; k=k->edge1)
+				void copy(const chain & l)
 				{
-					last->value=k->value;
-					last=last->edge1=new node(last, 0);
+					for (const_pointer k(l.first); k != l.last; k=k->edge1)
+					{
+						last->value=k->value;
+						last=last->edge1=new node(last, 0);
+					}
 				}
-			}
-			chain(const chain & l)
-			{
-				initialize(0, 0);
-				copy(l);
-			}
-
-			void terminalize()
-			{
-				while (first != last)
+				chain(const chain & l)
 				{
-					first=first->edge1;
-					delete first->edge0;
+					initialize(0, 0);
+					copy(l);
 				}
-			}
-			void terminalize(pointer f, pointer l)
-			{
-				terminalize();
-				first->edge0=f;
-				last->edge1=l;
-			}
-			const chain & operator = (const chain & l)
-			{
-				terminalize(0, 0);
-				copy(l);
-				return *this;
-			}
 
-			void destroy()
-			{
-				terminalize();
-				delete last;
-			}
-			~chain() { destroy(); }
+				void terminalize()
+				{
+					while (first != last)
+					{
+						first=first->edge1;
+						delete first->edge0;
+					}
+				}
+				void terminalize(pointer f, pointer l)
+				{
+					terminalize();
+					first->edge0=f;
+					last->edge1=l;
+				}
+				const chain & operator = (const chain & l)
+				{
+					terminalize(0, 0);
+					copy(l);
+					return *this;
+				}
 
-			iterator begin() { return first; }
-			const_iterator cbegin() const { return first; }
-			iterator end() { return last; }
-			const_iterator cend() const { return last; }
+				void destroy()
+				{
+					terminalize();
+					delete last;
+				}
+				~chain() { destroy(); }
 
-			size_type size() const
-			{
-				size_type n(0);
-				for (pointer f(first); f != last; ++n) f=f->edge1;
-				return n;
-			}
-		};
+				iterator begin() { return first; }
+				const_iterator cbegin() const { return first; }
+				iterator end() { return last; }
+				const_iterator cend() const { return last; }
+
+				size_type size() const
+				{
+					size_type n(0);
+					for (pointer f(first); f != last; ++n) f=f->edge1;
+					return n;
+				}
+			};
+		}
 	}
 }
 

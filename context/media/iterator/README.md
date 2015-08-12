@@ -1,6 +1,10 @@
 Iterator
 ========
 
+Componentwise?
+
+Prototypical
+
 *Functional* iterators are functional in the sense that they have no side effects. They are methods on the iterators themselves.
 Every other variety of iterator (not classified as functional) comes with side effects (*effective*) on the dereference values
 of these iterators.

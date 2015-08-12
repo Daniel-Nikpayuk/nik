@@ -24,7 +24,7 @@
 #define niksys(space, navigator, header) \
 stringify(../nik/space/navigator/header/header.h)
 
-#define nikapi(category, header) \
-stringify(../nik/media/category/header/header.h)
+#define nikapi(navigator, category, header) \
+stringify(../nik/media/navigator/category/header/header.h)
 
 #endif

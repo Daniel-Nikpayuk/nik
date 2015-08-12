@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_FORWARD_ITERATOR_OVERLOAD_H
-#define CONTEXT_FORWARD_ITERATOR_OVERLOAD_H
+#ifndef CONTEXT_ITERATOR_COMPONENTWISE_H
+#define CONTEXT_ITERATOR_COMPONENTWISE_H
 
 #include"overload_macro.h"
 
@@ -60,59 +60,12 @@ namespace nik
 		Strictly speaking, there are infinitely many different "plus" methods based on side effects.
 */
 			template<typename size_type>
-			struct overload_iterator
+			struct componentwise
 			{
-/////////////////////////////////////////////////////////////
-//	Iterator modifiers
-/////////////////////////////////////////////////////////////
-/*
-	size:
-*/
-				template<typename InputIterator, typename TerminalIterator>
-				static size_type size(InputIterator in, TerminalIterator end)
-				{
-					size_type length(0);
-					while (in++ != end) ++length;
-					return length;
-				}
-/*
-	Breaks for n < 0.
 
-	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
-	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
-	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
-*/
-				template<typename Iterator>
-				static void left_increment(Iterator out, size_type n)
-					{ while (n--) ++out; }
-/*
-	Breaks for n < 0.
+/************************************************************************************************************************/
+//	forward iterator
 
-	Alternative is to code as "while (--n) ++out; return ++out;" which optimizes better but breaks for n <= 0.
-
-	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
-*/
-				template<typename Iterator>
-				static Iterator left_increment(Iterator out, size_type n)
-				{
-					while (n--) ++out;
-					return out;
-				}
-/*
-	Breaks for n < 0.
-
-	In practice, when specifying the template typename Iterator, you need to specify if it's a reference or not.
-*/
-				template<typename Iterator>
-				static Iterator right_increment(Iterator out, size_type n)
-				{
-					Iterator rtn(out);
-					while (n--) ++out;
-					return rtn;
-				}
-/////////////////////////////////////////////////////////////
-//	Iterator value (dereference) modifiers
-/////////////////////////////////////////////////////////////
 /*
 	+:
 
@@ -427,61 +380,31 @@ namespace nik
 		}
 
 /************************************************************************************************************************/
+//	bidirectional iterator
 
 		namespace bidirectional
-		template<typename size_type>
-		struct bidirectional_iterator : public forward_iterator<size_type>
 		{
-/*
-	Breaks for n < 0.
-
-	Alternative is to code as "while (--n) --out; return --out;" which optimizes better but breaks for n <= 0.
-*/
-			template<typename Iterator>
-			static Iterator left_decrement(Iterator & out, size_type n)
+			template<typename size_type>
+			struct componentwise
 			{
-				while (n--) --out;
-				return out;
-			}
-/*
-	Breaks for n < 0.
-*/
-			template<typename Iterator>
-			static Iterator right_decrement(Iterator & out, size_type n)
-			{
-				Iterator rtn(out);
-				while (n--) --out;
-				return rtn;
-			}
-/*
-	Breaks for n < 0.
-*/
-			template<typename Iterator>
-			static void backward(Iterator & out, size_type n)
-				{ while (n--) --out; }
-/*
-	Breaks for n < 0.
-*/
-			template<typename Iterator>
-			static Iterator backward(Iterator out, size_type n)
-				{ while (n--) --out; return out; }
 /*
 	In practice, when specifying the template typename OutputIterator, you need to specify if it's a reference or not.
 */
-			void_overload1(--, assign, =)
-			const_overload1(--, repeat, =)
-			return_overload1(--, assign, =)
-		};
+				void_overload1(--, assign, =)
+				const_overload1(--, repeat, =)
+				return_overload1(--, assign, =)
+			};
+		}
 
 /************************************************************************************************************************/
+//	random access iterator
 
-		template<typename size_type>
-		struct random_access_iterator : public bidirectional_iterator<size_type>
+		namespace random_access
 		{
-			template<typename InputIterator, typename TerminalIterator>
-			static size_type size(InputIterator in, TerminalIterator end)
-				{ return end-in; }
-		};
+			template<typename size_type>
+			struct componentwise
+			{
+			};
 		}
 	}
 }

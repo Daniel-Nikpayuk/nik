@@ -15,64 +15,67 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_DISPLAY_H
-#define MEDIA_DISPLAY_H
+#ifndef MEDIA_ITERATOR_DISPLAY_H
+#define MEDIA_ITERATOR_DISPLAY_H
 
 #include<stddef.h>
 #include<stdint.h>
 #include<stdio.h>
 
-#include"../../../context/block/block.h"
+#include"../../../../context/media/iterator/block/block.h"
 
 namespace nik
 {
 	namespace media
 	{
-		struct printer
+		namespace iterator
 		{
-			void print(int v) { printf("%d", v); }
-			void print(unsigned int v) { printf("%u", v); }
-			void print(intmax_t v) { printf("%jd", v); }
-			void print(uintmax_t v) { printf("%ju", v); }
+			struct printer
+			{
+				void print(int v) { printf("%d", v); }
+				void print(unsigned int v) { printf("%u", v); }
+				void print(intmax_t v) { printf("%jd", v); }
+				void print(uintmax_t v) { printf("%ju", v); }
 
-			void print(char v) { printf("%c", v); }
-		};
+				void print(char v) { printf("%c", v); }
+			};
 
-		struct verbatim_printer : public printer
-		{
-			using printer::print;
+			struct verbatim_printer : public printer
+			{
+				using printer::print;
 /*
 	Assumes descending order.
 	
 	Decrementing the pointers is bad practice in general, but is here optimized for efficiency.
 */
-			template<size_t N, typename Filler=void>
-			struct _block
-			{
-				template<typename Iterator>
-				static void print(const char *format, Iterator i)
+				template<size_t N, typename Filler=void>
+				struct _block
 				{
-					printf(format, *i);
-					_block<N-1>::print(format, --i);
-				}
+					template<typename Iterator>
+					static void print(const char *format, Iterator i)
+					{
+						printf(format, *i);
+						_block<N-1>::print(format, --i);
+					}
+				};
+
+				template<typename Filler>
+				struct _block<1, Filler>
+				{
+					template<typename Iterator>
+					static void print(const char *format, Iterator i) { printf(format, *i); }
+				};
+
+				template<typename Block> void print(const Block & v)
+					{ _block<Block::dimension>::print("%zu ", v.end()-1); }
 			};
 
-			template<typename Filler>
-			struct _block<1, Filler>
+			template<typename S, typename T>
+			S & operator << (S & s, T v)
 			{
-				template<typename Iterator>
-				static void print(const char *format, Iterator i) { printf(format, *i); }
-			};
-
-			template<typename Block> void print(const Block & v)
-				{ _block<Block::dimension>::print("%zu ", v.end()-1); }
-		};
-
-		template<typename S, typename T>
-		S & operator << (S & s, T v)
-		{
-			s.print(v);
-			return s;
+				s.print(v);
+				return s;
+			}
 		}
 	}
 
