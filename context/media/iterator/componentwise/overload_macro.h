@@ -52,8 +52,8 @@ static void method(OutputIterator out, TerminalIterator end) \
 		call this macro with OutputIterator as reference (assuming referencing is preferred).
 */
 #define void_overload1(dir, method, op) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
+template<typename VoidType, typename OutputIterator, typename InputIterator, typename TerminalIterator> \
+static VoidType method(OutputIterator out, InputIterator in, TerminalIterator end) \
 	{ while (in != end) *(out dir)op(*(in dir)); }
 
 /*

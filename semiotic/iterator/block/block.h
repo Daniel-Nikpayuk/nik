@@ -18,6 +18,12 @@
 #ifndef SEMIOTIC_ITERATOR_BLOCK_H
 #define SEMIOTIC_ITERATOR_BLOCK_H
 
+/*
+	It is less modular to have "template<typename SizeType, SizeType N>", and so in the generic classes the design
+	requires the size_type to be factored out. In the semiotic class, given the nature of representation and that
+	there are intentionally no additional classes per "name", and so it is optimized for namespace/class efficiency.
+*/
+
 namespace nik
 {
 	namespace semiotic
@@ -53,7 +59,7 @@ namespace nik
 			template<typename T, typename SizeType, SizeType N>
 			struct block
 			{
-				typedef block_traits<T,SizeType> traits;
+				typedef block_traits<T, SizeType> traits;
 				typedef typename traits::value_type value_type;
 				typedef typename traits::reference reference;
 				typedef typename traits::const_reference const_reference;
@@ -73,24 +79,24 @@ namespace nik
 		made about "this" makes this function more portable for outside use.
 */
 				template<size_type Dim, typename Filler=void>
-				struct recursive
+				struct unroll
 				{
 					template<typename OutputIterator, typename InputIterator>
 					static void copy(OutputIterator out, InputIterator in)
 					{
 						*out=*in;
-						recursive<Dim-1>::copy(++out, ++in);
+						unroll<Dim-1>::copy(++out, ++in);
 					}
 				};
 
 				template<typename Filler>
-				struct recursive<1, Filler>
+				struct unroll<1, Filler>
 				{
 					template<typename OutputIterator, typename InputIterator>
 					static void copy(OutputIterator out, InputIterator in) { *out=*in; }
 				};
 
-				void copy(const block & v) { recursive<N>::copy(array, v.array); }
+				void copy(const block & v) { unroll<N>::copy(array, v.array); }
 				block(const block & v)
 				{
 					initialize();

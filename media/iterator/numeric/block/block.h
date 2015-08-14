@@ -18,7 +18,8 @@
 #ifndef MEDIA_ITERATOR_BLOCK_H
 #define MEDIA_ITERATOR_BLOCK_H
 
-#include"../../../../context/media/iterator/block/block.h"
+#include"../../../../context/context/constant.h"
+#include"../../../../context/media/iterator/arithmetic/arithmetic.h"
 #include"../../../../semiotic/iterator/block/block.h"
 
 /*
@@ -44,14 +45,15 @@ namespace nik
 /*
 	_block:
 */
-				template<size_t BlockSize>
-				class _block : protected semiotic::block<size_t, size_t, BlockSize>
+				template<typename SizeType, SizeType BlockSize>
+				class _block : protected semiotic::iterator::block<SizeType, SizeType, BlockSize>
 				{
 					protected:
-						typedef context::block<size_t> method;
-						typedef typename method::recursive<BlockSize> method_recursive;
-						friend method;
-						typedef semiotic::block<size_t, size_t, BlockSize> block;
+						typedef context::iterator::arithmetic<SizeType> arithmetic;
+						friend arithmetic;
+						typedef typename arithmetic::template unroll<BlockSize> method;
+						typedef typename arithmetic::template unroll<BlockSize-1> submethod;
+						typedef semiotic::iterator::block<SizeType, SizeType, BlockSize> block;
 						typedef typename block::pointer pointer;
 						typedef typename block::const_pointer const_pointer;
 					public:
@@ -68,7 +70,7 @@ namespace nik
 						_block(size_type n) : block()
 						{
 							*block::array=n;
-							method::recursive<BlockSize-1>::assign(block::array+1, 0);
+							submethod::assign(block::array+1, 0);
 						}
 						_block(const _block & b) : block(b) { }
 						const _block operator = (const _block & b)
@@ -87,59 +89,67 @@ namespace nik
 						const_iterator cend() const { return block::array+BlockSize; }
 					public:
 						bool operator == (const _block & b) const
-							{ return method_recursive::equal(block::array, b.array); }
+							{ return method::equal(block::array, b.array); }
 						bool operator != (const _block & b) const
-							{ return method_recursive::not_equal(block::array, b.array); }
+							{ return method::not_equal(block::array, b.array); }
 						bool operator < (const _block & b) const
-							{ return method_recursive::
+							{ return method::
 								less_than(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
 						bool operator <= (const _block & b) const
-							{ return method_recursive::
+							{ return method::
 								less_than_or_equal(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
 						bool operator > (const _block & b) const
-							{ return method_recursive::
+							{ return method::
 								greater_than(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
 						bool operator >= (const _block & b) const
-							{ return method_recursive::
+							{ return method::
 								greater_than_or_equal(block::array+(BlockSize-1), b.array+(BlockSize-1)); }
 					public:
-						_block operator << (_block b, size_type m) const
+							// recode this using the non-assign version for better efficiency.
+						_block operator << (size_type m) const
 						{
 							m%=BlockSize;
-							_block out(b);
-							while (m-- != 0) method_recursive::template
-									subrecursive<1>::left_shift_assign(out.array, b.array);
+							_block out(*this); // ***
+							arithmetic::left_shift_assign(out.array, BlockSize, m);
+							return out;
+						}
+							// recode this using the non-assign version for better efficiency.
+						_block operator >> (size_type m) const
+						{
+							m%=BlockSize;
+							_block out(*this); // ***
+							arithmetic::right_shift_assign(out.array, BlockSize, m);
 							return out;
 						}
 					public:
 						_block operator + (const _block & b) const
 						{
 							_block out;
-							method_recursive::plus(out.array, block::array, b.array, 0);
+							method::plus(out.array, block::array, b.array, 0);
 							return out;
 						}
 
 						_block operator * (size_type b) const
 						{
 							_block out;
-							method_recursive::scale(out.array, block::array, b, (size_type) 0);
+							method::scale(out.array, block::array, b, (size_type) 0);
 							return out;
 						}
 
 						_block operator * (const _block & b) const
 						{
 							_block out, tmp;
-							method_recursive::assign(out.array, 0);
-							method_recursive::template subrecursive<BlockSize>::
+							method::assign(out.array, 0);
+							method::template subroll<BlockSize>::
 								asterisk(out.array, tmp.array, block::array, b.array);
 							return out;
 						}
 				};
 			}
-		}
 
-		template<size_t BitLength>
-		using block=numeric::_block<BitLength/(8*sizeof(size_t))>;
+			template<size_t BitLength>
+			using block=numeric::_block<size_t, BitLength/context::meta::constant<size_t>::register_length>;
+		}
 	}
 }
 

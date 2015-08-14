@@ -33,15 +33,15 @@ namespace nik
 			template<typename SizeType>
 			struct constant
 			{
-				static const SizeType bit_length = (BYTE_LENGTH*sizeof(SizeType));
-				static const SizeType half_length = (bit_length>>ONE);
+				static const SizeType register_length = (BYTE_LENGTH*sizeof(SizeType));
+				static const SizeType half_length = (register_length>>ONE);
 
 				static const SizeType low_pass = (((SizeType) ONE<<half_length)-ONE);
 				static const SizeType high_pass = (low_pass<<half_length);
 
 				static const SizeType half_max = (ONE<<half_length);
 
-				static const SizeType max_binary_power = (ONE<<(bit_length-ONE));
+				static const SizeType max_binary_power = (ONE<<(register_length-ONE));
 			};
 		}
 	}

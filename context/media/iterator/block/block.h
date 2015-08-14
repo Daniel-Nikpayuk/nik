@@ -48,9 +48,6 @@ namespace nik
 			template<typename size_type>
 			struct block
 			{
-				static const size_type bit_length = (8*sizeof(size_type));
-				static const size_type half_length = (bit_length>>1);
-				static const size_type low_pass = ((size_type) 1<<half_length)-1;
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.

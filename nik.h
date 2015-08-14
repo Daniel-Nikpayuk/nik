@@ -21,9 +21,23 @@
 #define stringify(string) \
 #string
 
-#define niksys(space, navigator, header) \
-stringify(../nik/space/navigator/header/header.h)
+// meta:
+#define nikmeta(header) \
+stringify(../nik/context/context/header.h)
 
+// system:
+#define niksys(header) \
+stringify(../nik/context/semiotic/header/header.h)
+
+// generic:
+#define nikgen(navigator, header) \
+stringify(../nik/context/media/navigator/header/header.h)
+
+// semiotic:
+#define niksign(navigator, header) \
+stringify(../nik/semiotic/navigator/header/header.h)
+
+// media:
 #define nikapi(navigator, category, header) \
 stringify(../nik/media/navigator/category/header/header.h)
 

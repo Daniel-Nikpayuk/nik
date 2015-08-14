@@ -48,23 +48,23 @@ namespace nik
 
 	This could be buggy because of out-1. Probably need to change.
 */
-				template<typename OutputIterator, typename ValueType>
+				template<typename OutputIterator>
 				static void left_shift_assign(OutputIterator out, size_type length, size_type in)
 				{
 					size_type last(length-1), diff(last-in);
-					backward::assign(out+last, out+diff, out-1);
-					forward::repeat(out, out+(diff+1), 0);
+					backward::assign<void>(out+last, out+diff, out-1);
+					forward::repeat(out, out+in, 0);
 				}
 
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 */
-				template<typename OutputIterator, typename ValueType>
+				template<typename OutputIterator>
 				static void right_shift_assign(OutputIterator out, size_type length, size_type in)
 				{
 					size_type last(length-1), diff(last-in);
-					forward::assign(out, out+in, out+length);
+					forward::assign<void>(out, out+in, out+length);
 					backward::repeat(out+last, out+diff, 0);
 				}
 /*

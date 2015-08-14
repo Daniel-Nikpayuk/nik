@@ -22,7 +22,7 @@
 #include<stdint.h>
 #include<stdio.h>
 
-#include"../../../../context/media/iterator/block/block.h"
+#include"../../../../context/media/iterator/arithmetic/arithmetic.h"
 
 namespace nik
 {
@@ -30,7 +30,7 @@ namespace nik
 	{
 		namespace iterator
 		{
-			struct printer
+			struct _printer
 			{
 				void print(int v) { printf("%d", v); }
 				void print(unsigned int v) { printf("%u", v); }
@@ -40,9 +40,14 @@ namespace nik
 				void print(char v) { printf("%c", v); }
 			};
 
-			struct verbatim_printer : public printer
+			struct printer : public _printer
 			{
-				using printer::print;
+				using _printer::print;
+			};
+
+			struct verbatim_printer : public _printer
+			{
+				using _printer::print;
 /*
 	Assumes descending order.
 	
@@ -81,8 +86,8 @@ namespace nik
 
 	char endl='\n'; // portable ?
 
-	media::printer display;
-	media::verbatim_printer display_verbatim;
+	media::iterator::printer display;
+	media::iterator::verbatim_printer display_verbatim;
 }
 
 #endif

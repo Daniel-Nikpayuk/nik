@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_REGISTER_H
-#define CONTEXT_SEMIOTIC_REGISTER_H
+#ifndef CONTEXT_SEMIOTIC_REGIST_H
+#define CONTEXT_SEMIOTIC_REGIST_H
 
 #include<stddef.h>
 
@@ -48,7 +48,7 @@ namespace nik
 				accessors:
 */
 			template<typename size_type>
-			struct block
+			struct regist
 			{
 /*
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
