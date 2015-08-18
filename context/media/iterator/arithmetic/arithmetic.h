@@ -22,6 +22,7 @@
 
 // Clean up the typedefs/usings namespace stuff.
 
+#include"../../../semiotic/regist/regist.h"
 #include"../componentwise/componentwise.h"
 
 /*
@@ -102,7 +103,8 @@ namespace nik
 */
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-							{ unroll<N-1>::scale(++out, ++in1, in2, times(*out=carry, *in1, in2)); }
+							{ unroll<N-1>::scale(++out, ++in1, in2,
+								semiotic::regist<size_type>::times(*out=carry, *in1, in2)); }
 
 						template<size_type M, typename SubFiller=void>
 						struct subroll
@@ -155,7 +157,7 @@ namespace nik
 */
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-							{ times(*out=carry, *in1, in2); }
+							{ semiotic::regist<size_type>::times(*out=carry, *in1, in2); }
 					};
 				};
 			}

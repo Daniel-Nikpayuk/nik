@@ -331,7 +331,7 @@ namespace nik
 						static Iterator repeat_return(Iterator out, ValueType in)
 						{
 							*out=in;
-							return unroll<N-1>::rep(++out, in);
+							return unroll<N-1>::repeat_return(++out, in);
 						}
 /*
 */
@@ -339,7 +339,7 @@ namespace nik
 						static void assign(OutputIterator out, InputIterator in)
 						{
 							*out=*in;
-							unroll<N-1>::copy(++out, ++in);
+							unroll<N-1>::assign(++out, ++in);
 						}
 /*
 */
@@ -347,7 +347,7 @@ namespace nik
 						static OutputIterator assign_return(OutputIterator out, InputIterator in)
 						{
 							*out=*in;
-							return unroll<N-1>::assign(++out, ++in);
+							return unroll<N-1>::assign_return(++out, ++in);
 						}
 					};
 
