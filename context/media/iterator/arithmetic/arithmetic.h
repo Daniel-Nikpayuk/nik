@@ -20,6 +20,8 @@
 
 #include<stddef.h>
 
+// Clean up the typedefs/usings namespace stuff.
+
 #include"../componentwise/componentwise.h"
 
 /*

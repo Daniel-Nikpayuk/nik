@@ -18,6 +18,9 @@
 #ifndef SEMIOTIC_ITERATOR_TOPOS_H
 #define SEMIOTIC_ITERATOR_TOPOS_H
 
+#include"../traits/traits.h"
+#include"topos_pointer.h"
+
 /*
 	Ideally define the pointer before the structure, and define the memory structure in terms of the pointer,
 	but given the constraints of C++ grammar it seems it must be done this way.
@@ -31,26 +34,12 @@
 	the container (mediator). This is why "insert" and "erase" accept const_iterator.
 */
 
-#include"topos_pointer.h"
-
 namespace nik
 {
 	namespace semiotic
 	{
 		namespace iterator
 		{
-/*
-	topos_traits:
-*/
-			template<typename T, typename ToposType, typename SizeType>
-			struct topos_traits
-			{
-				typedef T value_type;
-				typedef T& reference;
-				typedef ToposType topos_type;
-				typedef ToposType* address;
-				typedef SizeType size_type;
-			};
 /*
 	topos:
 		Generic dynamic topos.
@@ -84,15 +73,15 @@ namespace nik
 	topos0:
 		I don't know if this will actually be of any use, but I've included it just in case it ever is.
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos0
 			{
-				typedef topos_traits<T,topos0,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
-				typedef typename traits::size_type size_type;
+				typedef traits::container<topos0,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 
@@ -111,17 +100,17 @@ namespace nik
 /*
 	topos1:
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos1
 			{
-				typedef topos_traits<T,topos1,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
+				typedef traits::container<topos1,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
 				typedef topos_pointer<topos1> pointer;
 				typedef topos_pointer<topos1 const> const_pointer;
-				typedef typename traits::size_type size_type;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 				address edge0;
@@ -146,17 +135,17 @@ namespace nik
 /*
 	topos2:
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos2
 			{
-				typedef topos_traits<T,topos2,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
+				typedef traits::container<topos2,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
 				typedef topos_pointer<topos2> pointer;
 				typedef topos_pointer<topos2 const> const_pointer;
-				typedef typename traits::size_type size_type;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 				address edge0;
@@ -183,15 +172,15 @@ namespace nik
 /*
 	topos3:
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos3
 			{
-				typedef topos_traits<T,topos3,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
-				typedef typename traits::size_type size_type;
+				typedef traits::container<topos3,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 				address edge0;
@@ -220,15 +209,15 @@ namespace nik
 /*
 	topos4:
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos4
 			{
-				typedef topos_traits<T,topos4,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
-				typedef typename traits::size_type size_type;
+				typedef traits::container<topos4,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 				address edge0;
@@ -259,15 +248,15 @@ namespace nik
 /*
 	topos5:
 */
-			template<typename T, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType=size_t>
 			struct topos5
 			{
-				typedef topos_traits<T,topos5,SizeType> traits;
-				typedef typename traits::value_type value_type;
-				typedef typename traits::reference reference;
-				typedef typename traits::topos_type topos_type;
-				typedef typename traits::address address;
-				typedef typename traits::size_type size_type;
+				typedef traits::container<topos5,ValueType,SizeType> container;
+				typedef typename container::type topos_type;
+				typedef typename container::address address;
+				typedef typename container::value_type value_type;
+				typedef typename container::reference reference;
+				typedef typename container::size_type size_type;
 
 				value_type value;
 				address edge0;
