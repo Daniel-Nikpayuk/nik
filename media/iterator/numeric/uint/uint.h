@@ -40,6 +40,11 @@ namespace nik
 	{
 		namespace iterator
 		{
+/*
+	If you don't include this namespace, type deduction fails for the "display" class with the (<<) shift operator.
+	Understanding this behaviour in the long run and designing for it is preferrable. As it stands, it's not necesarily
+	bad design to modularize the "numeric" namespace regardless of the hack that brought it into existence.
+*/
 			namespace numeric
 			{
 				template<typename SizeType>
@@ -136,13 +141,36 @@ namespace nik
 /*
 	m is the bit length, not the array length.
 */
+							const block & operator <<= (size_type m)
+							{
+								size_type arr_dim(m/register_length), bit_dim(m%register_length);
+
+								if (arr_dim >= dimension) fwd_recu_unroll::repeat(subblock::array, 0);
+								else bdl_arit::left_shift_assign(subblock::array, dimension, arr_dim, bit_dim);
+								return *this;
+							}
+/*
+	m is the bit length, not the array length.
+*/
+							const block & operator >>= (size_type m) const
+							{
+								size_type arr_dim(m/register_length), bit_dim(m%register_length);
+
+								if (arr_dim >= dimension) fwd_recu_unroll::repeat(subblock::array, 0);
+								else bdl_arit::right_shift_assign(subblock::array, dimension, arr_dim, bit_dim);
+								return *this;
+							}
+/*
+	m is the bit length, not the array length.
+*/
 							block operator << (size_type m) const
 							{
 								size_type arr_dim(m/register_length), bit_dim(m%register_length);
 
 								block out;
 								if (arr_dim >= dimension) fwd_recu_unroll::repeat(out.array, 0);
-								else bdl_arit::left_shift_assign(out.array, dimension, arr_dim, bit_dim);
+								else bdl_arit::left_shift(out.array,
+									subblock::array, dimension, arr_dim, bit_dim);
 								return out;
 							}
 /*
@@ -154,7 +182,8 @@ namespace nik
 
 								block out;
 								if (arr_dim >= dimension) fwd_recu_unroll::repeat(out.array, 0);
-								else bdl_arit::right_shift_assign(out.array, dimension, arr_dim, bit_dim);
+								else bdl_arit::right_shift(out.array,
+									subblock::array, dimension, arr_dim, bit_dim);
 								return out;
 							}
 						public:

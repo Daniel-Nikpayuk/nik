@@ -22,6 +22,7 @@
 
 // Clean up the typedefs/usings namespace stuff.
 
+#include"../../../context/constant.h"
 #include"../../../semiotic/regist/regist.h"
 #include"../componentwise/componentwise.h"
 
@@ -50,22 +51,24 @@ namespace nik
 				struct arithmetic
 				{
 					typedef recursive<size_type> fwd_recu;
+
+					static const size_type register_length=context::meta::constant<size_type>::register_length;
+
 /*
 	Assumes (in) iteratively greater than (end).
 */
 					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-					static void bit_right_shift(OutputIterator out,
-						InputIterator in, TerminalIterator end, size_type N, size_type n)
+					static void bit_right_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
 					{
-						N-=n;
+						size_type N=register_length-n;
 						*out=(*in>>n);
-						--in;
+						++in;
 
 						while (in != end)
 						{
 							*out+=(*in<<N);
-							*(--out)=(*in>>n);
-							--in;
+							*(++out)=(*in>>n);
+							++in;
 						}
 					}
 
@@ -206,14 +209,14 @@ namespace nik
 				{
 					typedef recursive<size_type> bwd_recu;
 
+					static const size_type register_length=context::meta::constant<size_type>::register_length;
 /*
 	Assumes (in) iteratively greater than (end).
 */
 					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-					static void bit_left_shift(OutputIterator out,
-						InputIterator in, TerminalIterator end, size_type N, size_type n)
+					static void bit_left_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
 					{
-						N-=n;
+						size_type N=register_length-n;
 						*out=(*in<<n);
 						--in;
 
@@ -271,6 +274,13 @@ namespace nik
 							if (*in1 != *in2) return (*in1 > *in2);
 							else return unroll<N-1>::greater_than_or_equal(--in1, --in2);
 						}
+
+						template<typename Iterator>
+						static Iterator significant_digit(Iterator in)
+						{
+							if (*in) return in;
+							else return unroll<N-1>::significant_digit(--in);
+						}
 					};
 
 					template<typename Filler>
@@ -284,6 +294,9 @@ namespace nik
 						static bool greater_than(Iterator in1, Iterator in2) { return (*in1 > *in2); }
 						template<typename Iterator>
 						static bool greater_than_or_equal(Iterator in1, Iterator in2) { return (*in1 >= *in2); }
+
+						template<typename Iterator>
+						static Iterator significant_digit(Iterator in) { return in; }
 					};
 				};
 			}
@@ -301,18 +314,39 @@ namespace nik
 
 					typedef forward::recursive<size_type> fwd_recu;
 					typedef backward::recursive<size_type> bwd_recu;
+
+					static const size_type register_length=context::meta::constant<size_type>::register_length;
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 
-	This could be buggy because of out-1. Probably need to change.
+	Keep in mind technically you cannot say out+diff > out-1 because if (out == 0) it could wrap around due to modular arithmetic.
+	Otherwise, because the comparison used is (!=) it still works.
 */
 					template<typename OutputIterator>
 					static void left_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
 					{
 						size_type last(length-1), diff(last-arr);
 						bwd_arit::template bit_left_shift<OutputIterator, OutputIterator,
-							const OutputIterator>(out+last, out+diff, out-1, length, bit);
+							const OutputIterator>(out+last, out+diff, out-1, bit);
+						fwd_comp::repeat<OutputIterator, const OutputIterator>(out, out+arr, 0);
+					}
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	Keep in mind technically you cannot say out+diff > out-1 because if (out == 0) it could wrap around due to modular arithmetic.
+	Otherwise, because the comparison used is (!=) it still works.
+
+	*** Needs to test if &out == &in, a problematic case. Such code NOT yet implemented.
+*/
+					template<typename OutputIterator, typename InputIterator>
+					static void left_shift(OutputIterator out,
+						InputIterator in, size_type length, size_type arr, size_type bit)
+					{
+						size_type last(length-1), diff(last-arr);
+						bwd_arit::template bit_left_shift<OutputIterator, InputIterator,
+							const InputIterator>(out+last, in+diff, in-1, bit);
 						fwd_comp::repeat<OutputIterator, const OutputIterator>(out, out+arr, 0);
 					}
 /*
@@ -323,8 +357,24 @@ namespace nik
 					static void right_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
 					{
 						size_type last(length-1), diff(last-arr);
-						fwd_arit::template assign<OutputIterator, OutputIterator,
-							const OutputIterator>(out, out+arr, out+length, length, bit);
+						fwd_arit::template bit_right_shift<OutputIterator, OutputIterator,
+							const OutputIterator>(out, out+arr, out+length, bit);
+						bwd_comp::repeat<OutputIterator, const OutputIterator>(out+last, out+diff, 0);
+					}
+
+/*
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	*** Needs to test if &out == &in, a problematic case. Such code NOT yet implemented.
+*/
+					template<typename OutputIterator, typename InputIterator>
+					static void right_shift(OutputIterator out,
+						InputIterator in, size_type length, size_type arr, size_type bit)
+					{
+						size_type last(length-1), diff(last-arr);
+						fwd_arit::template bit_right_shift<OutputIterator, InputIterator,
+							const InputIterator>(out, in+arr, in+length, bit);
 						bwd_comp::repeat<OutputIterator, const OutputIterator>(out+last, out+diff, 0);
 					}
 /*
