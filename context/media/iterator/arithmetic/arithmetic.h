@@ -49,7 +49,26 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef recursive<size_type> rec;
+					typedef recursive<size_type> fwd_recu;
+/*
+	Assumes (in) iteratively greater than (end).
+*/
+					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+					static void bit_right_shift(OutputIterator out,
+						InputIterator in, TerminalIterator end, size_type N, size_type n)
+					{
+						N-=n;
+						*out=(*in>>n);
+						--in;
+
+						while (in != end)
+						{
+							*out+=(*in<<N);
+							*(--out)=(*in>>n);
+							--in;
+						}
+					}
+
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -90,14 +109,25 @@ namespace nik
 							*out+=*in + carry;
 							unroll<N-1>::plus_assign(++out, ++in, (*out < *in));
 						}
+
 /*
+	In this case, *out+(*in2+carry)=*in1 implies a new carry if: *in1 < *out or *in1 < (*in2+carry)
+	but there's the special case that (*in2+carry) already wraps around [(*in2+carry) < *in2, carry].
+	In which case---given 0 <= carry <= 1---it's automatic that there's a new carry (but no need
+	of worry about a "double carry" because (*in2+carry) if wrapped around would equal zero.
+
+	Because use of *in1 can't be avoided in the new carry test, it requires out and in1 cannot be shallow copies.
+
+	The assumption is addition is no less optimal than subtraction as the algorithm
+	should require fewer tests, hence: *out=*in1-(*in2+carry) instead of *out=*in1-*in2-carry.
+*/
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
 						{
-							*out=*in1 - *in2 - carry;
-							unroll<N-1>::minus(++out, ++in1, ++in2, (*out > *in2));
-						} out+in2+carry=in1	in1 < out, in1 < in2
-*/
+							ValueType tmp(*in2+carry);
+							*out=*in1 - tmp;
+							unroll<N-1>::minus(++out, ++in1, ++in2, (tmp < *in2 || *in1 < *out));
+						}
 /*
 	Obfuscated code ?
 */
@@ -111,12 +141,14 @@ namespace nik
 						{
 /*
 	Does not assume anything about the existing value of out1.
+
+	Is it worth testing for *in2 == 0 ?
 */
 							template<typename OutputIterator, typename InputIterator>
 							static void asterisk(OutputIterator out1,
 								OutputIterator out2, InputIterator in1, InputIterator in2)
 							{
-								unroll<M>::scale(rec::template unroll<N-M>::
+								unroll<M>::scale(fwd_recu::template unroll<N-M>::
 									repeat_return(out2, 0), in1, *in2, (size_type) 0);
 								plus_assign(out1, out2, 0);
 								subroll<M-1>::asterisk(out1, out2, in1, ++in2);
@@ -130,7 +162,7 @@ namespace nik
 							static void asterisk(OutputIterator out1,
 								OutputIterator out2, InputIterator in1, InputIterator in2)
 							{
-								unroll<1>::scale(rec::template unroll<N-1>::
+								unroll<1>::scale(fwd_recu::template unroll<N-1>::
 									repeat_return(out2, 0), in1, *in2, (size_type) 0);
 								plus_assign(out1, out2, 0);
 							}
@@ -152,6 +184,11 @@ namespace nik
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
 							{ *out+=*in + carry; }
+
+						template<typename OutputIterator, typename InputIterator, typename ValueType>
+						static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+							{ *out=*in1 - (*in2 + carry); }
+
 /*
 	Obfuscated code ?
 */
@@ -167,7 +204,27 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef recursive<size_type> rec;
+					typedef recursive<size_type> bwd_recu;
+
+/*
+	Assumes (in) iteratively greater than (end).
+*/
+					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+					static void bit_left_shift(OutputIterator out,
+						InputIterator in, TerminalIterator end, size_type N, size_type n)
+					{
+						N-=n;
+						*out=(*in<<n);
+						--in;
+
+						while (in != end)
+						{
+							*out+=(*in>>N);
+							*(--out)=(*in<<n);
+							--in;
+						}
+					}
+
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -236,11 +293,14 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef forward::componentwise fcomp;
-					typedef backward::componentwise bcomp;
+					typedef forward::arithmetic<size_type> fwd_arit;
+					typedef backward::arithmetic<size_type> bwd_arit;
 
-					typedef forward::recursive<size_type> frec;
-					typedef backward::recursive<size_type> brec;
+					typedef forward::componentwise fwd_comp;
+					typedef backward::componentwise bwd_comp;
+
+					typedef forward::recursive<size_type> fwd_recu;
+					typedef backward::recursive<size_type> bwd_recu;
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
@@ -248,22 +308,24 @@ namespace nik
 	This could be buggy because of out-1. Probably need to change.
 */
 					template<typename OutputIterator>
-					static void left_shift_assign(OutputIterator out, size_type length, size_type in)
+					static void left_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
 					{
-						size_type last(length-1), diff(last-in);
-						bcomp::assign<OutputIterator, OutputIterator, const OutputIterator>(out+last, out+diff, out-1);
-						fcomp::repeat<OutputIterator, const OutputIterator>(out, out+in, 0);
+						size_type last(length-1), diff(last-arr);
+						bwd_arit::template bit_left_shift<OutputIterator, OutputIterator,
+							const OutputIterator>(out+last, out+diff, out-1, length, bit);
+						fwd_comp::repeat<OutputIterator, const OutputIterator>(out, out+arr, 0);
 					}
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 */
 					template<typename OutputIterator>
-					static void right_shift_assign(OutputIterator out, size_type length, size_type in)
+					static void right_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
 					{
-						size_type last(length-1), diff(last-in);
-						fcomp::assign<OutputIterator, OutputIterator, const OutputIterator>(out, out+in, out+length);
-						bcomp::repeat<OutputIterator, const OutputIterator>(out+last, out+diff, 0);
+						size_type last(length-1), diff(last-arr);
+						fwd_arit::template assign<OutputIterator, OutputIterator,
+							const OutputIterator>(out, out+arr, out+length, length, bit);
+						bwd_comp::repeat<OutputIterator, const OutputIterator>(out+last, out+diff, 0);
 					}
 /*
 	unroll:
@@ -291,8 +353,8 @@ namespace nik
 							template<typename OutputIterator, typename ValueType>
 							static void left_shift_assign(OutputIterator out)
 							{
-								brec::template unroll<N-M>::assign(out+(N-1), out+(M-1));
-								frec::template unroll<M>::repeat(out, 0);
+								bwd_recu::template unroll<N-M>::assign(out+(N-1), out+(M-1));
+								fwd_recu::template unroll<M>::repeat(out, 0);
 							}
 						};
 
@@ -302,8 +364,8 @@ namespace nik
 							template<typename OutputIterator, typename ValueType>
 							static void left_shift_assign(OutputIterator out)
 							{
-								brec::template unroll<N-1>::assign(out+(N-1), out);
-								frec::template unroll<1>::repeat(out, 0);
+								bwd_recu::template unroll<N-1>::assign(out+(N-1), out);
+								fwd_recu::template unroll<1>::repeat(out, 0);
 							}
 						};
 					};

@@ -117,6 +117,9 @@ namespace nik
 					return rtn;
 				}
 
+/*
+	The "&&" is a "move constructor". This function originally interpreted "&&" differently and needs to be changed.
+*/
 				template<typename List>
 				static typename List::iterator insert(List & l,
 					typename List::const_iterator it, typename List::value_type && value)

@@ -55,6 +55,8 @@ namespace nik
 				typedef typename container::const_pointer const_iterator;
 				typedef typename container::size_type size_type;
 
+				static const size_type dimension=N;
+
 				pointer array;
 
 				void initialize() { array=new value_type[N]; }

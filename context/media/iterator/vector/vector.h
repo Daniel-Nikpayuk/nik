@@ -131,6 +131,9 @@ namespace nik
 					return rtn;
 				}
 
+/*
+	The "&&" is a "move constructor". This function originally interpreted "&&" differently and needs to be changed.
+*/
 				template<typename Vector>
 				static typename Vector::iterator insert(Vector & v,
 					typename Vector::const_iterator it, typename Vector::value_type && value)

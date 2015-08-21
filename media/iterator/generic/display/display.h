@@ -54,25 +54,25 @@ namespace nik
 	Decrementing the pointers is bad practice in general, but is here optimized for efficiency.
 */
 				template<size_t N, typename Filler=void>
-				struct _block
+				struct block
 				{
 					template<typename Iterator>
 					static void print(const char *format, Iterator i)
 					{
 						printf(format, *i);
-						_block<N-1>::print(format, --i);
+						block<N-1>::print(format, --i);
 					}
 				};
 
 				template<typename Filler>
-				struct _block<1, Filler>
+				struct block<1, Filler>
 				{
 					template<typename Iterator>
 					static void print(const char *format, Iterator i) { printf(format, *i); }
 				};
 
 				template<typename Block> void print(const Block & v)
-					{ _block<Block::dimension>::print("%zu ", v.end()-1); }
+					{ block<Block::dimension>::print("%zu ", v.end()-1); }
 			};
 
 			template<typename S, typename T>
