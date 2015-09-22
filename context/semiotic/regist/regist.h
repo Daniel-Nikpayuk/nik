@@ -51,6 +51,9 @@ namespace nik
 			struct regist
 			{
 /*
+	The return value is the "low" digit.
+	out is the "high" digit.
+
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
 
@@ -86,6 +89,44 @@ namespace nik
 						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
 						(low_in1 < low_in2)+
 						(out < low_in1);
+				}
+
+/*
+	The return value is the quotient of the division.
+	out is the remainder from the division.
+	in1 is the first digit of the dividend with base as size_type.
+	in2 is the second digit of the dividend with base as size_type.
+	d is the divisor.
+	q is floor(size_type-1 / d).
+	r is (size_type-1 % d) + 1.
+
+	This algorithm is highly optimized and only works (semantically) if in1 < d.
+
+	Not yet memory optimized like "times" above.
+*/
+				template<typename ValueType>
+				static ValueType quotient_remainder(ValueType & out,
+					ValueType in1, ValueType in2, ValueType d, ValueType q, ValueType r)
+				{
+					if (r == d)
+					{ // assumption is the compiler will optimize '/','%' operations.
+						r=in2/d;
+						out=in2%d;
+						return in1*(++q)+r;
+					}
+					else
+					{
+						ValueType low, high=times(low, in1, r);
+						ValueType high1=high*r, high_q=high1/d, high_r=high1%d;
+						ValueType low_q=low/d, low_r=low%d;
+
+						ValueType r1=high_r+low_r;
+						ValueType q1=high*q+high_q+low_q+(r1 < high_r);
+
+						high1=in2/d;
+						out=r1+in2%d;
+						return in1*q+q1+high1+(out < r1);
+					}
 				}
 			};
 		}
