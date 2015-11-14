@@ -51,29 +51,27 @@ namespace nik
 			struct regist
 			{
 /*
-	The return value is the "low" digit.
-	out is the "high" digit.
+	The return value is the "high" digit.
+	out is the "low" digit.
+	This is intuitively opposite of what it should be, but implements recursively/iteratively better when unrolling.
 
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
 
 	Adds to the existing out regardless of its initial value.
 
-
 	if 1 < base, then 0 < base-1.
 	Since -1 < 1, then base-1 < base+1.
 	Hence (base-1)^2 < base^2-1.
 	Thus carry < base^2.
-
-	This shouldn't be categorized in "block" but rather in one of the generic math classes.
 */
 				template<typename ValueType>
 				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
 				{
-					ValueType	low_in1=(context::meta::constant<size_type>::low_pass & mid1),
-							high_in1 = (mid1>>context::meta::constant<size_type>::half_length);
-					ValueType	low_in2=(context::meta::constant<size_type>::low_pass & mid2),
-							high_in2 = (mid2>>context::meta::constant<size_type>::half_length);
+					ValueType	low_in1 =(context::meta::constant<size_type>::low_pass & mid1),
+							high_in1=(mid1>>context::meta::constant<size_type>::half_length);
+					ValueType	low_in2 =(context::meta::constant<size_type>::low_pass & mid2),
+							high_in2=(mid2>>context::meta::constant<size_type>::half_length);
 					// mid1, mid2 are now free.
 
 					mid2=low_in1*high_in2;
@@ -89,7 +87,41 @@ namespace nik
 						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
 						(low_in1 < low_in2)+
 						(out < low_in1);
+					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
 				}
+/*
+	The following version of "times" privileges low on return.
+	In the future both might be needed, so I've included it currently as a comment.
+
+				template<typename ValueType>
+				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
+				{
+					ValueType	low_in1 =(context::meta::constant<size_type>::low_pass & mid1),
+							high_in1=(mid1>>context::meta::constant<size_type>::half_length);
+					ValueType	low_in2 =(context::meta::constant<size_type>::low_pass & mid2),
+							high_in2=(mid2>>context::meta::constant<size_type>::half_length);
+					// mid1, mid2 are now free.
+
+					mid2=low_in1*high_in2;
+					mid1=high_in1*low_in2+mid2; // possible carry of 1.
+
+					low_in2*=low_in1;
+					low_in1=low_in2+(mid1<<context::meta::constant<size_type>::half_length); // possible carry of 1.
+
+					high_in1*=high_in2;
+					// high_in2, is now free.
+					high_in2=out+low_in1;
+
+					out=high_in1+
+						(mid1>>context::meta::constant<size_type>::half_length)+
+						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
+						(low_in1 < low_in2)+
+						(high_in2 < low_in1);
+					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
+
+					return high_in2;
+				}
+*/
 
 /*
 	The return value is the quotient of the division.
@@ -116,6 +148,74 @@ namespace nik
 					}
 					else
 					{
+						ValueType sub2(0), sub1=times(sub2, in1, r);
+
+						if (sub1)
+						{
+							ValueType subleft=sub1*r, subleft_q=subleft/d, subleft_r=subleft%d;
+							ValueType subright_q=sub2/d, subright_r=sub2%d;
+
+							ValueType sub_r=subleft_r+subright_r; // sub_r necessarily < d.
+							ValueType sub_q=sub1*q+subleft_q+subright_q; // sub_q necessarily < d.
+
+							subleft=in2/d;
+							out=sub_r+in2%d;
+
+							if (out < sub_r)
+							{
+								ValueType over=out;
+								out-=d;
+
+								return in1*q+sub_q+subleft+1;
+							}
+							else
+							{
+								bool over=(out >= d);
+								out-=over*d;
+
+								return in1*q+sub_q+subleft+over;
+							}
+						}
+						else
+						{
+							ValueType left_q=sub2/d;
+							ValueType left_r=sub2%d;
+
+							ValueType right_q=in2/d;
+							ValueType right_r=in2%d;
+
+							out=left_r+right_r;
+
+							if (out < left_r)
+							{
+								ValueType over=out;
+								out-=d;
+
+								return in1*q+left_q+right_q+1;
+							}
+							else
+							{
+								bool over=(out >= d);
+								out-=over*d;
+
+								return in1*q+left_q+right_q+over;
+							}
+						}
+					}
+				}
+/*
+				template<typename ValueType>
+				static ValueType quotient_remainder(ValueType & out,
+					ValueType in1, ValueType in2, ValueType d, ValueType q, ValueType r)
+				{
+					if (r == d)
+					{ // assumption is the compiler will optimize '/','%' operations.
+						r=in2/d;
+						out=in2%d;
+						return in1*(++q)+r;
+					}
+					else
+					{
 						ValueType low, high=times(low, in1, r);
 						ValueType high1=high*r, high_q=high1/d, high_r=high1%d;
 						ValueType low_q=low/d, low_r=low%d;
@@ -128,6 +228,7 @@ namespace nik
 						return in1*q+q1+high1+(out < r1);
 					}
 				}
+*/
 			};
 		}
 	}
