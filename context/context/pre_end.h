@@ -15,34 +15,15 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_META_CONSTANT_H
-#define CONTEXT_META_CONSTANT_H
+#ifndef CONTEXT_META_PRE_END_H
+#define CONTEXT_META_PRE_END_H
 
-#include"pre_begin.h"
-
-namespace nik
-{
-	namespace context
-	{
-		namespace meta
-		{
-			template<typename SizeType>
-			struct constant
-			{
-				static const SizeType register_length = (BYTE_LENGTH*sizeof(SizeType));
-				static const SizeType half_length = (register_length>>ONE);
-
-				static const SizeType low_pass = (((SizeType) ONE<<half_length)-ONE);
-				static const SizeType high_pass = (low_pass<<half_length);
-
-				static const SizeType half_max = (ONE<<half_length);
-
-				static const SizeType max_binary_power = (ONE<<(register_length-ONE));
-			};
-		}
-	}
-}
-
-#include"pre_end.h"
+#undef BYTE_LENGTH
+#undef TWO
+#undef ONE
+#undef ZERO
 
 #endif
+
+#undef CONTEXT_META_PRE_END_H
+#undef CONTEXT_META_PRE_BEGIN_H

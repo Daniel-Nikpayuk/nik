@@ -50,6 +50,7 @@ namespace nik
 				template<typename SizeType>
 				struct uint
 				{
+					typedef context::meta::constant<SizeType> constant;
 /*
 	block:
 		Need to fix the BlockSize calculation to account for a BitLength which isn't divisible by the register_length.
@@ -59,7 +60,7 @@ namespace nik
 		might want to subclass this and come up with their own BlockSize for their own reason.
 */
 					template<SizeType BitLength, SizeType BlockSize=
-						BitLength/context::meta::constant<SizeType>::register_length>
+						BitLength/constant::register_length>
 					class block : protected semiotic::iterator::block<SizeType, SizeType, BlockSize>
 					{
 						protected:
@@ -93,7 +94,7 @@ namespace nik
 						public:
 							static const size_type dimension=BlockSize;
 							static const size_type register_length=
-								context::meta::constant<size_type>::register_length;
+								constant::register_length;
 /*
 	Note: A null-initialization does not set the initial value (to 0 or otherwise).
 */

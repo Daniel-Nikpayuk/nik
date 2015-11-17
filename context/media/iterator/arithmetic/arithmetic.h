@@ -50,9 +50,10 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
+					typedef context::meta::constant<size_type> constant;
 					typedef recursive<size_type> fwd_recu;
 
-					static const size_type register_length=context::meta::constant<size_type>::register_length;
+					static const size_type register_length=constant::register_length;
 
 /*
 	Assumes (in) iteratively greater than (end).
@@ -207,9 +208,10 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
+					typedef context::meta::constant<size_type> constant;
 					typedef recursive<size_type> bwd_recu;
 
-					static const size_type register_length=context::meta::constant<size_type>::register_length;
+					static const size_type register_length=constant::register_length;
 /*
 	Assumes (in) iteratively greater than (end).
 */
@@ -306,6 +308,8 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
+					typedef context::meta::constant<size_type> constant;
+
 					typedef forward::arithmetic<size_type> fwd_arit;
 					typedef backward::arithmetic<size_type> bwd_arit;
 
@@ -315,7 +319,7 @@ namespace nik
 					typedef forward::recursive<size_type> fwd_recu;
 					typedef backward::recursive<size_type> bwd_recu;
 
-					static const size_type register_length=context::meta::constant<size_type>::register_length;
+					static const size_type register_length=constant::register_length;
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.

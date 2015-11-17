@@ -20,7 +20,7 @@
 
 #include<stddef.h>
 
-#include"../../../context/context/constant.h"
+#include"../../../context/context/binary.h"
 
 /*
 	As block types are intended to hold int types, it's more efficient to pass the given value_type instead of
@@ -50,78 +50,82 @@ namespace nik
 			template<typename size_type>
 			struct regist
 			{
+				typedef context::meta::constant<size_type> constant;
+				typedef context::meta::binary<size_type> binary;
 /*
-	The return value is the "high" digit.
-	out is the "low" digit.
-	This is intuitively opposite of what it should be, but implements recursively/iteratively better when unrolling.
+	times:
 
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
-
-	Adds to the existing out regardless of its initial value.
 
 	if 1 < base, then 0 < base-1.
 	Since -1 < 1, then base-1 < base+1.
 	Hence (base-1)^2 < base^2-1.
 	Thus carry < base^2.
 */
-				template<typename ValueType>
-				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
-				{
-					ValueType	low_in1 =(context::meta::constant<size_type>::low_pass & mid1),
-							high_in1=(mid1>>context::meta::constant<size_type>::half_length);
-					ValueType	low_in2 =(context::meta::constant<size_type>::low_pass & mid2),
-							high_in2=(mid2>>context::meta::constant<size_type>::half_length);
-					// mid1, mid2 are now free.
-
-					mid2=low_in1*high_in2;
-					mid1=high_in1*low_in2+mid2; // possible carry of 1.
-
-					low_in2*=low_in1;
-					low_in1=low_in2+(mid1<<context::meta::constant<size_type>::half_length); // possible carry of 1.
-
-					out+=low_in1; // possible carry of 1.
-
-					return high_in1*high_in2+
-						(mid1>>context::meta::constant<size_type>::half_length)+
-						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
-						(low_in1 < low_in2)+
-						(out < low_in1);
-					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
-				}
 /*
-	The following version of "times" privileges low on return.
-	In the future both might be needed, so I've included it currently as a comment.
-
+	Adds the initial out value to the return value (carry).
+	The return value is the "low" digit.
+	out is the "high" digit.
+*/
 				template<typename ValueType>
-				static ValueType times(ValueType & out, ValueType mid1, ValueType mid2)
+				static ValueType times_return_low(ValueType & out, ValueType mid1, ValueType mid2)
 				{
-					ValueType	low_in1 =(context::meta::constant<size_type>::low_pass & mid1),
-							high_in1=(mid1>>context::meta::constant<size_type>::half_length);
-					ValueType	low_in2 =(context::meta::constant<size_type>::low_pass & mid2),
-							high_in2=(mid2>>context::meta::constant<size_type>::half_length);
+					ValueType	low_in1 =(binary::template left_half<mid1>::value),
+							high_in1=(binary::template right_half<mid1>::value);
+					ValueType	low_in2 =(binary::template left_half<mid2>::value),
+							high_in2=(binary::template right_half<mid2>::value);
 					// mid1, mid2 are now free.
 
 					mid2=low_in1*high_in2;
 					mid1=high_in1*low_in2+mid2; // possible carry of 1.
 
 					low_in2*=low_in1;
-					low_in1=low_in2+(mid1<<context::meta::constant<size_type>::half_length); // possible carry of 1.
+					low_in1=low_in2+(mid1<<constant::half_length); // possible carry of 1.
 
 					high_in1*=high_in2;
 					// high_in2, is now free.
 					high_in2=out+low_in1;
 
 					out=high_in1+
-						(mid1>>context::meta::constant<size_type>::half_length)+
-						((mid1 < mid2)<<context::meta::constant<size_type>::half_length)+
+						(mid1>>constant::half_length)+
+						((mid1 < mid2)<<constant::half_length)+
 						(low_in1 < low_in2)+
 						(high_in2 < low_in1);
 					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
 
 					return high_in2;
 				}
+/*
+	Adds to the existing out regardless of its initial value.
+	The return value is the "high" digit.
+	out is the "low" digit.
+	This is intuitively opposite of what it should be, but implements recursively/iteratively better when unrolling.
 */
+				template<typename ValueType>
+				static ValueType times_return_high(ValueType & out, ValueType mid1, ValueType mid2)
+				{
+					ValueType	low_in1 =(binary::template left_half<mid1>::value),
+							high_in1=(binary::template right_half<mid1>::value);
+					ValueType	low_in2 =(binary::template left_half<mid2>::value),
+							high_in2=(binary::template right_half<mid2>::value);
+					// mid1, mid2 are now free.
+
+					mid2=low_in1*high_in2;
+					mid1=high_in1*low_in2+mid2; // possible carry of 1.
+
+					low_in2*=low_in1;
+					low_in1=low_in2+(mid1<<constant::half_length); // possible carry of 1.
+
+					out+=low_in1; // possible carry of 1.
+
+					return high_in1*high_in2+
+						(mid1>>constant::half_length)+
+						((mid1 < mid2)<<constant::half_length)+
+						(low_in1 < low_in2)+
+						(out < low_in1);
+					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
+				}
 
 /*
 	The return value is the quotient of the division.
@@ -129,77 +133,53 @@ namespace nik
 	in1 is the first digit of the dividend with base as size_type.
 	in2 is the second digit of the dividend with base as size_type.
 	d is the divisor.
-	q is floor(size_type-1 / d).
-	r is (size_type-1 % d) + 1.
 
 	This algorithm is highly optimized and only works (semantically) if in1 < d.
 
-	Not yet memory optimized like "times" above.
+	Let in1=|w3|w2| and in2=|w1|w0| with d=|y1|y0|.
+	Since in1 < d, then (|y1| > |w3|) or (|y1|==|w3| and |y0| > |w2|).
+	For the "single digit case", this means |y1|=0 which implies |w3|=0 and |y0| > |w2|.
+	This is used to optimize the single digit case.
 */
 				template<typename ValueType>
-				static ValueType quotient_remainder(ValueType & out,
-					ValueType in1, ValueType in2, ValueType d, ValueType q, ValueType r)
+				static ValueType quotient_remainder(ValueType & out, ValueType in1, ValueType in2, ValueType d)
 				{
-					if (r == d)
-					{ // assumption is the compiler will optimize '/','%' operations.
-						r=in2/d;
-						out=in2%d;
-						return in1*(++q)+r;
+					if (!d || d == 1)
+					{ // these cases make no sense for this particular optimized version of division.
+						out=0;
+						return 0;
+					}
+					else if (d == 2)
+					{ // this meeans (in1 == 1):
+						out=(in2 & 1);
+						return (in2>>1)+((in1 & 1)<<(constant::register_length-1));
 					}
 					else
 					{
-						ValueType sub2(0), sub1=times(sub2, in1, r);
+						ValueType	low_in2 =(binary::template left_half<in2>::value),
+								high_in2=(binary::template right_half<in2>::value);
 
-						if (sub1)
+						if (d < constant::half_length)
 						{
-							ValueType subleft=sub1*r, subleft_q=subleft/d, subleft_r=subleft%d;
-							ValueType subright_q=sub2/d, subright_r=sub2%d;
+							// in2 is now free.
+							in2=(in1<<constant::half_length)+high_in2;
+							// in1, high_in2 are now free.
+							in1=in2/d; high_in2=in2%d;
 
-							ValueType sub_r=subleft_r+subright_r; // sub_r necessarily < d.
-							ValueType sub_q=sub1*q+subleft_q+subright_q; // sub_q necessarily < d.
+							in1<<=constant::half_length;
+							(high_in2<<=constant::half_length)+=low_in2;
+							// low_in2 is now free.
 
-							subleft=in2/d;
-							out=sub_r+in2%d;
+							low_in2=high_in2/d; out=high_in2%d;
 
-							if (out < sub_r)
-							{
-								ValueType over=out;
-								out-=d;
-
-								return in1*q+sub_q+subleft+1;
-							}
-							else
-							{
-								bool over=(out >= d);
-								out-=over*d;
-
-								return in1*q+sub_q+subleft+over;
-							}
+							return in1+low_in2;
 						}
 						else
 						{
-							ValueType left_q=sub2/d;
-							ValueType left_r=sub2%d;
+							ValueType	low_in1 =(binary::template left_half<in1>::value),
+									high_in1=(binary::template right_half<in1>::value);
 
-							ValueType right_q=in2/d;
-							ValueType right_r=in2%d;
-
-							out=left_r+right_r;
-
-							if (out < left_r)
-							{
-								ValueType over=out;
-								out-=d;
-
-								return in1*q+left_q+right_q+1;
-							}
-							else
-							{
-								bool over=(out >= d);
-								out-=over*d;
-
-								return in1*q+left_q+right_q+over;
-							}
+//							ValueType sub2(0), sub1=times(sub2, in1, r);
 						}
 					}
 				}
