@@ -18,10 +18,7 @@
 #ifndef MEDIA_ITERATOR_DISPLAY_H
 #define MEDIA_ITERATOR_DISPLAY_H
 
-#include<stddef.h>
-#include<stdint.h>
-#include<stdio.h>
-
+#include"../../../generic/display/display.h"
 #include"../../../../context/media/iterator/arithmetic/arithmetic.h"
 
 namespace nik
@@ -30,25 +27,9 @@ namespace nik
 	{
 		namespace iterator
 		{
-			struct _printer
+			struct verbatim_printer : public printer
 			{
-				void print(int v) { printf("%d", v); }
-				void print(unsigned int v) { printf("%u", v); }
-				void print(intmax_t v) { printf("%jd", v); }
-				void print(uintmax_t v) { printf("%ju", v); }
-
-				void print(char v) { printf("%c", v); }
-				void print(const char *v) { printf("%s", v); }
-			};
-
-			struct printer : public _printer
-			{
-				using _printer::print;
-			};
-
-			struct verbatim_printer : public _printer
-			{
-				using _printer::print;
+				using printer::print;
 /*
 	Assumes descending order.
 	
@@ -75,19 +56,9 @@ namespace nik
 				template<typename Block> void print(const Block & v)
 					{ block<Block::dimension>::print("%zu ", v.end()-1); }
 			};
-
-			template<typename S, typename T>
-			S & operator << (S & s, T v)
-			{
-				s.print(v);
-				return s;
-			}
 		}
 	}
 
-	char endl='\n'; // portable ?
-
-	media::iterator::printer display;
 	media::iterator::verbatim_printer display_verbatim;
 }
 

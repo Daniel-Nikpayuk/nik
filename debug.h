@@ -15,33 +15,9 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef DEBUG_H
+#define DEBUG_H
 
-#define stringify(string) \
-#string
-
-// meta:
-#define nikmeta(header) \
-stringify(../nik/context/context/header.h)
-
-// system:
-#define niksys(header) \
-stringify(../nik/context/semiotic/header/header.h)
-
-// generic:
-#define nikgen(navigator, header) \
-stringify(../nik/context/media/navigator/header/header.h)
-
-// semiotic:
-#define niksign(navigator, header) \
-stringify(../nik/semiotic/navigator/header/header.h)
-
-// media:
-#define nikgpi(header) \
-stringify(../nik/media/generic/header/header.h)
-
-#define nikapi(navigator, category, header) \
-stringify(../nik/media/navigator/category/header/header.h)
+#include"media/generic/display/display.h"
 
 #endif

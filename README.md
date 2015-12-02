@@ -198,6 +198,7 @@ The other errorology consideration is how best to include basic and/or generic d
 of view, a debugging tool is a language construct which tells the compiler to give feedback as means to find bugs.
 The theory of debugging adheres to complexity theory, and so one starts with *primitive* bugs, then looks for ways
 to combine them to form more complicated bugs, and finally one then looks for ways to compare or abstract them.
+
 From this lens, debugging code cannot strictly be modularized from any of the regular code. For example each piece
 of hardward as represented by code is intended in this **nik** library to be modularized, but when it comes to
 *feedback*, that means each piece of hardware can and should give feedback for debugging. If that's the case,
@@ -223,7 +224,7 @@ general contexts as memory or data. As C++ privilges classes, you might be tempt
 the context folder, but it's actually the opposite: classes are representations, constructs of our memory, and so from
 this point of view it makes sense for such generic classes to compose the *semiotic* folder.
 
-Within the restricted a computability space (as technology space), memory as context is still a weak specification,
+Within the restrictions of a computability space (as technology space), memory as context is still a weak specification,
 meaning it is infinite in the interpretation of its possible structures, and so it is in fact the generic type-free
 template (and reusable) procedures which form the bulk of the *context* folder. In processing such genericity,
 one often needs template programming *helper* constructs which are otherwise considered overhead and configuration
@@ -244,6 +245,14 @@ we hold our interactive hardware classes---categorized themselves into the follo
 
 Again, our *generic* folder is for safe classes which aren't limited to hardware;
 this is to say: generic data structures like lists and vectors.
+
+Finally, as far as implementation goes, keep in mind each module as a *primitive* has minimal dependencies. One starts
+out with all such modules spanning the technology space, and when that fills, one extends each module based on the other
+modules. You end up with interdependency, which when done right slows a clear stratification of the modules by extension
+relative to the dependencies. This is to say, as a finished library, it will look like some modules are quite large, but
+are in fact several layers of extensions where each layer adds new dependencies from the previous layer in order to extend.
+If done wrong, the source file dependencies will overwhelm the compiler. A clear design needs to be thought out in this
+regard as well.
 
 # Integrity
 

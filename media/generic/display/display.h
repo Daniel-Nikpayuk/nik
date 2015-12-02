@@ -15,33 +15,38 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef MEDIA_DISPLAY_H
+#define MEDIA_DISPLAY_H
 
-#define stringify(string) \
-#string
+#include<stdint.h>
+#include<stdio.h>
 
-// meta:
-#define nikmeta(header) \
-stringify(../nik/context/context/header.h)
+namespace nik
+{
+	namespace media
+	{
+		struct printer
+		{
+			void print(int v) { printf("%d", v); }
+			void print(unsigned int v) { printf("%u", v); }
+			void print(intmax_t v) { printf("%jd", v); }
+			void print(uintmax_t v) { printf("%ju", v); }
 
-// system:
-#define niksys(header) \
-stringify(../nik/context/semiotic/header/header.h)
+			void print(char v) { printf("%c", v); }
+			void print(const char *v) { printf("%s", v); }
+		};
 
-// generic:
-#define nikgen(navigator, header) \
-stringify(../nik/context/media/navigator/header/header.h)
+		template<typename S, typename T>
+		S & operator << (S & s, T v)
+		{
+			s.print(v);
+			return s;
+		}
+	}
 
-// semiotic:
-#define niksign(navigator, header) \
-stringify(../nik/semiotic/navigator/header/header.h)
+	char endl='\n'; // portable ?
 
-// media:
-#define nikgpi(header) \
-stringify(../nik/media/generic/header/header.h)
-
-#define nikapi(navigator, category, header) \
-stringify(../nik/media/navigator/category/header/header.h)
+	media::printer display;
+}
 
 #endif

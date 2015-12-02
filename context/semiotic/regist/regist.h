@@ -18,12 +18,15 @@
 #ifndef CONTEXT_SEMIOTIC_REGIST_H
 #define CONTEXT_SEMIOTIC_REGIST_H
 
-#include<stddef.h>
-#include<stdio.h> // for debugging
-
 #include"../../../context/context/constant.h"
 
+#include"../../../debug.h"
+
 /*
+	The general media space should also have its own "register" class, but as the design there is intended
+	to be user-friendly "safe" there is a need to keep another register class here. As this is within the
+	general context space, it is assumed generic, and so its template parameters should be coded with that in mind.
+
 	As regist types are intended to hold int types, it's more efficient to pass the given value_type instead of
 	a const reference to one.
 
@@ -53,7 +56,7 @@ namespace nik
 			{
 				typedef meta::constant<size_type> constant;
 
-				template<typename ValueType>
+				template<typename ValueType> // this is redundant, you can use the unrolling code of arithmetic.
 				static bool less_than_or_equal(ValueType in0, ValueType in1, ValueType in2, ValueType in3)
 					{ return (in0 < in2 || (in0 == in2) && in1 <= in3); }
 
@@ -280,8 +283,7 @@ namespace nik
 					{
 						ValueType pivot=constant::register_length-order(d)-1;
 
-						printf("%ju", pivot);
-						printf("%c", '\n');
+						nik::display << pivot << nik::endl;
 
 							// normalize:
 								// one need not worry about the big value of in1 as in1 < d to begin with.
@@ -290,7 +292,6 @@ namespace nik
 						in2<<=pivot;
 						d<<=pivot;
 
-						return d;
 							// setup: normalizing does not change the fact that in1 < d.
 						ValueType big_d=high(d), mid=shift_up(in1)+high(in2), q, little=0, big;
 
