@@ -26,18 +26,18 @@ namespace nik
 	{
 		namespace meta
 		{
-			template<typename SizeType>
+			template<typename size_type>
 			struct constant
 			{
-				static const SizeType register_length = (BYTE_LENGTH*sizeof(SizeType));
-				static const SizeType half_length = (register_length>>ONE);
+				static const size_type register_length = (BYTE_LENGTH*sizeof(size_type));
+				static const size_type half_length = (register_length>>ONE);
 
-				static const SizeType low_pass = (((SizeType) ONE<<half_length)-ONE);
-				static const SizeType high_pass = (low_pass<<half_length);
+				static const size_type low_pass = (((size_type) ONE<<half_length)-ONE);
+				static const size_type high_pass = ((size_type) low_pass<<half_length);
 
-				static const SizeType half_max = (ONE<<half_length);
+				static const size_type half_max = ((size_type) ONE<<half_length);
 
-				static const SizeType max_binary_power = (ONE<<(register_length-ONE));
+				static const size_type max_binary_power = ((size_type) ONE<<(register_length-ONE));
 			};
 		}
 	}

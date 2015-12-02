@@ -38,6 +38,7 @@ namespace nik
 				void print(uintmax_t v) { printf("%ju", v); }
 
 				void print(char v) { printf("%c", v); }
+				void print(const char *v) { printf("%s", v); }
 			};
 
 			struct printer : public _printer

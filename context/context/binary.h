@@ -32,30 +32,30 @@ namespace nik
 			template<typename size_type>
 			struct binary
 			{
-				template<size_type x, size_type n> struct left_shift { enum : size_type { value=(size_type)x<<n }; };
-				template<size_type x, size_type n> struct right_shift { enum : size_type { value=(size_type)x>>n }; };
+				template<size_type x, size_type n> struct shift_up { enum : size_type { value=(size_type)x<<n }; };
+				template<size_type x, size_type n> struct shift_down { enum : size_type { value=x>>n }; };
 
-				template<size_type n> struct low_pass
-					{ enum : size_type { value=left_shift<ONE, n>::value-ONE }; };
-				template<size_type n> struct high_pass
-					{ enum : size_type { value=~low_pass<constant<size_type>::register_length-n>::value }; };
 /*
-	Position 't' is greater than the final position of the band pass.
+	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
 */
-				template<size_type t, size_type n> struct band_pass
-					{ enum : size_type { value=(size_type)low_pass<n>::value<<(t-n) }; };
+				template<size_type t> struct low_pass
+					{ enum : size_type { value=shift_up<ONE, t>::value-ONE }; };
+				template<size_type s> struct high_pass
+					{ enum : size_type { value=~low_pass<s>::value }; };
+				template<size_type s, size_type t> struct band_pass
+					{ enum : size_type { value=(size_type) low_pass<t-s>::value<<s }; };
 
-				template<size_type x, size_type n> struct left
-					{ enum : size_type { value=(x & low_pass<n>::value) }; };
-				template<size_type x, size_type n> struct right
-					{ enum : size_type { value=right_shift<x, constant<size_type>::register_length-n>::value }; };
-				template<size_type x, size_type t, size_type n> struct mid
-					{ enum : size_type { value=right_shift<(x & low_pass<t>::value), t-n>::value }; };
+				template<size_type x, size_type t> struct low
+					{ enum : size_type { value=(x & low_pass<t>::value) }; };
+				template<size_type x, size_type s> struct high
+					{ enum : size_type { value=right_shift<x, s>::value }; };
+				template<size_type x, size_type s, size_type t> struct mid
+					{ enum : size_type { value=left<right_shift<x, s>::value, t-s>::value }; };
 
-				template<size_type x> struct left_half
-					{ enum : size_type { value=left<x, constant<size_type>::half_length>::value }; };
-				template<size_type x> struct right_half
-					{ enum : size_type { value=right<x, constant<size_type>::half_length>::value }; };
+				template<size_type x> struct lower_half
+					{ enum : size_type { value=low<x, constant<size_type>::half_length>::value }; };
+				template<size_type x> struct upper_half
+					{ enum : size_type { value=high<x, constant<size_type>::half_length>::value }; };
 
 				template<size_type x> struct order
 				{
@@ -64,9 +64,9 @@ namespace nik
 					{
 						enum : size_type
 						{
-							value=if_then_else<mid<secondary, n, n/2>::value,
-								fast_order<primary+n/2, mid<secondary, n, n/2>::value, n/2>,
-								fast_order<primary, mid<secondary, n/2, n/2>::value, n/2>
+							value=if_then_else<mid<secondary, (n>>1), n>::value,
+								fast_order<primary+(n>>1), mid<secondary, (n>>1), n>::value, (n>>1)>,
+								fast_order<primary, mid<secondary, 0, (n>>1)>::value, (n>>1)>
 									>::return_type::value
 						};
 					};

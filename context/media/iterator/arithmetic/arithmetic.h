@@ -50,7 +50,8 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef context::meta::constant<size_type> constant;
+					typedef meta::constant<size_type> constant;
+					typedef semiotic::regist<size_type> regist;
 					typedef recursive<size_type> fwd_recu;
 
 					static const size_type register_length=constant::register_length;
@@ -138,7 +139,7 @@ namespace nik
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
 							{ unroll<N-1>::scale(++out, ++in1, in2,
-								semiotic::regist<size_type>::times(*out=carry, *in1, in2)); }
+								regist::multiply::return_high(*out=carry, *in1, in2)); }
 
 						template<size_type M, typename SubFiller=void>
 						struct subroll
@@ -198,7 +199,7 @@ namespace nik
 */
 						template<typename OutputIterator, typename InputIterator, typename ValueType>
 						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-							{ semiotic::regist<size_type>::times(*out=carry, *in1, in2); }
+							{ regist::multiply::return_high(*out=carry, *in1, in2); }
 					};
 				};
 			}
@@ -208,7 +209,7 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef context::meta::constant<size_type> constant;
+					typedef meta::constant<size_type> constant;
 					typedef recursive<size_type> bwd_recu;
 
 					static const size_type register_length=constant::register_length;
@@ -308,7 +309,7 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic
 				{
-					typedef context::meta::constant<size_type> constant;
+					typedef meta::constant<size_type> constant;
 
 					typedef forward::arithmetic<size_type> fwd_arit;
 					typedef backward::arithmetic<size_type> bwd_arit;

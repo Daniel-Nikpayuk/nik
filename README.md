@@ -79,12 +79,12 @@ Although I do borrow from the humanist perspective, their wisdom still needs to 
 framework---what I have learned from critiquing the human experience follows a forced conversion as a weak mathematical model.
 
 A *technology space* is a weak specification with three parts: a *context space*, a *semiotic space*, and a *media space*.
-A technology space is meant to represent a *digit* human experience:
+A technology space is meant to represent a *digital* human experience:
 
 1. The **context space**: represents the digital context of the digital human social process being described.
 2. The **semiotic space**: is made up of the labels and names and general concepts used to interact with the context.
 Context is existential, and exists on its own regardless of how we humans describe it. But when we do describe it,
-we do it with constructs and signs and signfiers and signfieds that make sense to us, and this is the semiotic space.
+we do it with constructs and signs and signifiers and signifieds that make sense to us, and this is the semiotic space.
 3. The **media space**: is the logic system which puts constraints upon the relationships between the context and its semiotic space.
 
 Basically, with the semiotic space, we can combinatorially prescribe any representation or order of representation we want in
@@ -113,13 +113,13 @@ In anycase, the OOP has its strengths and pitfalls. A quote from the *Structure 
 explains brilliantly in fact:
 
 > The object model approximates the world by dividing it into separate pieces. The functional model does not modularize along
-> object boundaries. The object model is useful when the unshared state of the ``objects'' is much larger than the state that
+> object boundaries. The object model is useful when the unshared state of the "objects" is much larger than the state that
 > they share. An example of a place where the object viewpoint fails is quantum mechanics, where thinking of things as individual
 > particles leads to paradoxes and confusions. Unifying the object view with the functional view may have little to do with
 > programming, but rather with fundamental epistemological issues. (3.5 Streams, footnote 76)
 
 When you're designing a library for processor as well as memory efficiency, you will often have to apply the engineering technique
-of *multiplexing*: sharing space. The other strength of C++ is template programming: *genericicity*. As it turns out, the generic
+of *multiplexing*: sharing space. The other strength of C++ is template programming: *genericity*. As it turns out, the generic
 (and thus template) programming paradigm is functional in nature, and as the above quote points out, it and the OOP are not always
 an easy match.
 
@@ -175,14 +175,14 @@ as it is still a strongly typed compiled language.
 
 The **nik** design privileges unified literary narrative/theme designs as well as unified implementation designs. As such,
 the code is intended to be modular and extensible with as much reusable code as possible. This is also very math-oriented,
-as genericicity is a hallmark of mathematics. Alexander Stepanov's criticism of OOP states this well:
+as genericity is a hallmark of mathematics. Alexander Stepanov's criticism of OOP states this well:
 
 > I find OOP technically unsound.. It attempts to decompose the world in terms of interfaces that vary on a single type.
 > To deal with the real problems you need multisorted algebras - families of interfaces that span multiple types.
 > I find OOP philosophically unsound. It claims that everything is an object. Even if it is true it is not very
 > interesting - saying that everything is an object is saying nothing at all.
 
-To further this prototyping aim, in addition to genericicity, the documentation is intended to be thorough
+To further this prototyping aim, in addition to genericity, the documentation is intended to be thorough
 with a user-friendly interface: Along with the narratives and themes described here to orient ones reading,
 the documentation style will be similar to that of the Qt library. I gotta say, I'm a fan of their
 quality documentation.
@@ -194,6 +194,19 @@ I will like this to be part of the design. I can leave it out for now as it is i
 an extension of comments, a formalized way of categorizing known potential errors with a given method for example,
 and so when compiling, a more robust type deduction system could be utilitized for error recognition.
 
+The other errorology consideration is how best to include basic and/or generic debugging tools. From a theory point
+of view, a debugging tool is a language construct which tells the compiler to give feedback as means to find bugs.
+The theory of debugging adheres to complexity theory, and so one starts with *primitive* bugs, then looks for ways
+to combine them to form more complicated bugs, and finally one then looks for ways to compare or abstract them.
+From this lens, debugging code cannot strictly be modularized from any of the regular code. For example each piece
+of hardward as represented by code is intended in this **nik** library to be modularized, but when it comes to
+*feedback*, that means each piece of hardware can and should give feedback for debugging. If that's the case,
+the design will either intersperse debugging code within each module and their respective extensions, or it will
+be refactored and isolated, but inevitably parallel the shape of the non-debugging code library.
+
+My preference is to intersperse the debugging code. It's easier to keep track of a single framework than two
+parallel ones.
+
 ## Intersectionality - Bringing the angles together.
 
 This is the overall design. The code organization is broken down into folders:
@@ -201,12 +214,9 @@ This is the overall design. The code organization is broken down into folders:
 + context
 + semiotic
 + media
-+ meta
 
 As for object disorientation: efficient vs safe classes, the efficient reusable but unsafe classes are organized into
-the *context* and *semiotic* folders. The safe general user-friendly classes are in the *media* folder. As the
-"reusability" of code is largely implemented with template meta-programming, there is a special folder *meta* which holds
-specifically template metacode, which is more along the lines of overhead and configurations than anything else.
+the *context* and *semiotic* folders. The safe general user-friendly classes are in the *media* folder.
 
 From the interpretation of a technology space, we narrow our scope to a *computability space*, which means we interpret
 general contexts as memory or data. As C++ privilges classes, you might be tempted to think abstract classes would fill
@@ -215,7 +225,10 @@ this point of view it makes sense for such generic classes to compose the *semio
 
 Within the restricted a computability space (as technology space), memory as context is still a weak specification,
 meaning it is infinite in the interpretation of its possible structures, and so it is in fact the generic type-free
-template (and reusable) procedures which form the bulk of the *context* folder.
+template (and reusable) procedures which form the bulk of the *context* folder. In processing such genericity,
+one often needs template programming *helper* constructs which are otherwise considered overhead and configuration
+datea as they will not contribute directly to the compiled code. In consideration of this, the *context space* is itself
+broken down into its own *context* subfolder which houses code that is meant specifically as template metacode.
 
 As said above, the *media* folder holds safe polished classes. It is the interface for the general user, the one who
 wants to prototype without worry of safeties. At this level of complexity and optimization; at this order of magnitude,
@@ -229,7 +242,8 @@ we hold our interactive hardware classes---categorized themselves into the follo
 + *interic*
 + *generic*
 
-Again, generic is for safe classes which aren't limited to hardware; this is to say: generic data structures like lists and vectors.
+Again, our *generic* folder is for safe classes which aren't limited to hardware;
+this is to say: generic data structures like lists and vectors.
 
 # Integrity
 

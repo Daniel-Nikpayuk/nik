@@ -39,9 +39,9 @@ namespace nik
 					{
 						enum : size_type
 						{
-							value=if_then_else<n%2,
+							value=if_then_else<(n & 1),
 								fast_exp<primary*secondary, secondary, n-1>,
-								fast_exp<primary, square<secondary>::value, n/2>
+								fast_exp<primary, square<secondary>::value, (n>>1)>
 									>::return_type::value
 						};
 					};

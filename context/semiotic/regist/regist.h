@@ -19,11 +19,12 @@
 #define CONTEXT_SEMIOTIC_REGIST_H
 
 #include<stddef.h>
+#include<stdio.h> // for debugging
 
-#include"../../../context/context/binary.h"
+#include"../../../context/context/constant.h"
 
 /*
-	As block types are intended to hold int types, it's more efficient to pass the given value_type instead of
+	As regist types are intended to hold int types, it's more efficient to pass the given value_type instead of
 	a const reference to one.
 
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
@@ -41,7 +42,7 @@ namespace nik
 		namespace semiotic
 		{
 /*
-			block:
+			regist:
 				typename The minimal specification (axiomatic properties) of a block class are:
 				typedefs:
 				constructors:
@@ -50,10 +51,101 @@ namespace nik
 			template<typename size_type>
 			struct regist
 			{
-				typedef context::meta::constant<size_type> constant;
-				typedef context::meta::binary<size_type> binary;
+				typedef meta::constant<size_type> constant;
+
+				template<typename ValueType>
+				static bool less_than_or_equal(ValueType in0, ValueType in1, ValueType in2, ValueType in3)
+					{ return (in0 < in2 || (in0 == in2) && in1 <= in3); }
+
+				template<typename ValueType>
+				static ValueType shift_up(ValueType in, size_type n)
+					{ return ((ValueType) in<<n); }
+
+					// common enough to optimize:
+				template<typename ValueType>
+				static ValueType shift_up(ValueType in)
+					{ return ((ValueType) in<<constant::half_length); }
+
+				template<typename ValueType>
+				static ValueType shift_down(ValueType in, size_type n)
+					{ return (in>>n); }
+
+					// common enough to optimize:
+				template<typename ValueType>
+				static ValueType shift_down(ValueType in)
+					{ return (in>>constant::half_length); }
+
 /*
-	times:
+	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
+
+	Should the code here be manually expanded so as to not rely on function calls? Will the compiler optimize?
+*/
+				template<typename ValueType>
+				static ValueType low_pass(size_type t)
+					{ return shift_up((ValueType) 1, t)-1; }
+
+				template<typename ValueType>
+				static ValueType high_pass(size_type s)
+					{ return ~low_pass<ValueType>(s); }
+
+				template<typename ValueType>
+				static ValueType band_pass(size_type s, size_type t)
+					{ return low_pass<ValueType>(t-s)<<s; }
+
+				template<typename ValueType>
+				static ValueType low(ValueType in, size_type t)
+					{ return (in & low_pass<ValueType>(t)); }
+
+					// common enough to optimize:
+				template<typename ValueType>
+				static ValueType low(ValueType in)
+					{ return (in & constant::low_pass); }
+
+				template<typename ValueType>
+				static ValueType high(ValueType in, size_type s)
+					{ return shift_down(in, s); }
+
+					// common enough to optimize:
+				template<typename ValueType>
+				static ValueType high(ValueType in)
+					{ return (in>>constant::half_length); }
+
+				template<typename ValueType>
+				static ValueType mid(ValueType in, size_type s, size_type t)
+					{ return low(shift_down(in, s), t-s); }
+
+				template<size_type N, typename Filler=void>
+				struct unroll
+				{
+/*
+	order:
+
+	Finds the index of the leading digit of the register number using the half-point method.
+*/
+					template<typename ValueType>
+					static size_type order(ValueType primary, ValueType secondary)
+					{
+						ValueType m=mid<ValueType>(secondary, (N>>1), N);
+						if (m) primary+=(N>>1);
+						else m=mid(secondary, (size_type) 0, (N>>1));
+
+						unroll<(N>>1)>::order(primary, m);
+					}
+				};
+
+				template<typename Filler>
+				struct unroll<0, Filler>
+				{
+					template<typename ValueType>
+					static size_type order(ValueType primary, ValueType secondary)
+						{ return primary; }
+				};
+
+				template<typename ValueType>
+				static ValueType order(ValueType in)
+					{ return unroll<constant::register_length>::order((ValueType) 0, in); }
+/*
+	multiply:
 
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
 	and just let the compiler optimize.
@@ -63,152 +155,198 @@ namespace nik
 	Hence (base-1)^2 < base^2-1.
 	Thus carry < base^2.
 */
+				struct multiply
+				{
 /*
 	Adds the initial out value to the return value (carry).
-	The return value is the "low" digit.
-	out is the "high" digit.
+	The return value is the "little" digit.
+	out is the "big" digit.
 */
-				template<typename ValueType>
-				static ValueType times_return_low(ValueType & out, ValueType mid1, ValueType mid2)
-				{
-					ValueType	low_in1 =(binary::template left_half<mid1>::value),
-							high_in1=(binary::template right_half<mid1>::value);
-					ValueType	low_in2 =(binary::template left_half<mid2>::value),
-							high_in2=(binary::template right_half<mid2>::value);
-					// mid1, mid2 are now free.
+					template<typename ValueType>
+					static ValueType return_low(ValueType & out, ValueType mid1, ValueType mid2)
+					{
+						ValueType	little_in1=low(mid1),
+								big_in1=high(mid1),
+								little_in2=low(mid2),
+								big_in2=high(mid2);
+						// mid1, mid2 are now free.
 
-					mid2=low_in1*high_in2;
-					mid1=high_in1*low_in2+mid2; // possible carry of 1.
+						mid2=little_in1*big_in2;
+						mid1=big_in1*little_in2+mid2; // possible carry of 1.
 
-					low_in2*=low_in1;
-					low_in1=low_in2+(mid1<<constant::half_length); // possible carry of 1.
+						little_in2*=little_in1;
+						little_in1=little_in2+shift_up(mid1); // possible carry of 1.
 
-					high_in1*=high_in2;
-					// high_in2, is now free.
-					high_in2=out+low_in1;
+						big_in1*=big_in2;
+						// big_in2, is now free.
+						big_in2=out+little_in1;
 
-					out=high_in1+
-						(mid1>>constant::half_length)+
-						((mid1 < mid2)<<constant::half_length)+
-						(low_in1 < low_in2)+
-						(high_in2 < low_in1);
-					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
+						out=big_in1+
+							shift_down(mid1)+
+							shift_up(mid1 < mid2)+
+							(little_in1 < little_in2)+
+							(big_in2 < little_in1);
+						// uses mid1, mid2, little_in1, big_in1, little_in2, big_in2, 
 
-					return high_in2;
-				}
+						return big_in2;
+					}
 /*
 	Adds to the existing out regardless of its initial value.
-	The return value is the "high" digit.
-	out is the "low" digit.
+	The return value is the "big" digit.
+	out is the "little" digit.
 	This is intuitively opposite of what it should be, but implements recursively/iteratively better when unrolling.
 */
-				template<typename ValueType>
-				static ValueType times_return_high(ValueType & out, ValueType mid1, ValueType mid2)
-				{
-					ValueType	low_in1 =(binary::template left_half<mid1>::value),
-							high_in1=(binary::template right_half<mid1>::value);
-					ValueType	low_in2 =(binary::template left_half<mid2>::value),
-							high_in2=(binary::template right_half<mid2>::value);
-					// mid1, mid2 are now free.
+					template<typename ValueType>
+					static ValueType return_high(ValueType & out, ValueType mid1, ValueType mid2)
+					{
+						ValueType	little_in1=low(mid1),
+								big_in1=high(mid1),
+								little_in2=low(mid2),
+								big_in2=high(mid2);
+						// mid1, mid2 are now free.
 
-					mid2=low_in1*high_in2;
-					mid1=high_in1*low_in2+mid2; // possible carry of 1.
+						mid2=little_in1*big_in2;
+						mid1=big_in1*little_in2+mid2; // possible carry of 1.
 
-					low_in2*=low_in1;
-					low_in1=low_in2+(mid1<<constant::half_length); // possible carry of 1.
+						little_in2*=little_in1;
+						little_in1=little_in2+shift_up(mid1); // possible carry of 1.
 
-					out+=low_in1; // possible carry of 1.
+						out+=little_in1; // possible carry of 1.
 
-					return high_in1*high_in2+
-						(mid1>>constant::half_length)+
-						((mid1 < mid2)<<constant::half_length)+
-						(low_in1 < low_in2)+
-						(out < low_in1);
-					// uses mid1, mid2, low_in1, high_in1, low_in2, high_in2, 
-				}
+						return big_in1*big_in2+
+							shift_down(mid1)+
+							shift_up(mid1 < mid2)+
+							(little_in1 < little_in2)+
+							(out < little_in1);
+						// uses mid1, mid2, little_in1, big_in1, little_in2, big_in2, 
+					}
+				};
 
 /*
-	The return value is the quotient of the division.
-	out is the remainder from the division.
-	in1 is the first digit of the dividend with base as size_type.
-	in2 is the second digit of the dividend with base as size_type.
-	d is the divisor.
+	divide:
 
-	This algorithm is highly optimized and only works (semantically) if in1 < d.
+	These algorithms are highly optimized and only work (semantically) if (in1|in2 >= d) where (in1 != 0), and (in1 < d).
+
+	The cases d == 0 , d == 1 are not covered as no optimized algorithms are required.
+*/
+				struct divide
+				{
+/*
+	The case where d == 2 implies in1 == 1:
+*/
+					template<typename ValueType>
+					static ValueType divisor_equals_2(ValueType & out, ValueType in2)
+					{
+						out=(in2 & (ValueType) 1);
+						return shift_up((ValueType) 1, constant::register_length-1)+(in2>>1);
+					}
+/*
+	The case where d is at most a half register can be optimized as follows:
 
 	Let in1=|w3|w2| and in2=|w1|w0| with d=|y1|y0|.
-	Since in1 < d, then (|y1| > |w3|) or (|y1|==|w3| and |y0| > |w2|).
+	Since d > in1, we have (|y1| > |w3|) or (|y1|==|w3| and |y0| > |w2|).
 	For the "single digit case", this means |y1|=0 which implies |w3|=0 and |y0| > |w2|.
-	This is used to optimize the single digit case.
 */
-				template<typename ValueType>
-				static ValueType quotient_remainder(ValueType & out, ValueType in1, ValueType in2, ValueType d)
-				{
-					if (!d || d == 1)
-					{ // these cases make no sense for this particular optimized version of division.
-						out=0;
-						return 0;
-					}
-					else if (d == 2)
-					{ // this meeans (in1 == 1):
-						out=(in2 & 1);
-						return (in2>>1)+((in1 & 1)<<(constant::register_length-1));
-					}
-					else
+					template<typename ValueType>
+					static ValueType half_register_divisor(ValueType & out, ValueType in1, ValueType in2, ValueType d)
 					{
-						ValueType	low_in2 =(binary::template left_half<in2>::value),
-								high_in2=(binary::template right_half<in2>::value);
+						ValueType	little_in2=low(in2),
+								big_in2=high(in2);
 
-						if (d < constant::half_length)
+						// in2 is now free.
+						in2=shift_up(in1)+big_in2;
+						// in1, high_in2 are now free.
+						in1=in2/d; big_in2=in2%d;
+
+						in1<<=constant::half_length;
+						(big_in2<<=constant::half_length)+=little_in2;
+						// little_in2 is now free.
+
+						little_in2=big_in2/d; out=big_in2%d;
+
+						return in1+little_in2;
+					}
+/*
+	The optimization here is based off of Knuth's normalization approximation for finding the quotient.
+
+	Let in1=|w3|w2| and in2=|w1|w0| with d=|y1|y0|.
+	Since d > in1, we have (|y1| > |w3|) or (|y1|==|w3| and |y0| > |w2|).
+
+	In finding the approximate q, under this context, it is implied that q is half register size,
+	meaning one must follow through in finding all such digits (in this case, there are two of them) and reassembling.
+*/
+					template<typename ValueType>
+					static ValueType full_register_divisor(ValueType & out, ValueType in1, ValueType in2, ValueType d)
+					{
+						ValueType pivot=constant::register_length-order(d)-1;
+
+						printf("%ju", pivot);
+						printf("%c", '\n');
+
+							// normalize:
+								// one need not worry about the big value of in1 as in1 < d to begin with.
+								// if d doesn't "go over" when shifting, neither will in1.
+						(in1<<=pivot)+=high(in2, pivot);
+						in2<<=pivot;
+						d<<=pivot;
+
+						return d;
+							// setup: normalizing does not change the fact that in1 < d.
+						ValueType big_d=high(d), mid=shift_up(in1)+high(in2), q, little=0, big;
+
+/*
+						if (big_d > in1) // implies high(in1) == 0 , low(in1) == in1, low(in1) < big_d.
 						{
-							// in2 is now free.
-							in2=(in1<<constant::half_length)+high_in2;
-							// in1, high_in2 are now free.
-							in1=in2/d; high_in2=in2%d;
+							q=(in1 < big_d) ? mid/big_d : -1;
 
-							in1<<=constant::half_length;
-							(high_in2<<=constant::half_length)+=low_in2;
-							// low_in2 is now free.
-
-							low_in2=high_in2/d; out=high_in2%d;
-
-							return in1+low_in2;
+							big=multiply::return_high(little, q, d);
+							if (less_than_or_equal(big, little, in1, in2)) out=in2-little;
+							else if (less_than_or_equal(big=multiply::return_high(little=0, --q, d),
+									little, in1, in2)) out=in2-little;
+							else out=in2-multiply::return_low(big, --q, d);
 						}
 						else
 						{
-							ValueType	low_in1 =(binary::template left_half<in1>::value),
-									high_in1=(binary::template right_half<in1>::value);
-
-//							ValueType sub2(0), sub1=times(sub2, in1, r);
-						}
-					}
-				}
-/*
-				template<typename ValueType>
-				static ValueType quotient_remainder(ValueType & out,
-					ValueType in1, ValueType in2, ValueType d, ValueType q, ValueType r)
-				{
-					if (r == d)
-					{ // assumption is the compiler will optimize '/','%' operations.
-						r=in2/d;
-						out=in2%d;
-						return in1*(++q)+r;
-					}
-					else
-					{
-						ValueType low, high=times(low, in1, r);
-						ValueType high1=high*r, high_q=high1/d, high_r=high1%d;
-						ValueType low_q=low/d, low_r=low%d;
-
-						ValueType r1=high_r+low_r;
-						ValueType q1=high*q+high_q+low_q+(r1 < high_r);
-
-						high1=in2/d;
-						out=r1+in2%d;
-						return in1*q+q1+high1+(out < r1);
-					}
-				}
 */
+							ValueType big_in1=high(in1);
+
+							q=(big_in1 < big_d) ? in1/big_d : -1;
+
+							big=multiply::return_high(little, q, d);
+							if (less_than_or_equal(big, little, big_in1, mid)) out=mid-little;
+							else if (less_than_or_equal(big=multiply::return_high(little=0, --q, d),
+									little, big_in1, mid)) out=mid-little;
+							else out=mid-multiply::return_low(big, --q, d);
+
+							out=shift_up(out)+low(in2);
+							if (out >= d) 
+							{
+								q=shift_up(q)+(out/d);
+								out=in2-multiply::return_low(big, q, d);
+							}
+//						}
+
+						out>>=pivot;
+
+						return q;
+					}
+/*
+	return_quotient:
+
+	The return value is the quotient of the division.
+	out is the remainder from the division.
+	in1 is the first digit of the dividend and is such that in1 != 0.
+	in2 is the second digit of the dividend.
+	d is the divisor and is such that in1 < d. Given in1 != 0, this implies 2 <= d.
+*/
+					template<typename ValueType>
+					static ValueType return_quotient(ValueType & out, ValueType in1, ValueType in2, ValueType d)
+					{
+						if (d == (ValueType) 2) return divisor_equals_2(out, in2);
+						else if (d < shift_up((ValueType) 1)) return half_register_divisor(out, in1, in2, d);
+						else return full_register_divisor(out, in1, in2, d);
+					}
+				};
 			};
 		}
 	}
