@@ -253,9 +253,21 @@ relative to the dependencies. This is to say, as a finished library, it will loo
 are in fact several layers of extensions where each layer adds new dependencies from the previous layer in order to extend.
 If done wrong, the source file dependencies will overwhelm the compiler.
 
-A clear design needs to be thought out in this regard as well. To that end, each source file will be commented with the level
-of stratification. For example a primitive will be level 0 (zero dependencies relative to the **nik** library), where level 1
-will imply *includes* from level 0. Level 2 will imply *includes* from levels 1 and lower, etc.
+A clear design needs to be thought out in this regard as well. One of the biggest issues that arises is *naming conflicts*.
+To that end, there are some design rules I will communicate here:
+
+1. If files/classes with the same names reside within different namespaces, it is preferred they are left as is.
+This should provide a kind self-similar minimization strategy. It has higher entropy in that it leaves more possibilities
+free for future naming.
+1. If files/classes with the same names reside within the same namespace (modular extensions), they will be labelled in
+with their given semantic name along with an extensible number starting with zero. Within the class definitions themselves,
+inheritance is expected.
+1. In the case of same name modular extensions, a *final* non-numbered placeholder class must exist and will inherit the
+highest level of inheritance of the numbered classes of that particular module. The advantage of doing so is in
+user-friendly *umbrella* accessibility of the module itself. What's more, in doing so, it then makes sense to leave all
+classes---which aren't (yet) seperated for stratification in the manner given here---as unnumbered, until such is needed:
+*Lazy Extensibility*. The only disadvantage is each new extension added will require updating the unnumbered umbrella
+version, but as it is not expected to happen too often once the library relatively stabilizes, it is not at all impractical.
 
 # Integrity
 
