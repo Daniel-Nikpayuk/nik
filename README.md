@@ -251,8 +251,11 @@ out with all such modules spanning the technology space, and when that fills, on
 modules. You end up with interdependency, which when done right slows a clear stratification of the modules by extension
 relative to the dependencies. This is to say, as a finished library, it will look like some modules are quite large, but
 are in fact several layers of extensions where each layer adds new dependencies from the previous layer in order to extend.
-If done wrong, the source file dependencies will overwhelm the compiler. A clear design needs to be thought out in this
-regard as well.
+If done wrong, the source file dependencies will overwhelm the compiler.
+
+A clear design needs to be thought out in this regard as well. To that end, each source file will be commented with the level
+of stratification. For example a primitive will be level 0 (zero dependencies relative to the **nik** library), where level 1
+will imply *includes* from level 0. Level 2 will imply *includes* from levels 1 and lower, etc.
 
 # Integrity
 
