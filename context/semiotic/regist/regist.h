@@ -20,7 +20,7 @@
 
 #include"../../../context/context/constant.h"
 
-#include"../../../debug.h"
+// #include"../../../debug.h"
 
 /*
 	The general media space should also have its own "register" class, but as the design there is intended
@@ -55,29 +55,33 @@ namespace nik
 			struct regist
 			{
 				typedef meta::constant<size_type> constant;
+/*
+	less_than_or_equal:
 
-				template<typename ValueType> // this is redundant, you can use the unrolling code of arithmetic.
+	This is redundant, you can use the unrolling code of arithmetic, but this should be optimized as highly as possible,
+	which, given the unrolling nature of its equivalent within arithmetic, it may not be. Test!
+*/
+				template<typename ValueType>
 				static bool less_than_or_equal(ValueType in0, ValueType in1, ValueType in2, ValueType in3)
 					{ return (in0 < in2 || (in0 == in2) && in1 <= in3); }
 
 				template<typename ValueType>
 				static ValueType shift_up(ValueType in, size_type n)
-					{ return ((ValueType) in<<n); }
+					{ return in<<n; }
 
 					// common enough to optimize:
 				template<typename ValueType>
 				static ValueType shift_up(ValueType in)
-					{ return ((ValueType) in<<constant::half_length); }
+					{ return in<<constant::half_length; }
 
 				template<typename ValueType>
 				static ValueType shift_down(ValueType in, size_type n)
-					{ return (in>>n); }
+					{ return in>>n; }
 
 					// common enough to optimize:
 				template<typename ValueType>
 				static ValueType shift_down(ValueType in)
-					{ return (in>>constant::half_length); }
-
+					{ return in>>constant::half_length; }
 /*
 	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
 
@@ -111,7 +115,7 @@ namespace nik
 					// common enough to optimize:
 				template<typename ValueType>
 				static ValueType high(ValueType in)
-					{ return (in>>constant::half_length); }
+					{ return in>>constant::half_length; }
 
 				template<typename ValueType>
 				static ValueType mid(ValueType in, size_type s, size_type t)
@@ -241,7 +245,7 @@ namespace nik
 					static ValueType divisor_equals_2(ValueType & out, ValueType in2)
 					{
 						out=(in2 & (ValueType) 1);
-						return shift_up((ValueType) 1, constant::register_length-1)+(in2>>1);
+						return constant::max_binary_power+(in2>>1);
 					}
 /*
 	The case where d is at most a half register can be optimized as follows:
@@ -269,6 +273,37 @@ namespace nik
 
 						return in1+little_in2;
 					}
+
+/*
+	Assumes d >= b/2 and in1 < b/2 and "mid" < d.
+*/
+					template<typename ValueType>
+					static ValueType partial_register_divisor(ValueType & r,
+						ValueType in1, ValueType in2, ValueType d, ValueType big_d)
+					{
+						ValueType	mid=shift_up(in1)+high(in2),
+								q=(in1 < big_d) ? mid/big_d : constant::half_max-1,
+								little=0,
+								big=multiply::return_high(little, q, d);
+
+						if (!less_than_or_equal(big, little, in1, in2))
+						{
+							--q;
+							little=0;
+							big=multiply::return_high(little, q, d);
+							if (!less_than_or_equal(big, little, in1, in2))
+							{
+								--q;
+								little=0;
+								big=multiply::return_high(little, q, d);
+							}
+						}
+
+						r=in2-little;
+
+						return q;
+					}
+
 /*
 	The optimization here is based off of Knuth's normalization approximation for finding the quotient.
 
@@ -279,55 +314,28 @@ namespace nik
 	meaning one must follow through in finding all such digits (in this case, there are two of them) and reassembling.
 */
 					template<typename ValueType>
-					static ValueType full_register_divisor(ValueType & out, ValueType in1, ValueType in2, ValueType d)
+					static ValueType full_register_divisor(ValueType & r, ValueType in1, ValueType in2, ValueType d)
 					{
-						ValueType pivot=constant::register_length-order(d)-1;
-
-						nik::display << pivot << nik::endl;
+						ValueType pivot=order(d)+1;
+						ValueType scale=constant::register_length-pivot;
 
 							// normalize:
 								// one need not worry about the big value of in1 as in1 < d to begin with.
 								// if d doesn't "go over" when shifting, neither will in1.
-						(in1<<=pivot)+=high(in2, pivot);
-						in2<<=pivot;
-						d<<=pivot;
+								// normalizing does not change the fact that in1 < d.
+						(in1<<=scale)+=high(in2, pivot);
+						in2<<=scale;
+						d<<=scale;
 
-							// setup: normalizing does not change the fact that in1 < d.
-						ValueType big_d=high(d), mid=shift_up(in1)+high(in2), q, little=0, big;
+							// setup:
+						ValueType	mid=shift_up(in1)+high(in2),
+								big_d=high(d),
+								q=shift_up(partial_register_divisor(pivot, high(in1), mid, d, big_d));
 
-/*
-						if (big_d > in1) // implies high(in1) == 0 , low(in1) == in1, low(in1) < big_d.
-						{
-							q=(in1 < big_d) ? mid/big_d : -1;
+						mid=shift_up(pivot)+low(in2);
+						q+=partial_register_divisor(r, high(pivot), mid, d, big_d);
 
-							big=multiply::return_high(little, q, d);
-							if (less_than_or_equal(big, little, in1, in2)) out=in2-little;
-							else if (less_than_or_equal(big=multiply::return_high(little=0, --q, d),
-									little, in1, in2)) out=in2-little;
-							else out=in2-multiply::return_low(big, --q, d);
-						}
-						else
-						{
-*/
-							ValueType big_in1=high(in1);
-
-							q=(big_in1 < big_d) ? in1/big_d : -1;
-
-							big=multiply::return_high(little, q, d);
-							if (less_than_or_equal(big, little, big_in1, mid)) out=mid-little;
-							else if (less_than_or_equal(big=multiply::return_high(little=0, --q, d),
-									little, big_in1, mid)) out=mid-little;
-							else out=mid-multiply::return_low(big, --q, d);
-
-							out=shift_up(out)+low(in2);
-							if (out >= d) 
-							{
-								q=shift_up(q)+(out/d);
-								out=in2-multiply::return_low(big, q, d);
-							}
-//						}
-
-						out>>=pivot;
+						r>>=scale;
 
 						return q;
 					}
