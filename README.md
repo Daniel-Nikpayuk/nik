@@ -248,13 +248,19 @@ this is to say: generic data structures like lists and vectors.
 
 Finally, as far as implementation goes, keep in mind each module as a *primitive* has minimal dependencies. One starts
 out with all such modules spanning the technology space, and when that fills, one extends each module based on the other
-modules. You end up with interdependency, which when done right slows a clear stratification of the modules by extension
+modules. You end up with interdependency, which when done right shows a clear stratification of the modules by extension
 relative to the dependencies. This is to say, as a finished library, it will look like some modules are quite large, but
 are in fact several layers of extensions where each layer adds new dependencies from the previous layer in order to extend.
-If done wrong, the source file dependencies will overwhelm the compiler.
 
-A clear design needs to be thought out in this regard as well. One of the biggest issues that arises is *naming conflicts*.
-To that end, there are some design rules I will communicate here:
+If done wrong, the source file dependencies will overwhelm the compiler (cyclical dependencies). Unfortunately, this intuitive
+idea of "dependency" isn't as clean cut as one would hope: One can have *types* of dependencies. How best to organize code
+around that? For example some *includes* are nothing more than declarations, definitions, template convenience (overhead) code;
+while others are algorithms and data structures used to extend other algorithms and data structures. The stratification of code
+mentioned about most intuitively applies to algorithms and data structures extending each other, and is less meaningful for
+the *overhead* variety of dependencies.
+
+A clear design needs to be thought out in the above discussed regard as well. One of the biggest issues that arises is
+*naming conflicts*.  To that end, there are some design rules I will communicate here:
 
 1. If files/classes with the same names reside within different namespaces, it is preferred they are left as is.
 This should provide a kind self-similar minimization strategy. It has higher entropy in that it leaves more possibilities

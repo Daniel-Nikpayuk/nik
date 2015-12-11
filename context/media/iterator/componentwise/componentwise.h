@@ -56,13 +56,11 @@ namespace nik
 	{
 		namespace iterator
 		{
-
 /************************************************************************************************************************/
 //	forward iterator
-
 			namespace forward
 			{
-
+				template<typename size_type>
 				struct componentwise
 				{
 /*
@@ -271,8 +269,8 @@ namespace nik
 					right_overload0(++, right_decrement, --)
 /*
 	,:
-				template<typename OutputType, typename InputType1, typename InputType2>
-				static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
+					template<typename OutputType, typename InputType1, typename InputType2>
+					static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
 */
 /*
 	->*:
@@ -300,85 +298,98 @@ namespace nik
 */
 					bracket_void_overload2(++, brackets, )
 					bracket_return_overload2(++, brackets, )
-				};
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
-			I have therefore factored it out as the templated "recursive" struct.
+			I have therefore factored it out as the templated "extend" struct. Notice the semantics of the word "extend"
+			itself are a signifier of the overhead word space, which is to say it's a metaname.
 
 			Generally having a template parameter which isn't directly used implies lower generic entropy if it
 			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
 			below is an exception to the exising design for no other reason than the need for partial template
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
-				template<typename size_type>
-				struct recursive
-				{
 					template<size_type N, typename Filler=void>
 					struct unroll
 					{
 /*
 */
-						template<typename Iterator, typename ValueType>
-						static void repeat(Iterator out, ValueType in)
+						struct repeat
 						{
-							*out=in;
-							unroll<N-1>::repeat(++out, in);
-						}
+							template<typename Iterator, typename ValueType>
+							static void no_return(Iterator out, ValueType in)
+							{
+								*out=in;
+								unroll<N-1>::repeat::no_return(++out, in);
+							}
 /*
 */
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in)
-						{
-							*out=in;
-							return unroll<N-1>::repeat_return(++out, in);
-						}
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in)
+							{
+								*out=in;
+								return unroll<N-1>::repeat::with_return(++out, in);
+							}
+						};
 /*
 */
-						template<typename OutputIterator, typename InputIterator>
-						static void assign(OutputIterator out, InputIterator in)
+						struct assign
 						{
-							*out=*in;
-							unroll<N-1>::assign(++out, ++in);
-						}
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out, InputIterator in)
+							{
+								*out=*in;
+								unroll<N-1>::assign::no_return(++out, ++in);
+							}
 /*
 */
-						template<typename OutputIterator, typename InputIterator>
-						static OutputIterator assign_return(OutputIterator out, InputIterator in)
-						{
-							*out=*in;
-							return unroll<N-1>::assign_return(++out, ++in);
-						}
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out, InputIterator in)
+							{
+								*out=*in;
+								return unroll<N-1>::assign::with_return(++out, ++in);
+							}
+						};
 					};
 
 					template<typename Filler>
 					struct unroll<1, Filler>
 					{
-						template<typename Iterator, typename ValueType>
-						static void repeat(Iterator out, ValueType in) { *out=in; }
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in) { *out=in; return ++out; }
-						template<typename OutputIterator, typename InputIterator>
-						static void assign(OutputIterator out, InputIterator in) { *out=*in; }
-						template<typename OutputIterator, typename InputIterator>
-						static OutputIterator assign_return(OutputIterator out, InputIterator in)
-							{ *out=*in; return ++out; }
+						struct repeat
+						{
+							template<typename Iterator, typename ValueType>
+							static void no_return(Iterator out, ValueType in) { *out=in; }
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in) { *out=in; return ++out; }
+						};
+
+						struct assign
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out, InputIterator in) { *out=*in; }
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out, InputIterator in)
+								{ *out=*in; return ++out; }
+						};
 					};
 
 					template<typename Filler>
 					struct unroll<0, Filler>
 					{
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in) { return out; }
+						struct repeat
+						{
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in) { return out; }
+						};
 					};
 				};
 			}
 
 /************************************************************************************************************************/
 //	backward iterator
-
 			namespace backward
 			{
+				template<typename size_type>
 				struct componentwise
 				{
 /*
@@ -606,7 +617,7 @@ namespace nik
 /*
 	->:
 */
-				return_overload2(--, point, .operator->)
+					return_overload2(--, point, .operator->)
 /*
 	():
 
@@ -624,76 +635,89 @@ namespace nik
 */
 					bracket_void_overload2(--, brackets, )
 					bracket_return_overload2(--, brackets, )
-				};
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
-			I have therefore factored it out as the templated "recursive" struct.
+			I have therefore factored it out as the templated "extend" struct. Notice the semantics of the word "extend"
+			itself are a signifier of the overhead word space, which is to say it's a metaname.
 
 			Generally having a template parameter which isn't directly used implies lower generic entropy if it
 			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
 			below is an exception to the exising design for no other reason than the need for partial template
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
-				template<typename size_type>
-				struct recursive
-				{
 					template<size_type N, typename Filler=void>
 					struct unroll
 					{
+						struct repeat
+						{
 /*
 */
-						template<typename Iterator, typename ValueType>
-						static void repeat(Iterator out, ValueType in)
-						{
-							*out=in;
-							unroll<N-1>::repeat(--out, in);
-						}
+							template<typename Iterator, typename ValueType>
+							static void no_return(Iterator out, ValueType in)
+							{
+								*out=in;
+								unroll<N-1>::repeat::no_return(--out, in);
+							}
 /*
 */
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in)
-						{
-							*out=in;
-							return unroll<N-1>::rep(--out, in);
-						}
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in)
+							{
+								*out=in;
+								return unroll<N-1>::repeat::with_return(--out, in);
+							}
+						};
 /*
 */
-						template<typename OutputIterator, typename InputIterator>
-						static void assign(OutputIterator out, InputIterator in)
+						struct assign
 						{
-							*out=*in;
-							unroll<N-1>::copy(--out, --in);
-						}
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out, InputIterator in)
+							{
+								*out=*in;
+								unroll<N-1>::assign::no_return(--out, --in);
+							}
 /*
 */
-						template<typename OutputIterator, typename InputIterator>
-						static OutputIterator assign_return(OutputIterator out, InputIterator in)
-						{
-							*out=*in;
-							return unroll<N-1>::assign(--out, --in);
-						}
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out, InputIterator in)
+							{
+								*out=*in;
+								return unroll<N-1>::assign::with_return(--out, --in);
+							}
+						};
 					};
 
 					template<typename Filler>
 					struct unroll<1, Filler>
 					{
-						template<typename Iterator, typename ValueType>
-						static void repeat(Iterator out, ValueType in) { *out=in; }
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in) { *out=in; return --out; }
-						template<typename OutputIterator, typename InputIterator>
-						static void assign(OutputIterator out, InputIterator in) { *out=*in; }
-						template<typename OutputIterator, typename InputIterator>
-						static OutputIterator assign_return(OutputIterator out, InputIterator in)
-							{ *out=*in; return --out; }
+						struct repeat
+						{
+							template<typename Iterator, typename ValueType>
+							static void no_return(Iterator out, ValueType in) { *out=in; }
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in) { *out=in; return --out; }
+						};
+
+						struct assign
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out, InputIterator in) { *out=*in; }
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out, InputIterator in)
+								{ *out=*in; return --out; }
+						};
 					};
 
 					template<typename Filler>
 					struct unroll<0, Filler>
 					{
-						template<typename Iterator, typename ValueType>
-						static Iterator repeat_return(Iterator out, ValueType in) { return out; }
+						struct repeat
+						{
+							template<typename Iterator, typename ValueType>
+							static Iterator with_return(Iterator out, ValueType in) { return out; }
+						};
 					};
 				};
 			}
@@ -703,6 +727,7 @@ namespace nik
 
 			namespace bidirectional
 			{
+				template<typename size_type>
 				struct componentwise
 				{
 				};
@@ -713,6 +738,7 @@ namespace nik
 
 			namespace random_access
 			{
+				template<typename size_type>
 				struct componentwise
 				{
 				};

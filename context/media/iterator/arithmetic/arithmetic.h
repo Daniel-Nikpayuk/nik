@@ -29,19 +29,31 @@ namespace nik
 			namespace forward
 			{
 				template<typename size_type>
-				struct arithmetic : public arithmetic_1<size_type> { };
+				struct arithmetic : public arithmetic_1<size_type>
+				{
+					template<size_type N, typename Filler=void>
+					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler> { };
+				};
 			}
 
 			namespace backward
 			{
 				template<typename size_type>
-				struct arithmetic : public arithmetic_1<size_type> { };
+				struct arithmetic : public arithmetic_1<size_type>
+				{
+					template<size_type N, typename Filler=void>
+					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler> { };
+				};
 			}
 
 			namespace bidirectional
 			{
 				template<typename size_type>
-				struct arithmetic : public arithmetic_1<size_type> { };
+				struct arithmetic : public arithmetic_1<size_type>
+				{
+					template<size_type N, typename Filler=void>
+					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler> { };
+				};
 			}
 		}
 	}

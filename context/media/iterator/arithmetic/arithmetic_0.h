@@ -22,6 +22,7 @@
 
 // Clean up the typedefs/usings namespace stuff.
 
+// overhead dependencies:
 #include"../../../context/constant.h"
 
 /*
@@ -49,16 +50,13 @@ namespace nik
 				struct arithmetic_0
 				{
 					typedef meta::constant<size_type> constant;
-
-					static const size_type register_length=constant::register_length;
-
 /*
 	Assumes (in) iteratively greater than (end).
 */
 					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
 					static void bit_right_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
 					{
-						size_type N=register_length-n;
+						size_type N=constant::register_length-n;
 						*out=(*in>>n);
 						++in;
 
@@ -160,15 +158,13 @@ namespace nik
 				struct arithmetic_0
 				{
 					typedef meta::constant<size_type> constant;
-
-					static const size_type register_length=constant::register_length;
 /*
 	Assumes (in) iteratively greater than (end).
 */
 					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
 					static void bit_left_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
 					{
-						size_type N=register_length-n;
+						size_type N=constant::register_length-n;
 						*out=(*in<<n);
 						--in;
 
@@ -250,6 +246,14 @@ namespace nik
 						template<typename Iterator>
 						static Iterator significant_digit(Iterator in) { return in; }
 					};
+				};
+			}
+
+			namespace bidirectional
+			{
+				template<typename size_type>
+				struct arithmetic_0
+				{
 				};
 			}
 		}

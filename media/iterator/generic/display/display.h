@@ -29,7 +29,7 @@ namespace nik
 		{
 			struct verbatim_printer : public printer
 			{
-				using printer::print;
+//				using printer::print;
 /*
 	Assumes descending order.
 	
