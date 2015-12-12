@@ -18,7 +18,7 @@
 #ifndef CONTEXT_ITERATOR_COMPONENTWISE_H
 #define CONTEXT_ITERATOR_COMPONENTWISE_H
 
-#include"overload_macro.h"
+#include"componentwise_macro.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -68,236 +68,418 @@ namespace nik
 
 	"=+" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, plus, =+)
-					return_overload1(++, plus, =+)
+					struct plus
+					{
+						no_return_1(++, =+)
+						with_return_1(++, =+)
 
-					void_overload2(++, plus, +)
-					return_overload2(++, plus, +)
+						no_return_2(++, +)
+						with_return_2(++, +)
+					};
 /*
 	-:
 
 	"=-" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, minus, =-)
-					return_overload1(++, minus, =-)
+					struct minus
+					{
+						no_return_1(++, =-)
+						with_return_1(++, =-)
 
-					void_overload2(++, minus, -)
-					return_overload2(++, minus, -)
+						no_return_2(++, -)
+						with_return_2(++, -)
+					};
 /*
 	*:
 
 	"=*" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, asterisk, =*)
-					return_overload1(++, asterisk, =*)
+					struct asterisk
+					{
+						no_return_1(++, =*)
+						with_return_1(++, =*)
 
-					void_overload2(++, asterisk, *)
-					return_overload2(++, asterisk, *)
+						no_return_2(++, *)
+						with_return_2(++, *)
+					};
 /*
 	/:
 */
-					void_overload2(++, slash, /)
-					return_overload2(++, slash, /)
+					struct slash
+					{
+						no_return_2(++, /)
+						with_return_2(++, /)
+					};
 /*
 	%:
 */
-					void_overload2(++, percent, %)
-					return_overload2(++, percent, %)
+					struct percent
+					{
+						no_return_2(++, %)
+						with_return_2(++, %)
+					};
 /*
 	ˆ:
 */
-					void_overload2(++, caret, ^)
-					return_overload2(++, caret, ^)
+					struct caret
+					{
+						no_return_2(++, ^)
+						with_return_2(++, ^)
+					};
 /*
 	&:
 
 	"=&" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, ampersand, =&)
-					return_overload1(++, ampersand, =&)
+					struct ampersand
+					{
+						no_return_1(++, =&)
+						with_return_1(++, =&)
 
-					void_overload2(++, ampersand, &)
-					return_overload2(++, ampersand, &)
+						no_return_2(++, &)
+						with_return_2(++, &)
+					};
 /*
 	|:
 */
-					void_overload2(++, bar, |)
-					return_overload2(++, bar, |)
+					struct bar
+					{
+						no_return_2(++, |)
+						with_return_2(++, |)
+					};
 /*
 	~:
 
 	"=~" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, tilde, =~)
-					return_overload1(++, tilde, =~)
+					struct tilde
+					{
+						no_return_1(++, =~)
+						with_return_1(++, =~)
+					};
 /*
 	!:
 
 	"=!" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(++, exclamation, =!)
-					return_overload1(++, exclamation, =!)
-/*
-	=:
-
-	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
-*/
-					const_overload1(++, repeat, =)
-					void_overload1(++, assign, =)
-					return_overload1(++, assign_return, =)
+					struct exclamation
+					{
+						no_return_1(++, =!)
+						with_return_1(++, =!)
+					};
 /*
 	<:
 */
-					void_overload2(++, less_than, <)
-					return_overload2(++, less_than, <)
+					struct less_than
+					{
+						no_return_2(++, <)
+						with_return_2(++, <)
+					};
 /*
 	>:
 */
-					void_overload2(++, greater_than, >)
-					return_overload2(++, greater_than, >)
-/*
-	+=:
-
-	There's no need for a "return" version of "constant value" plus_assign as the out iterator equals the end iterator upon halting.
-*/
-					const_overload1(++, plus_repeat, +=)
-					void_overload1(++, plus_assign, +=)
-					return_overload1(++, plus_assign_return, +=)
-/*
-	-=:
-*/
-					const_overload1(++, minus_repeat, -=)
-					void_overload1(++, minus_assign, -=)
-					return_overload1(++, minus_assign_return, -=)
-/*
-	*=:
-*/
-					const_overload1(++, asterisk_repeat, *=)
-					void_overload1(++, asterisk_assign, *=)
-					return_overload1(++, asterisk_assign_return, *=)
-/*
-	/=:
-*/
-					const_overload1(++, slash_repeat, /=)
-					void_overload1(++, slash_assign, /=)
-					return_overload1(++, slash_assign_return, /=)
-/*
-	%=:
-*/
-					const_overload1(++, percent_repeat, %=)
-					void_overload1(++, percent_assign, %=)
-					return_overload1(++, percent_assign_return, %=)
-/*
-	ˆ=:
-*/
-					const_overload1(++, caret_repeat, ^=)
-					void_overload1(++, caret_assign, ^=)
-					return_overload1(++, caret_assign_return, ^=)
-/*
-	&=:
-*/
-					const_overload1(++, ampersand_repeat, &=)
-					void_overload1(++, ampersand_assign, &=)
-					return_overload1(++, ampersand_assign_return, &=)
-/*
-	|=:
-*/
-					const_overload1(++, bar_repeat, |=)
-					void_overload1(++, bar_assign, |=)
-					return_overload1(++, bar_assign_return, |=)
+					struct greater_than
+					{
+						no_return_2(++, >)
+						with_return_2(++, >)
+					};
 /*
 	<<:
 */
-					void_overload2(++, left_shift, <<)
-					return_overload2(++, left_shift, <<)
+					struct left_shift
+					{
+						no_return_2(++, <<)
+						with_return_2(++, <<)
+					};
 /*
 	>>:
 */
-					void_overload2(++, right_shift, >>)
-					return_overload2(++, right_shift, >>)
-/*
-	>>=:
-*/
-					const_overload1(++, right_shift_repeat, >>=)
-					void_overload1(++, right_assign, >>=)
-					return_overload1(++, right_shift_assign_return, >>=)
-/*
-	<<=:
-*/
-					const_overload1(++, left_shift_repeat, <<=)
-					void_overload1(++, left_assign, <<=)
-					return_overload1(++, left_shift_assign_return, <<=)
+					struct right_shift
+					{
+						no_return_2(++, >>)
+						with_return_2(++, >>)
+					};
 /*
 	==:
 */
-					void_overload2(++, equals, ==)
-					return_overload2(++, equals, ==)
+					struct equals
+					{
+						no_return_2(++, ==)
+						with_return_2(++, ==)
+					};
 /*
 	!=:
 */
-					void_overload2(++, not_equals, !=)
-					return_overload2(++, not_equals, !=)
+					struct not_equals
+					{
+						no_return_2(++, !=)
+						with_return_2(++, !=)
+					};
 /*
 	<=:
 */
-					void_overload2(++, less_than_or_equal, <=)
-					return_overload2(++, less_than_or_equal, <=)
+					struct less_than_or_equal
+					{
+						no_return_2(++, <=)
+						with_return_2(++, <=)
+					};
 /*
 	>=:
 */
-					void_overload2(++, greater_than_or_equal, >=)
-					return_overload2(++, greater_than_or_equal, >=)
+					struct greater_than_or_equal
+					{
+						no_return_2(++, >=)
+						with_return_2(++, >=)
+					};
 /*
 	&&:
 */
-					void_overload2(++, logical_and, &&)
-					return_overload2(++, logical_and, &&)
+					struct logical_and
+					{
+						no_return_2(++, &&)
+						with_return_2(++, &&)
+					};
 /*
 	||:
 */
-					void_overload2(++, logical_or, ||)
-					return_overload2(++, logical_or, ||)
+					struct logical_or
+					{
+						no_return_2(++, ||)
+						with_return_2(++, ||)
+					};
 /*
 	++:
 */
-					left_overload0(++, left_increment, ++)
-					right_overload0(++, right_increment, ++)
+					struct left_increment
+					{
+						left_overload0(++, left_increment, ++)
+						right_overload0(++, right_increment, ++)
+					};
 /*
 	--:
 */
-					left_overload0(++, left_decrement, --)
-					right_overload0(++, right_decrement, --)
+					struct left_decrement
+					{
+						left_overload0(++, left_decrement, --)
+						right_overload0(++, right_decrement, --)
+					};
 /*
 	,:
 					template<typename OutputType, typename InputType1, typename InputType2>
 					static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
 */
+					struct 
+					{
+					};
+
 /*
 	->*:
 */
-					void_overload2(++, point_asterisk, ->*)
-					return_overload2(++, point_asterisk, ->*)
+					struct point_asterisk
+					{
+						no_return_2(++, ->*)
+						with_return_2(++, ->*)
+					};
 /*
 	->:
 */
-					return_overload2(++, point, .operator->)
+					struct point
+					{
+						with_return_2(++, .operator->)
+					};
 /*
 	():
 
 	if this doesn't work, you might be able to include parentheses in the macro itself and leave the macro argument "op" blank.
 */
-					right_overload0(++, parentheses, ())
+					struct parentheses
+					{
+						right_overload0(++, parentheses, ())
 
-					right_void_overload1(++, parentheses, =, ())
-					right_return_overload1(++, parentheses, =, ())
+						right_no_return_1(++, =, ())
+						right_with_return_1(++, =, ())
 
-					void_overload2(++, parentheses, )
-					return_overload2(++, parentheses, )
+						no_return_2(++, )
+						with_return_2(++, )
+					};
 /*
 	[]:
 */
-					bracket_void_overload2(++, brackets, )
-					bracket_return_overload2(++, brackets, )
+					struct brackets
+					{
+						bracket_no_return_2(++, )
+						bracket_with_return_2(++, )
+					};
+/*
+	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
+*/
+					struct repeat
+					{
+/*
+		=:
+*/
+						no_return_1(++, =)
+/*
+		+=:
+*/
+						struct plus
+						{
+							no_return_1(++, +=)
+						};
+/*
+		-=:
+*/
+						struct minus
+						{
+							no_return_1(++, -=)
+						};
+/*
+		*=:
+*/
+						struct asterisk
+						{
+							no_return_1(++, *=)
+						};
+/*
+		/=:
+*/
+						struct slash
+						{
+							no_return_1(++, /=)
+						};
+/*
+		%=:
+*/
+						struct percent
+						{
+							no_return_1(++, %=)
+						};
+/*
+		ˆ=:
+*/
+						struct caret
+						{
+							no_return_1(++, ^=)
+						};
+/*
+		&=:
+*/
+						struct ampersand
+						{
+							no_return_1(++, &=)
+						};
+/*
+		|=:
+*/
+						struct bar
+						{
+							no_return_1(++, |=)
+						};
+/*
+		>>=:
+*/
+						struct right_shift
+						{
+							no_return_1(++, >>=)
+						};
+/*
+		<<=:
+*/
+						struct left_shift
+						{
+							no_return_1(++, <<=)
+						};
+					};
+
+					struct assign
+					{
+/*
+		=:
+*/
+						no_return_1(++, =)
+						with_return_1(++, =)
+/*
+		+=:
+*/
+						struct plus
+						{
+							no_return_1(++, +=)
+							with_return_1(++, +=)
+						};
+/*
+		-=:
+*/
+						struct minus
+						{
+							no_return_1(++, -=)
+							with_return_1(++, -=)
+						};
+/*
+		*=:
+*/
+						struct asterisk
+						{
+							no_return_1(++, *=)
+							with_return_1(++, *=)
+						};
+/*
+		/=:
+*/
+						struct slash
+						{
+							no_return_1(++, /=)
+							with_return_1(++, /=)
+						};
+/*
+		%=:
+*/
+						struct percent
+						{
+							no_return_1(++, %=)
+							with_return_1(++, %=)
+						};
+/*
+		ˆ=:
+*/
+						struct caret
+						{
+							no_return_1(++, ^=)
+							with_return_1(++, ^=)
+						};
+/*
+		&=:
+*/
+						struct ampersand
+						{
+							no_return_1(++, &=)
+							with_return_1(++, &=)
+						};
+/*
+		|=:
+*/
+						struct bar
+						{
+							no_return_1(++, |=)
+							with_return_1(++, |=)
+						};
+/*
+		>>=:
+*/
+						struct right_shift
+						{
+							no_return_1(++, >>=)
+							with_return_1(++, >>=)
+						};
+/*
+		<<=:
+*/
+						struct left_shift
+						{
+							no_return_1(++, <<=)
+							with_return_1(++, <<=)
+						};
+					};
+
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
@@ -397,78 +579,249 @@ namespace nik
 
 	"=+" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, plus, =+)
-					return_overload1(--, plus, =+)
+					struct plus
+					{
+						no_return_1(--, =+)
+						with_return_1(--, =+)
 
-					void_overload2(--, plus, +)
-					return_overload2(--, plus, +)
+						no_return_2(--, +)
+						with_return_2(--, +)
+					};
 /*
 	-:
 
 	"=-" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, minus, =-)
-					return_overload1(--, minus, =-)
+					struct minus
+					{
+						no_return_1(--, =-)
+						with_return_1(--, =-)
 
-					void_overload2(--, minus, -)
-					return_overload2(--, minus, -)
+						no_return_2(--, -)
+						with_return_2(--, -)
+					};
 /*
 	*:
 
 	"=*" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, asterisk, =*)
-					return_overload1(--, asterisk, =*)
+					struct asterisk
+					{
+						no_return_1(--, =*)
+						with_return_1(--, =*)
 
-					void_overload2(--, asterisk, *)
-					return_overload2(--, asterisk, *)
+						no_return_2(--, *)
+						with_return_2(--, *)
+					};
 /*
 	/:
 */
-					void_overload2(--, slash, /)
-					return_overload2(--, slash, /)
+					struct slash
+					{
+						no_return_2(--, /)
+						with_return_2(--, /)
+					};
 /*
 	%:
 */
-					void_overload2(--, percent, %)
-					return_overload2(--, percent, %)
+					struct percent
+					{
+						no_return_2(--, %)
+						with_return_2(--, %)
+					};
 /*
 	ˆ:
 */
-					void_overload2(--, caret, ^)
-					return_overload2(--, caret, ^)
+					struct caret
+					{
+						no_return_2(--, ^)
+						with_return_2(--, ^)
+					};
 /*
 	&:
 
 	"=&" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, ampersand, =&)
-					return_overload1(--, ampersand, =&)
+					struct ampersand
+					{
+						no_return_1(--, =&)
+						with_return_1(--, =&)
 
-					void_overload2(--, ampersand, &)
-					return_overload2(--, ampersand, &)
+						no_return_2(--, &)
+						with_return_2(--, &)
+					};
 /*
 	|:
 */
-					void_overload2(--, bar, |)
-					return_overload2(--, bar, |)
+					struct bar
+					{
+						no_return_2(--, |)
+						with_return_2(--, |)
+					};
 /*
 	~:
 
 	"=~" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, tilde, =~)
-					return_overload1(--, tilde, =~)
+					struct tilde
+					{
+						no_return_1(--, =~)
+						with_return_1(--, =~)
+					};
 /*
 	!:
 
 	"=!" might appear as a typo, but as a single inputiterator operator, it makes sense.
 */
-					void_overload1(--, exclamation, =!)
-					return_overload1(--, exclamation, =!)
+					struct exclamation
+					{
+						no_return_1(--, =!)
+						with_return_1(--, =!)
+					};
 /*
-	=:
+	<:
+*/
+					struct less_than
+					{
+						no_return_2(--, <)
+						with_return_2(--, less_than, <)
+					};
+/*
+	>:
+*/
+					struct greater_than
+					{
+						no_return_2(--, >)
+						with_return_2(--, greater_than, >)
+					};
+/*
+	<<:
+*/
+					struct left_shift
+					{
+						no_return_2(--, <<)
+						with_return_2(--, <<)
+					};
+/*
+	>>:
+*/
+					struct right_shift
+					{
+						no_return_2(--, >>)
+						with_return_2(--, >>)
+					};
+/*
+	==:
+*/
+					struct equals
+					{
+						no_return_2(--, ==)
+						with_return_2(--, ==)
+					};
+/*
+	!=:
+*/
+					struct not_equals
+					{
+						no_return_2(--, !=)
+						with_return_2(--, !=)
+					};
+/*
+	<=:
+*/
+					struct less_than_or_equal
+					{
+						no_return_2(--, <=)
+						with_return_2(--, <=)
+					};
+/*
+	>=:
+*/
+					struct greater_than_or_equal
+					{
+						no_return_2(--, >=)
+						with_return_2(--, >=)
+					};
+/*
+	&&:
+*/
+					struct logical_and
+					{
+						no_return_2(--, &&)
+						with_return_2(--, &&)
+					};
+/*
+	||:
+*/
+					struct logical_or
+					{
+						no_return_2(--, ||)
+						with_return_2(--, ||)
+					};
+/*
+	++:
+*/
+					struct left_increment
+					{
+						left_overload0(--, left_increment, ++)
+						right_overload0(--, right_increment, ++)
+					};
+/*
+	--:
+*/
+					struct left_decrement
+					{
+						left_overload0(--, left_decrement, --)
+						right_overload0(--, right_decrement, --)
+					};
+/*
+	,:
+				template<typename OutputType, typename InputType1, typename InputType2>
+				static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
+*/
+					struct 
+					{
+					};
 
+/*
+	->*:
+*/
+					struct point_asterisk
+					{
+						no_return_2(--, ->*)
+						with_return_2(--, ->*)
+					};
+/*
+	->:
+*/
+					struct point
+					{
+						with_return_2(--, .operator->)
+					};
+/*
+	():
+
+	if this doesn't work, you might be able to include parentheses in the macro itself and leave the macro argument "op" blank.
+*/
+					struct parentheses
+					{
+						right_overload0(--, parentheses, ())
+
+						right_no_return_1(--, =, ())
+						right_with_return_1(--, =, ())
+
+						no_return_2(--, )
+						with_return_2(--, )
+					};
+/*
+	[]:
+*/
+					struct brackets
+					{
+						bracket_no_return_2(--, )
+						bracket_with_return_2(--, )
+					};
+/*
 	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
 
 	There is the concern where TerminalIterator "end" needs to be beyond the initial iterator address of the structure.
@@ -479,162 +832,173 @@ namespace nik
 	then might halt in an unexpected position. Of course if one was expecting address array-1, they would know in advance not to
 	dereference there, and would still need to increment to access valid data. As such there still should be no issue.
 */
-					const_overload1(--, repeat, =)
-					void_overload1(--, assign, =)
-					return_overload1(--, assign_return, =)
+					struct repeat
+					{
 /*
-	<:
+		=:
 */
-					void_overload2(--, less_than, <)
-					return_overload2(--, less_than, <)
+						no_return_1(--, =)
 /*
-	>:
+		+=:
 */
-					void_overload2(--, greater_than, >)
-					return_overload2(--, greater_than, >)
+						struct plus
+						{
+							no_return_1(--, +=)
+						};
 /*
-	+=:
+		-=:
+*/
+						struct minus
+						{
+							no_return_1(--, -=)
+						};
+/*
+		*=:
+*/
+						struct asterisk
+						{
+							no_return_1(--, *=)
+						};
+/*
+		/=:
+*/
+						struct slash
+						{
+							no_return_1(--, /=)
+						};
+/*
+		%=:
+*/
+						struct percent
+						{
+							no_return_1(--, %=)
+						};
+/*
+		ˆ=:
+*/
+						struct caret
+						{
+							no_return_1(--, ^=)
+						};
+/*
+		&=:
+*/
+						struct ampersand
+						{
+							no_return_1(--, &=)
+						};
+/*
+		|=:
+*/
+						struct bar
+						{
+							no_return_1(--, |=)
+						};
+/*
+		>>=:
+*/
+						struct right_shift
+						{
+							no_return_1(--, >>=)
+						};
+/*
+		<<=:
+*/
+						struct left_shift
+						{
+							no_return_1(--, <<=)
+						};
+					};
 
-	There's no need for a "return" version of "constant value" plus_assign as the out iterator equals the end iterator upon halting.
-*/
-					const_overload1(--, plus_repeat, +=)
-					void_overload1(--, plus_assign, +=)
-					return_overload1(--, plus_assign_return, +=)
+					struct assign
+					{
 /*
-	-=:
+		=:
 */
-					const_overload1(--, minus_repeat, -=)
-					void_overload1(--, minus_assign, -=)
-					return_overload1(--, minus_assign_return, -=)
+						no_return_1(--, =)
+						with_return_1(--, =)
 /*
-	*=:
+		+=:
 */
-					const_overload1(--, asterisk_repeat, *=)
-					void_overload1(--, asterisk_assign, *=)
-					return_overload1(--, asterisk_assign_return, *=)
+						struct plus
+						{
+							no_return_1(--, +=)
+							with_return_1(--, +=)
+						};
 /*
-	/=:
+		-=:
 */
-					const_overload1(--, slash_repeat, /=)
-					void_overload1(--, slash_assign, /=)
-					return_overload1(--, slash_assign_return, /=)
+						struct minus
+						{
+							no_return_1(--, -=)
+							with_return_1(--, -=)
+						};
 /*
-	%=:
+		*=:
 */
-					const_overload1(--, percent_repeat, %=)
-					void_overload1(--, percent_assign, %=)
-					return_overload1(--, percent_assign_return, %=)
+						struct asterisk
+						{
+							no_return_1(--, *=)
+							with_return_1(--, *=)
+						};
 /*
-	ˆ=:
+		/=:
 */
-					const_overload1(--, caret_repeat, ^=)
-					void_overload1(--, caret_assign, ^=)
-					return_overload1(--, caret_assign_return, ^=)
+						struct slash
+						{
+							no_return_1(--, /=)
+							with_return_1(--, /=)
+						};
 /*
-	&=:
+		%=:
 */
-					const_overload1(--, ampersand_repeat, &=)
-					void_overload1(--, ampersand_assign, &=)
-					return_overload1(--, ampersand_assign_return, &=)
+						struct percent
+						{
+							no_return_1(--, %=)
+							with_return_1(--, %=)
+						};
 /*
-	|=:
+		ˆ=:
 */
-					const_overload1(--, bar_repeat, |=)
-					void_overload1(--, bar_assign, |=)
-					return_overload1(--, bar_assign_return, |=)
+						struct caret
+						{
+							no_return_1(--, ^=)
+							with_return_1(--, ^=)
+						};
 /*
-	<<:
+		&=:
 */
-					void_overload2(--, left_shift, <<)
-					return_overload2(--, left_shift, <<)
+						struct ampersand
+						{
+							no_return_1(--, &=)
+							with_return_1(--, &=)
+						};
 /*
-	>>:
+		|=:
 */
-					void_overload2(--, right_shift, >>)
-					return_overload2(--, right_shift, >>)
+						struct bar
+						{
+							no_return_1(--, |=)
+							with_return_1(--, |=)
+						};
 /*
-	>>=:
+		>>=:
 */
-					const_overload1(--, right_shift_repeat, >>=)
-					void_overload1(--, right_assign, >>=)
-					return_overload1(--, right_shift_assign_return, >>=)
+						struct right_shift
+						{
+							no_return_1(--, >>=)
+							with_return_1(--, >>=)
+						};
 /*
-	<<=:
+		<<=:
 */
-					const_overload1(--, left_shift_repeat, <<=)
-					void_overload1(--, left_assign, <<=)
-					return_overload1(--, left_shift_assign_return, <<=)
-/*
-	==:
-*/
-					void_overload2(--, equals, ==)
-					return_overload2(--, equals, ==)
-/*
-	!=:
-*/
-					void_overload2(--, not_equals, !=)
-					return_overload2(--, not_equals, !=)
-/*
-	<=:
-*/
-					void_overload2(--, less_than_or_equal, <=)
-					return_overload2(--, less_than_or_equal, <=)
-/*
-	>=:
-*/
-					void_overload2(--, greater_than_or_equal, >=)
-					return_overload2(--, greater_than_or_equal, >=)
-/*
-	&&:
-*/
-					void_overload2(--, logical_and, &&)
-					return_overload2(--, logical_and, &&)
-/*
-	||:
-*/
-					void_overload2(--, logical_or, ||)
-					return_overload2(--, logical_or, ||)
-/*
-	++:
-*/
-					left_overload0(--, left_increment, ++)
-					right_overload0(--, right_increment, ++)
-/*
-	--:
-*/
-					left_overload0(--, left_decrement, --)
-					right_overload0(--, right_decrement, --)
-/*
-	,:
-				template<typename OutputType, typename InputType1, typename InputType2>
-				static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
-*/
-/*
-	->*:
-*/
-					void_overload2(--, point_asterisk, ->*)
-					return_overload2(--, point_asterisk, ->*)
-/*
-	->:
-*/
-					return_overload2(--, point, .operator->)
-/*
-	():
+						struct left_shift
+						{
+							no_return_1(--, <<=)
+							with_return_1(--, <<=)
+						};
+					};
 
-	if this doesn't work, you might be able to include parentheses in the macro itself and leave the macro argument "op" blank.
-*/
-					right_overload0(--, parentheses, ())
-
-					right_void_overload1(--, parentheses, =, ())
-					right_return_overload1(--, parentheses, =, ())
-
-					void_overload2(--, parentheses, )
-					return_overload2(--, parentheses, )
-/*
-	[]:
-*/
-					bracket_void_overload2(--, brackets, )
-					bracket_return_overload2(--, brackets, )
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.

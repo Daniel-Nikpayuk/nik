@@ -256,6 +256,14 @@ namespace nik
 				{
 				};
 			}
+
+			namespace random_access
+			{
+				template<typename size_type>
+				struct arithmetic_0
+				{
+				};
+			}
 		}
 	}
 }

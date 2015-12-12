@@ -32,7 +32,12 @@ namespace nik
 				struct arithmetic : public arithmetic_1<size_type>
 				{
 					template<size_type N, typename Filler=void>
-					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler> { };
+					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler>
+					{
+						template<size_type M, typename SubFiller=void>
+						struct subroll : public arithmetic_1<size_type>::
+								template unroll_1<N, Filler>::template subroll_1<M, SubFiller> { };
+					};
 				};
 			}
 
@@ -52,7 +57,12 @@ namespace nik
 				struct arithmetic : public arithmetic_1<size_type>
 				{
 					template<size_type N, typename Filler=void>
-					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler> { };
+					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler>
+					{
+						template<size_type M, typename SubFiller=void>
+						struct subroll : public arithmetic_1<size_type>::
+								template unroll_1<N, Filler>::template subroll_1<M, SubFiller> { };
+					};
 				};
 			}
 		}

@@ -77,7 +77,7 @@ namespace nik
 								regist::multiply::return_high(*out=carry, *in1, in2)); }
 
 						template<size_type M, typename SubFiller=void>
-						struct subroll
+						struct subroll_1
 						{
 /*
 	Does not assume anything about the existing value of out1.
@@ -91,12 +91,12 @@ namespace nik
 								unroll_1<M>::scale(fwd_comp::template unroll<N-M>::
 									repeat::with_return(out2, 0), in1, *in2, (size_type) 0);
 								plus_assign(out1, out2, 0);
-								subroll<M-1>::multiply(out1, out2, in1, ++in2);
+								subroll_1<M-1>::multiply(out1, out2, in1, ++in2);
 							}
 						};
 
 						template<typename SubFiller>
-						struct subroll<1, SubFiller>
+						struct subroll_1<1, SubFiller>
 						{
 							template<typename OutputIterator, typename InputIterator>
 							static void multiply(OutputIterator out1,
@@ -147,6 +147,37 @@ namespace nik
 						{
 							struct single_digit
 							{
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static ValueType half_register_divisor(OutputIterator out,
+									InputIterator in, ValueType d, ValueType carry)
+								{
+									if (carry)
+									{
+										if (carry < d)
+										{
+											// carry is assumed more current than *in.
+											--out; --in;
+											*out=regist::divide::half_register_divisor(
+												carry, ValueType(carry), *in, d);
+											return unroll_1<N-1>::divide::single_digit::
+												half_register_divisor(out, in, d, carry);
+										}
+										else
+										{
+											*out=carry/d;
+											carry=carry%d;
+											return unroll_1<N-1>::divide::single_digit::
+												half_register_divisor(out, in, d, carry);
+										}
+									}
+									else
+									{
+										*out=0;
+										return unroll_1<N-1>::divide::single_digit::
+											half_register_divisor(--out, --in, d, *in);
+									}
+								}
+
 /*
 	"out" is the retainer of the returned quotient.
 	"carry" is a memory optimization hack. When calling this function, carry needs to be set to *in.
@@ -202,6 +233,22 @@ namespace nik
 							struct single_digit
 							{
 								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static ValueType half_register_divisor(OutputIterator out,
+									InputIterator in, ValueType d, ValueType carry)
+								{
+									if (carry < d)
+									{
+										*out=0;
+										return carry;
+									}
+									else
+									{
+										*out=carry/d;
+										return carry%d;
+									}
+								}
+
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
 								static ValueType full_register_divisor(OutputIterator out,
 									InputIterator in, ValueType d, ValueType carry)
 								{
@@ -227,6 +274,14 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic_1 : public arithmetic_0<size_type>
 				{
+				};
+			}
+
+			namespace random_access
+			{
+				template<typename size_type>
+				struct arithmetic_1 : public arithmetic_0<size_type>
+				{
 					typedef meta::constant<size_type> constant;
 
 					typedef forward::arithmetic_1<size_type> fwd_arit;
@@ -239,30 +294,18 @@ namespace nik
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
-
-	Keep in mind technically you cannot say out+diff > out-1 because if (out == 0) it could wrap around due to modular arithmetic.
-	Otherwise, because the comparison used is (!=) it still works.
-
-	*** Currently broken as componentwise definitions have changed.
 */
-					template<typename OutputIterator>
-					static void left_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
+					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+					static void left_shift_assign(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
 					{
-						size_type last(length-1), diff(last-arr);
-						bwd_arit::template bit_left_shift<OutputIterator, OutputIterator,
-							const OutputIterator>(out+last, out+diff, out-1, bit);
-						fwd_comp::repeat::no_return(out, 0);
+						bwd_arit::template bit_left_shift(out, in, end, n);
+						fwd_comp::repeat::no_return(end+1, end+(out-in), 0);
 					}
 /*
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 
-	Keep in mind technically you cannot say out+diff > out-1 because if (out == 0) it could wrap around due to modular arithmetic.
-	Otherwise, because the comparison used is (!=) it still works.
-
-	*** Needs to test if &out == &in, a problematic case. Such code NOT yet implemented.
-
-	*** Currently broken as componentwise definitions have changed.
+	Does not test if &out == &in, a problematic case.
 */
 					template<typename OutputIterator, typename InputIterator>
 					static void left_shift(OutputIterator out,

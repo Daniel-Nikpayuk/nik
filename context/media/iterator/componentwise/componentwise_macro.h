@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_ITERATOR_OVERLOAD_MACRO_H
-#define CONTEXT_ITERATOR_OVERLOAD_MACRO_H
+#ifndef CONTEXT_ITERATOR_COMPONENTWISE_MACRO_H
+#define CONTEXT_ITERATOR_COMPONENTWISE_MACRO_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -60,9 +60,9 @@ static void method(OutputIterator out, TerminalIterator end) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with OutputIterator as reference (assuming referencing is preferred).
 */
-#define void_overload1(dir, method, op) \
+#define no_return_1(dir, op) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
+static void no_return(OutputIterator out, InputIterator in, TerminalIterator end) \
 { \
 	while (in != end) \
 	{ \
@@ -72,9 +72,26 @@ static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
 }
 
 /*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but you still prefer a return value, call this macro.
+*/
+#define with_return_1(dir, op) \
+template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
+static OutputIterator with_return(OutputIterator out, InputIterator in, TerminalIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		(*out)op(*in); \
+		dir(in); \
+		return dir(out); \
+	} \
+}
+
+/*
 	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
 */
-#define const_overload1(dir, method, op) \
+#define no_return_method_1(dir, method, op) \
 template<typename OutputIterator, typename TerminalIterator, typename ValueType> \
 static void method(OutputIterator out, TerminalIterator end, ValueType value) \
 { \
@@ -86,28 +103,11 @@ static void method(OutputIterator out, TerminalIterator end, ValueType value) \
 }
 
 /*
-	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
-	2. If you have an interest in the final out value, and you do want to reference,
-		but you still prefer a return value, call this macro.
-*/
-#define return_overload1(dir, method, op) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static OutputIterator method(OutputIterator out, InputIterator in, TerminalIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		(*out)op(*in); \
-		dir(in); \
-		return dir(out); \
-	} \
-}
-
-/*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with OutputIterator as reference (assuming referencing is preferred).
 */
-#define right_void_overload1(dir, method, op, r) \
+#define right_no_return_1(dir, method, op, r) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
 { \
@@ -123,7 +123,7 @@ static void method(OutputIterator out, InputIterator in, TerminalIterator end) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but you still prefer a return value, call this macro.
 */
-#define right_return_overload1(dir, method, op, r) \
+#define right_with_return_1(dir, method, op, r) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator in, TerminalIterator end) \
 { \
@@ -142,9 +142,9 @@ static OutputIterator method(OutputIterator out, InputIterator in, TerminalItera
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with OutputIterator as reference (assuming referencing is preferred).
 */
-#define void_overload2(dir, method, op) \
+#define no_return_2(dir, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
@@ -158,9 +158,9 @@ static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, T
 	2. If you have an interest in the final out value, and you do want to reference,
 		but you still prefer a return value, call this macro.
 */
-#define return_overload2(dir, method, op) \
+#define with_return_2(dir, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
@@ -175,7 +175,7 @@ static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterat
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with OutputIterator as reference (assuming referencing is preferred).
 */
-#define bracket_void_overload2(dir, method, op) \
+#define bracket_no_return_2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
 { \
@@ -191,7 +191,7 @@ static void method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, T
 	2. If you have an interest in the final out value, and you do want to reference,
 		but you still prefer a return value, call this macro.
 */
-#define bracket_return_overload2(dir, method, op) \
+#define bracket_with_return_2(dir, method, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
 static OutputIterator method(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
 { \
