@@ -51,9 +51,26 @@ namespace nik
 				{
 					typedef meta::constant<size_type> constant;
 					typedef semiotic::regist<size_type> regist;
+
 					typedef componentwise<size_type> fwd_comp;
 
-					typedef arithmetic_0<size_type> arit_0;
+					typedef arithmetic_0<size_type> fwd_arit;
+/*
+	From in1--end1, shifts by n and stores starting at out; continues by repeating 0 until end.
+
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	Does not test if &out == &in, a problematic case.
+*/
+					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+					static void right_shift(OutputIterator out,
+						OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
+					{
+						fwd_comp::repeat::no_return(
+							fwd_arit::right_shift::with_return(out, in1, end1, n),
+							end, 0);
+					}
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -66,15 +83,27 @@ namespace nik
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 					template<size_type N, typename Filler=void>
-					struct unroll_1 : public arit_0::template unroll_0<N, Filler>
+					struct unroll_1 : public fwd_arit::template unroll_0<N, Filler>
 					{
+						template<size_type M>
+						using fwd_unroll=typename fwd_arit::template unroll_0<M, Filler>;
 /*
 	Obfuscated code ?
 */
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-							{ unroll_1<N-1>::scale(++out, ++in1, in2,
-								regist::multiply::return_high(*out=carry, *in1, in2)); }
+						struct scale
+						{
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, ValueType in2, ValueType carry)
+									{ unroll_1<N-1>::scale::no_return(++out, ++in1, in2,
+										regist::multiply::return_high(*out=carry, *in1, in2)); }
+
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, ValueType in2, ValueType carry)
+									{ return unroll_1<N-1>::scale::with_return(++out, ++in1, in2,
+										regist::multiply::return_high(*out=carry, *in1, in2)); }
+						};
 
 						template<size_type M, typename SubFiller=void>
 						struct subroll_1
@@ -88,9 +117,9 @@ namespace nik
 							static void multiply(OutputIterator out1,
 								OutputIterator out2, InputIterator in1, InputIterator in2)
 							{
-								unroll_1<M>::scale(fwd_comp::template unroll<N-M>::
-									repeat::with_return(out2, 0), in1, *in2, (size_type) 0);
-								plus_assign(out1, out2, 0);
+								unroll_1<M>::scale::no_return(fwd_comp::
+									template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2, 0);
+								fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
 								subroll_1<M-1>::multiply(out1, out2, in1, ++in2);
 							}
 						};
@@ -102,9 +131,9 @@ namespace nik
 							static void multiply(OutputIterator out1,
 								OutputIterator out2, InputIterator in1, InputIterator in2)
 							{
-								unroll_1<1>::scale(fwd_comp::template unroll<N-1>::
-									repeat::with_return(out2, 0), in1, *in2, (size_type) 0);
-								plus_assign(out1, out2, 0);
+								unroll_1<1>::scale::no_return(fwd_comp::
+									template unroll<N-1>::repeat::with_return(out2, 0), in1, *in2, 0);
+								fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
 							}
 						};
 					};
@@ -115,9 +144,18 @@ namespace nik
 /*
 	Obfuscated code ?
 */
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void scale(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-							{ regist::multiply::return_high(*out=carry, *in1, in2); }
+						struct scale
+						{
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, ValueType in2, ValueType carry)
+									{ regist::multiply::return_high(*out=carry, *in1, in2); }
+
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, ValueType in2, ValueType carry)
+									{ regist::multiply::return_high(*out=carry, *in1, in2); return out; }
+						};
 					};
 				};
 			}
@@ -129,13 +167,43 @@ namespace nik
 				{
 					typedef meta::constant<size_type> constant;
 					typedef semiotic::regist<size_type> regist;
+
 					typedef componentwise<size_type> bwd_comp;
 
-					typedef arithmetic_0<size_type> arit_0;
+					typedef arithmetic_0<size_type> bwd_arit;
+/*
+	From in1--end1, shifts by n and stores starting at out; continues by repeating 0 until end.
 
-					template<size_type N, typename Filler=void>
-					struct unroll_1 : public arit_0::template unroll_0<N, Filler>
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	Does not test if &out == &in, a problematic case.
+*/
+					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+					static void left_shift(OutputIterator out,
+						OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
 					{
+						bwd_comp::repeat::no_return(
+							bwd_arit::left_shift::with_return(out, in1, end1, n),
+							end, 0);
+					}
+/*
+	unroll:
+			Most contextual structs aren't templated, while their methods are.
+			The few structs that are pass instances of types (eg. digit: "size_type base")
+			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
+
+			Generally having a template parameter which isn't directly used implies lower generic entropy if it
+			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
+			below is an exception to the exising design for no other reason than the need for partial template
+			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
+*/
+					template<size_type N, typename Filler=void>
+					struct unroll_1 : public bwd_arit::template unroll_0<N, Filler>
+					{
+						template<size_type M>
+						using bwd_unroll=typename bwd_arit::template unroll_0<M>;
+
 						template<typename OutputIterator>
 						static OutputIterator order(OutputIterator out)
 						{
@@ -274,6 +342,16 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic_1 : public arithmetic_0<size_type>
 				{
+					typedef meta::constant<size_type> constant;
+					typedef semiotic::regist<size_type> regist;
+
+					typedef forward::componentwise<size_type> fwd_comp;
+					typedef backward::componentwise<size_type> bwd_comp;
+					typedef componentwise<size_type> bid_comp;
+
+					typedef forward::arithmetic_1<size_type> fwd_arit;
+					typedef backward::arithmetic_1<size_type> bwd_arit;
+					typedef arithmetic_0<size_type> bid_arit;
 				};
 			}
 
@@ -283,115 +361,32 @@ namespace nik
 				struct arithmetic_1 : public arithmetic_0<size_type>
 				{
 					typedef meta::constant<size_type> constant;
-
-					typedef forward::arithmetic_1<size_type> fwd_arit;
-					typedef backward::arithmetic_1<size_type> bwd_arit;
+					typedef semiotic::regist<size_type> regist;
 
 					typedef forward::componentwise<size_type> fwd_comp;
 					typedef backward::componentwise<size_type> bwd_comp;
+					typedef bidirectional::componentwise<size_type> bid_comp;
+					typedef random_access::componentwise<size_type> rnd_comp;
 
-					typedef arithmetic_0<size_type> arit_0;
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-*/
-					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-					static void left_shift_assign(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
-					{
-						bwd_arit::template bit_left_shift(out, in, end, n);
-						fwd_comp::repeat::no_return(end+1, end+(out-in), 0);
-					}
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
+					typedef forward::arithmetic_1<size_type> fwd_arit;
+					typedef backward::arithmetic_1<size_type> bwd_arit;
+					typedef bidirectional::arithmetic_1<size_type> bid_arit;
+					typedef arithmetic_0<size_type> rnd_arit;
 
-	Does not test if &out == &in, a problematic case.
-*/
-					template<typename OutputIterator, typename InputIterator>
-					static void left_shift(OutputIterator out,
-						InputIterator in, size_type length, size_type arr, size_type bit)
-					{
-						size_type last(length-1), diff(last-arr);
-						bwd_arit::template bit_left_shift<OutputIterator, InputIterator,
-							const InputIterator>(out+last, in+diff, in-1, bit);
-						fwd_comp::repeat::no_return(out, 0);
-					}
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	*** Currently broken as componentwise definitions have changed.
-*/
-					template<typename OutputIterator>
-					static void right_shift_assign(OutputIterator out, size_type length, size_type arr, size_type bit)
-					{
-						size_type last(length-1), diff(last-arr);
-						fwd_arit::template bit_right_shift<OutputIterator, OutputIterator,
-							const OutputIterator>(out, out+arr, out+length, bit);
-						bwd_comp::repeat::no_return(out+last, 0);
-					}
-
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	*** Needs to test if &out == &in, a problematic case. Such code NOT yet implemented.
-
-	*** Currently broken as componentwise definitions have changed.
-*/
-					template<typename OutputIterator, typename InputIterator>
-					static void right_shift(OutputIterator out,
-						InputIterator in, size_type length, size_type arr, size_type bit)
-					{
-						size_type last(length-1), diff(last-arr);
-						fwd_arit::template bit_right_shift<OutputIterator, InputIterator,
-							const InputIterator>(out, in+arr, in+length, bit);
-						bwd_comp::repeat::no_return(out+last, 0);
-					}
-/*
-	unroll:
-			Most contextual structs aren't templated, while their methods are.
-			The few structs that are pass instances of types (eg. digit: "size_type base")
-			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
-
-			Generally having a template parameter which isn't directly used implies lower generic entropy if it
-			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
-			below is an exception to the exising design for no other reason than the need for partial template
-			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
-*/
 					template<size_type N, typename Filler=void>
-					struct unroll_1 : public arit_0::template unroll_0<N, Filler>
+					struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>
 					{
+						template<size_type M>
+						using rnd_unroll=typename rnd_arit::template unroll_0<M>;
+
 						template<size_type M, typename SubFiller=void>
 						struct subroll_1
 						{
-/*
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	Hasn't been tested.
-
-	*** Currently broken as componentwise definitions have changed.
-*/
-							template<typename OutputIterator, typename ValueType>
-							static void left_shift_assign(OutputIterator out)
-							{
-								bwd_comp::template unroll<N-M>::assign::no_return(out+(N-1), out+(M-1));
-								fwd_comp::template unroll<M>::repeat::no_return(out, 0);
-							}
 						};
+
 						template<typename SubFiller>
 						struct subroll_1<1, SubFiller>
 						{
-/*
-	*** Currently broken as componentwise definitions have changed.
-*/
-							template<typename OutputIterator, typename ValueType>
-							static void left_shift_assign(OutputIterator out)
-							{
-								bwd_comp::template unroll<N-1>::assign::no_return(out+(N-1), out);
-								fwd_comp::template unroll<1>::repeat::no_return(out, 0);
-							}
 						};
 					};
 

@@ -26,16 +26,16 @@
 #include"../../../context/constant.h"
 
 /*
+	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that componentwise is each location
+	is conditionally independent, whereas arithmetic is similar but also dependent on the previous value (recursive; maybe the
+	simplest variety of recursive?).
+
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
 	regardless. The assumption is if you're using these such unrolling in the first place you have some memory to spare;
 	as well, it's expected you're doing some heavy number theoretic computations and so the speed optimization is preferred.
-
-	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that componentwise is each location
-	is conditionally independent, whereas arithmetic is similar but also dependent on the previous value (recursive; maybe the
-	simplest variety of recursive?).
 */
 
 namespace nik
@@ -53,21 +53,42 @@ namespace nik
 /*
 	Assumes (in) iteratively greater than (end).
 */
-					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-					static void bit_right_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
+					struct right_shift
 					{
-						size_type N=constant::register_length-n;
-						*out=(*in>>n);
-						++in;
-
-						while (in != end)
+						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+						static void no_return(OutputIterator out,
+							InputIterator in, TerminalIterator end, size_type n)
 						{
-							*out+=(*in<<N);
-							*(++out)=(*in>>n);
+							size_type N=constant::register_length-n;
+							*out=(*in>>n);
 							++in;
-						}
-					}
 
+							while (in != end)
+							{
+								*out+=(*in<<N);
+								*(++out)=(*in>>n);
+								++in;
+							}
+						}
+
+						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+						static OutputIterator with_return(OutputIterator out,
+							InputIterator in, TerminalIterator end, size_type n)
+						{
+							size_type N=constant::register_length-n;
+							*out=(*in>>n);
+							++in;
+
+							while (in != end)
+							{
+								*out+=(*in<<N);
+								*(++out)=(*in>>n);
+								++in;
+							}
+
+							return out;
+						}
+					};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -93,22 +114,28 @@ namespace nik
 						static bool not_equal(Iterator in1, Iterator in2)
 							{ return (*in1 != *in2) || unroll_0<N-1>::not_equal(++in1, ++in2); }
 /*
+	Need for separate no_return, with_return versions as one cannot assume choice of N.
+
 	Choice of (*out < *in2) is intentional as it provides higher entropy---it allows in1 == out (but in2 != out).
 */
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+						struct plus
 						{
-							*out=*in1 + *in2 + carry;
-							unroll_0<N-1>::plus(++out, ++in1, ++in2, (*out < *in2));
-						}
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+							{
+								*out=*in1 + *in2 + carry;
+								unroll_0<N-1>::plus::no_return(++out, ++in1, ++in2, (*out < *in2));
+							}
 
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
-						{
-							*out+=*in + carry;
-							unroll_0<N-1>::plus_assign(++out, ++in, (*out < *in));
-						}
-
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+							{
+								*out=*in1 + *in2 + carry;
+								return unroll_0<N-1>::plus::with_return(++out, ++in1, ++in2, (*out < *in2));
+							}
+						};
 /*
 	In this case, *out+(*in2+carry)=*in1 implies a new carry if: *in1 < *out or *in1 < (*in2+carry)
 	but there's the special case that (*in2+carry) already wraps around [(*in2+carry) < *in2, carry].
@@ -120,13 +147,50 @@ namespace nik
 	The assumption is addition is no less optimal than subtraction as the algorithm
 	should require fewer tests, hence: *out=*in1-(*in2+carry) instead of *out=*in1-*in2-carry.
 */
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
+						struct minus
 						{
-							ValueType tmp(*in2+carry);
-							*out=*in1 - tmp;
-							unroll_0<N-1>::minus(++out, ++in1, ++in2, (tmp < *in2 || *in1 < *out));
-						}
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+							{
+								ValueType tmp(*in2+carry);
+								*out=*in1 - tmp;
+								unroll_0<N-1>::minus::no_return(++out,
+									++in1, ++in2, (tmp < *in2 || *in1 < *out));
+							}
+
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+							{
+								ValueType tmp(*in2+carry);
+								*out=*in1 - tmp;
+								return unroll_0<N-1>::minus::with_return(++out,
+									++in1, ++in2, (tmp < *in2 || *in1 < *out));
+							}
+						};
+
+						struct assign
+						{
+							struct plus
+							{
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static void no_return(OutputIterator out, InputIterator in, ValueType carry)
+								{
+									*out+=*in + carry;
+									unroll_0<N-1>::assign::plus::no_return(++out, ++in, (*out < *in));
+								}
+
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static OutputIterator with_return(
+									OutputIterator out, InputIterator in, ValueType carry)
+								{
+									*out+=*in + carry;
+									return unroll_0<N-1>::assign::plus::
+										with_return(++out, ++in, (*out < *in));
+								}
+							};
+						};
 					};
 
 					template<typename Filler>
@@ -137,17 +201,46 @@ namespace nik
 						template<typename Iterator>
 						static bool not_equal(Iterator in1, Iterator in2) { return (*in1 != *in2); }
 
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void plus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
-							{ *out=*in1 + *in2 + carry; }
+						struct plus
+						{
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+									{ *out=*in1 + *in2 + carry; }
 
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void plus_assign(OutputIterator out, InputIterator in, ValueType carry)
-							{ *out+=*in + carry; }
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+									{ *out=*in1 + *in2 + carry; return out; }
+						};
 
-						template<typename OutputIterator, typename InputIterator, typename ValueType>
-						static void minus(OutputIterator out, InputIterator in1, InputIterator in2, ValueType carry)
-							{ *out=*in1 - (*in2 + carry); }
+						struct minus
+						{
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+								{ *out=*in1 - (*in2 + carry); }
+
+							template<typename OutputIterator, typename InputIterator, typename ValueType>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, ValueType carry)
+								{ *out=*in1 - (*in2 + carry); return out; }
+						};
+
+						struct assign
+						{
+							struct plus
+							{
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static void no_return(OutputIterator out, InputIterator in, ValueType carry)
+									{ *out+=*in + carry; }
+
+								template<typename OutputIterator, typename InputIterator, typename ValueType>
+								static OutputIterator with_return(
+									OutputIterator out, InputIterator in, ValueType carry)
+										{ *out+=*in + carry; return out; }
+							};
+						};
 					};
 				};
 			}
@@ -161,21 +254,42 @@ namespace nik
 /*
 	Assumes (in) iteratively greater than (end).
 */
-					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-					static void bit_left_shift(OutputIterator out, InputIterator in, TerminalIterator end, size_type n)
+					struct left_shift
 					{
-						size_type N=constant::register_length-n;
-						*out=(*in<<n);
-						--in;
-
-						while (in != end)
+						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+						static void no_return(OutputIterator out,
+							InputIterator in, TerminalIterator end, size_type n)
 						{
-							*out+=(*in>>N);
-							*(--out)=(*in<<n);
+							size_type N=constant::register_length-n;
+							*out=(*in<<n);
 							--in;
-						}
-					}
 
+							while (in != end)
+							{
+								*out+=(*in>>N);
+								*(--out)=(*in<<n);
+								--in;
+							}
+						}
+
+						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
+						static OutputIterator with_return(OutputIterator out,
+							InputIterator in, TerminalIterator end, size_type n)
+						{
+							size_type N=constant::register_length-n;
+							*out=(*in<<n);
+							--in;
+
+							while (in != end)
+							{
+								*out+=(*in>>N);
+								*(--out)=(*in<<n);
+								--in;
+							}
+
+							return out;
+						}
+					};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -224,10 +338,10 @@ namespace nik
 						}
 
 						template<typename Iterator>
-						static Iterator significant_digit(Iterator in)
+						static Iterator order(Iterator in)
 						{
 							if (*in) return in;
-							else return unroll_0<N-1>::significant_digit(--in);
+							else return unroll_0<N-1>::order(--in);
 						}
 					};
 
@@ -244,7 +358,7 @@ namespace nik
 						static bool greater_than_or_equal(Iterator in1, Iterator in2) { return (*in1 >= *in2); }
 
 						template<typename Iterator>
-						static Iterator significant_digit(Iterator in) { return in; }
+						static Iterator order(Iterator in) { return in; }
 					};
 				};
 			}

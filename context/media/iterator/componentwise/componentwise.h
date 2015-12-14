@@ -252,26 +252,31 @@ namespace nik
 */
 					struct left_increment
 					{
-						left_overload0(++, left_increment, ++)
-						right_overload0(++, right_increment, ++)
+						no_return_left_0(++, ++)
+					};
+
+					struct right_increment
+					{
+						no_return_right_0(++, ++)
 					};
 /*
 	--:
 */
 					struct left_decrement
 					{
-						left_overload0(++, left_decrement, --)
-						right_overload0(++, right_decrement, --)
+						no_return_left_0(++, --)
+					};
+
+					struct right_decrement
+					{
+						no_return_right_0(++, --)
 					};
 /*
 	,:
-					template<typename OutputType, typename InputType1, typename InputType2>
-					static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
 */
-					struct 
+					struct comma
 					{
 					};
-
 /*
 	->*:
 */
@@ -294,10 +299,10 @@ namespace nik
 */
 					struct parentheses
 					{
-						right_overload0(++, parentheses, ())
+						no_return_right_0(++, ())
 
-						right_no_return_1(++, =, ())
-						right_with_return_1(++, =, ())
+						no_return_right_1(++, =, ())
+						with_return_right_1(++, =, ())
 
 						no_return_2(++, )
 						with_return_2(++, )
@@ -307,8 +312,8 @@ namespace nik
 */
 					struct brackets
 					{
-						bracket_no_return_2(++, )
-						bracket_with_return_2(++, )
+						no_return_bracket_2(++, )
+						with_return_bracket_2(++, )
 					};
 /*
 	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
@@ -318,76 +323,76 @@ namespace nik
 /*
 		=:
 */
-						no_return_1(++, =)
+						no_return_0(++, =)
 /*
 		+=:
 */
 						struct plus
 						{
-							no_return_1(++, +=)
+							no_return_0(++, +=)
 						};
 /*
 		-=:
 */
 						struct minus
 						{
-							no_return_1(++, -=)
+							no_return_0(++, -=)
 						};
 /*
 		*=:
 */
 						struct asterisk
 						{
-							no_return_1(++, *=)
+							no_return_0(++, *=)
 						};
 /*
 		/=:
 */
 						struct slash
 						{
-							no_return_1(++, /=)
+							no_return_0(++, /=)
 						};
 /*
 		%=:
 */
 						struct percent
 						{
-							no_return_1(++, %=)
+							no_return_0(++, %=)
 						};
 /*
 		ˆ=:
 */
 						struct caret
 						{
-							no_return_1(++, ^=)
+							no_return_0(++, ^=)
 						};
 /*
 		&=:
 */
 						struct ampersand
 						{
-							no_return_1(++, &=)
+							no_return_0(++, &=)
 						};
 /*
 		|=:
 */
 						struct bar
 						{
-							no_return_1(++, |=)
+							no_return_0(++, |=)
 						};
 /*
 		>>=:
 */
 						struct right_shift
 						{
-							no_return_1(++, >>=)
+							no_return_0(++, >>=)
 						};
 /*
 		<<=:
 */
 						struct left_shift
 						{
-							no_return_1(++, <<=)
+							no_return_0(++, <<=)
 						};
 					};
 
@@ -684,7 +689,7 @@ namespace nik
 					struct less_than
 					{
 						no_return_2(--, <)
-						with_return_2(--, less_than, <)
+						with_return_2(--, <)
 					};
 /*
 	>:
@@ -692,7 +697,7 @@ namespace nik
 					struct greater_than
 					{
 						no_return_2(--, >)
-						with_return_2(--, greater_than, >)
+						with_return_2(--, >)
 					};
 /*
 	<<:
@@ -763,23 +768,29 @@ namespace nik
 */
 					struct left_increment
 					{
-						left_overload0(--, left_increment, ++)
-						right_overload0(--, right_increment, ++)
+						no_return_left_0(--, ++)
+					};
+
+					struct right_increment
+					{
+						no_return_right_0(--, ++)
 					};
 /*
 	--:
 */
 					struct left_decrement
 					{
-						left_overload0(--, left_decrement, --)
-						right_overload0(--, right_decrement, --)
+						no_return_left_0(--, --)
+					};
+
+					struct right_decrement
+					{
+						no_return_right_0(--, --)
 					};
 /*
 	,:
-				template<typename OutputType, typename InputType1, typename InputType2>
-				static OutputType comma(InputType1 x, InputType2 y) { return x,y; }
 */
-					struct 
+					struct comma
 					{
 					};
 
@@ -805,10 +816,10 @@ namespace nik
 */
 					struct parentheses
 					{
-						right_overload0(--, parentheses, ())
+						no_return_right_0(--, ())
 
-						right_no_return_1(--, =, ())
-						right_with_return_1(--, =, ())
+						no_return_right_1(--, =, ())
+						with_return_right_1(--, =, ())
 
 						no_return_2(--, )
 						with_return_2(--, )
@@ -818,8 +829,8 @@ namespace nik
 */
 					struct brackets
 					{
-						bracket_no_return_2(--, )
-						bracket_with_return_2(--, )
+						no_return_bracket_2(--, )
+						with_return_bracket_2(--, )
 					};
 /*
 	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
@@ -837,76 +848,76 @@ namespace nik
 /*
 		=:
 */
-						no_return_1(--, =)
+						no_return_0(--, =)
 /*
 		+=:
 */
 						struct plus
 						{
-							no_return_1(--, +=)
+							no_return_0(--, +=)
 						};
 /*
 		-=:
 */
 						struct minus
 						{
-							no_return_1(--, -=)
+							no_return_0(--, -=)
 						};
 /*
 		*=:
 */
 						struct asterisk
 						{
-							no_return_1(--, *=)
+							no_return_0(--, *=)
 						};
 /*
 		/=:
 */
 						struct slash
 						{
-							no_return_1(--, /=)
+							no_return_0(--, /=)
 						};
 /*
 		%=:
 */
 						struct percent
 						{
-							no_return_1(--, %=)
+							no_return_0(--, %=)
 						};
 /*
 		ˆ=:
 */
 						struct caret
 						{
-							no_return_1(--, ^=)
+							no_return_0(--, ^=)
 						};
 /*
 		&=:
 */
 						struct ampersand
 						{
-							no_return_1(--, &=)
+							no_return_0(--, &=)
 						};
 /*
 		|=:
 */
 						struct bar
 						{
-							no_return_1(--, |=)
+							no_return_0(--, |=)
 						};
 /*
 		>>=:
 */
 						struct right_shift
 						{
-							no_return_1(--, >>=)
+							no_return_0(--, >>=)
 						};
 /*
 		<<=:
 */
 						struct left_shift
 						{
-							no_return_1(--, <<=)
+							no_return_0(--, <<=)
 						};
 					};
 

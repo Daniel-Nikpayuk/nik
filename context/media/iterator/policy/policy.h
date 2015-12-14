@@ -56,15 +56,11 @@ namespace nik
 /*
 		componentwise:
 */
-				typedef forward::componentwise fwd_comp;
-/*
-		recursive:
-*/
 				template<typename SizeType>
-				using fwd_recu=forward::recursive<SizeType>;
+				using fwd_comp=forward::componentwise<SizeType>;
 
 				template<typename SizeType, SizeType N>
-				using fwd_recu_unroll=forward::recursive<SizeType>::unroll<N>;
+				using fwd_comp_unroll=forward::componentwise<SizeType>::unroll<N>;
 /*
 		arithmetic:
 */
@@ -87,15 +83,11 @@ namespace nik
 /*
 		componentwise:
 */
-				typedef backward::componentwise bwd_comp;
-/*
-		recursive:
-*/
 				template<typename SizeType>
-				using bwd_recu=backward::recursive<SizeType>;
+				using bwd_comp=backward::componentwise<SizeType>;
 
 				template<typename SizeType, SizeType N>
-				using bwd_recu_unroll=backward::recursive<SizeType>::unroll<N>;
+				using bwd_comp_unroll=backward::componentwise<SizeType>::unroll<N>;
 /*
 		arithmetic:
 */
@@ -111,25 +103,23 @@ namespace nik
 		functional:
 */
 				template<typename SizeType>
-				using bdl_func=bidirectional::functional<SizeType>;
+				using bid_func=bidirectional::functional<SizeType>;
 /*
 		componentwise:
 */
-				typedef bidirectional::componentwise bdl_comp;
-/*
-		recursive:
-*/
+				template<typename SizeType>
+				using bid_comp=bidirectional::componentwise<SizeType>;
 /*
 		arithmetic:
 */
 				template<typename SizeType>
-				using bdl_arit=bidirectional::arithmetic<SizeType>;
+				using bid_arit=bidirectional::arithmetic<SizeType>;
 
 				template<typename SizeType, SizeType N>
-				using bdl_arit_unroll=bidirectional::arithmetic<SizeType>::unroll<N>;
+				using bid_arit_unroll=bidirectional::arithmetic<SizeType>::unroll<N>;
 
 				template<typename SizeType, SizeType N, SizeType M>
-				using bdl_arit_subroll=typename bidirectional::arithmetic<SizeType>::template unroll<N>::template subroll<M>;
+				using bid_arit_subroll=typename bidirectional::arithmetic<SizeType>::template unroll<N>::template subroll<M>;
 /*
 	random_access:
 */
@@ -137,7 +127,7 @@ namespace nik
 		functional:
 */
 				template<typename SizeType>
-				using ras_func=random_access::functional<SizeType>;
+				using rnd_func=random_access::functional<SizeType>;
 /*
 		componentwise:
 */
