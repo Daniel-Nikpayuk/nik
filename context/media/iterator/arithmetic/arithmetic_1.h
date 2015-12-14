@@ -213,39 +213,42 @@ namespace nik
 
 						struct divide
 						{
+/*
+	Given the nature of single digit division, the return value is the remainder.
+*/
 							struct single_digit
 							{
+/*
+	"out" is the retainer of the returned quotient.
+	"carry" is a memory optimization hack. When calling this function, carry needs to be set to *in.
+	Assumes "in" is the leftmost digit of the structure.
+
+	Is optimized to assume 0 <= carry < d.
+
+	Assumes "d" is the divisor and that in >= 3.
+	If d == 1 why use this at all?
+	If d == 2 use bit shifting.
+*/
 								template<typename OutputIterator, typename InputIterator, typename ValueType>
 								static ValueType half_register_divisor(OutputIterator out,
 									InputIterator in, ValueType d, ValueType carry)
 								{
-									if (carry)
+									if (carry) *out=regist::divide::
+										half_register_divisor(carry, carry, *in, d);
+									else if (*in < d)
 									{
-										if (carry < d)
-										{
-											// carry is assumed more current than *in.
-											--out; --in;
-											*out=regist::divide::half_register_divisor(
-												carry, ValueType(carry), *in, d);
-											return unroll_1<N-1>::divide::single_digit::
-												half_register_divisor(out, in, d, carry);
-										}
-										else
-										{
-											*out=carry/d;
-											carry=carry%d;
-											return unroll_1<N-1>::divide::single_digit::
-												half_register_divisor(out, in, d, carry);
-										}
+										*out=0;
+										carry=*in;
 									}
 									else
 									{
-										*out=0;
-										return unroll_1<N-1>::divide::single_digit::
-											half_register_divisor(--out, --in, d, *in);
+										*out=*in/d;
+										carry=*in%d;
 									}
-								}
 
+									return unroll_1<N-1>::divide::single_digit::
+										half_register_divisor(--out, --in, d, carry);
+								}
 /*
 	"out" is the retainer of the returned quotient.
 	"carry" is a memory optimization hack. When calling this function, carry needs to be set to *in.
@@ -259,31 +262,21 @@ namespace nik
 								static ValueType full_register_divisor(OutputIterator out,
 									InputIterator in, ValueType d, ValueType carry)
 								{
-									if (carry)
+									if (carry) *out=regist::divide::
+										full_register_divisor(carry, carry, *in, d);
+									else if (*in < d)
 									{
-										if (carry < d)
-										{
-											// carry is assumed more current than *in.
-											--out; --in;
-											*out=regist::divide::full_register_divisor(
-												carry, ValueType(carry), *in, d);
-											return unroll_1<N-1>::divide::single_digit::
-												full_register_divisor(out, in, d, carry);
-										}
-										else
-										{
-											*out=carry/d;
-											carry=carry%d;
-											return unroll_1<N-1>::divide::single_digit::
-												full_register_divisor(out, in, d, carry);
-										}
+										*out=0;
+										carry=*in;
 									}
 									else
 									{
-										*out=0;
-										return unroll_1<N-1>::divide::single_digit::
-											full_register_divisor(--out, --in, d, *in);
+										*out=*in/d;
+										carry=*in%d;
 									}
+
+									return unroll_1<N-1>::divide::single_digit::
+										full_register_divisor(--out, --in, d, carry);
 								}
 							};
 						};
@@ -304,32 +297,40 @@ namespace nik
 								static ValueType half_register_divisor(OutputIterator out,
 									InputIterator in, ValueType d, ValueType carry)
 								{
-									if (carry < d)
+									if (carry) *out=regist::divide::
+										half_register_divisor(carry, carry, *in, d);
+									else if (*in < d)
 									{
 										*out=0;
-										return carry;
+										carry=*in;
 									}
 									else
 									{
-										*out=carry/d;
-										return carry%d;
+										*out=*in/d;
+										carry=*in%d;
 									}
+
+									return carry;
 								}
 
 								template<typename OutputIterator, typename InputIterator, typename ValueType>
 								static ValueType full_register_divisor(OutputIterator out,
 									InputIterator in, ValueType d, ValueType carry)
 								{
-									if (carry < d)
+									if (carry) *out=regist::divide::
+										full_register_divisor(carry, carry, *in, d);
+									else if (*in < d)
 									{
 										*out=0;
-										return carry;
+										carry=*in;
 									}
 									else
 									{
-										*out=carry/d;
-										return carry%d;
+										*out=*in/d;
+										carry=*in%d;
 									}
+
+									return carry;
 								}
 							};
 						};

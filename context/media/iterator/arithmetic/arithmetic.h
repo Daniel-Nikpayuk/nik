@@ -56,6 +56,14 @@ namespace nik
 				template<typename size_type>
 				struct arithmetic : public arithmetic_1<size_type>
 				{
+				};
+			}
+
+			namespace random_access
+			{
+				template<typename size_type>
+				struct arithmetic : public arithmetic_1<size_type>
+				{
 					template<size_type N, typename Filler=void>
 					struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler>
 					{
