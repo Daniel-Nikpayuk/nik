@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_NUMERIC_LIMITS_H
-#define CONTEXT_SEMIOTIC_NUMERIC_LIMITS_H
+#ifndef CONTEXT_META_NUMERIC_LIMITS_H
+#define CONTEXT_META_NUMERIC_LIMITS_H
 
 #include<climits>
 #include<cfloat>
@@ -25,7 +25,7 @@ namespace nik
 {
 	namespace context
 	{
-		namespace semiotic
+		namespace meta
 		{
 /*
 		taken from: http://en.cppreference.com/w/cpp/types/numeric_limits

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_ITERATOR_FUNCTIONAL_H
-#define CONTEXT_ITERATOR_FUNCTIONAL_H
+#ifndef CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
+#define CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
 
 /*
 	For iterators in general, references are a derived type,
@@ -29,15 +29,17 @@
 
 namespace nik
 {
-	namespace context
+ namespace context
+ {
+  namespace semiotic
+  {
+   namespace iterator
+   {
+    namespace forward
+    {
+	template<typename size_type>
+	struct functional
 	{
-		namespace iterator
-		{
-			namespace forward
-			{
-				template<typename size_type>
-				struct functional
-				{
 
 /************************************************************************************************************************/
 //	forward iterator
@@ -48,124 +50,98 @@ namespace nik
 	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
 	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
 */
-					template<typename Iterator>
-					static void increment(Iterator out, size_type n)
-						{ while (n--) ++out; }
+		template<typename Iterator>
+		static void increment(Iterator out, size_type n) { while (n--) ++out; }
 /*
 	Breaks for n < 0.
 
 	Alternative is to code as "while (--n) ++out; return ++out;" which optimizes better but breaks for n <= 0.
 */
-					template<typename Iterator>
-					static Iterator left_increment(Iterator out, size_type n)
-					{
-						while (n--) ++out;
-						return out;
-					}
+		template<typename Iterator>
+		static Iterator left_increment(Iterator out, size_type n) { while (n--) ++out; return out; }
 /*
 	Breaks for n < 0.
 */
-					template<typename Iterator>
-					static Iterator right_increment(Iterator out, size_type n)
-					{
-						Iterator rtn(out);
-						while (n--) ++out;
-						return rtn;
-					}
+		template<typename OutputIterator, typename InputIterator>
+		static InputIterator right_increment(OutputIterator out, InputIterator in, size_type n)
+			{ while (n--) ++out; return in; }
 /*
 	size:
 */
-					template<typename InputIterator, typename TerminalIterator>
-					static size_type size(InputIterator in, TerminalIterator end)
-					{
-						size_type length(0);
-						while (in++ != end) ++length;
-						return length;
-					}
-				};
-			}
+		template<typename InputIterator, typename TerminalIterator>
+		static size_type size(InputIterator in, TerminalIterator end, size_type length)
+			{ while (in++ != end) ++length; return length; }
+	};
+    }
 
 /************************************************************************************************************************/
 //	backward iterator
 
-			namespace backward
-			{
-				template<typename size_type>
-				struct functional
-				{
+    namespace backward
+    {
+	template<typename size_type>
+	struct functional
+	{
 /*
 	Breaks for n < 0.
 
 	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
 	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
 */
-					template<typename Iterator>
-					static void decrement(Iterator out, size_type n)
-						{ while (n--) --out; }
+		template<typename Iterator>
+		static void decrement(Iterator out, size_type n) { while (n--) --out; }
 /*
 	Breaks for n < 0.
 
 	Alternative is to code as "while (--n) --out; return --out;" which optimizes better but breaks for n <= 0.
 */
-					template<typename Iterator>
-					static Iterator left_decrement(Iterator out, size_type n)
-					{
-						while (n--) --out;
-						return out;
-					}
+		template<typename Iterator>
+		static Iterator left_decrement(Iterator out, size_type n) { while (n--) --out; return out; }
 /*
 	Breaks for n < 0.
 */
-					template<typename Iterator>
-					static Iterator right_decrement(Iterator out, size_type n)
-					{
-						Iterator rtn(out);
-						while (n--) --out;
-						return rtn;
-					}
+		template<typename OutputIterator, typename InputIterator>
+		static InputIterator right_decrement(OutputIterator out, InputIterator in, size_type n)
+			{ while (n--) --out; return in; }
 /*
 	size:
 */
-					template<typename InputIterator, typename TerminalIterator>
-					static size_type size(InputIterator in, TerminalIterator end)
-					{
-						size_type length(0);
-						while (in-- != end) ++length;
-						return length;
-					}
-				};
-			}
+		template<typename InputIterator, typename TerminalIterator>
+		static size_type size(InputIterator in, TerminalIterator end, size_type length)
+			{ while (in-- != end) ++length; return length; }
+	};
+    }
 
 /************************************************************************************************************************/
 //	bidirectional iterator
 
-			namespace bidirectional
-			{
-				template<typename size_type>
-				struct functional
-				{
-				};
-			}
+    namespace bidirectional
+    {
+	template<typename size_type>
+	struct functional
+	{
+	};
+    }
 
 /************************************************************************************************************************/
 //	random access iterator
 
-			namespace random_access
-			{
-				template<typename size_type>
-				struct functional
-				{
+    namespace random_access
+    {
+	template<typename size_type>
+	struct functional
+	{
 /*
 	size:
 		Breaks for end < in.
 */
-					template<typename InputIterator, typename TerminalIterator>
-					static size_type size(InputIterator in, TerminalIterator end)
-						{ return end-in; }
-				};
-			}
-		}
-	}
+		template<typename InputIterator, typename TerminalIterator>
+		static size_type size(InputIterator in, TerminalIterator end) { return end-in; }
+	};
+    }
+   }
+  }
+ }
 }
 
 #endif

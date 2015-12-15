@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_ITERATOR_POLICY_H
-#define CONTEXT_ITERATOR_POLICY_H
+#ifndef CONTEXT_SEMIOTIC_ITERATOR_POLICY_H
+#define CONTEXT_SEMIOTIC_ITERATOR_POLICY_H
 
 #include"../functional/functional.h"
 #include"../componentwise/componentwise.h"
@@ -37,97 +37,101 @@
 
 namespace nik
 {
-	namespace context
-	{
-		namespace iterator
-		{
+ namespace context
+ {
+  namespace semiotic
+  {
+   namespace iterator
+   {
 /*
 */
-			struct policy
-			{
+	struct policy
+	{
 /*
 	forward:
 */
 /*
 		functional:
 */
-				template<typename SizeType>
-				using fwd_func=forward::functional<SizeType>;
+		template<typename SizeType>
+		using fwd_func=forward::functional<SizeType>;
 /*
 		componentwise:
 */
-				template<typename SizeType>
-				using fwd_comp=forward::componentwise<SizeType>;
+		template<typename SizeType>
+		using fwd_comp=forward::componentwise<SizeType>;
 
-				template<typename SizeType, SizeType N>
-				using fwd_comp_unroll=forward::componentwise<SizeType>::unroll<N>;
+		template<typename SizeType, SizeType N>
+		using fwd_comp_unroll=forward::componentwise<SizeType>::unroll<N>;
 /*
 		arithmetic:
 */
-				template<typename SizeType>
-				using fwd_arit=forward::arithmetic<SizeType>;
+		template<typename SizeType>
+		using fwd_arit=forward::arithmetic<SizeType>;
 
-				template<typename SizeType, SizeType N>
-				using fwd_arit_unroll=forward::arithmetic<SizeType>::unroll<N>;
+		template<typename SizeType, SizeType N>
+		using fwd_arit_unroll=forward::arithmetic<SizeType>::unroll<N>;
 
-				template<typename SizeType, SizeType N, SizeType M>
-				using fwd_arit_subroll=typename forward::arithmetic<SizeType>::template unroll<N>::template subroll<M>;
+		template<typename SizeType, SizeType N, SizeType M>
+		using fwd_arit_subroll=typename forward::
+			arithmetic<SizeType>::template unroll<N>::template subroll<M>;
 /*
 	backward:
 */
 /*
 		functional:
 */
-				template<typename SizeType>
-				using bwd_func=backward::functional<SizeType>;
+		template<typename SizeType>
+		using bwd_func=backward::functional<SizeType>;
 /*
 		componentwise:
 */
-				template<typename SizeType>
-				using bwd_comp=backward::componentwise<SizeType>;
+		template<typename SizeType>
+		using bwd_comp=backward::componentwise<SizeType>;
 
-				template<typename SizeType, SizeType N>
-				using bwd_comp_unroll=backward::componentwise<SizeType>::unroll<N>;
+		template<typename SizeType, SizeType N>
+		using bwd_comp_unroll=backward::componentwise<SizeType>::unroll<N>;
 /*
 		arithmetic:
 */
-				template<typename SizeType>
-				using bwd_arit=backward::arithmetic<SizeType>;
+		template<typename SizeType>
+		using bwd_arit=backward::arithmetic<SizeType>;
 
-				template<typename SizeType, SizeType N>
-				using bwd_arit_unroll=backward::arithmetic<SizeType>::unroll<N>;
+		template<typename SizeType, SizeType N>
+		using bwd_arit_unroll=backward::arithmetic<SizeType>::unroll<N>;
 /*
 	bidirectional:
 */
 /*
 		functional:
 */
-				template<typename SizeType>
-				using bid_func=bidirectional::functional<SizeType>;
+		template<typename SizeType>
+		using bid_func=bidirectional::functional<SizeType>;
 /*
 		componentwise:
 */
-				template<typename SizeType>
-				using bid_comp=bidirectional::componentwise<SizeType>;
+		template<typename SizeType>
+		using bid_comp=bidirectional::componentwise<SizeType>;
 /*
 		arithmetic:
 */
-				template<typename SizeType>
-				using bid_arit=bidirectional::arithmetic<SizeType>;
+		template<typename SizeType>
+		using bid_arit=bidirectional::arithmetic<SizeType>;
 
-				template<typename SizeType, SizeType N>
-				using bid_arit_unroll=bidirectional::arithmetic<SizeType>::unroll<N>;
+		template<typename SizeType, SizeType N>
+		using bid_arit_unroll=bidirectional::arithmetic<SizeType>::unroll<N>;
 
-				template<typename SizeType, SizeType N, SizeType M>
-				using bid_arit_subroll=typename bidirectional::arithmetic<SizeType>::template unroll<N>::template subroll<M>;
+		template<typename SizeType, SizeType N, SizeType M>
+		using bid_arit_subroll=typename bidirectional::
+			arithmetic<SizeType>::template unroll<N>::template subroll<M>;
 /*
 	random_access:
 */
 /*
 		functional:
 */
-				template<typename SizeType>
-				using rnd_func=random_access::functional<SizeType>;
+		template<typename SizeType>
+		using rnd_func=random_access::functional<SizeType>;
 /*
 		componentwise:
 */
@@ -137,9 +141,10 @@ namespace nik
 /*
 		arithmetic:
 */
-			};
-		}
-	}
+	};
+   }
+  }
+ }
 }
 
 #endif
