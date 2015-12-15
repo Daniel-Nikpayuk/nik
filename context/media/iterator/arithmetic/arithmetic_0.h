@@ -51,39 +51,31 @@ namespace nik
 				{
 					typedef meta::constant<size_type> constant;
 /*
-	Assumes (in) iteratively greater than (end).
+	For the "natural" right_shift,
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
 */
 					struct right_shift
 					{
 						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-						static void no_return(OutputIterator out,
-							InputIterator in, TerminalIterator end, size_type n)
+						static void no_return(OutputIterator out, InputIterator in1,
+							InputIterator in2, TerminalIterator end, size_type m, size_type n)
 						{
-							size_type N=constant::register_length-n;
-							*out=(*in>>n);
-							++in;
-
-							while (in != end)
+							while (in2 != end)
 							{
-								*out+=(*in<<N);
-								*(++out)=(*in>>n);
-								++in;
+								*out=(*in1>>m)+(*in2<<n);
+								++out; ++in1; ++in2;
 							}
 						}
 
 						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-						static OutputIterator with_return(OutputIterator out,
-							InputIterator in, TerminalIterator end, size_type n)
+						static OutputIterator with_return(OutputIterator out, InputIterator in1,
+							InputIterator in2, TerminalIterator end, size_type m, size_type n)
 						{
-							size_type N=constant::register_length-n;
-							*out=(*in>>n);
-							++in;
-
-							while (in != end)
+							while (in2 != end)
 							{
-								*out+=(*in<<N);
-								*(++out)=(*in>>n);
-								++in;
+								*out=(*in1>>m)+(*in2<<n);
+								++out; ++in1; ++in2;
 							}
 
 							return out;
@@ -113,6 +105,29 @@ namespace nik
 						template<typename Iterator>
 						static bool not_equal(Iterator in1, Iterator in2)
 							{ return (*in1 != *in2) || unroll_0<N-1>::not_equal(++in1, ++in2); }
+/*
+	For the "natural" right_shift,
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
+*/
+						struct right_shift
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+							{
+								*out=(*in1>>m)+(*in2<<n);
+								unroll_0<N-1>::right_shift::no_return(++out, ++in1, ++in2, m, n);
+							}
+
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+							{
+								*out=(*in1>>m)+(*in2<<n);
+								return unroll_0<N-1>::right_shift::with_return(++out, ++in1, ++in2, m, n);
+							}
+						};
 /*
 	Need for separate no_return, with_return versions as one cannot assume choice of N.
 
@@ -201,6 +216,19 @@ namespace nik
 						template<typename Iterator>
 						static bool not_equal(Iterator in1, Iterator in2) { return (*in1 != *in2); }
 
+						struct right_shift
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+									{ *out=(*in1>>m)+(*in2<<n); }
+
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+									{ *out=(*in1>>m)+(*in2<<n); return ++out; }
+						};
+
 						struct plus
 						{
 							template<typename OutputIterator, typename InputIterator, typename ValueType>
@@ -211,7 +239,7 @@ namespace nik
 							template<typename OutputIterator, typename InputIterator, typename ValueType>
 							static OutputIterator with_return(OutputIterator out,
 								InputIterator in1, InputIterator in2, ValueType carry)
-									{ *out=*in1 + *in2 + carry; return out; }
+									{ *out=*in1 + *in2 + carry; return ++out; }
 						};
 
 						struct minus
@@ -224,7 +252,7 @@ namespace nik
 							template<typename OutputIterator, typename InputIterator, typename ValueType>
 							static OutputIterator with_return(OutputIterator out,
 								InputIterator in1, InputIterator in2, ValueType carry)
-								{ *out=*in1 - (*in2 + carry); return out; }
+								{ *out=*in1 - (*in2 + carry); return ++out; }
 						};
 
 						struct assign
@@ -238,7 +266,7 @@ namespace nik
 								template<typename OutputIterator, typename InputIterator, typename ValueType>
 								static OutputIterator with_return(
 									OutputIterator out, InputIterator in, ValueType carry)
-										{ *out+=*in + carry; return out; }
+										{ *out+=*in + carry; return ++out; }
 							};
 						};
 					};
@@ -252,39 +280,31 @@ namespace nik
 				{
 					typedef meta::constant<size_type> constant;
 /*
-	Assumes (in) iteratively greater than (end).
+	For the "natural" left_shift,
+	define in2 = --InputIterator(in1),
+	as well as n = constant::register_length-m.
 */
 					struct left_shift
 					{
 						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-						static void no_return(OutputIterator out,
-							InputIterator in, TerminalIterator end, size_type n)
+						static void no_return(OutputIterator out, InputIterator in1,
+							InputIterator in2, TerminalIterator end, size_type m, size_type n)
 						{
-							size_type N=constant::register_length-n;
-							*out=(*in<<n);
-							--in;
-
-							while (in != end)
+							while (in2 != end)
 							{
-								*out+=(*in>>N);
-								*(--out)=(*in<<n);
-								--in;
+								*out=(*in1<<m)+(*in2>>n);
+								--out; --in1; --in2;
 							}
 						}
 
 						template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-						static OutputIterator with_return(OutputIterator out,
-							InputIterator in, TerminalIterator end, size_type n)
+						static OutputIterator with_return(OutputIterator out, InputIterator in1,
+							InputIterator in2, TerminalIterator end, size_type m, size_type n)
 						{
-							size_type N=constant::register_length-n;
-							*out=(*in<<n);
-							--in;
-
-							while (in != end)
+							while (in2 != end)
 							{
-								*out+=(*in>>N);
-								*(--out)=(*in<<n);
-								--in;
+								*out=(*in1<<m)+(*in2>>n);
+								--out; --in1; --in2;
 							}
 
 							return out;
@@ -343,6 +363,29 @@ namespace nik
 							if (*in) return in;
 							else return unroll_0<N-1>::order(--in);
 						}
+/*
+	For the "natural" left_shift,
+	define in2 = --InputIterator(in1),
+	as well as n = constant::register_length-m.
+*/
+						struct left_shift
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+							{
+								*out=(*in1<<m)+(*in2>>n);
+								unroll_0<N-1>::left_shift::no_return(--out, --in1, --in2, m, n);
+							}
+
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+							{
+								*out=(*in1<<m)+(*in2>>n);
+								return unroll_0<N-1>::left_shift::with_return(--out, --in1, --in2, m, n);
+							}
+						};
 					};
 
 					template<typename Filler>
@@ -357,8 +400,24 @@ namespace nik
 						template<typename Iterator>
 						static bool greater_than_or_equal(Iterator in1, Iterator in2) { return (*in1 >= *in2); }
 
+/*
+	Does not peform what is otherwise the standard final decrement.
+*/
 						template<typename Iterator>
-						static Iterator order(Iterator in) { return in; }
+						static Iterator order(Iterator in) { if (*in) return in; else return --in; }
+
+						struct left_shift
+						{
+							template<typename OutputIterator, typename InputIterator>
+							static void no_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+									{ *out=(*in1<<m)+(*in2>>n); }
+
+							template<typename OutputIterator, typename InputIterator>
+							static OutputIterator with_return(OutputIterator out,
+								InputIterator in1, InputIterator in2, size_type m, size_type n)
+									{ *out=(*in1<<m)+(*in2>>n); return --out; }
+						};
 					};
 				};
 			}

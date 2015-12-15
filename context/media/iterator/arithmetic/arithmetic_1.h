@@ -279,6 +279,15 @@ namespace nik
 										full_register_divisor(--out, --in, d, carry);
 								}
 							};
+
+							struct partial_digit
+							{
+								template<typename OutputIterator, typename InputIterator>
+								static void no_return(OutputIterator out, InputIterator in, InputIterator d)
+								{
+									unroll_1<N>::order
+								}
+							};
 						};
 					};
 
@@ -333,6 +342,14 @@ namespace nik
 									return carry;
 								}
 							};
+
+							struct partial_digit
+							{
+								template<typename OutputIterator, typename InputIterator>
+								static void no_return(OutputIterator out, InputIterator in, InputIterator d)
+								{
+								}
+							};
 						};
 					};
 				};
@@ -373,6 +390,26 @@ namespace nik
 					typedef backward::arithmetic_1<size_type> bwd_arit;
 					typedef bidirectional::arithmetic_1<size_type> bid_arit;
 					typedef arithmetic_0<size_type> rnd_arit;
+/*
+	q is the quotient.
+	r is the remainder.
+	n is the dividend,
+	d is the divisor.
+
+	They are typed as OutputIterators as it is assumed they are safe for modification.
+	In practice this means providing a deep copy if necessary when passing const references as input.
+
+	Assumes b < d <= n.
+*/
+					struct divide
+					{
+						template<typename OutputIterator>
+						static void multiple_digit(OutputIterator q,
+							OutputIterator r, OutputIterator n, OutputIterator d)
+						{
+							size_type scale=constant::register_length - regist::order(unroll_1<N>::order(d)) - 1;
+						}
+					};
 
 					template<size_type N, typename Filler=void>
 					struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>

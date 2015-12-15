@@ -563,6 +563,10 @@ namespace nik
 					template<typename Filler>
 					struct unroll<0, Filler>
 					{
+/*
+	Added for the special initializing case that N == 0,
+	as such it should be the identity function and return the existing iterator.
+*/
 						struct repeat
 						{
 							template<typename Iterator, typename ValueType>
@@ -1088,6 +1092,10 @@ namespace nik
 					template<typename Filler>
 					struct unroll<0, Filler>
 					{
+/*
+	Added for the special initializing case that N == 0,
+	as such it should be the identity function and return the existing iterator.
+*/
 						struct repeat
 						{
 							template<typename Iterator, typename ValueType>

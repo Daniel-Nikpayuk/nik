@@ -316,8 +316,8 @@ namespace nik
 					template<typename ValueType>
 					static ValueType full_register_divisor(ValueType & r, ValueType in1, ValueType in2, ValueType d)
 					{
-						ValueType pivot=order(d)+1;
-						ValueType scale=constant::register_length-pivot;
+						ValueType	pivot=order(d)+1,
+								scale=constant::register_length-pivot;
 
 							// normalize:
 								// one need not worry about the big value of in1 as in1 < d to begin with.

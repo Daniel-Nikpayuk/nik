@@ -104,7 +104,7 @@ static void no_return(OutputIterator out, InputIterator in, TerminalIterator end
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
 	2. If you have an interest in the final out value, and you do want to reference,
-		but you still prefer a return value, call this macro.
+		but in addition you still require a return value, call this macro.
 */
 #define with_return_1(dir, op) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
@@ -138,7 +138,7 @@ static void no_return(OutputIterator out, InputIterator in, TerminalIterator end
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
 	2. If you have an interest in the final out value, and you do want to reference,
-		but you still prefer a return value, call this macro.
+		but in addition you still require a return value, call this macro.
 */
 #define with_return_right_1(dir, op, r) \
 template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
@@ -174,7 +174,7 @@ static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
 	2. If you have an interest in the final out value, and you do want to reference,
-		but you still prefer a return value, call this macro.
+		but in addition you still require a return value, call this macro.
 */
 #define with_return_2(dir, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
@@ -208,7 +208,7 @@ static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2
 /*
 	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
 	2. If you have an interest in the final out value, and you do want to reference,
-		but you still prefer a return value, call this macro.
+		but in addition you still require a return value, call this macro.
 */
 #define with_return_bracket_2(dir, op) \
 template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
