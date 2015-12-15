@@ -18,12 +18,12 @@
 #ifndef CONTEXT_ITERATOR_ARITHMETIC_1_H
 #define CONTEXT_ITERATOR_ARITHMETIC_1_H
 
+#include"../../../semiotic/regist/regist.h"
+#include"../componentwise/componentwise.h"
+
 // Clean up the typedefs/usings namespace stuff.
 
 #include"arithmetic_0.h"
-
-#include"../../../semiotic/regist/regist.h"
-#include"../componentwise/componentwise.h"
 
 /*
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
@@ -68,7 +68,8 @@ namespace nik
 						OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
 					{
 						fwd_comp::repeat::no_return(
-							fwd_arit::right_shift::with_return(out, in1, end1, n),
+							fwd_arit::right_shift::with_return(out,
+								in1, ++InputIterator(in1), end1, n, constant::register_length-n),
 							end, 0);
 					}
 /*
@@ -154,7 +155,7 @@ namespace nik
 							template<typename OutputIterator, typename InputIterator, typename ValueType>
 							static OutputIterator with_return(OutputIterator out,
 								InputIterator in1, ValueType in2, ValueType carry)
-									{ regist::multiply::return_high(*out=carry, *in1, in2); return out; }
+									{ regist::multiply::return_high(*out=carry, *in1, in2); return ++out; }
 						};
 					};
 				};
@@ -178,13 +179,16 @@ namespace nik
 	as shift quantity itself can only be as big as the size of an array.
 
 	Does not test if &out == &in, a problematic case.
+
+	**** needs fixing.
 */
 					template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
 					static void left_shift(OutputIterator out,
 						OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
 					{
 						bwd_comp::repeat::no_return(
-							bwd_arit::left_shift::with_return(out, in1, end1, n),
+							bwd_arit::left_shift::with_return(out,
+								in1, --InputIterator(in1), end1, n, constant::register_length-n),
 							end, 0);
 					}
 /*
@@ -203,13 +207,6 @@ namespace nik
 					{
 						template<size_type M>
 						using bwd_unroll=typename bwd_arit::template unroll_0<M>;
-
-						template<typename OutputIterator>
-						static OutputIterator order(OutputIterator out)
-						{
-							if (*out) return out;
-							else return unroll_1<N-1>::order(--out);
-						}
 
 						struct divide
 						{
@@ -235,16 +232,8 @@ namespace nik
 								{
 									if (carry) *out=regist::divide::
 										half_register_divisor(carry, carry, *in, d);
-									else if (*in < d)
-									{
-										*out=0;
-										carry=*in;
-									}
-									else
-									{
-										*out=*in/d;
-										carry=*in%d;
-									}
+									else if (*in < d) { *out=0; carry=*in; }
+									else { *out=*in/d; carry=*in%d; }
 
 									return unroll_1<N-1>::divide::single_digit::
 										half_register_divisor(--out, --in, d, carry);
@@ -264,16 +253,8 @@ namespace nik
 								{
 									if (carry) *out=regist::divide::
 										full_register_divisor(carry, carry, *in, d);
-									else if (*in < d)
-									{
-										*out=0;
-										carry=*in;
-									}
-									else
-									{
-										*out=*in/d;
-										carry=*in%d;
-									}
+									else if (*in < d) { *out=0; carry=*in; }
+									else { *out=*in/d; carry=*in%d; }
 
 									return unroll_1<N-1>::divide::single_digit::
 										full_register_divisor(--out, --in, d, carry);
@@ -282,11 +263,6 @@ namespace nik
 
 							struct partial_digit
 							{
-								template<typename OutputIterator, typename InputIterator>
-								static void no_return(OutputIterator out, InputIterator in, InputIterator d)
-								{
-									unroll_1<N>::order
-								}
 							};
 						};
 					};
@@ -294,10 +270,6 @@ namespace nik
 					template<typename Filler>
 					struct unroll_1<1, Filler>
 					{
-						template<typename OutputIterator>
-						static OutputIterator order(OutputIterator out)
-							{ return out; }
-
 						struct divide
 						{
 							struct single_digit
@@ -308,16 +280,8 @@ namespace nik
 								{
 									if (carry) *out=regist::divide::
 										half_register_divisor(carry, carry, *in, d);
-									else if (*in < d)
-									{
-										*out=0;
-										carry=*in;
-									}
-									else
-									{
-										*out=*in/d;
-										carry=*in%d;
-									}
+									else if (*in < d) { *out=0; carry=*in; }
+									else { *out=*in/d; carry=*in%d; }
 
 									return carry;
 								}
@@ -328,16 +292,8 @@ namespace nik
 								{
 									if (carry) *out=regist::divide::
 										full_register_divisor(carry, carry, *in, d);
-									else if (*in < d)
-									{
-										*out=0;
-										carry=*in;
-									}
-									else
-									{
-										*out=*in/d;
-										carry=*in%d;
-									}
+									else if (*in < d) { *out=0; carry=*in; }
+									else { *out=*in/d; carry=*in%d; }
 
 									return carry;
 								}
@@ -345,10 +301,6 @@ namespace nik
 
 							struct partial_digit
 							{
-								template<typename OutputIterator, typename InputIterator>
-								static void no_return(OutputIterator out, InputIterator in, InputIterator d)
-								{
-								}
 							};
 						};
 					};
@@ -390,6 +342,12 @@ namespace nik
 					typedef backward::arithmetic_1<size_type> bwd_arit;
 					typedef bidirectional::arithmetic_1<size_type> bid_arit;
 					typedef arithmetic_0<size_type> rnd_arit;
+
+					template<size_type N, typename Filler=void>
+					struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>
+					{
+						template<size_type M>
+						using rnd_unroll=typename rnd_arit::template unroll_0<M>;
 /*
 	q is the quotient.
 	r is the remainder.
@@ -401,21 +359,16 @@ namespace nik
 
 	Assumes b < d <= n.
 */
-					struct divide
-					{
-						template<typename OutputIterator>
-						static void multiple_digit(OutputIterator q,
-							OutputIterator r, OutputIterator n, OutputIterator d)
+						struct divide
 						{
-							size_type scale=constant::register_length - regist::order(unroll_1<N>::order(d)) - 1;
-						}
-					};
-
-					template<size_type N, typename Filler=void>
-					struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>
-					{
-						template<size_type M>
-						using rnd_unroll=typename rnd_arit::template unroll_0<M>;
+							template<typename OutputIterator>
+							static void multiple_digit(OutputIterator q,
+								OutputIterator r, OutputIterator n, OutputIterator d)
+							{
+								size_type scale=constant::register_length-
+									regist::order(*bwd_arit::template bwd_unroll<N>::order(d))-1;
+							}
+						};
 
 						template<size_type M, typename SubFiller=void>
 						struct subroll_1
