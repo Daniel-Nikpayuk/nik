@@ -15,12 +15,17 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_MEDIA_ITERATOR_ARITHMETIC_H
-#define CONTEXT_MEDIA_ITERATOR_ARITHMETIC_H
+#ifndef CONTEXT_SEMIOTIC_ITERATOR_ARITHMETIC_1_H
+#define CONTEXT_SEMIOTIC_ITERATOR_ARITHMETIC_1_H
+
+#include"../../regist/regist.h"
+#include"../componentwise/componentwise.h"
 
 // Clean up the typedefs/usings namespace stuff.
 
-#include"../../../semiotic/iterator/arithmetic/arithmetic.h"
+// overhead dependencies:
+
+#include"arithmetic_0.h"
 
 /*
 	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that with componentwise is
@@ -39,38 +44,20 @@ namespace nik
 {
  namespace context
  {
-  namespace media
+  namespace semiotic
   {
    namespace iterator
    {
     namespace forward
     {
 	template<typename size_type>
-	struct arithmetic : public semiotic::iterator::forward::arithmetic<size_type>
+	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef meta::constant<size_type> constant;
-		typedef semiotic::regist<size_type> regist;
+		typedef semiotic::regist<size_type> regist; // does not allow "redeclaration" without the additional scope.
 
-		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
-		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
-/*
-	Copies from in1--end1 to out moving right, as well as shifting by n what it copies; continues after by repeating 0 until end.
-
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	Does not test if &out == &in1, a problematic case.
-
-	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
-*/
-		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
-		static void right_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
-		{
-			fwd_arit::right_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
-				out, in1, ++InputIterator(in1), end1, n, constant::register_length-n);
-			*out=(*in1>>n);
-			fwd_comp::repeat::no_return(out, end, 0);
-		}
+		typedef componentwise<size_type> fwd_comp;
+		typedef arithmetic_0<size_type> fwd_arit;
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -83,10 +70,10 @@ namespace nik
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 		template<size_type N, typename Filler=void>
-		struct unroll : public fwd_arit::template unroll<N, Filler>
+		struct unroll_1 : public fwd_arit::template unroll_0<N, Filler>
 		{
 			template<size_type M>
-			using fwd_unroll=typename fwd_arit::template unroll<M, Filler>;
+			using fwd_unroll=typename fwd_arit::template unroll_0<M, Filler>;
 /*
 	Obfuscated code ?
 */
@@ -94,40 +81,42 @@ namespace nik
 			{
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void no_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-					{ unroll<N-1>::scale::no_return(++out, ++in1, in2,
+					{ unroll_1<N-1>::scale::no_return(++out, ++in1, in2,
 						regist::multiply::return_high(*out=carry, *in1, in2)); }
 
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static OutputIterator with_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-					{ return unroll<N-1>::scale::with_return(++out, ++in1, in2,
+					{ return unroll_1<N-1>::scale::with_return(++out, ++in1, in2,
 						regist::multiply::return_high(*out=carry, *in1, in2)); }
 			};
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll
+			struct subroll_1
 			{
 /*
 	Does not assume anything about the existing value of out1.
+
+	out2 is meant to be a temporary variable.
 
 	Is it worth testing for *in2 == 0 ?
 */
 				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
 				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
 				{
-					unroll<M>::scale::no_return(fwd_comp::
+					unroll_1<M>::scale::no_return(fwd_comp::
 						template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2, 0);
 					fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
-					subroll<M-1>::multiply(out1, out2, in1, ++in2);
+					subroll_1<M-1>::multiply(out1, out2, in1, ++in2);
 				}
 			};
 
 			template<typename SubFiller>
-			struct subroll<1, SubFiller>
+			struct subroll_1<1, SubFiller>
 			{
 				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
 				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
 				{
-					unroll<1>::scale::no_return(fwd_comp::
+					unroll_1<1>::scale::no_return(fwd_comp::
 						template unroll<N-1>::repeat::with_return(out2, 0), in1, *in2, 0);
 					fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
 				}
@@ -135,7 +124,7 @@ namespace nik
 		};
 
 		template<typename Filler>
-		struct unroll<1, Filler>
+		struct unroll_1<1, Filler>
 		{
 /*
 	Obfuscated code ?
@@ -157,31 +146,13 @@ namespace nik
     namespace backward
     {
 	template<typename size_type>
-	struct arithmetic : public semiotic::iterator::backward::arithmetic<size_type>
+	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef meta::constant<size_type> constant;
-		typedef semiotic::regist<size_type> regist;
+		typedef semiotic::regist<size_type> regist; // does not allow "redeclaration" without the additional scope.
 
-		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
-		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
-/*
-	Copies from in1--end1 to out moving left, as well as shifting by n what it copies; continues after by repeating 0 until end.
-
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	Does not test if &out == &in1, a problematic case.
-
-	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
-*/
-		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
-		static void left_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
-		{
-			bwd_arit::left_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
-				out, in1, --InputIterator(in1), end1, n, constant::register_length-n);
-			*out=(*in1<<n);
-			bwd_comp::repeat::no_return(out, end, 0);
-		}
+		typedef componentwise<size_type> bwd_comp;
+		typedef arithmetic_0<size_type> bwd_arit;
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -194,10 +165,10 @@ namespace nik
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 		template<size_type N, typename Filler=void>
-		struct unroll : public bwd_arit::template unroll<N, Filler>
+		struct unroll_1 : public bwd_arit::template unroll_0<N, Filler>
 		{
 			template<size_type M>
-			using bwd_unroll=typename bwd_arit::template unroll<M>;
+			using bwd_unroll=typename bwd_arit::template unroll_0<M>;
 
 			struct divide
 			{
@@ -225,7 +196,7 @@ namespace nik
 						else if (*in < d) { *out=0; carry=*in; }
 						else { *out=*in/d; carry=*in%d; }
 
-						return unroll<N-1>::divide::single_digit::half_register_divisor(--out, --in, d, carry);
+						return unroll_1<N-1>::divide::single_digit::half_register_divisor(--out, --in, d, carry);
 					}
 /*
 	"out" is the retainer of the returned quotient.
@@ -244,18 +215,18 @@ namespace nik
 						else if (*in < d) { *out=0; carry=*in; }
 						else { *out=*in/d; carry=*in%d; }
 
-						return unroll<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
+						return unroll_1<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
 					}
 				};
 
-				struct partial_digit
+				struct partial_digit // needed?
 				{
 				};
 			};
 		};
 
 		template<typename Filler>
-		struct unroll<1, Filler>
+		struct unroll_1<1, Filler>
 		{
 			struct divide
 			{
@@ -284,7 +255,7 @@ namespace nik
 					}
 				};
 
-				struct partial_digit
+				struct partial_digit // needed?
 				{
 				};
 			};
@@ -295,49 +266,51 @@ namespace nik
     namespace bidirectional
     {
 	template<typename size_type>
-	struct arithmetic : public semiotic::iterator::bidirectional::arithmetic<size_type>
+	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef meta::constant<size_type> constant;
-		typedef semiotic::regist<size_type> regist;
+		typedef semiotic::regist<size_type> regist; // does not allow "redeclaration" without the additional scope.
 
-		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
-		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
-		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
+		typedef forward::componentwise<size_type> fwd_comp;
+		typedef backward::componentwise<size_type> bwd_comp;
+		typedef componentwise<size_type> bid_comp;
 
-		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
-		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
-		typedef semiotic::iterator::bidirectional::arithmetic<size_type> bid_arit;
+		typedef forward::arithmetic_0<size_type> fwd_arit;
+		typedef backward::arithmetic_0<size_type> bwd_arit;
+		typedef arithmetic_0<size_type> bid_arit;
 	};
     }
 
     namespace random_access
     {
 	template<typename size_type>
-	struct arithmetic : public semiotic::iterator::random_access::arithmetic<size_type>
+	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef meta::constant<size_type> constant;
-		typedef semiotic::regist<size_type> regist;
+		typedef semiotic::regist<size_type> regist; // does not allow "redeclaration" without the additional scope.
 
-		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
-		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
-		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
-		typedef semiotic::iterator::random_access::componentwise<size_type> rnd_comp;
+		typedef forward::componentwise<size_type> fwd_comp;
+		typedef backward::componentwise<size_type> bwd_comp;
+		typedef bidirectional::componentwise<size_type> bid_comp;
+		typedef componentwise<size_type> rnd_comp;
 
-		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
-		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
-		typedef semiotic::iterator::bidirectional::arithmetic<size_type> bid_arit;
-		typedef semiotic::iterator::random_access::arithmetic<size_type> rnd_arit;
+		typedef forward::arithmetic_0<size_type> fwd_arit;
+		typedef backward::arithmetic_0<size_type> bwd_arit;
+		typedef bidirectional::arithmetic_0<size_type> bid_arit;
+		typedef arithmetic_0<size_type> rnd_arit;
 
 		template<size_type N, typename Filler=void>
-		struct unroll : public rnd_arit::template unroll<N, Filler>
+		struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>
 		{
 			template<size_type M>
-			using rnd_unroll=typename rnd_arit::template unroll<M>;
+			using rnd_unroll=typename rnd_arit::template unroll_0<M>;
 /*
 	q is the quotient.
 	r is the remainder.
 	n is the dividend,
 	d is the divisor.
+
+	Define the clean version here.
 
 	They are typed as OutputIterators as it is assumed they are safe for modification.
 	In practice this means providing a deep copy if necessary when passing const references as input.
@@ -352,40 +325,24 @@ namespace nik
 					typename OutputIterator2, typename OutputIterator3, typename OutputIterator4>
 				static void multiple_digit(OutputIterator1 q, OutputIterator2 r, OutputIterator3 n, OutputIterator4 d)
 				{
-/*
-	You need to normalize the denominator:
-
-		Find and return the leading position. Save it as you will use it again and again.
-		Use the leading position to left shift appropriately, saving the number of binary positions shifted by.
-		As you cannot know until runtime the number of such binary positions needed shifting,
-		this will have to be stored as a runtime variable.
-
-	You need to normalize the numerator:
-
-		Find and return the leading position. Left shift relative to the binary position saved earlier.
-
-	Now you can unroll (calling a clean semiotic version) the digit by digit division (which you have yet to implement).
-
-	Now you can denormalize your remainder, and return.
-*/
 					size_type scale=constant::register_length-
 						regist::order(*bwd_arit::template bwd_unroll<N>::order(d))-1;
 				}
 			};
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll
+			struct subroll_1
 			{
 			};
 
 			template<typename SubFiller>
-			struct subroll<1, SubFiller>
+			struct subroll_1<1, SubFiller>
 			{
 			};
 		};
 
 		template<typename Filler>
-		struct unroll<1, Filler>
+		struct unroll_1<1, Filler>
 		{
 		};
 	};
