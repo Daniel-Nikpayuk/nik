@@ -1,6 +1,6 @@
 /*************************************************************************************************************************
 **
-** Copyright 2015 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -19,6 +19,10 @@
 #define CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
 
 /*
+	I haven't fully decided what to do with this class just yet.
+	I'm sure I need it as a generic iterator overhead class,
+	but until I actually apply it in practice, the code won't become stabalized.
+
 	For iterators in general, references are a derived type,
 	but for compatibility with pointers no specific instance of a derived type is assumed.
 
@@ -45,32 +49,69 @@ namespace nik
 //	forward iterator
 
 /*
-	Breaks for n < 0.
+	increments out by n times.
+
+	Breaks semantically for n < 0.
 
 	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
 	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
 */
-		template<typename Iterator>
-		static void increment(Iterator out, size_type n) { while (n--) ++out; }
-/*
-	Breaks for n < 0.
+		struct left_increment
+		{
+			template<typename Iterator>
+			static void no_return(Iterator out, size_type n)
+			{
+				while (n)
+				{
+					++out;
+					--n;
+				}
+			}
 
-	Alternative is to code as "while (--n) ++out; return ++out;" which optimizes better but breaks for n <= 0.
-*/
-		template<typename Iterator>
-		static Iterator left_increment(Iterator out, size_type n) { while (n--) ++out; return out; }
+			template<typename Iterator>
+			static Iterator with_return(Iterator out, size_type n)
+			{
+				while (n)
+				{
+					++out;
+					--n;
+				}
+
+				return out;
+			}
+		};
 /*
-	Breaks for n < 0.
+	increments out by n times.
+
+	Breaks semantically for n < 0.
 */
 		template<typename OutputIterator, typename InputIterator>
 		static InputIterator right_increment(OutputIterator out, InputIterator in, size_type n)
-			{ while (n--) ++out; return in; }
+		{
+			while (n)
+			{
+				out++;
+				--n;
+			}
+
+			return in;
+		}
 /*
 	size:
+
+		Returns the distance between in and end.
 */
 		template<typename InputIterator, typename TerminalIterator>
 		static size_type size(InputIterator in, TerminalIterator end, size_type length)
-			{ while (in++ != end) ++length; return length; }
+		{
+			while (in != end)
+			{
+				++length;
+				++in;
+			}
+
+			return length;
+		}
 	};
     }
 
@@ -83,28 +124,43 @@ namespace nik
 	struct functional
 	{
 /*
-	Breaks for n < 0.
+	decrements out by n times.
+
+	Breaks semantically for n < 0.
 
 	Admittedly the most natural application is as reference by default, but as the (++) method could be user defined
 	for side effects of some shared internal state, it's problematic to constrain this generic method unnecessarily.
 */
 		template<typename Iterator>
-		static void decrement(Iterator out, size_type n) { while (n--) --out; }
+		static void decrement(Iterator out, size_type n)
+		{
+			while (n)
+			{
+				--out;
+				--n;
+			}
+		}
 /*
-	Breaks for n < 0.
+	decrements out by n times.
+
+	Breaks semantically for n < 0.
 
 	Alternative is to code as "while (--n) --out; return --out;" which optimizes better but breaks for n <= 0.
 */
 		template<typename Iterator>
 		static Iterator left_decrement(Iterator out, size_type n) { while (n--) --out; return out; }
 /*
-	Breaks for n < 0.
+	decrements out by n times.
+
+	Breaks semantically for n < 0.
 */
 		template<typename OutputIterator, typename InputIterator>
 		static InputIterator right_decrement(OutputIterator out, InputIterator in, size_type n)
 			{ while (n--) --out; return in; }
 /*
 	size:
+
+		Returns the distance between in and end.
 */
 		template<typename InputIterator, typename TerminalIterator>
 		static size_type size(InputIterator in, TerminalIterator end, size_type length)
@@ -133,6 +189,8 @@ namespace nik
 	{
 /*
 	size:
+		Returns the distance between in and end.
+
 		Breaks for end < in.
 */
 		template<typename InputIterator, typename TerminalIterator>

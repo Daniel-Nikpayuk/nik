@@ -1,6 +1,6 @@
 /*************************************************************************************************************************
 **
-** Copyright 2015 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -19,23 +19,23 @@
 #define CONTEXT_MEDIA_ITERATOR_ARITHMETIC_H
 
 #include"../../../semiotic/regist/regist.h"
-#include"../componentwise/componentwise.h"
+#include"../../../semiotic/iterator/componentwise/componentwise.h"
 
 // Clean up the typedefs/usings namespace stuff.
 
-#include"arithmetic_0.h"
+#include"../../../semiotic/iterator/arithmetic/arithmetic.h"
 
 /*
+	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that with componentwise is
+	each location is conditionally independent, whereas arithmetic is similar but also dependent on the previous value
+	(recursive; maybe the simplest variety of recursive?).
+
 	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
 	regardless. The assumption is if you're using these such unrolling in the first place you have some memory to spare;
 	as well, it's expected you're doing some heavy number theoretic computations and so the speed optimization is preferred.
-
-	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that componentwise is each location
-	is conditionally independent, whereas arithmetic is similar but also dependent on the previous value (recursive; maybe the
-	simplest variety of recursive?).
 */
 
 namespace nik
@@ -49,28 +49,30 @@ namespace nik
     namespace forward
     {
 	template<typename size_type>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic : public semiotic::iterator::forward::arithmetic<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 		typedef semiotic::regist<size_type> regist;
 
-		typedef componentwise<size_type> fwd_comp;
-
-		typedef arithmetic_0<size_type> fwd_arit;
+		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
+		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
 /*
-	From in1--end1, shifts by n and stores starting at out; continues by repeating 0 until end.
+	Copies from in1--end1 to out moving right, as well as shifting by n what it copies; continues after by repeating 0 until end.
 
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 
-	Does not test if &out == &in, a problematic case.
+	Does not test if &out == &in1, a problematic case.
+
+	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
 */
-		template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-		static void right_shift(OutputIterator out, OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
+		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
+		static void right_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
 		{
-			fwd_comp::repeat::no_return(
-				fwd_arit::right_shift::with_return(out, in1, ++InputIterator(in1), end1, n, constant::register_length-n),
-				end, 0);
+			fwd_arit::right_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
+				out, in1, ++InputIterator(in1), end1, n, constant::register_length-n);
+			*out=(*in1>>n);
+			fwd_comp::repeat::no_return(out, end, 0);
 		}
 /*
 	unroll:
@@ -84,10 +86,10 @@ namespace nik
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 		template<size_type N, typename Filler=void>
-		struct unroll_1 : public fwd_arit::template unroll_0<N, Filler>
+		struct unroll : public fwd_arit::template unroll<N, Filler>
 		{
 			template<size_type M>
-			using fwd_unroll=typename fwd_arit::template unroll_0<M, Filler>;
+			using fwd_unroll=typename fwd_arit::template unroll<M, Filler>;
 /*
 	Obfuscated code ?
 */
@@ -95,40 +97,40 @@ namespace nik
 			{
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void no_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-						{ unroll_1<N-1>::scale::no_return(++out, ++in1, in2,
-							regist::multiply::return_high(*out=carry, *in1, in2)); }
+					{ unroll<N-1>::scale::no_return(++out, ++in1, in2,
+						regist::multiply::return_high(*out=carry, *in1, in2)); }
 
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static OutputIterator with_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
-						{ return unroll_1<N-1>::scale::with_return(++out, ++in1, in2,
-							regist::multiply::return_high(*out=carry, *in1, in2)); }
+					{ return unroll<N-1>::scale::with_return(++out, ++in1, in2,
+						regist::multiply::return_high(*out=carry, *in1, in2)); }
 			};
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll_1
+			struct subroll
 			{
 /*
 	Does not assume anything about the existing value of out1.
 
 	Is it worth testing for *in2 == 0 ?
 */
-				template<typename OutputIterator, typename InputIterator>
-				static void multiply(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
+				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
 				{
-					unroll_1<M>::scale::no_return(fwd_comp::
+					unroll<M>::scale::no_return(fwd_comp::
 						template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2, 0);
 					fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
-					subroll_1<M-1>::multiply(out1, out2, in1, ++in2);
+					subroll<M-1>::multiply(out1, out2, in1, ++in2);
 				}
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll<1, SubFiller>
 			{
-				template<typename OutputIterator, typename InputIterator>
-				static void multiply(OutputIterator out1, OutputIterator out2, InputIterator in1, InputIterator in2)
+				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
+				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
 				{
-					unroll_1<1>::scale::no_return(fwd_comp::
+					unroll<1>::scale::no_return(fwd_comp::
 						template unroll<N-1>::repeat::with_return(out2, 0), in1, *in2, 0);
 					fwd_unroll<N>::assign::plus::no_return(out1, out2, 0);
 				}
@@ -136,7 +138,7 @@ namespace nik
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll<1, Filler>
 		{
 /*
 	Obfuscated code ?
@@ -158,30 +160,30 @@ namespace nik
     namespace backward
     {
 	template<typename size_type>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic : public semiotic::iterator::backward::arithmetic<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 		typedef semiotic::regist<size_type> regist;
 
-		typedef componentwise<size_type> bwd_comp;
-
-		typedef arithmetic_0<size_type> bwd_arit;
+		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
+		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
 /*
-	From in1--end1, shifts by n and stores starting at out; continues by repeating 0 until end.
+	Copies from in1--end1 to out moving left, as well as shifting by n what it copies; continues after by repeating 0 until end.
 
 	There's no point in having a shift which takes block input as shift quantity,
 	as shift quantity itself can only be as big as the size of an array.
 
-	Does not test if &out == &in, a problematic case.
+	Does not test if &out == &in1, a problematic case.
 
-	**** needs fixing.
+	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
 */
-		template<typename OutputIterator, typename InputIterator, typename TerminalIterator>
-		static void left_shift(OutputIterator out, OutputIterator end, InputIterator in1, TerminalIterator end1, size_type n)
+		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
+		static void left_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
 		{
-			bwd_comp::repeat::no_return(
-				bwd_arit::left_shift::with_return(out, in1, --InputIterator(in1), end1, n, constant::register_length-n),
-				end, 0);
+			bwd_arit::left_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
+				out, in1, --InputIterator(in1), end1, n, constant::register_length-n);
+			*out=(*in1<<n);
+			bwd_comp::repeat::no_return(out, end, 0);
 		}
 /*
 	unroll:
@@ -195,10 +197,10 @@ namespace nik
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 		template<size_type N, typename Filler=void>
-		struct unroll_1 : public bwd_arit::template unroll_0<N, Filler>
+		struct unroll : public bwd_arit::template unroll<N, Filler>
 		{
 			template<size_type M>
-			using bwd_unroll=typename bwd_arit::template unroll_0<M>;
+			using bwd_unroll=typename bwd_arit::template unroll<M>;
 
 			struct divide
 			{
@@ -226,7 +228,7 @@ namespace nik
 						else if (*in < d) { *out=0; carry=*in; }
 						else { *out=*in/d; carry=*in%d; }
 
-						return unroll_1<N-1>::divide::single_digit::half_register_divisor(--out, --in, d, carry);
+						return unroll<N-1>::divide::single_digit::half_register_divisor(--out, --in, d, carry);
 					}
 /*
 	"out" is the retainer of the returned quotient.
@@ -245,7 +247,7 @@ namespace nik
 						else if (*in < d) { *out=0; carry=*in; }
 						else { *out=*in/d; carry=*in%d; }
 
-						return unroll_1<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
+						return unroll<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
 					}
 				};
 
@@ -256,7 +258,7 @@ namespace nik
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll<1, Filler>
 		{
 			struct divide
 			{
@@ -296,44 +298,44 @@ namespace nik
     namespace bidirectional
     {
 	template<typename size_type>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic : public semiotic::iterator::bidirectional::arithmetic<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 		typedef semiotic::regist<size_type> regist;
 
-		typedef forward::componentwise<size_type> fwd_comp;
-		typedef backward::componentwise<size_type> bwd_comp;
-		typedef componentwise<size_type> bid_comp;
+		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
+		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
+		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
 
-		typedef forward::arithmetic_1<size_type> fwd_arit;
-		typedef backward::arithmetic_1<size_type> bwd_arit;
-		typedef arithmetic_0<size_type> bid_arit;
+		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
+		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
+		typedef semiotic::iterator::bidirectional::arithmetic<size_type> bid_arit;
 	};
     }
 
     namespace random_access
     {
 	template<typename size_type>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic : public semiotic::iterator::random_access::arithmetic<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 		typedef semiotic::regist<size_type> regist;
 
-		typedef forward::componentwise<size_type> fwd_comp;
-		typedef backward::componentwise<size_type> bwd_comp;
-		typedef bidirectional::componentwise<size_type> bid_comp;
-		typedef random_access::componentwise<size_type> rnd_comp;
+		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
+		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
+		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
+		typedef semiotic::iterator::random_access::componentwise<size_type> rnd_comp;
 
-		typedef forward::arithmetic_1<size_type> fwd_arit;
-		typedef backward::arithmetic_1<size_type> bwd_arit;
-		typedef bidirectional::arithmetic_1<size_type> bid_arit;
-		typedef arithmetic_0<size_type> rnd_arit;
+		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;
+		typedef semiotic::iterator::backward::arithmetic<size_type> bwd_arit;
+		typedef semiotic::iterator::bidirectional::arithmetic<size_type> bid_arit;
+		typedef semiotic::iterator::random_access::arithmetic<size_type> rnd_arit;
 
 		template<size_type N, typename Filler=void>
-		struct unroll_1 : public rnd_arit::template unroll_0<N, Filler>
+		struct unroll : public rnd_arit::template unroll<N, Filler>
 		{
 			template<size_type M>
-			using rnd_unroll=typename rnd_arit::template unroll_0<M>;
+			using rnd_unroll=typename rnd_arit::template unroll<M>;
 /*
 	q is the quotient.
 	r is the remainder.
@@ -347,8 +349,9 @@ namespace nik
 */
 			struct divide
 			{
-				template<typename OutputIterator>
-				static void multiple_digit(OutputIterator q, OutputIterator r, OutputIterator n, OutputIterator d)
+				template<typename OutputIterator1,
+					typename OutputIterator2, typename OutputIterator3, typename OutputIterator4>
+				static void multiple_digit(OutputIterator1 q, OutputIterator2 r, OutputIterator3 n, OutputIterator4 d)
 				{
 					size_type scale=constant::register_length-
 						regist::order(*bwd_arit::template bwd_unroll<N>::order(d))-1;
@@ -356,18 +359,18 @@ namespace nik
 			};
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll_1
+			struct subroll
 			{
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll<1, SubFiller>
 			{
 			};
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll<1, Filler>
 		{
 		};
 	};

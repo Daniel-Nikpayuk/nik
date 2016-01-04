@@ -1,6 +1,6 @@
 /*************************************************************************************************************************
 **
-** Copyright 2015 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -58,7 +58,7 @@ namespace nik
 /*
 	less_than_or_equal:
 
-	This is redundant, you can use the unrolling code of arithmetic, but this should be optimized as highly as possible,
+	This is redundant, you can use the unrolling code from arithmetic, but this should be optimized as highly as possible,
 	which, given the unrolling nature of its equivalent within arithmetic, it may not be. Test!
 */
 				template<typename ValueType>
