@@ -153,6 +153,21 @@ namespace nik
 
 		typedef componentwise<size_type> bwd_comp;
 		typedef arithmetic_0<size_type> bwd_arit;
+
+		struct partial_digit
+		{
+			template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static ValueType no_carry(InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+			{
+				return regist::divide::full_register_divisor(carry, carry, *n, d);
+			}
+
+			template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static ValueType with_carry(ValueType carry, InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+			{
+				return regist::divide::full_register_divisor(carry, carry, *n, d);
+			}
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -218,9 +233,41 @@ namespace nik
 						return unroll_1<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
 					}
 				};
+/*
+	Returns a pointer to the leading remainder digit.
 
-				struct partial_digit // needed?
+	q is the quotient.
+	carry is the leading term.
+	n is the dividend,
+	d is the divisor.
+	end is the location past the divisor.
+
+	In all fairness, there are many ways to interpret an unrolling version.
+	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
+	We unroll relative to the numerator, but the denominator is runtime based, hence its iterators.
+
+	Assumes n and d are already normalized for Knuth multiple precision division optimization.
+
+	They are typed as OutputIterators as it is assumed they are safe for modification.
+	In practice this means providing a deep copy if necessary when passing const references as input.
+
+	Assumes b < d <= n.
+
+	N is the block length as reference.
+*/
+				struct multiple_digit
 				{
+					template<typename OutputIterator, typename ValueType,
+						typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+					static ValueType divisor(OutputIterator q, ValueType carry,
+								InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+					{
+						if (carry) *q=partial_digit::with_carry(carry, n, d, end);
+						else if (less_than(n, d, end)) { *q=0; carry=*n; }
+						else { *q=partial_digit::no_carry(n, d, end); }
+
+						return unroll_1<N-1>::divide::multiple_digit(--q, r, carry, --n, d, end);
+					}
 				};
 			};
 		};
@@ -255,8 +302,19 @@ namespace nik
 					}
 				};
 
-				struct partial_digit // needed?
+				struct multiple_digit
 				{
+					template<typename OutputIterator, typename ValueType,
+						typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+					static ValueType divisor(OutputIterator q, ValueType carry,
+								InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+					{
+						if (carry) *q=partial_digit::with_carry(carry, n, d, end);
+						else if (less_than(n, d, end)) { *q=0; carry=*n; }
+						else { *q=partial_digit::no_carry(n, d, end); }
+
+						return carry;
+					}
 				};
 			};
 		};
@@ -304,31 +362,6 @@ namespace nik
 		{
 			template<size_type M>
 			using rnd_unroll=typename rnd_arit::template unroll_0<M>;
-/*
-	q is the quotient.
-	r is the remainder.
-	n is the dividend,
-	d is the divisor.
-
-	Define the clean version here.
-
-	They are typed as OutputIterators as it is assumed they are safe for modification.
-	In practice this means providing a deep copy if necessary when passing const references as input.
-
-	Assumes b < d <= n.
-
-	N is the block length as reference.
-*/
-			struct divide
-			{
-				template<typename OutputIterator1,
-					typename OutputIterator2, typename OutputIterator3, typename OutputIterator4>
-				static void multiple_digit(OutputIterator1 q, OutputIterator2 r, OutputIterator3 n, OutputIterator4 d)
-				{
-					size_type scale=constant::register_length-
-						regist::order(*bwd_arit::template bwd_unroll<N>::order(d))-1;
-				}
-			};
 
 			template<size_type M, typename SubFiller=void>
 			struct subroll_1
