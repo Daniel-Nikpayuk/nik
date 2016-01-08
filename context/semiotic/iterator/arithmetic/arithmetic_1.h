@@ -156,16 +156,49 @@ namespace nik
 
 		struct partial_digit
 		{
+/*
+	Divisor has two or more digits, while the numerator has the same amount.
+	The numerator is greater than or equal to the denominator.
+
+	The quotient is known to be less than the base.
+*/
 			template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static ValueType no_carry(InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
 			{
-				return regist::divide::full_register_divisor(carry, carry, *n, d);
-			}
+				ValueType q=*n/(*d);
 
+				InputIterator s, send=scale::with_return(s, d, end, q);
+				if (greater_than(n, s, send))
+				{
+					--q;
+					scale::no_return(s, d, end, q);
+					if (greater_than(n, s, send)) --q;
+				}
+
+				return q;
+			}
+/*
+	Divisor has two or more digits, while the numerator has the same amount plus one. The first (plus one) digit is the carry.
+
+	As the carry is non-zero (implying the previous numerator was less than the denominator),
+	you know the quotient will be less than the base.
+*/
 			template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static ValueType with_carry(ValueType carry, InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
 			{
-				return regist::divide::full_register_divisor(carry, carry, *n, d);
+				ValueType q=(carry < *d) ?
+					regist::divide::full_register_divisor(carry, carry, *n, *d) :
+					(ValueType) -1;
+
+				InputIterator s, send=scale::with_return(s, d, end, q);
+				if (greater_than(n, s, send))
+				{
+					--q;
+					scale::no_return(s, d, end, q);
+					if (greater_than(n, s, send)) --q;
+				}
+
+				return q;
 			}
 		};
 /*
