@@ -74,6 +74,9 @@ namespace nik
 		{
 			template<size_type M>
 			using fwd_unroll=typename fwd_arit::template unroll_0<M, Filler>;
+
+			struct scale
+			{
 /*
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
@@ -82,8 +85,6 @@ namespace nik
 
 	Obfuscated code ?
 */
-			struct scale
-			{
 				template<typename OutputIterator, typename InputIterator, typename ValueType>
 				static void no_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
 					{ unroll_1<N-1>::scale::no_return(++out, ++in1, in2,
@@ -103,8 +104,74 @@ namespace nik
 						regist::multiply::return_high(*out=carry, *in1, in2)); }
 			};
 
+			struct partial_digit
+			{
+/*
+	Divisor has two or more digits, while the numerator has the same amount.
+	The numerator is greater than or equal to the denominator.
+
+	The quotient is known to be less than the base.
+
+	n is the location of the leading digit of the numerator.
+	d is the location of the leading digit of the denominator.
+	s is the initial location of n as an N block.
+	t is the initial location of d as an N block.
+	u is the initial location of a temporary N block.
+
+	fwd_arit has been named in the function calls below for clarity.
+*/
+				template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static ValueType no_carry(InputIterator1 n,
+					InputIterator2 d, InputIterator3 s, InputIterator4 t, InputIterator5 u)
+				{
+					ValueType q=*n/(*d);
+
+					fwd_arit::unroll_1<N>::scale::no_return(u, t, q, 0);
+					if (fwd_arit::unroll_0<N>::greater_than(u, s))
+					{
+						--q;
+						fwd_arit::unroll_1<N>::scale::no_return(u, t, q, 0);
+						if (fwd_arit::unroll_0<N>::greater_than(u, s)) --q;
+					}
+
+					return q;
+				}
+/*
+	Divisor has two or more digits, while the numerator has the same amount plus one. The first (plus one) digit is the carry.
+
+	As the carry is non-zero (implying the previous numerator was less than the denominator),
+	you know the quotient will be less than the base.
+
+	n is the location of the leading digit of the numerator.
+	d is the location of the leading digit of the denominator.
+	s is the initial location of n as an N block.
+	t is the initial location of d as an N block.
+	u is the initial location of a temporary N block.
+
+	fwd_arit has been named in the function calls below for clarity.
+*/
+				template<typename ValueType, typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static ValueType with_carry(ValueType carry, InputIterator1 n,
+					InputIterator2 d, InputIterator3 s, InputIterator4 t, InputIterator5 u)
+				{
+					ValueType q=(carry < *d) ?
+						regist::divide::full_register_divisor(carry, carry, *n, *d) :
+						(ValueType) -1;
+
+					fwd_arit::unroll_1<N>::scale::no_return(u, t, q, 0);
+					if (fwd_arit::unroll_0<N>::greater_than(u, s))
+					{
+						--q;
+						fwd_arit::unroll_1<N>::scale::no_return(u, t, q, 0);
+						if (fwd_arit::unroll_0<N>::greater_than(u, s)) --q;
+					}
+
+					return q;
+				}
+			};
+
 			template<size_type M, typename SubFiller=void>
-			struct subroll_1
+			struct subroll_1 : public fwd_arit::template unroll_0<N, Filler>::template subroll_0<M, SubFiller>
 			{
 /*
 	Does not assume anything about the existing value of out1.
@@ -231,127 +298,16 @@ namespace nik
 						return unroll_1<N-1>::divide::single_digit::full_register_divisor(--out, --in, d, carry);
 					}
 				};
-
-				struct partial_digit
-				{
-/*
-	Divisor has two or more digits, while the numerator has the same amount.
-	The numerator is greater than or equal to the denominator.
-
-	The quotient is known to be less than the base.
-*/
-					template<typename ValueType, typename InputIterator1,
-						typename InputIterator2, typename TerminalIterator2>
-					static ValueType no_carry(InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
-					{
-						ValueType q=*n/(*d);
-
-						unroll_1<N>::scale::no_return(t, u, q, 0);
-						if (unroll_0<N>::greater_than(s, t))
-						{
-							--q;
-							unroll_1<N>::scale::no_return(t, u, q, 0);
-							if (unroll_0<N>::greater_than(s, t)) --q;
-						}
-
-						return q;
-					}
-/*
-	Divisor has two or more digits, while the numerator has the same amount plus one. The first (plus one) digit is the carry.
-
-	As the carry is non-zero (implying the previous numerator was less than the denominator),
-	you know the quotient will be less than the base.
-
-	s is the initial location of n as an N block.
-	t is a temporary container.
-	u is the initial location of d as an N block.
-*/
-					template<typename ValueType, typename InputIterator1,
-						typename InputIterator2, typename TerminalIterator2>
-					static ValueType with_carry(ValueType carry, InputIterator1 n, InputIterator2 d,
-						TerminalIterator2 end, InputIterator3 s, InputIterator4 t, InputIterator5 u)
-					{
-						ValueType q=(carry < *d) ?
-							regist::divide::full_register_divisor(carry, carry, *n, *d) :
-							(ValueType) -1;
-
-						unroll_1<N>::scale::no_return(t, u, q, 0);
-						if (unroll_0<N>::greater_than(s, t))
-						{
-							--q;
-							unroll_1<N>::scale::no_return(t, u, q, 0);
-							if (unroll_0<N>::greater_than(s, t)) --q;
-						}
-
-						return q;
-					}
-				};
 			};
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll_1
+			struct subroll_1 : public fwd_arit::template unroll_0<N, Filler>::template subroll_0<M, SubFiller>
 			{
-				struct divide
-				{
-/*
-	Returns a pointer to the leading remainder digit.
-
-	q is the quotient.
-	carry is the leading term.
-	n is the dividend,
-	d is the divisor.
-	end is the location past the divisor.
-
-	In all fairness, there are many ways to interpret an unrolling version.
-	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
-	We unroll relative to the numerator, but the denominator is runtime based, hence its iterators.
-
-	Assumes n and d are already normalized for Knuth multiple precision division optimization.
-
-	They are typed as OutputIterators as it is assumed they are safe for modification.
-	In practice this means providing a deep copy if necessary when passing const references as input.
-
-	Assumes b < d <= n.
-
-	N is the block length as reference.
-*/
-					struct multiple_digit
-					{
-						template<typename OutputIterator, typename ValueType,
-							typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-						static ValueType divisor(OutputIterator q, ValueType carry,
-									InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
-						{
-							if (carry) *q=partial_digit::with_carry(carry, n, d, end);
-							else if (less_than(n, d, end)) { *q=0; carry=*n; }
-							else { *q=partial_digit::no_carry(n, d, end); }
-
-							return subroll_1<M-1>::divide::multiple_digit(--q, r, carry, --n, d, end);
-						}
-					};
-				};
 			};
 
 			template<typename SubFiller>
 			struct subroll_1<1, SubFiller>
 			{
-				struct divide
-				{
-					struct multiple_digit
-					{
-						template<typename OutputIterator, typename ValueType,
-							typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-						static ValueType divisor(OutputIterator q, ValueType carry,
-									InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
-						{
-							if (carry) *q=partial_digit::with_carry(carry, n, d, end);
-							else if (less_than(n, d, end)) { *q=0; carry=*n; }
-							else { *q=partial_digit::no_carry(n, d, end); }
-
-							return carry;
-						}
-					};
-				};
 			};
 		};
 
@@ -404,6 +360,27 @@ namespace nik
 		typedef forward::arithmetic_0<size_type> fwd_arit;
 		typedef backward::arithmetic_0<size_type> bwd_arit;
 		typedef arithmetic_0<size_type> bid_arit;
+
+		template<size_type N, typename Filler=void>
+		struct unroll_1 : public bwd_arit::template unroll_0<N, Filler>
+		{
+			template<size_type M>
+			using bwd_unroll=typename bwd_arit::template unroll_0<M>;
+			template<size_type M, typename SubFiller=void>
+			struct subroll_1 : public fwd_arit::template unroll_0<N, Filler>::template subroll_0<M, SubFiller>
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll_1<1, SubFiller>
+			{
+			};
+		};
+
+		template<typename Filler>
+		struct unroll_1<1, Filler>
+		{
+		};
 	};
     }
 
@@ -432,13 +409,73 @@ namespace nik
 			using rnd_unroll=typename rnd_arit::template unroll_0<M>;
 
 			template<size_type M, typename SubFiller=void>
-			struct subroll_1
+			struct subroll_1 : public fwd_arit::template unroll_0<N, Filler>::template subroll_0<M, SubFiller>
 			{
+				struct divide
+				{
+/*
+	Returns a pointer to the leading remainder digit.
+
+	q is the quotient.
+	carry is the leading term.
+	n is the dividend,
+	d is the divisor.
+	end is the location past the divisor.
+
+	In all fairness, there are many ways to interpret an unrolling version.
+	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
+	We unroll relative to the numerator, but the denominator is runtime based, hence its iterators.
+
+	Assumes n and d are already normalized for Knuth multiple precision division optimization.
+
+	They are typed as OutputIterators as it is assumed they are safe for modification.
+	In practice this means providing a deep copy if necessary when passing const references as input.
+
+	Assumes b < d <= n.
+
+	N is the block length as reference.
+*/
+/*
+					struct multiple_digit
+					{
+						template<typename OutputIterator, typename ValueType,
+							typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+						static ValueType divisor(OutputIterator q, ValueType carry,
+									InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+						{
+							if (carry) *q=partial_digit::with_carry(carry, n, d, end);
+							else if (less_than(n, d, end)) { *q=0; carry=*n; }
+							else { *q=partial_digit::no_carry(n, d, end); }
+
+							return subroll_1<M-1>::divide::multiple_digit(--q, r, carry, --n, d, end);
+						}
+					};
+*/
+				};
 			};
 
 			template<typename SubFiller>
 			struct subroll_1<1, SubFiller>
 			{
+				struct divide
+				{
+/*
+					struct multiple_digit
+					{
+						template<typename OutputIterator, typename ValueType,
+							typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+						static ValueType divisor(OutputIterator q, ValueType carry,
+									InputIterator1 n, InputIterator2 d, TerminalIterator2 end)
+						{
+							if (carry) *q=partial_digit::with_carry(carry, n, d, end);
+							else if (less_than(n, d, end)) { *q=0; carry=*n; }
+							else { *q=partial_digit::no_carry(n, d, end); }
+
+							return carry;
+						}
+					};
+*/
+				};
 			};
 		};
 

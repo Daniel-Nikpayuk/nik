@@ -24,3 +24,11 @@ best way to interpret what memory is, and so there ends up being more than one p
 made famous by the C++ STL is that of *iterators*. This is developed here certainly, but there is an alternative within the nik library:
 *seperators*. Seperators are fundamentally sifters and filters when interpreting memory from the lens of set theory.
 
+Template loop unrolling until further notice assumes the partially specialized iteration coincides with the final iteration of the loop.
+Such policy may change under a better understanding of general design, but is otherwise needed as clean loops when optimized toward
+their "normal" (intuitive) use (safe/user-friendly form) often require overhead before and/or after the main loop. The main issue
+stems from the "carry" variable passing information from one iteration to the next. It's possible to use that carry value to
+pass some initial iterative information which then shifts the loop such that the partially specialized case more often than not
+passes as the identity. This would reduce code size for these functions, but would then require more detailed information in
+constructing the initial carry. Another way to change this is to define the N=0 case instead of the N=1 case.
+

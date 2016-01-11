@@ -53,6 +53,102 @@ namespace nik
 	{
 		typedef meta::constant<size_type> constant;
 /*
+			template<typename Topos>
+			static bool equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				while (in2 != end2)
+					if (in1->value != in2->value) return false;
+					else { in1=in1->edge0; in2=in2->edge0; }
+				return true;
+			}
+*/
+/*
+	Tests for inequality over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool not_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				while (in2 != end2)
+					if (in1->value != in2->value) return true;
+					else { in1=in1->edge0; in2=in2->edge0; }
+				return false;
+			}
+*/
+/*
+	Compares for "less than" over the range in2--end2.  Assumes <--in1 exists.
+	Optimized to shortcut on the probability that it's more likely in1->value != in2->value for random assignments.
+*/
+/*
+			template<typename Topos>
+			static bool less_than(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value < in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value < in2->value) rtn=true;
+					else if (in1->value > in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
+	Compares for "less than or equal" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool less_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value <= in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value < in2->value) rtn=true;
+					else if (in1->value > in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
+	Compares for "greater than" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool greater_than(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value > in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value > in2->value) rtn=true;
+					else if (in1->value < in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
+	Compares for "greater than or equal" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool greater_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value >= in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value > in2->value) rtn=true;
+					else if (in1->value < in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
 	For the "natural" right_shift,
 	define in2 = ++InputIterator(in1),
 	as well as n = constant::register_length-m,
@@ -99,15 +195,84 @@ namespace nik
 		struct unroll_0
 		{
 /*
+	This is semantically classified here even though there is no carry value passed directly to the next iteration.
+	The reason for such a classification is that the final result is dependent upon current as well as previous values.
 */
 			template<typename Iterator1, typename Iterator2>
 			static bool equal(Iterator1 in1, Iterator2 in2)
 				{ return (*in1 == *in2) && unroll_0<N-1>::equal(++in1, ++in2); }
 /*
+	This is semantically classified here even though there is no carry value passed directly to the next iteration.
+	The reason for such a classification is that the final result is dependent upon current as well as previous values.
 */
 			template<typename Iterator1, typename Iterator2>
 			static bool not_equal(Iterator1 in1, Iterator2 in2)
 				{ return (*in1 != *in2) || unroll_0<N-1>::not_equal(++in1, ++in2); }
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	Optimized to shortcut on the probability that it's more likely *in1 != *in2 for random assignments.
+*/
+			template<typename Iterator1, typename Iterator2>
+			static bool less_than(bool carry, Iterator1 in1, Iterator2 in2)
+				{ return unroll_0<N-1>::less_than(((*in1 < *in2) || ((*in1 == *in2) && carry)), ++in1, ++in2); }
+/*
+	Compares for "less than or equal" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool less_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value <= in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value < in2->value) rtn=true;
+					else if (in1->value > in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
+	Compares for "greater than" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool greater_than(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value > in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value > in2->value) rtn=true;
+					else if (in1->value < in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+/*
+	Compares for "greater than or equal" over the range in2--end2.
+	Assumes <--in1 exists.
+*/
+/*
+			template<typename Topos>
+			static bool greater_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			{
+				bool rtn=(in1->value >= in2->value);
+				while ((in2=in2->edge0) != end2)
+				{
+					in1=in1->edge0;
+					if (in1->value > in2->value) rtn=true;
+					else if (in1->value < in2->value) rtn=false;
+				}
+				return rtn;
+			}
+*/
+
 /*
 	N is interpreted here as (array length - # of array positional shifts).
 
@@ -219,6 +384,16 @@ namespace nik
 					}
 				};
 			};
+
+			template<size_type M, typename SubFiller=void>
+			struct subroll_0
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll_0<1, SubFiller>
+			{
+			};
 		};
 
 		template<typename Filler>
@@ -228,6 +403,10 @@ namespace nik
 			static bool equal(Iterator1 in1, Iterator2 in2) { return (*in1 == *in2); }
 			template<typename Iterator1, typename Iterator2>
 			static bool not_equal(Iterator1 in1, Iterator2 in2) { return (*in1 != *in2); }
+
+			template<typename Iterator1, typename Iterator2>
+			static bool less_than(bool carry, Iterator1 in1, Iterator2 in2)
+				{ return ((*in1 < *in2) || ((*in1 == *in2) && carry)); }
 
 /*
 	Does not perform adding (*in2<<n) as in2 may be past the boundary.
@@ -436,6 +615,16 @@ namespace nik
 					}
 				};
 			};
+
+			template<size_type M, typename SubFiller=void>
+			struct subroll_0
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll_0<1, SubFiller>
+			{
+			};
 		};
 
 		template<typename Filler>
@@ -496,6 +685,24 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
+		template<size_type N, typename Filler=void>
+		struct unroll_0
+		{
+			template<size_type M, typename SubFiller=void>
+			struct subroll_0
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll_0<1, SubFiller>
+			{
+			};
+		};
+
+		template<typename Filler>
+		struct unroll_0<1, Filler>
+		{
+		};
 	};
     }
     
@@ -504,6 +711,24 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
+		template<size_type N, typename Filler=void>
+		struct unroll_0
+		{
+			template<size_type M, typename SubFiller=void>
+			struct subroll_0
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll_0<1, SubFiller>
+			{
+			};
+		};
+
+		template<typename Filler>
+		struct unroll_0<1, Filler>
+		{
+		};
 	};
     }
    }
