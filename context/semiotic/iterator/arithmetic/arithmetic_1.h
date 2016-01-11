@@ -191,7 +191,7 @@ namespace nik
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll_1<0, SubFiller>
 			{
 				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
 				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
@@ -204,7 +204,7 @@ namespace nik
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll_1<0, Filler>
 		{
 /*
 	Obfuscated code ?
@@ -306,13 +306,13 @@ namespace nik
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll_1<0, SubFiller>
 			{
 			};
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll_1<0, Filler>
 		{
 			struct divide
 			{
@@ -372,13 +372,13 @@ namespace nik
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll_1<0, SubFiller>
 			{
 			};
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll_1<0, Filler>
 		{
 		};
 	};
@@ -455,7 +455,7 @@ namespace nik
 			};
 
 			template<typename SubFiller>
-			struct subroll_1<1, SubFiller>
+			struct subroll_1<0, SubFiller>
 			{
 				struct divide
 				{
@@ -480,7 +480,7 @@ namespace nik
 		};
 
 		template<typename Filler>
-		struct unroll_1<1, Filler>
+		struct unroll_1<0, Filler>
 		{
 		};
 	};

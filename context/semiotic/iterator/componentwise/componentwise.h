@@ -200,6 +200,40 @@ namespace nik
 		{
 			no_return_2(++, >>)
 			with_return_2(++, >>)
+/*
+	For the "natural" right_shift,
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+			template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator>
+			static void no_return(OutputIterator out, InputIterator1 in1,
+				InputIterator2 in2, TerminalIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1>>m)+(*in2<<n);
+					++out; ++in1; ++in2;
+				}
+			}
+/*
+	For the "natural" right_shift,
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+			template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator>
+			static OutputIterator with_return(OutputIterator out, InputIterator1 in1,
+				InputIterator2 in2, TerminalIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1>>m)+(*in2<<n);
+					++out; ++in1; ++in2;
+				}
+
+				return out;
+			}
 		};
 /*
 	==:
@@ -501,10 +535,45 @@ namespace nik
 		template<size_type N, typename Filler=void>
 		struct unroll
 		{
+			struct right_shift
+			{
 /*
+	For the "natural" right_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
 */
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+				{
+					*out=(*in1>>m)+(*in2<<n);
+					unroll<N-1>::right_shift::no_return(++out, ++in1, ++in2, m, n);
+				}
+/*
+	For the "natural" right_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
+*/
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(OutputIterator out,
+					InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+				{
+					*out=(*in1>>m)+(*in2<<n);
+					return unroll<N-1>::right_shift::with_return(++out, ++in1, ++in2, m, n);
+				}
+			};
+
 			struct repeat
 			{
+/*
+*/
 				template<typename Iterator, typename ValueType>
 				static void no_return(Iterator out, ValueType in)
 				{
@@ -538,28 +607,32 @@ namespace nik
 					*out=*in;
 					return unroll<N-1>::assign::with_return(++out, ++in);
 				}
-			};
-		};
 
-		template<typename Filler>
-		struct unroll<1, Filler>
-		{
-			struct repeat
-			{
-				template<typename Iterator, typename ValueType>
-				static void no_return(Iterator out, ValueType in) { *out=in; }
-				template<typename Iterator, typename ValueType>
-				static Iterator with_return(Iterator out, ValueType in)
-					{ *out=in; return ++out; }
-			};
+				struct right_shift
+				{
+/*
+	For the "natural" right_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
 
-			struct assign
-			{
-				template<typename OutputIterator, typename InputIterator>
-				static void no_return(OutputIterator out, InputIterator in) { *out=*in; }
-				template<typename OutputIterator, typename InputIterator>
-				static OutputIterator with_return(OutputIterator out, InputIterator in)
-					{ *out=*in; return ++out; }
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
+	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
+*/
+					template<typename OutputIterator, typename InputIterator>
+					static void no_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+					{
+						(*out>>=m)+=(*in<<n);
+						unroll<N-1>::assign::right_shift::no_return(++out, ++in, m, n);
+					}
+
+					template<typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+					{
+						(*out>>=m)+=(*in<<n);
+						return unroll<N-1>::assign::left_shift::with_return(++out, ++in, m, n);
+					}
+				};
 			};
 		};
 
@@ -567,13 +640,50 @@ namespace nik
 		struct unroll<0, Filler>
 		{
 /*
-	Added for the special initializing case that N == 0,
-	as such it should be the identity function and return the existing iterator.
 */
+			struct right_shift
+			{
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+					{ }
+
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(OutputIterator out,
+					InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+						{ return out; }
+			};
+
 			struct repeat
 			{
 				template<typename Iterator, typename ValueType>
-				static Iterator with_return(Iterator out, ValueType in) { return out; }
+				static void no_return(Iterator out, ValueType in)
+					{ }
+				template<typename Iterator, typename ValueType>
+				static Iterator with_return(Iterator out, ValueType in)
+					{ return out; }
+			};
+
+			struct assign
+			{
+				template<typename OutputIterator, typename InputIterator>
+				static void no_return(OutputIterator out, InputIterator in)
+					{ }
+				template<typename OutputIterator, typename InputIterator>
+				static OutputIterator with_return(OutputIterator out, InputIterator in)
+					{ return out; }
+/*
+	Does not perform adding (*in<<n) as in2 may be past the boundary.
+*/
+				struct right_shift
+				{
+					template<typename OutputIterator, typename InputIterator>
+					static void no_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+						{ }
+
+					template<typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+						{ return out; }
+				};
 			};
 		};
 	};
@@ -713,6 +823,38 @@ namespace nik
 		{
 			no_return_2(--, <<)
 			with_return_2(--, <<)
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --InputIterator(in1),
+	as well as n = constant::register_length-m.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
+	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
+*/
+			template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator>
+			static void no_return(OutputIterator out, InputIterator1 in1,
+				InputIterator2 in2, TerminalIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					--out; --in1; --in2;
+				}
+			}
+
+			template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator>
+			static OutputIterator with_return(OutputIterator out, InputIterator1 in1,
+				InputIterator2 in2, TerminalIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					--out; --in1; --in2;
+				}
+
+				return out;
+			}
 		};
 /*
 	>>:
@@ -1031,6 +1173,34 @@ namespace nik
 		template<size_type N, typename Filler=void>
 		struct unroll
 		{
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --InputIterator(in1),
+	as well as n = constant::register_length-m.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
+	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
+*/
+			struct left_shift
+			{
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(OutputIterator out,
+					InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					unroll<N-1>::left_shift::no_return(--out, --in1, --in2, m, n);
+				}
+
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(OutputIterator out,
+					InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					return unroll<N-1>::left_shift::with_return(--out, --in1, --in2, m, n);
+				}
+			};
+
 			struct repeat
 			{
 /*
@@ -1068,28 +1238,31 @@ namespace nik
 					*out=*in;
 					return unroll<N-1>::assign::with_return(--out, --in);
 				}
-			};
-		};
+/*
+	For the "natural" right_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = ++InputIterator(in1),
+	as well as n = constant::register_length-m.
 
-		template<typename Filler>
-		struct unroll<1, Filler>
-		{
-			struct repeat
-			{
-				template<typename Iterator, typename ValueType>
-				static void no_return(Iterator out, ValueType in) { *out=in; }
-				template<typename Iterator, typename ValueType>
-				static Iterator with_return(Iterator out, ValueType in)
-					{ *out=in; return --out; }
-			};
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
+	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.
+*/
+				struct left_shift
+				{
+					template<typename OutputIterator, typename InputIterator>
+					static void no_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+					{
+						(*out<<=m)+=(*in>>n);
+						unroll<N-1>::assign::left_shift::no_return(--out, --in, m, n);
+					}
 
-			struct assign
-			{
-				template<typename OutputIterator, typename InputIterator>
-				static void no_return(OutputIterator out, InputIterator in) { *out=*in; }
-				template<typename OutputIterator, typename InputIterator>
-				static OutputIterator with_return(OutputIterator out, InputIterator in)
-					{ *out=*in; return --out; }
+					template<typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+					{
+						(*out<<=m)+=(*in>>n);
+						return unroll<N-1>::assign::left_shift::with_return(--out, --in, m, n);
+					}
+				};
 			};
 		};
 
@@ -1097,13 +1270,51 @@ namespace nik
 		struct unroll<0, Filler>
 		{
 /*
-	Added for the special initializing case that N == 0,
-	as such it should be the identity function and return the existing iterator.
+	Does not perform adding (*in2>>n) as in2 may be past the boundary.
 */
+			struct left_shift
+			{
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+					{ }
+
+				template<typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(OutputIterator out,
+					InputIterator1 in1, InputIterator2 in2, size_type m, size_type n)
+						{ return out; }
+			};
+
 			struct repeat
 			{
 				template<typename Iterator, typename ValueType>
-				static Iterator with_return(Iterator out, ValueType in) { return out; }
+				static void no_return(Iterator out, ValueType in)
+					{ }
+				template<typename Iterator, typename ValueType>
+				static Iterator with_return(Iterator out, ValueType in)
+					{ return out; }
+			};
+
+			struct assign
+			{
+				template<typename OutputIterator, typename InputIterator>
+				static void no_return(OutputIterator out, InputIterator in)
+					{ }
+				template<typename OutputIterator, typename InputIterator>
+				static OutputIterator with_return(OutputIterator out, InputIterator in)
+					{ return out; }
+/*
+	Does not perform adding (*in>>n) as in2 may be past the boundary.
+*/
+				struct left_shift
+				{
+					template<typename OutputIterator, typename InputIterator>
+					static void no_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+						{ }
+
+					template<typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(OutputIterator out, InputIterator in, size_type m, size_type n)
+						{ return out; }
+				};
 			};
 		};
 	};

@@ -24,11 +24,32 @@ best way to interpret what memory is, and so there ends up being more than one p
 made famous by the C++ STL is that of *iterators*. This is developed here certainly, but there is an alternative within the nik library:
 *seperators*. Seperators are fundamentally sifters and filters when interpreting memory from the lens of set theory.
 
-Template loop unrolling until further notice assumes the partially specialized iteration coincides with the final iteration of the loop.
-Such policy may change under a better understanding of general design, but is otherwise needed as clean loops when optimized toward
-their "normal" (intuitive) use (safe/user-friendly form) often require overhead before and/or after the main loop. The main issue
-stems from the "carry" variable passing information from one iteration to the next. It's possible to use that carry value to
-pass some initial iterative information which then shifts the loop such that the partially specialized case more often than not
-passes as the identity. This would reduce code size for these functions, but would then require more detailed information in
-constructing the initial carry. Another way to change this is to define the N=0 case instead of the N=1 case.
+Template loop unrolling requires unambiguous policy as there are alternatives to general implementations.
+
+Be it componentwise or arithmetic or general recursive, the solution arises from refactoring/compressing code to have a minimal footprint.
+I have decided to borrow from mathematical/combinatorial best practices by making use of the identity value (zero value) as default
+for the specialized initial "seed" code regarding unrolling. This would refactor the loop iterative code to be defined solely within
+the general definition leaving the specialized case to be minimalistic as possible. Any "natural" (intuitive) implementations
+as part of the user-friendly interface versions (as part of the clean/unsafe paradigm split) would handle any specialized
+overhead.
+
+There are several reasons for choosing this particular policy, though the main reason is in privileging the paradigm of seperating
+clean "normal forms" from local user-friendly versions. If these unrolled loops really are cleanly defined, there's no need for
+variant specializations in the first place. Having variant specializations would further encourage such poor/bad coding practices.
+
+The other consideration is when one is able to define composite carrys being passed along the unrolled loop.
+If one has a choice between extending the modification within the body before the next iterative call,
+or within the arguements passed within the next iterative call, for code readability at least it is better to do so within the body.
+
+I have run some basic g++ compiler behavioural tests suggesting an important property: Incrementation under template unrolling
+is not persistent. As such, in order to be able to specialize within the user-friendly versions, one has two options:
+Use the return version of unrolling to update the iterator, or pass the iterator type as a reference when calling.
+
+How a #Mathematician sees #ComputingScience:
+
+With implementation, you should have a universal medium (a universal construct language), then you can build non-linear stories
+around an efficient implementation (minimizing redundancy and overhead) and then simply navigate the story-specifications in more
+complex ways. This is already done with the relationship between hard drive storage and filesystems. Hard drive is (close) to universal,
+while the filesystem is lightweight stories. This is already done in math: The real line (or n-dimensional real number system) is universal,
+while stories around it become nuanced and are in need of localized navigational semiotics and semantics.
 
