@@ -52,102 +52,148 @@ namespace nik
 	struct arithmetic_0
 	{
 		typedef meta::constant<size_type> constant;
+
+		struct equal
+		{
 /*
-			template<typename Topos>
-			static bool equal(const Topos *in1, const Topos *in2, const Topos *end2)
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+	
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
-					if (in1->value != in2->value) return false;
-					else { in1=in1->edge0; in2=in2->edge0; }
+				{
+					carry=carry && (*in1 == *in2);
+					++in1; ++in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return false;
+					++in1; ++in2;
+				}
+
 				return true;
 			}
-*/
+		};
+
+		struct not_equal
+		{
 /*
-	Tests for inequality over the range in2--end2.
-	Assumes <--in1 exists.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-/*
-			template<typename Topos>
-			static bool not_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
-					if (in1->value != in2->value) return true;
-					else { in1=in1->edge0; in2=in2->edge0; }
+				{
+					carry=carry || (*in1 != *in2);
+					++in1; ++in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return true;
+					++in1; ++in2;
+				}
+
 				return false;
 			}
-*/
+		};
 /*
-	Compares for "less than" over the range in2--end2.  Assumes <--in1 exists.
-	Optimized to shortcut on the probability that it's more likely in1->value != in2->value for random assignments.
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
-/*
-			template<typename Topos>
-			static bool less_than(const Topos *in1, const Topos *in2, const Topos *end2)
+		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+		static bool less_than(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		{
+			while (in2 != end2)
 			{
-				bool rtn=(in1->value < in2->value);
-				while ((in2=in2->edge0) != end2)
-				{
-					in1=in1->edge0;
-					if (in1->value < in2->value) rtn=true;
-					else if (in1->value > in2->value) rtn=false;
-				}
-				return rtn;
+				if (*in1 < *in2) carry=true;
+				else if (*in1 > *in2) carry=false;
+
+				++in1; ++in2;
 			}
-*/
+
+			return carry;
+		}
 /*
-	Compares for "less than or equal" over the range in2--end2.
-	Assumes <--in1 exists.
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
-/*
-			template<typename Topos>
-			static bool less_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+		static bool less_than_or_equal(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		{
+			while (in2 != end2)
 			{
-				bool rtn=(in1->value <= in2->value);
-				while ((in2=in2->edge0) != end2)
-				{
-					in1=in1->edge0;
-					if (in1->value < in2->value) rtn=true;
-					else if (in1->value > in2->value) rtn=false;
-				}
-				return rtn;
+				if (*in1 < *in2) carry=true;
+				else if (*in1 > *in2) carry=false;
+
+				++in1; ++in2;
 			}
-*/
+
+			return carry;
+		}
 /*
-	Compares for "greater than" over the range in2--end2.
-	Assumes <--in1 exists.
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
-/*
-			template<typename Topos>
-			static bool greater_than(const Topos *in1, const Topos *in2, const Topos *end2)
+		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+		static bool greater_than(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		{
+			while (in2 != end2)
 			{
-				bool rtn=(in1->value > in2->value);
-				while ((in2=in2->edge0) != end2)
-				{
-					in1=in1->edge0;
-					if (in1->value > in2->value) rtn=true;
-					else if (in1->value < in2->value) rtn=false;
-				}
-				return rtn;
+				if (*in1 > *in2) carry=true;
+				else if (*in1 < *in2) carry=false;
+
+				++in1; ++in2;
 			}
-*/
+
+			return carry;
+		}
 /*
-	Compares for "greater than or equal" over the range in2--end2.
-	Assumes <--in1 exists.
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
-/*
-			template<typename Topos>
-			static bool greater_than_or_equal(const Topos *in1, const Topos *in2, const Topos *end2)
+		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+		static bool greater_than_or_equal(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		{
+			while (in2 != end2)
 			{
-				bool rtn=(in1->value >= in2->value);
-				while ((in2=in2->edge0) != end2)
-				{
-					in1=in1->edge0;
-					if (in1->value > in2->value) rtn=true;
-					else if (in1->value < in2->value) rtn=false;
-				}
-				return rtn;
+				if (*in1 > *in2) carry=true;
+				else if (*in1 < *in2) carry=false;
+
+				++in1; ++in2;
 			}
-*/
+
+			return carry;
+		}
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -176,7 +222,7 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
 				{
-					carry&&=(*in1 == *in2);
+					carry=carry && (*in1 == *in2);
 					return unroll_0<N-1>::equal::no_break(carry, ++in1, ++in2);
 				}
 
@@ -198,7 +244,7 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
 				{
-					carry||=(*in1 != *in2);
+					carry=carry || (*in1 != *in2);
 					return unroll_0<N-1>::not_equal::no_break(carry, ++in1, ++in2);
 				}
 
@@ -220,7 +266,7 @@ namespace nik
 				if (*in1 < *in2) carry=true;
 				else if (*in1 > *in2) carry=false;
 
-				return unroll_0<N-1>::less_than::no_break(carry, ++in1, ++in2);
+				return unroll_0<N-1>::less_than(carry, ++in1, ++in2);
 			}
 /*
 	in1 is the initial location of the left operand.
@@ -233,7 +279,7 @@ namespace nik
 				if (*in1 < *in2) carry=true;
 				else if (*in1 > *in2) carry=false;
 
-				return unroll_0<N-1>::less_than::no_break(carry, ++in1, ++in2);
+				return unroll_0<N-1>::less_than_or_equal(carry, ++in1, ++in2);
 			}
 /*
 	in1 is the initial location of the left operand.
@@ -246,7 +292,7 @@ namespace nik
 				if (*in1 > *in2) carry=true;
 				else if (*in1 < *in2) carry=false;
 
-				return unroll_0<N-1>::less_than::no_break(carry, ++in1, ++in2);
+				return unroll_0<N-1>::greater_than(carry, ++in1, ++in2);
 			}
 /*
 	in1 is the initial location of the left operand.
@@ -259,7 +305,7 @@ namespace nik
 				if (*in1 > *in2) carry=true;
 				else if (*in1 < *in2) carry=false;
 
-				return unroll_0<N-1>::less_than::no_break(carry, ++in1, ++in2);
+				return unroll_0<N-1>::greater_than_or_equal(carry, ++in1, ++in2);
 			}
 /*
 			Intuitively, "right_shift" would be defined here,
@@ -430,6 +476,200 @@ namespace nik
 	struct arithmetic_0
 	{
 		typedef meta::constant<size_type> constant;
+
+		struct equal
+		{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+	
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry && (*in1 == *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return false;
+					--in1; --in2;
+				}
+
+				return true;
+			}
+		};
+
+		struct not_equal
+		{
+/*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry || (*in1 != *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return true;
+					--in1; --in2;
+				}
+
+				return false;
+			}
+		};
+
+		struct less_than
+		{
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry || (*in1 < *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					--in1; --in2;
+				}
+
+				return false;
+			}
+		};
+
+		struct less_than_or_equal
+		{
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry && (*in1 <= *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					--in1; --in2;
+				}
+
+				return true;
+			}
+		};
+
+		struct greater_than
+		{
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry || (*in1 > *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					--in1; --in2;
+				}
+
+				return false;
+			}
+		};
+
+		struct greater_than_or_equal
+		{
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+*/
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry=carry && (*in1 >= *in2);
+					--in1; --in2;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					--in1; --in2;
+				}
+
+				return true;
+			}
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -455,7 +695,7 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
 				{
-					carry&&=(*in1 == *in2);
+					carry=carry && (*in1 == *in2);
 					return unroll_0<N-1>::equal::no_break(carry, --in1, --in2);
 				}
 
@@ -477,7 +717,7 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
 				{
-					carry||=(*in1 != *in2);
+					carry=carry || (*in1 != *in2);
 					return unroll_0<N-1>::not_equal::no_break(carry, --in1, --in2);
 				}
 

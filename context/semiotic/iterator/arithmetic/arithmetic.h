@@ -51,12 +51,12 @@ namespace nik
 		typedef meta::constant<size_type> constant;
 
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_1<N, Filler>
 		{
 		};
 
 		template<typename Filler>
-		struct unroll<1, Filler>
+		struct unroll<0, Filler>
 		{
 		};
 	};
@@ -70,12 +70,12 @@ namespace nik
 		typedef meta::constant<size_type> constant;
 
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic_1<size_type>::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_1<N, Filler>
 		{
 		};
 
 		template<typename Filler>
-		struct unroll<1, Filler>
+		struct unroll<0, Filler>
 		{
 		};
 	};
@@ -86,6 +86,15 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_1<size_type>
 	{
+		template<size_type N, typename Filler=void>
+		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		{
+		};
+
+		template<typename Filler>
+		struct unroll<0, Filler>
+		{
+		};
 	};
     }
     
@@ -94,6 +103,24 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_1<size_type>
 	{
+		template<size_type N, typename Filler=void>
+		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		{
+			template<size_type M, typename SubFiller=void>
+			struct subroll : public unroll::template subroll_1<M, SubFiller>
+			{
+			};
+
+			template<typename SubFiller>
+			struct subroll<0, SubFiller>
+			{
+			};
+		};
+
+		template<typename Filler>
+		struct unroll<0, Filler>
+		{
+		};
 	};
     }
    }
