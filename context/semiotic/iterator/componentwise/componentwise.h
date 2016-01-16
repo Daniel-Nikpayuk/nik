@@ -630,7 +630,7 @@ namespace nik
 					static OutputIterator with_return(OutputIterator out, InputIterator in, size_type m, size_type n)
 					{
 						(*out>>=m)+=(*in<<n);
-						return unroll<N-1>::assign::left_shift::with_return(++out, ++in, m, n);
+						return unroll<N-1>::assign::right_shift::with_return(++out, ++in, m, n);
 					}
 				};
 			};

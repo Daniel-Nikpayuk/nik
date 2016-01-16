@@ -53,11 +53,44 @@ namespace nik
 	{
 		typedef meta::constant<size_type> constant;
 
+		struct zero
+		{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			template<typename InputIterator, typename TerminalIterator>
+			static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+			{
+				while (in != end)
+				{
+					carry=carry && !*in;
+					++in;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator, typename TerminalIterator>
+			static bool with_break(InputIterator in, TerminalIterator end)
+			{
+				while (in != end)
+				{
+					if (*in) return false;
+					++in;
+				}
+
+				return true;
+			}
+		};
+
 		struct equal
 		{
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -208,9 +241,28 @@ namespace nik
 		template<size_type N, typename Filler=void>
 		struct unroll_0
 		{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+	
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			struct zero
+			{
+				template<typename Iterator>
+				static bool no_break(bool carry, Iterator in)
+				{
+					carry=carry && !*in;
+					return unroll_0<N-1>::zero::no_break(carry, ++in);
+				}
 
-/****************************** Need to reimplement all loop unrolling under the new design constraints!!! ********************/
-
+				template<typename Iterator>
+				static bool with_break(Iterator in)
+				{
+					if (*in) return false;
+					else return unroll_0<N-1>::zero::with_break(++in);
+				}
+			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
 	
@@ -394,6 +446,16 @@ namespace nik
 		template<typename Filler>
 		struct unroll_0<0, Filler>
 		{
+			struct zero
+			{
+				template<typename Iterator>
+				static bool no_break(bool carry, Iterator in)
+					{ return carry; }
+				template<typename Iterator>
+				static bool with_break(Iterator in)
+					{ return true; }
+			};
+
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
@@ -476,6 +538,39 @@ namespace nik
 	struct arithmetic_0
 	{
 		typedef meta::constant<size_type> constant;
+
+		struct zero
+		{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+			template<typename InputIterator, typename TerminalIterator>
+			static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+			{
+				while (in != end)
+				{
+					carry=carry && !*in;
+					--in;
+				}
+
+				return carry;
+			}
+
+			template<typename InputIterator, typename TerminalIterator>
+			static bool with_break(InputIterator in, TerminalIterator end)
+			{
+				while (in != end)
+				{
+					if (*in) return false;
+					--in;
+				}
+
+				return true;
+			}
+		};
 
 		struct equal
 		{
@@ -690,6 +785,28 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
+			struct zero
+			{
+				template<typename Iterator>
+				static bool no_break(bool carry, Iterator in)
+				{
+					carry=carry && !*in;
+					return unroll_0<N-1>::zero::no_break(carry, --in);
+				}
+
+				template<typename Iterator>
+				static bool with_break(Iterator in)
+				{
+					if (*in) return false;
+					else return unroll_0<N-1>::zero::with_break(--in);
+				}
+			};
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+	
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
@@ -800,6 +917,37 @@ namespace nik
 		template<typename Filler>
 		struct unroll_0<0, Filler>
 		{
+			struct zero
+			{
+				template<typename Iterator>
+				static bool no_break(bool carry, Iterator in)
+					{ return carry; }
+				template<typename Iterator>
+				static bool with_break(Iterator in)
+					{ return true; }
+			};
+
+			struct equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+				template<typename Iterator1, typename Iterator2>
+				static bool with_break(Iterator1 in1, Iterator2 in2)
+					{ return true; }
+			};
+
+			struct not_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool with_break(Iterator1 in1, Iterator2 in2)
+					{ return false; }
+			};
+
 			template<typename Iterator1, typename Iterator2>
 			static bool less_than(Iterator1 in1, Iterator2 in2)
 				{ return false; }

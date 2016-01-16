@@ -335,118 +335,59 @@ namespace nik
 				{
 					struct multiple_digit
 					{
-						struct quotient
-						{
 /*
-	Divisor has two or more digits, while the numerator has the same amount.
-	The numerator is greater than or equal to the denominator.
-
-	The quotient is known to be less than the base.
-
-	n is the initial location of the numerator as an N block.
-	d is the initial location of the denominator as an N block.
-	u is the location of the leading digit of the numerator.
-	v is the location of the leading digit of the denominator.
-	t is the initial location of a temporary N block.
-
-	The assumption is the whole block will be unrolled which will initialize t while scaling.
-	Otherwise leaving t uninitialized is a bug.
-*/
-							template<typename ValueType, typename InputIterator1, typename InputIterator2,
-								typename InputIterator3, typename InputIterator4, typename InputIterator5>
-							static ValueType no_carry(InputIterator1 n,
-								InputIterator2 d, InputIterator3 u, InputIterator4 v, InputIterator5 t)
-							{
-								ValueType q=*u/(*v);
-
-								fwd_arit::template unroll_1<N>::scale::no_return(t, d, q, (ValueType) 0);
-								if (fwd_arit::template unroll_0<N>::greater_than(false, t, n))
-								{
-									--q;
-									fwd_arit::template unroll_1<N>::
-										scale::no_return(t, d, q, (ValueType) 0);
-									if (fwd_arit::template unroll_0<N>::greater_than(false, t, n)) --q;
-								}
-
-								return q;
-							}
-/*
-	Divisor has two or more digits, while the numerator has the same amount plus one. The first (plus one) digit is the carry.
-
-	As the carry is non-zero (implying the previous numerator was less than the denominator),
-	you know the quotient will be less than the base.
-
-	n is the initial location of the numerator as an N block.
-	d is the initial location of the denominator as an N block.
-	u is the location of the leading digit of the numerator.
-	v is the location of the leading digit of the denominator.
-	t is the initial location of a temporary N block.
-
-	The assumption is the whole block will be unrolled which will initialize t while scaling.
-	Otherwise leaving t uninitialized is a bug.
-*/
-							template<typename ValueType, typename InputIterator1, typename InputIterator2,
-								typename InputIterator3, typename InputIterator4, typename InputIterator5>
-							static ValueType with_carry(ValueType carry, InputIterator1 n,
-								InputIterator2 d, InputIterator3 u, InputIterator4 v, InputIterator5 t)
-							{
-								ValueType q=(carry < *v) ?
-									regist::divide::full_register_divisor(carry, carry, *u, *v) :
-									(ValueType) -1;
-
-								fwd_arit::template unroll_1<N>::scale::no_return(t, d, q, (ValueType) 0);
-								if (fwd_arit::template unroll_0<N>::greater_than(false, t, n))
-								{
-									--q;
-									fwd_arit::template unroll_1<N>::
-										scale::no_return(t, d, q, (ValueType) 0);
-									if (fwd_arit::template unroll_0<N>::greater_than(false, t, n)) --q;
-								}
-
-								return q;
-							}
-						};
-/*
-	Returns a pointer to the leading remainder digit.
-
 	N is the block length as reference.
 
-	q is the quotient.
-	carry is the leading term before the numerator.
-	n is the initial location of the numerator as an N block.
+	q is the quotient to be determined.
+	r is the first non-zero digit of the numerator. Digits are shifted into its register until big enough to divide.
+	t is the initial location of a temporary N block used for internal computations.
+	n is the second digit location of the numerator as an N block. In practice this may be the initial location at times.
 	d is the initial location of the denominator as an N block.
-	u is the location of the leading digit of the numerator.
-	v is the location of the leading digit of the denominator.
-	t is the initial location of a temporary N block.
-	end is the location beyond the denominator.
 
-	Assumes n and d are already normalized for Knuth multiple precision division optimization.
+	Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
 
 	The assumption is the whole block will be unrolled which will initialize t while scaling.
 	Otherwise leaving t uninitialized is a bug.
 
 	In all fairness, there are many ways to interpret an unrolling version.
 	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
-	We unroll relative to the numerator, but the denominator is runtime based, hence its iterators.
 
 	OutputIterators are assumed safe for modification.
 	In practice this means providing a deep copy if necessary when passing const references as input.
 
 	Assumes b < d <= n.
 */
-						template<typename OutputIterator, typename ValueType, typename InputIterator1,
-							typename InputIterator2, typename InputIterator3, typename InputIterator4,
-								typename InputIterator5, typename TerminalIterator2>
-						static ValueType with_return(OutputIterator q,
-							ValueType carry, InputIterator1 n, InputIterator2 d,
-								InputIterator3 u, InputIterator4 v, InputIterator5 t, TerminalIterator2 end)
+						template<typename OutputIterator1, typename OutputIterator2,
+							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
+						static void quotient_remainder(OutputIterator1 q,
+							OutputIterator2 r, OutputIterator3 t, InputIterator1 n, InputIterator2 d)
 						{
-							if (carry) *q=quotient::with_carry(carry, n, d, u, v, t);
-							else if (bwd_arit::less_than::no_break(false, u, v, end)) { *q=0; carry=*u; }
-							else { *q=quotient::no_carry<ValueType>(n, d, u, v, t); }
+							if (bwd_arit::unroll_0<N>::less_than::no_break(false, r, d))
+							{
+								*q=0;
+								*bwd_comp::unroll<N-1>::assign::with_return(r, ++Iterator(r))=*n;
+							}
+							else
+							{
+								*q=(same_digit_length(r, d)) ? *u/(*v) : (r < *v) ?
+									regist::divide::full_register_divisor(r, r, *u, *v) :
+									(ValueType) -1;
 
-							return subroll_1<M-1>::divide::multiple_digit::
-								with_return(--q, carry, --n, d, u, v, t, end);
+								fwd_arit::template unroll_1<N>::scale::
+									no_return(t+N-1, d+N-1, *q, (ValueType) 0);
+								if (bwd_arit::template unroll_0<N>::greater_than(false, t, n))
+								{
+									--*q;
+									fwd_arit::template unroll_1<N>::scale::
+										no_return(t+N-1, d+N-1, *q, (ValueType) 0);
+									if (bwd_arit::template unroll_0<N>::greater_than(false, t, n)) --*q;
+								}
+
+								r-=*q*d
+							}
+
+							subroll_1<M-1>::divide::multiple_digit::
+								quotient_remainder(--q, r, --n, d, t);
 						}
 					};
 				};
@@ -478,13 +419,13 @@ namespace nik
 									{ return carry; }
 						};
 	
-						template<typename OutputIterator, typename ValueType, typename InputIterator1,
-							typename InputIterator2, typename InputIterator3, typename InputIterator4,
-								typename InputIterator5, typename TerminalIterator2>
-						static ValueType with_return(OutputIterator q,
-							ValueType carry, InputIterator1 n, InputIterator2 d,
-								InputIterator3 u, InputIterator4 v, InputIterator5 t, TerminalIterator2 end)
-									{ return carry; }
+						template<typename OutputIterator1, typename OutputIterator2,
+							typename InputIterator1, typename InputIterator2, typename InputIterator3,
+								typename InputIterator4, typename InputIterator5, typename TerminalIterator2>
+						static void quotient_remainder(OutputIterator1 q,
+							OutputIterator2 r, InputIterator1 n, InputIterator2 d,
+								InputIterator3 u, InputIterator4 v, InputIterator5 t, TerminalIterator end)
+									{ }
 					};
 				};
 			};
