@@ -343,6 +343,8 @@ namespace nik
 	t is the initial location of a temporary N block used for internal computations.
 	n is the second digit location of the numerator as an N block. In practice this may be the initial location at times.
 	d is the initial location of the denominator as an N block.
+	lr is the location of the leading digit of the remainder r.
+	ld is the location of the leading digit of the divisor d.
 
 	Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
 
@@ -356,31 +358,40 @@ namespace nik
 	In practice this means providing a deep copy if necessary when passing const references as input.
 
 	Assumes b < d <= n.
+
+	*** fix parameters and arguements for the N=0 case as well.
+	*** only when stabilized, decide where this algorithm best fits (random access?)
 */
-						template<typename OutputIterator1, typename OutputIterator2,
-							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
-						static void quotient_remainder(OutputIterator1 q,
-							OutputIterator2 r, OutputIterator3 t, InputIterator1 n, InputIterator2 d)
+						template<typename OutputIterator1, typename OutputIterator2, typename OutputIterator3,
+							typename InputIterator1, typename InputIterator2, typename InputIterator3>
+						static void quotient_remainder(OutputIterator1 q, OutputIterator2 r, OutputIterator3 t,
+							InputIterator1 n, InputIterator2 d, InputIterator3 lr, InputIterator4 ld)
 						{
-							if (bwd_arit::unroll_0<N>::less_than::no_break(false, r, d))
+							size_type rlen=r-lr, dlen=d-ld;
+							if (rlen < dlen ||
+								(rlen == dlen && bwd_arit::unroll_0<N>::less_than::no_break(false, r, d)))
 							{
 								*q=0;
-								*bwd_comp::unroll<N-1>::assign::with_return(r, ++Iterator(r))=*n;
+								InputIterator3 olr(lr);
+								*bwd_comp::unroll<N-1>::assign::with_return(++lr, olr)=*n;
 							}
 							else
 							{
-								*q=(same_digit_length(r, d)) ? *u/(*v) : (r < *v) ?
-									regist::divide::full_register_divisor(r, r, *u, *v) :
+								*q=(rlen == dlen) ? *lr/(*ld) : (*lr < *ld) ?
+//					static ValueType full_register_divisor(ValueType & r, ValueType in1, ValueType in2, ValueType d)
+									regist::divide::full_register_divisor(
+										ValueType(), *lr, *--Iterator(lr), *ld) :
 									(ValueType) -1;
 
+// unnecessarily inefficient as we only need the optimized multiplication-comparison test.
 								fwd_arit::template unroll_1<N>::scale::
-									no_return(t+N-1, d+N-1, *q, (ValueType) 0);
-								if (bwd_arit::template unroll_0<N>::greater_than(false, t, n))
+									no_return(t+N-1, d-(N-1), *q, (ValueType) 0);
+								if (bwd_arit::template unroll_0<N>::greater_than(false, t, r))
 								{
 									--*q;
 									fwd_arit::template unroll_1<N>::scale::
-										no_return(t+N-1, d+N-1, *q, (ValueType) 0);
-									if (bwd_arit::template unroll_0<N>::greater_than(false, t, n)) --*q;
+										no_return(t-(N-1), d-(N-1), *q, (ValueType) 0);
+									if (bwd_arit::template unroll_0<N>::greater_than(false, t, r)) --*q;
 								}
 
 								r-=*q*d
