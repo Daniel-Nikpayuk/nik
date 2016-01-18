@@ -22,6 +22,8 @@
 
 // Clean up the typedefs/usings namespace stuff.
 
+// standardize location of "carry" as parameter (front or end?)
+
 // overhead dependencies:
 #include"../../../context/constant.h"
 
@@ -392,6 +394,8 @@ namespace nik
 
 	The assumption is addition is no less optimal than subtraction as the algorithm
 	should require fewer tests, hence: *out=*in1-(*in2+carry) instead of *out=*in1-*in2-carry.
+
+	carry needs to be set to 0 for the "normal" interpretation.
 */
 			struct minus
 			{
@@ -428,6 +432,31 @@ namespace nik
 					{
 						*out+=*in + carry;
 						return unroll_0<N-1>::assign::plus::with_return(++out, ++in, (*out < *in));
+					}
+				};
+/*
+	carry1 needs to be set to 0 for the "normal" interpretation.
+	carry2 needs to be set to *out for the "normal" interpretation.
+*/
+				struct minus
+				{
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry1, ValueType carry2, OutputIterator out, InputIterator in)
+					{
+						carry1+=*in;
+						*out-=carry1;
+						unroll_0<N-1>::assign::minus::template
+							no_return<ValueType>((carry1 < *in || carry2 < *out), *out, ++out, ++in);
+					}
+
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry1,
+						ValueType carry2, OutputIterator out, InputIterator in)
+					{
+						carry1+=*in;
+						*out-=carry1;
+						return unroll_0<N-1>::assign::minus::template
+							with_return<ValueType>((carry1 < *in || carry2 < *out), *out, ++out, ++in);
 					}
 				};
 			};
@@ -526,6 +555,18 @@ namespace nik
 					template<typename OutputIterator, typename InputIterator, typename ValueType>
 					static OutputIterator with_return(OutputIterator out, InputIterator in, ValueType carry)
 						{ return out; }
+				};
+
+				struct minus
+				{
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry1, ValueType carry2, OutputIterator out, InputIterator in)
+						{ }
+
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry1,
+						ValueType carry2, OutputIterator out, InputIterator in)
+							{ return out; }
 				};
 			};
 		};
@@ -766,6 +807,19 @@ namespace nik
 			}
 		};
 /*
+	Finds the first occurrence along the iterator path of a non-zero value, returns the iterator position.
+
+	It might appear at first glance this shouldn't be classified as componentwise,
+	but the final value is still dependent upon the previous values. The lack of success is the "carry".
+*/
+		template<typename InputIterator, typename TerminalIterator>
+		static InputIterator order(InputIterator in, TerminalIterator end)
+		{
+			while (in != end && !*in) --in;
+
+			return in;
+		}
+/*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
 			The few structs that are pass instances of types (eg. digit: "size_type base")
@@ -891,6 +945,9 @@ namespace nik
 */
 /*
 	Finds the first occurrence along the iterator path of a non-zero value, returns the iterator position.
+
+	It might appear at first glance this shouldn't be classified as componentwise,
+	but the final value is still dependent upon the previous values. The lack of success is the "carry".
 */
 			template<typename Iterator>
 			static Iterator order(Iterator in)

@@ -18,6 +18,9 @@
 #ifndef CONTEXT_SEMIOTIC_ITERATOR_ARITHMETIC_1_H
 #define CONTEXT_SEMIOTIC_ITERATOR_ARITHMETIC_1_H
 
+// for debugging:
+#include"../../../../media/generic/display/display.h"
+
 #include"../../regist/regist.h"
 #include"../componentwise/componentwise.h"
 
@@ -58,6 +61,45 @@ namespace nik
 
 		typedef componentwise<size_type> fwd_comp;
 		typedef arithmetic_0<size_type> fwd_arit;
+
+		struct scale
+		{
+/*
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+*/
+			template<typename OutputIterator, typename InputIterator, typename TerminalIterator, typename ValueType>
+			static void no_return(OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2, ValueType carry)
+			{
+				while (in1 != end1)
+				{
+					carry=regist::multiply::return_high(*out=carry, *in1, in2);
+					++out; ++in1;
+				}
+			}
+/*
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+*/
+			template<typename OutputIterator, typename InputIterator, typename TerminalIterator, typename ValueType>
+			static OutputIterator with_return(OutputIterator out,
+				InputIterator in1, TerminalIterator end1, ValueType in2, ValueType carry)
+			{
+				while (in1 != end1)
+				{
+					carry=regist::multiply::return_high(*out=carry, *in1, in2);
+					++out; ++in1;
+				}
+
+				return out;
+			}
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -333,23 +375,24 @@ namespace nik
 			{
 				struct divide
 				{
+					template<typename ValueType>
 					struct multiple_digit
 					{
 /*
 	N is the block length as reference.
 
-	q is the quotient to be determined.
-	r is the first non-zero digit of the numerator. Digits are shifted into its register until big enough to divide.
 	t is the initial location of a temporary N block used for internal computations.
-	n is the second digit location of the numerator as an N block. In practice this may be the initial location at times.
-	d is the initial location of the denominator as an N block.
+		Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
+	q is the final location of the quotient to be determined.
+	r is the initial location of the overhead value (carry).
+		Set this to the first non-zero digit of the numerator for the "normal" interpretation.
+		Digits are shifted into r's register until big enough to divide.
 	lr is the location of the leading digit of the remainder r.
+	n is the second last digit location of the numerator as an N block. In practice this may be the initial location at times.
+	d is the initial location of the denominator as an N block.
 	ld is the location of the leading digit of the divisor d.
 
 	Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
-
-	The assumption is the whole block will be unrolled which will initialize t while scaling.
-	Otherwise leaving t uninitialized is a bug.
 
 	In all fairness, there are many ways to interpret an unrolling version.
 	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
@@ -359,46 +402,58 @@ namespace nik
 
 	Assumes b < d <= n.
 
+	Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
+	On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
+
 	*** fix parameters and arguements for the N=0 case as well.
 	*** only when stabilized, decide where this algorithm best fits (random access?)
 */
-						template<typename OutputIterator1, typename OutputIterator2, typename OutputIterator3,
-							typename InputIterator1, typename InputIterator2, typename InputIterator3>
-						static void quotient_remainder(OutputIterator1 q, OutputIterator2 r, OutputIterator3 t,
-							InputIterator1 n, InputIterator2 d, InputIterator3 lr, InputIterator4 ld)
+
+// At this point you're prematuraly optimizing. First adhere to the functional best practices of tail recursion,
+// with clean concept pseudo code, then optimize after. Keep the pseudo code to go back and reinterpret single digit
+// and register versions of this division.
+						template<typename OutputIterator1, typename OutputIterator2,
+							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
+						static void quotient_remainder(OutputIterator1 t,
+							OutputIterator2 q, OutputIterator3 r, OutputIterator3 lr,
+								InputIterator1 n, InputIterator2 d, InputIterator2 ld)
 						{
-							size_type rlen=r-lr, dlen=d-ld;
-							if (rlen < dlen ||
-								(rlen == dlen && bwd_arit::unroll_0<N>::less_than::no_break(false, r, d)))
+							size_type tlen, rlen=lr-r, dlen=ld-d;
+							nik::display << rlen << " " << dlen << nik::endl;
+							if (rlen < dlen || (rlen == dlen && fwd_arit::less_than(false, r, d, ld+1)))
 							{
 								*q=0;
-								InputIterator3 olr(lr);
-								*bwd_comp::unroll<N-1>::assign::with_return(++lr, olr)=*n;
+								OutputIterator3 olr(lr);
+								*bwd_comp::assign::with_return(++lr, olr, r)=*n;
 							}
 							else
 							{
-								*q=(rlen == dlen) ? *lr/(*ld) : (*lr < *ld) ?
-//					static ValueType full_register_divisor(ValueType & r, ValueType in1, ValueType in2, ValueType d)
-									regist::divide::full_register_divisor(
-										ValueType(), *lr, *--Iterator(lr), *ld) :
-									(ValueType) -1;
+								ValueType max_value(-1);
+								*q=(rlen == dlen) ? *lr/(*ld) :
+									(*lr < *ld) ? regist::divide::
+										full_register_divisor(max_value, *lr, *(lr-1), *ld) :
+									max_value;
 
-// unnecessarily inefficient as we only need the optimized multiplication-comparison test.
-								fwd_arit::template unroll_1<N>::scale::
-									no_return(t+N-1, d-(N-1), *q, (ValueType) 0);
-								if (bwd_arit::template unroll_0<N>::greater_than(false, t, r))
+								tlen=fwd_arit::scale::with_return(t, ld-1, ld+1, *q, (ValueType) 0)-t;
+								if (tlen > rlen || ((tlen == rlen) &&
+									fwd_arit::greater_than(false, t, r, lr+1)))
 								{
 									--*q;
-									fwd_arit::template unroll_1<N>::scale::
-										no_return(t-(N-1), d-(N-1), *q, (ValueType) 0);
-									if (bwd_arit::template unroll_0<N>::greater_than(false, t, r)) --*q;
+									tlen=fwd_arit::scale::
+										with_return(t, ld-1, ld+1, *q, (ValueType) 0)-t;
+									if (tlen > rlen || ((tlen == rlen) &&
+										fwd_arit::greater_than(false, t, r, lr+1))) --*q;
 								}
 
-								r-=*q*d
+	// assuming d is properly initialized, this will properly initialize t as well.
+								fwd_arit::template unroll_1<N>::scale::with_return(t, d, *q, (ValueType) 0);
+								fwd_arit::template unroll_1<N>::assign::minus::
+									no_return((ValueType) 0, *r, r, t);
+								lr=bwd_arit::order(lr, r);
 							}
 
-							subroll_1<M-1>::divide::multiple_digit::
-								quotient_remainder(--q, r, --n, d, t);
+							subroll_1<M-1>::divide::template multiple_digit<ValueType>::
+								quotient_remainder(t, --q, r, lr, --n, d, ld);
 						}
 					};
 				};
@@ -409,33 +464,14 @@ namespace nik
 			{
 				struct divide
 				{
+					template<typename ValueType>
 					struct multiple_digit
 					{
-/*
-	Isn't necessary regarding the above implementation, but provides a clean version for safety/security.
-	The N=0 case assumes the digit length of t is 0 after all.
-*/
-						struct quotient
-						{
-							template<typename ValueType, typename InputIterator1, typename InputIterator2,
-								typename InputIterator3, typename InputIterator4, typename InputIterator5>
-							static ValueType no_carry(InputIterator1 n,
-								InputIterator2 d, InputIterator3 u, InputIterator4 v, InputIterator5 t)
-									{ }
-
-							template<typename ValueType, typename InputIterator1, typename InputIterator2,
-								typename InputIterator3, typename InputIterator4, typename InputIterator5>
-							static ValueType with_carry(ValueType carry, InputIterator1 n,
-								InputIterator2 d, InputIterator3 u, InputIterator4 v, InputIterator5 t)
-									{ return carry; }
-						};
-	
 						template<typename OutputIterator1, typename OutputIterator2,
-							typename InputIterator1, typename InputIterator2, typename InputIterator3,
-								typename InputIterator4, typename InputIterator5, typename TerminalIterator2>
-						static void quotient_remainder(OutputIterator1 q,
-							OutputIterator2 r, InputIterator1 n, InputIterator2 d,
-								InputIterator3 u, InputIterator4 v, InputIterator5 t, TerminalIterator end)
+							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
+						static void quotient_remainder(OutputIterator1 t,
+							OutputIterator2 q, OutputIterator3 r, OutputIterator3 lr,
+								InputIterator1 n, InputIterator2 d, InputIterator2 ld)
 									{ }
 					};
 				};
