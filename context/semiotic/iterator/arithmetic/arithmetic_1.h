@@ -385,7 +385,7 @@ namespace nik
 		Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
 	q is the final location of the quotient to be determined.
 	r is the initial location of the overhead value (carry).
-		Set this to the first non-zero digit of the numerator for the "normal" interpretation.
+		Set this to the first digits of the numerator of equal length to the denominator for the "normal" interpretation.
 		Digits are shifted into r's register until big enough to divide.
 	lr is the location of the leading digit of the remainder r.
 	n is the second last digit location of the numerator as an N block. In practice this may be the initial location at times.
@@ -419,12 +419,14 @@ namespace nik
 								InputIterator1 n, InputIterator2 d, InputIterator2 ld)
 						{
 							size_type tlen, rlen=lr-r, dlen=ld-d;
-							nik::display << rlen << " " << dlen << nik::endl;
+//							nik::display << rlen << ' ' << dlen << nik::endl;
+//							nik::display << fwd_arit::less_than(false, r, d, ld+1) << nik::endl;
 							if (rlen < dlen || (rlen == dlen && fwd_arit::less_than(false, r, d, ld+1)))
 							{
 								*q=0;
 								OutputIterator3 olr(lr);
 								*bwd_comp::assign::with_return(++lr, olr, r)=*n;
+//								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
 							}
 							else
 							{
@@ -434,7 +436,13 @@ namespace nik
 										full_register_divisor(max_value, *lr, *(lr-1), *ld) :
 									max_value;
 
-								tlen=fwd_arit::scale::with_return(t, ld-1, ld+1, *q, (ValueType) 0)-t;
+//								nik::display << *q << nik::endl;
+								InputIterator2 ld1=ld+1;
+
+								OutputIterator1 lt=fwd_arit::scale::
+									with_return(t, ld-1, ld1+(ld1 != d+N), *q, (ValueType) 0);
+								lt-=!*lt; tlen=lt-t;
+//								nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
 								if (tlen > rlen || ((tlen == rlen) &&
 									fwd_arit::greater_than(false, t, r, lr+1)))
 								{

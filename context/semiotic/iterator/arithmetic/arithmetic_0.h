@@ -22,8 +22,6 @@
 
 // Clean up the typedefs/usings namespace stuff.
 
-// standardize location of "carry" as parameter (front or end?)
-
 // overhead dependencies:
 #include"../../../context/constant.h"
 
@@ -36,8 +34,24 @@
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
-	regardless. The assumption is if you're using these such unrolling in the first place you have some memory to spare;
+	regardless. The assumption is if you're using such unrolling in the first place you have some memory to spare;
 	as well, it's expected you're doing some heavy number theoretic computations and so the speed optimization is preferred.
+
+	The policy for the location of the "carry" arguement is for it to always be at the front (the first arguement).
+	As with componentwise, these generic clean recursive functions are most useful to combine and recombine by returning
+	iterators (when such a return exists). They are designed to privilege iteration after all, these functions are
+	primarily iterator oriented. Any other semantics are an afterthought. In the case of arithmetic functions,
+	the final carry might need to be returned as part of such semantics, and the most convenient modification
+	to calling such functions is to specify the template parameter of the carry type as a reference,
+	and having the carry as the first arguement is most convenient to that end.
+
+	Most of the time the carry is nothing more than overhead, but a few functions have the carry as semantically meaningful
+	all on its own. In such cases, having the carry as the first arguement changes nothing regarding the above policy:
+	There are no additional reasons to change the policy or make exception that I can think of.
+
+	The basic comparison operators are special enough to implement additional optimized versions. This breaks with the
+	general design of minimizing memory footprint for the sake of cycle efficiency. Keep in mind these are in addition
+	to the standard implementations.
 */
 
 namespace nik
@@ -64,28 +78,63 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator, typename TerminalIterator>
-			static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+			static void no_break(bool & carry, InputIterator in, TerminalIterator end)
 			{
 				while (in != end)
 				{
 					carry=carry && !*in;
 					++in;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated container is zero (true).
+*/
 			template<typename InputIterator, typename TerminalIterator>
-			static bool with_break(InputIterator in, TerminalIterator end)
+			static InputIterator with_break(InputIterator in, TerminalIterator end)
 			{
 				while (in != end)
 				{
-					if (*in) return false;
+					if (*in) return in;
 					++in;
 				}
 
-				return true;
+				return in;
 			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator, typename TerminalIterator>
+				static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+				{
+					while (in != end)
+					{
+						carry=carry && !*in;
+						++in;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated container is zero (true).
+*/
+				template<typename InputIterator, typename TerminalIterator>
+				static bool with_break(InputIterator in, TerminalIterator end)
+				{
+					while (in != end)
+					{
+						if (*in) return false;
+						++in;
+					}
+
+					return true;
+				}
+			};
 		};
 
 		struct equal
@@ -97,28 +146,63 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
 					carry=carry && (*in1 == *in2);
 					++in1; ++in2;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated containers are equal (true).
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator1 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					if (*in1 != *in2) return false;
+					if (*in1 != *in2) return in2;
 					++in1; ++in2;
 				}
 
-				return true;
+				return in2;
 			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry=carry && (*in1 == *in2);
+						++in1; ++in2;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated containers are equal (true).
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						if (*in1 != *in2) return false;
+						++in1; ++in2;
+					}
+
+					return true;
+				}
+			};
 		};
 
 		struct not_equal
@@ -130,27 +214,158 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
 					carry=carry || (*in1 != *in2);
 					++in1; ++in2;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated containers are equal (false).
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator1 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					if (*in1 != *in2) return true;
+					if (*in1 != *in2) return in2;
 					++in1; ++in2;
 				}
 
-				return false;
+				return in2;
+			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry=carry || (*in1 != *in2);
+						++in1; ++in2;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated containers are equal (false).
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						if (*in1 != *in2) return true;
+						++in1; ++in2;
+					}
+
+					return false;
+				}
+			};
+		};
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+*/
+		struct less_than
+		{
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return in1;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return carry;
+			}
+		};
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	end2 is the terminal location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+*/
+		struct less_than_or_equal
+		{
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return in1;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return carry;
 			}
 		};
 /*
@@ -159,76 +374,96 @@ namespace nik
 	end2 is the terminal location of the right operand.
 	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
-		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-		static bool less_than(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		struct greater_than
 		{
-			while (in2 != end2)
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
-				if (*in1 < *in2) carry=true;
-				else if (*in1 > *in2) carry=false;
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				++in1; ++in2;
+					++in1; ++in2;
+				}
 			}
 
-			return carry;
-		}
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return in1;
+			}
+
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
+
+					++in1; ++in2;
+				}
+
+				return carry;
+			}
+		};
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	end2 is the terminal location of the right operand.
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
-		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-		static bool less_than_or_equal(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+		struct greater_than_or_equal
 		{
-			while (in2 != end2)
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
-				if (*in1 < *in2) carry=true;
-				else if (*in1 > *in2) carry=false;
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				++in1; ++in2;
+					++in1; ++in2;
+				}
 			}
 
-			return carry;
-		}
-/*
-	in1 is the initial location of the left operand.
-	in2 is the initial location of the right operand.
-	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
-*/
-		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-		static bool greater_than(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
-		{
-			while (in2 != end2)
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
-				if (*in1 > *in2) carry=true;
-				else if (*in1 < *in2) carry=false;
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				++in1; ++in2;
+					++in1; ++in2;
+				}
+
+				return in1;
 			}
 
-			return carry;
-		}
-/*
-	in1 is the initial location of the left operand.
-	in2 is the initial location of the right operand.
-	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
-*/
-		template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-		static bool greater_than_or_equal(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
-		{
-			while (in2 != end2)
+			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
-				if (*in1 > *in2) carry=true;
-				else if (*in1 < *in2) carry=false;
+				while (in2 != end2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				++in1; ++in2;
+					++in1; ++in2;
+				}
+
+				return carry;
 			}
-
-			return carry;
-		}
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -252,18 +487,39 @@ namespace nik
 			struct zero
 			{
 				template<typename Iterator>
-				static bool no_break(bool carry, Iterator in)
+				static void no_break(bool & carry, Iterator in)
 				{
 					carry=carry && !*in;
-					return unroll_0<N-1>::zero::no_break(carry, ++in);
+					unroll_0<N-1>::zero::no_break(carry, ++in);
 				}
-
+/*
+	If return == end, then the iterated container is zero (true).
+*/
 				template<typename Iterator>
-				static bool with_break(Iterator in)
+				static Iterator with_break(Iterator in)
 				{
-					if (*in) return false;
+					if (*in) return in;
 					else return unroll_0<N-1>::zero::with_break(++in);
 				}
+
+				struct fast
+				{
+					template<typename Iterator>
+					static bool no_break(bool carry, Iterator in)
+					{
+						carry=carry && !*in;
+						return unroll_0<N-1>::zero::fast::no_break(carry, ++in);
+					}
+/*
+	If return == end, then the iterated container is zero (true).
+*/
+					template<typename Iterator>
+					static bool with_break(Iterator in)
+					{
+						if (*in) return false;
+						else return unroll_0<N-1>::zero::fast::with_break(++in);
+					}
+				};
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -274,18 +530,39 @@ namespace nik
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
 				{
 					carry=carry && (*in1 == *in2);
-					return unroll_0<N-1>::equal::no_break(carry, ++in1, ++in2);
+					unroll_0<N-1>::equal::no_break(carry, ++in1, ++in2);
 				}
-
+/*
+	If return == end, then the iterated containers are equal (true).
+*/
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
 				{
-					if (*in1 != *in2) return false;
+					if (*in1 != *in2) return in2;
 					else return unroll_0<N-1>::equal::with_break(++in1, ++in2);
 				}
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{
+						carry=carry && (*in1 == *in2);
+						return unroll_0<N-1>::equal::fast::no_break(carry, ++in1, ++in2);
+					}
+/*
+	If return == end, then the iterated containers are equal (true).
+*/
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+					{
+						if (*in1 != *in2) return false;
+						else return unroll_0<N-1>::equal::fast::with_break(++in1, ++in2);
+					}
+				};
 			};
 /*
 	carry is the overhead value. Set this to false for the "normal" interpretation. 
@@ -296,17 +573,106 @@ namespace nik
 			struct not_equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
 				{
 					carry=carry || (*in1 != *in2);
-					return unroll_0<N-1>::not_equal::no_break(carry, ++in1, ++in2);
+					unroll_0<N-1>::not_equal::no_break(carry, ++in1, ++in2);
+				}
+/*
+	If return == end, then the iterated containers are equal (false).
+*/
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return in2;
+					else return unroll_0<N-1>::not_equal::with_break(++in1, ++in2);
+				}
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{
+						carry=carry || (*in1 != *in2);
+						return unroll_0<N-1>::not_equal::fast::no_break(carry, ++in1, ++in2);
+					}
+/*
+	If return == end, then the iterated containers are equal (false).
+*/
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+					{
+						if (*in1 != *in2) return true;
+						else return unroll_0<N-1>::not_equal::fast::with_break(++in1, ++in2);
+					}
+				};
+			};
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+*/
+			struct less_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					unroll_0<N-1>::less_than::no_return(carry, ++in1, ++in2);
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
 				{
-					if (*in1 != *in2) return true;
-					else return unroll_0<N-1>::not_equal::with_break(++in1, ++in2);
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					return unroll_0<N-1>::less_than::with_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					return unroll_0<N-1>::less_than::fast_return(carry, ++in1, ++in2);
+				}
+			};
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+*/
+			struct less_than_or_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					unroll_0<N-1>::less_than_or_equal::no_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					return unroll_0<N-1>::less_than_or_equal::with_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 < *in2) carry=true;
+					else if (*in1 > *in2) carry=false;
+
+					return unroll_0<N-1>::less_than_or_equal::fast_return(carry, ++in1, ++in2);
 				}
 			};
 /*
@@ -314,53 +680,69 @@ namespace nik
 	in2 is the initial location of the right operand.
 	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than(bool carry, Iterator1 in1, Iterator2 in2)
+			struct greater_than
 			{
-				if (*in1 < *in2) carry=true;
-				else if (*in1 > *in2) carry=false;
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				return unroll_0<N-1>::less_than(carry, ++in1, ++in2);
-			}
+					unroll_0<N-1>::greater_than::no_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
+
+					return unroll_0<N-1>::greater_than::with_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
+
+					return unroll_0<N-1>::greater_than::fast_return(carry, ++in1, ++in2);
+				}
+			};
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than_or_equal(bool carry, Iterator1 in1, Iterator2 in2)
+			struct greater_than_or_equal
 			{
-				if (*in1 < *in2) carry=true;
-				else if (*in1 > *in2) carry=false;
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				return unroll_0<N-1>::less_than_or_equal(carry, ++in1, ++in2);
-			}
-/*
-	in1 is the initial location of the left operand.
-	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
-*/
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than(bool carry, Iterator1 in1, Iterator2 in2)
-			{
-				if (*in1 > *in2) carry=true;
-				else if (*in1 < *in2) carry=false;
+					unroll_0<N-1>::greater_than_or_equal::no_return(carry, ++in1, ++in2);
+				}
 
-				return unroll_0<N-1>::greater_than(carry, ++in1, ++in2);
-			}
-/*
-	in1 is the initial location of the left operand.
-	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
-*/
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than_or_equal(bool carry, Iterator1 in1, Iterator2 in2)
-			{
-				if (*in1 > *in2) carry=true;
-				else if (*in1 < *in2) carry=false;
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
 
-				return unroll_0<N-1>::greater_than_or_equal(carry, ++in1, ++in2);
-			}
+					return unroll_0<N-1>::greater_than_or_equal::with_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 > *in2) carry=true;
+					else if (*in1 < *in2) carry=false;
+
+					return unroll_0<N-1>::greater_than_or_equal::with_return(carry, ++in1, ++in2);
+				}
+			};
 /*
 			Intuitively, "right_shift" would be defined here,
 			but given its implementation it is actually part of componentwise.h
@@ -370,18 +752,18 @@ namespace nik
 */
 			struct plus
 			{
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					*out=*in1 + *in2 + carry;
-					unroll_0<N-1>::plus::no_return(++out, ++in1, ++in2, (*out < *in2));
+					unroll_0<N-1>::plus::no_return((*out < *in2), ++out, ++in1, ++in2);
 				}
 
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					*out=*in1 + *in2 + carry;
-					return unroll_0<N-1>::plus::with_return(++out, ++in1, ++in2, (*out < *in2));
+					return unroll_0<N-1>::plus::with_return((*out < *in2), ++out, ++in1, ++in2);
 				}
 			};
 /*
@@ -399,20 +781,20 @@ namespace nik
 */
 			struct minus
 			{
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
-					unroll_0<N-1>::minus::no_return(++out, ++in1, ++in2, (carry < *in2 || *in1 < *out));
+					unroll_0<N-1>::minus::no_return((carry < *in2 || *in1 < *out), ++out, ++in1, ++in2);
 				}
 
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
-					return unroll_0<N-1>::minus::with_return(++out, ++in1, ++in2, (carry < *in2 || *in1 < *out));
+					return unroll_0<N-1>::minus::with_return((carry < *in2 || *in1 < *out), ++out, ++in1, ++in2);
 				}
 			};
 
@@ -420,18 +802,18 @@ namespace nik
 			{
 				struct plus
 				{
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static void no_return(OutputIterator out, InputIterator in, ValueType carry)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
 						*out+=*in + carry;
-						unroll_0<N-1>::assign::plus::no_return(++out, ++in, (*out < *in));
+						unroll_0<N-1>::assign::plus::no_return((*out < *in), ++out, ++in);
 					}
 
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static OutputIterator with_return(OutputIterator out, InputIterator in, ValueType carry)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
 						*out+=*in + carry;
-						return unroll_0<N-1>::assign::plus::with_return(++out, ++in, (*out < *in));
+						return unroll_0<N-1>::assign::plus::with_return((*out < *in), ++out, ++in);
 					}
 				};
 /*
@@ -440,8 +822,8 @@ namespace nik
 */
 				struct minus
 				{
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry1, ValueType carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType1 carry1, ValueType2 carry2, OutputIterator out, InputIterator in)
 					{
 						carry1+=*in;
 						*out-=carry1;
@@ -449,9 +831,9 @@ namespace nik
 							no_return<ValueType>((carry1 < *in || carry2 < *out), *out, ++out, ++in);
 					}
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry1,
-						ValueType carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType1 carry1,
+						ValueType2 carry2, OutputIterator out, InputIterator in)
 					{
 						carry1+=*in;
 						*out-=carry1;
@@ -478,69 +860,148 @@ namespace nik
 			struct zero
 			{
 				template<typename Iterator>
-				static bool no_break(bool carry, Iterator in)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator in)
+					{ }
+
 				template<typename Iterator>
-				static bool with_break(Iterator in)
-					{ return true; }
+				static Iterator with_break(Iterator in)
+					{ return in; }
+
+				struct fast
+				{
+					template<typename Iterator>
+					static bool no_break(bool carry, Iterator in)
+						{ return carry; }
+
+					template<typename Iterator>
+					static bool with_break(Iterator in)
+						{ return true; }
+				};
 			};
 
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
+
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
-					{ return true; }
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+						{ return carry; }
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+						{ return true; }
+				};
 			};
 
 			struct not_equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
 
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
-					{ return false; }
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+						{ return carry; }
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+						{ return false; }
+				};
 			};
 
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than(bool carry, Iterator1 in1, Iterator2 in2)
-				{ return carry; }
+			struct less_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
 
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than_or_equal(bool carry, Iterator1 in1, Iterator2 in2)
-				{ return carry; }
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ return in1; }
 
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than(bool carry, Iterator1 in1, Iterator2 in2)
-				{ return carry; }
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+			};
 
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than_or_equal(bool carry, Iterator1 in1, Iterator2 in2)
-				{ return carry; }
+			struct less_than_or_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
+
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ return in1; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+			};
+
+			struct greater_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
+
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ return in1; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+			};
+
+			struct greater_than_or_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static void no_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
+
+				template<typename Iterator1, typename Iterator2>
+				static Iterator1 with_return(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ return in1; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+			};
 
 			struct plus
 			{
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ }
 
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ return out; }
 			};
 
 			struct minus
 			{
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ }
 
-				template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, ValueType carry)
+				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
+				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ return out; }
 			};
 
@@ -548,24 +1009,24 @@ namespace nik
 			{
 				struct plus
 				{
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static void no_return(OutputIterator out, InputIterator in, ValueType carry)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 						{ }
 
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static OutputIterator with_return(OutputIterator out, InputIterator in, ValueType carry)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
 						{ return out; }
 				};
 
 				struct minus
 				{
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry1, ValueType carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType1 carry1, ValueType2 carry2, OutputIterator out, InputIterator in)
 						{ }
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry1,
-						ValueType carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType1 carry1,
+						ValueType2 carry2, OutputIterator out, InputIterator in)
 							{ return out; }
 				};
 			};
@@ -589,28 +1050,63 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator, typename TerminalIterator>
-			static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+			static void no_break(bool & carry, InputIterator in, TerminalIterator end)
 			{
 				while (in != end)
 				{
 					carry=carry && !*in;
 					--in;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated container is zero (true).
+*/
 			template<typename InputIterator, typename TerminalIterator>
-			static bool with_break(InputIterator in, TerminalIterator end)
+			static InputIterator with_break(InputIterator in, TerminalIterator end)
 			{
 				while (in != end)
 				{
-					if (*in) return false;
+					if (*in) return in;
 					--in;
 				}
 
-				return true;
+				return in;
 			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator, typename TerminalIterator>
+				static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+				{
+					while (in != end)
+					{
+						carry=carry && !*in;
+						--in;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated container is zero (true).
+*/
+				template<typename InputIterator, typename TerminalIterator>
+				static bool with_break(InputIterator in, TerminalIterator end)
+				{
+					while (in != end)
+					{
+						if (*in) return false;
+						--in;
+					}
+
+					return true;
+				}
+			};
 		};
 
 		struct equal
@@ -622,28 +1118,63 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
 					carry=carry && (*in1 == *in2);
 					--in1; --in2;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated containers are zero (true).
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					if (*in1 != *in2) return false;
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return true;
+				return in2;
 			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
+	
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry=carry && (*in1 == *in2);
+						--in1; --in2;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated containers are zero (true).
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						if (*in1 != *in2) return false;
+						--in1; --in2;
+					}
+
+					return true;
+				}
+			};
 		};
 
 		struct not_equal
@@ -655,28 +1186,63 @@ namespace nik
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
 					carry=carry || (*in1 != *in2);
 					--in1; --in2;
 				}
-
-				return carry;
 			}
-
+/*
+	If return == end, then the iterated containers are zero (false).
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					if (*in1 != *in2) return true;
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return false;
+				return in2;
 			}
+
+			struct fast
+			{
+/*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
+	Only when N becomes sufficiently large might it be faster to short-circuit.
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry=carry || (*in1 != *in2);
+						--in1; --in2;
+					}
+
+					return carry;
+				}
+/*
+	If return == end, then the iterated containers are zero (false).
+*/
+				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
+				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						if (*in1 != *in2) return true;
+						--in1; --in2;
+					}
+
+					return false;
+				}
+			};
 		};
 
 		struct less_than
@@ -684,22 +1250,27 @@ namespace nik
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	If return == end, then the iterated container's property is false.
+	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					carry=carry || (*in1 < *in2);
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return carry;
+				return in2;
 			}
-
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -716,22 +1287,27 @@ namespace nik
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					carry=carry && (*in1 <= *in2);
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return carry;
+				return in2;
 			}
-
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -748,22 +1324,27 @@ namespace nik
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
+
+	If return == end, then the iterated container's property is false.
+	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					carry=carry || (*in1 > *in2);
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return carry;
+				return in2;
 			}
-
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -780,22 +1361,27 @@ namespace nik
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
-					carry=carry && (*in1 >= *in2);
+					if (*in1 != *in2) return in2;
 					--in1; --in2;
 				}
 
-				return carry;
+				return in2;
 			}
-
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+*/
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -815,7 +1401,11 @@ namespace nik
 		template<typename InputIterator, typename TerminalIterator>
 		static InputIterator order(InputIterator in, TerminalIterator end)
 		{
-			while (in != end && !*in) --in;
+			while (in != end)
+			{
+				if (*in) return in;
+				--in;
+			}
 
 			return in;
 		}
@@ -842,18 +1432,35 @@ namespace nik
 			struct zero
 			{
 				template<typename Iterator>
-				static bool no_break(bool carry, Iterator in)
+				static void no_break(bool & carry, Iterator in)
 				{
 					carry=carry && !*in;
-					return unroll_0<N-1>::zero::no_break(carry, --in);
+					unroll_0<N-1>::zero::no_break(carry, --in);
 				}
 
 				template<typename Iterator>
-				static bool with_break(Iterator in)
+				static Iterator2 with_break(Iterator in)
 				{
-					if (*in) return false;
+					if (*in) return in;
 					else return unroll_0<N-1>::zero::with_break(--in);
 				}
+
+				struct fast
+				{
+					template<typename Iterator>
+					static bool no_break(bool carry, Iterator in)
+					{
+						carry=carry && !*in;
+						return unroll_0<N-1>::zero::fast::no_break(carry, --in);
+					}
+
+					template<typename Iterator>
+					static bool with_break(Iterator in)
+					{
+						if (*in) return false;
+						else return unroll_0<N-1>::zero::fast::with_break(--in);
+					}
+				};
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -864,18 +1471,35 @@ namespace nik
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
 				{
 					carry=carry && (*in1 == *in2);
-					return unroll_0<N-1>::equal::no_break(carry, --in1, --in2);
+					unroll_0<N-1>::equal::no_break(carry, --in1, --in2);
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
 				{
-					if (*in1 != *in2) return false;
+					if (*in1 != *in2) return in2;
 					else return unroll_0<N-1>::equal::with_break(--in1, --in2);
 				}
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{
+						carry=carry && (*in1 == *in2);
+						return unroll_0<N-1>::equal::fast::no_break(carry, --in1, --in2);
+					}
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+					{
+						if (*in1 != *in2) return false;
+						else return unroll_0<N-1>::equal::fast::with_break(--in1, --in2);
+					}
+				};
 			};
 /*
 	carry is the overhead value. Set this to false for the "normal" interpretation. 
@@ -886,59 +1510,128 @@ namespace nik
 			struct not_equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
 				{
 					carry=carry || (*in1 != *in2);
-					return unroll_0<N-1>::not_equal::no_break(carry, --in1, --in2);
+					unroll_0<N-1>::not_equal::no_break(carry, --in1, --in2);
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
 				{
-					if (*in1 != *in2) return true;
+					if (*in1 != *in2) return in2;
 					else return unroll_0<N-1>::not_equal::with_break(--in1, --in2);
+				}
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+					{
+						carry=carry || (*in1 != *in2);
+						return unroll_0<N-1>::not_equal::fast::no_break(carry, --in1, --in2);
+					}
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+					{
+						if (*in1 != *in2) return true;
+						else return unroll_0<N-1>::not_equal::fast::with_break(--in1, --in2);
+					}
+				};
+			};
+/*
+	in1 is the initial location of the left operand.
+	in2 is the initial location of the right operand.
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 < *in2).
+*/
+			struct less_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return in2;
+					else return unroll_0<N-1>::less_than::with_break(--in1, --in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					else return unroll_0<N-1>::less_than::fast_break(--in1, --in2);
 				}
 			};
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 < *in2).
 */
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than(Iterator1 in1, Iterator2 in2)
+			struct less_than_or_equal
 			{
-				if (*in1 != *in2) return (*in1 < *in2);
-				else return unroll_0<N-1>::less_than(--in1, --in2);
-			}
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return in2;
+					else return unroll_0<N-1>::less_than_or_equal::with_break(--in1, --in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return (*in1 < *in2);
+					else return unroll_0<N-1>::less_than_or_equal::fast_break(--in1, --in2);
+				}
+			};
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 > *in2).
 */
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than_or_equal(Iterator1 in1, Iterator2 in2)
+			struct greater_than
 			{
-				if (*in1 != *in2) return (*in1 < *in2);
-				else return unroll_0<N-1>::less_than_or_equal(--in1, --in2);
-			}
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return in2;
+					else return unroll_0<N-1>::greater_than::with_break(--in1, --in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					else return unroll_0<N-1>::greater_than::fast_break(--in1, --in2);
+				}
+			};
 /*
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
+
+	If return == end, then the iterated container's property is true.
+	If return != end, then the iterated container's property is (*in1 > *in2).
 */
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than(Iterator1 in1, Iterator2 in2)
+			struct greater_than_or_equal
 			{
-				if (*in1 != *in2) return (*in1 > *in2);
-				else return unroll_0<N-1>::greater_than(--in1, --in2);
-			}
-/*
-	in1 is the initial location of the left operand.
-	in2 is the initial location of the right operand.
-*/
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than_or_equal(Iterator1 in1, Iterator2 in2)
-			{
-				if (*in1 != *in2) return (*in1 > *in2);
-				else return unroll_0<N-1>::greater_than_or_equal(--in1, --in2);
-			}
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return in2;
+					else return unroll_0<N-1>::greater_than_or_equal::with_break(--in1, --in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+				{
+					if (*in1 != *in2) return (*in1 > *in2);
+					else return unroll_0<N-1>::greater_than_or_equal::fast_break(--in1, --in2);
+				}
+			};
 /*
 			Intuitively, "right_shift" would be defined here,
 			but given its implementation it is actually part of componentwise.h
@@ -977,46 +1670,112 @@ namespace nik
 			struct zero
 			{
 				template<typename Iterator>
-				static bool no_break(bool carry, Iterator in)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator in)
+					{ }
+
 				template<typename Iterator>
-				static bool with_break(Iterator in)
-					{ return true; }
+				static Iterator with_break(Iterator in)
+					{ return in; }
+
+				struct fast
+				{
+					template<typename Iterator>
+					static bool no_break(bool carry, Iterator in)
+						{ return carry; }
+
+					template<typename Iterator>
+					static bool with_break(Iterator in)
+						{ return true; }
+				};
 			};
 
 			struct equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
+
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
-					{ return true; }
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+						{ return carry; }
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+						{ return true; }
+				};
 			};
 
 			struct not_equal
 			{
 				template<typename Iterator1, typename Iterator2>
-				static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
-					{ return carry; }
+				static void no_break(bool & carry, Iterator1 in1, Iterator2 in2)
+					{ }
 
 				template<typename Iterator1, typename Iterator2>
-				static bool with_break(Iterator1 in1, Iterator2 in2)
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				struct fast
+				{
+					template<typename Iterator1, typename Iterator2>
+					static bool no_break(bool carry, Iterator1 in1, Iterator2 in2)
+						{ return carry; }
+
+					template<typename Iterator1, typename Iterator2>
+					static bool with_break(Iterator1 in1, Iterator2 in2)
+						{ return false; }
+				};
+			};
+
+			struct less_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
 					{ return false; }
 			};
 
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than(Iterator1 in1, Iterator2 in2)
-				{ return false; }
-			template<typename Iterator1, typename Iterator2>
-			static bool less_than_or_equal(Iterator1 in1, Iterator2 in2)
-				{ return true; }
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than(Iterator1 in1, Iterator2 in2)
-				{ return false; }
-			template<typename Iterator1, typename Iterator2>
-			static bool greater_than_or_equal(Iterator1 in1, Iterator2 in2)
-				{ return true; }
+			struct less_than_or_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+					{ return true; }
+			};
+
+			struct greater_than
+			{
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+					{ return false; }
+			};
+
+			struct greater_than_or_equal
+			{
+				template<typename Iterator1, typename Iterator2>
+				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
+					{ return in2; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_break(Iterator1 in1, Iterator2 in2)
+					{ return true; }
+			};
 
 /*
 	Does not perform what is otherwise the standard final decrement.
