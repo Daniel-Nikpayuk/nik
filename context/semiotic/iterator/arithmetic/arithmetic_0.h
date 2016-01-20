@@ -756,14 +756,16 @@ namespace nik
 				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					*out=*in1 + *in2 + carry;
-					unroll_0<N-1>::plus::no_return((*out < *in2), ++out, ++in1, ++in2);
+					carry=(*out < *in2);
+					unroll_0<N-1>::plus::no_return(carry, ++out, ++in1, ++in2);
 				}
 
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
 				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
 					*out=*in1 + *in2 + carry;
-					return unroll_0<N-1>::plus::with_return((*out < *in2), ++out, ++in1, ++in2);
+					carry=(*out < *in2);
+					return unroll_0<N-1>::plus::with_return(carry, ++out, ++in1, ++in2);
 				}
 			};
 /*
@@ -786,7 +788,8 @@ namespace nik
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
-					unroll_0<N-1>::minus::no_return((carry < *in2 || *in1 < *out), ++out, ++in1, ++in2);
+					carry=(carry < *in2 || *in1 < *out);
+					unroll_0<N-1>::minus::no_return(carry, ++out, ++in1, ++in2);
 				}
 
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
@@ -794,7 +797,8 @@ namespace nik
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
-					return unroll_0<N-1>::minus::with_return((carry < *in2 || *in1 < *out), ++out, ++in1, ++in2);
+					carry=(carry < *in2 || *in1 < *out);
+					return unroll_0<N-1>::minus::with_return(carry, ++out, ++in1, ++in2);
 				}
 			};
 
@@ -806,39 +810,44 @@ namespace nik
 					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
 						*out+=*in + carry;
-						unroll_0<N-1>::assign::plus::no_return((*out < *in), ++out, ++in);
+						carry=(*out < *in);
+						unroll_0<N-1>::assign::plus::no_return(carry, ++out, ++in);
 					}
 
 					template<typename ValueType, typename OutputIterator, typename InputIterator>
 					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
 						*out+=*in + carry;
-						return unroll_0<N-1>::assign::plus::with_return((*out < *in), ++out, ++in);
+						carry=(*out < *in);
+						return unroll_0<N-1>::assign::plus::with_return(carry, ++out, ++in);
 					}
 				};
 /*
+	Two ValueTypes are relevant as one might be a reference while the other is not.
+
 	carry1 needs to be set to 0 for the "normal" interpretation.
 	carry2 needs to be set to *out for the "normal" interpretation.
 */
 				struct minus
 				{
-					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType1 carry1, ValueType2 carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
-						carry1+=*in;
-						*out-=carry1;
-						unroll_0<N-1>::assign::minus::
-							no_return((carry1 < *in || carry2 < *out), *out, ++out, ++in);
+						ValueType before(*out);
+						carry+=*in;
+						*out-=carry;
+						carry=(carry < *in || before < *out);
+						unroll_0<N-1>::assign::minus::no_return(carry, ++out, ++in);
 					}
 
-					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType1 carry1,
-						ValueType2 carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
-						carry1+=*in;
-						*out-=carry1;
-						return unroll_0<N-1>::assign::minus::
-							with_return((carry1 < *in || carry2 < *out), *out, ++out, ++in);
+						ValueType before(*out);
+						carry+=*in;
+						*out-=carry;
+						carry=(carry < *in || before < *out);
+						return unroll_0<N-1>::assign::minus::with_return(carry, ++out, ++in);
 					}
 				};
 			};
@@ -1020,13 +1029,12 @@ namespace nik
 
 				struct minus
 				{
-					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType1 carry1, ValueType2 carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 						{ }
 
-					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType1 carry1,
-						ValueType2 carry2, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
 							{ return out; }
 				};
 			};

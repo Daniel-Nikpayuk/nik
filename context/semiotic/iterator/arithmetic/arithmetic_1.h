@@ -129,8 +129,10 @@ namespace nik
 */
 				template<typename ValueType, typename OutputIterator, typename InputIterator>
 				static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
-					{ unroll_1<N-1>::scale::no_return(regist::multiply::return_high(*out=carry, *in1, in2),
-						++out, ++in1, in2); }
+				{
+					carry=regist::multiply::return_high(*out=carry, *in1, in2);
+					unroll_1<N-1>::scale::no_return(carry, ++out, ++in1, in2);
+				}
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
@@ -141,8 +143,16 @@ namespace nik
 */
 				template<typename ValueType, typename OutputIterator, typename InputIterator>
 				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				{
+					carry=regist::multiply::return_high(*out=carry, *in1, in2);
+					return unroll_1<N-1>::scale::with_return(carry, ++out, ++in1, in2);
+				}
+/*
+				template<typename ValueType, typename OutputIterator, typename InputIterator>
+				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
 					{ return unroll_1<N-1>::scale::with_return(regist::multiply::return_high(*out=carry, *in1, in2),
 						++out, ++in1, in2); }
+*/
 			};
 
 			template<size_type M, typename SubFiller=void>
@@ -429,7 +439,7 @@ namespace nik
 							{
 								*q=0;
 								OutputIterator1 olr(lr);
-								*bwd_comp::assign::with_return(++lr, olr, r)=*n;
+								*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
 //								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
 							}
 							else
@@ -463,10 +473,15 @@ namespace nik
 								}
 
 	// assuming d is properly initialized, this will properly initialize t as well.
+//								nik::display << *q << nik::endl;
+//								nik::display << d[0] << ' ' << d[1] << ' ' << d[2] << nik::endl;
 								fwd_arit::template unroll_1<N>::scale::with_return((ValueType) 0, t, d, *q);
-								fwd_arit::template unroll_1<N>::assign::minus::
-									no_return((ValueType) 0, *r, r, t);
+//								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
+//								nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
+								fwd_arit::template unroll_1<N>::assign::minus::no_return((ValueType) 0, r, t);
+//								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
 								lr=bwd_arit::order(lr, r);
+								nik::display << *lr << nik::endl;
 							}
 
 							subroll_1<M-1>::divide::template multiple_digit<ValueType>::
