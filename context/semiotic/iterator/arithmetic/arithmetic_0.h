@@ -87,7 +87,7 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 			template<typename InputIterator, typename TerminalIterator>
 			static InputIterator with_break(InputIterator in, TerminalIterator end)
@@ -121,7 +121,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename InputIterator, typename TerminalIterator>
 				static bool with_break(InputIterator in, TerminalIterator end)
@@ -155,10 +155,10 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated containers are equal (true).
+	If return == end, then the iterated container property is true.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -189,7 +189,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated containers are equal (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -223,10 +223,10 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated containers are equal (false).
+	If return == end, then the iterated container property is false.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -257,7 +257,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated containers are equal (false).
+	If return == end, then the iterated container property is false.
 */
 				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -273,10 +273,10 @@ namespace nik
 			};
 		};
 /*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
 		struct less_than
 		{
@@ -321,10 +321,10 @@ namespace nik
 			}
 		};
 /*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
 		struct less_than_or_equal
 		{
@@ -369,10 +369,10 @@ namespace nik
 			}
 		};
 /*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
 		struct greater_than
 		{
@@ -417,10 +417,10 @@ namespace nik
 			}
 		};
 /*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 	end2 is the terminal location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
 		struct greater_than_or_equal
 		{
@@ -493,7 +493,7 @@ namespace nik
 					unroll_0<N-1>::zero::no_break(carry, ++in);
 				}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename Iterator>
 				static Iterator with_break(Iterator in)
@@ -511,7 +511,7 @@ namespace nik
 						return unroll_0<N-1>::zero::fast::no_break(carry, ++in);
 					}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 					template<typename Iterator>
 					static bool with_break(Iterator in)
@@ -536,7 +536,7 @@ namespace nik
 					unroll_0<N-1>::equal::no_break(carry, ++in1, ++in2);
 				}
 /*
-	If return == end, then the iterated containers are equal (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename Iterator1, typename Iterator2>
 				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
@@ -554,7 +554,7 @@ namespace nik
 						return unroll_0<N-1>::equal::fast::no_break(carry, ++in1, ++in2);
 					}
 /*
-	If return == end, then the iterated containers are equal (true).
+	If return == end, then the iterated container property is true.
 */
 					template<typename Iterator1, typename Iterator2>
 					static bool with_break(Iterator1 in1, Iterator2 in2)
@@ -579,7 +579,7 @@ namespace nik
 					unroll_0<N-1>::not_equal::no_break(carry, ++in1, ++in2);
 				}
 /*
-	If return == end, then the iterated containers are equal (false).
+	If return == end, then the iterated container property is false.
 */
 				template<typename Iterator1, typename Iterator2>
 				static Iterator2 with_break(Iterator1 in1, Iterator2 in2)
@@ -597,7 +597,7 @@ namespace nik
 						return unroll_0<N-1>::not_equal::fast::no_break(carry, ++in1, ++in2);
 					}
 /*
-	If return == end, then the iterated containers are equal (false).
+	If return == end, then the iterated container property is false.
 */
 					template<typename Iterator1, typename Iterator2>
 					static bool with_break(Iterator1 in1, Iterator2 in2)
@@ -608,9 +608,9 @@ namespace nik
 				};
 			};
 /*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
 			struct less_than
 			{
@@ -642,9 +642,9 @@ namespace nik
 				}
 			};
 /*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
 			struct less_than_or_equal
 			{
@@ -676,9 +676,9 @@ namespace nik
 				}
 			};
 /*
+	carry is the overhead value. Set this to false for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to false for the "normal" interpretation. 
 */
 			struct greater_than
 			{
@@ -710,9 +710,9 @@ namespace nik
 				}
 			};
 /*
+	carry is the overhead value. Set this to true for the "normal" interpretation. 
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-	carry is the overhead value. Set this to true for the "normal" interpretation. 
 */
 			struct greater_than_or_equal
 			{
@@ -740,7 +740,7 @@ namespace nik
 					if (*in1 > *in2) carry=true;
 					else if (*in1 < *in2) carry=false;
 
-					return unroll_0<N-1>::greater_than_or_equal::with_return(carry, ++in1, ++in2);
+					return unroll_0<N-1>::greater_than_or_equal::fast_return(carry, ++in1, ++in2);
 				}
 			};
 /*
@@ -767,6 +767,8 @@ namespace nik
 				}
 			};
 /*
+	carry needs to be set to 0 for the "normal" interpretation.
+
 	In this case, *out+(*in2+carry)=*in1 implies a new carry if: *in1 < *out or *in1 < (*in2+carry)
 	but there's the special case that (*in2+carry) already wraps around [(*in2+carry) < *in2, carry].
 	In which case---given 0 <= carry <= 1---it's automatic that there's a new carry (but no need
@@ -776,8 +778,6 @@ namespace nik
 
 	The assumption is addition is no less optimal than subtraction as the algorithm
 	should require fewer tests, hence: *out=*in1-(*in2+carry) instead of *out=*in1-*in2-carry.
-
-	carry needs to be set to 0 for the "normal" interpretation.
 */
 			struct minus
 			{
@@ -827,8 +827,8 @@ namespace nik
 					{
 						carry1+=*in;
 						*out-=carry1;
-						unroll_0<N-1>::assign::minus::template
-							no_return<ValueType>((carry1 < *in || carry2 < *out), *out, ++out, ++in);
+						unroll_0<N-1>::assign::minus::
+							no_return((carry1 < *in || carry2 < *out), *out, ++out, ++in);
 					}
 
 					template<typename ValueType1, typename ValueType2, typename OutputIterator, typename InputIterator>
@@ -837,8 +837,8 @@ namespace nik
 					{
 						carry1+=*in;
 						*out-=carry1;
-						return unroll_0<N-1>::assign::minus::template
-							with_return<ValueType>((carry1 < *in || carry2 < *out), *out, ++out, ++in);
+						return unroll_0<N-1>::assign::minus::
+							with_return((carry1 < *in || carry2 < *out), *out, ++out, ++in);
 					}
 				};
 			};
@@ -1059,7 +1059,7 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 			template<typename InputIterator, typename TerminalIterator>
 			static InputIterator with_break(InputIterator in, TerminalIterator end)
@@ -1093,7 +1093,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated container is zero (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename InputIterator, typename TerminalIterator>
 				static bool with_break(InputIterator in, TerminalIterator end)
@@ -1127,7 +1127,7 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated containers are zero (true).
+	If return == end, then the iterated container property is true.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1161,7 +1161,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated containers are zero (true).
+	If return == end, then the iterated container property is true.
 */
 				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1195,7 +1195,7 @@ namespace nik
 				}
 			}
 /*
-	If return == end, then the iterated containers are zero (false).
+	If return == end, then the iterated container property is false.
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1229,7 +1229,7 @@ namespace nik
 					return carry;
 				}
 /*
-	If return == end, then the iterated containers are zero (false).
+	If return == end, then the iterated container property is false.
 */
 				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1248,11 +1248,11 @@ namespace nik
 		struct less_than
 		{
 /*
+	If return == end, then the iterated container property is false.
+	If return != end, then the iterated container property is (*in1 < *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is false.
-	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1285,11 +1285,11 @@ namespace nik
 		struct less_than_or_equal
 		{
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 < *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1322,11 +1322,11 @@ namespace nik
 		struct greater_than
 		{
 /*
+	If return == end, then the iterated container property is false.
+	If return != end, then the iterated container property is (*in1 > *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is false.
-	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1359,11 +1359,11 @@ namespace nik
 		struct greater_than_or_equal
 		{
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 > *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
 			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
@@ -1439,7 +1439,7 @@ namespace nik
 				}
 
 				template<typename Iterator>
-				static Iterator2 with_break(Iterator in)
+				static Iterator with_break(Iterator in)
 				{
 					if (*in) return in;
 					else return unroll_0<N-1>::zero::with_break(--in);
@@ -1541,11 +1541,11 @@ namespace nik
 				};
 			};
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 < *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			struct less_than
 			{
@@ -1564,11 +1564,11 @@ namespace nik
 				}
 			};
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 < *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 < *in2).
 */
 			struct less_than_or_equal
 			{
@@ -1587,11 +1587,11 @@ namespace nik
 				}
 			};
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 > *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			struct greater_than
 			{
@@ -1610,11 +1610,11 @@ namespace nik
 				}
 			};
 /*
+	If return == end, then the iterated container property is true.
+	If return != end, then the iterated container property is (*in1 > *in2).
+
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
-
-	If return == end, then the iterated container's property is true.
-	If return != end, then the iterated container's property is (*in1 > *in2).
 */
 			struct greater_than_or_equal
 			{
