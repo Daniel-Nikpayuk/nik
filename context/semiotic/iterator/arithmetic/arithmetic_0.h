@@ -20,10 +20,11 @@
 
 #include<stddef.h>
 
-// Clean up the typedefs/usings namespace stuff.
-
 // overhead dependencies:
+
 #include"../../../context/constant.h"
+
+// Clean up the typedefs/usings namespace stuff.
 
 /*
 	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that with componentwise is
@@ -465,6 +466,61 @@ namespace nik
 			}
 		};
 /*
+	scale:
+		This is the half-register version (each dereferenced ValueType is assumed <= half-register size).
+		As such, it requires no additional dependencies.
+*/
+		struct scale
+		{
+			struct half_register
+			{
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+
+	All ValueTypes are under the constraint of being less than the half register size.
+*/
+				template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
+				static void no_return(ValueType carry,
+					OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+				{
+					while (in1 != end1)
+					{
+						carry+=(*in1)*in2;
+						*out=constant::low_pass & carry;
+						carry>>=constant::half_length;
+						++out; ++in1;
+					}
+				}
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+
+	All ValueTypes are under the constraint of being less than the half register size.
+*/
+				template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
+				static OutputIterator with_return(ValueType carry,
+					OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+				{
+					while (in1 != end1)
+					{
+						carry+=(*in1)*in2;
+						*out=constant::low_pass & carry;
+						carry>>=constant::half_length;
+						++out; ++in1;
+					}
+
+					return out;
+				}
+			};
+		};
+/*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
 			The few structs that are pass instances of types (eg. digit: "size_type base")
@@ -752,6 +808,29 @@ namespace nik
 */
 			struct plus
 			{
+				struct half_register
+				{
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static void no_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+					{
+						*out=*in1 + *in2 + carry;
+						carry=(*out < *in2);
+						unroll_0<N-1>::plus::no_return(carry, ++out, ++in1, ++in2);
+					}
+
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+					{
+						*out=*in1 + *in2 + carry;
+						carry=(*out < *in2);
+						return unroll_0<N-1>::plus::with_return(carry, ++out, ++in1, ++in2);
+					}
+				};
+
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
 				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
@@ -783,6 +862,30 @@ namespace nik
 */
 			struct minus
 			{
+				struct half_register
+				{
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+					{
+						carry+=*in2;
+						*out=*in1 - carry;
+						carry=(carry < *in2 || *in1 < *out);
+						unroll_0<N-1>::minus::no_return(carry, ++out, ++in1, ++in2);
+					}
+
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+					{
+						carry+=*in2;
+						*out=*in1 - carry;
+						carry=(carry < *in2 || *in1 < *out);
+						return unroll_0<N-1>::minus::with_return(carry, ++out, ++in1, ++in2);
+					}
+				};
+
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
 				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 				{
@@ -802,10 +905,69 @@ namespace nik
 				}
 			};
 
+			struct scale
+			{
+				struct half_register
+				{
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the constant scalar value.
+
+	All ValueTypes are under the constraint of being less than the half register size.
+*/
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+					{
+						carry+=(*in1)*in2;
+						*out=constant::low_pass & carry;
+						carry>>=constant::half_length;
+						unroll_0<N-1>::scale::half_register::no_return(carry, ++out, ++in1, in2);
+					}
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the constant scalar value.
+
+	All ValueTypes are under the constraint of being less than the half register size.
+*/
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator in1, ValueType in2)
+					{
+						carry+=(*in1)*in2;
+						*out=constant::low_pass & carry;
+						carry>>=constant::half_length;
+						return unroll_0<N-1>::scale::half_register::with_return(carry, ++out, ++in1, in2);
+					}
+				};
+			};
+
 			struct assign
 			{
 				struct plus
 				{
+					struct half_register
+					{
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+						{
+							*out+=*in + carry;
+							carry=(*out < *in);
+							unroll_0<N-1>::assign::plus::no_return(carry, ++out, ++in);
+						}
+
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+						{
+							*out+=*in + carry;
+							carry=(*out < *in);
+							return unroll_0<N-1>::assign::plus::with_return(carry, ++out, ++in);
+						}
+					};
+
 					template<typename ValueType, typename OutputIterator, typename InputIterator>
 					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
@@ -830,6 +992,29 @@ namespace nik
 */
 				struct minus
 				{
+					struct half_register
+					{
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+						{
+							ValueType before(*out);
+							carry+=*in;
+							*out-=carry;
+							carry=(carry < *in || before < *out);
+							unroll_0<N-1>::assign::minus::no_return(carry, ++out, ++in);
+						}
+
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+						{
+							ValueType before(*out);
+							carry+=*in;
+							*out-=carry;
+							carry=(carry < *in || before < *out);
+							return unroll_0<N-1>::assign::minus::with_return(carry, ++out, ++in);
+						}
+					};
+
 					template<typename ValueType, typename OutputIterator, typename InputIterator>
 					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 					{
@@ -994,6 +1179,21 @@ namespace nik
 
 			struct plus
 			{
+				struct half_register
+				{
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static void no_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+							{ }
+
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+							{ return out; }
+				};
+
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
 				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ }
@@ -1005,6 +1205,21 @@ namespace nik
 
 			struct minus
 			{
+				struct half_register
+				{
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static void no_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+							{ }
+
+					template<typename ValueType,
+						typename OutputIterator, typename InputIterator1, typename InputIterator2>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+							{ return out; }
+				};
+
 				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
 				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
 					{ }
@@ -1014,10 +1229,36 @@ namespace nik
 					{ return out; }
 			};
 
+			struct scale
+			{
+				struct half_register
+				{
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+						{ }
+
+					template<typename ValueType, typename OutputIterator, typename InputIterator>
+					static OutputIterator with_return(ValueType carry,
+						OutputIterator out, InputIterator in1, ValueType in2)
+							{ return out; }
+				};
+			};
+
 			struct assign
 			{
 				struct plus
 				{
+					struct half_register
+					{
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+							{ }
+
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+							{ return out; }
+					};
+
 					template<typename ValueType, typename OutputIterator, typename InputIterator>
 					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 						{ }
@@ -1029,6 +1270,17 @@ namespace nik
 
 				struct minus
 				{
+					struct half_register
+					{
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+							{ }
+
+						template<typename ValueType, typename OutputIterator, typename InputIterator>
+						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+								{ return out; }
+					};
+
 					template<typename ValueType, typename OutputIterator, typename InputIterator>
 					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
 						{ }

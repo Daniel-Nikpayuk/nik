@@ -20,7 +20,7 @@
 
 // overhead dependencies:
 
-#include"arithmetic_1.h"
+#include"arithmetic_2.h"
 
 /*
 	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that with componentwise is
@@ -46,12 +46,12 @@ namespace nik
     namespace forward
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_2<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_2<N, Filler>
 		{
 		};
 
@@ -65,12 +65,12 @@ namespace nik
     namespace backward
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_2<size_type>
 	{
 		typedef meta::constant<size_type> constant;
 
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_2<N, Filler>
 		{
 		};
 
@@ -84,10 +84,10 @@ namespace nik
     namespace bidirectional
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_2<size_type>
 	{
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_2<N, Filler>
 		{
 		};
 
@@ -101,13 +101,13 @@ namespace nik
     namespace random_access
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_2<size_type>
 	{
 		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_1<N, Filler>
+		struct unroll : public arithmetic::template unroll_2<N, Filler>
 		{
 			template<size_type M, typename SubFiller=void>
-			struct subroll : public unroll::template subroll_1<M, SubFiller>
+			struct subroll : public unroll::template subroll_2<M, SubFiller>
 			{
 			};
 

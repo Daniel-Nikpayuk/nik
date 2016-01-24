@@ -15,10 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_REGIST_H
-#define CONTEXT_SEMIOTIC_REGIST_H
+#ifndef CONTEXT_SEMIOTIC_ITERATOR_HALF_REGISTER_H
+#define CONTEXT_SEMIOTIC_ITERATOR_HALF_REGISTER_H
 
-#include"../../../context/context/constant.h"
+#include"../../../../context/context/constant.h"
 
 // #include"../../../debug.h"
 
@@ -49,25 +49,16 @@ namespace nik
   namespace semiotic
   {
 /*
-			regist:
+			half_register:
 				typename The minimal specification (axiomatic properties) of a block class are:
 				typedefs:
 				constructors:
 				accessors:
 */
 	template<typename size_type>
-	struct regist
+	struct half_register
 	{
 		typedef meta::constant<size_type> constant;
-/*
-	less_than_or_equal:
-
-	This is redundant, you can use the unrolling code from arithmetic, but this should be optimized as highly as possible,
-	which, given the unrolling nature of its equivalent within arithmetic, it may not be. Test!
-*/
-		template<typename ValueType>
-		static bool less_than_or_equal(ValueType in0, ValueType in1, ValueType in2, ValueType in3)
-			{ return (in0 < in2 || (in0 == in2) && in1 <= in3); }
 
 		template<typename ValueType>
 		static ValueType shift_up(ValueType in, size_type n)
