@@ -49,7 +49,6 @@ namespace nik
 	struct arithmetic : public semiotic::iterator::forward::arithmetic<size_type>
 	{
 		typedef meta::constant<size_type> constant;
-		typedef semiotic::regist<size_type> regist;
 
 		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
 		typedef semiotic::iterator::forward::arithmetic<size_type> fwd_arit;

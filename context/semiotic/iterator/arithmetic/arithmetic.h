@@ -48,15 +48,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_2<size_type>
 	{
-		typedef meta::constant<size_type> constant;
-
-		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_2<N, Filler>
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll : public arithmetic::template unroll_2<N, M, L>
 		{
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
 		{
 		};
 	};
@@ -67,15 +65,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_2<size_type>
 	{
-		typedef meta::constant<size_type> constant;
-
-		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_2<N, Filler>
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll : public arithmetic::template unroll_2<N, M, L>
 		{
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
 		{
 		};
 	};
@@ -86,13 +82,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_2<size_type>
 	{
-		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_2<N, Filler>
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll : public arithmetic::template unroll_2<N, M, L>
 		{
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
 		{
 		};
 	};
@@ -103,22 +99,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic : public arithmetic_2<size_type>
 	{
-		template<size_type N, typename Filler=void>
-		struct unroll : public arithmetic::template unroll_2<N, Filler>
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll : public arithmetic::template unroll_2<N, M, L>
 		{
-			template<size_type M, typename SubFiller=void>
-			struct subroll : public unroll::template subroll_2<M, SubFiller>
-			{
-			};
-
-			template<typename SubFiller>
-			struct subroll<0, SubFiller>
-			{
-			};
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
 		{
 		};
 	};

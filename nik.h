@@ -26,8 +26,8 @@
 stringify(../nik/context/context/header.h)
 
 // system:
-#define niksys(header) \
-stringify(../nik/context/semiotic/header/header.h)
+#define niksys(navigator, header) \
+stringify(../nik/context/semiotic/navigator/header/header.h)
 
 // generic:
 #define nikgen(navigator, header) \

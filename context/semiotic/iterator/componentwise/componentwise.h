@@ -18,7 +18,11 @@
 #ifndef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_H
 #define CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_H
 
+// overhead dependencies:
+
 #include"componentwise_macro.h"
+
+#include"../../../context/constant.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -65,6 +69,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
+		typedef meta::constant<size_type> constant;
 /*
 	+:
 
@@ -518,7 +523,65 @@ namespace nik
 				with_return_1(++, <<=)
 			};
 		};
+/*
+	Not fully satisfied with the categorization or naming scheme within this library.
+*/
+		struct convert
+		{
+			struct full_register
+			{
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						*out=(constant::low_pass & *in);
+						*++out=*in>>constant::half_length;
+						++out; ++in;
+					}
+				}
 
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						*out=(constant::low_pass & *in);
+						*++out=*in>>constant::half_length;
+						++out; ++in;
+					}
+
+					return out;
+				}
+			};
+
+			struct half_register
+			{
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						*out=*in;
+						*out+=(*++in<<constant::half_length);
+						++out; ++in;
+					}
+				}
+
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						*out=*in;
+						*out+=(*++in<<constant::half_length);
+						++out; ++in;
+					}
+
+					return out;
+				}
+			};
+		};
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
@@ -631,6 +694,49 @@ namespace nik
 					}
 				};
 			};
+/*
+	Not fully satisfied with the categorization or naming scheme within this library.
+*/
+			struct convert
+			{
+				struct full_register
+				{
+					template<typename WIterator, typename RIterator>
+					static void no_return(WIterator out, RIterator in)
+					{
+						*out=(constant::low_pass & *in);
+						*++out=*in>>constant::half_length;
+						unroll<N-1>::convert::full_register::no_return(++out, ++in);
+					}
+
+					template<typename WIterator, typename RIterator>
+					static WIterator with_return(WIterator out, RIterator in)
+					{
+						*out=(constant::low_pass & *in);
+						*++out=*in>>constant::half_length;
+						return unroll<N-1>::convert::full_register::with_return(++out, ++in);
+					}
+				};
+
+				struct half_register
+				{
+					template<typename WIterator, typename RIterator>
+					static void no_return(WIterator out, RIterator in)
+					{
+						*out=*in;
+						*out+=(*++in<<constant::half_length);
+						unroll<N-1>::convert::half_register::no_return(++out, ++in);
+					}
+
+					template<typename WIterator, typename RIterator>
+					static WIterator with_return(WIterator out, RIterator in)
+					{
+						*out=*in;
+						*out+=(*++in<<constant::half_length);
+						return unroll<N-1>::convert::half_register::with_return(++out, ++in);
+					}
+				};
+			};
 		};
 
 		template<typename Filler>
@@ -646,7 +752,7 @@ namespace nik
 
 				template<typename WIterator, typename RIterator1, typename RIterator2>
 				static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
-						{ return out; }
+					{ return out; }
 			};
 
 			struct repeat
@@ -683,6 +789,32 @@ namespace nik
 						{ return out; }
 				};
 			};
+
+			struct convert
+			{
+				struct full_register
+				{
+					template<typename WIterator, typename RIterator>
+					static void no_return(WIterator out, RIterator in)
+						{ }
+
+					template<typename WIterator, typename RIterator>
+					static WIterator with_return(WIterator out, RIterator in)
+						{ return out; }
+				};
+
+				struct half_register
+				{
+					template<typename WIterator, typename RIterator>
+					static void no_return(WIterator out, RIterator in)
+						{ }
+
+					template<typename WIterator, typename RIterator>
+					static WIterator with_return(WIterator out, RIterator in)
+						{ return out; }
+				};
+			};
+
 		};
 	};
     }
@@ -694,6 +826,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
+		typedef meta::constant<size_type> constant;
 /*
 	+:
 
@@ -1324,6 +1457,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
+		typedef meta::constant<size_type> constant;
 	};
     }
 
@@ -1335,6 +1469,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
+		typedef meta::constant<size_type> constant;
 	};
     }
    }

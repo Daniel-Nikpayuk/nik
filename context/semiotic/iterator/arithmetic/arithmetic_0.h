@@ -833,12 +833,10 @@ namespace nik
 			The few structs that are pass instances of types (eg. digit: "size_type base")
 			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
 
-			Generally having a template parameter which isn't directly used implies lower generic entropy if it
-			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
-			below is an exception to the exising design for no other reason than the need for partial template
-			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
+			Explicit specialization isn't allowed. Template parameters are of an arbitrary but fixed type.
+			As such one factoring all such parameters into a single template is effective.
 */
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll_0
 		{
 /*
@@ -1344,21 +1342,35 @@ namespace nik
 						}
 					};
 				};
-			};
 
-			template<size_type M, typename SubFiller=void>
-			struct subroll_0
-			{
-			};
+				struct scale
+				{
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator>
+						static void no_return(ValueType carry, WIterator out, ValueType value)
+						{
+							carry+=(*out) * value;
+							*out=constant::low_pass & carry;
+							carry>>=constant::half_length;
+							unroll_0<N-1>::assign::scale::half_register::no_return(carry, ++out, value);
+						}
 
-			template<typename SubFiller>
-			struct subroll_0<0, SubFiller>
-			{
+						template<typename ValueType, typename WIterator>
+						static WIterator with_return(ValueType carry, WIterator out, ValueType value)
+						{
+							carry+=(*out) * value;
+							*out=constant::low_pass & carry;
+							carry>>=constant::half_length;
+							return unroll_0<N-1>::assign::scale::half_register::with_return(carry, ++out, value);
+						}
+					};
+				};
 			};
 		};
 
-		template<typename Filler>
-		struct unroll_0<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll_0<0, M, L>
 		{
 			struct zero
 			{
@@ -1586,6 +1598,20 @@ namespace nik
 
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
+							{ return out; }
+					};
+				};
+
+				struct scale
+				{
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator>
+						static void no_return(ValueType carry, WIterator out, ValueType value)
+							{ }
+
+						template<typename ValueType, typename WIterator>
+						static WIterator with_return(ValueType carry, WIterator out, ValueType value)
 							{ return out; }
 					};
 				};
@@ -1953,34 +1979,15 @@ namespace nik
 			}
 		};
 /*
-	Finds the first occurrence along the iterator path of a non-zero value, returns the iterator position.
-
-	It might appear at first glance this shouldn't be classified as componentwise,
-	but the final value is still dependent upon the previous values. The lack of success is the "carry".
-*/
-		template<typename RIterator, typename EIterator>
-		static RIterator order(RIterator in, EIterator end)
-		{
-			while (in != end)
-			{
-				if (*in) return in;
-				--in;
-			}
-
-			return in;
-		}
-/*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
 			The few structs that are pass instances of types (eg. digit: "size_type base")
 			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
 
-			Generally having a template parameter which isn't directly used implies lower generic entropy if it
-			isn't used directly in any of the methods (for example its subtypes are used instead). The unroll struct
-			below is an exception to the exising design for no other reason than the need for partial template
-			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
+			Explicit specialization isn't allowed. Template parameters are of an arbitrary but fixed type.
+			As such one factoring all such parameters into a single template is effective.
 */
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll_0
 		{
 /*
@@ -2196,36 +2203,13 @@ namespace nik
 			Intuitively, "right_shift" would be defined here,
 			but given its implementation it is actually part of componentwise.h
 */
-/*
-	Finds the first occurrence along the iterator path of a non-zero value, returns the iterator position.
-
-	It might appear at first glance this shouldn't be classified as componentwise,
-	but the final value is still dependent upon the previous values. The lack of success is the "carry".
-*/
-			template<typename Iterator>
-			static Iterator order(Iterator in)
-			{
-				if (*in) return in;
-				else return unroll_0<N-1>::order(--in);
-			}
-
 			struct assign
-			{
-			};
-
-			template<size_type M, typename SubFiller=void>
-			struct subroll_0
-			{
-			};
-
-			template<typename SubFiller>
-			struct subroll_0<0, SubFiller>
 			{
 			};
 		};
 
-		template<typename Filler>
-		struct unroll_0<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll_0<0, M, L>
 		{
 			struct zero
 			{
@@ -2337,13 +2321,6 @@ namespace nik
 					{ return true; }
 			};
 
-/*
-	Does not perform what is otherwise the standard final decrement.
-*/
-			template<typename Iterator>
-			static Iterator order(Iterator in)
-				{ return in; }
-
 			struct assign
 			{
 			};
@@ -2356,22 +2333,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll_0
 		{
-			template<size_type M, typename SubFiller=void>
-			struct subroll_0
-			{
-			};
-
-			template<typename SubFiller>
-			struct subroll_0<0, SubFiller>
-			{
-			};
 		};
 
-		template<typename Filler>
-		struct unroll_0<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll_0<0, M, L>
 		{
 		};
 	};
@@ -2382,22 +2350,13 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll_0
 		{
-			template<size_type M, typename SubFiller=void>
-			struct subroll_0
-			{
-			};
-
-			template<typename SubFiller>
-			struct subroll_0<0, SubFiller>
-			{
-			};
 		};
 
-		template<typename Filler>
-		struct unroll_0<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll_0<0, M, L>
 		{
 		};
 	};
