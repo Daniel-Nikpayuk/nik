@@ -69,8 +69,8 @@ namespace nik
 	end1 is the end location of the input containing structure.
 	in2 is the constant scalar value.
 */
-			template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
-			static void no_return(ValueType carry, OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+			static void no_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
@@ -85,9 +85,8 @@ namespace nik
 	end1 is the end location of the input containing structure.
 	in2 is the constant scalar value.
 */
-			template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
-			static OutputIterator with_return(ValueType carry,
-				OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
@@ -125,8 +124,8 @@ namespace nik
 
 	Obfuscated code ?
 */
-				template<typename ValueType, typename OutputIterator, typename InputIterator>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 				{
 					carry=regist::multiply::return_high(*out=carry, *in1, in2);
 					unroll_2<N-1>::scale::no_return(carry, ++out, ++in1, in2);
@@ -139,15 +138,15 @@ namespace nik
 
 	Obfuscated code ?
 */
-				template<typename ValueType, typename OutputIterator, typename InputIterator>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 				{
 					carry=regist::multiply::return_high(*out=carry, *in1, in2);
 					return unroll_2<N-1>::scale::with_return(carry, ++out, ++in1, in2);
 				}
 /*
-				template<typename ValueType, typename OutputIterator, typename InputIterator>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{ return unroll_2<N-1>::scale::with_return(regist::multiply::return_high(*out=carry, *in1, in2),
 						++out, ++in1, in2); }
 */
@@ -163,8 +162,8 @@ namespace nik
 
 	Is it worth testing for *in2 == 0 ?
 */
-				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
+				template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+				static void multiply(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 				{
 					unroll_2<M>::scale::no_return(0,
 						fwd_comp::template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2);
@@ -176,8 +175,8 @@ namespace nik
 			template<typename SubFiller>
 			struct subroll_2<0, SubFiller>
 			{
-				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
+				template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+				static void multiply(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 					{ }
 			};
 		};
@@ -190,12 +189,12 @@ namespace nik
 */
 			struct scale
 			{
-				template<typename ValueType, typename OutputIterator, typename InputIterator>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{ }
 
-				template<typename ValueType, typename OutputIterator, typename InputIterator>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{ return out; }
 			};
 		};
@@ -252,9 +251,8 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator half_register_divisor(ValueType carry,
-						OutputIterator out, InputIterator in, ValueType d)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator half_register_divisor(ValueType carry, WIterator out, RIterator in, ValueType d)
 					{
 						if (carry) *out=regist::divide::half_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -272,9 +270,8 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator full_register_divisor(ValueType carry,
-						OutputIterator out, InputIterator in, ValueType d)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator full_register_divisor(ValueType carry, WIterator out, RIterator in, ValueType d)
 					{
 						if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -303,15 +300,13 @@ namespace nik
 			{
 				struct single_digit
 				{
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator half_register_divisor(ValueType carry,
-						OutputIterator out, InputIterator in, ValueType d)
-							{ return out; }
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator half_register_divisor(ValueType carry, WIterator out, RIterator in, ValueType d)
+						{ return out; }
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator full_register_divisor(ValueType carry,
-						OutputIterator out, InputIterator in, ValueType d)
-							{ return out; }
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator full_register_divisor(ValueType carry, WIterator out, RIterator in, ValueType d)
+						{ return out; }
 				};
 			};
 		};
@@ -408,7 +403,7 @@ namespace nik
 	In all fairness, there are many ways to interpret an unrolling version.
 	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
 
-	OutputIterators are assumed safe for modification.
+	WIterators are assumed safe for modification.
 	In practice this means providing a deep copy if necessary when passing const references as input.
 
 	Assumes b < d <= n.
@@ -423,11 +418,10 @@ namespace nik
 // At this point you're prematuraly optimizing. First adhere to the functional best practices of tail recursion,
 // with clean concept pseudo code, then optimize after. Keep the pseudo code to go back and reinterpret single digit
 // and register versions of this division.
-						template<typename OutputIterator1, typename OutputIterator2,
-							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
-						static void quotient_remainder(OutputIterator1 r,
-							OutputIterator1 lr, OutputIterator2 q, OutputIterator3 t,
-								InputIterator1 n, InputIterator2 d, InputIterator2 ld)
+						template<typename WIterator1, typename WIterator2,
+							typename WIterator3, typename RIterator1, typename RIterator2>
+						static void quotient_remainder(WIterator1 r, WIterator1 lr,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
 						{
 							size_type tlen, rlen=lr-r, dlen=ld-d;
 //							nik::display << rlen << ' ' << dlen << nik::endl;
@@ -436,7 +430,7 @@ namespace nik
 								less_than::fast_return(false, r, d, ld+1)))
 							{
 								*q=0;
-								OutputIterator1 olr(lr);
+								WIterator1 olr(lr);
 								*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
 //								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
 							}
@@ -451,7 +445,7 @@ namespace nik
 //								nik::display << "q=" << *q << nik::endl;
 
 								carry=0;
-								OutputIterator3 lt=fwd_arit::scale::template // unroll N=2 would be better.
+								WIterator3 lt=fwd_arit::scale::template // unroll N=2 would be better.
 									with_return<ValueType&>(carry, t, ld-1, ld+1, *q);
 								if (lt != t+N) *lt=carry;
 								tlen=lt-t;
@@ -480,7 +474,7 @@ namespace nik
 //								nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
 								lr=bwd_arit::order(r+(N-1), r);
 //								nik::display << *lr << nik::endl;
-								OutputIterator1 olr(lr);
+								WIterator1 olr(lr);
 								*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
 							}
 
@@ -499,12 +493,11 @@ namespace nik
 					template<typename ValueType>
 					struct multiple_digit
 					{
-						template<typename OutputIterator1, typename OutputIterator2,
-							typename OutputIterator3, typename InputIterator1, typename InputIterator2>
-						static void quotient_remainder(OutputIterator1 r,
-							OutputIterator1 lr, OutputIterator2 q, OutputIterator3 t,
-								InputIterator1 n, InputIterator2 d, InputIterator2 ld)
-									{ }
+						template<typename WIterator1, typename WIterator2,
+							typename WIterator3, typename RIterator1, typename RIterator2>
+						static void quotient_remainder(WIterator1 r, WIterator1 lr,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+								{ }
 					};
 				};
 			};

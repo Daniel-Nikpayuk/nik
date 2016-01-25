@@ -21,3 +21,9 @@ which potentially breaks the loop. In such cases, the loop-comparison iterator (
 The reason for this is when there is no such loop breaking, the *in* iterator will equal *end* upon completion, and there is no
 need for a return.
 
+Iterators are prefixed with:
+
++R: Read
++W: Write
++RW: Read/write
++E: End.

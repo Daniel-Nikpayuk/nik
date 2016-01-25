@@ -85,8 +85,8 @@ namespace nik
 
 	Breaks semantically for n < 0.
 */
-		template<typename OutputIterator, typename InputIterator>
-		static InputIterator right_increment(OutputIterator out, InputIterator in, size_type n)
+		template<typename WIterator, typename RIterator>
+		static RIterator right_increment(WIterator out, RIterator in, size_type n)
 		{
 			while (n)
 			{
@@ -101,8 +101,8 @@ namespace nik
 
 		Returns the distance between in and end.
 */
-		template<typename InputIterator, typename TerminalIterator>
-		static size_type size(InputIterator in, TerminalIterator end, size_type length)
+		template<typename RIterator, typename EIterator>
+		static size_type size(RIterator in, EIterator end, size_type length)
 		{
 			while (in != end)
 			{
@@ -154,16 +154,16 @@ namespace nik
 
 	Breaks semantically for n < 0.
 */
-		template<typename OutputIterator, typename InputIterator>
-		static InputIterator right_decrement(OutputIterator out, InputIterator in, size_type n)
+		template<typename WIterator, typename RIterator>
+		static RIterator right_decrement(WIterator out, RIterator in, size_type n)
 			{ while (n--) --out; return in; }
 /*
 	size:
 
 		Returns the distance between in and end.
 */
-		template<typename InputIterator, typename TerminalIterator>
-		static size_type size(InputIterator in, TerminalIterator end, size_type length)
+		template<typename RIterator, typename EIterator>
+		static size_type size(RIterator in, EIterator end, size_type length)
 			{ while (in-- != end) ++length; return length; }
 	};
     }
@@ -193,8 +193,8 @@ namespace nik
 
 		Breaks for end < in.
 */
-		template<typename InputIterator, typename TerminalIterator>
-		static size_type size(InputIterator in, TerminalIterator end) { return end-in; }
+		template<typename RIterator, typename EIterator>
+		static size_type size(RIterator in, EIterator end) { return end-in; }
 	};
     }
    }

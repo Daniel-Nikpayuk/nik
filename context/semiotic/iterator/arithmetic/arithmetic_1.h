@@ -90,10 +90,8 @@ namespace nik
 
 	Is it worth testing for *in2 == 0 ?
 */
-						template<typename OutputIterator1,
-							typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-						static void no_return(OutputIterator1 out1,
-							OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
+						template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+						static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 						{
 							unroll_0<M>::scale::half_register::no_return(0,
 								fwd_comp::template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2);
@@ -111,11 +109,9 @@ namespace nik
 				{
 					struct half_register
 					{
-						template<typename OutputIterator1,
-							typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-						static void multiply(OutputIterator1 out1,
-							OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
-								{ }
+						template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+						static void multiply(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
+							{ }
 					};
 				};
 			};
@@ -180,9 +176,8 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator no_return(ValueType carry,
-							OutputIterator out, InputIterator in, ValueType d)
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
 						{
 							if (carry) *out=regist::divide::half_register_divisor(carry, carry, *in, d);
 							else if (*in < d) { *out=0; carry=*in; }
@@ -208,9 +203,8 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator no_return(ValueType carry,
-							OutputIterator out, InputIterator in, ValueType d)
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
 						{
 							if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
 							else if (*in < d) { *out=0; carry=*in; }
@@ -243,10 +237,9 @@ namespace nik
 				{
 					struct half_register
 					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator no_return(ValueType carry,
-							OutputIterator out, InputIterator in, ValueType d)
-								{ return out; }
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
+							{ return out; }
 					};
 				};
 
@@ -254,10 +247,9 @@ namespace nik
 				{
 					struct half_register
 					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator no_return(ValueType carry,
-							OutputIterator out, InputIterator in, ValueType d)
-								{ return out; }
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
+							{ return out; }
 					};
 				};
 			};

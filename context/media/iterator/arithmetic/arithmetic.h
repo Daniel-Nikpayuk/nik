@@ -61,13 +61,13 @@ namespace nik
 
 	Does not test if &out == &in1, a problematic case.
 
-	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
+	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
 */
-		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
-		static void right_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
+		template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
+		static void right_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
 		{
-			fwd_arit::right_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
-				out, in1, ++InputIterator(in1), end1, n, constant::register_length-n);
+			fwd_arit::right_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
+				out, in1, ++RIterator(in1), end1, n, constant::register_length-n);
 			*out=(*in1>>n);
 			fwd_comp::repeat::no_return(out, end, 0);
 		}
@@ -92,13 +92,13 @@ namespace nik
 */
 			struct scale
 			{
-				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+				template<typename WIterator, typename RIterator, typename ValueType>
+				static void no_return(WIterator out, RIterator in1, ValueType in2, ValueType carry)
 					{ unroll<N-1>::scale::no_return(++out, ++in1, in2,
 						regist::multiply::return_high(*out=carry, *in1, in2)); }
 
-				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+				template<typename WIterator, typename RIterator, typename ValueType>
+				static WIterator with_return(WIterator out, RIterator in1, ValueType in2, ValueType carry)
 					{ return unroll<N-1>::scale::with_return(++out, ++in1, in2,
 						regist::multiply::return_high(*out=carry, *in1, in2)); }
 			};
@@ -111,8 +111,8 @@ namespace nik
 
 	Is it worth testing for *in2 == 0 ?
 */
-				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
+				template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+				static void multiply(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 				{
 					unroll<M>::scale::no_return(fwd_comp::
 						template unroll<N-M>::repeat::with_return(out2, 0), in1, *in2, 0);
@@ -124,8 +124,8 @@ namespace nik
 			template<typename SubFiller>
 			struct subroll<1, SubFiller>
 			{
-				template<typename OutputIterator1, typename OutputIterator2, typename InputIterator1, typename InputIterator2>
-				static void multiply(OutputIterator1 out1, OutputIterator2 out2, InputIterator1 in1, InputIterator2 in2)
+				template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+				static void multiply(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 				{
 					unroll<1>::scale::no_return(fwd_comp::
 						template unroll<N-1>::repeat::with_return(out2, 0), in1, *in2, 0);
@@ -142,12 +142,12 @@ namespace nik
 */
 			struct scale
 			{
-				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static void no_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+				template<typename WIterator, typename RIterator, typename ValueType>
+				static void no_return(WIterator out, RIterator in1, ValueType in2, ValueType carry)
 					{ regist::multiply::return_high(*out=carry, *in1, in2); }
 
-				template<typename OutputIterator, typename InputIterator, typename ValueType>
-				static OutputIterator with_return(OutputIterator out, InputIterator in1, ValueType in2, ValueType carry)
+				template<typename WIterator, typename RIterator, typename ValueType>
+				static WIterator with_return(WIterator out, RIterator in1, ValueType in2, ValueType carry)
 					{ regist::multiply::return_high(*out=carry, *in1, in2); return ++out; }
 			};
 		};
@@ -172,13 +172,13 @@ namespace nik
 
 	Does not test if &out == &in1, a problematic case.
 
-	I don't know how it will interpret an OutputIterator double reference in case the initial OutputIterator is implicitly a reference.
+	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
 */
-		template<typename OutputIterator, typename TerminalIterator, typename InputIterator, typename TerminalIterator1>
-		static void left_shift(OutputIterator out, TerminalIterator end, InputIterator in1, TerminalIterator1 end1, size_type n)
+		template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
+		static void left_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
 		{
-			bwd_arit::left_shift::template no_return<OutputIterator &, InputIterator &, InputIterator, TerminalIterator1>(
-				out, in1, --InputIterator(in1), end1, n, constant::register_length-n);
+			bwd_arit::left_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
+				out, in1, --RIterator(in1), end1, n, constant::register_length-n);
 			*out=(*in1<<n);
 			bwd_comp::repeat::no_return(out, end, 0);
 		}
@@ -217,9 +217,9 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static ValueType half_register_divisor(OutputIterator out,
-						InputIterator in, ValueType d, ValueType carry)
+					template<typename WIterator, typename RIterator, typename ValueType>
+					static ValueType half_register_divisor(WIterator out,
+						RIterator in, ValueType d, ValueType carry)
 					{
 						if (carry) *out=regist::divide::half_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -236,9 +236,9 @@ namespace nik
 	If d == 1 why use this at all?
 	If d == 2 use bit shifting.
 */
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static ValueType full_register_divisor(OutputIterator out,
-						InputIterator in, ValueType d, ValueType carry)
+					template<typename WIterator, typename RIterator, typename ValueType>
+					static ValueType full_register_divisor(WIterator out,
+						RIterator in, ValueType d, ValueType carry)
 					{
 						if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -261,9 +261,9 @@ namespace nik
 			{
 				struct single_digit
 				{
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static ValueType half_register_divisor(OutputIterator out,
-						InputIterator in, ValueType d, ValueType carry)
+					template<typename WIterator, typename RIterator, typename ValueType>
+					static ValueType half_register_divisor(WIterator out,
+						RIterator in, ValueType d, ValueType carry)
 					{
 						if (carry) *out=regist::divide::half_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -272,9 +272,9 @@ namespace nik
 						return carry;
 					}
 
-					template<typename OutputIterator, typename InputIterator, typename ValueType>
-					static ValueType full_register_divisor(OutputIterator out,
-						InputIterator in, ValueType d, ValueType carry)
+					template<typename WIterator, typename RIterator, typename ValueType>
+					static ValueType full_register_divisor(WIterator out,
+						RIterator in, ValueType d, ValueType carry)
 					{
 						if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
 						else if (*in < d) { *out=0; carry=*in; }
@@ -339,7 +339,7 @@ namespace nik
 	n is the dividend,
 	d is the divisor.
 
-	They are typed as OutputIterators as it is assumed they are safe for modification.
+	They are typed as WIterators as it is assumed they are safe for modification.
 	In practice this means providing a deep copy if necessary when passing const references as input.
 
 	Assumes b < d <= n.
@@ -348,9 +348,9 @@ namespace nik
 */
 			struct divide
 			{
-				template<typename OutputIterator1,
-					typename OutputIterator2, typename OutputIterator3, typename OutputIterator4>
-				static void multiple_digit(OutputIterator1 q, OutputIterator2 r, OutputIterator3 n, OutputIterator4 d)
+				template<typename WIterator1,
+					typename WIterator2, typename WIterator3, typename WIterator4>
+				static void multiple_digit(WIterator1 q, WIterator2 r, WIterator3 n, WIterator4 d)
 				{
 /*
 	You need to normalize the denominator:

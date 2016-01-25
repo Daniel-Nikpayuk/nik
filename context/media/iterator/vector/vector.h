@@ -154,9 +154,9 @@ namespace nik
 			return rtn;
 		}
 
-		template<typename InputIterator, typename Vector>
+		template<typename RIterator, typename Vector>
 		static typename Vector::iterator insert(Vector & v,
-			typename Vector::const_iterator it, InputIterator first, InputIterator last)
+			typename Vector::const_iterator it, RIterator first, RIterator last)
 		{
 			typename Vector::iterator rtn=grow(v, it, last-first);
 			bidirectional_iterator::assign(rtn, first, last);

@@ -29,8 +29,8 @@
 	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
 */
 #define no_return_0(dir, op) \
-template<typename OutputIterator, typename TerminalIterator, typename ValueType> \
-static void no_return(OutputIterator out, TerminalIterator end, ValueType value) \
+template<typename RWIterator, typename EIterator, typename ValueType> \
+static void no_return(RWIterator out, EIterator end, ValueType value) \
 { \
 	while (out != end) \
 	{ \
@@ -43,8 +43,8 @@ static void no_return(OutputIterator out, TerminalIterator end, ValueType value)
 	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
 */
 #define with_return_0(dir, op) \
-template<typename OutputIterator, typename TerminalIterator, typename ValueType> \
-static OutputIterator with_return(OutputIterator out, TerminalIterator end, ValueType value) \
+template<typename RWIterator, typename EIterator, typename ValueType> \
+static RWIterator with_return(RWIterator out, EIterator end, ValueType value) \
 { \
 	while (out != end) \
 	{ \
@@ -59,8 +59,8 @@ static OutputIterator with_return(OutputIterator out, TerminalIterator end, Valu
 	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
 */
 #define no_return_left_0(dir, op) \
-template<typename OutputIterator, typename TerminalIterator> \
-static void no_return(OutputIterator out, TerminalIterator end) \
+template<typename RWIterator, typename EIterator> \
+static void no_return(RWIterator out, EIterator end) \
 { \
 	while (out != end) \
 	{ \
@@ -73,8 +73,8 @@ static void no_return(OutputIterator out, TerminalIterator end) \
 	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
 */
 #define no_return_right_0(dir, op) \
-template<typename OutputIterator, typename TerminalIterator> \
-static void no_return(OutputIterator out, TerminalIterator end) \
+template<typename RWIterator, typename EIterator> \
+static void no_return(RWIterator out, EIterator end) \
 { \
 	while (out != end) \
 	{ \
@@ -88,11 +88,11 @@ static void no_return(OutputIterator out, TerminalIterator end) \
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with OutputIterator as reference (assuming referencing is preferred).
+		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
 #define no_return_1(dir, op) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static void no_return(OutputIterator out, InputIterator in, TerminalIterator end) \
+template<typename RWIterator, typename RIterator, typename EIterator> \
+static void no_return(RWIterator out, RIterator in, EIterator end) \
 { \
 	while (in != end) \
 	{ \
@@ -107,8 +107,8 @@ static void no_return(OutputIterator out, InputIterator in, TerminalIterator end
 		but in addition you still require a return value, call this macro.
 */
 #define with_return_1(dir, op) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static OutputIterator with_return(OutputIterator out, InputIterator in, TerminalIterator end) \
+template<typename RWIterator, typename RIterator, typename EIterator> \
+static RWIterator with_return(RWIterator out, RIterator in, EIterator end) \
 { \
 	while (in != end) \
 	{ \
@@ -122,11 +122,11 @@ static OutputIterator with_return(OutputIterator out, InputIterator in, Terminal
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with OutputIterator as reference (assuming referencing is preferred).
+		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
 #define no_return_right_1(dir, op, r) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static void no_return(OutputIterator out, InputIterator in, TerminalIterator end) \
+template<typename RWIterator, typename RIterator, typename EIterator> \
+static void no_return(RWIterator out, RIterator in, EIterator end) \
 { \
 	while (in != end) \
 	{ \
@@ -141,8 +141,8 @@ static void no_return(OutputIterator out, InputIterator in, TerminalIterator end
 		but in addition you still require a return value, call this macro.
 */
 #define with_return_right_1(dir, op, r) \
-template<typename OutputIterator, typename InputIterator, typename TerminalIterator> \
-static OutputIterator with_return(OutputIterator out, InputIterator in, TerminalIterator end) \
+template<typename RWIterator, typename RIterator, typename EIterator> \
+static RWIterator with_return(RWIterator out, RIterator in, EIterator end) \
 { \
 	while (in != end) \
 	{ \
@@ -158,11 +158,11 @@ static OutputIterator with_return(OutputIterator out, InputIterator in, Terminal
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with OutputIterator as reference (assuming referencing is preferred).
+		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
 #define no_return_2(dir, op) \
-template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+template<typename RWIterator, typename RIterator1, typename RIterator2, typename EIterator> \
+static void no_return(RWIterator out, RIterator1 in1, RIterator2 in2, EIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
@@ -177,8 +177,8 @@ static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2
 		but in addition you still require a return value, call this macro.
 */
 #define with_return_2(dir, op) \
-template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+template<typename RWIterator, typename RIterator1, typename RIterator2, typename EIterator> \
+static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, EIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
@@ -192,11 +192,11 @@ static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputI
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with OutputIterator as reference (assuming referencing is preferred).
+		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
 #define no_return_bracket_2(dir, op) \
-template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+template<typename RWIterator, typename RIterator1, typename RIterator2, typename EIterator> \
+static void no_return(RWIterator out, RIterator1 in1, RIterator2 in2, EIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
@@ -211,8 +211,8 @@ static void no_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2
 		but in addition you still require a return value, call this macro.
 */
 #define with_return_bracket_2(dir, op) \
-template<typename OutputIterator, typename InputIterator1, typename InputIterator2, typename TerminalIterator> \
-static OutputIterator with_return(OutputIterator out, InputIterator1 in1, InputIterator2 in2, TerminalIterator end2) \
+template<typename RWIterator, typename RIterator1, typename RIterator2, typename EIterator> \
+static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, EIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \

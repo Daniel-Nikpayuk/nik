@@ -49,7 +49,7 @@ namespace nik
 					{ enum : size_type { value=(x & low_pass<t>::value) }; };
 				template<size_type x, size_type s> struct high
 					{ enum : size_type { value=right_shift<x, s>::value }; };
-				template<size_type x, size_type s, size_type t> struct mid
+				template<size_type x, size_type s, size_type t> struct band
 					{ enum : size_type { value=left<right_shift<x, s>::value, t-s>::value }; };
 
 				template<size_type x> struct lower_half
@@ -64,17 +64,17 @@ namespace nik
 					{
 						enum : size_type
 						{
-							value=if_then_else<mid<secondary, (n>>1), n>::value,
-								fast_order<primary+(n>>1), mid<secondary, (n>>1), n>::value, (n>>1)>,
-								fast_order<primary, mid<secondary, 0, (n>>1)>::value, (n>>1)>
+							value=if_then_else<mid<secondary, (n>>ONE), n>::value,
+								fast_order<primary+(n>>ONE), mid<secondary, (n>>ONE), n>::value, (n>>ONE)>,
+								fast_order<primary, mid<secondary, ZERO, (n>>ONE)>::value, (n>>ONE)>
 									>::return_type::value
 						};
 					};
 
 					template<size_type primary, size_type secondary>
-					struct fast_order<primary, secondary, 0> { enum : size_type { value=primary }; };
+					struct fast_order<primary, secondary, ZERO> { enum : size_type { value=primary }; };
 
-					enum : size_type { value=fast_order<0, x, constant<size_type>::register_length>::value };
+					enum : size_type { value=fast_order<ZERO, x, constant<size_type>::register_length>::value };
 				};
 			};
 		}

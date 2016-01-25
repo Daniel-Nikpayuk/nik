@@ -78,8 +78,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator, typename TerminalIterator>
-			static void no_break(bool & carry, InputIterator in, TerminalIterator end)
+			template<typename RIterator, typename EIterator>
+			static void no_break(bool & carry, RIterator in, EIterator end)
 			{
 				while (in != end)
 				{
@@ -90,8 +90,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-			template<typename InputIterator, typename TerminalIterator>
-			static InputIterator with_break(InputIterator in, TerminalIterator end)
+			template<typename RIterator, typename EIterator>
+			static RIterator with_break(RIterator in, EIterator end)
 			{
 				while (in != end)
 				{
@@ -110,8 +110,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator, typename TerminalIterator>
-				static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+				template<typename RIterator, typename EIterator>
+				static bool no_break(bool carry, RIterator in, EIterator end)
 				{
 					while (in != end)
 					{
@@ -124,8 +124,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-				template<typename InputIterator, typename TerminalIterator>
-				static bool with_break(InputIterator in, TerminalIterator end)
+				template<typename RIterator, typename EIterator>
+				static bool with_break(RIterator in, EIterator end)
 				{
 					while (in != end)
 					{
@@ -146,8 +146,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_break(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -158,8 +158,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -178,8 +178,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool no_break(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -192,8 +192,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -214,8 +214,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_break(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -226,8 +226,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is false.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -246,8 +246,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool no_break(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -260,8 +260,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is false.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -281,8 +281,8 @@ namespace nik
 */
 		struct less_than
 		{
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -293,8 +293,8 @@ namespace nik
 				}
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator1 with_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -307,8 +307,8 @@ namespace nik
 				return in1;
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -329,8 +329,8 @@ namespace nik
 */
 		struct less_than_or_equal
 		{
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -341,8 +341,8 @@ namespace nik
 				}
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator1 with_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -355,8 +355,8 @@ namespace nik
 				return in1;
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -377,8 +377,8 @@ namespace nik
 */
 		struct greater_than
 		{
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -389,8 +389,8 @@ namespace nik
 				}
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator1 with_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -403,8 +403,8 @@ namespace nik
 				return in1;
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -425,8 +425,8 @@ namespace nik
 */
 		struct greater_than_or_equal
 		{
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -437,8 +437,8 @@ namespace nik
 				}
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator1 with_return(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator1 with_return(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -451,8 +451,8 @@ namespace nik
 				return in1;
 			}
 
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_return(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -466,58 +466,365 @@ namespace nik
 			}
 		};
 /*
+	carry needs to be set to 0 for the "normal" interpretation.
+
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 < *in1, *in2.
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 + 1 will not cause a second such overflow.
+*/
+		struct plus
+		{
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry+=*in1;
+					*out=carry + *in2;
+					carry=(carry < *in1 || *out < *in2);
+					++out; ++in1; ++in2;
+				}
+			}
+
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry+=*in1;
+					*out=carry + *in2;
+					carry=(carry < *in1 || *out < *in2);
+					++out; ++in1; ++in2;
+				}
+
+				return out;
+			}
+/*
+	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+*/
+			struct half_register
+			{
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry+=*in1 + *in2;
+						*out=constant::low_pass & carry;
+						carry=bool(constant::half_max & carry);
+						++out; ++in1; ++in2;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						carry+=*in1 + *in2;
+						*out=constant::low_pass & carry;
+						carry=bool(constant::half_max & carry);
+						++out; ++in1; ++in2;
+					}
+
+					return out;
+				}
+			};
+		};
+/*
+	carry needs to be set to 0 for the "normal" interpretation.
+
+	Regarding arithmetic overflow, there are a few considerations:
+	*out = *in1 - (carry + *in2) ==> *out + (carry + *in2) = *in1 
+	It's possible (carry + *in2) is an overflow, but this implies carry == 1 and *in2 == b-1.
+	As such, with an assumed overflow, the new carry would be true, and we need not worry about a "double carry"
+	as (carry + *in2) would equal zero, and so *out == *in1 - (carry + *in2) == *in1.
+	Otherwise, if (*in2+carry) has no overflow, then *in1 == carry + *out,
+	and so we check for an overflow there by means of the test (*in1 < *out).
+*/
+		struct minus
+		{
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry+=*in2;
+					*out=*in1 - carry;
+					carry=(carry < *in2 || *in1 < *out);
+					++out; ++in1; ++in2;
+				}
+			}
+
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					carry+=*in2;
+					*out=*in1 - carry;
+					carry=(carry < *in2 || *in1 < *out);
+					++out; ++in1; ++in2;
+				}
+
+				return out;
+			}
+
+			struct half_register
+			{
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						*out=carry + *in2;
+						carry=(*in1 < *out);
+						*out=(carry * constant::half_max) + *in1 - *out;
+						++out; ++in1; ++in2;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						*out=carry + *in2;
+						carry=(*in1 < *out);
+						*out=(carry * constant::half_max) + *in1 - *out;
+						++out; ++in1; ++in2;
+					}
+
+					return out;
+				}
+			};
+		};
+/*
 	scale:
 		This is the half-register version (each dereferenced ValueType is assumed <= half-register size).
 		As such, it requires no additional dependencies.
+
+		carry is the overhead value. Set this to zero for the "normal" interpretation.
+		out is the resultant containing structure.
+		in1 is the initial containing structure.
+		end1 is the end location of the input containing structure.
+		in2 is the constant scalar value.
+		
+		All ValueTypes are under the constraint of being less than the half register size.
 */
 		struct scale
 		{
 			struct half_register
 			{
-/*
-	carry is the overhead value. Set this to zero for the "normal" interpretation.
-	out is the resultant containing structure.
-	in1 is the initial containing structure.
-	end1 is the end location of the input containing structure.
-	in2 is the constant scalar value.
-
-	All ValueTypes are under the constraint of being less than the half register size.
-*/
-				template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
-				static void no_return(ValueType carry,
-					OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end, ValueType value)
 				{
-					while (in1 != end1)
+					while (in != end)
 					{
-						carry+=(*in1)*in2;
+						carry+=(*in) * value;
 						*out=constant::low_pass & carry;
 						carry>>=constant::half_length;
-						++out; ++in1;
+						++out; ++in;
 					}
 				}
-/*
-	carry is the overhead value. Set this to zero for the "normal" interpretation.
-	out is the resultant containing structure.
-	in1 is the initial containing structure.
-	end1 is the end location of the input containing structure.
-	in2 is the constant scalar value.
 
-	All ValueTypes are under the constraint of being less than the half register size.
-*/
-				template<typename ValueType, typename OutputIterator, typename InputIterator, typename TerminalIterator>
-				static OutputIterator with_return(ValueType carry,
-					OutputIterator out, InputIterator in1, TerminalIterator end1, ValueType in2)
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end, ValueType value)
 				{
-					while (in1 != end1)
+					while (in != end)
 					{
-						carry+=(*in1)*in2;
+						carry+=(*in) * value;
 						*out=constant::low_pass & carry;
 						carry>>=constant::half_length;
-						++out; ++in1;
+						++out; ++in;
 					}
 
 					return out;
 				}
+			};
+		};
+
+		struct assign
+		{
+/*
+	carry needs to be set to 0 for the "normal" interpretation.
+
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 < *in1, *in2.
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 + 1 will not cause a second such overflow.
+*/
+			struct plus
+			{
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						carry+=*in;
+						*out+=carry;
+						carry=(carry < *in || *out < carry);
+						++out; ++in;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						carry+=*in;
+						*out+=carry;
+						carry=(carry < *in || *out < carry);
+						++out; ++in;
+					}
+
+					return out;
+				}
+/*
+	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+*/
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					{
+						while (in != end)
+						{
+							carry+=*out + *in;
+							*out=constant::low_pass & carry;
+							carry=bool(constant::half_max & carry);
+							++out; ++in;
+						}
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					{
+						while (in != end)
+						{
+							carry+=*out + *in;
+							*out=constant::low_pass & carry;
+							carry=bool(constant::half_max & carry);
+							++out; ++in;
+						}
+
+						return out;
+					}
+				};
+			};
+/*
+	carry needs to be set to 0 for the "normal" interpretation.
+
+	Regarding arithmetic overflow, there are a few considerations:
+	*out = *in1 - (carry + *in2) ==> *out + (carry + *in2) = *in1 
+	It's possible (carry + *in2) is an overflow, but this implies carry == 1 and *in2 == b-1.
+	As such, with an assumed overflow, the new carry would be true, and we need not worry about a "double carry"
+	as (carry + *in2) would equal zero, and so *out == *in1 - (carry + *in2) == *in1.
+	Otherwise, if (*in2+carry) has no overflow, then *in1 == carry + *out,
+	and so we check for an overflow there by means of the test (*in1 < *out).
+*/
+			struct minus
+			{
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						ValueType before(*out);
+						carry+=*in;
+						*out-=carry;
+						carry=(carry < *in || before < *out);
+						++out; ++in;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				{
+					while (in != end)
+					{
+						ValueType before(*out);
+						carry+=*in;
+						*out-=carry;
+						carry=(carry < *in || before < *out);
+						++out; ++in;
+					}
+
+					return out;
+				}
+
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					{
+						while (in != end)
+						{
+							ValueType before(*out);
+							*out=carry + *in;
+							carry=(before < *out);
+							*out=(carry * constant::half_max) + before - *out;
+							++out; ++in;
+						}
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					{
+						while (in != end)
+						{
+							ValueType before(*out);
+							*out=carry + *in;
+							carry=(before < *out);
+							*out=(carry * constant::half_max) + before - *out;
+							++out; ++in;
+						}
+
+						return out;
+					}
+				};
+			};
+/*
+	scale:
+		This is the half-register version (each dereferenced ValueType is assumed <= half-register size).
+		As such, it requires no additional dependencies.
+
+		carry is the overhead value. Set this to zero for the "normal" interpretation.
+		out is the resultant containing structure.
+		in1 is the initial containing structure.
+		end1 is the end location of the input containing structure.
+		in2 is the constant scalar value.
+		
+		All ValueTypes are under the constraint of being less than the half register size.
+*/
+			struct scale
+			{
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename EIterator>
+					static void no_return(ValueType carry, WIterator out, EIterator end, ValueType value)
+					{
+						while (out != end)
+						{
+							carry+=(*out) * value;
+							*out=constant::low_pass & carry;
+							carry>>=constant::half_length;
+							++out;
+						}
+					}
+
+					template<typename ValueType, typename WIterator, typename EIterator>
+					static WIterator with_return(ValueType carry, WIterator out, EIterator end, ValueType value)
+					{
+						while (out != end)
+						{
+							carry+=(*out) * value;
+							*out=constant::low_pass & carry;
+							carry>>=constant::half_length;
+							++out;
+						}
+
+						return out;
+					}
+				};
 			};
 		};
 /*
@@ -804,90 +1111,67 @@ namespace nik
 			but given its implementation it is actually part of componentwise.h
 */
 /*
-	Choice of (*out < *in2) is intentional as it provides higher entropy---it allows in1 == out (but in2 != out).
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 < *in1, *in2.
+	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 + 1 will not cause a second such overflow.
 */
 			struct plus
 			{
-				struct half_register
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 				{
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static void no_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-					{
-						*out=*in1 + *in2 + carry;
-						carry=(*out < *in2);
-						unroll_0<N-1>::plus::no_return(carry, ++out, ++in1, ++in2);
-					}
-
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-					{
-						*out=*in1 + *in2 + carry;
-						carry=(*out < *in2);
-						return unroll_0<N-1>::plus::with_return(carry, ++out, ++in1, ++in2);
-					}
-				};
-
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-				{
-					*out=*in1 + *in2 + carry;
-					carry=(*out < *in2);
+					carry+=*in1;
+					*out=carry + *in2;
+					carry=(carry < *in1 || *out < *in2);
 					unroll_0<N-1>::plus::no_return(carry, ++out, ++in1, ++in2);
 				}
 
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 				{
-					*out=*in1 + *in2 + carry;
-					carry=(*out < *in2);
+					carry+=*in1;
+					*out=carry + *in2;
+					carry=(carry < *in1 || *out < *in2);
 					return unroll_0<N-1>::plus::with_return(carry, ++out, ++in1, ++in2);
 				}
+/*
+	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+*/
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+					{
+						carry+=*in1 + *in2;
+						*out=constant::low_pass & carry;
+						carry=bool(constant::half_max & carry);
+						unroll_0<N-1>::plus::half_register::no_return(carry, ++out, ++in1, ++in2);
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+					{
+						carry+=*in1 + *in2;
+						*out=constant::low_pass & carry;
+						carry=bool(constant::half_max & carry);
+						return unroll_0<N-1>::plus::half_register::with_return(carry, ++out, ++in1, ++in2);
+					}
+				};
 			};
 /*
 	carry needs to be set to 0 for the "normal" interpretation.
 
-	In this case, *out+(*in2+carry)=*in1 implies a new carry if: *in1 < *out or *in1 < (*in2+carry)
-	but there's the special case that (*in2+carry) already wraps around [(*in2+carry) < *in2, carry].
-	In which case---given 0 <= carry <= 1---it's automatic that there's a new carry (but no need
-	of worry about a "double carry" because (*in2+carry) if wrapped around would equal zero.
-
-	Because use of *in1 can't be avoided in the new carry test, it requires out and in1 cannot be shallow copies.
-
-	The assumption is addition is no less optimal than subtraction as the algorithm
-	should require fewer tests, hence: *out=*in1-(*in2+carry) instead of *out=*in1-*in2-carry.
+	Regarding arithmetic overflow, there are a few considerations:
+	*out = *in1 - (carry + *in2) ==> *out + (carry + *in2) = *in1 
+	It's possible (carry + *in2) is an overflow, but this implies carry == 1 and *in2 == b-1.
+	As such, with an assumed overflow, the new carry would be true, and we need not worry about a "double carry"
+	as (carry + *in2) would equal zero, and so *out == *in1 - (carry + *in2) == *in1.
+	Otherwise, if (*in2+carry) has no overflow, then *in1 == carry + *out,
+	and so we check for an overflow there by means of the test (*in1 < *out).
 */
 			struct minus
 			{
-				struct half_register
-				{
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-					{
-						carry+=*in2;
-						*out=*in1 - carry;
-						carry=(carry < *in2 || *in1 < *out);
-						unroll_0<N-1>::minus::no_return(carry, ++out, ++in1, ++in2);
-					}
-
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-					{
-						carry+=*in2;
-						*out=*in1 - carry;
-						carry=(carry < *in2 || *in1 < *out);
-						return unroll_0<N-1>::minus::with_return(carry, ++out, ++in1, ++in2);
-					}
-				};
-
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
@@ -895,14 +1179,35 @@ namespace nik
 					unroll_0<N-1>::minus::no_return(carry, ++out, ++in1, ++in2);
 				}
 
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 				{
 					carry+=*in2;
 					*out=*in1 - carry;
 					carry=(carry < *in2 || *in1 < *out);
 					return unroll_0<N-1>::minus::with_return(carry, ++out, ++in1, ++in2);
 				}
+
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+					{
+						*out=carry + *in2;
+						carry=(*in1 < *out);
+						*out=(carry * constant::half_max) + *in1 - *out;
+						unroll_0<N-1>::minus::half_register::no_return(carry, ++out, ++in1, ++in2);
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+					{
+						*out=carry + *in2;
+						carry=(*in1 < *out);
+						*out=(carry * constant::half_max) + *in1 - *out;
+						return unroll_0<N-1>::minus::half_register::with_return(carry, ++out, ++in1, ++in2);
+					}
+				};
 			};
 
 			struct scale
@@ -917,10 +1222,10 @@ namespace nik
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
-						carry+=(*in1)*in2;
+						carry+=(*in1) * in2;
 						*out=constant::low_pass & carry;
 						carry>>=constant::half_length;
 						unroll_0<N-1>::scale::half_register::no_return(carry, ++out, ++in1, in2);
@@ -933,11 +1238,10 @@ namespace nik
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator in1, ValueType in2)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
-						carry+=(*in1)*in2;
+						carry+=(*in1) * in2;
 						*out=constant::low_pass & carry;
 						carry>>=constant::half_length;
 						return unroll_0<N-1>::scale::half_register::with_return(carry, ++out, ++in1, in2);
@@ -949,74 +1253,56 @@ namespace nik
 			{
 				struct plus
 				{
-					struct half_register
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in)
 					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
-						{
-							*out+=*in + carry;
-							carry=(*out < *in);
-							unroll_0<N-1>::assign::plus::no_return(carry, ++out, ++in);
-						}
-
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
-						{
-							*out+=*in + carry;
-							carry=(*out < *in);
-							return unroll_0<N-1>::assign::plus::with_return(carry, ++out, ++in);
-						}
-					};
-
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
-					{
-						*out+=*in + carry;
-						carry=(*out < *in);
+						carry+=*in;
+						*out+=carry;
+						carry=(carry < *in || *out < carry);
 						unroll_0<N-1>::assign::plus::no_return(carry, ++out, ++in);
 					}
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 					{
-						*out+=*in + carry;
-						carry=(*out < *in);
+						carry+=*in;
+						*out+=carry;
+						carry=(carry < *in || *out < carry);
 						return unroll_0<N-1>::assign::plus::with_return(carry, ++out, ++in);
 					}
+/*
+	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+*/
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType carry, WIterator out, RIterator in)
+						{
+							carry+=*out + *in;
+							*out=constant::low_pass & carry;
+							carry=bool(constant::half_max & carry);
+							unroll_0<N-1>::assign::plus::half_register::no_return(carry, ++out, ++in);
+						}
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
+						{
+							carry+=*out + *in;
+							*out=constant::low_pass & carry;
+							carry=bool(constant::half_max & carry);
+							return unroll_0<N-1>::assign::plus::half_register::with_return(carry, ++out, ++in);
+						}
+					};
 				};
 /*
 	Two ValueTypes are relevant as one might be a reference while the other is not.
 
-	carry1 needs to be set to 0 for the "normal" interpretation.
-	carry2 needs to be set to *out for the "normal" interpretation.
+	carry needs to be set to 0 for the "normal" interpretation.
 */
 				struct minus
 				{
-					struct half_register
-					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
-						{
-							ValueType before(*out);
-							carry+=*in;
-							*out-=carry;
-							carry=(carry < *in || before < *out);
-							unroll_0<N-1>::assign::minus::no_return(carry, ++out, ++in);
-						}
-
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
-						{
-							ValueType before(*out);
-							carry+=*in;
-							*out-=carry;
-							carry=(carry < *in || before < *out);
-							return unroll_0<N-1>::assign::minus::with_return(carry, ++out, ++in);
-						}
-					};
-
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in)
 					{
 						ValueType before(*out);
 						carry+=*in;
@@ -1025,8 +1311,8 @@ namespace nik
 						unroll_0<N-1>::assign::minus::no_return(carry, ++out, ++in);
 					}
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 					{
 						ValueType before(*out);
 						carry+=*in;
@@ -1034,6 +1320,29 @@ namespace nik
 						carry=(carry < *in || before < *out);
 						return unroll_0<N-1>::assign::minus::with_return(carry, ++out, ++in);
 					}
+
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType carry, WIterator out, RIterator in)
+						{
+							ValueType before(*out);
+							*out=carry + *in;
+							carry=(before < *out);
+							*out=(carry * constant::half_max) + before - *out;
+							unroll_0<N-1>::assign::minus::half_register::no_return(carry, ++out, ++in);
+						}
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
+						{
+							ValueType before(*out);
+							*out=carry + *in;
+							carry=(before < *out);
+							*out=(carry * constant::half_max) + before - *out;
+							return unroll_0<N-1>::assign::minus::half_register::with_return(carry, ++out, ++in);
+						}
+					};
 				};
 			};
 
@@ -1179,68 +1488,59 @@ namespace nik
 
 			struct plus
 			{
-				struct half_register
-				{
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static void no_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-							{ }
-
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-							{ return out; }
-				};
-
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ }
 
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ return out; }
+
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+						{ }
+
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+						{ return out; }
+				};
 			};
 
 			struct minus
 			{
-				struct half_register
-				{
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static void no_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-							{ }
-
-					template<typename ValueType,
-						typename OutputIterator, typename InputIterator1, typename InputIterator2>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator1 in1, InputIterator2 in2)
-							{ return out; }
-				};
-
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static void no_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ }
 
-				template<typename ValueType, typename OutputIterator, typename InputIterator1, typename InputIterator2>
-				static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator1 in1, InputIterator2 in2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ return out; }
+
+				struct half_register
+				{
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+						{ }
+
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
+						{ return out; }
+				};
 			};
 
 			struct scale
 			{
 				struct half_register
 				{
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in1, ValueType in2)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 						{ }
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry,
-						OutputIterator out, InputIterator in1, ValueType in2)
-							{ return out; }
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
+						{ return out; }
 				};
 			};
 
@@ -1248,46 +1548,46 @@ namespace nik
 			{
 				struct plus
 				{
-					struct half_register
-					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
-							{ }
-
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
-							{ return out; }
-					};
-
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in)
 						{ }
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 						{ return out; }
+
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType carry, WIterator out, RIterator in)
+							{ }
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
+							{ return out; }
+					};
 				};
 
 				struct minus
 				{
-					struct half_register
-					{
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static void no_return(ValueType carry, OutputIterator out, InputIterator in)
-							{ }
-
-						template<typename ValueType, typename OutputIterator, typename InputIterator>
-						static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
-								{ return out; }
-					};
-
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static void no_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in)
 						{ }
 
-					template<typename ValueType, typename OutputIterator, typename InputIterator>
-					static OutputIterator with_return(ValueType carry, OutputIterator out, InputIterator in)
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 							{ return out; }
+
+					struct half_register
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType carry, WIterator out, RIterator in)
+							{ }
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
+							{ return out; }
+					};
 				};
 			};
 		};
@@ -1309,8 +1609,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator, typename TerminalIterator>
-			static void no_break(bool & carry, InputIterator in, TerminalIterator end)
+			template<typename RIterator, typename EIterator>
+			static void no_break(bool & carry, RIterator in, EIterator end)
 			{
 				while (in != end)
 				{
@@ -1321,8 +1621,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-			template<typename InputIterator, typename TerminalIterator>
-			static InputIterator with_break(InputIterator in, TerminalIterator end)
+			template<typename RIterator, typename EIterator>
+			static RIterator with_break(RIterator in, EIterator end)
 			{
 				while (in != end)
 				{
@@ -1341,8 +1641,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator, typename TerminalIterator>
-				static bool no_break(bool carry, InputIterator in, TerminalIterator end)
+				template<typename RIterator, typename EIterator>
+				static bool no_break(bool carry, RIterator in, EIterator end)
 				{
 					while (in != end)
 					{
@@ -1355,8 +1655,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-				template<typename InputIterator, typename TerminalIterator>
-				static bool with_break(InputIterator in, TerminalIterator end)
+				template<typename RIterator, typename EIterator>
+				static bool with_break(RIterator in, EIterator end)
 				{
 					while (in != end)
 					{
@@ -1377,8 +1677,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_break(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1389,8 +1689,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1409,8 +1709,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool no_break(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -1423,8 +1723,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is true.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -1445,8 +1745,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static void no_break(bool & carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static void no_break(bool & carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1457,8 +1757,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is false.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1477,8 +1777,8 @@ namespace nik
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool no_break(bool carry, InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool no_break(bool carry, RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -1491,8 +1791,8 @@ namespace nik
 /*
 	If return == end, then the iterated container property is false.
 */
-				template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-				static bool with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+				template<typename RIterator1, typename RIterator2, typename EIterator2>
+				static bool with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -1514,8 +1814,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1529,8 +1829,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1551,8 +1851,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1566,8 +1866,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1588,8 +1888,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1603,8 +1903,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1625,8 +1925,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static InputIterator2 with_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static RIterator2 with_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1640,8 +1940,8 @@ namespace nik
 	in1 is the initial location of the left operand.
 	in2 is the initial location of the right operand.
 */
-			template<typename InputIterator1, typename InputIterator2, typename TerminalIterator2>
-			static bool fast_break(InputIterator1 in1, InputIterator2 in2, TerminalIterator2 end2)
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_break(RIterator1 in1, RIterator2 in2, EIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -1658,8 +1958,8 @@ namespace nik
 	It might appear at first glance this shouldn't be classified as componentwise,
 	but the final value is still dependent upon the previous values. The lack of success is the "carry".
 */
-		template<typename InputIterator, typename TerminalIterator>
-		static InputIterator order(InputIterator in, TerminalIterator end)
+		template<typename RIterator, typename EIterator>
+		static RIterator order(RIterator in, EIterator end)
 		{
 			while (in != end)
 			{

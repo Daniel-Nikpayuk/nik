@@ -69,8 +69,8 @@ namespace nik
 				template<size_type Dim, typename Filler=void>
 				struct unroll
 				{
-					template<typename OutputIterator, typename InputIterator>
-					static void copy(OutputIterator out, InputIterator in)
+					template<typename WIterator, typename RIterator>
+					static void copy(WIterator out, RIterator in)
 					{
 						*out=*in;
 						unroll<Dim-1>::copy(++out, ++in);
@@ -80,8 +80,8 @@ namespace nik
 				template<typename Filler>
 				struct unroll<1, Filler>
 				{
-					template<typename OutputIterator, typename InputIterator>
-					static void copy(OutputIterator out, InputIterator in) { *out=*in; }
+					template<typename WIterator, typename RIterator>
+					static void copy(WIterator out, RIterator in) { *out=*in; }
 				};
 
 				void copy(const block & v) { unroll<N>::copy(array, v.array); }

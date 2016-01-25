@@ -140,9 +140,9 @@ namespace nik
 			return rtn;
 		}
 
-		template<typename InputIterator, typename List>
+		template<typename RIterator, typename List>
 		static typename List::iterator insert(List & l,
-			typename List::const_iterator it, InputIterator first, InputIterator last)
+			typename List::const_iterator it, RIterator first, RIterator last)
 		{
 			typename List::iterator rtn=grow(l, it, last-first);
 			bidirectional_iterator::assign(rtn, first, last);
