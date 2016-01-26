@@ -98,6 +98,10 @@ namespace nik
 			template<size_type K, size_type J=0, size_type I=0>
 			using fwd_unroll=typename fwd_arit::template unroll_0<K, J, I>;
 /*
+	N is initially the length of in1.
+	M is the length of in1.
+	L is the length of in2. It is assumed M >= L.
+
 	out1 is the carry, but is semantically meaningful as the proper output.
 		Does not assume anything about the existing value of out1.
 	out2 is meant to be a temporary variable.
@@ -112,11 +116,11 @@ namespace nik
 					template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 					{
-						fwd_unroll<N>::scale::half_register::no_return((ValueType) 0,
-							fwd_comp::template unroll<M-N>::repeat::with_return(out2, (ValueType) 0),
+						fwd_unroll<M+N-L>::scale::half_register::no_return((ValueType) 0,
+							fwd_comp::template unroll<L-N>::repeat::with_return(out2, (ValueType) 0),
 							in1, *in2);
 						fwd_unroll<M>::assign::plus::half_register::no_return((ValueType) 0, out1, out2);
-						unroll_1<N-1, M>::template multiply<ValueType>::
+						unroll_1<N-1, M, L>::template multiply<ValueType>::
 							half_register::no_return(out1, out2, in1, ++in2);
 					}
 				};
@@ -192,37 +196,21 @@ namespace nik
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
 						{
-							if (r < d)
-							{
-								*q=0;
-								(r<<=constant::half_length)+=*n;
-								--n;
-							}
-							else
-							{
-								*q=r/d;
-								r=r%d;
-							}
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
 
-							unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, n, d);
+							(r<<=constant::half_length)+=*n;
+							unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
 						}
 
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static WIterator with_return(ValueType r, WIterator q, RIterator n, ValueType d)
 						{
-							if (r < d)
-							{
-								*q=0;
-								(r<<=constant::half_length)+=*n;
-								--n;
-							}
-							else
-							{
-								*q=r/d;
-								r=r%d;
-							}
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
 
-							return unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, n, d);
+							(r<<=constant::half_length)+=*n;
+							return unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
 						}
 					};
 				};
@@ -308,13 +296,13 @@ namespace nik
 
 	Let #d be the order of d.
 
-	r is the initial location of the overhead value (carry).
+	r is the initial location of the overhead value (carry). Block size M
 		Set this to the highest set of digits of the numerator, where the number of such digits
 			equals the length of the denominator (#d+1)---for the "normal" interpretation.
 		Digits are shifted into r's register until big enough to divide.
 	lr is the location of the leading digit of the remainder r.
 	q is the final location of the quotient to be determined.
-	t is the initial location of a temporary N block used for internal computations.
+	t is the initial location of a temporary L block used for internal computations.
 		Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
 	n is the digit location of the numerator following the highest #d+1 digits as an N block.
 	d is the initial location of the denominator as an N block.
@@ -335,88 +323,118 @@ namespace nik
 
 	*** fix parameters and arguements for the N=0 case as well.
 	*** only when stabilized, decide where this algorithm best fits (random access?)
+*/
 			struct divide
 			{
-				template<typename ValueType>
+				struct multiple_digit
+				{
+					struct half_register
+					{
+/*
+	Assumes tlen >= 1 (size >= 2).
+*/
+						template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+						static bool improve_quotient(ValueType & q,
+							WIterator t, RIterator1 u, size_type ulen, RIterator2 v)
+						{
+							ValueType tc=0;
+							fwd_arit::template unroll_0<2>::scale::half_register::
+								template no_return<ValueType&>(tc, t, v, q);
+
+							ValueType uc=(ulen == 2) ? *(u+2) : (ValueType) 0;
+								// this way of using "less_than" is a small hack.
+							if (fwd_arit::template unroll_0<2>::greater_than::
+								template fast_return(false, t, tc, u, uc))
+							{
+								--q;
+								return true;
+							}
+							else return false;
+						}
+/*
+	Assumes ulen >= vlen.
+*/
+						template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+						static void knuth_quotient(ValueType & q, WIterator t,
+							RIterator1 u, size_type ulen, RIterator2 v, size_type vlen)
+						{
+							RIterator1 bu=u-1;
+							if (ulen == vlen) q=*u/(*v);
+							else
+							{
+								q=(*u < *v) ?
+									((*u<<constant::half_length) + *bu) / *v :
+									constant::half_max-1;
+								--bu;
+							}
+
+							RIterator2 bv=v-1;
+							size_type bulen=u-bu;
+							if (improve_quotient(q, t, bu, bulen, bv))
+								improve_quotient(q, t, bu, bulen, bv);
+						}
+/*
+	t is expected to be of size L+1.
+*/
+						template<typename ValueType, typename WIterator1, typename WIterator2, typename RIterator>
+						static void knuth_remainder(ValueType & q,
+							WIterator1 t, WIterator2 r, WIterator2 & lr, RIterator d)
+						{
+							fwd_arit::template unroll_0<L+(L < M)>::scale::
+								half_register::no_return((ValueType) 0, t, d, q);
+							fwd_arit::template unroll_0<L+(L < M)>::assign::minus::no_return((ValueType) 0, r, t);
+
+								// r < d at this point.
+							lr=bwd_arit::zero::with_break(r+L-1, r);
+						}
+/*
+	What would be termed "dlen" here in this special case is in fact already defined as the template parameter L.
+	r only needs to be the length of d plus one (L+1).
+
+	Debugging note: Every function call within needs to be "half_register" robust.
+*/
+						template<typename WIterator1, typename WIterator2,
+							typename WIterator3, typename RIterator1, typename RIterator2>
+						static void no_return(WIterator1 r, WIterator1 lr, size_type rlen,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+						{
+								// Use of L here is an optimization.
+							if (fwd_arit::template unroll_0<L>::less_than::fast_return(false, r, rlen, d, L))
+								*q=0;
+							else
+							{
+									// Use of L here is an optimization.
+								knuth_quotient(*q, t, lr, rlen, ld, L);
+								knuth_remainder(*q, t, r, lr, d);
+							}
+
+							WIterator1 olr(lr);
+							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
+							unroll_1<N-1, M, L>::divide::multiple_digit::
+								half_register::no_return(r, lr, rlen, --q, t, --n, d, ld);
+						}
+					};
+				};
+			};
+		};
+
+		template<size_type M, size_type L>
+		struct unroll_1<0, M, L> : public rnd_arit::template unroll_0<0, M, L>
+		{
+			struct divide
+			{
 				struct multiple_digit
 				{
 					struct half_register
 					{
 						template<typename WIterator1, typename WIterator2,
 							typename WIterator3, typename RIterator1, typename RIterator2>
-						static void no_return(WIterator1 r, WIterator2 q,
-							WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld, size_type dlen)
-						{
-							WIterator1 lr=bwd_arit::zero(r+(M-1), r);
-							size_type tlen, rlen=lr-r;
-							if (rlen < dlen || (rlen == dlen &&
-								fwd_arit::less_than::fast_return(false, r, d, ld+1)))
-							{
-								*q=0;
-								WIterator1 olr(lr);
-								*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
-							}
-							else
-							{
-								ValueType before;
-								*q=(rlen == dlen) ? *lr/(*ld) :
-									(*lr < *ld) ? regist::divide::
-										full_register_divisor(before, *lr, *(lr-1), *ld) :
-									(ValueType) -1;
-
-								before=0;
-								WIterator3 lt=fwd_arit::scale::template // unroll N=2 would be better.
-									with_return<ValueType&>(before, t, ld-1, ld+1, *q);
-								if (lt != t+M) *lt=before;
-								tlen=lt-t;
-								if (tlen > rlen || ((tlen == rlen) &&
-									fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
-								{
-									--*q;
-									before=0;
-									lt=fwd_arit::scale::template
-										with_return<ValueType&>(before, t, ld-1, ld+1, *q);
-									if (lt != t+M) *lt=before;
-									tlen=lt-t;
-									if (tlen > rlen || ((tlen == rlen) &&
-										fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
-											--*q;
-								}
-
-								fwd_arit::template unroll_1<M>::scale::with_return((ValueType) 0, t, d, *q);
-								fwd_arit::template unroll_1<M>::assign::minus::no_return((ValueType) 0, r, t);
-								lr=bwd_arit::order(r+(M-1), r);
-								WIterator1 olr(lr);
-								*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
-							}
-
-							unroll_1<N-1, M, L>::divide::template multiple_digit<ValueType>::
-								no_return(r, lr, --q, t, --n, d, ld);
-						}
+						static void no_return(WIterator1 r, WIterator1 lr, size_type rlen,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+								{ }
 					};
 				};
 			};
-*/
-		};
-
-		template<size_type M, size_type L>
-		struct unroll_1<0, M, L> : public rnd_arit::template unroll_0<0, M, L>
-		{
-/*
-			struct divide
-			{
-				template<typename ValueType>
-				struct multiple_digit
-				{
-					struct half_register
-					{
-						template<typename ValueType, typename WIterator, typename RIterator>
-						static void no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
-							{ return out; }
-					};
-				};
-			};
-*/
 		};
 	};
     }

@@ -1001,6 +1001,13 @@ namespace nik
 
 					return unroll_0<N-1>::less_than::fast_return(carry, ++in1, ++in2);
 				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				{
+					return (order1 < order2 || (order1 == order2 &&
+						unroll_0<N>::less_than::fast_return(carry, in1, in2)));
+				}
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -1034,6 +1041,13 @@ namespace nik
 					else if (*in1 > *in2) carry=false;
 
 					return unroll_0<N-1>::less_than_or_equal::fast_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				{
+					return (order1 < order2 || (order1 == order2 &&
+						unroll_0<N>::less_than_or_equal::fast_return(carry, in1, in2)));
 				}
 			};
 /*
@@ -1069,6 +1083,13 @@ namespace nik
 
 					return unroll_0<N-1>::greater_than::fast_return(carry, ++in1, ++in2);
 				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				{
+					return (order1 > order2 || (order1 == order2 &&
+						unroll_0<N>::greater_than::fast_return(carry, in1, in2)));
+				}
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -1102,6 +1123,13 @@ namespace nik
 					else if (*in1 < *in2) carry=false;
 
 					return unroll_0<N-1>::greater_than_or_equal::fast_return(carry, ++in1, ++in2);
+				}
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				{
+					return (order1 > order2 || (order1 == order2 &&
+						unroll_0<N>::greater_than_or_equal::fast_return(carry, in1, in2)));
 				}
 			};
 /*
