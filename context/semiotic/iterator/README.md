@@ -27,3 +27,7 @@ Iterators are prefixed with:
 +W: Write
 +RW: Read/write
 +E: End.
+
+WIterators are assumed safe for modification.
+In practice this means providing a deep copy if necessary when passing const references as input.
+
