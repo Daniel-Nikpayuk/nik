@@ -15,22 +15,28 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_META_META_H
-#define CONTEXT_META_META_H
+#ifndef CONTEXT_CONTEXT_PARAMETER_META_H
+#define CONTEXT_CONTEXT_PARAMETER_META_H
 
 namespace nik
 {
-	namespace context
+ namespace context
+ {
+  namespace context
+  {
+   namespace parameter
+   {
+	struct meta
 	{
-		namespace meta
-		{
-			template<bool conditional, typename if_true, typename if_false>
-			struct if_then_else { typedef if_true return_type; };
-
-			template<typename if_true, typename if_false>
-			struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
-		}
-	}
+		template<bool conditional, typename if_true, typename if_false>
+		struct if_then_else { typedef if_true return_type; };
+		
+		template<typename if_true, typename if_false>
+		struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
+	};
+   }
+  }
+ }
 }
 
 #endif

@@ -15,45 +15,53 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_META_MATH_H
-#define CONTEXT_META_MATH_H
+#ifndef CONTEXT_CONTEXT_PARAMETER_MATH_H
+#define CONTEXT_CONTEXT_PARAMETER_MATH_H
 
-#include"meta.h"
+#include"../../constant/constant.h"
+#include"../meta/meta.h"
 
 namespace nik
 {
-	namespace context
+ namespace context
+ {
+  namespace context
+  {
+   namespace parameter
+   {
+	template<typename size_type>
+	struct math
 	{
-		namespace meta
+		typedef context::constant<size_type> constant;
+
+		template<size_type x>
+		struct square
+			{ enum : size_type { value=x*x }; };
+
+		template<size_type base, size_type exponent>
+		struct exp
 		{
-			template<typename size_type>
-			struct math
+			template<size_type primary, size_type secondary, size_type n>
+			struct fast_exp
 			{
-				template<size_type x> struct square { enum : size_type { value=x*x }; };
-
-				template<size_type base, size_type exponent>
-				struct exp
+				enum : size_type
 				{
-					template<size_type primary, size_type secondary, size_type n>
-					struct fast_exp
-					{
-						enum : size_type
-						{
-							value=if_then_else<(n & 1),
-								fast_exp<primary*secondary, secondary, n-1>,
-								fast_exp<primary, square<secondary>::value, (n>>1)>
-									>::return_type::value
-						};
-					};
-
-					template<size_type primary, size_type secondary>
-					struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
-
-					enum : size_type { value=fast_exp<1, base, exponent>::value };
+					value=meta::if_then_else<(constant::one & n),
+						fast_exp<primary*secondary, secondary, n-constant::one>,
+						fast_exp<primary, square<secondary>::value, (n>>constant::one)>
+							>::return_type::value
 				};
 			};
-		}
-	}
+
+			template<size_type primary, size_type secondary>
+			struct fast_exp<primary, secondary, constant::zero> { enum : size_type { value=primary }; };
+
+			enum : size_type { value=fast_exp<constant::one, base, exponent>::value };
+		};
+	};
+   }
+  }
+ }
 }
 
 #endif
