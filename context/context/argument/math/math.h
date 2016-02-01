@@ -46,15 +46,6 @@ namespace nik
 		typedef context::constant<size_type> constant;
 		typedef context::binary<size_type> binary;
 /*
-	less_than_or_equal:
-
-	This is redundant, you can use the unrolling code from arithmetic, but this should be optimized as highly as possible,
-	which, given the unrolling nature of its equivalent within arithmetic, it may not be. Test!
-*/
-		template<typename size_type>
-		static bool less_than_or_equal(size_type in0, size_type in1, size_type in2, size_type in3)
-			{ return (in0 < in2 || (in0 == in2) && in1 <= in3); }
-/*
 	multiply:
 
 	Has been optimized, but it might just be better to not reuse variables for reading clarity,
@@ -67,6 +58,25 @@ namespace nik
 */
 		struct multiply
 		{
+/*
+	Reverify this is optimized.
+*/
+			template<typename size_type>
+			static size_type low_return(size_type mid1, size_type mid2)
+			{
+				size_type	little_in1=binary::low(mid1),
+						big_in1=binary::high(mid1),
+						little_in2=binary::low(mid2),
+						big_in2=binary::high(mid2);
+				// mid1, mid2 are now free.
+
+				mid2=little_in1*big_in2;
+				mid1=big_in1*little_in2+mid2; // possible carry of 1.
+
+				little_in2*=little_in1;
+
+				return little_in2+binary::shift_up(mid1);
+			}
 /*
 	Adds the initial out value to the return value (carry).
 	The return value is the "little" digit.
@@ -252,8 +262,7 @@ namespace nik
 	Assumes tord >= 1 (size >= 2).
 */
 			template<typename size_type, typename WIterator, typename RIterator1, typename RIterator2>
-			static bool improve_quotient(size_type & q,
-				WIterator t, RIterator1 u, size_type uord, RIterator2 v)
+			static bool improve_quotient(size_type & q, WIterator t, RIterator1 u, size_type uord, RIterator2 v)
 			{
 				size_type tc=0;
 				fwd_arit::template unroll_0<2>::scale::
@@ -274,90 +283,61 @@ namespace nik
 	Assumes u has at least either two or three digits dependings on case.
 	Assumes v has at least two digits.
 */
-			template<typename size_type, typename WIterator, typename RIterator1, typename RIterator2>
-			static void knuth_quotient(size_type & q, WIterator t,
-				RIterator1 u, size_type uord, RIterator2 v, size_type vord)
+			template<typename size_type>
+			static size_type knuth_quotient(size_type & q, size_type in1,
+				size_type in2, size_type big_in2, size_type little_in2,
+					size_type d, size_type big_d, size_type little_d)
 			{
-				RIterator1 bu=u-1;
-				if (uord == vord) q=*u / *v;
-				else
+				if (in1)
 				{
-					q=(*u < *v) ?
-						((*u<<constant::half_register::length) + *bu) / *v :
-						constant::half_max-1;
-					--bu;
+					q+=(in1 < big_d) ?
+						(shift_up(in1)+big_in2)/big_d :
+						constant::half_register::max_size;
 				}
+				else q+=in2/d;
 
-				RIterator2 bv=v-1;
-				size_type buord=u-bu;
-				if (improve_quotient(q, t, bu, buord, bv))
-					improve_quotient(q, t, bu, buord, bv);
-			}
-/*
-	t is expected to be of size L+1 if L < M, of size L otherwise.
-	r is expected to be of size L+1 if L < M, of size L otherwise.
-*/
-			template<typename size_type, typename WIterator1, typename WIterator2, typename RIterator>
-			static WIterator2 knuth_remainder(size_type & q, WIterator1 t, WIterator2 r, RIterator d)
-			{
-				fwd_arit::template unroll_0<L+(L < M)>::scale::
-					half_register::no_return((size_type) 0, t, d, q);
-				fwd_arit::template unroll_0<L+(L < M)>::assign::minus::
-					half_register::no_return((size_type) 0, r, t);
-
-					// r < d at this point.
-				return bwd_arit::zero::with_break(r+DORD, r);
+				if (improve_quotient(q, little_in2, little_d))
+					improve_quotient(q, little_in2, little_d);
 			}
 /*
 	divide:
-		L is the block length of the denominator.
-			2 <= L
-		M is the block length of the numerator.
-			L <= M
-		N is initialized as M+1-L.
-		
-		r is the initial location of the overhead value (carry).
-			As a block it has length at least L+1.
-			To implement under the normal interpretation, copy this to be the prefix of the first L digits of the numerator.
-			Digits are shifted into r's register until it is big enough to divide.
-		lr is the location of the leading digit of the remainder r.
-		q is the final location of the quotient to be determined (it works its way backwards).
-			As a block it has length at least M+1-L.
-		t is the initial location of a temporary used for internal computations.
-			As a block it has length at least L+1.
-			Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
-		n is the digit location of the numerator following the copied prefix digits of the numerator.
-			As a block it has length at least M.
-		d is the initial location of the denominator.
-			As a block it has length at least L+1.
-		ld is the location of the leading digit of the divisor d.
-			What would be termed "dord" here in this special case is in fact already defined by the template parameter as L-1.
+		r is the overhead value (carry).
+			Set r to be the upper half of the high digit for the normal interpretation.
+		q is the quotient to be determined (it works its way backwards in half register increments).
+		in1 is the upper two digits of the numerator.
+			Set in1 to be the (lower half of the high digit | upper half of the low digit) for the normal interpretation.
+			Digits are shifted into (r|in1)'s register until it is big enough to divide.
+		in2 is the lower two digits of the numerator.
+			Set in1 to be the (lower half of the low digit) for the normal interpretation.
+		d is the denominator.
+			Assumes in1 < d.
 
-		Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
-
-		Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
-		On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
+		Assumes (in1|in2) and d are already normalized for Knuth multiple precision division optimization.
 
 		Debugging note: Every function call within needs to be "half_register" robust.
 */
 			template<typename size_type>
-			static size_type with_return(size_type & r, size_type low, size_type d)
+			static size_type with_return(size_type & r, size_type in1, size_type in2, size_type d)
 			{
-				size_type rord=lr-r;
-					// Use of L here is an optimization.
-				if (fwd_arit::template unroll_0<L+(L < M)>::
-					less_than::fast_return(false, r, rord, d, DORD)) *q=0;
-				else
+				size_type q=0;
+				if (r || in1 >= d)
 				{
-						// Use of L here is an optimization.
-					knuth_quotient(*q, t, lr, rord, ld, DORD);
-					lr=knuth_remainder(*q, t, r, d);
+					knuth_quotient(q, r, in1, d);
+					in1-=multiply::low_return(q, d);
+					q <<= constant::half_register::length;
 				}
+				else r=binary::high(in1);
 
-				WIterator1 olr(lr);
-				*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
-				unroll_1<N-1, M, L>::divide::multiple_digit::
-					half_register::no_return(r, lr, --q, t, --n, d, ld);
+				(in1 <<= constant::half_register::length)+=in2;
+
+				if (r || in1 >= d)
+				{
+					knuth_quotient(q, r, in1, d);
+					r=in1-multiply::low_return(q, d);
+				}
+				else r=in1;
+
+				return q;
 			}
 /*
 	return_quotient:
