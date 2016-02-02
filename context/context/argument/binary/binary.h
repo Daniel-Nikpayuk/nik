@@ -41,26 +41,25 @@ namespace nik
   {
    namespace argument
    {
+/*
+	None of these account for shifting beyond the register length, which may have unknown side effects.
+*/
 	template<typename size_type>
 	struct binary
 	{
 		typedef context::constant<size_type> constant;
 
-		template<typename size_type>
 		static size_type shift_up(size_type in, size_type n)
 			{ return in << n; }
 
 	// common enough to optimize:
-		template<typename size_type>
 		static size_type shift_up(size_type in)
 			{ return in << constant::half_register::length; }
 
-		template<typename size_type>
 		static size_type shift_down(size_type in, size_type n)
 			{ return in >> n; }
 
 	// common enough to optimize:
-		template<typename size_type>
 		static size_type shift_down(size_type in)
 			{ return in >> constant::half_register::length; }
 /*
@@ -68,37 +67,29 @@ namespace nik
 
 	Should the code here be manually expanded so as to not rely on function calls? Will the compiler optimize?
 */
-		template<typename size_type>
 		static size_type low_pass(size_type t)
 			{ return shift_up(constant::one, t)-constant::one; }
 
-		template<typename size_type>
 		static size_type high_pass(size_type s)
 			{ return ~ low_pass(s); }
 
-		template<typename size_type>
 		static size_type band_pass(size_type s, size_type t)
 			{ return low_pass(t-s) << s; }
 
-		template<typename size_type>
 		static size_type low(size_type in, size_type t)
 			{ return (in & low_pass(t)); }
 
 			// common enough to optimize:
-		template<typename size_type>
 		static size_type low(size_type in)
-			{ return (constant::low_pass & in); }
+			{ return (constant::filter::low_pass & in); }
 
-		template<typename size_type>
 		static size_type high(size_type in, size_type s)
 			{ return shift_down(in, s); }
 
 			// common enough to optimize:
-		template<typename size_type>
 		static size_type high(size_type in)
 			{ return in >> constant::half_register::length; }
 
-		template<typename size_type>
 		static size_type mid(size_type in, size_type s, size_type t)
 			{ return low(shift_down(in, s), t-s); }
 
@@ -110,7 +101,6 @@ namespace nik
 
 	Finds the index of the leading digit of the register number using the half-point method.
 */
-			template<typename size_type>
 			static size_type order(size_type primary, size_type secondary)
 			{
 				size_type m=mid(secondary, (N >> constant::one), N);
@@ -124,12 +114,10 @@ namespace nik
 		template<typename Filler>
 		struct unroll<constant::zero, Filler>
 		{
-			template<typename size_type>
 			static size_type order(size_type primary, size_type secondary)
 				{ return primary; }
 		};
 
-		template<typename size_type>
 		static size_type order(size_type in)
 			{ return unroll<constant::full_register::length>::order(constant::zero, in); }
 	};

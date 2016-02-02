@@ -22,8 +22,12 @@
 #string
 
 // meta:
-#define nikmeta(header) \
-stringify(../nik/context/context/header.h)
+#define nikbase() \
+stringify(../nik/context/context/constant/constant.h)
+
+// meta:
+#define nikmeta(construct, header) \
+stringify(../nik/context/context/construct/header/header.h)
 
 // system:
 #define niksys(navigator, header) \

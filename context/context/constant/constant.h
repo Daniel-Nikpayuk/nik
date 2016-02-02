@@ -67,7 +67,7 @@ namespace nik
 		struct filter
 		{
 			static const size_type low_pass = half_register::max_size;
-			static const size_type high_pass = low << half_register::length;
+			static const size_type high_pass = low_pass << half_register::length;
 		};
 	};
   }
