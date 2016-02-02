@@ -68,7 +68,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::constant<size_type> constant;
 
 		struct zero
 		{
@@ -509,8 +509,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::low_pass & carry;
-						carry=bool(constant::half_max & carry);
+						*out=constant::filter::low_pass & carry;
+						carry=bool(constant::half_register::size & carry);
 						++out; ++in1; ++in2;
 					}
 				}
@@ -521,8 +521,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::low_pass & carry;
-						carry=bool(constant::half_max & carry);
+						*out=constant::filter::low_pass & carry;
+						carry=bool(constant::half_register::size & carry);
 						++out; ++in1; ++in2;
 					}
 
@@ -578,7 +578,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_max) + *in1 - *out;
+						*out=(carry * constant::half_register::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 				}
@@ -590,7 +590,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_max) + *in1 - *out;
+						*out=(carry * constant::half_register::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 
@@ -621,8 +621,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=constant::low_pass & carry;
-						carry>>=constant::half_length;
+						*out=constant::filter::low_pass & carry;
+						carry>>=constant::half_register::length;
 						++out; ++in;
 					}
 				}
@@ -633,8 +633,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=constant::low_pass & carry;
-						carry>>=constant::half_length;
+						*out=constant::filter::low_pass & carry;
+						carry>>=constant::half_register::length;
 						++out; ++in;
 					}
 
@@ -689,8 +689,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=constant::low_pass & carry;
-							carry=bool(constant::half_max & carry);
+							*out=constant::filter::low_pass & carry;
+							carry=bool(constant::half_register::size & carry);
 							++out; ++in;
 						}
 					}
@@ -701,8 +701,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=constant::low_pass & carry;
-							carry=bool(constant::half_max & carry);
+							*out=constant::filter::low_pass & carry;
+							carry=bool(constant::half_register::size & carry);
 							++out; ++in;
 						}
 
@@ -761,7 +761,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_max) + before - *out;
+							*out=(carry * constant::half_register::size) + before - *out;
 							++out; ++in;
 						}
 					}
@@ -774,7 +774,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_max) + before - *out;
+							*out=(carry * constant::half_register::size) + before - *out;
 							++out; ++in;
 						}
 
@@ -805,8 +805,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=constant::low_pass & carry;
-							carry>>=constant::half_length;
+							*out=constant::filter::low_pass & carry;
+							carry>>=constant::half_register::length;
 							++out;
 						}
 					}
@@ -817,8 +817,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=constant::low_pass & carry;
-							carry>>=constant::half_length;
+							*out=constant::filter::low_pass & carry;
+							carry>>=constant::half_register::length;
 							++out;
 						}
 
@@ -1168,8 +1168,8 @@ namespace nik
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::low_pass & carry;
-						carry=bool(constant::half_max & carry);
+						*out=constant::filter::low_pass & carry;
+						carry=bool(constant::half_register::size & carry);
 						unroll_0<N-1>::plus::half_register::no_return(carry, ++out, ++in1, ++in2);
 					}
 
@@ -1177,8 +1177,8 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::low_pass & carry;
-						carry=bool(constant::half_max & carry);
+						*out=constant::filter::low_pass & carry;
+						carry=bool(constant::half_register::size & carry);
 						return unroll_0<N-1>::plus::half_register::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
@@ -1221,7 +1221,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_max) + *in1 - *out;
+						*out=(carry * constant::half_register::size) + *in1 - *out;
 						unroll_0<N-1>::minus::half_register::no_return(carry, ++out, ++in1, ++in2);
 					}
 
@@ -1230,7 +1230,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_max) + *in1 - *out;
+						*out=(carry * constant::half_register::size) + *in1 - *out;
 						return unroll_0<N-1>::minus::half_register::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
@@ -1252,8 +1252,8 @@ namespace nik
 					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=constant::low_pass & carry;
-						carry>>=constant::half_length;
+						*out=constant::filter::low_pass & carry;
+						carry>>=constant::half_register::length;
 						unroll_0<N-1>::scale::half_register::no_return(carry, ++out, ++in1, in2);
 					}
 /*
@@ -1268,8 +1268,8 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=constant::low_pass & carry;
-						carry>>=constant::half_length;
+						*out=constant::filter::low_pass & carry;
+						carry>>=constant::half_register::length;
 						return unroll_0<N-1>::scale::half_register::with_return(carry, ++out, ++in1, in2);
 					}
 				};
@@ -1305,8 +1305,8 @@ namespace nik
 						static void no_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=constant::low_pass & carry;
-							carry=bool(constant::half_max & carry);
+							*out=constant::filter::low_pass & carry;
+							carry=bool(constant::half_register::size & carry);
 							unroll_0<N-1>::assign::plus::half_register::no_return(carry, ++out, ++in);
 						}
 
@@ -1314,8 +1314,8 @@ namespace nik
 						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=constant::low_pass & carry;
-							carry=bool(constant::half_max & carry);
+							*out=constant::filter::low_pass & carry;
+							carry=bool(constant::half_register::size & carry);
 							return unroll_0<N-1>::assign::plus::half_register::with_return(carry, ++out, ++in);
 						}
 					};
@@ -1355,7 +1355,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_max) + before - *out;
+							*out=(carry * constant::half_register::size) + before - *out;
 							unroll_0<N-1>::assign::minus::half_register::no_return(carry, ++out, ++in);
 						}
 
@@ -1365,7 +1365,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_max) + before - *out;
+							*out=(carry * constant::half_register::size) + before - *out;
 							return unroll_0<N-1>::assign::minus::half_register::with_return(carry, ++out, ++in);
 						}
 					};
@@ -1379,8 +1379,8 @@ namespace nik
 						static void no_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=constant::low_pass & carry;
-							carry>>=constant::half_length;
+							*out=constant::filter::low_pass & carry;
+							carry>>=constant::half_register::length;
 							unroll_0<N-1>::assign::scale::half_register::no_return(carry, ++out, value);
 						}
 
@@ -1388,8 +1388,8 @@ namespace nik
 						static WIterator with_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=constant::low_pass & carry;
-							carry>>=constant::half_length;
+							*out=constant::filter::low_pass & carry;
+							carry>>=constant::half_register::length;
 							return unroll_0<N-1>::assign::scale::half_register::with_return(carry, ++out, value);
 						}
 					};
@@ -1653,7 +1653,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::constant<size_type> constant;
 
 		struct zero
 		{

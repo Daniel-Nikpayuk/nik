@@ -53,3 +53,7 @@ complex ways. This is already done with the relationship between hard drive stor
 while the filesystem is lightweight stories. This is already done in math: The real line (or n-dimensional real number system) is universal,
 while stories around it become nuanced and are in need of localized navigational semiotics and semantics.
 
+Policy: 
+	Other parts of the library simply assume "full_register" as default if not explicitly named.
+	That is the general policy (lazy modularization), but here the context is too broad to simply assume.
+

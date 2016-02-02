@@ -33,7 +33,10 @@ namespace nik
 
 		static const size_type nibble = 4;
 		static const size_type byte = 8;
-
+/*
+	Other parts of the library simply assume "full_register" as default if not explicitly named.
+	That is the general policy (lazy modularization), but here the context is too broad to simply assume.
+*/
 		struct full_register
 		{
 			static const size_type length = byte * sizeof(size_type);

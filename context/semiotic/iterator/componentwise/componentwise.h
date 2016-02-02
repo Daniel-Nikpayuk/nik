@@ -22,7 +22,7 @@
 
 #include"componentwise_macro.h"
 
-#include"../../../context/constant.h"
+#include"../../context/constant/constant.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -208,7 +208,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m,
+	as well as n = constant::full_register::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -223,7 +223,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m,
+	as well as n = constant::full_register::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -536,7 +536,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_length;
+						*++out=*in>>constant::half_register::length;
 						++out; ++in;
 					}
 				}
@@ -547,7 +547,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_length;
+						*++out=*in>>constant::half_register::length;
 						++out; ++in;
 					}
 
@@ -563,7 +563,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_length);
+						*out+=(*++in<<constant::half_register::length);
 						++out; ++in;
 					}
 				}
@@ -574,7 +574,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_length);
+						*out+=(*++in<<constant::half_register::length);
 						++out; ++in;
 					}
 
@@ -602,7 +602,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -617,7 +617,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -674,7 +674,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
 	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
@@ -705,7 +705,7 @@ namespace nik
 					static void no_return(WIterator out, RIterator in)
 					{
 						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_length;
+						*++out=*in>>constant::half_register::length;
 						unroll<N-1>::convert::full_register::no_return(++out, ++in);
 					}
 
@@ -713,7 +713,7 @@ namespace nik
 					static WIterator with_return(WIterator out, RIterator in)
 					{
 						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_length;
+						*++out=*in>>constant::half_register::length;
 						return unroll<N-1>::convert::full_register::with_return(++out, ++in);
 					}
 				};
@@ -724,7 +724,7 @@ namespace nik
 					static void no_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_length);
+						*out+=(*++in<<constant::half_register::length);
 						unroll<N-1>::convert::half_register::no_return(++out, ++in);
 					}
 
@@ -732,7 +732,7 @@ namespace nik
 					static WIterator with_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_length);
+						*out+=(*++in<<constant::half_register::length);
 						return unroll<N-1>::convert::half_register::with_return(++out, ++in);
 					}
 				};
@@ -958,7 +958,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -1306,7 +1306,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -1369,7 +1369,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::register_length-m.
+	as well as n = constant::full_register::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
 	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.

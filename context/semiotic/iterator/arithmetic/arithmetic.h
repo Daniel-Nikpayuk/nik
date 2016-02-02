@@ -20,7 +20,7 @@
 
 // overhead dependencies:
 
-#include"arithmetic_2.h"
+#include"arithmetic_1.h"
 
 /*
 	The main difference between "componentwise" and "arithmetic" from an algorithmic lens is that with componentwise is
@@ -46,15 +46,15 @@ namespace nik
     namespace forward
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_2<size_type>
+	struct arithmetic : public arithmetic_1<size_type>
 	{
 		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll : public arithmetic::template unroll_2<N, M, L>
+		struct unroll : public arithmetic::template unroll_1<N, M, L>
 		{
 		};
 
 		template<size_type M, size_type L>
-		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_1<0, M, L>
 		{
 		};
 	};
@@ -63,15 +63,15 @@ namespace nik
     namespace backward
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_2<size_type>
+	struct arithmetic : public arithmetic_1<size_type>
 	{
 		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll : public arithmetic::template unroll_2<N, M, L>
+		struct unroll : public arithmetic::template unroll_1<N, M, L>
 		{
 		};
 
 		template<size_type M, size_type L>
-		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_1<0, M, L>
 		{
 		};
 	};
@@ -80,15 +80,15 @@ namespace nik
     namespace bidirectional
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_2<size_type>
+	struct arithmetic : public arithmetic_1<size_type>
 	{
 		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll : public arithmetic::template unroll_2<N, M, L>
+		struct unroll : public arithmetic::template unroll_1<N, M, L>
 		{
 		};
 
 		template<size_type M, size_type L>
-		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_1<0, M, L>
 		{
 		};
 	};
@@ -97,15 +97,15 @@ namespace nik
     namespace random_access
     {
 	template<typename size_type>
-	struct arithmetic : public arithmetic_2<size_type>
+	struct arithmetic : public arithmetic_1<size_type>
 	{
 		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll : public arithmetic::template unroll_2<N, M, L>
+		struct unroll : public arithmetic::template unroll_1<N, M, L>
 		{
 		};
 
 		template<size_type M, size_type L>
-		struct unroll<0, M, L> : public arithmetic::template unroll_2<0, M, L>
+		struct unroll<0, M, L> : public arithmetic::template unroll_1<0, M, L>
 		{
 		};
 	};

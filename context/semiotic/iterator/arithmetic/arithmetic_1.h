@@ -23,6 +23,7 @@
 #include"arithmetic_0.h"
 
 #include"../componentwise/componentwise.h"
+#include"../../../context/argument/math/math.h"
 
 // for debugging:
 #include"../../../../media/generic/display/display.h"
@@ -55,10 +56,49 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::argument::math<size_type> math;
+		typedef context::constant<size_type> constant;
 
 		typedef componentwise<size_type> fwd_comp;
 		typedef arithmetic_0<size_type> fwd_arit;
+
+		struct scale
+		{
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+*/
+			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+			static void no_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
+			{
+				while (in1 != end1)
+				{
+					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					++out; ++in1;
+				}
+			}
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the constant scalar value.
+*/
+			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
+			{
+				while (in1 != end1)
+				{
+					carry=regist::multiply::high_return(*out=carry, *in1, in2);
+					++out; ++in1;
+				}
+
+				return out;
+			}
+		};
 
 		struct multiply
 		{
@@ -97,6 +137,35 @@ namespace nik
 		{
 			template<size_type K, size_type J=0, size_type I=0>
 			using fwd_unroll=typename fwd_arit::template unroll_0<K, J, I>;
+
+			struct scale
+			{
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the constant scalar value.
+*/
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
+				{
+					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					unroll_1<N-1>::scale::no_return(carry, ++out, ++in1, in2);
+				}
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the constant scalar value.
+*/
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
+				{
+					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					return unroll_1<N-1>::scale::with_return(carry, ++out, ++in1, in2);
+				}
+			};
+
 /*
 	N is initially the length of in1.
 	M is the length of in1.
@@ -134,6 +203,17 @@ namespace nik
 		template<size_type M, size_type L>
 		struct unroll_1<0, M, L> : public fwd_arit::template unroll_0<0, M, L>
 		{
+			struct scale
+			{
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
+					{ }
+
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
+					{ return out; }
+			};
+
 			template<typename ValueType>
 			struct multiply
 			{
@@ -157,7 +237,8 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::argument::math<size_type> math;
+		typedef context::constant<size_type> constant;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef componentwise<size_type> bwd_comp;
@@ -183,6 +264,26 @@ namespace nik
 			{
 				struct single_digit
 				{
+/*
+	"carry" is a memory optimization hack. When calling this function, carry needs to be set to *in.
+		Reimplement this to be the remainder similar to the multiple_digit implementation.
+	"out" is the retainer of the returned quotient.
+	Assumes "in" is the leftmost digit of the structure.
+
+	Assumes "d" is the divisor and that in >= 3.
+	If d == 1 why use this at all?
+	If d == 2 use bit shifting.
+*/
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
+					{
+						if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
+						else if (*in < d) { *out=0; carry=*in; }
+						else { *out=*in/d; carry=*in%d; }
+
+						return unroll_1<N-1>::divide::single_digit::full_register_divisor(carry, --out, --in, d);
+					}
+
 					struct half_register
 					{
 /*
@@ -199,7 +300,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=constant::half_length)+=*n;
+							(r<<=constant::half_register::length)+=*n;
 							unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
 						}
 
@@ -209,7 +310,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=constant::half_length)+=*n;
+							(r<<=constant::half_register::length)+=*n;
 							return unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
 						}
 					};
@@ -224,6 +325,14 @@ namespace nik
 			{
 				struct single_digit
 				{
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
+						{ }
+
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in, ValueType d)
+						{ return out; }
+
 					struct half_register
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
@@ -245,7 +354,8 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::argument::math<size_type> math;
+		typedef context::constant<size_type> constant;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -274,7 +384,8 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
-		typedef meta::constant<size_type> constant;
+		typedef context::argument::math<size_type> math;
+		typedef context::constant<size_type> constant;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -296,6 +407,107 @@ namespace nik
 			{
 				struct multiple_digit
 				{
+/*
+	N is the block length as reference.
+
+	r is the initial location of the overhead value (carry).
+		Set this to the first digits of the numerator of equal length to the denominator for the "normal" interpretation.
+		Digits are shifted into r's register until big enough to divide.
+	lr is the location of the leading digit of the remainder r.
+	q is the final location of the quotient to be determined.
+	t is the initial location of a temporary N block used for internal computations.
+		Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
+	n is the second last digit location of the numerator as an N block. In practice this may be the initial location at times.
+	d is the initial location of the denominator as an N block.
+	ld is the location of the leading digit of the divisor d.
+
+	Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
+
+	In all fairness, there are many ways to interpret an unrolling version.
+	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
+
+	WIterators are assumed safe for modification.
+	In practice this means providing a deep copy if necessary when passing const references as input.
+
+	Assumes b < d <= n.
+
+	Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
+	On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
+
+	*** fix parameters and arguements for the N=0 case as well.
+	*** only when stabilized, decide where this algorithm best fits (random access?)
+			struct divide
+			{
+				template<typename ValueType>
+				struct multiple_digit
+				{
+					template<typename WIterator1, typename WIterator2,
+						typename WIterator3, typename RIterator1, typename RIterator2>
+					static void no_return(WIterator1 r, WIterator1 lr,
+						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+					{
+						size_type tlen, rlen=lr-r, dlen=ld-d;
+//						nik::display << rlen << ' ' << dlen << nik::endl;
+//						nik::display << fwd_arit::less_than::fast_return(false, r, d, ld+1) << nik::endl;
+						if (rlen < dlen || (rlen == dlen && fwd_arit::
+							less_than::fast_return(false, r, d, ld+1)))
+						{
+							*q=0;
+							WIterator1 olr(lr);
+							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
+//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
+						}
+						else
+						{
+							ValueType carry;
+							*q=(rlen == dlen) ? *lr/(*ld) :
+								(*lr < *ld) ? regist::divide::
+									full_register_divisor(carry, *lr, *(lr-1), *ld) :
+								(ValueType) -1;
+
+//							nik::display << "q=" << *q << nik::endl;
+
+							carry=0;
+							WIterator3 lt=fwd_arit::scale::template // unroll N=2 would be better.
+								with_return<ValueType&>(carry, t, ld-1, ld+1, *q);
+							if (lt != t+M) *lt=carry;
+							tlen=lt-t;
+//							nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
+							if (tlen > rlen || ((tlen == rlen) &&
+								fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
+							{
+								--*q;
+								carry=0;
+								lt=fwd_arit::scale::template
+									with_return<ValueType&>(carry, t, ld-1, ld+1, *q);
+								if (lt != t+M) *lt=carry;
+								tlen=lt-t;
+								if (tlen > rlen || ((tlen == rlen) &&
+									fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
+										--*q;
+							}
+
+	// assuming d is properly initialized, this will properly initialize t as well.
+//							nik::display << *q << nik::endl;
+//							nik::display << d[0] << ' ' << d[1] << ' ' << d[2] << nik::endl;
+							fwd_arit::template unroll_1<M>::scale::with_return((ValueType) 0, t, d, *q);
+//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
+//							nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
+							fwd_arit::template unroll_1<M>::assign::minus::no_return((ValueType) 0, r, t);
+//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
+							lr=bwd_arit::order(r+(M-1), r);
+//							nik::display << *lr << nik::endl;
+							WIterator1 olr(lr);
+							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
+						}
+
+						unroll_1<N-1, M, L>::divide::template multiple_digit<ValueType>::
+							no_return(r, lr, --q, t, --n, d, ld);
+					}
+				};
+			};
+*/
+
 					struct half_register
 					{
 						#define DORD L-1
@@ -334,8 +546,8 @@ namespace nik
 							else
 							{
 								q=(*u < *v) ?
-									((*u<<constant::half_length) + *bu) / *v :
-									constant::half_max-1;
+									((*u<<constant::half_register::length) + *bu) / *v :
+									constant::half_register::max_size;
 								--bu;
 							}
 
@@ -426,6 +638,18 @@ namespace nik
 			{
 				struct multiple_digit
 				{
+/*
+				template<typename ValueType>
+				struct multiple_digit
+				{
+					template<typename WIterator1, typename WIterator2,
+						typename WIterator3, typename RIterator1, typename RIterator2>
+					static void no_return(WIterator1 r, WIterator1 lr,
+						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+							{ }
+				};
+*/
+
 					struct half_register
 					{
 						template<typename WIterator1, typename WIterator2,
