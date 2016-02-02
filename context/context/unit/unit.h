@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_CONSTANT_H
-#define CONTEXT_CONTEXT_CONSTANT_H
+#ifndef CONTEXT_CONTEXT_UNIT_H
+#define CONTEXT_CONTEXT_UNIT_H
 
 namespace nik
 {
@@ -25,7 +25,7 @@ namespace nik
   namespace context
   {
 	template<typename size_type>
-	struct constant
+	struct unit
 	{
 		static const size_type zero = 0;
 		static const size_type one = 1;
@@ -37,40 +37,37 @@ namespace nik
 	Other parts of the library simply assume "full_register" as default if not explicitly named.
 	That is the general policy (lazy modularization), but here the context is too broad to simply assume.
 */
-		struct full_register
+		static const size_type length = byte * sizeof(size_type);
+		static const size_type max_length = length - one;
+		static const size_type half_length = length >> one;
+
+		static const size_type size = zero;
+		static const size_type max_size = size - one;
+		static const size_type half_size = one << half_length;
+
+		static const size_type power = zero;
+		static const size_type max_power = one << max_length;
+		static const size_type half_power = one << half_length;
+
+		struct half
 		{
-			static const size_type length = byte * sizeof(size_type);
+			static const size_type length = ::length >> one;
 			static const size_type max_length = length - one;
 			static const size_type half_length = length >> one;
 
-			static const size_type size = zero;
+			static const size_type size = ::half_size;
 			static const size_type max_size = size - one;
 			static const size_type half_size = one << half_length;
 
-			static const size_type power = zero;
-			static const size_type max_power = one << max_length;
-			static const size_type half_power = one << half_length;
-		};
-
-		struct half_register
-		{
-			static const size_type length = full_register::length >> one;
-			static const size_type max_length = length - one;
-			static const size_type half_length = length >> one;
-
-			static const size_type size = full_register::half_size;
-			static const size_type max_size = size - one;
-			static const size_type half_size = one << half_length;
-
-			static const size_type power = full_register::half_size;
+			static const size_type power = ::half_size;
 			static const size_type max_power = one << max_length;
 			static const size_type half_power = one << half_length;
 		};
 
 		struct filter
 		{
-			static const size_type low_pass = half_register::max_size;
-			static const size_type high_pass = low_pass << half_register::length;
+			static const size_type low_pass = half::max_size;
+			static const size_type high_pass = low_pass << half::length;
 		};
 	};
   }

@@ -22,7 +22,7 @@
 
 #include"componentwise_macro.h"
 
-#include"../../context/constant/constant.h"
+#include"../../context/unit/unit.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -46,7 +46,7 @@
 	Methods that have more than one template typename (eg. Iterator1, Iterator2) have so for higher
 	entropy, but in practice you may need to optimize (eg. Iterator2=const Iterator1 &).
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
-	As far as debugging goes, keep in mind the location of an array (as pointer) is constant and thus not
+	As far as debugging goes, keep in mind the location of an array (as pointer) is unit and thus not
 	allowed as a reference, so for example if you declare "int array[100]" you can't pass "array" directly
 	if you're template parameter is specified as a variable. Instead you need to make a copy of array:
 		"int *a=array", so then you can pass "a" instead.
@@ -69,7 +69,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
-		typedef meta::constant<size_type> constant;
+		typedef meta::unit<size_type> unit;
 /*
 	+:
 
@@ -208,7 +208,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m,
+	as well as n = unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -223,7 +223,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m,
+	as well as n = unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -355,7 +355,7 @@ namespace nik
 			with_return_bracket_2(++, )
 		};
 /*
-	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
+	There's no need for a "return" version of "unit value" assign as the out iterator equals the end iterator upon halting.
 */
 		struct repeat
 		{
@@ -528,34 +528,31 @@ namespace nik
 */
 		struct convert
 		{
-			struct full_register
+			template<typename WIterator, typename RIterator, typename EIterator>
+			static void no_return(WIterator out, RIterator in, EIterator end)
 			{
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(WIterator out, RIterator in, EIterator end)
+				while (in != end)
 				{
-					while (in != end)
-					{
-						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_register::length;
-						++out; ++in;
-					}
+					*out=(unit::low_pass & *in);
+					*++out=*in>>unit::half::length;
+					++out; ++in;
+				}
+			}
+
+			template<typename WIterator, typename RIterator, typename EIterator>
+			static WIterator with_return(WIterator out, RIterator in, EIterator end)
+			{
+				while (in != end)
+				{
+					*out=(unit::low_pass & *in);
+					*++out=*in>>unit::half::length;
+					++out; ++in;
 				}
 
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(WIterator out, RIterator in, EIterator end)
-				{
-					while (in != end)
-					{
-						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_register::length;
-						++out; ++in;
-					}
+				return out;
+			}
 
-					return out;
-				}
-			};
-
-			struct half_register
+			struct half
 			{
 				template<typename WIterator, typename RIterator, typename EIterator>
 				static void no_return(WIterator out, RIterator in, EIterator end)
@@ -563,7 +560,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_register::length);
+						*out+=(*++in<<unit::half::length);
 						++out; ++in;
 					}
 				}
@@ -574,7 +571,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_register::length);
+						*out+=(*++in<<unit::half::length);
 						++out; ++in;
 					}
 
@@ -602,7 +599,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -617,7 +614,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -674,7 +671,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
 	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
@@ -699,41 +696,38 @@ namespace nik
 */
 			struct convert
 			{
-				struct full_register
+				template<typename WIterator, typename RIterator>
+				static void no_return(WIterator out, RIterator in)
 				{
-					template<typename WIterator, typename RIterator>
-					static void no_return(WIterator out, RIterator in)
-					{
-						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_register::length;
-						unroll<N-1>::convert::full_register::no_return(++out, ++in);
-					}
+					*out=(unit::low_pass & *in);
+					*++out=*in>>unit::half::length;
+					unroll<N-1>::convert::no_return(++out, ++in);
+				}
 
-					template<typename WIterator, typename RIterator>
-					static WIterator with_return(WIterator out, RIterator in)
-					{
-						*out=(constant::low_pass & *in);
-						*++out=*in>>constant::half_register::length;
-						return unroll<N-1>::convert::full_register::with_return(++out, ++in);
-					}
-				};
+				template<typename WIterator, typename RIterator>
+				static WIterator with_return(WIterator out, RIterator in)
+				{
+					*out=(unit::low_pass & *in);
+					*++out=*in>>unit::half::length;
+					return unroll<N-1>::convert::with_return(++out, ++in);
+				}
 
-				struct half_register
+				struct half
 				{
 					template<typename WIterator, typename RIterator>
 					static void no_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_register::length);
-						unroll<N-1>::convert::half_register::no_return(++out, ++in);
+						*out+=(*++in<<unit::half::length);
+						unroll<N-1>::convert::half::no_return(++out, ++in);
 					}
 
 					template<typename WIterator, typename RIterator>
 					static WIterator with_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<constant::half_register::length);
-						return unroll<N-1>::convert::half_register::with_return(++out, ++in);
+						*out+=(*++in<<unit::half::length);
+						return unroll<N-1>::convert::half::with_return(++out, ++in);
 					}
 				};
 			};
@@ -792,18 +786,15 @@ namespace nik
 
 			struct convert
 			{
-				struct full_register
-				{
-					template<typename WIterator, typename RIterator>
-					static void no_return(WIterator out, RIterator in)
-						{ }
+				template<typename WIterator, typename RIterator>
+				static void no_return(WIterator out, RIterator in)
+					{ }
 
-					template<typename WIterator, typename RIterator>
-					static WIterator with_return(WIterator out, RIterator in)
-						{ return out; }
-				};
+				template<typename WIterator, typename RIterator>
+				static WIterator with_return(WIterator out, RIterator in)
+					{ return out; }
 
-				struct half_register
+				struct half
 				{
 					template<typename WIterator, typename RIterator>
 					static void no_return(WIterator out, RIterator in)
@@ -826,7 +817,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
-		typedef meta::constant<size_type> constant;
+		typedef meta::unit<size_type> unit;
 /*
 	+:
 
@@ -958,7 +949,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -1111,7 +1102,7 @@ namespace nik
 			with_return_bracket_2(--, )
 		};
 /*
-	There's no need for a "return" version of "constant value" assign as the out iterator equals the end iterator upon halting.
+	There's no need for a "return" version of "unit value" assign as the out iterator equals the end iterator upon halting.
 
 	There is the concern where EIterator "end" needs to be beyond the initial iterator address of the structure.
 	In the case of a user-defined iterator class, the details of implementation informs such a discussion.
@@ -1306,7 +1297,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -1369,7 +1360,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = constant::full_register::length-m.
+	as well as n = unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
 	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.
@@ -1457,7 +1448,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
-		typedef meta::constant<size_type> constant;
+		typedef meta::unit<size_type> unit;
 	};
     }
 
@@ -1469,7 +1460,7 @@ namespace nik
 	template<typename size_type>
 	struct componentwise
 	{
-		typedef meta::constant<size_type> constant;
+		typedef meta::unit<size_type> unit;
 	};
     }
    }

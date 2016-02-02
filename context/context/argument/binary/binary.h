@@ -18,13 +18,13 @@
 #ifndef CONTEXT_CONTEXT_ARGUMENT_BINARY_H
 #define CONTEXT_CONTEXT_ARGUMENT_BINARY_H
 
-#include"../../constant/constant.h"
+#include"../../unit/unit.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
 	a const reference to one.
 
-	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. As such, given some routines and subroutines are powerhouse workhorses
@@ -47,28 +47,28 @@ namespace nik
 	template<typename size_type>
 	struct binary
 	{
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		static size_type shift_up(size_type in, size_type n)
 			{ return in << n; }
 
 	// common enough to optimize:
 		static size_type shift_up(size_type in)
-			{ return in << constant::half_register::length; }
+			{ return in << unit::half::length; }
 
 		static size_type shift_down(size_type in, size_type n)
 			{ return in >> n; }
 
 	// common enough to optimize:
 		static size_type shift_down(size_type in)
-			{ return in >> constant::half_register::length; }
+			{ return in >> unit::half::length; }
 /*
 	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
 
 	Should the code here be manually expanded so as to not rely on function calls? Will the compiler optimize?
 */
 		static size_type low_pass(size_type t)
-			{ return shift_up(constant::one, t)-constant::one; }
+			{ return shift_up(unit::one, t)-unit::one; }
 
 		static size_type high_pass(size_type s)
 			{ return ~ low_pass(s); }
@@ -81,14 +81,14 @@ namespace nik
 
 			// common enough to optimize:
 		static size_type low(size_type in)
-			{ return (constant::filter::low_pass & in); }
+			{ return (unit::filter::low_pass & in); }
 
 		static size_type high(size_type in, size_type s)
 			{ return shift_down(in, s); }
 
 			// common enough to optimize:
 		static size_type high(size_type in)
-			{ return in >> constant::half_register::length; }
+			{ return in >> unit::half::length; }
 
 		static size_type mid(size_type in, size_type s, size_type t)
 			{ return low(shift_down(in, s), t-s); }
@@ -103,23 +103,23 @@ namespace nik
 */
 			static size_type order(size_type primary, size_type secondary)
 			{
-				size_type m=mid(secondary, (N >> constant::one), N);
-				if (m) primary += (N >> constant::one);
-				else m=mid(secondary, constant::zero, (N >> constant::one));
+				size_type m=mid(secondary, (N >> unit::one), N);
+				if (m) primary += (N >> unit::one);
+				else m=mid(secondary, unit::zero, (N >> unit::one));
 
-				return unroll<(N >> constant::one)>::order(primary, m);
+				return unroll<(N >> unit::one)>::order(primary, m);
 			}
 		};
 
 		template<typename Filler>
-		struct unroll<constant::zero, Filler>
+		struct unroll<unit::zero, Filler>
 		{
 			static size_type order(size_type primary, size_type secondary)
 				{ return primary; }
 		};
 
 		static size_type order(size_type in)
-			{ return unroll<constant::full_register::length>::order(constant::zero, in); }
+			{ return unroll<unit::length>::order(unit::zero, in); }
 	};
    }
   }

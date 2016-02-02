@@ -22,7 +22,7 @@
 
 // overhead dependencies:
 
-#include"../../../context/constant.h"
+#include"../../../context/unit/unit.h"
 
 // Clean up the typedefs/usings namespace stuff.
 
@@ -31,7 +31,7 @@
 	each location is conditionally independent, whereas arithmetic is similar but also dependent on the previous value
 	(recursive; maybe the simplest variety of recursive?).
 
-	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
@@ -68,7 +68,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		struct zero
 		{
@@ -499,9 +499,9 @@ namespace nik
 				return out;
 			}
 /*
-	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+	If an arithmetic overflow occurs beyond the half, it will only effect the first digit above.
 */
-			struct half_register
+			struct half
 			{
 				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
 				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
@@ -509,8 +509,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::filter::low_pass & carry;
-						carry=bool(constant::half_register::size & carry);
+						*out=unit::filter::low_pass & carry;
+						carry=bool(unit::half::size & carry);
 						++out; ++in1; ++in2;
 					}
 				}
@@ -521,8 +521,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::filter::low_pass & carry;
-						carry=bool(constant::half_register::size & carry);
+						*out=unit::filter::low_pass & carry;
+						carry=bool(unit::half::size & carry);
 						++out; ++in1; ++in2;
 					}
 
@@ -569,7 +569,7 @@ namespace nik
 				return out;
 			}
 
-			struct half_register
+			struct half
 			{
 				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
 				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
@@ -578,7 +578,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_register::size) + *in1 - *out;
+						*out=(carry * unit::half::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 				}
@@ -590,7 +590,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_register::size) + *in1 - *out;
+						*out=(carry * unit::half::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 
@@ -607,13 +607,13 @@ namespace nik
 		out is the resultant containing structure.
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
-		in2 is the constant scalar value.
+		in2 is the unit scalar value.
 		
 		All ValueTypes are under the constraint of being less than the half register size.
 */
 		struct scale
 		{
-			struct half_register
+			struct half
 			{
 				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
 				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end, ValueType value)
@@ -621,8 +621,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=constant::filter::low_pass & carry;
-						carry>>=constant::half_register::length;
+						*out=unit::filter::low_pass & carry;
+						carry>>=unit::half::length;
 						++out; ++in;
 					}
 				}
@@ -633,8 +633,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=constant::filter::low_pass & carry;
-						carry>>=constant::half_register::length;
+						*out=unit::filter::low_pass & carry;
+						carry>>=unit::half::length;
 						++out; ++in;
 					}
 
@@ -679,9 +679,9 @@ namespace nik
 					return out;
 				}
 /*
-	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+	If an arithmetic overflow occurs beyond the half, it will only effect the first digit above.
 */
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
 					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
@@ -689,8 +689,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=constant::filter::low_pass & carry;
-							carry=bool(constant::half_register::size & carry);
+							*out=unit::filter::low_pass & carry;
+							carry=bool(unit::half::size & carry);
 							++out; ++in;
 						}
 					}
@@ -701,8 +701,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=constant::filter::low_pass & carry;
-							carry=bool(constant::half_register::size & carry);
+							*out=unit::filter::low_pass & carry;
+							carry=bool(unit::half::size & carry);
 							++out; ++in;
 						}
 
@@ -751,7 +751,7 @@ namespace nik
 					return out;
 				}
 
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
 					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
@@ -761,7 +761,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_register::size) + before - *out;
+							*out=(carry * unit::half::size) + before - *out;
 							++out; ++in;
 						}
 					}
@@ -774,7 +774,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_register::size) + before - *out;
+							*out=(carry * unit::half::size) + before - *out;
 							++out; ++in;
 						}
 
@@ -791,13 +791,13 @@ namespace nik
 		out is the resultant containing structure.
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
-		in2 is the constant scalar value.
+		in2 is the unit scalar value.
 		
 		All ValueTypes are under the constraint of being less than the half register size.
 */
 			struct scale
 			{
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename EIterator>
 					static void no_return(ValueType carry, WIterator out, EIterator end, ValueType value)
@@ -805,8 +805,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=constant::filter::low_pass & carry;
-							carry>>=constant::half_register::length;
+							*out=unit::filter::low_pass & carry;
+							carry>>=unit::half::length;
 							++out;
 						}
 					}
@@ -817,8 +817,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=constant::filter::low_pass & carry;
-							carry>>=constant::half_register::length;
+							*out=unit::filter::low_pass & carry;
+							carry>>=unit::half::length;
 							++out;
 						}
 
@@ -1160,26 +1160,26 @@ namespace nik
 					return unroll_0<N-1>::plus::with_return(carry, ++out, ++in1, ++in2);
 				}
 /*
-	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+	If an arithmetic overflow occurs beyond the half, it will only effect the first digit above.
 */
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::filter::low_pass & carry;
-						carry=bool(constant::half_register::size & carry);
-						unroll_0<N-1>::plus::half_register::no_return(carry, ++out, ++in1, ++in2);
+						*out=unit::filter::low_pass & carry;
+						carry=bool(unit::half::size & carry);
+						unroll_0<N-1>::plus::half::no_return(carry, ++out, ++in1, ++in2);
 					}
 
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=constant::filter::low_pass & carry;
-						carry=bool(constant::half_register::size & carry);
-						return unroll_0<N-1>::plus::half_register::with_return(carry, ++out, ++in1, ++in2);
+						*out=unit::filter::low_pass & carry;
+						carry=bool(unit::half::size & carry);
+						return unroll_0<N-1>::plus::half::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
 			};
@@ -1214,15 +1214,15 @@ namespace nik
 					return unroll_0<N-1>::minus::with_return(carry, ++out, ++in1, ++in2);
 				}
 
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_register::size) + *in1 - *out;
-						unroll_0<N-1>::minus::half_register::no_return(carry, ++out, ++in1, ++in2);
+						*out=(carry * unit::half::size) + *in1 - *out;
+						unroll_0<N-1>::minus::half::no_return(carry, ++out, ++in1, ++in2);
 					}
 
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
@@ -1230,21 +1230,21 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * constant::half_register::size) + *in1 - *out;
-						return unroll_0<N-1>::minus::half_register::with_return(carry, ++out, ++in1, ++in2);
+						*out=(carry * unit::half::size) + *in1 - *out;
+						return unroll_0<N-1>::minus::half::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
 			};
 
 			struct scale
 			{
-				struct half_register
+				struct half
 				{
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -1252,15 +1252,15 @@ namespace nik
 					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=constant::filter::low_pass & carry;
-						carry>>=constant::half_register::length;
-						unroll_0<N-1>::scale::half_register::no_return(carry, ++out, ++in1, in2);
+						*out=unit::filter::low_pass & carry;
+						carry>>=unit::half::length;
+						unroll_0<N-1>::scale::half::no_return(carry, ++out, ++in1, in2);
 					}
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -1268,9 +1268,9 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=constant::filter::low_pass & carry;
-						carry>>=constant::half_register::length;
-						return unroll_0<N-1>::scale::half_register::with_return(carry, ++out, ++in1, in2);
+						*out=unit::filter::low_pass & carry;
+						carry>>=unit::half::length;
+						return unroll_0<N-1>::scale::half::with_return(carry, ++out, ++in1, in2);
 					}
 				};
 			};
@@ -1297,26 +1297,26 @@ namespace nik
 						return unroll_0<N-1>::assign::plus::with_return(carry, ++out, ++in);
 					}
 /*
-	If an arithmetic overflow occurs beyond the half_register, it will only effect the first digit above.
+	If an arithmetic overflow occurs beyond the half, it will only effect the first digit above.
 */
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=constant::filter::low_pass & carry;
-							carry=bool(constant::half_register::size & carry);
-							unroll_0<N-1>::assign::plus::half_register::no_return(carry, ++out, ++in);
+							*out=unit::filter::low_pass & carry;
+							carry=bool(unit::half::size & carry);
+							unroll_0<N-1>::assign::plus::half::no_return(carry, ++out, ++in);
 						}
 
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=constant::filter::low_pass & carry;
-							carry=bool(constant::half_register::size & carry);
-							return unroll_0<N-1>::assign::plus::half_register::with_return(carry, ++out, ++in);
+							*out=unit::filter::low_pass & carry;
+							carry=bool(unit::half::size & carry);
+							return unroll_0<N-1>::assign::plus::half::with_return(carry, ++out, ++in);
 						}
 					};
 				};
@@ -1347,7 +1347,7 @@ namespace nik
 						return unroll_0<N-1>::assign::minus::with_return(carry, ++out, ++in);
 					}
 
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType carry, WIterator out, RIterator in)
@@ -1355,8 +1355,8 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_register::size) + before - *out;
-							unroll_0<N-1>::assign::minus::half_register::no_return(carry, ++out, ++in);
+							*out=(carry * unit::half::size) + before - *out;
+							unroll_0<N-1>::assign::minus::half::no_return(carry, ++out, ++in);
 						}
 
 						template<typename ValueType, typename WIterator, typename RIterator>
@@ -1365,32 +1365,32 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * constant::half_register::size) + before - *out;
-							return unroll_0<N-1>::assign::minus::half_register::with_return(carry, ++out, ++in);
+							*out=(carry * unit::half::size) + before - *out;
+							return unroll_0<N-1>::assign::minus::half::with_return(carry, ++out, ++in);
 						}
 					};
 				};
 
 				struct scale
 				{
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator>
 						static void no_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=constant::filter::low_pass & carry;
-							carry>>=constant::half_register::length;
-							unroll_0<N-1>::assign::scale::half_register::no_return(carry, ++out, value);
+							*out=unit::filter::low_pass & carry;
+							carry>>=unit::half::length;
+							unroll_0<N-1>::assign::scale::half::no_return(carry, ++out, value);
 						}
 
 						template<typename ValueType, typename WIterator>
 						static WIterator with_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=constant::filter::low_pass & carry;
-							carry>>=constant::half_register::length;
-							return unroll_0<N-1>::assign::scale::half_register::with_return(carry, ++out, value);
+							*out=unit::filter::low_pass & carry;
+							carry>>=unit::half::length;
+							return unroll_0<N-1>::assign::scale::half::with_return(carry, ++out, value);
 						}
 					};
 				};
@@ -1536,7 +1536,7 @@ namespace nik
 				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ return out; }
 
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
@@ -1558,7 +1558,7 @@ namespace nik
 				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{ return out; }
 
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
@@ -1572,7 +1572,7 @@ namespace nik
 
 			struct scale
 			{
-				struct half_register
+				struct half
 				{
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
@@ -1596,7 +1596,7 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 						{ return out; }
 
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType carry, WIterator out, RIterator in)
@@ -1618,7 +1618,7 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 							{ return out; }
 
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType carry, WIterator out, RIterator in)
@@ -1632,7 +1632,7 @@ namespace nik
 
 				struct scale
 				{
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator>
 						static void no_return(ValueType carry, WIterator out, ValueType value)
@@ -1653,7 +1653,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_0
 	{
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		struct zero
 		{

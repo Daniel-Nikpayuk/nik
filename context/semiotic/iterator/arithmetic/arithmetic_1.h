@@ -35,7 +35,7 @@
 	each location is conditionally independent, whereas arithmetic is similar but also dependent on the previous value
 	(recursive; maybe the simplest variety of recursive?).
 
-	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
@@ -57,7 +57,7 @@ namespace nik
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef context::argument::math<size_type> math;
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		typedef componentwise<size_type> fwd_comp;
 		typedef arithmetic_0<size_type> fwd_arit;
@@ -69,7 +69,7 @@ namespace nik
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
 	end1 is the end location of the input containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 */
 			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
 			static void no_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
@@ -85,7 +85,7 @@ namespace nik
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
 	end1 is the end location of the input containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 */
 			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
 			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
@@ -102,7 +102,7 @@ namespace nik
 
 		struct multiply
 		{
-			struct half_register
+			struct half
 			{
 /*
 				template<typename WIterator1, typename WIterator2,
@@ -112,8 +112,8 @@ namespace nik
 				{
 					while (in2 != end2)
 					{
-						fwd_arit::assign::plus::half_register::no_return(0, out1, out2,
-							fwd_arit::scale::half_register::no_return(0,
+						fwd_arit::assign::plus::half::no_return(0, out1, out2,
+							fwd_arit::scale::half::no_return(0,
 								fwd_comp::repeat::with_return(out2, 0),
 								in1, end1, *in2);
 							);
@@ -144,7 +144,7 @@ namespace nik
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 */
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
@@ -156,7 +156,7 @@ namespace nik
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the constant scalar value.
+	in2 is the unit scalar value.
 */
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
@@ -180,17 +180,17 @@ namespace nik
 			template<typename ValueType>
 			struct multiply
 			{
-				struct half_register
+				struct half
 				{
 					template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 					{
-						fwd_unroll<M+N-L>::scale::half_register::no_return((ValueType) 0,
+						fwd_unroll<M+N-L>::scale::half::no_return((ValueType) 0,
 							fwd_comp::template unroll<L-N>::repeat::with_return(out2, (ValueType) 0),
 							in1, *in2);
-						fwd_unroll<M>::assign::plus::half_register::no_return((ValueType) 0, out1, out2);
+						fwd_unroll<M>::assign::plus::half::no_return((ValueType) 0, out1, out2);
 						unroll_1<N-1, M, L>::template multiply<ValueType>::
-							half_register::no_return(out1, out2, in1, ++in2);
+							half::no_return(out1, out2, in1, ++in2);
 					}
 				};
 			};
@@ -217,7 +217,7 @@ namespace nik
 			template<typename ValueType>
 			struct multiply
 			{
-				struct half_register
+				struct half
 				{
 					template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
@@ -238,7 +238,7 @@ namespace nik
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef context::argument::math<size_type> math;
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef componentwise<size_type> bwd_comp;
@@ -284,7 +284,7 @@ namespace nik
 						return unroll_1<N-1>::divide::single_digit::full_register_divisor(carry, --out, --in, d);
 					}
 
-					struct half_register
+					struct half
 					{
 /*
 	r is the carry value, which is also semantically meaningful as the remainder.
@@ -300,8 +300,8 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=constant::half_register::length)+=*n;
-							unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
+							(r<<=unit::half::length)+=*n;
+							unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
 						}
 
 						template<typename ValueType, typename WIterator, typename RIterator>
@@ -310,8 +310,8 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=constant::half_register::length)+=*n;
-							return unroll_1<N-1>::divide::single_digit::half_register::no_return(r, --q, --n, d);
+							(r<<=unit::half::length)+=*n;
+							return unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
 						}
 					};
 				};
@@ -333,7 +333,7 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in, ValueType d)
 						{ return out; }
 
-					struct half_register
+					struct half
 					{
 						template<typename ValueType, typename WIterator, typename RIterator>
 						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
@@ -355,7 +355,7 @@ namespace nik
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef context::argument::math<size_type> math;
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -385,7 +385,7 @@ namespace nik
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
 		typedef context::argument::math<size_type> math;
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -508,7 +508,7 @@ namespace nik
 			};
 */
 
-					struct half_register
+					struct half
 					{
 						#define DORD L-1
 /*
@@ -520,7 +520,7 @@ namespace nik
 						{
 							ValueType tc=0;
 							fwd_arit::template unroll_0<2>::scale::
-								half_register::template no_return<ValueType&>(tc, t, v, q);
+								half::template no_return<ValueType&>(tc, t, v, q);
 
 							ValueType uc=(uord == 2) ? *(u+2) : (ValueType) 0;
 								// this way of using "greater_than" is a small hack.
@@ -546,8 +546,8 @@ namespace nik
 							else
 							{
 								q=(*u < *v) ?
-									((*u<<constant::half_register::length) + *bu) / *v :
-									constant::half_register::max_size;
+									((*u<<unit::half::length) + *bu) / *v :
+									unit::half::max_size;
 								--bu;
 							}
 
@@ -564,9 +564,9 @@ namespace nik
 						static WIterator2 knuth_remainder(ValueType & q, WIterator1 t, WIterator2 r, RIterator d)
 						{
 							fwd_arit::template unroll_0<L+(L < M)>::scale::
-								half_register::no_return((ValueType) 0, t, d, q);
+								half::no_return((ValueType) 0, t, d, q);
 							fwd_arit::template unroll_0<L+(L < M)>::assign::minus::
-								half_register::no_return((ValueType) 0, r, t);
+								half::no_return((ValueType) 0, r, t);
 
 								// r < d at this point.
 							return bwd_arit::zero::with_break(r+DORD, r);
@@ -601,7 +601,7 @@ namespace nik
 		Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
 		On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
 
-		Debugging note: Every function call within needs to be "half_register" robust.
+		Debugging note: Every function call within needs to be "half" robust.
 */
 						template<typename WIterator1, typename WIterator2,
 							typename WIterator3, typename RIterator1, typename RIterator2>
@@ -622,7 +622,7 @@ namespace nik
 							WIterator1 olr(lr);
 							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
 							unroll_1<N-1, M, L>::divide::multiple_digit::
-								half_register::no_return(r, lr, --q, t, --n, d, ld);
+								half::no_return(r, lr, --q, t, --n, d, ld);
 						}
 
 						#undef DORD
@@ -650,7 +650,7 @@ namespace nik
 				};
 */
 
-					struct half_register
+					struct half
 					{
 						template<typename WIterator1, typename WIterator2,
 							typename WIterator3, typename RIterator1, typename RIterator2>

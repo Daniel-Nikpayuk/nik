@@ -18,7 +18,7 @@
 #ifndef CONTEXT_CONTEXT_ARGUMENT_MATH_H
 #define CONTEXT_CONTEXT_ARGUMENT_MATH_H
 
-#include"../../constant/constant.h"
+#include"../../unit/unit.h"
 #include"../binary/binary.h"
 
 // for debugging.
@@ -28,7 +28,7 @@
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
 	a const reference to one.
 
-	Incrementing and decrementing pointers which should otherwise maintain a constant location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. As such, given some routines and subroutines are powerhouse workhorses
@@ -46,7 +46,7 @@ namespace nik
 	template<typename size_type>
 	struct math
 	{
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 		typedef argument::binary<size_type> binary;
 /*
 	multiply:
@@ -157,12 +157,12 @@ namespace nik
 			{
 				static size_type with_return(size_type & out, size_type in2)
 				{
-					out=(constant::one & in2);
-					return constant::full_register::max_power + (in2 >> constant::one);
+					out=(unit::one & in2);
+					return unit::max_power + (in2 >> unit::one);
 				}
 			};
 
-			struct half_register
+			struct half
 			{
 /*
 	The case where d is at most a half register can be optimized as follows:
@@ -181,8 +181,8 @@ namespace nik
 					// in1, high_in2 are now free.
 					in1=in2/d; big_in2=in2%d;
 
-					in1 <<= constant::half_register::length;
-					(big_in2 <<= constant::half_register::length) += little_in2;
+					in1 <<= unit::half::length;
+					(big_in2 <<= unit::half::length) += little_in2;
 					// little_in2 is now free.
 
 					little_in2=big_in2/d; out=big_in2%d;
@@ -191,33 +191,31 @@ namespace nik
 				}
 			};
 
-			struct full_register
+			static bool improve_quotient(size_type & q, size_type uc, size_type u, size_type v)
 			{
-				static bool improve_quotient(size_type & q, size_type uc, size_type u, size_type v)
+				size_type t=unit::zero, tc=multiply::high_return(t, v, q);
+				if (tc > uc || (tc == uc && t > u))
 				{
-					size_type t=constant::zero, tc=multiply::high_return(t, v, q);
-					if (tc > uc || (tc == uc && t > u))
-					{
-						--q;
-						return true;
-					}
-					else return false;
+					--q;
+					return true;
 				}
+				else return false;
+			}
 
-				static size_type knuth_quotient(size_type uc, size_type u, size_type v)
-				{
-					size_type q, big_v=binary::high(v);
+			static size_type knuth_quotient(size_type uc, size_type u, size_type v)
+			{
+				size_type q, big_v=binary::high(v);
 
-					if (uc) q=(uc < big_v) ?
-						(binary::shift_up(uc)+binary::high(u))/big_v :
-							constant::half_register::max_size;
-					else q=u/v;
+				if (uc) q=(uc < big_v) ?
+					(binary::shift_up(uc)+binary::high(u))/big_v :
+						unit::half::max_size;
+				else q=u/v;
 
-					if (improve_quotient(q, uc, u, v))
-						improve_quotient(q, uc, u, v);
+				if (improve_quotient(q, uc, u, v))
+					improve_quotient(q, uc, u, v);
 
-					return q;
-				}
+				return q;
+			}
 /*
 		The full algorithm assumes u=(u3|u2|u1|u0), v=(v1|v0), where (u3|u2) < v.
 		After the Knuth normalization, we end up with n=(n3|n2|n1|n0), as well as d=(d1|d0).
@@ -236,52 +234,51 @@ namespace nik
 		q is the quotient to be determined (it works its way backwards in half register increments).
 		When reading this code, it helps to think of (r|in1) as a single object (the remainder's register).
 
-		Debugging note: Every function call within needs to be "half_register" robust.
+		Debugging note: Every function call within needs to be "half" robust.
 */
-				static size_type case_return(size_type & r, size_type in1, size_type in2, size_type d)
+			static size_type case_return(size_type & r, size_type in1, size_type in2, size_type d)
+			{
+				size_type q=0;
+				if (r || in1 >= d)
 				{
-					size_type q=0;
-					if (r || in1 >= d)
-					{
-						q=knuth_quotient(r, in1, d);
-						in1-=multiply::low_return(q, d);
-						q <<= constant::half_register::length;
-					}
-
-					r=binary::high(in1);
-					(in1 <<= constant::half_register::length)+=in2;
-					// in2 is now free.
-
-					if (r || in1 >= d)
-					{
-						in2=knuth_quotient(r, in1, d);
-						r=in1-multiply::low_return(in2, d);
-						q+=in2;
-					}
-					else r=in1;
-
-					return q;
+					q=knuth_quotient(r, in1, d);
+					in1-=multiply::low_return(q, d);
+					q <<= unit::half::length;
 				}
 
-				static size_type with_return(size_type & r, size_type in1, size_type in2, size_type d)
+				r=binary::high(in1);
+				(in1 <<= unit::half::length)+=in2;
+				// in2 is now free.
+
+				if (r || in1 >= d)
 				{
-					size_type	rank=binary::order(d)+1,
-							power=constant::full_register::length-rank;
-
-					(in1<<=power)+=bool(power)*binary::high(in2, rank);
-					in2<<=power;
-					d<<=power;
-
-					r=binary::high(in1);
-					in1=case_return(r,
-						(in1 <<= constant::half_register::length) += binary::high(in2),
-						binary::low(in2), d);
-
-					r>>=power;
-
-					return in1;
+					in2=knuth_quotient(r, in1, d);
+					r=in1-multiply::low_return(in2, d);
+					q+=in2;
 				}
-			};
+				else r=in1;
+
+				return q;
+			}
+
+			static size_type with_return(size_type & r, size_type in1, size_type in2, size_type d)
+			{
+				size_type	rank=binary::order(d)+1,
+						power=unit::length-rank;
+
+				(in1<<=power)+=bool(power)*binary::high(in2, rank);
+				in2<<=power;
+				d<<=power;
+
+				r=binary::high(in1);
+				in1=case_return(r,
+					(in1 <<= unit::half::length) += binary::high(in2),
+					binary::low(in2), d);
+
+				r>>=power;
+
+				return in1;
+			}
 /*
 	return_quotient:
 
@@ -295,8 +292,8 @@ namespace nik
 			static size_type return_quotient(size_type & out, size_type in1, size_type in2, size_type d)
 			{
 				if (d == (size_type) 2) return divisor_equals_2(out, in2);
-				else if (d < shift_up((size_type) 1)) return half_register_divisor(out, in1, in2, d);
-				else return full_register_divisor(out, in1, in2, d);
+				else if (d < shift_up((size_type) 1)) return half::with_return(out, in1, in2, d);
+				else return with_return(out, in1, in2, d);
 			}
 */
 		};

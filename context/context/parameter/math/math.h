@@ -18,7 +18,7 @@
 #ifndef CONTEXT_CONTEXT_PARAMETER_MATH_H
 #define CONTEXT_CONTEXT_PARAMETER_MATH_H
 
-#include"../../constant/constant.h"
+#include"../../unit/unit.h"
 #include"../meta/meta.h"
 
 namespace nik
@@ -32,7 +32,7 @@ namespace nik
 	template<typename size_type>
 	struct math
 	{
-		typedef context::constant<size_type> constant;
+		typedef context::unit<size_type> unit;
 
 		template<size_type x>
 		struct square
@@ -46,17 +46,17 @@ namespace nik
 			{
 				enum : size_type
 				{
-					value=meta::if_then_else<(constant::one & n),
-						fast_exp<primary*secondary, secondary, n-constant::one>,
-						fast_exp<primary, square<secondary>::value, (n>>constant::one)>
+					value=meta::if_then_else<(unit::one & n),
+						fast_exp<primary*secondary, secondary, n-unit::one>,
+						fast_exp<primary, square<secondary>::value, (n>>unit::one)>
 							>::return_type::value
 				};
 			};
 
 			template<size_type primary, size_type secondary>
-			struct fast_exp<primary, secondary, constant::zero> { enum : size_type { value=primary }; };
+			struct fast_exp<primary, secondary, unit::zero> { enum : size_type { value=primary }; };
 
-			enum : size_type { value=fast_exp<constant::one, base, exponent>::value };
+			enum : size_type { value=fast_exp<unit::one, base, exponent>::value };
 		};
 	};
    }
