@@ -26,7 +26,8 @@
 #include"../../../context/argument/math/math.h"
 
 // for debugging:
-#include"../../../../media/generic/display/display.h"
+
+//#include"../../../context/display/display.h"
 
 // Clean up the typedefs/usings namespace stuff.
 
@@ -71,8 +72,8 @@ namespace nik
 	end1 is the end location of the input containing structure.
 	in2 is the unit scalar value.
 */
-			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-			static void no_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
+			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+			static void no_return(ValueType carry, WIterator out, RIterator in1, ERIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
@@ -87,8 +88,8 @@ namespace nik
 	end1 is the end location of the input containing structure.
 	in2 is the unit scalar value.
 */
-			template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, EIterator end1, ValueType in2)
+			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ERIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
@@ -100,27 +101,28 @@ namespace nik
 			}
 		};
 
-		struct multiply
+		struct assign
 		{
-			struct half
+			struct scale
 			{
 /*
-				template<typename WIterator1, typename WIterator2,
-					typename RIterator1, typename EIterator1, typename RIterator2, typename EIterator2>
-				static void no_return(WIterator1 out1, WIterator2 out2,
-					RIterator1 in1, EIterator1 end1, RIterator2 in2, EIterator2 end2)
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	end1 is the end location of the input containing structure.
+	in2 is the unit scalar value.
+*/
+				template<typename ValueType, typename WIterator, typename EIterator>
+				static void no_return(ValueType carry, WIterator out, EIterator end, ValueType in)
 				{
-					while (in2 != end2)
+					ValueType before;
+					while (out != end)
 					{
-						fwd_arit::assign::plus::half::no_return(0, out1, out2,
-							fwd_arit::scale::half::no_return(0,
-								fwd_comp::repeat::with_return(out2, 0),
-								in1, end1, *in2);
-							);
-						++in2;
+						before=*out;
+						carry=math::multiply::high_return(*out=carry, before, in);
+						++out;
 					}
 				}
-*/
 			};
 		};
 /*
@@ -165,7 +167,6 @@ namespace nik
 					return unroll_1<N-1>::scale::with_return(carry, ++out, ++in1, in2);
 				}
 			};
-
 /*
 	N is initially the length of in1.
 	M is the length of in1.
@@ -197,6 +198,37 @@ namespace nik
 
 			struct assign
 			{
+				struct scale
+				{
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the unit scalar value.
+*/
+					template<typename ValueType, typename WIterator>
+					static void no_return(ValueType carry, WIterator out, ValueType in)
+					{
+						ValueType before(*out);
+						carry=math::multiply::high_return(*out=carry, before, in);
+						unroll_1<N-1>::assign::scale::no_return(carry, ++out, in);
+					}
+/*
+	carry is the overhead value. Set this to zero for the "normal" interpretation.
+	out is the resultant containing structure.
+	in1 is the initial containing structure.
+	in2 is the unit scalar value.
+*/
+					template<typename ValueType, typename WIterator>
+					static WIterator with_return(ValueType carry, WIterator out, ValueType in)
+					{
+						ValueType before(*out);
+						carry=math::multiply::high_return(*out=carry, before, in);
+						return unroll_1<N-1>::assign::scale::with_return(carry, ++out, in);
+					}
+				};
+
+				// Multiply requires a deep copy anyway, so there's no point to an assign version.
 			};
 		};
 
@@ -227,6 +259,16 @@ namespace nik
 
 			struct assign
 			{
+				struct scale
+				{
+					template<typename ValueType, typename WIterator>
+					static void no_return(ValueType carry, WIterator out, ValueType in)
+						{ }
+
+					template<typename ValueType, typename WIterator>
+					static WIterator with_return(ValueType carry, WIterator out, ValueType in)
+						{ return out; }
+				};
 			};
 		};
 	};
@@ -245,6 +287,55 @@ namespace nik
 
 		typedef forward::arithmetic_1<size_type> fwd_arit;
 		typedef arithmetic_0<size_type> bwd_arit;
+
+		struct multiply
+		{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set out2=out1 for the normal interpretation.
+*/
+			template<typename WIterator, typename WIterator1, typename WIterator2,
+				typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
+			static void no_return(WIterator out, WIterator1 out1, WIterator2 out2,
+				RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
+			{
+				while (in2 != end2)
+				{
+					fwd_comp::repeat::no_return(out1, out2, (ValueType) 0),
+					fwd_arit::assign::plus::no_return((ValueType) 0, out, out1,
+						fwd_arit::scale::with_return((ValueType) 0, out2, in1, end1, *in2));
+					--end1;
+					++out2; ++in2;
+				}
+			}
+
+			struct half
+			{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set out2=out1 for the normal interpretation.
+*/
+				template<typename WIterator, typename WIterator1, typename WIterator2,
+					typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
+				static void no_return(WIterator out, WIterator1 out1, WIterator2 out2,
+					RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
+				{
+					while (in2 != end2)
+					{
+						fwd_comp::repeat::no_return(out1, out2, (ValueType) 0),
+						fwd_arit::assign::plus::half::no_return((ValueType) 0, out, out1,
+							fwd_arit::scale::half::with_return((ValueType) 0, out2, in1, end1, *in2));
+						--end1;
+						++out2; ++in2;
+					}
+				}
+			};
+		};
+
+		struct assign
+		{
+			// Multiply requires a deep copy anyway, so there's no point to an assign version.
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.

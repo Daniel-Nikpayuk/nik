@@ -473,8 +473,8 @@ namespace nik
 */
 		struct plus
 		{
-			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -485,8 +485,8 @@ namespace nik
 				}
 			}
 
-			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -503,8 +503,8 @@ namespace nik
 */
 			struct half
 			{
-				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -515,8 +515,8 @@ namespace nik
 					}
 				}
 
-				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -543,8 +543,8 @@ namespace nik
 */
 		struct minus
 		{
-			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+			static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -555,8 +555,8 @@ namespace nik
 				}
 			}
 
-			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+			template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+			static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 			{
 				while (in2 != end2)
 				{
@@ -571,8 +571,8 @@ namespace nik
 
 			struct half
 			{
-				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+				static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -583,8 +583,8 @@ namespace nik
 					}
 				}
 
-				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename EIterator2>
-				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, EIterator2 end2)
+				template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator2>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2, ERIterator2 end2)
 				{
 					while (in2 != end2)
 					{
@@ -615,8 +615,8 @@ namespace nik
 		{
 			struct half
 			{
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end, ValueType value)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, ERIterator end, ValueType value)
 				{
 					while (in != end)
 					{
@@ -627,8 +627,8 @@ namespace nik
 					}
 				}
 
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end, ValueType value)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, ERIterator end, ValueType value)
 				{
 					while (in != end)
 					{
@@ -653,8 +653,8 @@ namespace nik
 */
 			struct plus
 			{
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 				{
 					while (in != end)
 					{
@@ -665,8 +665,8 @@ namespace nik
 					}
 				}
 
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 				{
 					while (in != end)
 					{
@@ -683,8 +683,8 @@ namespace nik
 */
 				struct half
 				{
-					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 					{
 						while (in != end)
 						{
@@ -695,8 +695,8 @@ namespace nik
 						}
 					}
 
-					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-					static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 					{
 						while (in != end)
 						{
@@ -723,12 +723,13 @@ namespace nik
 */
 			struct minus
 			{
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 				{
+					Value before;
 					while (in != end)
 					{
-						ValueType before(*out);
+						before=*out;
 						carry+=*in;
 						*out-=carry;
 						carry=(carry < *in || before < *out);
@@ -736,12 +737,13 @@ namespace nik
 					}
 				}
 
-				template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 				{
+					ValueType before;
 					while (in != end)
 					{
-						ValueType before(*out);
+						before=*out;
 						carry+=*in;
 						*out-=carry;
 						carry=(carry < *in || before < *out);
@@ -753,12 +755,13 @@ namespace nik
 
 				struct half
 				{
-					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-					static void no_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static void no_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 					{
+						ValueType before;
 						while (in != end)
 						{
-							ValueType before(*out);
+							before=*out;
 							*out=carry + *in;
 							carry=(before < *out);
 							*out=(carry * unit::half::size) + before - *out;
@@ -766,12 +769,13 @@ namespace nik
 						}
 					}
 
-					template<typename ValueType, typename WIterator, typename RIterator, typename EIterator>
-					static WIterator with_return(ValueType carry, WIterator out, RIterator in, EIterator end)
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static WIterator with_return(ValueType carry, WIterator out, RIterator in, ERIterator end)
 					{
+						ValueType before;
 						while (in != end)
 						{
-							ValueType before(*out);
+							before=*out;
 							*out=carry + *in;
 							carry=(before < *out);
 							*out=(carry * unit::half::size) + before - *out;

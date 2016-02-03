@@ -31,8 +31,8 @@
 	as a method, but it is more cpu efficient to NOT---especially given there are few practical
 	contexts in which many different such operators will all be used together.
 
-	Side effects at the general coder level is bad policy, but at this intended low level where
-	safety is minimal it is more memory efficient given the dynamic size of arrays.
+	"Side effects" at the general coder level is bad policy, but at this intended low level
+	where safety is minimal it is more memory efficient given the dynamic size of arrays.
 
 	iterator:
 		The minimal specification (axiomatic properties) of an iterator are:
@@ -52,6 +52,9 @@
 		"int *a=array", so then you can pass "a" instead.
 
 	Strictly speaking, there are infinitely many different methods of each overload type based on side effects.
+
+	If there is no "with_return" variant of a given method, it means it has and "end"
+	parameter which is already equivalent to such a returned value. Would be redundant.
 */
 
 namespace nik

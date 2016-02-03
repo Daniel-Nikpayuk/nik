@@ -21,9 +21,9 @@
 #define stringify(string) \
 #string
 
-// meta:
-#define nikbase() \
-stringify(../nik/context/context/constant/constant.h)
+// base:
+#define nikbase(header) \
+stringify(../nik/context/context/header/header.h)
 
 // meta:
 #define nikmeta(construct, header) \
@@ -42,9 +42,6 @@ stringify(../nik/context/media/navigator/header/header.h)
 stringify(../nik/semiotic/navigator/header/header.h)
 
 // media:
-#define nikgpi(header) \
-stringify(../nik/media/generic/header/header.h)
-
 #define nikapi(navigator, category, header) \
 stringify(../nik/media/navigator/category/header/header.h)
 

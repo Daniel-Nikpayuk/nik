@@ -21,8 +21,8 @@
 #include"../../unit/unit.h"
 #include"../binary/binary.h"
 
-// for debugging.
-//#include"../../../../media/generic/display/display.h"
+// for debugging:
+//#include"../../display/display.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of

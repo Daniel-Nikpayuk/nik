@@ -15,38 +15,41 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_DISPLAY_H
-#define MEDIA_DISPLAY_H
+#ifndef CONTEXT_CONTEXT_DISPLAY_H
+#define CONTEXT_CONTEXT_DISPLAY_H
 
 #include<stdint.h>
 #include<stdio.h>
 
 namespace nik
 {
-	namespace media
+ namespace context
+ {
+  namespace context
+  {
+	struct printer
 	{
-		struct printer
-		{
-			void print(int v) { printf("%d", v); }
-			void print(unsigned int v) { printf("%u", v); }
-			void print(intmax_t v) { printf("%jd", v); }
-			void print(uintmax_t v) { printf("%ju", v); }
+		void print(int v) { printf("%d", v); }
+		void print(unsigned int v) { printf("%u", v); }
+		void print(intmax_t v) { printf("%jd", v); }
+		void print(uintmax_t v) { printf("%ju", v); }
 
-			void print(char v) { printf("%c", v); }
-			void print(const char *v) { printf("%s", v); }
-		};
+		void print(char v) { printf("%c", v); }
+		void print(const char *v) { printf("%s", v); }
+	};
 
-		template<typename S, typename T>
-		S & operator << (S & s, T v)
-		{
-			s.print(v);
-			return s;
-		}
+	template<typename S, typename T>
+	S & operator << (S & s, T v)
+	{
+		s.print(v);
+		return s;
 	}
+  }
+ }
 
 	char endl='\n'; // portable ?
 
-	media::printer display;
+	context::context::printer display;
 }
 
 #endif
