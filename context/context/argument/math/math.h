@@ -236,7 +236,7 @@ namespace nik
 
 		Debugging note: Every function call within needs to be "half" robust.
 */
-			static size_type case_return(size_type & r, size_type in1, size_type in2, size_type d)
+			static size_type clean_return(size_type & r, size_type in1, size_type in2, size_type d)
 			{
 				size_type q=0;
 				if (r || in1 >= d)
@@ -271,7 +271,7 @@ namespace nik
 				d<<=power;
 
 				r=binary::high(in1);
-				in1=case_return(r,
+				in1=clean_return(r,
 					(in1 <<= unit::half::length) += binary::high(in2),
 					binary::low(in2), d);
 

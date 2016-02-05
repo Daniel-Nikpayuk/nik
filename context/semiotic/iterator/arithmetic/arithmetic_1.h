@@ -288,6 +288,305 @@ namespace nik
 		typedef forward::arithmetic_1<size_type> fwd_arit;
 		typedef arithmetic_0<size_type> bwd_arit;
 
+		struct divide
+		{
+/*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the half digit denominator.
+*/
+			struct half_digit
+			{
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+				{
+					while (n != end)
+					{
+						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						r=*n;
+						--q; --n;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+				{
+					while (n != end)
+					{
+						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						r=*n;
+						--q; --n;
+					}
+
+					return q;
+				}
+			};
+/*
+	rc is the higher carry value.
+		Set this to zero for the "normal" interpretation.
+		Values are shifted into it from the lower carry until big enough to divide.
+	r is the lower carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the single digit denominator.
+*/
+			struct single_digit
+			{
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+				{
+					while (n != end)
+					{
+						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						r=*n;
+						--q; --n;
+					}
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end,, ValueType d)
+				{
+					while (n != end)
+					{
+						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						r=*n;
+						--q; --n;
+					}
+
+					return q;
+				}
+/*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the single digit denominator.
+*/
+				struct half
+				{
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static void no_return(ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+					{
+						while (n != end)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=unit::half::length)+=*n;
+							--q; --n;
+						}
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static WIterator with_return(ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+					{
+						while (n != end)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=unit::half::length)+=*n;
+							--q; --n;
+						}
+
+						return q;
+					}
+				};
+			};
+		};
+
+		struct assign
+		{
+		};
+/*
+	unroll:
+			Most contextual structs aren't templated, while their methods are.
+			The few structs that are pass instances of types (eg. digit: "size_type base")
+			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
+
+			Explicit specialization isn't allowed. Template parameters are of an arbitrary but fixed type.
+			As such one factoring all such parameters into a single template is effective.
+*/
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll_1 : public bwd_arit::template unroll_0<N, M, L>
+		{
+			template<size_type K, size_type J=0, size_type I=0>
+			using bwd_unroll=typename bwd_arit::template unroll_0<K, J, I>;
+
+			struct divide
+			{
+/*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the half digit denominator.
+*/
+				struct half_digit
+				{
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+					{
+						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						unroll_1<N-1>::divide::half_digit::no_return(r=*n, --q, --n, d);
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+					{
+						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						return unroll_1<N-1>::divide::half_digit::with_return(r=*n, --q, --n, d);
+					}
+				};
+/*
+	rc is the higher carry value.
+		Set this to zero for the "normal" interpretation.
+		Values are shifted into it from the lower carry until big enough to divide.
+	r is the lower carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the single digit denominator.
+*/
+				struct single_digit
+				{
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+					{
+						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						unroll_1<N-1>::divide::single_digit::no_return(r=*n, --q, --n, d);
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+					{
+						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						else if (r >= d) { *q=r/d; rc=r%d; }
+						else { *q=0; rc=r; }
+
+						return unroll_1<N-1>::divide::single_digit::with_return(r=*n, --q, --n, d);
+					}
+/*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the single digit denominator.
+*/
+					struct half
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=unit::half::length)+=*n;
+							unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
+						}
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType r, WIterator q, RIterator n, ValueType d)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=unit::half::length)+=*n;
+							return unroll_1<N-1>::divide::single_digit::half::with_return(r, --q, --n, d);
+						}
+					};
+				};
+			};
+		};
+
+		template<size_type M, size_type L>
+		struct unroll_1<0, M, L> : public bwd_arit::template unroll_0<0, M, L>
+		{
+			struct divide
+			{
+				struct half_digit
+				{
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+						{ }
+
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+						{ return q; }
+				};
+
+				struct single_digit
+				{
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+						{ }
+
+					template<typename ValueType, typename WIterator, typename RIterator>
+					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
+						{ return q; }
+
+					struct half
+					{
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
+							{ }
+
+						template<typename ValueType, typename WIterator, typename RIterator>
+						static WIterator with_return(ValueType r, WIterator q, RIterator n, ValueType d)
+							{ return q; }
+					};
+				};
+			};
+		};
+	};
+    }
+
+    namespace bidirectional
+    {
+	template<typename size_type>
+	struct arithmetic_1 : public arithmetic_0<size_type>
+	{
+		typedef context::argument::math<size_type> math;
+		typedef context::unit<size_type> unit;
+
+		typedef forward::componentwise<size_type> fwd_comp;
+		typedef backward::componentwise<size_type> bwd_comp;
+		typedef componentwise<size_type> bid_comp;
+
+		typedef forward::arithmetic_1<size_type> fwd_arit;
+		typedef backward::arithmetic_1<size_type> bwd_arit;
+		typedef arithmetic_0<size_type> bid_arit;
+
 		struct multiply
 		{
 /*
@@ -336,125 +635,6 @@ namespace nik
 		{
 			// Multiply requires a deep copy anyway, so there's no point to an assign version.
 		};
-/*
-	unroll:
-			Most contextual structs aren't templated, while their methods are.
-			The few structs that are pass instances of types (eg. digit: "size_type base")
-			within their template parameters, and so it makes sense to factor out the typename as part of the struct.
-
-			Explicit specialization isn't allowed. Template parameters are of an arbitrary but fixed type.
-			As such one factoring all such parameters into a single template is effective.
-*/
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll_1 : public bwd_arit::template unroll_0<N, M, L>
-		{
-			template<size_type K, size_type J=0, size_type I=0>
-			using bwd_unroll=typename bwd_arit::template unroll_0<K, J, I>;
-
-			struct divide
-			{
-				struct single_digit
-				{
-/*
-	"carry" is a memory optimization hack. When calling this function, carry needs to be set to *in.
-		Reimplement this to be the remainder similar to the multiple_digit implementation.
-	"out" is the retainer of the returned quotient.
-	Assumes "in" is the leftmost digit of the structure.
-
-	Assumes "d" is the divisor and that in >= 3.
-	If d == 1 why use this at all?
-	If d == 2 use bit shifting.
-*/
-					template<typename ValueType, typename WIterator, typename RIterator>
-					static void no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
-					{
-						if (carry) *out=regist::divide::full_register_divisor(carry, carry, *in, d);
-						else if (*in < d) { *out=0; carry=*in; }
-						else { *out=*in/d; carry=*in%d; }
-
-						return unroll_1<N-1>::divide::single_digit::full_register_divisor(carry, --out, --in, d);
-					}
-
-					struct half
-					{
-/*
-	r is the carry value, which is also semantically meaningful as the remainder.
-		Set this to the first digit of the numerator for the "normal" interpretation.
-		Digits are shifted into r's register until big enough to divide.
-	q is the highest location of the quotient to be determined.
-	n is the second highest digit location of the numerator as an N block.
-	d is the single digit denominator.
-*/
-						template<typename ValueType, typename WIterator, typename RIterator>
-						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
-						{
-							if (r < d) *q=0;
-							else { *q=r/d; r=r%d; }
-
-							(r<<=unit::half::length)+=*n;
-							unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
-						}
-
-						template<typename ValueType, typename WIterator, typename RIterator>
-						static WIterator with_return(ValueType r, WIterator q, RIterator n, ValueType d)
-						{
-							if (r < d) *q=0;
-							else { *q=r/d; r=r%d; }
-
-							(r<<=unit::half::length)+=*n;
-							return unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
-						}
-					};
-				};
-			};
-		};
-
-		template<size_type M, size_type L>
-		struct unroll_1<0, M, L> : public bwd_arit::template unroll_0<0, M, L>
-		{
-			struct divide
-			{
-				struct single_digit
-				{
-					template<typename ValueType, typename WIterator, typename RIterator>
-					static void no_return(ValueType carry, WIterator out, RIterator in, ValueType d)
-						{ }
-
-					template<typename ValueType, typename WIterator, typename RIterator>
-					static WIterator with_return(ValueType carry, WIterator out, RIterator in, ValueType d)
-						{ return out; }
-
-					struct half
-					{
-						template<typename ValueType, typename WIterator, typename RIterator>
-						static void no_return(ValueType r, WIterator q, RIterator n, ValueType d)
-							{ }
-
-						template<typename ValueType, typename WIterator, typename RIterator>
-						static WIterator with_return(ValueType r, WIterator q, RIterator n, ValueType d)
-							{ return q; }
-					};
-				};
-			};
-		};
-	};
-    }
-
-    namespace bidirectional
-    {
-	template<typename size_type>
-	struct arithmetic_1 : public arithmetic_0<size_type>
-	{
-		typedef context::argument::math<size_type> math;
-		typedef context::unit<size_type> unit;
-
-		typedef forward::componentwise<size_type> fwd_comp;
-		typedef backward::componentwise<size_type> bwd_comp;
-		typedef componentwise<size_type> bid_comp;
-
-		typedef forward::arithmetic_1<size_type> fwd_arit;
-		typedef backward::arithmetic_1<size_type> bwd_arit;
-		typedef arithmetic_0<size_type> bid_arit;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll_1 : public bwd_arit::template unroll_0<N, M, L>
@@ -498,110 +678,117 @@ namespace nik
 			{
 				struct multiple_digit
 				{
+					static const size_type dord=L-1;
 /*
-	N is the block length as reference.
+	Assumes tord >= 1 (size >= 2).
+*/
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static bool improve_quotient(ValueType & q, WIterator t, RIterator1 u, size_type uord, RIterator2 v)
+					{
+						ValueType tc=0;
+						fwd_arit::template unroll_0<2>::scale::template no_return<ValueType&>(tc, t, v, q);
 
-	r is the initial location of the overhead value (carry).
-		Set this to the first digits of the numerator of equal length to the denominator for the "normal" interpretation.
-		Digits are shifted into r's register until big enough to divide.
-	lr is the location of the leading digit of the remainder r.
-	q is the final location of the quotient to be determined.
-	t is the initial location of a temporary N block used for internal computations.
-		Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
-	n is the second last digit location of the numerator as an N block. In practice this may be the initial location at times.
-	d is the initial location of the denominator as an N block.
-	ld is the location of the leading digit of the divisor d.
+						ValueType uc=(uord == 2) ? *(u+2) : (ValueType) 0;
+							// this way of using "greater_than" is a small hack.
+						if (fwd_arit::template unroll_0<2>::greater_than::template fast_return(false, t, tc, u, uc))
+						{
+							--q;
+							return true;
+						}
+						else return false;
+					}
+/*
+	Assumes uord >= vord >= 1.
+	Assumes u has at least either two or three digits dependings on case.
+	Assumes v has at least two digits.
+*/
+					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
+					static void knuth_quotient(ValueType & q, WIterator t,
+						RIterator1 u, size_type uord, RIterator2 v, size_type vord)
+					{
+						RIterator1 bu=u-1;
+						if (uord == vord) q=*u / *v;
+						else
+						{
+							q=(*u < *v) ?
+								math::divide::with_return(ValueType(), *u, *bu, *v) :
+									unit::max_size;
+							--bu;
+						}
 
-	Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
+						RIterator2 bv=v-1;
+						size_type buord=u-bu;
+						if (improve_quotient(q, t, bu, buord, bv))
+							improve_quotient(q, t, bu, buord, bv);
+					}
+/*
+	t is expected to be of size L+1 if L < M, of size L otherwise.
+	r is expected to be of size L+1 if L < M, of size L otherwise.
+*/
+					template<typename ValueType, typename WIterator1, typename WIterator2, typename RIterator>
+					static WIterator2 knuth_remainder(ValueType & q, WIterator1 t, WIterator2 r, RIterator d)
+					{
+						fwd_arit::template unroll_0<L+(L < M)>::scale::no_return((ValueType) 0, t, d, q);
+						fwd_arit::template unroll_0<L+(L < M)>::assign::minus::no_return((ValueType) 0, r, t);
 
-	In all fairness, there are many ways to interpret an unrolling version.
-	It's not practical to implement them all, so I have chosen the version I think is most contextually generic.
+							// r < d at this point.
+						return bwd_arit::zero::with_break(r+dord, r);
+					}
+/*
+	divide:
+		L is the block length of the denominator.
+			2 <= L
+		M is the block length of the numerator.
+			L <= M
+		N is initialized as M+1-L.
 
-	WIterators are assumed safe for modification.
-	In practice this means providing a deep copy if necessary when passing const references as input.
+		r is the initial location of the overhead value (carry).
+			As a block it has length at least L+1.
+			To implement under the normal interpretation, copy this to be the prefix of the first L digits of the numerator.
+			Digits are shifted into r's register until it is big enough to divide.
+		lr is the location of the leading digit of the remainder r.
+		q is the final location of the quotient to be determined (it works its way backwards).
+			As a block it has length at least M+1-L.
+		t is the initial location of a temporary used for internal computations.
+			As a block it has length at least L+1.
+			Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
+		n is the digit location of the numerator following the copied prefix digits of the numerator.
+			As a block it has length at least M.
+		d is the initial location of the denominator.
+			As a block it has length at least L+1.
+		ld is the location of the leading digit of the divisor d.
+			What would be termed "dord" here in this special case is in fact already defined by the template parameter as L-1.
 
-	Assumes b < d <= n.
+		Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
 
-	Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
-	On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
+		Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
+		On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
 
-	*** fix parameters and arguements for the N=0 case as well.
-	*** only when stabilized, decide where this algorithm best fits (random access?)
-			struct divide
-			{
-				template<typename ValueType>
-				struct multiple_digit
-				{
+		Debugging note: Every function call within needs to be "half" robust.
+*/
 					template<typename WIterator1, typename WIterator2,
 						typename WIterator3, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 r, WIterator1 lr,
 						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
 					{
-						size_type tlen, rlen=lr-r, dlen=ld-d;
-//						nik::display << rlen << ' ' << dlen << nik::endl;
-//						nik::display << fwd_arit::less_than::fast_return(false, r, d, ld+1) << nik::endl;
-						if (rlen < dlen || (rlen == dlen && fwd_arit::
-							less_than::fast_return(false, r, d, ld+1)))
-						{
-							*q=0;
-							WIterator1 olr(lr);
-							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
-//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
-						}
+						size_type rord=lr-r;
+							// Use of L here is an optimization.
+						if (fwd_arit::template unroll_0<L+(L < M)>::
+							less_than::fast_return(false, r, rord, d, dord)) *q=0;
 						else
 						{
-							ValueType carry;
-							*q=(rlen == dlen) ? *lr/(*ld) :
-								(*lr < *ld) ? regist::divide::
-									full_register_divisor(carry, *lr, *(lr-1), *ld) :
-								(ValueType) -1;
-
-//							nik::display << "q=" << *q << nik::endl;
-
-							carry=0;
-							WIterator3 lt=fwd_arit::scale::template // unroll N=2 would be better.
-								with_return<ValueType&>(carry, t, ld-1, ld+1, *q);
-							if (lt != t+M) *lt=carry;
-							tlen=lt-t;
-//							nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
-							if (tlen > rlen || ((tlen == rlen) &&
-								fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
-							{
-								--*q;
-								carry=0;
-								lt=fwd_arit::scale::template
-									with_return<ValueType&>(carry, t, ld-1, ld+1, *q);
-								if (lt != t+M) *lt=carry;
-								tlen=lt-t;
-								if (tlen > rlen || ((tlen == rlen) &&
-									fwd_arit::greater_than::fast_return(false, t, r, lr+1)))
-										--*q;
-							}
-
-	// assuming d is properly initialized, this will properly initialize t as well.
-//							nik::display << *q << nik::endl;
-//							nik::display << d[0] << ' ' << d[1] << ' ' << d[2] << nik::endl;
-							fwd_arit::template unroll_1<M>::scale::with_return((ValueType) 0, t, d, *q);
-//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
-//							nik::display << t[0] << ' ' << t[1] << ' ' << t[2] << nik::endl;
-							fwd_arit::template unroll_1<M>::assign::minus::no_return((ValueType) 0, r, t);
-//							nik::display << r[0] << ' ' << r[1] << ' ' << r[2] << nik::endl;
-							lr=bwd_arit::order(r+(M-1), r);
-//							nik::display << *lr << nik::endl;
-							WIterator1 olr(lr);
-							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
+								// Use of L here is an optimization.
+							knuth_quotient(*q, t, lr, rord, ld, dord);
+							lr=knuth_remainder(*q, t, r, d);
 						}
 
-						unroll_1<N-1, M, L>::divide::template multiple_digit<ValueType>::
-							no_return(r, lr, --q, t, --n, d, ld);
+						WIterator1 olr(lr);
+						*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
+						unroll_1<N-1, M, L>::divide::multiple_digit::no_return(r, lr, --q, t, --n, d, ld);
 					}
-				};
-			};
-*/
 
 					struct half
 					{
-						#define DORD L-1
 /*
 	Assumes tord >= 1 (size >= 2).
 */
@@ -638,7 +825,7 @@ namespace nik
 							{
 								q=(*u < *v) ?
 									((*u<<unit::half::length) + *bu) / *v :
-									unit::half::max_size;
+										unit::half::max_size;
 								--bu;
 							}
 
@@ -660,7 +847,7 @@ namespace nik
 								half::no_return((ValueType) 0, r, t);
 
 								// r < d at this point.
-							return bwd_arit::zero::with_break(r+DORD, r);
+							return bwd_arit::zero::with_break(r+dord, r);
 						}
 /*
 	divide:
@@ -669,7 +856,7 @@ namespace nik
 		M is the block length of the numerator.
 			L <= M
 		N is initialized as M+1-L.
-		
+
 		r is the initial location of the overhead value (carry).
 			As a block it has length at least L+1.
 			To implement under the normal interpretation, copy this to be the prefix of the first L digits of the numerator.
@@ -702,11 +889,11 @@ namespace nik
 							size_type rord=lr-r;
 								// Use of L here is an optimization.
 							if (fwd_arit::template unroll_0<L+(L < M)>::
-								less_than::fast_return(false, r, rord, d, DORD)) *q=0;
+								less_than::fast_return(false, r, rord, d, dord)) *q=0;
 							else
 							{
 									// Use of L here is an optimization.
-								knuth_quotient(*q, t, lr, rord, ld, DORD);
+								knuth_quotient(*q, t, lr, rord, ld, dord);
 								lr=knuth_remainder(*q, t, r, d);
 							}
 
@@ -715,8 +902,6 @@ namespace nik
 							unroll_1<N-1, M, L>::divide::multiple_digit::
 								half::no_return(r, lr, --q, t, --n, d, ld);
 						}
-
-						#undef DORD
 					};
 				};
 			};
@@ -729,17 +914,11 @@ namespace nik
 			{
 				struct multiple_digit
 				{
-/*
-				template<typename ValueType>
-				struct multiple_digit
-				{
 					template<typename WIterator1, typename WIterator2,
 						typename WIterator3, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 r, WIterator1 lr,
 						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
 							{ }
-				};
-*/
 
 					struct half
 					{
