@@ -31,3 +31,19 @@ Iterators are prefixed with:
 WIterators are assumed safe for modification.
 In practice this means providing a deep copy if necessary when passing const references as input.
 
+Ordering policy for function arguments:
+
+These templated functions are meant not only to be generic extensions of the existing implementation grammar,
+but for greatest use, they are also meant to be composable with each other. Thus we privilege composability.
+Keep in mind though the semiotics here are regarding *iterators* and so in order for them to be composable
+the return value must be the primary iterator of interest. I've already decided to maintain "no\_return"
+as well as "with\_return" versions for each function, and as such given the nature of C++ template deduction,
+it is best to present this primary iterator of interest as the first argument (for the sake of the no\_return version)
+as this way its type can be declared as a reference when necessary (without having to declare other types).
+Such a policy supports the privileging of composability as it reduces grammar declarations for the user.
+
+There is a slight twist though. Within the arithmetic classes, there is notably a "carry" value which for composability
+purposes should preceed the primary iterator.
+
+Finally, any read only iterators or constants should come after, as their types will not likely need to be declared
+explicitly.

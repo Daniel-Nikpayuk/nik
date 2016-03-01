@@ -320,6 +320,11 @@ namespace nik
 
 				return carry;
 			}
+
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1,
+				RIterator2 in2, EIterator2 end2, size_type order1, size_type order2)
+					{ return (order1 < order2 || (order1 == order2 && fast_return(carry, in1, in2, end2)); }
 		};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -368,6 +373,11 @@ namespace nik
 
 				return carry;
 			}
+
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1,
+				RIterator2 in2, EIterator2 end2, size_type order1, size_type order2)
+					{ return (order1 < order2 || (order1 == order2 && fast_return(carry, in1, in2, end2)); }
 		};
 /*
 	carry is the overhead value. Set this to false for the "normal" interpretation. 
@@ -416,6 +426,11 @@ namespace nik
 
 				return carry;
 			}
+
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1,
+				RIterator2 in2, EIterator2 end2, size_type order1, size_type order2)
+					{ return (order1 > order2 || (order1 == order2 && fast_return(carry, in1, in2, end2)); }
 		};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
@@ -464,6 +479,11 @@ namespace nik
 
 				return carry;
 			}
+
+			template<typename RIterator1, typename RIterator2, typename EIterator2>
+			static bool fast_return(bool carry, RIterator1 in1,
+				RIterator2 in2, EIterator2 end2, size_type order1, size_type order2)
+					{ return (order1 > order2 || (order1 == order2 && fast_return(carry, in1, in2, end2)); }
 		};
 /*
 	carry needs to be set to 0 for the "normal" interpretation.
@@ -608,7 +628,7 @@ namespace nik
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
 		in2 is the unit scalar value.
-		
+
 		All ValueTypes are under the constraint of being less than the half register size.
 */
 		struct scale
@@ -796,7 +816,7 @@ namespace nik
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
 		in2 is the unit scalar value.
-		
+
 		All ValueTypes are under the constraint of being less than the half register size.
 */
 			struct scale
@@ -845,7 +865,7 @@ namespace nik
 		{
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -888,7 +908,7 @@ namespace nik
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -1007,7 +1027,7 @@ namespace nik
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 				{
 					return (order1 < order2 || (order1 == order2 &&
 						unroll_0<N>::less_than::fast_return(carry, in1, in2)));
@@ -1048,7 +1068,7 @@ namespace nik
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 				{
 					return (order1 < order2 || (order1 == order2 &&
 						unroll_0<N>::less_than_or_equal::fast_return(carry, in1, in2)));
@@ -1089,7 +1109,7 @@ namespace nik
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 				{
 					return (order1 > order2 || (order1 == order2 &&
 						unroll_0<N>::greater_than::fast_return(carry, in1, in2)));
@@ -1130,7 +1150,7 @@ namespace nik
 				}
 
 				template<typename Iterator1, typename Iterator2>
-				static bool fast_return(bool carry, Iterator1 in1, size_type order1, Iterator2 in2, size_type order2)
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 				{
 					return (order1 > order2 || (order1 == order2 &&
 						unroll_0<N>::greater_than_or_equal::fast_return(carry, in1, in2)));
@@ -1481,7 +1501,7 @@ namespace nik
 					{ return in1; }
 
 				template<typename Iterator1, typename Iterator2>
-				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 					{ return carry; }
 			};
 
@@ -1498,6 +1518,10 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
 					{ return carry; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
+					{ return carry; }
 			};
 
 			struct greater_than
@@ -1513,6 +1537,10 @@ namespace nik
 				template<typename Iterator1, typename Iterator2>
 				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
 					{ return carry; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
+					{ return carry; }
 			};
 
 			struct greater_than_or_equal
@@ -1527,6 +1555,10 @@ namespace nik
 
 				template<typename Iterator1, typename Iterator2>
 				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2)
+					{ return carry; }
+
+				template<typename Iterator1, typename Iterator2>
+				static bool fast_return(bool carry, Iterator1 in1, Iterator2 in2, size_type order1, size_type order2)
 					{ return carry; }
 			};
 
@@ -1620,7 +1652,7 @@ namespace nik
 
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in)
-							{ return out; }
+						{ return out; }
 
 					struct half
 					{
@@ -1731,7 +1763,7 @@ namespace nik
 		{
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -1763,7 +1795,7 @@ namespace nik
 			{
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -2024,7 +2056,7 @@ namespace nik
 		{
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */
@@ -2063,7 +2095,7 @@ namespace nik
 			};
 /*
 	carry is the overhead value. Set this to true for the "normal" interpretation. 
-	
+
 	Short-circuiting would seem the more efficient approach, but such conditional jumps are themselves expensive.
 	Only when N becomes sufficiently large might it be faster to short-circuit.
 */

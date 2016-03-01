@@ -680,17 +680,22 @@ namespace nik
 				{
 					static const size_type dord=L-1;
 /*
-	Assumes tord >= 1 (size >= 2).
+	Assumes t has at least two digits.
+	Assumes u has at least two digits;
+		at least three digits if (uord == 2).
+	Assumes v has at least two digits.
 */
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
-					static bool improve_quotient(ValueType & q, WIterator t, RIterator1 u, size_type uord, RIterator2 v)
+					static bool improve_quotient(ValueType & q, WIterator t, RIterator1 u, RIterator2 v, size_type uord)
 					{
 						ValueType tc=0;
-						fwd_arit::template unroll_0<2>::scale::template no_return<ValueType&>(tc, t, v, q);
+						fwd_arit::template unroll_0<2>::scale::
+							template no_return<ValueType&>(tc, t, v, q);
 
 						ValueType uc=(uord == 2) ? *(u+2) : (ValueType) 0;
 							// this way of using "greater_than" is a small hack.
-						if (fwd_arit::template unroll_0<2>::greater_than::template fast_return(false, t, tc, u, uc))
+						if (fwd_arit::template unroll_0<2>::greater_than::
+							template fast_return(false, t, u, tc, uc))
 						{
 							--q;
 							return true;
@@ -698,32 +703,34 @@ namespace nik
 						else return false;
 					}
 /*
-	Assumes uord >= vord >= 1.
-	Assumes u has at least either two or three digits dependings on case.
+	Assumes t has at least two digits.
+	Assumes u has at least two digits;
+		at least 3 digits if (uord != vord).
 	Assumes v has at least two digits.
 */
 					template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 					static void knuth_quotient(ValueType & q, WIterator t,
-						RIterator1 u, size_type uord, RIterator2 v, size_type vord)
+						RIterator1 u, RIterator2 v, size_type uord, size_type vord)
 					{
 						RIterator1 bu=u-1;
 						if (uord == vord) q=*u / *v;
 						else
 						{
 							q=(*u < *v) ?
-								math::divide::with_return(ValueType(), *u, *bu, *v) :
+								math::divide::with_return(*u, *bu, *v) :
 									unit::max_size;
 							--bu;
 						}
 
 						RIterator2 bv=v-1;
 						size_type buord=u-bu;
-						if (improve_quotient(q, t, bu, buord, bv))
-							improve_quotient(q, t, bu, buord, bv);
+						if (improve_quotient(q, t, bu, bv, buord))
+							improve_quotient(q, t, bu, bv, buord);
 					}
 /*
 	t is expected to be of size L+1 if L < M, of size L otherwise.
 	r is expected to be of size L+1 if L < M, of size L otherwise.
+	d is expected to be of size L+1 if L < M, of size L otherwise.
 */
 					template<typename ValueType, typename WIterator1, typename WIterator2, typename RIterator>
 					static WIterator2 knuth_remainder(ValueType & q, WIterator1 t, WIterator2 r, RIterator d)
@@ -736,65 +743,100 @@ namespace nik
 					}
 /*
 	divide:
-		L is the block length of the denominator.
+		L is the specification block length of the denominator.
 			2 <= L
-		M is the block length of the numerator.
+		M is the specification block length of the numerator.
 			L <= M
-		N is initialized as M+1-L.
+		N is initialized as M-L+1.
 
-		r is the initial location of the overhead value (carry).
-			As a block it has length at least L+1.
-			To implement under the normal interpretation, copy this to be the prefix of the first L digits of the numerator.
-			Digits are shifted into r's register until it is big enough to divide.
-		lr is the location of the leading digit of the remainder r.
+		lr is the location of the leading digit of the overhead value (carry; remainder).
+		r is the initial location of the overhead value (carry; remainder).
+			To implement under the normal interpretation, copy this to be
+			the leading digits of the numerator---the same length as the denominator.
 		q is the final location of the quotient to be determined (it works its way backwards).
-			As a block it has length at least M+1-L.
 		t is the initial location of a temporary used for internal computations.
-			As a block it has length at least L+1.
 			Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
-		n is the digit location of the numerator following the copied prefix digits of the numerator.
-			As a block it has length at least M.
-		d is the initial location of the denominator.
-			As a block it has length at least L+1.
-		ld is the location of the leading digit of the divisor d.
-			What would be termed "dord" here in this special case is in fact already defined by the template parameter as L-1.
+		n is the digit location within the numerator following the digits already held within the remainder.
+		ld is the location of the leading digit of the denominator (divisor).
+		d is the initial location of the denominator (divisor).
+			Initializing the final location to zero is necessary only if (L < M); see the notes below.
 
-		Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
+		Assumes (r|n) >= d, and that they are already normalized for Knuth multiple precision division optimization.
+
+		Block length for the above arguments is conditional upon the block length of the carry,
+		because the intention of the carry is to shift digits into its register until it is big enough to divide by
+		the divisor. The carry length is itself conditional upon the template parameters:
+
+		(L == M):
+
+			r
+				As (r|n) >= d then no extra digits will be shifted into r
+				and so r only needs to be of block size L.
+			q
+				As a block it has implementation length M-L+1.
+			t
+				As a block it has implementation length L.
+			n
+				As a block it has implementation length M-L (as it is not the full numerator).
+			d
+				As a block it has implementation length L.
+
+		(L < M):
+
+			r
+				This is equivalent to (L+1 <= M). No assumptions can be made as to whether or not an additional digit
+				will be shifted into the register, and as such as a block it has implementation length L+1.
+			q
+				As a block it has implementation length M-L+1.
+			t
+				As a block it has implementation length L+1. It is used as memory for the value q'*d
+				within the knuth_remainder subroutine, where q' is the local quotient within that iteration.
+				We know that q'*d < r, but as r is of block length L+1 we have to allow for the possibility
+				q'*d is of block length L+1.
+			n
+				As a block it has implementation length M-L (as it is not the full numerator).
+			d
+				As a block it has implementation length L+1. It is used to generate q'*d mapping onto
+				a block length of size L+1 within the knuth_remainder subroutine, as such it needs its
+				to be of the same length where its leading digit is set to zero.
+
+		What is termed "dord" here is refactored as the compile-time constant set to value L-1.
 
 		Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
 		On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
-
-		Debugging note: Every function call within needs to be "half" robust.
 */
 					template<typename WIterator1, typename WIterator2,
 						typename WIterator3, typename RIterator1, typename RIterator2>
-					static void no_return(WIterator1 r, WIterator1 lr,
-						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+					static void no_return(WIterator1 lr, WIterator1 r,
+						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 ld, RIterator2 d)
 					{
 						size_type rord=lr-r;
 							// Use of L here is an optimization.
 						if (fwd_arit::template unroll_0<L+(L < M)>::
-							less_than::fast_return(false, r, rord, d, dord)) *q=0;
+							less_than::fast_return(false, r, d, rord, dord)) *q=0;
 						else
 						{
 								// Use of L here is an optimization.
-							knuth_quotient(*q, t, lr, rord, ld, dord);
+							knuth_quotient(*q, t, lr, ld, rord, dord);
 							lr=knuth_remainder(*q, t, r, d);
 						}
 
 						WIterator1 olr(lr);
 						*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
-						unroll_1<N-1, M, L>::divide::multiple_digit::no_return(r, lr, --q, t, --n, d, ld);
+						unroll_1<N-1, M, L>::divide::multiple_digit::no_return(lr, r, --q, t, --n, ld, d);
 					}
 
 					struct half
 					{
 /*
-	Assumes tord >= 1 (size >= 2).
+	Assumes t has at least two digits.
+	Assumes u has at least two digits;
+		at least three digits if (uord == 2).
+	Assumes v has at least two digits.
 */
 						template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 						static bool improve_quotient(ValueType & q,
-							WIterator t, RIterator1 u, size_type uord, RIterator2 v)
+							WIterator t, RIterator1 u, RIterator2 v, size_type uord)
 						{
 							ValueType tc=0;
 							fwd_arit::template unroll_0<2>::scale::
@@ -803,7 +845,7 @@ namespace nik
 							ValueType uc=(uord == 2) ? *(u+2) : (ValueType) 0;
 								// this way of using "greater_than" is a small hack.
 							if (fwd_arit::template unroll_0<2>::greater_than::
-								template fast_return(false, t, tc, u, uc))
+								template fast_return(false, t, u, tc, uc))
 							{
 								--q;
 								return true;
@@ -811,13 +853,14 @@ namespace nik
 							else return false;
 						}
 /*
-	Assumes uord >= vord >= 1.
-	Assumes u has at least either two or three digits dependings on case.
+	Assumes t has at least two digits.
+	Assumes u has at least two digits;
+		at least 3 digits if (uord != vord).
 	Assumes v has at least two digits.
 */
 						template<typename ValueType, typename WIterator, typename RIterator1, typename RIterator2>
 						static void knuth_quotient(ValueType & q, WIterator t,
-							RIterator1 u, size_type uord, RIterator2 v, size_type vord)
+							RIterator1 u, RIterator2 v, size_type uord, size_type vord)
 						{
 							RIterator1 bu=u-1;
 							if (uord == vord) q=*u / *v;
@@ -831,12 +874,13 @@ namespace nik
 
 							RIterator2 bv=v-1;
 							size_type buord=u-bu;
-							if (improve_quotient(q, t, bu, buord, bv))
-								improve_quotient(q, t, bu, buord, bv);
+							if (improve_quotient(q, t, bu, bv, buord))
+								improve_quotient(q, t, bu, bv, buord);
 						}
 /*
 	t is expected to be of size L+1 if L < M, of size L otherwise.
 	r is expected to be of size L+1 if L < M, of size L otherwise.
+	d is expected to be of size L+1 if L < M, of size L otherwise.
 */
 						template<typename ValueType, typename WIterator1, typename WIterator2, typename RIterator>
 						static WIterator2 knuth_remainder(ValueType & q, WIterator1 t, WIterator2 r, RIterator d)
@@ -851,56 +895,90 @@ namespace nik
 						}
 /*
 	divide:
-		L is the block length of the denominator.
+		L is the specification block length of the denominator.
 			2 <= L
-		M is the block length of the numerator.
+		M is the specification block length of the numerator.
 			L <= M
-		N is initialized as M+1-L.
+		N is initialized as M-L+1.
 
-		r is the initial location of the overhead value (carry).
-			As a block it has length at least L+1.
-			To implement under the normal interpretation, copy this to be the prefix of the first L digits of the numerator.
-			Digits are shifted into r's register until it is big enough to divide.
-		lr is the location of the leading digit of the remainder r.
+		lr is the location of the leading digit of the overhead value (carry; remainder).
+		r is the initial location of the overhead value (carry; remainder).
+			To implement under the normal interpretation, copy this to be
+			the leading digits of the numerator---the same length as the denominator.
 		q is the final location of the quotient to be determined (it works its way backwards).
-			As a block it has length at least M+1-L.
 		t is the initial location of a temporary used for internal computations.
-			As a block it has length at least L+1.
 			Initialization is unnecessary as lazy comparisons are used avoiding values out of bounds.
-		n is the digit location of the numerator following the copied prefix digits of the numerator.
-			As a block it has length at least M.
-		d is the initial location of the denominator.
-			As a block it has length at least L+1.
-		ld is the location of the leading digit of the divisor d.
-			What would be termed "dord" here in this special case is in fact already defined by the template parameter as L-1.
+		n is the digit location within the numerator following the digits already held within the remainder.
+		ld is the location of the leading digit of the denominator (divisor).
+		d is the initial location of the denominator (divisor).
+			Initializing the final location to zero is necessary only if (L < M); see the notes below.
 
-		Assumes (r|n) and d are already normalized for Knuth multiple precision division optimization.
+		Assumes (r|n) >= d, and that they are already normalized for Knuth multiple precision division optimization.
+
+		Block length for the above arguments is conditional upon the block length of the carry,
+		because the intention of the carry is to shift digits into its register until it is big enough to divide by
+		the divisor. The carry length is itself conditional upon the template parameters:
+
+		(L == M):
+
+			r
+				As (r|n) >= d then no extra digits will be shifted into r
+				and so r only needs to be of block size L.
+			q
+				As a block it has implementation length M-L+1.
+			t
+				As a block it has implementation length L.
+			n
+				As a block it has implementation length M-L (as it is not the full numerator).
+			d
+				As a block it has implementation length L.
+
+		(L < M):
+
+			r
+				This is equivalent to (L+1 <= M). No assumptions can be made as to whether or not an additional digit
+				will be shifted into the register, and as such as a block it has implementation length L+1.
+			q
+				As a block it has implementation length M-L+1.
+			t
+				As a block it has implementation length L+1. It is used as memory for the value q'*d
+				within the knuth_remainder subroutine, where q' is the local quotient within that iteration.
+				We know that q'*d < r, but as r is of block length L+1 we have to allow for the possibility
+				q'*d is of block length L+1.
+			n
+				As a block it has implementation length M-L (as it is not the full numerator).
+			d
+				As a block it has implementation length L+1. It is used to generate q'*d mapping onto
+				a block length of size L+1 within the knuth_remainder subroutine, as such it needs its
+				to be of the same length where its leading digit is set to zero.
+
+		What is termed "dord" here is refactored as the compile-time constant set to value L-1.
 
 		Body variables are refactored as function parameters for higher entropy as one then defer type constraints (templating).
 		On the otherhand, since size_type is a (more-or-less) known type, it can be declared within the body.
 
-		Debugging note: Every function call within needs to be "half" robust.
+		Debugging note: Every function call within needs to be robust against its "half" version.
 */
 						template<typename WIterator1, typename WIterator2,
 							typename WIterator3, typename RIterator1, typename RIterator2>
-						static void no_return(WIterator1 r, WIterator1 lr,
-							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+						static void no_return(WIterator1 lr, WIterator1 r,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 ld, RIterator2 d)
 						{
 							size_type rord=lr-r;
 								// Use of L here is an optimization.
 							if (fwd_arit::template unroll_0<L+(L < M)>::
-								less_than::fast_return(false, r, rord, d, dord)) *q=0;
+								less_than::fast_return(false, r, d, rord, dord)) *q=0;
 							else
 							{
 									// Use of L here is an optimization.
-								knuth_quotient(*q, t, lr, rord, ld, dord);
+								knuth_quotient(*q, t, lr, ld, rord, dord);
 								lr=knuth_remainder(*q, t, r, d);
 							}
 
 							WIterator1 olr(lr);
 							*bwd_comp::assign::with_return(++lr, olr, r-1)=*n;
 							unroll_1<N-1, M, L>::divide::multiple_digit::
-								half::no_return(r, lr, --q, t, --n, d, ld);
+								half::no_return(lr, r, --q, t, --n, ld, d);
 						}
 					};
 				};
@@ -916,16 +994,16 @@ namespace nik
 				{
 					template<typename WIterator1, typename WIterator2,
 						typename WIterator3, typename RIterator1, typename RIterator2>
-					static void no_return(WIterator1 r, WIterator1 lr,
-						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+					static void no_return(WIterator1 lr, WIterator1 r,
+						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 ld, RIterator2 d)
 							{ }
 
 					struct half
 					{
 						template<typename WIterator1, typename WIterator2,
 							typename WIterator3, typename RIterator1, typename RIterator2>
-						static void no_return(WIterator1 r, WIterator1 lr,
-							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
+						static void no_return(WIterator1 lr, WIterator1 r,
+							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 ld, RIterator2 d)
 								{ }
 					};
 				};

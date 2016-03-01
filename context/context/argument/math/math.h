@@ -261,6 +261,20 @@ namespace nik
 				return q;
 			}
 
+			static size_type with_return(size_type in1, size_type in2, size_type d)
+			{
+				size_type	rank=binary::order(d)+1,
+						power=unit::length-rank;
+
+				(in1<<=power)+=bool(power)*binary::high(in2, rank);
+				in2<<=power;
+				d<<=power;
+
+				return clean_return(binary::high(in1),
+					(in1 <<= unit::half::length) += binary::high(in2),
+					binary::low(in2), d);
+			}
+
 			static size_type with_return(size_type & r, size_type in1, size_type in2, size_type d)
 			{
 				size_type	rank=binary::order(d)+1,
