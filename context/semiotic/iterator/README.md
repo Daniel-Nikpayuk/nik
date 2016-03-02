@@ -47,3 +47,10 @@ purposes should preceed the primary iterator.
 
 Finally, any read only iterators or constants should come after, as their types will not likely need to be declared
 explicitly.
+
+Policy also needs to be set regarding iterator intervals [in, end) related to iterator types: bidirectional, random\_access.
+For example with bidirectional, you might have a forward iterator in1--end1 as well as a backward iterator in2--end2.
+What order do you present these as function arguments? If for example (in1, end1, end2, in2), then this implicitly privileges
+forward iteration. This lowers entropy in general and as such it is better to privilege (initial, terminal) regardless of
+iterator direction. By extension, if you have any inbetween iterator values, they should be ordered accordingly.
+
