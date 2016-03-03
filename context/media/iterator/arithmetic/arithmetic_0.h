@@ -612,6 +612,24 @@ namespace nik
 			};
 		};
 /*
+	Copies from in1--end1 to out moving right, as well as shifting by n what it copies; continues after by repeating 0 until end.
+
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	Does not test if &out == &in1, a problematic case.
+
+	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
+*/
+			template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
+			static void right_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
+			{
+				fwd_arit::right_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
+					out, in1, ++RIterator(in1), end1, n, constant::register_length-n);
+				*out=(*in1>>n);
+				fwd_comp::repeat::no_return(out, end, 0);
+			}
+/*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
 			The few structs that are pass instances of types (eg. digit: "size_type base")
@@ -807,10 +825,6 @@ namespace nik
 					{ return fwd_arit::unroll_0<N, M, L>::
 						greater_than_or_equal::fast_return(true, in1, in2, order1, order2); }
 			};
-/*
-			Intuitively, "right_shift" would be defined here,
-			but given its implementation it is actually part of componentwise.h
-*/
 /*
 	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 < *in1, *in2.
 	If *in1 + *in2 causes an arithmetic overflow, then *in1 + *in2 + 1 will not cause a second such overflow.
@@ -1210,6 +1224,24 @@ namespace nik
 					{ return bwd_arit::not_equal::fast::no_break(false, in1, in2, end2); }
 			};
 		};
+/*
+	Copies from in1--end1 to out moving left, as well as shifting by n what it copies; continues after by repeating 0 until end.
+
+	There's no point in having a shift which takes block input as shift quantity,
+	as shift quantity itself can only be as big as the size of an array.
+
+	Does not test if &out == &in1, a problematic case.
+
+	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
+*/
+		template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
+		static void left_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
+		{
+			bwd_arit::left_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
+				out, in1, --RIterator(in1), end1, n, constant::register_length-n);
+			*out=(*in1<<n);
+			bwd_comp::repeat::no_return(out, end, 0);
+		}
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
