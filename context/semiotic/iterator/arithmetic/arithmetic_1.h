@@ -178,12 +178,12 @@ namespace nik
 
 	Is it worth testing for *in2 == 0 ?
 */
-			template<typename ValueType>
 			struct multiply
 			{
 				struct half
 				{
-					template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+					template<typename ValueType,
+						typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 					{
 						fwd_unroll<M+N-L>::scale::half::no_return((ValueType) 0,
@@ -246,12 +246,12 @@ namespace nik
 					{ return out; }
 			};
 
-			template<typename ValueType>
 			struct multiply
 			{
 				struct half
 				{
-					template<typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
+					template<typename ValueType,
+						typename WIterator1, typename WIterator2, typename RIterator1, typename RIterator2>
 					static void no_return(WIterator1 out1, WIterator2 out2, RIterator1 in1, RIterator2 in2)
 						{ }
 				};
@@ -358,7 +358,7 @@ namespace nik
 				}
 
 				template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
-				static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end,, ValueType d)
+				static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
 				{
 					while (n != end)
 					{
