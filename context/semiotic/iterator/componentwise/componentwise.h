@@ -953,9 +953,6 @@ namespace nik
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
 	as well as n = unit::length-m.
-
-	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
-	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
 			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)

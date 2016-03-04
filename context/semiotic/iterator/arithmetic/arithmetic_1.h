@@ -591,7 +591,7 @@ namespace nik
 		{
 /*
 	Set out identically equal to zero for the normal interpretation.
-	Set out2=out1 for the normal interpretation.
+	Set the arguement out2=out1 for the normal interpretation.
 */
 			template<typename WIterator, typename WIterator1, typename WIterator2,
 				typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>

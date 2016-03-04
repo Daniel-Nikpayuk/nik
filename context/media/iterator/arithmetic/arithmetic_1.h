@@ -518,9 +518,75 @@ namespace nik
 
 		typedef semiotic::iterator::bidirectional::arithmetic_1<size_type> bid_arit;
 
+		struct multiply
+		{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set the arguement out2=out1 for the normal interpretation.
+*/
+			template<typename ValueType, typename WIterator, typename EWIterator, typename WIterator1,
+				typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
+			static void no_return(WIterator out, EWIterator end, WIterator1 out1,
+				RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
+			{
+				fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+				bid_arit::multiply::no_return(out, out1, out1, in1, end1, in2, end2);
+			}
+
+			struct half
+			{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set out2=out1 for the normal interpretation.
+*/
+				template<typename ValueType, typename WIterator, typename EWIterator, typename WIterator1,
+					typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
+				static void no_return(WIterator out, EWIterator end, WIterator1 out1,
+					RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
+				{
+					fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+					bid_arit::multiply::half::no_return(out, out1, out1, in1, end1, in2, end2);
+				}
+			};
+		};
+
 		struct assign
 		{
-			// Multiply requires a deep copy anyway, so there's no point to an assign version.
+			struct multiply
+			{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set the arguement out2=out1 for the normal interpretation.
+*/
+				template<typename ValueType, typename WIterator, typename EWIterator,
+					typename WIterator1, typename WIterator2, EWIterator2, typename RIterator1,
+						typename ERIterator1, typename RIterator2, typename ERIterator2>
+				static void no_return(WIterator out, EWIterator end, WIterator1 out1,
+					WIterator2 out2, EWIterator2 end2, RIterator1 in1, ERIterator1 end1)
+				{
+					fwd_comp::assign::no_return(out2, out, end);
+					fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+					bid_arit::assign::multiply::no_return(out, out1, out1, out2, end2, in1, end1);
+				}
+
+				struct half
+				{
+/*
+	Set out identically equal to zero for the normal interpretation.
+	Set out2=out1 for the normal interpretation.
+*/
+					template<typename ValueType, typename WIterator, typename EWIterator,
+						typename WIterator1, typename WIterator2, EWIterator2, typename RIterator1,
+							typename ERIterator1, typename RIterator2, typename ERIterator2>
+					static void no_return(WIterator out, EWIterator end, WIterator1 out1,
+						WIterator1 out2, EWIterator2 end2, RIterator1 in1, ERIterator1 end1)
+					{
+						fwd_comp::assign::no_return(out2, out, end);
+						fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+						bid_arit::assign::multiply::half::no_return(out, out1, out1, out2, end2, in1, end1);
+					}
+				};
+			};
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>

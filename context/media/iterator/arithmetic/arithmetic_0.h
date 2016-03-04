@@ -451,6 +451,39 @@ namespace nik
 			};
 		};
 
+		struct right_shift
+		{
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
+			static void no_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
+			{
+				fwd_comp::right_shift::no_return<WIterator&, RIterator1&>
+					(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
+				*out=(*in1>>n);
+				fwd_comp::repeat::no_return(++out, end, (ValueType) 0);
+			}
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
+			static WIterator with_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
+			{
+				fwd_comp::right_shift::no_return<WIterator&, RIterator1&>
+					(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
+				*out=(*in1>>n);
+
+				return fwd_comp::repeat::with_return(++out, end, (ValueType) 0);
+			}
+		};
+
 		struct assign
 		{
 /*
@@ -611,24 +644,6 @@ namespace nik
 				};
 			};
 		};
-/*
-	Copies from in1--end1 to out moving right, as well as shifting by n what it copies; continues after by repeating 0 until end.
-
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	Does not test if &out == &in1, a problematic case.
-
-	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
-*/
-			template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
-			static void right_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
-			{
-				fwd_arit::right_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
-					out, in1, ++RIterator(in1), end1, n, constant::register_length-n);
-				*out=(*in1>>n);
-				fwd_comp::repeat::no_return(out, end, 0);
-			}
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -984,6 +999,45 @@ namespace nik
 				};
 			};
 
+			struct right_shift
+			{
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
+*/
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(WIterator out, RIterator in, size_type n)
+				{
+					fwd_comp::unroll<M-1>::right_shift::no_return
+						<WIterator&, RIterator1&>(out, in, ++RIterator(in), n, unit::length-n);
+					*out=(*in>>n);
+					fwd_comp::unroll<N-M>::repeat::no_return(++out, (ValueType) 0);
+				}
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
+*/
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(WIterator out, RIterator in, size_type n)
+				{
+					fwd_comp::unroll<M-1>::right_shift::no_return
+						<WIterator&, RIterator&>(out, in, ++RIterator(in), n, unit::length-n);
+					*out=(*in>>n);
+
+					return fwd_comp::unroll<N-M>::repeat::with_return(++out, (ValueType) 0);
+				}
+			};
+
 			struct assign
 			{
 				struct plus
@@ -1224,24 +1278,35 @@ namespace nik
 					{ return bwd_arit::not_equal::fast::no_break(false, in1, in2, end2); }
 			};
 		};
-/*
-	Copies from in1--end1 to out moving left, as well as shifting by n what it copies; continues after by repeating 0 until end.
 
-	There's no point in having a shift which takes block input as shift quantity,
-	as shift quantity itself can only be as big as the size of an array.
-
-	Does not test if &out == &in1, a problematic case.
-
-	I don't know how it will interpret an WIterator double reference in case the initial WIterator is implicitly a reference.
-*/
-		template<typename WIterator, typename EIterator, typename RIterator, typename EIterator1>
-		static void left_shift(WIterator out, EIterator end, RIterator in1, EIterator1 end1, size_type n)
+		struct left_shift
 		{
-			bwd_arit::left_shift::template no_return<WIterator &, RIterator &, RIterator, EIterator1>(
-				out, in1, --RIterator(in1), end1, n, constant::register_length-n);
-			*out=(*in1<<n);
-			bwd_comp::repeat::no_return(out, end, 0);
-		}
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --RIterator(in1),
+	as well as n = unit::length-m.
+*/
+			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
+			static void no_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
+			{
+				bwd_comp::left_shift::no_return<WIterator&, RIterator1&>
+					(out, in1, --RIterator1(in1), end1, n, unit::length-n);
+				*out=(*in1<<n);
+
+				bwd_comp::repeat::no_return(--out, end, (ValueType) 0);
+			}
+
+			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
+			static WIterator with_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
+			{
+				bwd_comp::left_shift::no_return<WIterator&, RIterator1&>
+					(out, in1, --RIterator1(in1), end1, n, unit::length-n);
+				*out=(*in1<<n);
+
+				return bwd_comp::repeat::with_return(--out, end, (ValueType) 0);
+			}
+		};
 /*
 	unroll:
 			Most contextual structs aren't templated, while their methods are.
@@ -1319,6 +1384,38 @@ namespace nik
 					static bool no_break(Iterator1 in1, Iterator2 in2)
 						{ return bwd_arit::unroll_0<N, M, L>::not_equal::fast::no_break(false, in1, in2); }
 				};
+			};
+
+			struct left_shift
+			{
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --RIterator(in1),
+	as well as n = unit::length-m.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
+	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
+*/
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static void no_return(WIterator out, RIterator in, size_type n)
+				{
+					bwd_comp::unroll<M-1>::left_shift::no_return
+						<WIterator&, RIterator&>(out, in, --RIterator(in), n, unit::length-n);
+					*out=(*in<<n);
+
+					bwd_comp::unroll<N-M>::repeat::no_return(--out, (ValueType) 0);
+				}
+
+				template<typename ValueType, typename WIterator, typename RIterator>
+				static WIterator with_return(WIterator out, RIterator in, size_type n)
+				{
+					bwd_comp::unroll<M-1>::left_shift::no_return
+						<WIterator&, RIterator&>(out, in, --RIterator(in), n, unit::length-n);
+					*out=(*in<<n);
+
+					return bwd_comp::unroll<N-M>::repeat::with_return(--out, (ValueType) 0);
+				}
 			};
 
 			struct assign
