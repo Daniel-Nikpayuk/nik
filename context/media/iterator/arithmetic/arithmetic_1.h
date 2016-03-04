@@ -57,11 +57,12 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef context::argument::binary<size_type> binary;
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
-		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
-		typedef semiotic::iterator::forward::arithmetic_1<size_type> fwd_arit;
+		typedef semiotic::iterator::forward::componentwise<size_type> s_fwd_comp;
+		typedef semiotic::iterator::forward::arithmetic_1<size_type> s_fwd_arit;
 
 		struct scale
 		{
@@ -76,12 +77,12 @@ namespace nik
 			static void no_return(WIterator out, RIterator in1, ERIterator end1, ValueType in2, ValueType & carry)
 			{
 				carry=0;
-				fwd_arit::scale::no_return(carry, out, in1, end1, in2);
+				s_fwd_arit::scale::no_return(carry, out, in1, end1, in2);
 			}
 
 			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
 			static void no_return(WIterator out, RIterator in1, ERIterator end1, ValueType in2)
-				{ fwd_arit::scale::no_return((ValueType) 0, out, in1, end1, in2); }
+				{ s_fwd_arit::scale::no_return((ValueType) 0, out, in1, end1, in2); }
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
@@ -93,12 +94,12 @@ namespace nik
 			static WIterator with_return(WIterator out, RIterator in1, ERIterator end1, ValueType in2, ValueType & carry)
 			{
 				carry=0;
-				return fwd_arit::scale::with_return(carry, out, in1, end1, in2);
+				return s_fwd_arit::scale::with_return(carry, out, in1, end1, in2);
 			}
 
 			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
 			static WIterator with_return(WIterator out, RIterator in1, ERIterator end1, ValueType in2)
-				{ return fwd_arit::scale::with_return((ValueType) 0, out, in1, end1, in2); }
+				{ return s_fwd_arit::scale::with_return((ValueType) 0, out, in1, end1, in2); }
 		};
 
 		struct assign
@@ -116,12 +117,12 @@ namespace nik
 				static void no_return(WIterator out, EIterator end, ValueType in, ValueType & carry)
 				{
 					carry=0;
-					fwd_arit::assign::scale::no_return(carry, out, end, in);
+					s_fwd_arit::assign::scale::no_return(carry, out, end, in);
 				}
 
 				template<typename ValueType, typename WIterator, typename EIterator>
 				static void no_return(WIterator out, EIterator end, ValueType in)
-					{ fwd_arit::assign::scale::no_return((ValueType) 0, out, end, in); }
+					{ s_fwd_arit::assign::scale::no_return((ValueType) 0, out, end, in); }
 			};
 		};
 /*
@@ -151,12 +152,12 @@ namespace nik
 				static void no_return(WIterator out, RIterator in1, ValueType in2, ValueType & carry)
 				{
 					carry=0;
-					fwd_arit::scale::no_return(carry, out, in1, in2);
+					s_fwd_arit::scale::no_return(carry, out, in1, in2);
 				}
 
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static void no_return(WIterator out, RIterator in1, ValueType in2)
-					{ fwd_arit::scale::no_return((ValueType) 0, out, in1, in2); }
+					{ s_fwd_arit::scale::no_return((ValueType) 0, out, in1, in2); }
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
@@ -167,12 +168,12 @@ namespace nik
 				static WIterator with_return(WIterator out, RIterator in1, ValueType in2, ValueType & carry)
 				{
 					carry=0;
-					return fwd_arit::scale::with_return(carry, out, in1, in2);
+					return s_fwd_arit::scale::with_return(carry, out, in1, in2);
 				}
 
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static WIterator with_return(WIterator out, RIterator in1, ValueType in2)
-					{ return fwd_arit::scale::with_return((ValueType) 0, out, in1, in2); }
+					{ return s_fwd_arit::scale::with_return((ValueType) 0, out, in1, in2); }
 			};
 
 			struct assign
@@ -189,12 +190,12 @@ namespace nik
 					static void no_return(WIterator out, ValueType in, ValueType & carry)
 					{
 						carry=0;
-						fwd_arit::assign::scale::no_return(carry, out, in);
+						s_fwd_arit::assign::scale::no_return(carry, out, in);
 					}
 
 					template<typename ValueType, typename WIterator>
 					static void no_return(WIterator out, ValueType in)
-						{ fwd_arit::assign::scale::no_return((ValueType) 0, out, in); }
+						{ s_fwd_arit::assign::scale::no_return((ValueType) 0, out, in); }
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
@@ -205,12 +206,12 @@ namespace nik
 					static WIterator with_return(WIterator out, ValueType in, ValueType & carry)
 					{
 						carry=0;
-						return fwd_arit::assign::scale::with_return(carry, out, in);
+						return s_fwd_arit::assign::scale::with_return(carry, out, in);
 					}
 
 					template<typename ValueType, typename WIterator>
 					static WIterator with_return(WIterator out, ValueType in)
-						{ return fwd_arit::assign::scale::with_return((ValueType) 0, out, in); }
+						{ return s_fwd_arit::assign::scale::with_return((ValueType) 0, out, in); }
 				};
 			};
 		};
@@ -222,18 +223,19 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef context::argument::binary<size_type> binary;
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef componentwise<size_type> bwd_comp;
 
-		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
+		typedef semiotic::iterator::backward::componentwise<size_type> s_bwd_comp;
 
 		typedef forward::arithmetic_1<size_type> fwd_arit;
 		typedef arithmetic_0<size_type> bwd_arit;
 
-		typedef semiotic::iterator::backward::arithmetic_1<size_type> bwd_arit;
+		typedef semiotic::iterator::backward::arithmetic_1<size_type> s_bwd_arit;
 
 		struct divide
 		{
@@ -251,28 +253,28 @@ namespace nik
 				static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 				{
 					r=*n;
-					bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, end, d);
+					s_bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 				{
 					ValueType r=*n;
-					bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, end, d);
+					s_bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 				{
 					r=*n;
-					return bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, end, d);
+					return s_bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 				{
 					ValueType r=*n;
-					return bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, end, d);
+					return s_bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, end, d);
 				}
 			};
 /*
@@ -292,28 +294,28 @@ namespace nik
 				static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 				{
 					r=*n;
-					bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, end, d);
+					s_bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 				{
 					ValueType r=*n;
-					bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, end, d);
+					s_bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 				{
 					r=*n;
-					return bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, end, d);
+					return s_bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, end, d);
 				}
 
 				template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 				static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 				{
 					ValueType r=*n;
-					return bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, end, d);
+					return s_bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, end, d);
 				}
 /*
 	r is the carry value, which is also semantically meaningful as the remainder.
@@ -329,28 +331,28 @@ namespace nik
 					static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 					{
 						r=*n;
-						bwd_arit::divide::single_digit::half::no_return(r, q, --n, end, d);
+						s_bwd_arit::divide::single_digit::half::no_return(r, q, --n, end, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 					static void no_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 					{
 						ValueType r=*n;
-						bwd_arit::divide::single_digit::half::no_return(r, q, --n, end, d);
+						s_bwd_arit::divide::single_digit::half::no_return(r, q, --n, end, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d, ValueType & r)
 					{
 						r=*n;
-						return bwd_arit::divide::single_digit::half::with_return(r, q, --n, end, d);
+						return s_bwd_arit::divide::single_digit::half::with_return(r, q, --n, end, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ERIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ERIterator end, ValueType d)
 					{
 						ValueType r=*n;
-						return bwd_arit::divide::single_digit::half::with_return(r, q, --n, end, d);
+						return s_bwd_arit::divide::single_digit::half::with_return(r, q, --n, end, d);
 					}
 				};
 			};
@@ -390,28 +392,28 @@ namespace nik
 					static void no_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 					{
 						r=*n;
-						bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, d);
+						s_bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static void no_return(WIterator q, RIterator n, ValueType d)
 					{
 						ValueType r=*n;
-						bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, d);
+						s_bwd_arit::divide::half_digit::no_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 					{
 						r=*n;
-						return bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, d);
+						return s_bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ValueType d)
 					{
 						ValueType r=*n;
-						return bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, d);
+						return s_bwd_arit::divide::half_digit::with_return((ValueType) 0, r, q, --n, d);
 					}
 				};
 /*
@@ -431,28 +433,28 @@ namespace nik
 					static void no_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 					{
 						r=*n;
-						bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, d);
+						s_bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static void no_return(WIterator q, RIterator n, ValueType d)
 					{
 						ValueType r=*n;
-						bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, d);
+						s_bwd_arit::divide::single_digit::no_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 					{
 						r=*n;
-						return bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, d);
+						return s_bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, d);
 					}
 
 					template<typename WIterator, typename RIterator, typename ValueType>
 					static WIterator with_return(WIterator q, RIterator n, ValueType d)
 					{
 						ValueType r=*n;
-						return bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, d);
+						return s_bwd_arit::divide::single_digit::with_return((ValueType) 0, r, q, --n, d);
 					}
 /*
 	r is the carry value, which is also semantically meaningful as the remainder.
@@ -468,28 +470,28 @@ namespace nik
 						static void no_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 						{
 							r=*n;
-							bwd_arit::divide::single_digit::half::no_return(r, q, --n, d);
+							s_bwd_arit::divide::single_digit::half::no_return(r, q, --n, d);
 						}
 
 						template<typename WIterator, typename RIterator, typename ValueType>
 						static void no_return(WIterator q, RIterator n, ValueType d)
 						{
 							ValueType r=*n;
-							bwd_arit::divide::single_digit::half::no_return(r, q, --n, d);
+							s_bwd_arit::divide::single_digit::half::no_return(r, q, --n, d);
 						}
 
 						template<typename WIterator, typename RIterator, typename ValueType>
 						static WIterator with_return(WIterator q, RIterator n, ValueType d, ValueType & r)
 						{
 							r=*n;
-							return bwd_arit::divide::single_digit::half::with_return(r, q, --n, d);
+							return s_bwd_arit::divide::single_digit::half::with_return(r, q, --n, d);
 						}
 
 						template<typename WIterator, typename RIterator, typename ValueType>
 						static WIterator with_return(WIterator q, RIterator n, ValueType d)
 						{
 							ValueType r=*n;
-							return bwd_arit::divide::single_digit::half::with_return(r, q, --n, d);
+							return s_bwd_arit::divide::single_digit::half::with_return(r, q, --n, d);
 						}
 					};
 				};
@@ -503,6 +505,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef context::argument::binary<size_type> binary;
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
@@ -510,13 +513,13 @@ namespace nik
 		typedef backward::componentwise<size_type> bwd_comp;
 		typedef componentwise<size_type> bid_comp;
 
-		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
+		typedef semiotic::iterator::bidirectional::componentwise<size_type> s_bid_comp;
 
 		typedef forward::arithmetic_1<size_type> fwd_arit;
 		typedef backward::arithmetic_1<size_type> bwd_arit;
 		typedef arithmetic_0<size_type> bid_arit;
 
-		typedef semiotic::iterator::bidirectional::arithmetic_1<size_type> bid_arit;
+		typedef semiotic::iterator::bidirectional::arithmetic_1<size_type> s_bid_arit;
 
 		struct multiply
 		{
@@ -529,8 +532,8 @@ namespace nik
 			static void no_return(WIterator out, EWIterator end, WIterator1 out1,
 				RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
 			{
-				fwd_comp::repeat::no_return(out, end, (ValueType) 0);
-				bid_arit::multiply::no_return(out, out1, out1, in1, end1, in2, end2);
+				s_fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+				s_bid_arit::multiply::no_return(out, out1, out1, in1, end1, in2, end2);
 			}
 
 			struct half
@@ -544,8 +547,8 @@ namespace nik
 				static void no_return(WIterator out, EWIterator end, WIterator1 out1,
 					RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
 				{
-					fwd_comp::repeat::no_return(out, end, (ValueType) 0);
-					bid_arit::multiply::half::no_return(out, out1, out1, in1, end1, in2, end2);
+					s_fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+					s_bid_arit::multiply::half::no_return(out, out1, out1, in1, end1, in2, end2);
 				}
 			};
 		};
@@ -564,9 +567,9 @@ namespace nik
 				static void no_return(WIterator out, EWIterator end, WIterator1 out1,
 					WIterator2 out2, EWIterator2 end2, RIterator1 in1, ERIterator1 end1)
 				{
-					fwd_comp::assign::no_return(out2, out, end);
-					fwd_comp::repeat::no_return(out, end, (ValueType) 0);
-					bid_arit::assign::multiply::no_return(out, out1, out1, out2, end2, in1, end1);
+					s_fwd_comp::assign::no_return(out2, out, end);
+					s_fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+					s_bid_arit::assign::multiply::no_return(out, out1, out1, out2, end2, in1, end1);
 				}
 
 				struct half
@@ -581,9 +584,9 @@ namespace nik
 					static void no_return(WIterator out, EWIterator end, WIterator1 out1,
 						WIterator1 out2, EWIterator2 end2, RIterator1 in1, ERIterator1 end1)
 					{
-						fwd_comp::assign::no_return(out2, out, end);
-						fwd_comp::repeat::no_return(out, end, (ValueType) 0);
-						bid_arit::assign::multiply::half::no_return(out, out1, out1, out2, end2, in1, end1);
+						s_fwd_comp::assign::no_return(out2, out, end);
+						s_fwd_comp::repeat::no_return(out, end, (ValueType) 0);
+						s_bid_arit::assign::multiply::half::no_return(out, out1, out1, out2, end2, in1, end1);
 					}
 				};
 			};
@@ -603,6 +606,7 @@ namespace nik
 	template<typename size_type>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef context::argument::binary<size_type> binary;
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
@@ -610,14 +614,14 @@ namespace nik
 		typedef backward::componentwise<size_type> bwd_comp;
 		typedef bidirectional::componentwise<size_type> bid_comp;
 
-		typedef semiotic::iterator::random_access::componentwise<size_type> rnd_comp;
+		typedef semiotic::iterator::random_access::componentwise<size_type> s_rnd_comp;
 
 		typedef forward::arithmetic_1<size_type> fwd_arit;
 		typedef backward::arithmetic_1<size_type> bwd_arit;
 		typedef bidirectional::arithmetic_1<size_type> bid_arit;
 		typedef arithmetic_0<size_type> rnd_arit;
 
-		typedef semiotic::iterator::random_access::arithmetic_1<size_type> rnd_arit;
+		typedef semiotic::iterator::random_access::arithmetic_1<size_type> s_rnd_arit;
 
 		struct divide
 		{
@@ -691,11 +695,31 @@ namespace nik
 */
 				template<typename WIterator1, typename WIterator2,
 					typename WIterator3, typename RIterator1, typename RIterator2>
-				static void no_return(WIterator1 r, WIterator1 lr, WIterator1 rend,
+				static void no_return(WIterator1 r, WIterator1 rend,
 					WIterator2 q, WIterator3 t, WIterator3 tend, RIterator1 n, RIterator1 nend,
-						RIterator2 d, RIterator2 ld, RIterator2 dend)
+						RIterator2 d, RIterator2 dend)
 				{
-					bwd_arit::divide::multiple_digit::no_return(, r, lr, rend, q, t, tend, n, nend, d, ld, dend);
+					RIterator2 ld=s_bwd_arit::zero::with_break(dend-1, d);
+					WIterator1 lr=r+(ld-d);
+
+					size_type	rank=binary::order(*ld)+1,
+							power=unit::length-rank;
+
+					if (power)
+					{
+						*(lr+1)=binary::high(*n, rank); // need to know lr+1 exists!
+						n=bwd_arit::left_shift::with_return(lr, r-1, n, nend, power);
+
+						*r=binary::high(*n, rank);
+						bwd_arit::assign::left_shift::no_return(n, nend, power);
+
+						bwd_arit::assign::left_shift::no_return(ld, d-1, power);
+						if (*(lr+1)) ++lr; // need to know lr+1 exists!
+					}
+
+					s_rnd_arit::divide::multiple_digit::no_return(r, lr, rend, q, t, tend, n, nend, d, ld, dend);
+
+					if (power) bwd_arit::assign::right_shift::no_return(r, rend, power);
 				}
 
 				struct half
@@ -709,8 +733,8 @@ namespace nik
 						WIterator2 q, WIterator3 t, WIterator3 tend, RIterator1 n, RIterator1 nend,
 							RIterator2 d, RIterator2 ld, RIterator2 dend)
 					{
-						bwd_arit::divide::multiple_digit::half::
-							no_return(, r, lr, rend, q, t, tend, n, nend, d, ld, dend);
+						s_rnd_arit::divide::multiple_digit::half::
+							no_return(r, lr, rend, q, t, tend, n, nend, d, ld, dend);
 					}
 				};
 			};
@@ -797,7 +821,7 @@ namespace nik
 					static void no_return(WIterator1 r, WIterator1 lr,
 						WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
 					{
-						bwd_arit::divide::multiple_digit::no_return(, r, lr, q, t, n, d, ld);
+						s_rnd_arit::divide::multiple_digit::no_return(r, lr, q, t, n, d, ld);
 					}
 
 					struct half
@@ -810,7 +834,7 @@ namespace nik
 						static void no_return(WIterator1 r, WIterator1 lr,
 							WIterator2 q, WIterator3 t, RIterator1 n, RIterator2 d, RIterator2 ld)
 						{
-							bwd_arit::divide::multiple_digit::half::no_return(, r, lr, q, t, n, d, ld);
+							s_rnd_arit::divide::multiple_digit::half::no_return(r, lr, q, t, n, d, ld);
 						}
 					};
 				};
