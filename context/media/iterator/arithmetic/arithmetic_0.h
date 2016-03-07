@@ -462,8 +462,8 @@ namespace nik
 			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
 			static void no_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
 			{
-				fwd_comp::right_shift::no_return<WIterator&, RIterator1&>
-					(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
+				fwd_comp::right_shift::no_return
+					<WIterator&, RIterator1&>(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
 				*out=(*in1>>n);
 				fwd_comp::repeat::no_return(++out, end, (ValueType) 0);
 			}
@@ -476,8 +476,8 @@ namespace nik
 			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
 			static WIterator with_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
 			{
-				fwd_comp::right_shift::no_return<WIterator&, RIterator1&>
-					(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
+				fwd_comp::right_shift::no_return
+					<WIterator&, RIterator1&>(out, in1, ++RIterator1(in1), end1, n, unit::length-n);
 				*out=(*in1>>n);
 
 				return fwd_comp::repeat::with_return(++out, end, (ValueType) 0);
@@ -642,6 +642,39 @@ namespace nik
 					static WIterator with_return(WIterator out, EIterator end, ValueType value)
 						{ return fwd_arit::assign::scale::half::with_return((ValueType) 0, out, end); }
 				};
+			};
+
+			struct right_shift
+			{
+/*
+	For the "natural" right_shift,
+	define in = ++out,
+	as well as n = unit::length-m,
+	finally, *out>>=m needs appending.
+*/
+				template<typename ValueType, typename WIterator, typename EWIterator>
+				static void no_return(WIterator out, EWIterator end, size_type n)
+				{
+					fwd_comp::assign::right_shift::no_return
+						<WIterator&>(out, ++WIterator(out), end, n, unit::length-n);
+					*out>>=n;
+					fwd_comp::repeat::no_return(++out, end, (ValueType) 0);
+				}
+/*
+	For the "natural" right_shift,
+	define in = ++out,
+	as well as n = unit::length-m,
+	finally, *out>>=m needs appending.
+*/
+				template<typename ValueType, typename WIterator, typename EWIterator>
+				static WIterator with_return(WIterator out, EWIterator end, size_type n)
+				{
+					fwd_comp::assign::right_shift::no_return
+						<WIterator&>(out, ++WIterator(out), end, n, unit::length-n);
+					*out>>=n;
+
+					return fwd_comp::repeat::with_return(++out, end, (ValueType) 0);
+				}
 			};
 		};
 /*
@@ -1014,7 +1047,7 @@ namespace nik
 				static void no_return(WIterator out, RIterator in, size_type n)
 				{
 					fwd_comp::unroll<M-1>::right_shift::no_return
-						<WIterator&, RIterator1&>(out, in, ++RIterator(in), n, unit::length-n);
+						<WIterator&, RIterator&>(out, in, ++RIterator(in), n, unit::length-n);
 					*out=(*in>>n);
 					fwd_comp::unroll<N-M>::repeat::no_return(++out, (ValueType) 0);
 				}
@@ -1177,6 +1210,45 @@ namespace nik
 								scale::half::with_return((ValueType) 0, out, value); }
 					};
 				};
+
+				struct right_shift
+				{
+/*
+	For the "natural" right_shift,
+	define in = ++out,
+	as well as n = unit::length-m,
+	finally, *out>>=m needs appending.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
+*/
+					template<typename ValueType, typename WIterator>
+					static void no_return(WIterator out, size_type n)
+					{
+						fwd_comp::unroll<M-1>::assign::right_shift::no_return
+							<WIterator&>(out, ++WIterator(out), n, unit::length-n);
+						*out>>=n;
+						fwd_comp::unroll<N-M>::repeat::no_return(++out, (ValueType) 0);
+					}
+/*
+	For the "natural" right_shift,
+	define in = ++out,
+	as well as n = unit::length-m,
+	finally, *out>>=m needs appending.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
+	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
+*/
+					template<typename ValueType, typename WIterator>
+					static WIterator with_return(WIterator out, size_type n)
+					{
+						fwd_comp::unroll<M-1>::assign::right_shift::no_return
+							<WIterator&>(out, ++WIterator(out), n, unit::length-n);
+						*out>>=n;
+
+						return fwd_comp::unroll<N-M>::repeat::with_return(++out, (ValueType) 0);
+					}
+				};
 			};
 		};
 	};
@@ -1290,8 +1362,8 @@ namespace nik
 			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
 			static void no_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
 			{
-				bwd_comp::left_shift::no_return<WIterator&, RIterator1&>
-					(out, in1, --RIterator1(in1), end1, n, unit::length-n);
+				bwd_comp::left_shift::no_return
+					<WIterator&, RIterator1&>(out, in1, --RIterator1(in1), end1, n, unit::length-n);
 				*out=(*in1<<n);
 
 				bwd_comp::repeat::no_return(--out, end, (ValueType) 0);
@@ -1300,12 +1372,44 @@ namespace nik
 			template<typename ValueType, typename WIterator, typename EWIterator, typename RIterator1, typename ERIterator1>
 			static WIterator with_return(WIterator out, EWIterator end, RIterator1 in1, ERIterator1 end1, size_type n)
 			{
-				bwd_comp::left_shift::no_return<WIterator&, RIterator1&>
-					(out, in1, --RIterator1(in1), end1, n, unit::length-n);
+				bwd_comp::left_shift::no_return
+					<WIterator&, RIterator1&>(out, in1, --RIterator1(in1), end1, n, unit::length-n);
 				*out=(*in1<<n);
 
 				return bwd_comp::repeat::with_return(--out, end, (ValueType) 0);
 			}
+		};
+
+		struct assign
+		{
+			struct left_shift
+			{
+/*
+	For the "natural" left_shift,
+	define in = --out,
+	as well as n = unit::length-m,
+	finally, *out<<=m needs appending.
+*/
+				template<typename ValueType, typename WIterator, typename EWIterator>
+				static void no_return(WIterator out, EWIterator end, size_type n)
+				{
+					bwd_comp::assign::left_shift::no_return
+						<WIterator&>(out, --WIterator(out), end, n, unit::length-n);
+					*out<<=n;
+
+					bwd_comp::repeat::no_return(--out, end, (ValueType) 0);
+				}
+
+				template<typename ValueType, typename WIterator, typename EWIterator>
+				static WIterator with_return(WIterator out, EWIterator end, size_type n)
+				{
+					bwd_comp::assign::left_shift::no_return
+						<WIterator&>(out, --WIterator(out), end, n, unit::length-n);
+					*out<<=n;
+
+					return bwd_comp::repeat::with_return(--out, end, (ValueType) 0);
+				}
+			};
 		};
 /*
 	unroll:
@@ -1420,6 +1524,37 @@ namespace nik
 
 			struct assign
 			{
+				struct left_shift
+				{
+/*
+	For the "natural" left_shift,
+	define in = --out,
+	as well as n = unit::length-m,
+	finally, *out<<=m needs appending.
+
+	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
+	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
+*/
+					template<typename ValueType, typename WIterator>
+					static void no_return(WIterator out, size_type n)
+					{
+						bwd_comp::unroll<M-1>::assign::left_shift::no_return
+							<WIterator&>(out, --WIterator(out), n, unit::length-n);
+						*out<<=n;
+
+						bwd_comp::unroll<N-M>::repeat::no_return(--out, (ValueType) 0);
+					}
+
+					template<typename ValueType, typename WIterator>
+					static WIterator with_return(WIterator out, size_type n)
+					{
+						bwd_comp::unroll<M-1>::assign::left_shift::no_return
+							<WIterator&>(out, --WIterator(out), n, unit::length-n);
+						*out<<=n;
+
+						return bwd_comp::unroll<N-M>::repeat::with_return(--out, (ValueType) 0);
+					}
+				};
 			};
 		};
 	};

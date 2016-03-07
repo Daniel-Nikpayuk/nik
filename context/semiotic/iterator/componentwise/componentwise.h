@@ -516,6 +516,38 @@ namespace nik
 			{
 				no_return_1(++, >>=)
 				with_return_1(++, >>=)
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out>>=m)+=(*in<<n);
+						++out; ++in;
+					}
+				}
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out>>=m)+=(*in<<n);
+						++out; ++in;
+					}
+
+					return out;
+				}
 			};
 /*
 		<<=:
@@ -1276,6 +1308,33 @@ namespace nik
 			{
 				no_return_1(--, <<=)
 				with_return_1(--, <<=)
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --RIterator(in1),
+	as well as n = unit::length-m.
+*/
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static void no_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out<<=m)+=(*in>>n);
+						--out; --in;
+					}
+				}
+
+				template<typename WIterator, typename RIterator, typename EIterator>
+				static WIterator with_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out<<=m)+=(*in>>n);
+						--out; --in;
+					}
+
+					return out;
+				}
 			};
 		};
 
@@ -1357,7 +1416,7 @@ namespace nik
 					return unroll<N-1>::assign::with_return(--out, --in);
 				}
 /*
-	For the "natural" right_shift,
+	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
 	as well as n = unit::length-m.
