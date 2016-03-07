@@ -18,18 +18,11 @@
 #ifndef SEMIOTIC_ITERATOR_TRAITS_H
 #define SEMIOTIC_ITERATOR_TRAITS_H
 
-#include"../block/block.h"
-//#include"../topos/topos.h"
-//#include"../list/list.h"
-//#include"../chain/chain.h"
-
 /*
 	The justification for this traits class is threefold:
 
-	1) Is a modularization strategy toward mitigating the nested namespaces.
-	2) in addition, if you look at the "fwd_arit_subroll" typedef ("using") declaration below for example,
-		you will see it is also to ease the grammar constraints of C++ templates.
-	3) It allows one to include the "traits.h" header which by default includes all existing generic headers,
+	1) Is a modularization strategy toward mitigating the depth of complexity of nested namespaces.
+	2) It allows one to include the "traits.h" header which by default includes all existing generic headers,
 		easing the headerload within the media classes.
 */
 

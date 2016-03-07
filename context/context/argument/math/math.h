@@ -43,9 +43,11 @@ namespace nik
   {
    namespace argument
    {
-	template<typename size_type>
+	template<typename SizeType>
 	struct math
 	{
+		typedef SizeType size_type;
+
 		typedef context::unit<size_type> unit;
 		typedef argument::binary<size_type> binary;
 /*

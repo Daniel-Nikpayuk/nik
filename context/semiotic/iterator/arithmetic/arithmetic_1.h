@@ -54,9 +54,11 @@ namespace nik
    {
     namespace forward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef SizeType size_type;
+
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
@@ -276,9 +278,11 @@ namespace nik
 
     namespace backward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef SizeType size_type;
+
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
@@ -573,9 +577,11 @@ namespace nik
 
     namespace bidirectional
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef SizeType size_type;
+
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 
@@ -652,9 +658,11 @@ namespace nik
 
     namespace random_access
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_1 : public arithmetic_0<size_type>
 	{
+		typedef SizeType size_type;
+
 		typedef context::argument::math<size_type> math;
 		typedef context::unit<size_type> unit;
 

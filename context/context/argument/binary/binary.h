@@ -44,9 +44,11 @@ namespace nik
 /*
 	None of these account for shifting beyond the register length, which may have unknown side effects.
 */
-	template<typename size_type>
+	template<typename SizeType>
 	struct binary
 	{
+		typedef SizeType size_type;
+
 		typedef context::unit<size_type> unit;
 
 		static size_type shift_up(size_type in, size_type n)
@@ -93,7 +95,7 @@ namespace nik
 		static size_type mid(size_type in, size_type s, size_type t)
 			{ return low(shift_down(in, s), t-s); }
 
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=unit::zero, size_type L=unit::zero>
 		struct unroll
 		{
 /*
@@ -111,8 +113,8 @@ namespace nik
 			}
 		};
 
-		template<typename Filler>
-		struct unroll<unit::zero, Filler>
+		template<size_type M, size_type L>
+		struct unroll<unit::zero, M, L>
 		{
 			static size_type order(size_type primary, size_type secondary)
 				{ return primary; }

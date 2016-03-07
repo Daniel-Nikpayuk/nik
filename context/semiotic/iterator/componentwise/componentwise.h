@@ -69,9 +69,11 @@ namespace nik
     {
 /************************************************************************************************************************/
 //	forward iterator
-	template<typename size_type>
+	template<typename SizeType>
 	struct componentwise
 	{
+		typedef SizeType size_type;
+
 		typedef meta::unit<size_type> unit;
 /*
 	+:
@@ -625,7 +627,7 @@ namespace nik
 			below is an exception to the exising design for no other reason than the need for partial template
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
 			struct right_shift
@@ -768,8 +770,8 @@ namespace nik
 			};
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
 		{
 /*
 */
@@ -849,9 +851,11 @@ namespace nik
     {
 /************************************************************************************************************************/
 //	backward iterator
-	template<typename size_type>
+	template<typename SizeType>
 	struct componentwise
 	{
+		typedef SizeType size_type;
+
 		typedef meta::unit<size_type> unit;
 /*
 	+:
@@ -1349,7 +1353,7 @@ namespace nik
 			below is an exception to the exising design for no other reason than the need for partial template
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
-		template<size_type N, typename Filler=void>
+		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
 /*
@@ -1443,8 +1447,8 @@ namespace nik
 			};
 		};
 
-		template<typename Filler>
-		struct unroll<0, Filler>
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
 		{
 /*
 	Does not perform adding (*in2>>n) as in2 may be past the boundary.
@@ -1504,9 +1508,11 @@ namespace nik
 
     namespace bidirectional
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct componentwise
 	{
+		typedef SizeType size_type;
+
 		typedef meta::unit<size_type> unit;
 	};
     }
@@ -1516,9 +1522,11 @@ namespace nik
 
     namespace random_access
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct componentwise
 	{
+		typedef SizeType size_type;
+
 		typedef meta::unit<size_type> unit;
 	};
     }

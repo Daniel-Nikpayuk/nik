@@ -66,9 +66,11 @@ namespace nik
    {
     namespace forward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_0
 	{
+		typedef SizeType size_type;
+
 		typedef context::unit<size_type> unit;
 
 		typedef semiotic::iterator::forward::componentwise<size_type> fwd_comp;
@@ -1256,9 +1258,11 @@ namespace nik
 
     namespace backward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_0
 	{
+		typedef SizeType size_type;
+
 		typedef context::unit<size_type> unit;
 
 		typedef semiotic::iterator::backward::componentwise<size_type> bwd_comp;
@@ -1562,9 +1566,11 @@ namespace nik
 
     namespace bidirectional
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_0
 	{
+		typedef SizeType size_type;
+
 		typedef semiotic::iterator::bidirectional::componentwise<size_type> bid_comp;
 		typedef semiotic::iterator::bidirectional::arithmetic<size_type> bid_arit;
 
@@ -1574,12 +1580,14 @@ namespace nik
 		};
 	};
     }
-    
+
     namespace random_access
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct arithmetic_0
 	{
+		typedef SizeType size_type;
+
 		typedef semiotic::iterator::random_access::componentwise<size_type> rnd_comp;
 		typedef semiotic::iterator::random_access::arithmetic<size_type> rnd_arit;
 

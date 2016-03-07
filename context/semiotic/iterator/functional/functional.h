@@ -41,9 +41,10 @@ namespace nik
    {
     namespace forward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct functional
 	{
+		typedef SizeType size_type;
 
 /************************************************************************************************************************/
 //	forward iterator
@@ -120,9 +121,10 @@ namespace nik
 
     namespace backward
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct functional
 	{
+		typedef SizeType size_type;
 /*
 	decrements out by n times.
 
@@ -173,9 +175,10 @@ namespace nik
 
     namespace bidirectional
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct functional
 	{
+		typedef SizeType size_type;
 	};
     }
 
@@ -184,9 +187,10 @@ namespace nik
 
     namespace random_access
     {
-	template<typename size_type>
+	template<typename SizeType>
 	struct functional
 	{
+		typedef SizeType size_type;
 /*
 	size:
 		Returns the distance between in and end.

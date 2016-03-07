@@ -29,9 +29,11 @@ namespace nik
   {
    namespace parameter
    {
-	template<typename size_type>
+	template<typename SizeType>
 	struct binary
 	{
+		typedef SizeType size_type;
+
 		typedef context::unit<size_type> unit;
 
 		template<size_type x, size_type n>

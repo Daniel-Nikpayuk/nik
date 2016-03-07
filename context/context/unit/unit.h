@@ -24,9 +24,11 @@ namespace nik
  {
   namespace context
   {
-	template<typename size_type>
+	template<typename SizeType>
 	struct unit
 	{
+		typedef SizeType size_type;
+
 		static const size_type zero = 0;
 		static const size_type one = 1;
 		static const size_type two = 2;

@@ -15,12 +15,12 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_POLICY_H
-#define CONTEXT_SEMIOTIC_ITERATOR_POLICY_H
+#ifndef CONTEXT_MEDIA_ITERATOR_POLICY_H
+#define CONTEXT_MEDIA_ITERATOR_POLICY_H
 
-//#include"../functional/functional.h"
-#include"../componentwise/componentwise.h"
 #include"../arithmetic/arithmetic.h"
+//#include"../vector/vector.h"
+//#include"../list/list.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -34,7 +34,7 @@ namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace media
   {
    namespace iterator
    {
@@ -48,13 +48,6 @@ namespace nik
 	forward:
 */
 /*
-		componentwise:
-*/
-			using fwd_comp=forward::componentwise<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using fwd_comp_unroll=fwd_comp::unroll<N, M, L>;
-/*
 		arithmetic:
 */
 			using fwd_arit=forward::arithmetic<size_type>;
@@ -64,13 +57,6 @@ namespace nik
 /*
 	backward:
 */
-/*
-		componentwise:
-*/
-			using bwd_comp=backward::componentwise<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bwd_comp_unroll=bwd_comp::unroll<N, M, L>;
 /*
 		arithmetic:
 */
@@ -82,13 +68,6 @@ namespace nik
 	bidirectional:
 */
 /*
-		componentwise:
-*/
-			using bid_comp=bidirectional::componentwise<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bid_comp_unroll=bid_comp::unroll<N, M, L>;
-/*
 		arithmetic:
 */
 			using bid_arit=bidirectional::arithmetic<size_type>;
@@ -98,13 +77,6 @@ namespace nik
 /*
 	random_access:
 */
-/*
-		componentwise:
-*/
-			using rnd_comp=random_access::componentwise<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using rnd_comp_unroll=rnd_comp::unroll<N, M, L>;
 /*
 		arithmetic:
 */

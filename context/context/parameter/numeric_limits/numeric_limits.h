@@ -40,9 +40,13 @@ namespace nik
 /*
 	default:
 */
-	template<typename size_type>
+	template<typename SizeType>
 	struct numeric_limits
-		{ static const size_type max=CHAR_MAX; };
+	{
+		typedef SizeType size_type;
+
+		static const size_type max=CHAR_MAX;
+	};
 /*
 	specializations:
 */

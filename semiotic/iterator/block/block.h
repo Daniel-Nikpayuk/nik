@@ -19,6 +19,7 @@
 #define SEMIOTIC_ITERATOR_BLOCK_H
 
 #include"../traits/traits.h"
+#include"../../../context/semiotic/iterator/policy/policy.h"
 
 /*
 	It is less modular to have "template<typename SizeType, SizeType N>", and so in the generic classes the design
@@ -57,34 +58,20 @@ namespace nik
 
 				static const size_type dimension=N;
 
+				typedef context::semiotic::iterator::policy<size_type> policy;
+
 				pointer array;
 
 				void initialize() { array=new value_type[N]; }
-				block() { initialize(); }
+				block() : initialize() { }
 /*
 	copy:
 		Defining pointers in reference to 'v' is intentional---fewer assumptions
 		made about "this" makes this function more portable for outside use.
 */
-				template<size_type Dim, typename Filler=void>
-				struct unroll
-				{
-					template<typename WIterator, typename RIterator>
-					static void copy(WIterator out, RIterator in)
-					{
-						*out=*in;
-						unroll<Dim-1>::copy(++out, ++in);
-					}
-				};
+				void copy(const block & v)
+					{ policy::fwd_comp_unroll<N>::assign::no_return(array, v.array); }
 
-				template<typename Filler>
-				struct unroll<1, Filler>
-				{
-					template<typename WIterator, typename RIterator>
-					static void copy(WIterator out, RIterator in) { *out=*in; }
-				};
-
-				void copy(const block & v) { unroll<N>::copy(array, v.array); }
 				block(const block & v)
 				{
 					initialize();
@@ -95,21 +82,30 @@ namespace nik
 		Terminalizing is about freeing up memory. In the case of an array, it's all or nothing, meaning the only
 		real option is to deallocate the memory of the whole array.
 */
-				void terminalize() { delete [] array; }
+				void terminalize()
+					{ delete [] array; }
+
 				const block & operator = (const block & v)
 				{
 					terminalize();
 					initialize();
 					copy(v);
+
 					return *this;
 				}
-				~block() { terminalize(); }
 
-				reference operator [] (size_type pos) { return array[pos]; }
-				const_reference operator [] (size_type pos) const { return array[pos]; }
+				~block()
+					{ terminalize(); }
 
-				size_type size() const { return N; }
-				size_type bit_size() const { return 8*sizeof(ValueType)*N; }
+				reference operator [] (size_type pos)
+					{ return array[pos]; }
+				const_reference operator [] (size_type pos) const
+					{ return array[pos]; }
+
+				size_type size() const
+					{ return N; }
+				size_type bit_size() const
+					{ return 8*sizeof(value_type)*N; }
 			};
 		}
 	}
