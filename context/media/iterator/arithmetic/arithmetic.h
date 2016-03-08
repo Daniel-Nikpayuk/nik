@@ -46,7 +46,7 @@ namespace nik
     namespace forward
     {
 	template<typename SizeType>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_1<SizeType>
 	{
 		typedef SizeType size_type;
 
@@ -65,7 +65,7 @@ namespace nik
     namespace backward
     {
 	template<typename SizeType>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_1<SizeType>
 	{
 		typedef SizeType size_type;
 
@@ -84,7 +84,7 @@ namespace nik
     namespace bidirectional
     {
 	template<typename SizeType>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_1<SizeType>
 	{
 		typedef SizeType size_type;
 
@@ -103,7 +103,7 @@ namespace nik
     namespace random_access
     {
 	template<typename SizeType>
-	struct arithmetic : public arithmetic_1<size_type>
+	struct arithmetic : public arithmetic_1<SizeType>
 	{
 		typedef SizeType size_type;
 

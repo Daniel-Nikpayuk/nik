@@ -15,43 +15,48 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_ITERATOR_DISPLAY_H
-#define MEDIA_ITERATOR_DISPLAY_H
+#ifndef SEMIOTIC_ITERATOR_DISPLAY_H
+#define SEMIOTIC_ITERATOR_DISPLAY_H
 
-#include"../../../../context/context/display/display.h"
+#include"../../../context/context/display/display.h"
 
-#include"../../numeric/uint/uint.h"
+#include"../block/block.h"
 
 namespace nik
 {
- namespace media
+ namespace semiotic
  {
   namespace iterator
   {
 	struct printer : public context::context::printer
 	{
 //		using context::context::printer::print;
-
 /*
-		template<typename ValueType>
-		void print(const node<ValueType> & n)
-		{
-//			printf("%zu", u);
-		}
-
-		template<size_type N>
-		void print(const uint<N> & u)
-		{
-			node<size_type> n;
-			while (!u.zero())
-			{
-				bwd_arit::unroll<u::dimension>::divide::
-				n.append();
-			}
-
-			print(n);
-		}
+	Assumes descending order.
+	
+	Decrementing the pointers is bad practice in general, but is here optimized for efficiency.
 */
+		template<size_t N, size_t M=0, size_t L=0>
+		struct unroll
+		{
+			template<typename Iterator>
+			static void block(Iterator i, const char *format)
+			{
+				printf(format, *i);
+				unroll<N-1>::block(--i, format);
+			}
+		};
+
+		template<size_t M, size_t L>
+		struct unroll<0, M, L>
+		{
+			template<typename Iterator>
+			static void block(Iterator i, const char *format)
+				{ }
+		};
+
+		template<typename Block> void print(const Block & v)
+			{ unroll<Block::dimension>::block(v.end()-1, "%zu "); }
 	};
   }
 

@@ -53,14 +53,14 @@ namespace nik
 			using fwd_comp=forward::componentwise<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using fwd_comp_unroll=fwd_comp::unroll<N, M, L>;
+			using fwd_comp_unroll=typename fwd_comp::template unroll<N, M, L>;
 /*
 		arithmetic:
 */
 			using fwd_arit=forward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using fwd_arit_unroll=fwd_arit::unroll<N, M, L>;
+			using fwd_arit_unroll=typename fwd_arit::template unroll<N, M, L>;
 /*
 	backward:
 */
@@ -70,14 +70,14 @@ namespace nik
 			using bwd_comp=backward::componentwise<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using bwd_comp_unroll=bwd_comp::unroll<N, M, L>;
+			using bwd_comp_unroll=typename bwd_comp::template unroll<N, M, L>;
 /*
 		arithmetic:
 */
 			using bwd_arit=backward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using bwd_arit_unroll=bwd_arit::unroll<N, M, L>;
+			using bwd_arit_unroll=typename bwd_arit::template unroll<N, M, L>;
 /*
 	bidirectional:
 */
@@ -87,14 +87,14 @@ namespace nik
 			using bid_comp=bidirectional::componentwise<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using bid_comp_unroll=bid_comp::unroll<N, M, L>;
+			using bid_comp_unroll=typename bid_comp::template unroll<N, M, L>;
 /*
 		arithmetic:
 */
 			using bid_arit=bidirectional::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using bid_arit_unroll=bid_arit::unroll<N, M, L>;
+			using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
 /*
 	random_access:
 */
@@ -104,14 +104,14 @@ namespace nik
 			using rnd_comp=random_access::componentwise<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using rnd_comp_unroll=rnd_comp::unroll<N, M, L>;
+			using rnd_comp_unroll=typename rnd_comp::template unroll<N, M, L>;
 /*
 		arithmetic:
 */
 			using rnd_arit=random_access::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using rnd_arit_unroll=rnd_arit::unroll<N, M, L>;
+			using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
 	};
    }
   }

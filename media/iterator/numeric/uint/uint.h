@@ -18,9 +18,10 @@
 #ifndef MEDIA_ITERATOR_UINT_H
 #define MEDIA_ITERATOR_UINT_H
 
-#include"../../../../context/context/argument/math/math.h"
+#include"../../../../context/context/policy/policy.h"
 #include"../../../../context/semiotic/iterator/policy/policy.h"
 #include"../../../../context/media/iterator/policy/policy.h"
+
 #include"../../../../semiotic/iterator/block/block.h"
 
 /*
@@ -53,22 +54,22 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::context::unit<size_type> unit;
+		typedef context::context::policy<size_type> c_policy;
+		typedef context::semiotic::iterator::policy<size_type> s_policy;
+		typedef context::media::iterator::policy<size_type> m_policy;
 /*
 	block:
-		Need to fix the BlockSize calculation to account for a BitLength which isn't divisible by the unit::length.
-		For example one could round up to the nearest multiple of the unit::length.
+		Need to fix the BlockSize calculation to account for a BitLength which isn't divisible by the c_policy::unit::length.
+		For example one could round up to the nearest multiple of the c_policy::unit::length.
 
 		It actually might be worthwhile keeping BlockSize as a separate template parameter, as it is possible someone
 		might want to subclass this and come up with their own BlockSize for their own reason.
 */
-		template<size_type BitLength, size_type BlockSize=BitLength/unit::length>
+		template<size_type BitLength, size_type BlockSize=BitLength/c_policy::unit::length>
 		class block : protected semiotic::iterator::block<size_type, size_type, BlockSize>
 		{
 			protected:
-				typedef context::semiotic::iterator::policy<size_type> s_policy;
-				typedef context::media::iterator::policy<size_type> m_policy;
-
+				friend c_policy; 
 				friend s_policy; 
 				friend m_policy; 
 			protected:
@@ -80,7 +81,6 @@ namespace nik
 				typedef typename subblock::const_pointer const_pointer;
 				typedef typename subblock::iterator iterator;
 				typedef typename subblock::const_iterator const_iterator;
-				typedef typename subblock::size_type size_type;
 			public:
 				static const size_type dimension=BlockSize;
 /*
@@ -90,16 +90,17 @@ namespace nik
 				block(size_type n) : subblock()
 				{
 					*subblock::array=n;
-					s_policy::fwd_comp_unroll<dimension-1>::
+					s_policy::template fwd_comp_unroll<dimension-1>::
 						repeat::no_return(subblock::array+1, (value_type) 0);
 				}
 				block(const block & b) : subblock(b) { }
-				const block operator = (const block & b) : subblock::operator=(b)
-/*
+				const block operator = (const block & b)
+				{
 					subblock::terminalize();
 					subblock::copy(b);
-*/
-					{ return *this; }
+
+					return *this;
+				}
 			public:
 					// iterators:
 				iterator begin()
@@ -117,32 +118,32 @@ namespace nik
 			public:
 				bool operator == (const block & b) const
 				{
-					return s_policy::fwd_arit_unroll<dimension>::
+					return s_policy::template fwd_arit_unroll<dimension>::
 						equal::fast::with_break(subblock::array, b.array);
 				}
 				bool operator != (const block & b) const
 				{
-					return s_policy::fwd_arit_unroll<dimension>::
+					return s_policy::template fwd_arit_unroll<dimension>::
 						not_equal::fast::with_break(subblock::array, b.array);
 				}
 				bool operator < (const block & b) const
 				{
-					return s_policy::bwd_arit_unroll<dimension>::
+					return s_policy::template bwd_arit_unroll<dimension>::
 						less_than::fast_break(subblock::array+(dimension-1), b.array+(dimension-1));
 				}
 				bool operator <= (const block & b) const
 				{
-					return s_policy::bwd_arit_unroll<dimension>::
+					return s_policy::template bwd_arit_unroll<dimension>::
 						less_than_or_equal::fast_break(subblock::array+(dimension-1), b.array+(dimension-1));
 				}
 				bool operator > (const block & b) const
 				{
-					return s_policy::bwd_arit_unroll<dimension>::
+					return s_policy::template bwd_arit_unroll<dimension>::
 						greater_than::fast_break(subblock::array+(dimension-1), b.array+(dimension-1));
 				}
 				bool operator >= (const block & b) const
 				{
-					return s_policy::bwd_arit_unroll<dimension>::
+					return s_policy::template bwd_arit_unroll<dimension>::
 						greater_than_or_equal::fast_break(subblock::array+(dimension-1), b.array+(dimension-1));
 				}
 			public:
@@ -151,17 +152,22 @@ namespace nik
 */
 				const block & operator <<= (size_type m)
 				{
-					size_type arr_dim(m/unit::length), bit_dim(m%unit::length);
-
+					size_type arr_dim(m/c_policy::unit::length);
 					if (arr_dim >= dimension)
-						s_policy::fwd_comp_unroll<dimension>::repeat(subblock::array, (value_type) 0);
-					else
 					{
-						s_policy::bwd_arit_unroll<dimension>::assign::
-							left_shift::with_return(subblock::array+(dimension-1),
-								subblock::array-1, subblock::array+(dimension-arr_dim), bit_dim);
-						*out>>;
+						s_policy::template fwd_comp_unroll<dimension>::repeat(subblock::array, (value_type) 0);
+
+						return *this;
 					}
+
+					size_type bit_dim(m%c_policy::unit::length);
+					typename subblock::iterator b=subblock::array+(dimension-1);
+					if (arr_dim)
+					{
+						typename subblock::const_iterator e=subblock::array-1;
+						m_policy::bwd_arit::left_shift::no_return(b, e, b-arr_dim, e, bit_dim);
+					}
+					else m_policy::template bwd_arit_unroll<dimension, dimension>::assign::left_shift::no_return(b, bit_dim);
 
 					return *this;
 				}
@@ -170,17 +176,23 @@ namespace nik
 */
 				const block & operator >>= (size_type m) const
 				{
-					size_type arr_dim(m/unit::length), bit_dim(m%unit::length);
-
+					size_type arr_dim(m/c_policy::unit::length);
 					if (arr_dim >= dimension)
-						s_policy::fwd_comp_unroll<dimension>::repeat(subblock::array, (value_type) 0);
-					else
 					{
-						s_policy::fwd_arit_unroll<dimension>::assign::
-							right_shift::with_return(subblock::array+(dimension-1),
-								subblock::array-1, subblock::array+(dimension-arr_dim), bit_dim);
-						*out<<;
+						s_policy::template fwd_comp_unroll<dimension>::repeat(subblock::array, (value_type) 0);
+
+						return *this;
 					}
+
+					size_type bit_dim(m%c_policy::unit::length);
+					if (arr_dim)
+					{
+						typename subblock::const_iterator e=subblock::array+(dimension-1);
+						m_policy::fwd_arit::right_shift::
+							no_return(subblock::array, e, subblock::array+arr_dim, e, bit_dim);
+					}
+					else m_policy::template fwd_arit_unroll<dimension, dimension>::
+						assign::right_shift::no_return(subblock::array, bit_dim);
 
 					return *this;
 				}
@@ -189,12 +201,24 @@ namespace nik
 */
 				block operator << (size_type m) const
 				{
-					size_type arr_dim(m/unit::length), bit_dim(m%unit::length);
-
 					block out;
-					if (arr_dim >= dimension) fwd_comp_unroll::repeat(out.array, (value_type) 0);
-					else bid_arit::left_shift(out.array,
-						subblock::array, dimension, arr_dim, bit_dim);
+					size_type arr_dim(m/c_policy::unit::length);
+					if (arr_dim >= dimension)
+					{
+						s_policy::template fwd_comp_unroll<dimension>::repeat(out, (value_type) 0);
+
+						return out;
+					}
+
+					size_type bit_dim(m%c_policy::unit::length);
+					typename subblock::iterator b=out+(dimension-1);
+					if (arr_dim)
+					{
+						typename subblock::const_iterator e=out-1;
+						m_policy::bwd_arit::left_shift::no_return(b, e, b-arr_dim, e, bit_dim);
+					}
+					else m_policy::template bwd_arit_unroll
+						<dimension, dimension>::assign::left_shift::no_return(b, bit_dim);
 
 					return out;
 				}
@@ -203,12 +227,23 @@ namespace nik
 */
 				block operator >> (size_type m) const
 				{
-					size_type arr_dim(m/unit::length), bit_dim(m%unit::length);
-
 					block out;
-					if (arr_dim >= dimension) fwd_comp_unroll::repeat(out.array, (value_type) 0);
-					else bid_arit::right_shift(out.array,
-						subblock::array, dimension, arr_dim, bit_dim);
+					size_type arr_dim(m/c_policy::unit::length);
+					if (arr_dim >= dimension)
+					{
+						s_policy::template fwd_comp_unroll<dimension>::repeat(out, (value_type) 0);
+
+						return out;
+					}
+
+					size_type bit_dim(m%c_policy::unit::length);
+					if (arr_dim)
+					{
+						typename subblock::const_iterator e=out+(dimension-1);
+						m_policy::fwd_arit::right_shift::no_return(out, e, out+arr_dim, e, bit_dim);
+					}
+					else m_policy::template fwd_arit_unroll
+						<dimension, dimension>::assign::right_shift::no_return(out, bit_dim);
 
 					return out;
 				}
@@ -216,7 +251,7 @@ namespace nik
 				block operator + (const block & b) const
 				{
 					block out;
-					m_fwd_arit_unroll<dimension>::plus::no_return(out.array, subblock::array, b.array);
+					m_policy::template fwd_arit_unroll<dimension>::plus::no_return(out.array, subblock::array, b.array);
 
 					return out;
 				}
@@ -224,7 +259,7 @@ namespace nik
 				block operator - (const block & b) const
 				{
 					block out;
-					m_fwd_arit_unroll<dimension>::minus::no_return(out.array, subblock::array, b.array);
+					m_policy::template fwd_arit_unroll<dimension>::minus::no_return(out.array, subblock::array, b.array);
 
 					return out;
 				}
@@ -232,7 +267,7 @@ namespace nik
 				block operator * (size_type b) const
 				{
 					block out;
-					m_fwd_arit_unroll<dimension>::scale::no_return(out.array, subblock::array, b);
+					m_policy::template fwd_arit_unroll<dimension>::scale::no_return(out.array, subblock::array, b);
 
 					return out;
 				}
@@ -240,8 +275,9 @@ namespace nik
 				block operator * (const block & b) const
 				{
 					block out, tmp;
-					s_fwd_comp_unroll<dimension>::repeat::no_return(out.array, (value_type) 0);
-					m_fwd_arit_unroll<dimension>::asterisk::no_return(out.array, tmp.array, subblock::array, b.array);
+					s_policy::template fwd_comp_unroll<dimension>::repeat::no_return(out.array, (value_type) 0);
+					m_policy::template fwd_arit_unroll<dimension>::asterisk::
+						no_return(out.array, tmp.array, subblock::array, b.array);
 
 					return out;
 				}

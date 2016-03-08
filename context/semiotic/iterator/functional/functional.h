@@ -18,6 +18,8 @@
 #ifndef CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
 #define CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
 
+#include"../../../context/policy/policy.h"
+
 /*
 	I haven't fully decided what to do with this class just yet.
 	I'm sure I need it as a generic iterator overhead class,
@@ -45,6 +47,8 @@ namespace nik
 	struct functional
 	{
 		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
 
 /************************************************************************************************************************/
 //	forward iterator
@@ -125,6 +129,8 @@ namespace nik
 	struct functional
 	{
 		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
 /*
 	decrements out by n times.
 
@@ -179,6 +185,8 @@ namespace nik
 	struct functional
 	{
 		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
 	};
     }
 
@@ -191,6 +199,8 @@ namespace nik
 	struct functional
 	{
 		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
 /*
 	size:
 		Returns the distance between in and end.

@@ -22,8 +22,8 @@
 
 #include"arithmetic_0.h"
 
+#include"../../../context/policy/policy.h"
 #include"../componentwise/componentwise.h"
-#include"../../../context/argument/math/math.h"
 
 // for debugging:
 
@@ -36,7 +36,7 @@
 	each location is conditionally independent, whereas arithmetic is similar but also dependent on the previous value
 	(recursive; maybe the simplest variety of recursive?).
 
-	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a c_policy::unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
@@ -55,14 +55,14 @@ namespace nik
     namespace forward
     {
 	template<typename SizeType>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic_1 : public arithmetic_0<SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef context::argument::math<size_type> math;
-		typedef context::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 
 		typedef componentwise<size_type> fwd_comp;
+
 		typedef arithmetic_0<size_type> fwd_arit;
 
 		struct scale
@@ -72,14 +72,14 @@ namespace nik
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
 	end1 is the end location of the input containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
 			static void no_return(ValueType carry, WIterator out, RIterator in1, ERIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
-					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					carry=c_policy::arg_math::multiply::high_return(*out=carry, *in1, in2);
 					++out; ++in1;
 				}
 			}
@@ -88,14 +88,14 @@ namespace nik
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
 	end1 is the end location of the input containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 			template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
 			static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ERIterator end1, ValueType in2)
 			{
 				while (in1 != end1)
 				{
-					carry=regist::multiply::high_return(*out=carry, *in1, in2);
+					carry=c_policy::arg_math::multiply::high_return(*out=carry, *in1, in2);
 					++out; ++in1;
 				}
 
@@ -112,7 +112,7 @@ namespace nik
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
 	end1 is the end location of the input containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 				template<typename ValueType, typename WIterator, typename EIterator>
 				static void no_return(ValueType carry, WIterator out, EIterator end, ValueType in)
@@ -121,7 +121,7 @@ namespace nik
 					while (out != end)
 					{
 						before=*out;
-						carry=math::multiply::high_return(*out=carry, before, in);
+						carry=c_policy::arg_math::multiply::high_return(*out=carry, before, in);
 						++out;
 					}
 				}
@@ -148,24 +148,24 @@ namespace nik
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 				{
-					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					carry=c_policy::arg_math::multiply::high_return(*out=carry, *in1, in2);
 					unroll_1<N-1>::scale::no_return(carry, ++out, ++in1, in2);
 				}
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 				template<typename ValueType, typename WIterator, typename RIterator>
 				static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 				{
-					carry=math::multiply::high_return(*out=carry, *in1, in2);
+					carry=c_policy::arg_math::multiply::high_return(*out=carry, *in1, in2);
 					return unroll_1<N-1>::scale::with_return(carry, ++out, ++in1, in2);
 				}
 			};
@@ -206,26 +206,26 @@ namespace nik
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 					template<typename ValueType, typename WIterator>
 					static void no_return(ValueType carry, WIterator out, ValueType in)
 					{
 						ValueType before(*out);
-						carry=math::multiply::high_return(*out=carry, before, in);
+						carry=c_policy::arg_math::multiply::high_return(*out=carry, before, in);
 						unroll_1<N-1>::assign::scale::no_return(carry, ++out, in);
 					}
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the unit scalar value.
+	in2 is the c_policy::unit scalar value.
 */
 					template<typename ValueType, typename WIterator>
 					static WIterator with_return(ValueType carry, WIterator out, ValueType in)
 					{
 						ValueType before(*out);
-						carry=math::multiply::high_return(*out=carry, before, in);
+						carry=c_policy::arg_math::multiply::high_return(*out=carry, before, in);
 						return unroll_1<N-1>::assign::scale::with_return(carry, ++out, in);
 					}
 				};
@@ -279,12 +279,11 @@ namespace nik
     namespace backward
     {
 	template<typename SizeType>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic_1 : public arithmetic_0<SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef context::argument::math<size_type> math;
-		typedef context::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef componentwise<size_type> bwd_comp;
@@ -309,7 +308,7 @@ namespace nik
 				{
 					while (n != end)
 					{
-						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::half::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -323,7 +322,7 @@ namespace nik
 				{
 					while (n != end)
 					{
-						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::half::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -352,7 +351,7 @@ namespace nik
 				{
 					while (n != end)
 					{
-						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -366,7 +365,7 @@ namespace nik
 				{
 					while (n != end)
 					{
-						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -394,7 +393,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=unit::half::length)+=*n;
+							(r<<=c_policy::unit::half::length)+=*n;
 							--q; --n;
 						}
 					}
@@ -407,7 +406,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=unit::half::length)+=*n;
+							(r<<=c_policy::unit::half::length)+=*n;
 							--q; --n;
 						}
 
@@ -450,7 +449,7 @@ namespace nik
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
 					{
-						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::half::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -460,7 +459,7 @@ namespace nik
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
 					{
-						if (rc) *q=math::divide::half::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::half::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -483,7 +482,7 @@ namespace nik
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static void no_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
 					{
-						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -493,7 +492,7 @@ namespace nik
 					template<typename ValueType, typename WIterator, typename RIterator>
 					static WIterator with_return(ValueType rc, ValueType r, WIterator q, RIterator n, ValueType d)
 					{
-						if (rc) *q=math::divide::with_return(rc, rc, r, d);
+						if (rc) *q=c_policy::arg_math::divide::with_return(rc, rc, r, d);
 						else if (r >= d) { *q=r/d; rc=r%d; }
 						else { *q=0; rc=r; }
 
@@ -515,7 +514,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=unit::half::length)+=*n;
+							(r<<=c_policy::unit::half::length)+=*n;
 							unroll_1<N-1>::divide::single_digit::half::no_return(r, --q, --n, d);
 						}
 
@@ -525,7 +524,7 @@ namespace nik
 							if (r < d) *q=0;
 							else { *q=r/d; r=r%d; }
 
-							(r<<=unit::half::length)+=*n;
+							(r<<=c_policy::unit::half::length)+=*n;
 							return unroll_1<N-1>::divide::single_digit::half::with_return(r, --q, --n, d);
 						}
 					};
@@ -578,12 +577,11 @@ namespace nik
     namespace bidirectional
     {
 	template<typename SizeType>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic_1 : public arithmetic_0<SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef context::argument::math<size_type> math;
-		typedef context::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -599,7 +597,7 @@ namespace nik
 	Set out identically equal to zero for the normal interpretation.
 	Set the arguement out2=out1 for the normal interpretation.
 */
-			template<typename WIterator, typename WIterator1, typename WIterator2,
+			template<typename ValueType, typename WIterator, typename WIterator1, typename WIterator2,
 				typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
 			static void no_return(WIterator out, WIterator1 out1, WIterator2 out2,
 				RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
@@ -620,7 +618,7 @@ namespace nik
 	Set out identically equal to zero for the normal interpretation.
 	Set out2=out1 for the normal interpretation.
 */
-				template<typename WIterator, typename WIterator1, typename WIterator2,
+				template<typename ValueType, typename WIterator, typename WIterator1, typename WIterator2,
 					typename RIterator1, typename ERIterator1, typename RIterator2, typename ERIterator2>
 				static void no_return(WIterator out, WIterator1 out1, WIterator2 out2,
 					RIterator1 in1, ERIterator1 end1, RIterator2 in2, ERIterator2 end2)
@@ -659,12 +657,11 @@ namespace nik
     namespace random_access
     {
 	template<typename SizeType>
-	struct arithmetic_1 : public arithmetic_0<size_type>
+	struct arithmetic_1 : public arithmetic_0<SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef context::argument::math<size_type> math;
-		typedef context::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 
 		typedef forward::componentwise<size_type> fwd_comp;
 		typedef backward::componentwise<size_type> bwd_comp;
@@ -779,8 +776,8 @@ namespace nik
 					else
 					{
 						q=(*u < *v) ?
-							math::divide::with_return(*u, *bu, *v) :
-								unit::max_size;
+							c_policy::arg_math::divide::with_return(*u, *bu, *v) :
+								c_policy::unit::max_size;
 						--bu;
 					}
 
@@ -870,8 +867,8 @@ namespace nik
 						else
 						{
 							q=(*u < *v) ?
-								((*u<<unit::half::length) + *bu) / *v :
-									unit::half::max_size;
+								((*u<<c_policy::unit::half::length) + *bu) / *v :
+									c_policy::unit::half::max_size;
 							--bu;
 						}
 

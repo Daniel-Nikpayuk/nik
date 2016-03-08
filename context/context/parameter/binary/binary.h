@@ -60,10 +60,10 @@ namespace nik
 			{ enum : size_type { value = (x & low_pass<t>::value) }; };
 		template<size_type x, size_type s>
 		struct high
-			{ enum : size_type { value = right_shift<x, s>::value }; };
+			{ enum : size_type { value = shift_down<x, s>::value }; };
 		template<size_type x, size_type s, size_type t>
 		struct band
-			{ enum : size_type { value = left_shift<right_shift<x, s>::value, t-s>::value }; };
+			{ enum : size_type { value = shift_up<shift_down<x, s>::value, t-s>::value }; };
 
 		template<size_type x>
 		struct lower_half
@@ -80,11 +80,11 @@ namespace nik
 			{
 				enum : size_type
 				{
-					value=meta::if_then_else<mid<secondary, (n>>unit::one), n>::value,
+					value=meta::if_then_else<band<secondary, (n>>unit::one), n>::value,
 						fast_order<primary+(n>>unit::one),
-							mid<secondary, (n>>unit::one), n>::value, (n>>unit::one)>,
+							band<secondary, (n>>unit::one), n>::value, (n>>unit::one)>,
 						fast_order<primary,
-							mid<secondary, unit::zero, (n>>unit::one)>::value, (n>>unit::one)>
+							band<secondary, unit::zero, (n>>unit::one)>::value, (n>>unit::one)>
 							>::return_type::value
 				};
 			};

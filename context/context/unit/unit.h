@@ -53,15 +53,15 @@ namespace nik
 
 		struct half
 		{
-			static const size_type length = ::length >> one;
+			static const size_type length = unit::length >> one;
 			static const size_type max_length = length - one;
 			static const size_type half_length = length >> one;
 
-			static const size_type size = ::half_size;
+			static const size_type size = unit::half_size;
 			static const size_type max_size = size - one;
 			static const size_type half_size = one << half_length;
 
-			static const size_type power = ::half_size;
+			static const size_type power = unit::half_size;
 			static const size_type max_power = one << max_length;
 			static const size_type half_power = one << half_length;
 		};

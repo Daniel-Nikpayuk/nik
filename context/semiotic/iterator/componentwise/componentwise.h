@@ -22,7 +22,7 @@
 
 #include"componentwise_macro.h"
 
-#include"../../context/unit/unit.h"
+#include"../../../context/policy/policy.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -46,7 +46,7 @@
 	Methods that have more than one template typename (eg. Iterator1, Iterator2) have so for higher
 	entropy, but in practice you may need to optimize (eg. Iterator2=const Iterator1 &).
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
-	As far as debugging goes, keep in mind the location of an array (as pointer) is unit and thus not
+	As far as debugging goes, keep in mind the location of an array (as pointer) is c_policy::unit and thus not
 	allowed as a reference, so for example if you declare "int array[100]" you can't pass "array" directly
 	if you're template parameter is specified as a variable. Instead you need to make a copy of array:
 		"int *a=array", so then you can pass "a" instead.
@@ -74,7 +74,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef meta::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 /*
 	+:
 
@@ -213,7 +213,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m,
+	as well as n = c_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -228,7 +228,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m,
+	as well as n = c_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
@@ -360,7 +360,7 @@ namespace nik
 			with_return_bracket_2(++, )
 		};
 /*
-	There's no need for a "return" version of "unit value" assign as the out iterator equals the end iterator upon halting.
+	There's no need for a "return" version of "c_policy::unit value" assign as the out iterator equals the end iterator upon halting.
 */
 		struct repeat
 		{
@@ -521,7 +521,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m,
+	as well as n = c_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 				template<typename WIterator, typename RIterator, typename EIterator>
@@ -536,7 +536,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m,
+	as well as n = c_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 				template<typename WIterator, typename RIterator, typename EIterator>
@@ -570,8 +570,8 @@ namespace nik
 			{
 				while (in != end)
 				{
-					*out=(unit::low_pass & *in);
-					*++out=*in>>unit::half::length;
+					*out=(c_policy::unit::low_pass & *in);
+					*++out=*in>>c_policy::unit::half::length;
 					++out; ++in;
 				}
 			}
@@ -581,8 +581,8 @@ namespace nik
 			{
 				while (in != end)
 				{
-					*out=(unit::low_pass & *in);
-					*++out=*in>>unit::half::length;
+					*out=(c_policy::unit::low_pass & *in);
+					*++out=*in>>c_policy::unit::half::length;
 					++out; ++in;
 				}
 
@@ -597,7 +597,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<unit::half::length);
+						*out+=(*++in<<c_policy::unit::half::length);
 						++out; ++in;
 					}
 				}
@@ -608,7 +608,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<unit::half::length);
+						*out+=(*++in<<c_policy::unit::half::length);
 						++out; ++in;
 					}
 
@@ -636,7 +636,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -651,7 +651,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -708,7 +708,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
 	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
@@ -736,16 +736,16 @@ namespace nik
 				template<typename WIterator, typename RIterator>
 				static void no_return(WIterator out, RIterator in)
 				{
-					*out=(unit::low_pass & *in);
-					*++out=*in>>unit::half::length;
+					*out=(c_policy::unit::low_pass & *in);
+					*++out=*in>>c_policy::unit::half::length;
 					unroll<N-1>::convert::no_return(++out, ++in);
 				}
 
 				template<typename WIterator, typename RIterator>
 				static WIterator with_return(WIterator out, RIterator in)
 				{
-					*out=(unit::low_pass & *in);
-					*++out=*in>>unit::half::length;
+					*out=(c_policy::unit::low_pass & *in);
+					*++out=*in>>c_policy::unit::half::length;
 					return unroll<N-1>::convert::with_return(++out, ++in);
 				}
 
@@ -755,7 +755,7 @@ namespace nik
 					static void no_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<unit::half::length);
+						*out+=(*++in<<c_policy::unit::half::length);
 						unroll<N-1>::convert::half::no_return(++out, ++in);
 					}
 
@@ -763,7 +763,7 @@ namespace nik
 					static WIterator with_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<unit::half::length);
+						*out+=(*++in<<c_policy::unit::half::length);
 						return unroll<N-1>::convert::half::with_return(++out, ++in);
 					}
 				};
@@ -856,7 +856,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef meta::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 /*
 	+:
 
@@ -988,7 +988,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 */
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
 			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)
@@ -1138,7 +1138,7 @@ namespace nik
 			with_return_bracket_2(--, )
 		};
 /*
-	There's no need for a "return" version of "unit value" assign as the out iterator equals the end iterator upon halting.
+	There's no need for a "return" version of "c_policy::unit value" assign as the out iterator equals the end iterator upon halting.
 
 	There is the concern where EIterator "end" needs to be beyond the initial iterator address of the structure.
 	In the case of a user-defined iterator class, the details of implementation informs such a discussion.
@@ -1316,7 +1316,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 */
 				template<typename WIterator, typename RIterator, typename EIterator>
 				static void no_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
@@ -1360,7 +1360,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -1423,7 +1423,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = unit::length-m.
+	as well as n = c_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
 	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.
@@ -1513,7 +1513,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef meta::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 	};
     }
 
@@ -1527,7 +1527,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef meta::unit<size_type> unit;
+		typedef context::policy<size_type> c_policy;
 	};
     }
    }

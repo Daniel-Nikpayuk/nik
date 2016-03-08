@@ -58,19 +58,19 @@ namespace nik
 
 				static const size_type dimension=N;
 
-				typedef context::semiotic::iterator::policy<size_type> policy;
+				typedef context::semiotic::iterator::policy<size_type> s_policy;
 
 				pointer array;
 
 				void initialize() { array=new value_type[N]; }
-				block() : initialize() { }
+				block() { initialize(); }
 /*
 	copy:
 		Defining pointers in reference to 'v' is intentional---fewer assumptions
 		made about "this" makes this function more portable for outside use.
 */
 				void copy(const block & v)
-					{ policy::fwd_comp_unroll<N>::assign::no_return(array, v.array); }
+					{ s_policy::template fwd_comp_unroll<N>::assign::no_return(array, v.array); }
 
 				block(const block & v)
 				{

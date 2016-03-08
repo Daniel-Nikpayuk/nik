@@ -15,12 +15,15 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_MEDIA_ITERATOR_POLICY_H
-#define CONTEXT_MEDIA_ITERATOR_POLICY_H
+#ifndef CONTEXT_CONTEXT_POLICY_H
+#define CONTEXT_CONTEXT_POLICY_H
 
-#include"../arithmetic/arithmetic.h"
-//#include"../vector/vector.h"
-//#include"../list/list.h"
+#include"../unit/unit.h"
+#include"../parameter/meta/meta.h"
+#include"../parameter/binary/binary.h"
+#include"../parameter/math/math.h"
+#include"../argument/binary/binary.h"
+#include"../argument/math/math.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -34,10 +37,8 @@ namespace nik
 {
  namespace context
  {
-  namespace media
+  namespace context
   {
-   namespace iterator
-   {
 /*
 */
 	template<typename SizeType>
@@ -45,47 +46,36 @@ namespace nik
 	{
 		typedef SizeType size_type;
 /*
-	forward:
+	unit:
+*/
+		using unit=context::unit<size_type>;
+/*
+	parameter:
 */
 /*
-		arithmetic:
+		meta:
 */
-			using fwd_arit=forward::arithmetic<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using fwd_arit_unroll=typename fwd_arit::template unroll<N, M, L>;
+			using par_met=parameter::meta;
 /*
-	backward:
+		binary:
 */
+			using par_bin=parameter::binary<size_type>;
 /*
-		arithmetic:
+		math:
 */
-			using bwd_arit=backward::arithmetic<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bwd_arit_unroll=typename bwd_arit::template unroll<N, M, L>;
+			using par_mat=parameter::math<size_type>;
 /*
-	bidirectional:
+	argument:
 */
 /*
-		arithmetic:
+		binary:
 */
-			using bid_arit=bidirectional::arithmetic<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
+			using arg_bin=argument::binary<size_type>;
 /*
-	random_access:
+		math:
 */
-/*
-		arithmetic:
-*/
-			using rnd_arit=random_access::arithmetic<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
+			using arg_mat=argument::math<size_type>;
 	};
-   }
   }
  }
 }
