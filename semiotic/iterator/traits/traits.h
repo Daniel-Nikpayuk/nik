@@ -28,34 +28,32 @@
 
 namespace nik
 {
-	namespace semiotic
+ namespace semiotic
+ {
+  namespace iterator
+  {
+	struct traits
 	{
-		namespace iterator
-		{
-/*
-*/
-			struct traits
-			{
 /*
 	container:
 */
-				template<typename ContainerType, typename ValueType, typename SizeType>
-				struct container
-				{
-					typedef ContainerType type;
-					typedef ContainerType* address;
+		template<typename ContainerType, typename ValueType, typename SizeType>
+		struct container
+		{
+			typedef ContainerType type;
+			typedef ContainerType* address;
 
-					typedef ValueType value_type;
-					typedef ValueType& reference;
-					typedef ValueType const & const_reference;
-					typedef ValueType* pointer;
-					typedef ValueType const * const_pointer;
+			typedef ValueType value_type;
+			typedef ValueType& reference;
+			typedef ValueType const & const_reference;
+			typedef ValueType* pointer;
+			typedef ValueType const * const_pointer;
 
-					typedef SizeType size_type;
-				};
-			};
-		}
-	}
+			typedef SizeType size_type;
+		};
+	};
+  }
+ }
 }
 
 #endif
