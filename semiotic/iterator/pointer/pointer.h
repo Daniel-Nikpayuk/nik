@@ -25,9 +25,9 @@
 	class there is a conversion constructor---thus the additional need to (at least) declare the existence of the unit::pointer
 	class ahead of time.
 
-	Moreover, in terms of dynamic binding, unit::const_pointers can semantically be considered a unit::pointer subclass,
-	and are as such implemented that way (the compiler will thus all polymorphic conversion of a unit::const_pointer*
-	to a unit::pointer*.
+	In terms of dynamic binding, unit::const_pointers can semantically be considered a unit::pointer subclass,
+	and is nearly implemented as such. As it stands, I have decided to prevent the use of polymorphism,
+	and have implemented this code in such a way that the compiler will allow no such direct conversion.
 
 	It takes a policy of soft or shallow copying, and does not delete or destroy by default.
 */
@@ -38,8 +38,6 @@ namespace nik
  {
   namespace iterator
   {
-   namespace unit
-   {
 	template<typename T, typename SizeType, SizeType N> class const_pointer;
 
 	template<typename T, typename SizeType, SizeType N>
@@ -65,7 +63,9 @@ namespace nik
 		public:
 			void initialize()
 				{ current=new void_ptr[N]; }
-
+/*
+	Does not properly clear the memory for cycle efficiency.
+*/
 			void terminalize()
 				{ delete [] current; }
 
@@ -74,6 +74,9 @@ namespace nik
 			pointer(const pointer & p) { current=p.current; }
 			~pointer() { }
 
+/*
+	In the case &p == this, nothing is changed.
+*/
 			const pointer & operator = (const pointer & p)
 			{
 				current=p.current;
@@ -82,6 +85,12 @@ namespace nik
 
 			value_type_ref operator * ()
 				{ return *((value_type_ptr) current); }
+
+			value_type_ptr operator -> ()
+				{ return ((value_type_ptr) current); }
+
+			operator bool () const
+				{ return current; }
 
 			void_ptr_ptr_ref operator + () const
 				{ return ((void_ptr_ptr_ptr) current)[next]; }
@@ -188,68 +197,104 @@ namespace nik
 
 			value_type_ref operator * ()
 				{ return *((value_type_ptr) base::current); }
+
+			value_type_ptr operator -> ()
+				{ return ((value_type_ptr) base::current); }
 	};
-   }
 
-	#define LINKED_SIZE 2
-	#define CHAINED_SIZE 3
-
-	template<typename T>
-	using linked_pointer=unit::pointer<T, size_t, LINKED_SIZE>;
+	#define LIST_SIZE 2
+	#define CHAIN_SIZE 3
 
 	template<typename T>
-	using const_linked_pointer=unit::const_pointer<T, size_t, LINKED_SIZE>;
+	using list_pointer=pointer<T, size_t, LIST_SIZE>;
 
 	template<typename T>
-	using chained_pointer=unit::pointer<T, size_t, CHAINED_SIZE>;
+	using const_list_pointer=const_pointer<T, size_t, LIST_SIZE>;
 
 	template<typename T>
-	using const_chained_pointer=unit::const_pointer<T, size_t, CHAINED_SIZE>;
+	using chain_pointer=pointer<T, size_t, CHAIN_SIZE>;
+
+	template<typename T>
+	using const_chain_pointer=const_pointer<T, size_t, CHAIN_SIZE>;
   }
  }
 
-	void** new_linked_pointer() { return new void *[LINKED_SIZE]; }
+	void** new_list_pointer() { return new void *[LIST_SIZE]; }
+
+	void** new_list_pointer(void **p)
+	{
+		void **rtn=new void *[LIST_SIZE];
+		((void***) rtn)[1]=p;
+		return rtn;
+	}
 
 	template<typename T>
-	void** new_linked_pointer(const T & v)
+	void** new_list_pointer(const T & v)
 	{
-		void **rtn=new void *[LINKED_SIZE];
+		void **rtn=new void *[LIST_SIZE];
 		*((T*) rtn)=v;
 		return rtn;
 	}
 
-	void** new_const_linked_pointer() { return new void *[LINKED_SIZE]; }
+	template<typename T>
+	void** new_list_pointer(const T & v, void **p)
+	{
+		void **rtn=new void *[LIST_SIZE];
+		*((T*) rtn)=v;
+		((void***) rtn)[1]=p;
+		return rtn;
+	}
+
+	void** new_const_list_pointer() { return new void *[LIST_SIZE]; }
+
+	void** new_const_list_pointer(void **p)
+	{
+		void **rtn=new void *[LIST_SIZE];
+		((void***) rtn)[1]=p;
+		return rtn;
+	}
+
+	void** new_chain_pointer() { return new void *[CHAIN_SIZE]; }
+
+	void** new_chain_pointer(void **q, void **p)
+	{
+		void **rtn=new void *[CHAIN_SIZE];
+		((void***) rtn)[1]=q;
+		((void***) rtn)[2]=p;
+		return rtn;
+	}
 
 	template<typename T>
-	void** new_const_linked_pointer(const T & v)
+	void** new_chain_pointer(const T & v)
 	{
-		void **rtn=new void *[LINKED_SIZE];
+		void **rtn=new void *[CHAIN_SIZE];
 		*((T*) rtn)=v;
 		return rtn;
 	}
 
-	void** new_chained_pointer() { return new void *[CHAINED_SIZE]; }
-
 	template<typename T>
-	void** new_chained_pointer(const T & v)
+	void** new_chain_pointer(const T & v, void **q, void **p)
 	{
-		void **rtn=new void *[CHAINED_SIZE];
+		void **rtn=new void *[CHAIN_SIZE];
 		*((T*) rtn)=v;
+		((void***) rtn)[1]=q;
+		((void***) rtn)[2]=p;
 		return rtn;
 	}
 
-	void** new_const_chained_pointer() { return new void *[CHAINED_SIZE]; }
+	void** new_const_chain_pointer() { return new void *[CHAIN_SIZE]; }
 
 	template<typename T>
-	void** new_const_chained_pointer(const T & v)
+	void** new_const_chain_pointer(void **q, void **p)
 	{
-		void **rtn=new void *[CHAINED_SIZE];
-		*((T*) rtn)=v;
+		void **rtn=new void *[CHAIN_SIZE];
+		((void***) rtn)[1]=q;
+		((void***) rtn)[2]=p;
 		return rtn;
 	}
 
-	#undef CHAINED_SIZE
-	#undef LINKED_SIZE
+	#undef CHAIN_SIZE
+	#undef LIST_SIZE
 }
 
 #endif

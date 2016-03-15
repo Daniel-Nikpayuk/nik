@@ -23,24 +23,19 @@
 
 /*
 	list:
-		Two alternate designs have, either an "end" digit (node), or, a null pointer signifying the end:
+		Choice of the word "list" was hard to settle on. Was tempted to use the word "cascade" as "list"
+		is overused, but I've decided on it in the sense of a LISP list. In that sense it is a singly linked list.
 
-		An end digit is less memory efficient not to mention the need to relink it, but is otherwise more
+		The policy here has taken into consideration two alternate designs: Have an "end" iterator,
+		or a null iterator signifying the end.
+
+		An end iterator is less memory efficient not to mention the need to relink it, but is otherwise more
 		compatible with iterators for subclassing---and thus more extensible.
 
-		A null pointer signifier is more efficient but less extensible. On the otherhand, if you were to make
-		the "last" pointer a legitimate digit (not just signifier) then you have the best of both worlds,
-		not to mention it becomes easier to append to the numeral list as you don't have to figure out what's
-		second last (to be able to insert before last). It also fits with the idea that a "numeral" should
-		never actually be empty and should default to '0', but such a restriction should not be specified here.
-
-		The final consideration, given that the numeric classes intended to be extended from numeral here are
-		additionally intended to be workhorse types for the whole library, and thus cpu efficiency is again
-		privileged over memory. The constraint however remains that compromising memory remains limited to constant
-		or linear increase. In anycase case, as comparison operators are a basic and repeatedly used test for
-		these types, they must be as efficient as possible. In this case, it makes more sense to have
-		constant-time access to the "order" of these polynomials (positional notation) as well as their leading
-		coefficients for fast comparisons (==; !=; <; <=; >; >=).
+		A null iterator signifier is more efficient but less extensible. On the otherhand, if you were to make
+		the "last" iterator a legitimate iterator (not just signifier) then you have the best of both worlds,
+		not to mention it becomes easier to append to the list as you don't have to figure out what's
+		second last (to be able to insert before last).
 */
 
 namespace nik
@@ -51,99 +46,81 @@ namespace nik
   {
 /*
 	list:
-			rename "digit" to "block"
 */
-	template<typename SizeType, typename T>
+	template<typename T, typename SizeType=size_t>
 	struct list
 	{
-		typedef traits::container<list, SizeType, SizeType> digit;
-		typedef typename digit::value_type value_type;
-		typedef typename digit::reference reference;
-		typedef typename digit::value_type const & const_reference;
-
-		typedef forward::linked_pointer<SizeType, T> pointer;
-		typedef forward::linked_pointer<SizeType, T const> const_pointer;
-
-		typedef digit const * const_pointer;
-		typedef typename topos1<SizeType, SizeType>::pointer iterator;
-		typedef typename topos1<SizeType, SizeType>::const_pointer const_iterator;
+		typedef traits::container<list, T, SizeType> attributes;
+		typedef typename attributes::value_type value_type;
+		typedef typename attributes::reference reference;
+		typedef typename attributes::const_reference const_reference;
+		typedef pointer<T, SizeType, 2> iterator;
+		typedef const_pointer<T, SizeType, 2> const_iterator;
 		typedef SizeType size_type;
 
-		pointer initial;
-		pointer terminal;
-
+		iterator initial;
+		iterator terminal;
+/*
+	Leaving this constructor empty has higher entropy as other classes that use this might want to custom initialize.
+*/
 		list() { }
 
-		void initialize() { terminal=initial=new digit(); }
-		void initialize(const value_type & v) { terminal=initial=new digit(v, 0); }
+		void initialize() { terminal=initial=nik::new_list_pointer(0); }
+		void initialize(const value_type & v) { terminal=initial=nik::new_list_pointer(v, 0); }
 
 		list(const value_type & v) { initialize(v); }
-		list(const value_type & v, size_type n)
-		{
-			initialize(v);
-			while (--n) terminal=terminal->edge0=new digit(v, 0);
-		}
 /*
 	copy:
-		Defining pointers relative to 'n' is intentional---fewer assumptions
+		Defining iterators relative to 'n' is intentional---fewer assumptions
 		made about "this" list makes such a function more portable for outside use.
 
-	Assumes initial and n.initial are already instantiated.
+		Assumes initial and n.initial are already instantiated.
 */
 		void copy(const list & n)
 		{
-			for (const_pointer k(n.initial->edge0); k; k=k->edge0)
-				terminal=terminal->edge0=new digit(k->value, 0);
+			for (const_iterator k=n.initial; k; k=+k)
+			{
+				*terminal=*k;
+				terminal=+terminal=nik::new_list_pointer();
+			}
+
+			+terminal=0;
 		}
 /*
 	Assumes n.initial is already instantiated.
 */
 		list(const list & n)
 		{
-			initialize(n.initial->value);
+			initialize();
 			copy(n);
 		}
 
 		void terminalize()
 		{
-			pointer previous;
-			while (initial->edge0)
+			iterator previous=initial;
+			while (initial)
 			{
+				initial=+initial;
+				previous.terminalize();
 				previous=initial;
-				initial=initial->edge0;
-				delete previous;
 			}
 		}
-		void terminalize(const value_type & v)
-		{
-			terminalize();
-			initial->value=v;
-		}
+
 		const list & operator = (const list & n)
 		{
-			terminalize(n.initial->value);
+			terminalize();
+			initialize();
 			copy(n);
+
 			return *this;
 		}
 
-		void destroy()
-		{
-			terminalize();
-			delete terminal;
-		}
-		~list() { destroy(); }
+		~list() { terminalize(); }
 
 		iterator begin() { return initial; }
 		const_iterator cbegin() const { return initial; }
 		iterator end() { return 0; }
 		const_iterator cend() const { return 0; }
-
-		size_type size() const
-		{
-			size_type count(0);
-			for (pointer current(initial); current; current=current->edge0) ++count;
-			return count;
-		}
 	};
   }
  }
