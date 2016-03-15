@@ -664,6 +664,246 @@ namespace nik
 				}
 			};
 		};
+/*
+	Assumes out is terminal: Starting at (including) out, adds in and converts (extends) the positional notation with
+	respect to base.
+
+	I've read C++ compilers optimize if you sequentially compute division (/) first and the remainder (%) following,
+	since the compiler's algorithm for division already gives you the remainder, meaning it doesn't need to recompute.
+*/
+			template<size_type base, typename Digit>
+			static Digit* plus_push(Digit *out, const typename Digit::value_type & in)
+			{
+				for (out->value+=in; out->value >= base; out=out->edge0)
+				{
+					out->edge0=new Digit(out->value/base, 0);
+					out->value%=base;
+				}
+				return out;
+			}
+/*
+	Same as above, but additionally increments count.
+*/
+			template<size_type base, typename Digit>
+			static Digit* plus_push_count(Digit *out, typename Digit::value_type in, size_type & count)
+			{
+				for (out->value+=in; out->value >= base; out=out->edge0, ++count)
+				{
+					out->edge0=new Digit(out->value/base, 0);
+					out->value%=base;
+				}
+				return out;
+			}
+/*
+	Assumes out is terminal: Starting at (including) out, adds in->value cascading the quotient until (not including) end.
+	Though obvious by design, in practice this is most effective when end is a terminal point within a numeral---as many
+	numeral algorithms act on numerals of differing length, which otherwise leads to a natural switch to different algorithms
+	upon reaching end.
+
+	Optimized to take advantage of the assumption that it is already in a positional notation with respect to the common base.
+	Saves on expensive division and modulo operations.
+*/
+			template<size_type base, typename Digit>
+			static Digit* plus_push(Digit *out, const Digit *in, const Digit *end)
+			{
+				while (in != end)
+				{
+					out->value+=in->value;
+					out->edge0=new Digit(out->value >= base, 0);
+					out->value-=out->edge0->value*base;
+					out=out->edge0; in=in->edge0;
+				}
+				return out;
+			}
+/*
+	Assumes out is terminal: Starting at (including) out, adds in1->value and in2->value cascading the quotient until
+	(not including) end. Though obvious by design, in practice this is most effective when end is a terminal point within
+	a numeral---as many numeral algorithms act on numerals of differing length, which otherwise leads to a natural switch
+	to different algorithms upon reaching end.
+
+	Caution: The pointer in1 is a reference for convenience (to pick up where it left off for different length numerals).
+	Easy to misapply to a pointer that shouldn't be directly changed.
+
+	Optimized to take advantage of the assumption that it is already in a positional notation form with respect to the common base.
+	No need for expensive division and modulo operations.
+*/
+			template<size_type base, typename Digit>
+			static Digit* plus_push(Digit *out, const Digit* & in1, const Digit *in2, const Digit *end2)
+			{
+				while (in2 != end2)
+				{
+					out->value+=in1->value+in2->value;
+					out->edge0=new Digit(out->value >= base, 0);
+					out->value-=out->edge0->value*base;
+					out=out->edge0; in1=in1->edge0; in2=in2->edge0;
+				}
+				return out;
+			}
+/*
+	Assumes end != 0.
+
+	The for loop is optimized to shortcut in the case that there is no further carry. Given it assumes end != 0
+	(out->edge0 is called) this implies end <= terminal (numeral member) in which case it is acceptable to further
+	optimize the condition out->value >= base first.
+
+	I've read C++ compilers optimize if you sequentially compute division (/) first and the remainder (%) following,
+	since the compiler's algorithm for division already gives you the remainder, meaning it doesn't need to recompute.
+*/
+			template<size_type base, typename Digit>
+			static void plus_assign(Digit *out, const Digit *end, const typename Digit::value_type & in)
+			{
+				for (out->value+=in; out->value >= base && out != end; out=out->edge0)
+				{
+					out->edge0->value+=out->value/base;
+					out->value%=base;
+				}
+			}
+/*
+	Assumes end != 0.
+
+	Optimized to take advantage of the assumption that it is already in a positional notation form with respect to the common base.
+	No need for expensive division and modulo operations.
+*/
+			template<size_type base, typename Digit>
+			static Digit* plus_assign(Digit *out, const Digit *in, const Digit *end)
+			{
+				while (in != end)
+				{
+					out->value+=in->value;
+					bool carry=(out->value >= base);
+					out->edge0->value+=carry;
+					out->value-=carry*base;
+					out=out->edge0; in=in->edge0;
+				}
+				return out;
+			}
+/*
+	Assumes end != 0.
+
+	Optimized to take advantage of the assumption that it is already in a positional notation form with respect to the common base.
+	No need for expensive division and modulo operations.
+*/
+			template<size_type base, typename Digit>
+			static const Digit* converse_plus_assign(Digit *out, const Digit *end, const Digit *in)
+			{
+				while (out != end)
+				{
+					out->value+=in->value;
+					bool carry=(out->value >= base);
+					out->edge0->value+=carry;
+					out->value-=carry*base;
+					out=out->edge0; in=in->edge0;
+				}
+				return in;
+			}
+/*
+	Assumes end != 0.
+*/
+			template<size_type base, typename Digit>
+			static Digit* double_push(Digit *out, const Digit *in, const Digit *end)
+			{
+				while (in != end)
+				{
+					out->value+=(in->value<<1);
+					out->edge0=new Digit(out->value >= base, 0);
+					out->value-=out->edge0->value*base;
+					out=out->edge0; in=in->edge0;
+				}
+				return out;
+			}
+/*
+*/
+			template<size_type base, typename Digit>
+			static Digit* double_push_count(Digit *out, typename Digit::value_type in, size_type & count)
+			{
+				if ((out->value+=in) >= base)
+				{
+					out->value-=base;
+					out=out->edge0=new Digit(1, 0);
+					++count;
+				}
+				return out;
+			}
+/*
+	Breaks if in == end. in->edge0 might still exist, in which case it would keep moving forward either indefinitely
+	or would crash as soon as in->edge0 == 0.
+	Checks against in->edge0 != end so that it returns the digit before end. Useful for the latter.
+
+	Caution: The pointer in1 is a reference for convenience (to pick up where it left off for different length numerals).
+	Easy to misapply to a pointer that shouldn't be directly changed.
+
+			template<size_type base, typename Digit>
+			static Digit* halve_push(Digit *out, const Digit* & in, const Digit *end)
+			{
+				while (in->edge0 != end)
+				{
+					out->value=(in->edge0->value & 1)*(base>>1)+(in->value>>1);
+					out=out->edge0=new Digit(0, 0);
+					in=in->edge0;
+				}
+				return out;
+			}
+*/
+			template<size_type base, typename Digit>
+			static Digit* halve_push(Digit *out, const Digit* & in, const Digit *end)
+			{
+				for (out->value=(in->value>>1); in->edge0 != end; in=in->edge0)
+				{
+					out->value+=(in->edge0->value & 1)*(base>>1);
+					out=out->edge0=new Digit((in->edge0->value>>1), 0);
+				}
+				return out;
+			}
+/*
+*/
+			template<size_type base, typename Digit>
+			static Digit* halve_pop_count(Digit *out, const Digit *in, size_type & count)
+			{
+				out->value+=(in->edge0->value & 1)*(base>>1);
+				typename Digit::value_type lead=(in->edge0->value>>1);
+				if (lead) out=out->edge0=new Digit(lead, 0);
+				else ++count;
+				return out;
+			}
+/*
+*/
+			template<size_type base, typename Digit>
+			static Digit* decrement_push(Digit *out, const Digit* & in, const Digit *end)
+			{
+				for (out->value=1; in->edge0 != end; out=out->edge0, in=in->edge0)
+				{
+					out->edge0=new Digit((in->value == 0), 0);
+					out->value=out->edge0->value*base+(!out->edge0->value)*in->value-out->value;
+				}
+				return out;
+			}
+/*
+*/
+			template<size_type base, typename Digit>
+			static Digit* decrement_pop_count(Digit *out, const Digit *in, size_type & count)
+			{
+				bool carry=(in->value == 0), pop=(carry && in->edge0->value == 1);
+				out->value=carry*base+(!carry)*in->value-out->value;
+				if (pop) ++count;
+				else out=out->edge0=new Digit(in->edge0->value-carry, 0);
+				return out;
+			}
+/*
+	Notice the use of += in the initial assignment. It Does not parallel plus() above.
+	Uses the hack that 0 is false and !0 (anything else) is true.
+*/
+			template<size_type base, typename Digit>
+			static Digit* asterisk_push(Digit *out, const Digit *in1, const Digit *end1, const typename Digit::value_type & in2)
+			{
+				while (in1 != end1)
+				{
+					out->value+=in1->value*in2;
+					out->edge0=new Digit(out->value/base, 0);
+					out->value%=base;
+					out=out->edge0; in1=in1->edge0;
+				}
+				return out;
+			}
 
 		struct assign
 		{
@@ -2443,3 +2683,4 @@ namespace nik
 }
 
 #endif
+

@@ -102,6 +102,279 @@ namespace nik
 				return out;
 			}
 		};
+/*
+	This version is for reference, otherwise the below version---optimized for memory using composition---is the same.
+
+	Should it be acceptable to assume size_type == Numeral::size_type ?
+
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_equal(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				out.terminal=method::template plus_assign<base>(out.initial, in.initial, in.terminal);
+				out.terminal=method::template plus_push_count<base>(out.terminal, in.terminal->value, count);
+				return count;
+			}
+
+	This equal case also holds for &out==&in, which is nice, but it should be verified.
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_equal(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				out.terminal=method::template plus_push_count<base>(
+					method::template plus_assign<base>(out.initial, in.initial, in.terminal),
+					in.terminal->value, count);
+				return count;
+			}
+/*
+	This version is for reference, otherwise the below version---optimized for memory using composition---is the same.
+
+	Should it be acceptable to assume size_type == Numeral::size_type ?
+
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_less_than(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				typename Numeral::const_pointer i=method::template
+					converse_plus_assign<base>(out.initial, out.terminal, in.initial);
+				out.terminal=method::template plus_push<base>(out.terminal, i, in.terminal, count);
+				out.terminal=method::template plus_push_count<base>(out.terminal, in.terminal->value, count);
+				return count;
+			}
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_less_than(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				out.terminal=method::template plus_push_count<base>(
+					method::template plus_push<base>(out.terminal,
+						method::template converse_plus_assign<base>(out.initial, out.terminal, in.initial),
+						in.terminal),
+					in.terminal->value, count);
+				return count;
+			}
+/*
+	This version is for reference, otherwise the below version---optimized for memory using composition---is the same.
+
+	Should it be acceptable to assume size_type == Numeral::size_type ?
+
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_greater_than(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				typename Numeral::pointer i=method::template plus_assign<base>(out.initial, in.initial, in.terminal);
+				method::template plus_assign<base>(i, out.terminal, in.terminal->value);
+				out.terminal=method::template plus_push_count<base>(out.terminal, 0, count);
+				return count;
+			}
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type plus_assign_greater_than(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				method::template plus_assign<base>(
+					method::template plus_assign<base>(out.initial, in.initial, in.terminal),
+					out.terminal, in.terminal->value);
+				out.terminal=method::template plus_push_count<base>(out.terminal, 0, count);
+				return count;
+			}
+/*
+			template<size_type base, typename Numeral>
+			static Numeral* equal_plus(Numeral *out, const Numeral *in1, const Numeral *in2, const Numeral *end2, size_type & count)
+			{
+				out=method::template plus_push<base>(out, in1, in2, end2);
+				return method::template plus_push_count<base>(out, in1->value+end2->value, count);
+			}
+*/
+/*
+	Provided for symmetry, but in practice try to use either the less_than or greater_than version but not both (expensive).
+			template<size_type base, typename Numeral>
+			static Numeral* less_than_plus(Numeral *out,
+				const Numeral *in1, const Numeral *end1, const Numeral *in2, const Numeral *end2, size_type & count)
+			{
+				out=method::template plus_push<base>(out, in2, in1, end1);
+				out->value+=end1->value;
+				out=method::template plus_push<base>(out, in2, end2);
+				return method::template plus_push_count<base>(out, end2->value, count);
+			}
+*/
+/*
+	Provided for symmetry, but in practice try to use either the less_than or greater_than version but not both (expensive).
+			template<size_type base, typename Numeral>
+			static Numeral* greater_than_plus(Numeral *out,
+				const Numeral *in1, const Numeral *end1, const Numeral *in2, const Numeral *end2, size_type & count)
+			{
+				out=method::template plus_push<base>(out, in1, in2, end2);
+				out->value+=end2->value;
+				out=method::template plus_push<base>(out, in1, end1);
+				return method::template plus_push_count<base>(out, end1->value, count);
+			}
+*/
+/*
+					natural_number operator - (const natural_number & n) const
+					{
+						natural_number out;
+						if (n < *this)
+							out.terminal=method::minus<radix>(out.terminal,
+								out.magnitude, numeral::initial, n.initial);
+
+						return out;
+					}
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type double_assign(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				out.terminal=method::template double_push<base>(out.initial, in.initial, in.terminal);
+				out.terminal=method::template double_push_count<base>(out.terminal, in.terminal->value<<1, count);
+				return count;
+			}
+/*
+				if (in.initial == in.terminal) out.initial->value=(in.initial->value>>1);
+				else
+				{
+					typename Numeral::const_pointer i=in.initial;
+					out.terminal=method::template halve_push<base>(out.initial, i, in.terminal);
+					out.terminal=method::template halve_pop_count<base>(out.terminal, i, count);
+				}
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type halve_assign(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				if (in.initial == in.terminal) out.initial->value=(in.initial->value>>1);
+				else
+				{
+					typename Numeral::const_pointer i=in.initial;
+					out.terminal=method::template halve_push<base>(out.initial, i, in.terminal);
+					out.terminal=method::template halve_pop_count<base>(out.terminal, i, count);
+				}
+				return count;
+			}
+
+/*
+	Might need the case for in == 0, but probably not for your purposes.
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type decrement(Numeral & out, const Numeral & in)
+			{
+				typename Numeral::size_type count(0);
+				if (in.initial == in.terminal) out.initial->value=in.initial->value-1;
+				else
+				{
+					typename Numeral::const_pointer i=in.initial;
+					out.terminal=method::template decrement_push<base>(out.initial, i, in.terminal);
+					out.terminal=method::template decrement_pop_count<base>(out.terminal, i, count);
+				}
+				return count;
+			}
+/*
+*/
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type fast_asterisk_assign(Numeral & out, typename Numeral::size_type in)
+			{
+				typename Numeral::size_type count(0);
+/*
+				natural_number s(*this);
+				numeral::terminalize(0); magnitude=0;
+				while (n != 0)
+				{
+					if (n & 1)
+					{
+						operator+=(s);
+						--n;
+					}
+					else
+					{
+						s+=s;
+						n>>=1;
+					}
+				}
+*/
+
+				return count;
+			}
+/*
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type halve_assign(Numeral & out)
+			{
+				typename Numeral::size_type count(0);
+				out=method::template push_double<base>(out);
+				out=method::template push_double_count<base>(out, count);
+				return count;
+			}
+*/
+/*
+	As this algorithm is complicated and relies on many assumptions to make the magnitude match, it needs a thorough
+	proof and debugging.
+*/
+			template<size_type base>
+			struct asterisk
+			{
+				private:
+					template<typename Numeral>
+					static typename Numeral::size_type scalar_product(
+						Numeral & out, const Numeral & in, typename Numeral::size_type repeat,
+							typename Numeral::value_type value, typename Numeral::size_type & carry2)
+					{
+						typename Numeral::size_type carry1(carry2);
+						Numeral prod(0, repeat);
+						prod.terminal=method::template
+							asterisk_push<base>(prod.terminal, in.initial, in.terminal, value);
+						prod.terminal=method::template
+							plus_push_count<base>(prod.terminal, in.terminal->value*value, carry2);
+						if (carry1 && !carry2) return plus_assign_equal<base>(out, prod);
+						else return plus_assign_less_than<base>(out, prod);
+					}
+
+					template<typename Numeral>
+					static typename Numeral::size_type multiply(Numeral & out, const Numeral & in1, const Numeral & in2)
+					{
+						typename Numeral::size_type carry(0), repeat(1);
+						for (typename Numeral::const_pointer i(in2.initial); i != in2.terminal; i=i->edge0, ++repeat)
+							if (i->value) scalar_product(out, in1, repeat, i->value, carry);
+						repeat=scalar_product(out, in1, repeat, in2.terminal->value, carry);
+						return carry+repeat;
+					}
+				public:
+					template<typename Numeral>
+					static typename Numeral::size_type times_equals(Numeral & out, const Numeral & in2)
+					{
+						Numeral in1; in1.initial=out.initial; in1.terminal=out.terminal;
+						out.initialize(0);
+						return multiply(out, in1, in2);
+					}
+
+					template<typename Numeral>
+					static typename Numeral::size_type square_equals(Numeral & out)
+					{
+						Numeral in; in.initial=out.initial; in.terminal=out.terminal;
+						out.initialize(0);
+						return multiply(out, in, in);
+					}
+			};
+
+			template<size_type base, typename Numeral>
+			static typename Numeral::size_type hat_assign(Numeral & out, typename Numeral::size_type in2)
+			{
+				Numeral in1; in1.initial=out.initial; in1.terminal=out.terminal; out.initialize(1);
+				while (in2 != 1)
+				{
+					if (in2 & 1)
+					{
+						asterisk<base>::times_equals(out, in1);
+						--in2;
+					}
+					else
+					{
+						asterisk<base>::square_equals(in1);
+						in2>>=1;
+					}
+				}
+
+				return asterisk<base>::times_equals(out, in1);
+			}
 
 		struct assign
 		{
