@@ -30,6 +30,9 @@
 	and have implemented this code in such a way that the compiler will allow no such direct conversion.
 
 	It takes a policy of soft or shallow copying, and does not delete or destroy by default.
+
+	void pointer casting is subtle, as the same memory cast to two different types works, but referencing within such memory
+	changes on the interpretation of the type of that memory.
 */
 
 namespace nik
@@ -46,14 +49,17 @@ namespace nik
 		private:
 			friend class const_pointer<T, SizeType, N>;
 		protected:
+			typedef pointer* pointer_ptr;
+			typedef pointer& pointer_ref;
+			typedef pointer_ptr& pointer_ptr_ref;
+
 			typedef T value_type;
 			typedef T* value_type_ptr;
 			typedef T& value_type_ref;
+
 			typedef void* void_ptr;
 			typedef void_ptr* void_ptr_ptr;
-			typedef void_ptr& void_ptr_ref;
-			typedef void_ptr_ptr* void_ptr_ptr_ptr;
-			typedef void_ptr_ptr& void_ptr_ptr_ref;
+
 			typedef SizeType size_type;
 
 			enum : size_type { value=0, next=1, previous=2, dimension=N };
@@ -70,10 +76,22 @@ namespace nik
 				{ delete [] current; }
 
 			pointer() { }
-			pointer(void_ptr_ptr p) { current=p; }
+			pointer(pointer_ptr p) { current=p? p->current : 0; }
 			pointer(const pointer & p) { current=p.current; }
 			~pointer() { }
 
+/*
+	In the case p == this, nothing is changed.
+
+	This version is needed in case a pointer is dereferenced before it is initialized.
+	In such a case, the compiler assumes it is initialized and will call the equals operator
+	before calling the necessary constructor.
+*/
+			const pointer & operator = (pointer_ptr p)
+			{
+				current=p? p->current : 0;
+				return *this;
+			}
 /*
 	In the case &p == this, nothing is changed.
 */
@@ -83,36 +101,50 @@ namespace nik
 				return *this;
 			}
 
-			value_type_ref operator * ()
-				{ return *((value_type_ptr) current); }
+			static void_ptr operator new (size_t n)
+			{
+				pointer_ptr p=(pointer_ptr) ::operator new (n);
+				p->initialize();
+				return p;
+			}
 
-			value_type_ptr operator -> ()
-				{ return ((value_type_ptr) current); }
+// correct?
+			static void operator delete (void_ptr p)
+			{
+				((pointer_ptr) p)->terminalize();
+				::operator delete (p);
+			}
+
+			value_type_ref operator * () const
+				{ return (value_type_ref) current[value]; }
+
+			value_type_ptr operator -> () const
+				{ return (value_type_ptr) current[value]; }
 
 			operator bool () const
 				{ return current; }
 
-			void_ptr_ptr_ref operator + () const
-				{ return ((void_ptr_ptr_ptr) current)[next]; }
+			pointer_ptr_ref operator + () const
+				{ return (pointer_ptr_ref) current[next]; }
 
-			pointer & operator ++ ()
+			pointer_ref operator ++ ()
 			{
-				current=((void_ptr_ptr_ptr) current)[next];
+				current=((pointer_ptr) current[next])->current;
 				return *this;
 			}
 
 			pointer operator ++ (int)
 			{
 				pointer out(*this);
-				current=((void_ptr_ptr_ptr) current)[next];
+				current=((pointer_ptr) current[next])->current;
 				return out;
 			}
 
-			pointer & operator += (size_type n)
+			pointer_ref operator += (size_type n)
 			{
 				while (n)
 				{
-					current=((void_ptr_ptr_ptr) current)[next];
+					current=((pointer_ptr) current[next])->current;
 					--n;
 				}
 
@@ -124,34 +156,34 @@ namespace nik
 				pointer out(*this);
 				while (n)
 				{
-					out.current=((void_ptr_ptr_ptr) out.current)[next];
+					out.current=((pointer_ptr) out.current[next])->current;
 					--n;
 				}
 
 				return out;
 			}
 
-			void_ptr_ptr_ref operator - () const
-				{ return ((void_ptr_ptr_ptr) current)[previous]; }
+			pointer_ptr_ref operator - () const
+				{ return (pointer_ptr_ref) current[previous]; }
 
-			pointer & operator -- ()
+			pointer_ref operator -- ()
 			{
-				current=((void_ptr_ptr_ptr) current)[previous];
+				current=((pointer_ptr) current[previous])->current;
 				return *this;
 			}
 
 			pointer operator -- (int)
 			{
 				pointer out(*this);
-				current=((void_ptr_ptr_ptr) current)[previous];
+				current=((pointer_ptr) current[previous])->current;
 				return out;
 			}
 
-			pointer & operator -= (size_type n)
+			pointer_ref operator -= (size_type n)
 			{
 				while (n)
 				{
-					current=((void_ptr_ptr_ptr) current)[previous];
+					current=((pointer_ptr) current[previous])->current;
 					--n;
 				}
 
@@ -163,7 +195,7 @@ namespace nik
 				pointer out(*this);
 				while (n)
 				{
-					out.current=((void_ptr_ptr_ptr) out.current)[previous];
+					out.current=((pointer_ptr) out.current[previous])->current;
 					--n;
 				}
 
@@ -175,19 +207,23 @@ namespace nik
 	class const_pointer : public pointer<T const, SizeType, N>
 	{
 		private:
+			typedef const_pointer* const_pointer_ptr;
+			typedef const_pointer& const_pointer_ref;
+			typedef const_pointer_ptr& const_pointer_ptr_ref;
+
 			typedef pointer<T const, SizeType, N> base;
+
 			typedef typename base::value_type value_type;
 			typedef typename base::value_type_ptr value_type_ptr;
 			typedef typename base::value_type_ref value_type_ref;
+
 			typedef typename base::void_ptr void_ptr;
 			typedef typename base::void_ptr_ptr void_ptr_ptr;
-			typedef typename base::void_ptr_ref void_ptr_ref;
-			typedef typename base::void_ptr_ptr_ptr void_ptr_ptr_ptr;
-			typedef typename base::void_ptr_ptr_ref void_ptr_ptr_ref;
+
 			typedef typename base::size_type size_type;
 		public:
 			const_pointer() { }
-			const_pointer(void_ptr_ptr p) : base::pointer(p) { }
+			const_pointer(const_pointer_ptr p) : base::pointer(p) { }
 			const_pointer(const pointer<T, SizeType, N> & p) : base::pointer(p.current) { }
 			const_pointer(const const_pointer & p) : base::pointer(p) { }
 			~const_pointer() { }
@@ -195,11 +231,11 @@ namespace nik
 			const const_pointer & operator = (const const_pointer & p)
 				{ return base::operator=(p); }
 
-			value_type_ref operator * ()
-				{ return *((value_type_ptr) base::current); }
+			value_type_ref operator * () const
+				{ return (value_type_ref) base::current[base::value]; }
 
-			value_type_ptr operator -> ()
-				{ return ((value_type_ptr) base::current); }
+			value_type_ptr operator -> () const
+				{ return (value_type_ptr) base::current[base::value]; }
 	};
 
 	#define LIST_SIZE 2
@@ -216,85 +252,11 @@ namespace nik
 
 	template<typename T>
 	using const_chain_pointer=const_pointer<T, size_t, CHAIN_SIZE>;
-  }
- }
-
-	void** new_list_pointer() { return new void *[LIST_SIZE]; }
-
-	void** new_list_pointer(void **p)
-	{
-		void **rtn=new void *[LIST_SIZE];
-		((void***) rtn)[1]=p;
-		return rtn;
-	}
-
-	template<typename T>
-	void** new_list_pointer(const T & v)
-	{
-		void **rtn=new void *[LIST_SIZE];
-		*((T*) rtn)=v;
-		return rtn;
-	}
-
-	template<typename T>
-	void** new_list_pointer(const T & v, void **p)
-	{
-		void **rtn=new void *[LIST_SIZE];
-		*((T*) rtn)=v;
-		((void***) rtn)[1]=p;
-		return rtn;
-	}
-
-	void** new_const_list_pointer() { return new void *[LIST_SIZE]; }
-
-	void** new_const_list_pointer(void **p)
-	{
-		void **rtn=new void *[LIST_SIZE];
-		((void***) rtn)[1]=p;
-		return rtn;
-	}
-
-	void** new_chain_pointer() { return new void *[CHAIN_SIZE]; }
-
-	void** new_chain_pointer(void **q, void **p)
-	{
-		void **rtn=new void *[CHAIN_SIZE];
-		((void***) rtn)[1]=q;
-		((void***) rtn)[2]=p;
-		return rtn;
-	}
-
-	template<typename T>
-	void** new_chain_pointer(const T & v)
-	{
-		void **rtn=new void *[CHAIN_SIZE];
-		*((T*) rtn)=v;
-		return rtn;
-	}
-
-	template<typename T>
-	void** new_chain_pointer(const T & v, void **q, void **p)
-	{
-		void **rtn=new void *[CHAIN_SIZE];
-		*((T*) rtn)=v;
-		((void***) rtn)[1]=q;
-		((void***) rtn)[2]=p;
-		return rtn;
-	}
-
-	void** new_const_chain_pointer() { return new void *[CHAIN_SIZE]; }
-
-	template<typename T>
-	void** new_const_chain_pointer(void **q, void **p)
-	{
-		void **rtn=new void *[CHAIN_SIZE];
-		((void***) rtn)[1]=q;
-		((void***) rtn)[2]=p;
-		return rtn;
-	}
 
 	#undef CHAIN_SIZE
 	#undef LIST_SIZE
+  }
+ }
 }
 
 #endif

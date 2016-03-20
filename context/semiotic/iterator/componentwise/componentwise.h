@@ -1531,4 +1531,6 @@ namespace nik
  }
 }
 
+#undef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_MACRO_H
+
 #endif

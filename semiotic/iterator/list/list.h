@@ -65,8 +65,15 @@ namespace nik
 */
 		list() { }
 
-		void initialize() { terminal=initial=nik::new_list_pointer(0); }
-		void initialize(const value_type & v) { terminal=initial=nik::new_list_pointer(v, 0); }
+		void initialize() { terminal=initial=iterator::new_pointer(0); }
+		void initialize(const value_type & v)
+		{
+//			terminal=initial=iterator::new_pointer(0);
+//			*initial=v;
+			terminal=initial=new iterator();
+			*initial=v;
+			+initial=0;
+		}
 
 		list(const value_type & v) { initialize(v); }
 /*
@@ -81,7 +88,7 @@ namespace nik
 			for (const_iterator k=n.initial; k; k=+k)
 			{
 				*terminal=*k;
-				terminal=+terminal=nik::new_list_pointer();
+				terminal=+terminal=iterator::new_pointer();
 			}
 
 			+terminal=0;

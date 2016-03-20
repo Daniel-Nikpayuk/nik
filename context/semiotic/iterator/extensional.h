@@ -32,98 +32,120 @@ namespace nik
    {
     namespace forward
     {
-	template<typename SizeType>
+	template<typename SizeType, SizeType N>
 	struct extensional
 	{
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-/*
-*/
-			template<typename Topos>
-			static void attach0(Topos *t, Topos *e) { t->edge0=e; }
-/*
-*/
-			template<typename Topos>
-			static Topos* append(Topos *t, Topos *e) { return t->edge0=e; }
-/*
-		Repeat by prepending to 't'.
-		Behaviour is undefined for n < 0.
-*/
-			template<typename Topos, typename SizeType>
-			static Topos* rep(Topos *t, SizeType n, const typename Topos::value_type & v)
+
+			template<typename WPointer, typename RPointer>
+			static RPointer* reverse(RPointer t, const RPointer e)
 			{
-				while (n--) t=new Topos(v, t);
-				return t;
-			}
-/*
-		Repeat in the direction of edge0. Notice it repeats after topos 't' (not including).
-		Behaviour is undefined for n < 0.
-*/
-			template<typename Topos, typename SizeType>
-			static Topos* rep0(Topos *t, SizeType n, const typename Topos::value_type & v)
-			{
-				while (n--) t=t->edge0=new Topos(v, t);
-				return t;
-			}
-/*
-*/
-			template<typename Topos>
-			static Topos* reverse(Topos *t, const Topos *e)
-			{
-				t->value=e->value;
-				while (e=e->edge0) t=new Topos(e->value, t);
+				*t=*e;
+				while (e=+e) t=new RPointer(*e, t);
 				return t;
 			}
 /*
 	I've used initialization and scope reducation to optimize.
 */
-			template<typename Topos>
-			static void purge(Topos *t)
+			template<typename RPointer>
+			static void purge(RPointer t)
 			{
 				while (t)
 				{
-					Topos *p(t);
-					t=t->edge0;
-					delete p;
+					RPointer p(t);
+					t=+t;
+					p.terminal();
 				}
 			}
 /*
 	I've used initialization and scope reducation to optimize.
 */
-			template<typename Topos>
-			static Topos* terminalize(Topos *t)
+			template<typename RPointer>
+			static RPointer* terminalize(RPointer t)
 			{
-				while (t->edge0)
+				while (+t)
 				{
-					Topos *p(t);
-					t=t->edge0;
-					delete p;
+					RPointer p(t);
+					t=+t;
+					p.terminal();
 				}
 				return t;
 			}
 /*
 	I've used initialization and scope reducation to optimize.
 */
-			template<typename Topos>
-			static Topos* terminalize(Topos *t, const typename Topos::value_type & v)
+			template<typename RPointer>
+			static RPointer* terminalize(RPointer t, const typename RPointer::value_type & v)
 			{
-				while (t->edge0)
+				while (+t)
 				{
-					Topos *p(t);
-					t=t->edge0;
-					delete p;
+					RPointer p(t);
+					t=+t;
+					p.terminal();
 				}
-				t->value=v;
+				*t=v;
 				return t;
 			}
 
 		struct repeat
 		{
+/*
+*/
+			template<typename WPointer, typename ValueType>
+			static void no_return(WPointer out, size_type n, ValueType v)
+			{
+				while (n)
+				{
+					out=+out=WPointer::new_pointer();
+					*out=v;
+					--n;
+				}
+			}
+/*
+*/
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer out, size_type n, ValueType v)
+			{
+				while (n)
+				{
+					out=+out=WPointer::new_pointer();
+					*out=v;
+					--n;
+				}
+
+				return out;
+			}
 		};
 
 		struct assign
 		{
+/*
+*/
+			template<typename WPointer, typename RIterator, typename ERIterator>
+			static void no_return(WPointer out, RIterator in, ERIterator end)
+			{
+				while (in != end)
+				{
+					out=+out=WPointer::new_pointer();
+					*out=*in;
+					++out; ++in;
+				}
+			}
+
+			template<typename WPointer, typename RIterator, typename ERIterator>
+			static WPointer with_return(WPointer out, RIterator in, ERIterator end)
+			{
+				while (in != end)
+				{
+					out=+out=WPointer::new_pointer();
+					*out=*in;
+					++out; ++in;
+				}
+
+				return out;
+			}
 		};
 	};
     }
@@ -139,69 +161,69 @@ namespace nik
 
 		typedef context::policy<size_type> c_policy;
 /*
-	Convenience function. Type deduction fails with SizeType.
+	Convenience function. Type deduction fails with size_type.
 */
-			template<typename SizeType, typename Topos>
-			static SizeType size(const Topos *first, const Topos *last)
+			template<typename size_type, typename RPointer>
+			static size_type size(const RPointer first, const RPointer last)
 			{
-				SizeType n(0);
-				while ((first=first->edge1) != last) ++n;
+				size_type n(0);
+				while ((first=+first) != last) ++n;
 				return n;
 			}
 /*
 	Attaches e to t in the following order: e -- t.
 
-	Assumes 't' is existing "front", in which case t->edge0 is assumed '0'. nothing is assumed of e->edge1
+	Assumes 't' is existing "front", in which case -t is assumed '0'. nothing is assumed of +e
 	before it is replaced---this leaves potential for memory leaks; burden is on coder.
 */
-			template<typename Topos>
-			static void attach0(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static void attach0(RPointer t, RPointer e)
 			{
-				t->edge0=e;
-				e->edge1=t;
+				-t=e;
+				+e=t;
 			}
 /*
 	Attaches e to t in the following order: t -- e.
 
-	Assumes 't' is existing "back", in which case t->edge1 is assumed '0'. nothing is assumed of e->edge0
+	Assumes 't' is existing "back", in which case +t is assumed '0'. nothing is assumed of -e
 	before it is replaced---this leaves potential for memory leaks; burden is on coder.
 */
-			template<typename Topos>
-			static void attach1(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static void attach1(RPointer t, RPointer e)
 			{
-				t->edge1=e;
-				e->edge0=t;
+				+t=e;
+				-e=t;
 			}
 /*
-	Attaches e to t as an "insert" operation---assumes t->edge0 != 0.
+	Attaches e to t as an "insert" operation---assumes -t != 0.
 */
-			template<typename Topos>
-			static void attach(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static void attach(RPointer t, RPointer e)
 			{
-				t->edge0->edge1=e;
-				e->edge0=t->edge0;
-				e->edge1=t;
-				t->edge0=e;
+				-+t=e;
+				-e=-t;
+				+e=t;
+				-t=e;
 			}
 /*
 	Swaps and returns what was originally there. May be useful in the future.
 	Does not detach 't' from what was originally there resulting in a dangling pointer.
 
-			template<typename Topos>
-			static Topos* prepend(Topos *t, Topos *e)
+			template<typename RPointer>
+			static RPointer* prepend(RPointer t, RPointer e)
 			{
-				e->edge1=t;
-				t=t->edge0;
-				t->edge1->edge0=e;
+				+e=t;
+				t=-t;
+				+-t=e;
 				return t;
 			}
 
-			template<typename Topos>
-			static Topos* append(Topos *t, Topos *e)
+			template<typename RPointer>
+			static RPointer* append(RPointer t, RPointer e)
 			{
-				e->edge0=t;
-				t=t->edge1;
-				t->edge0->edge1=e;
+				-e=t;
+				t=+t;
+				t->+edge0=e;
 				return t;
 			}
 */
@@ -212,10 +234,10 @@ namespace nik
 		Behaviour is undefined for n < 0 (more accurately it is an infinite loop).
 		Different from topos1 version in that it has to bidirectionally link two nodes when adding new ones.
 */
-			template<typename Topos, typename SizeType>
-			static Topos* rep0(Topos *t, SizeType n, const typename Topos::value_type & v)
+			template<typename RPointer>
+			static RPointer* rep0(RPointer t, size_type n, const typename RPointer::value_type & v)
 			{
-				while (n--) t=t->edge0=new Topos(v, 0, t);
+				while (n--) t=-t=new RPointer(v, 0, t);
 				return t;
 			}
 /*
@@ -224,10 +246,10 @@ namespace nik
 		Notice it repeats after topos 't' (not including; append).
 		Behaviour is undefined for n < 0 (more accurately it is an infinite loop).
 */
-			template<typename Topos, typename SizeType>
-			static Topos* rep1(Topos *t, SizeType n, const typename Topos::value_type & v)
+			template<typename RPointer>
+			static RPointer* rep1(RPointer t, size_type n, const typename RPointer::value_type & v)
 			{
-				while (n--) t=t->edge1=new Topos(v, t, 0);
+				while (n--) t=+t=new RPointer(v, t, 0);
 				return t;
 			}
 /*
@@ -235,11 +257,11 @@ namespace nik
 
 	Makes no assumptions about anything 't' or 'e' were previously attached to---potentially resulting in memory leaks.
 */
-			template<typename Topos>
-			static Topos* prepend(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static RPointer* prepend(RPointer t, RPointer e)
 			{
-				t->edge0=e;
-				e->edge1=t;
+				-t=e;
+				+e=t;
 				return e;
 			}
 /*
@@ -250,22 +272,22 @@ namespace nik
 	Given these low level generic methods privilege efficiency over safety checks, it makes more sense to assume first != last
 	(otherwise you have to consider seperate cases, which is effectively a safety check from this specification.
 */
-			template<typename Topos, typename Iterator>
-			static Topos* prepend(Topos *t, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* prepend(RPointer t, Iterator first, Iterator last)
 			{
-				Topos *initial=new Topos(*first++,0,0), *current=initial;
-				while (first != last) current=current->edge1=new Topos(*first++, current, 0);
+				RPointer initial=new RPointer(*first++,0,0), *current=initial;
+				while (first != last) current=+current=new RPointer(*first++, current, 0);
 				prepend(t, current);
 				return initial;
 			}
 /*
 	Same as above prepend, but additionally "count"s the length between first and last as a side-effect (reference).
 */
-			template<typename Topos, typename SizeType, typename Iterator>
-			static Topos* prepend_count(Topos *t, SizeType & count, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* prepend_count(RPointer t, size_type & count, Iterator first, Iterator last)
 			{
-				Topos *initial=new Topos(*first++,0,0), *current=initial;
-				for (++count; first != last; ++count) current=current->edge1=new Topos(*first++, current, 0);
+				RPointer initial=new RPointer(*first++,0,0), *current=initial;
+				for (++count; first != last; ++count) current=+current=new RPointer(*first++, current, 0);
 				prepend(t, current);
 				return initial;
 			}
@@ -277,21 +299,21 @@ namespace nik
 	Given these low level generic methods privilege efficiency over safety checks, it makes more sense to assume first != last
 	(otherwise you have to consider seperate cases, which is effectively a safety check from this specification.
 */
-			template<typename Topos, typename Iterator>
-			static Topos* reverse_prepend(Topos *t, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* reverse_prepend(RPointer t, Iterator first, Iterator last)
 			{
-				while (last != first) t=t->edge0=new Topos(*--last, 0, t);
+				while (last != first) t=-t=new RPointer(*--last, 0, t);
 				return t;
 			}
 /*
 	Same as above reverse_prepend, but additionally "count"s the length between first and last as a side-effect (reference).
 */
-			template<typename Topos, typename SizeType, typename Iterator>
-			static Topos* reverse_prepend_count(Topos *t, SizeType & count, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* reverse_prepend_count(RPointer t, size_type & count, Iterator first, Iterator last)
 			{
 				while (last != first)
 				{
-					t=t->edge0=new Topos(*--last, 0, t);
+					t=-t=new RPointer(*--last, 0, t);
 					++count;
 				}
 				return t;
@@ -301,11 +323,11 @@ namespace nik
 
 	Makes no assumptions about anything 't' or 'e' were previously attached to---potentially resulting in memory leaks.
 */
-			template<typename Topos>
-			static Topos* append(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static RPointer* append(RPointer t, RPointer e)
 			{
-				t->edge1=e;
-				e->edge0=t;
+				+t=e;
+				-e=t;
 				return e;
 			}
 /*
@@ -316,21 +338,21 @@ namespace nik
 	Given these low level generic methods privilege efficiency over safety checks, it makes more sense to assume first != last
 	(otherwise you have to consider seperate cases, which is effectively a safety check from this specification.
 */
-			template<typename Topos, typename Iterator>
-			static Topos* append(Topos *t, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* append(RPointer t, Iterator first, Iterator last)
 			{
-				while (first != last) t=t->edge1=new Topos(*first++, t, 0);
+				while (first != last) t=+t=new RPointer(*first++, t, 0);
 				return t;
 			}
 /*
 	Same as above append, but additionally "count"s the length between first and last as a side-effect (reference).
 */
-			template<typename Topos, typename SizeType, typename Iterator>
-			static Topos* append_count(Topos *t, SizeType & count, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* append_count(RPointer t, size_type & count, Iterator first, Iterator last)
 			{
 				while (first != last)
 				{
-					t=t->edge1=new Topos(*first++, t, 0);
+					t=+t=new RPointer(*first++, t, 0);
 					++count;
 				}
 				return t;
@@ -338,15 +360,15 @@ namespace nik
 /*
 	Inserts 'e' before 't' and returns 'e' as convenience.
 
-	Assumes t->edge0 != 0. Nothing is assumed about t->edge1 or e->edge0 or e->edge1. Potential for memory leaks.
+	Assumes -t != 0. Nothing is assumed about +t or -e or +e. Potential for memory leaks.
 */
-			template<typename Topos>
-			static Topos* impend(Topos *t, Topos *e)
+			template<typename WPointer, typename RPointer>
+			static RPointer* impend(RPointer t, RPointer e)
 			{
-				t->edge0->edge1=e;
-				e->edge0=t->edge0;
-				t->edge0=e;
-				e->edge1=t;
+				t->+edge0=e;
+				-e=-t;
+				-t=e;
+				+e=t;
 				return e;
 			}
 /*
@@ -357,40 +379,40 @@ namespace nik
 	Given these low level generic methods privilege efficiency over safety checks, it makes more sense to assume first != last
 	(otherwise you have to consider seperate cases, which is effectively a safety check from this specification.
 */
-			template<typename Topos, typename Iterator>
-			static Topos* impend(Topos *t, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* impend(RPointer t, Iterator first, Iterator last)
 			{
-				Topos *initial=t->edge0, *current=initial;
-				while (first != last) current=current->edge1=new Topos(*first++, current, 0);
+				RPointer initial=-t, *current=initial;
+				while (first != last) current=+current=new RPointer(*first++, current, 0);
 				attach1(current, t);
-				return initial->edge1;
+				return +initial;
 			}
 /*
 	Same as above impend, but additionally "count"s the length between first and last as a side-effect (reference).
 */
-			template<typename Topos, typename SizeType, typename Iterator>
-			static Topos* impend_count(Topos *t, SizeType & count, Iterator first, Iterator last)
+			template<typename RPointer, typename Iterator>
+			static RPointer* impend_count(RPointer t, size_type & count, Iterator first, Iterator last)
 			{
-				Topos *initial=t->edge0, *current=initial;
+				RPointer initial=-t, *current=initial;
 				while (first != last)
 				{
-					current=current->edge1=new Topos(*first++, current, 0);
+					current=+current=new RPointer(*first++, current, 0);
 					++count;
 				}
 				attach1(current, t);
-				return initial->edge1;
+				return +initial;
 			}
 /*
 	Assumes 't' is the original front: detaches 't'; deletes 't'; returns the new front.
 
 	Does not detach new front from original front resulting in a dangling pointer.
 */
-			template<typename Topos>
-			static Topos* deject(Topos *t)
+			template<typename RPointer>
+			static RPointer* deject(RPointer t)
 			{
-				t=t->edge1;
-				delete t->edge0;
-				t->edge0=0;
+				t=+t;
+				(-t).terminal();
+				-t=0;
 				return t;
 			}
 /*
@@ -398,23 +420,23 @@ namespace nik
 
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
 */
-			template<typename Topos, typename SizeType>
-			static Topos* deject(Topos *first, Topos *last)
+			template<typename WPointer, typename RPointer>
+			static RPointer* deject(RPointer first, RPointer last)
 			{
-				last->edge0=0;
-				while ((first=first->edge1) != last) delete first->edge0;
-				delete first->edge0;
+				-last=0;
+				while ((first=+first) != last) (-first).terminal();
+				(-first).terminal();
 				return last;
 			}
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
 */
-			template<typename Topos, typename SizeType>
-			static Topos* deject_count(SizeType & count, Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* deject_count(size_type & count, RPointer first, RPointer last)
 			{
-				for (--count; (first=first->edge1) != last; --count) delete first->edge0;
-				delete first->edge0;
-				last->edge0=0;
+				for (--count; (first=+first) != last; --count) (-first).terminal();
+				(-first).terminal();
+				-last=0;
 				return last;
 			}
 /*
@@ -422,25 +444,25 @@ namespace nik
 
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
 */
-			template<typename Topos, typename SizeType>
-			static Topos* reverse_deject(Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* reverse_deject(RPointer first, RPointer last)
 			{
-				Topos *current=last;
-				while (current=current->edge0 != first) delete current->edge1;
-				delete current;
-				last->edge0=0;
+				RPointer current=last;
+				while (current=-current != first) (+current).terminal();
+				current.terminal();
+				-last=0;
 				return last;
 			}
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
 */
-			template<typename Topos, typename SizeType>
-			static Topos* reverse_deject_count(SizeType & count, Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* reverse_deject_count(size_type & count, RPointer first, RPointer last)
 			{
-				Topos *current=last;
-				for (--count; current=current->edge0 != first; --count) delete current->edge1;
-				delete current;
-				last->edge0=0;
+				RPointer current=last;
+				for (--count; current=-current != first; --count) (+current).terminal();
+				current.terminal();
+				-last=0;
 				return last;
 			}
 /*
@@ -448,12 +470,12 @@ namespace nik
 
 	Does not detach new back from original back resulting in a dangling pointer.
 */
-			template<typename Topos>
-			static Topos* reject(Topos *t)
+			template<typename RPointer>
+			static RPointer* reject(RPointer t)
 			{
-				t=t->edge0;
-				delete t->edge1;
-				t->edge1=0;
+				t=-t;
+				(+t).terminal();
+				+t=0;
 				return t;
 			}
 /*
@@ -461,41 +483,41 @@ namespace nik
 
 	Assumes last is the proper back.  No need for generic Iterator as you are erasing from a given structure.
 */
-			template<typename Topos>
-			static Topos* reject(Topos *first, Topos *last)
+			template<typename WPointer, typename RPointer>
+			static RPointer* reject(RPointer first, RPointer last)
 			{
-				Topos *rtn=first->edge0;
-				rtn->edge1=0;
-				while ((first=first->edge1) != last) delete first->edge0;
-				delete first->edge0;
-				delete first;
+				RPointer rtn=-first;
+				+rtn=0;
+				while ((first=+first) != last) (-first).terminal();
+				(-first).terminal();
+				first.terminal();
 				return rtn;
 			}
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
 */
-			template<typename Topos, typename SizeType>
-			static Topos* reject_count(SizeType & count, Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* reject_count(size_type & count, RPointer first, RPointer last)
 			{
-				Topos *rtn=first->edge0;
-				rtn->edge1=0;
-				for (--count; (first=first->edge1) != last; --count) delete first->edge0;
-				delete first->edge0;
-				delete first;
+				RPointer rtn=-first;
+				+rtn=0;
+				for (--count; (first=+first) != last; --count) (-first).terminal();
+				(-first).terminal();
+				first.terminal();
 				return rtn;
 			}
 /*
 	Erases at location of 't' and returns the new pointer at that same location.
 
-	Assumes t->edge0 != 0 and t->edge1 != 0.
+	Assumes -t != 0 and +t != 0.
 */
-			template<typename Topos>
-			static Topos* eject(Topos *t)
+			template<typename RPointer>
+			static RPointer* eject(RPointer t)
 			{
-				Topos *rtn=t->edge1;
-				t->edge0->edge1=rtn;
-				rtn->edge0=t->edge0;
-				delete t;
+				RPointer rtn=+t;
+				t->+edge0=rtn;
+				-rtn=-t;
+				t.terminal();
 				return rtn;
 			}
 /*
@@ -503,24 +525,24 @@ namespace nik
 
 	No need for generic Iterator as you are erasing from a given structure.
 */
-			template<typename Topos>
-			static Topos* eject(Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* eject(RPointer first, RPointer last)
 			{
-				Topos *initial=first->edge0;
-				while ((first=first->edge1) != last) delete first->edge0;
-				delete first->edge0;
+				RPointer initial=-first;
+				while ((first=+first) != last) (-first).terminal();
+				(-first).terminal();
 				attach1(initial, last);
 				return last;
 			}
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
 */
-			template<typename Topos, typename SizeType>
-			static Topos* eject_count(SizeType & count, Topos *first, Topos *last)
+			template<typename RPointer>
+			static RPointer* eject_count(size_type & count, RPointer first, RPointer last)
 			{
-				Topos *initial=first->edge0;
-				for (--count; (first=first->edge1) != last; --count) delete first->edge0;
-				delete first->edge0;
+				RPointer initial=-first;
+				for (--count; (first=+first) != last; --count) (-first).terminal();
+				(-first).terminal();
 				attach1(initial, last);
 				return last;
 			}
