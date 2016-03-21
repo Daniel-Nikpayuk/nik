@@ -41,13 +41,9 @@ namespace nik
  {
   namespace iterator
   {
-	template<typename T, typename SizeType, SizeType N> class const_pointer;
-
 	template<typename T, typename SizeType, SizeType N>
 	class pointer
 	{
-		private:
-			friend class const_pointer<T, SizeType, N>;
 		protected:
 			typedef pointer* pointer_ptr;
 			typedef pointer& pointer_ref;
@@ -60,6 +56,8 @@ namespace nik
 			typedef void* void_ptr;
 			typedef void_ptr* void_ptr_ptr;
 
+			typedef pointer<T const, SizeType, N> const_pointer;
+
 			typedef SizeType size_type;
 
 			enum : size_type { value=0, next=1, previous=2, dimension=N };
@@ -70,22 +68,22 @@ namespace nik
 			void initialize()
 				{ current=new void_ptr[N]; }
 /*
-	Does not properly clear the memory for cycle efficiency.
+	Does not properly clear the memory for cycle efficiency. Burden: Memory leaks.
 */
 			void terminalize()
 				{ delete [] current; }
 
 			pointer() { }
 			pointer(pointer_ptr p) { current=p? p->current : 0; }
+/*
+	"const pointer &" can't be zero, so no need to safely test against it.
+*/
 			pointer(const pointer & p) { current=p.current; }
 			~pointer() { }
-
 /*
 	In the case p == this, nothing is changed.
 
-	This version is needed in case a pointer is dereferenced before it is initialized.
-	In such a case, the compiler assumes it is initialized and will call the equals operator
-	before calling the necessary constructor.
+	This version is needed for compatibility with the existing constructors, to accept "=new pointer()" code.
 */
 			const pointer & operator = (pointer_ptr p)
 			{
@@ -100,29 +98,35 @@ namespace nik
 				current=p.current;
 				return *this;
 			}
-
+/*
+	Safely initializes the pointer before passing it on.
+*/
 			static void_ptr operator new (size_t n)
 			{
 				pointer_ptr p=(pointer_ptr) ::operator new (n);
 				p->initialize();
 				return p;
 			}
-
-// correct?
-			static void operator delete (void_ptr p)
-			{
-				((pointer_ptr) p)->terminalize();
-				::operator delete (p);
-			}
-
-			value_type_ref operator * () const
-				{ return (value_type_ref) current[value]; }
-
-			value_type_ptr operator -> () const
-				{ return (value_type_ptr) current[value]; }
-
+/*
+	Needed for loop condition testing "while (pointer)".
+*/
 			operator bool () const
 				{ return current; }
+/*
+	Needed for implicit const conversions.
+*/
+			operator const const_pointer & () const
+				{ return *((const_pointer*) this); }
+/*
+	Virtually defined as const_pointer redefines it.
+*/
+			virtual value_type_ref operator * () const
+				{ return (value_type_ref) current[value]; }
+/*
+	Virtually defined as const_pointer redefines it.
+*/
+			virtual value_type_ptr operator -> () const
+				{ return (value_type_ptr) current[value]; }
 
 			pointer_ptr_ref operator + () const
 				{ return (pointer_ptr_ref) current[next]; }
@@ -203,6 +207,13 @@ namespace nik
 			}
 	};
 
+/*
+	GCC 4.8.4 crashes when declaring a const_pointer if an uninitialized pointer has been dereferenced in the existing code.
+
+	Dereferencing an uninitialized pointer has undefined behaviour to begin with, and in practice would not happen anyway.
+	The policy here might change to initialize the pointer array member in the above pointer class to be zero,
+	but for now narrative consistency is preferred.
+*/
 	template<typename T, typename SizeType, SizeType N>
 	class const_pointer : public pointer<T const, SizeType, N>
 	{
@@ -223,13 +234,28 @@ namespace nik
 			typedef typename base::size_type size_type;
 		public:
 			const_pointer() { }
+			const_pointer(const base & p) : base::pointer(p) { }
 			const_pointer(const_pointer_ptr p) : base::pointer(p) { }
-			const_pointer(const pointer<T, SizeType, N> & p) : base::pointer(p.current) { }
 			const_pointer(const const_pointer & p) : base::pointer(p) { }
 			~const_pointer() { }
 
+			const const_pointer & operator = (const base & p)
+			{
+				base::operator=(p);
+				return *this;
+			}
+
+			const const_pointer & operator = (const_pointer_ptr p)
+			{
+				base::operator=(p);
+				return *this;
+			}
+
 			const const_pointer & operator = (const const_pointer & p)
-				{ return base::operator=(p); }
+			{
+				base::operator=(p);
+				return *this;
+			}
 
 			value_type_ref operator * () const
 				{ return (value_type_ref) base::current[base::value]; }
@@ -241,17 +267,17 @@ namespace nik
 	#define LIST_SIZE 2
 	#define CHAIN_SIZE 3
 
-	template<typename T>
-	using list_pointer=pointer<T, size_t, LIST_SIZE>;
+	template<typename T, typename SizeType=size_t>
+	using list_pointer=pointer<T, SizeType, LIST_SIZE>;
 
-	template<typename T>
-	using const_list_pointer=const_pointer<T, size_t, LIST_SIZE>;
+	template<typename T, typename SizeType=size_t>
+	using const_list_pointer=const_pointer<T, SizeType, LIST_SIZE>;
 
-	template<typename T>
-	using chain_pointer=pointer<T, size_t, CHAIN_SIZE>;
+	template<typename T, typename SizeType=size_t>
+	using chain_pointer=pointer<T, SizeType, CHAIN_SIZE>;
 
-	template<typename T>
-	using const_chain_pointer=const_pointer<T, size_t, CHAIN_SIZE>;
+	template<typename T, typename SizeType=size_t>
+	using const_chain_pointer=const_pointer<T, SizeType, CHAIN_SIZE>;
 
 	#undef CHAIN_SIZE
 	#undef LIST_SIZE
