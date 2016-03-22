@@ -15,14 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
-#define CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
 
 // overhead dependencies:
 
 #include"overload_macro.h"
 
-#include"../../../context/policy/policy.h"
+#include"../../../../context/policy/policy.h"
 
 /*
 	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
@@ -497,8 +497,19 @@ namespace nik
 			};
 		};
 
-		struct convert
+		struct clear
 		{
+			template<typename WPointer, typename ERPointer>
+			static void no_return(WPointer in, ERPointer end)
+			{
+				WPointer out=in;
+				while (in != end)
+				{
+					++in;
+					delete out;
+					out=in;
+				}
+			}
 		};
 /*
 	unroll:
@@ -525,39 +536,39 @@ namespace nik
 				template<typename WPointer, typename ValueType>
 				static void no_return(WPointer out, ValueType in)
 				{
-					out=+out=new WPointer();
 					*out=in;
-					unroll<N-1>::repeat::no_return(++out, in);
+					out=+out=new WPointer();
+					unroll<N-1>::repeat::no_return(out, in);
 				}
 /*
 */
-				template<typename WIterator, typename ValueType>
-				static WIterator with_return(WIterator out, ValueType in)
+				template<typename WPointer, typename ValueType>
+				static WPointer with_return(WPointer out, ValueType in)
 				{
-					out=+out=new WPointer();
 					*out=in;
-					return unroll<N-1>::repeat::with_return(++out, in);
+					out=+out=new WPointer();
+					return unroll<N-1>::repeat::with_return(out, in);
 				}
 			};
 /*
 */
 			struct assign
 			{
-				template<typename WIterator, typename RIterator>
-				static void no_return(WIterator out, RIterator in)
+				template<typename WPointer, typename RIterator>
+				static void no_return(WPointer out, RIterator in)
 				{
-					out=+out=new WPointer();
 					*out=*in;
-					unroll<N-1>::assign::no_return(++out, ++in);
+					out=+out=new WPointer();
+					unroll<N-1>::assign::no_return(out, ++in);
 				}
 /*
 */
-				template<typename WIterator, typename RIterator>
-				static WIterator with_return(WIterator out, RIterator in)
+				template<typename WPointer, typename RIterator>
+				static WPointer with_return(WPointer out, RIterator in)
 				{
-					out=+out=new WPointer();
 					*out=*in;
-					return unroll<N-1>::assign::with_return(++out, ++in);
+					out=+out=new WPointer();
+					return unroll<N-1>::assign::with_return(out, ++in);
 				}
 
 				struct right_shift
@@ -565,10 +576,17 @@ namespace nik
 				};
 			};
 /*
-	Not fully satisfied with the categorization or naming scheme within this library.
 */
-			struct convert
+			struct clear
 			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+				{
+					WPointer out=in;
+					++in;
+					delete out;
+					unroll<N-1>::clear::no_return(in, end);
+				}
 			};
 		};
 
@@ -609,8 +627,11 @@ namespace nik
 				};
 			};
 
-			struct convert
+			struct clear
 			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+					{ }
 			};
 		};
 	};
@@ -1057,6 +1078,20 @@ namespace nik
 			};
 		};
 
+		struct clear
+		{
+			template<typename WPointer, typename ERPointer>
+			static void no_return(WPointer in, ERPointer end)
+			{
+				WPointer out=in;
+				while (in != end)
+				{
+					--in;
+					delete out;
+					out=in;
+				}
+			}
+		};
 /*
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
@@ -1088,42 +1123,42 @@ namespace nik
 			{
 /*
 */
-				template<typename WIterator, typename ValueType>
-				static void no_return(WIterator out, ValueType in)
+				template<typename WPointer, typename ValueType>
+				static void no_return(WPointer out, ValueType in)
 				{
-					out=-out=new WPointer();
 					*out=in;
-					unroll<N-1>::repeat::no_return(--out, in);
+					out=-out=new WPointer();
+					unroll<N-1>::repeat::no_return(out, in);
 				}
 /*
 */
-				template<typename WIterator, typename ValueType>
-				static WIterator with_return(WIterator out, ValueType in)
+				template<typename WPointer, typename ValueType>
+				static WPointer with_return(WPointer out, ValueType in)
 				{
-					out=-out=new WPointer();
 					*out=in;
-					return unroll<N-1>::repeat::with_return(--out, in);
+					out=-out=new WPointer();
+					return unroll<N-1>::repeat::with_return(out, in);
 				}
 			};
 /*
 */
 			struct assign
 			{
-				template<typename WIterator, typename RIterator>
-				static void no_return(WIterator out, RIterator in)
+				template<typename WPointer, typename RIterator>
+				static void no_return(WPointer out, RIterator in)
 				{
-					out=-out=new WPointer();
 					*out=*in;
-					unroll<N-1>::assign::no_return(--out, --in);
+					out=-out=new WPointer();
+					unroll<N-1>::assign::no_return(out, --in);
 				}
 /*
 */
-				template<typename WIterator, typename RIterator>
-				static WIterator with_return(WIterator out, RIterator in)
+				template<typename WPointer, typename RIterator>
+				static WPointer with_return(WPointer out, RIterator in)
 				{
-					out=-out=new WPointer();
 					*out=*in;
-					return unroll<N-1>::assign::with_return(--out, --in);
+					out=-out=new WPointer();
+					return unroll<N-1>::assign::with_return(out, --in);
 				}
 /*
 	For the "natural" left_shift,
@@ -1137,6 +1172,18 @@ namespace nik
 				struct left_shift
 				{
 				};
+			};
+
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+				{
+					WPointer out=in;
+					--in;
+					delete out;
+					unroll<N-1>::clear::no_return(in, end);
+				}
 			};
 		};
 
@@ -1177,6 +1224,13 @@ namespace nik
 				{
 				};
 			};
+
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+					{ }
+			};
 		};
 	};
      }
@@ -1191,6 +1245,16 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
 	};
      }
 
@@ -1204,6 +1268,16 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
 	};
      }
     }
@@ -1212,6 +1286,6 @@ namespace nik
  }
 }
 
-#undef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
+#undef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
 
 #endif

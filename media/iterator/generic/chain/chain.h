@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_ITERATOR_LIST_H
-#define MEDIA_ITERATOR_LIST_H
+#ifndef NIK_MEDIA_ITERATOR_LIST_H
+#define NIK_MEDIA_ITERATOR_LIST_H
 
 /*
 	Is it better to have subchain as a member or to inherit? Aside from swap I see no reason not to inherit. Is swap really

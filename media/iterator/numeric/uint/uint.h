@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_ITERATOR_UINT_H
-#define MEDIA_ITERATOR_UINT_H
+#ifndef NIK_MEDIA_ITERATOR_UINT_H
+#define NIK_MEDIA_ITERATOR_UINT_H
 
 #include"../../../../context/context/policy/policy.h"
 #include"../../../../context/semiotic/iterator/policy/policy.h"

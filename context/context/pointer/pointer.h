@@ -15,8 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_POINTER_H
-#define SEMIOTIC_ITERATOR_POINTER_H
+#ifndef NIK_CONTEXT_CONTEXT_POINTER_H
+#define NIK_CONTEXT_CONTEXT_POINTER_H
+
+#include<stddef.h>
 
 /*
 	This class is meant to be as narratively similar as possible to the builtin array pointer.
@@ -37,9 +39,9 @@
 
 namespace nik
 {
- namespace semiotic
+ namespace context
  {
-  namespace iterator
+  namespace context
   {
 	template<typename T, typename SizeType, SizeType N>
 	class pointer
@@ -84,6 +86,8 @@ namespace nik
 	In the case p == this, nothing is changed.
 
 	This version is needed for compatibility with the existing constructors, to accept "=new pointer()" code.
+
+	Allows for potential memory leak. Burden is placed on the api coder.
 */
 			const pointer & operator = (pointer_ptr p)
 			{
@@ -92,12 +96,37 @@ namespace nik
 			}
 /*
 	In the case &p == this, nothing is changed.
+
+	Allows for potential memory leak. Burden is placed on the api coder.
 */
 			const pointer & operator = (const pointer & p)
 			{
 				current=p.current;
 				return *this;
 			}
+/*
+	Needed for loop condition testing "while (pointer)".
+*/
+			operator bool () const
+				{ return current; }
+/*
+	Needed for delete conversion.
+*/
+			operator pointer_ptr () const
+				{ return (pointer_ptr) this; }
+/*
+	Needed for implicit const conversions.
+*/
+			operator const const_pointer & () const
+				{ return *((const_pointer*) this); }
+/*
+	Broader definitions of equality comparison.
+*/
+			bool operator == (const pointer & p) const
+				{ return (current == p.current); }
+
+			bool operator != (const pointer & p) const
+				{ return (current != p.current); }
 /*
 	Safely initializes the pointer before passing it on.
 */
@@ -108,15 +137,10 @@ namespace nik
 				return p;
 			}
 /*
-	Needed for loop condition testing "while (pointer)".
+	Sufficient? Or does this cause memory leaks?
 */
-			operator bool () const
-				{ return current; }
-/*
-	Needed for implicit const conversions.
-*/
-			operator const const_pointer & () const
-				{ return *((const_pointer*) this); }
+			static void operator delete (void_ptr p)
+				{ ((pointer_ptr) p)->terminalize(); }
 /*
 	Virtually defined as const_pointer redefines it.
 */
@@ -206,7 +230,6 @@ namespace nik
 				return out;
 			}
 	};
-
 /*
 	GCC 4.8.4 crashes when declaring a const_pointer if an uninitialized pointer has been dereferenced in the existing code.
 

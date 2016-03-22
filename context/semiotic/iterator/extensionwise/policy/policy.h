@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POLICY_H
-#define CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POLICY_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POLICY_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POLICY_H
 
 #include"../overload/overload.h"
-#include"../arithmetic/arithmetic.h"
+//#include"../arithmetic/arithmetic.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -57,11 +57,11 @@ namespace nik
 			using fwd_over_unroll=typename fwd_over::template unroll<N, M, L>;
 /*
 		arithmetic:
-*/
 			using fwd_arit=forward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using fwd_arit_unroll=typename fwd_arit::template unroll<N, M, L>;
+*/
 /*
 	backward:
 */
@@ -74,11 +74,11 @@ namespace nik
 			using bwd_over_unroll=typename bwd_over::template unroll<N, M, L>;
 /*
 		arithmetic:
-*/
 			using bwd_arit=backward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bwd_arit_unroll=typename bwd_arit::template unroll<N, M, L>;
+*/
 /*
 	bidirectional:
 */
@@ -91,11 +91,11 @@ namespace nik
 			using bid_over_unroll=typename bid_over::template unroll<N, M, L>;
 /*
 		arithmetic:
-*/
 			using bid_arit=bidirectional::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
+*/
 /*
 	random_access:
 */
@@ -108,11 +108,11 @@ namespace nik
 			using rnd_over_unroll=typename rnd_over::template unroll<N, M, L>;
 /*
 		arithmetic:
-*/
 			using rnd_arit=random_access::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
+*/
 	};
     }
    }

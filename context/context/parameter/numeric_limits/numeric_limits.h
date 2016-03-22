@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_PARAMETER_NUMERIC_LIMITS_H
-#define CONTEXT_CONTEXT_PARAMETER_NUMERIC_LIMITS_H
+#ifndef NIK_CONTEXT_CONTEXT_PARAMETER_NUMERIC_LIMITS_H
+#define NIK_CONTEXT_CONTEXT_PARAMETER_NUMERIC_LIMITS_H
 
 #include<climits>
 #include<cfloat>

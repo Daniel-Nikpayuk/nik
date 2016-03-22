@@ -15,14 +15,17 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
-#define CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
 
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
+
+	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
+	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
 /*
@@ -34,8 +37,8 @@ static void no_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op(in); \
+		out=dir(out)=new WPointer(); \
 		--n; \
 	} \
 }
@@ -49,8 +52,8 @@ static WPointer with_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op(in); \
+		out=dir(out)=new WPointer(); \
 		--n; \
 	} \
  \
@@ -66,8 +69,8 @@ static void no_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		op(*out); \
+		out=dir(out)=new WPointer(); \
 		--n; \
 	} \
 }
@@ -81,8 +84,8 @@ static void no_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op; \
+		out=dir(out)=new WPointer(); \
 		--n; \
 	} \
 }
@@ -100,9 +103,9 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op(*in); \
-		dir##dir(out); dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in); \
 	} \
 }
 
@@ -117,9 +120,9 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op(*in); \
-		dir##dir(out); dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in); \
 	} \
  \
 	return out; \
@@ -136,9 +139,9 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)op(*in)r; \
-		dir##dir(out); dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in); \
 	} \
 }
 
@@ -153,9 +156,9 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		*(out)op(*in)r; \
-		dir##dir(out); dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in); \
 	} \
  \
 	return out; \
@@ -174,9 +177,9 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 { \
 	while (in2 != end2) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op(*in2); \
-		dir##dir(out); dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in1); dir##dir(in2); \
 	} \
 }
 
@@ -191,9 +194,9 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 { \
 	while (in2 != end2) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op(*in2); \
-		dir##dir(out); dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in1); dir##dir(in2); \
 	} \
  \
 	return out; \
@@ -210,9 +213,9 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 { \
 	while (in2 != end2) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op[*in2]; \
-		dir##dir(out); dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in1); dir##dir(in2); \
 	} \
 }
 
@@ -227,9 +230,9 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 { \
 	while (in2 != end2) \
 	{ \
-		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op[*in2]; \
-		dir##dir(out); dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		dir##dir(in1); dir##dir(in2); \
 	} \
  \
 	return out; \

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
-#define CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
 
 #include"../arithmetic/arithmetic.h"
 //#include"../vector/vector.h"

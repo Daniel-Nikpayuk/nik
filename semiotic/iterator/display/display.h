@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_DISPLAY_H
-#define SEMIOTIC_ITERATOR_DISPLAY_H
+#ifndef NIK_SEMIOTIC_ITERATOR_DISPLAY_H
+#define NIK_SEMIOTIC_ITERATOR_DISPLAY_H
 
 #include"../../../context/context/display/display.h"
 

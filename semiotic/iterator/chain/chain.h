@@ -15,160 +15,117 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_CHAIN_H
-#define SEMIOTIC_ITERATOR_CHAIN_H
+#ifndef NIK_SEMIOTIC_ITERATOR_CHAIN_H
+#define NIK_SEMIOTIC_ITERATOR_CHAIN_H
 
-#include"../topos/topos.h"
+#include"../../../context/context/pointer/pointer.h"
+#include"../../../context/semiotic/iterator/extensionwise/policy/policy.h"
+
+#include"../traits/traits.h"
+
+/*
+	chain:
+		Choice of the word "chain" was hard to settle on. Was tempted to use the word "cascade" as "chain"
+		is overused, but I've decided on it in the sense of a LISP chain. In that way it is a singly linked chain.
+
+		The policy here has taken into consideration two alternate designs: Have an "end" iterator,
+		or a null iterator signifying the end.
+
+			An end iterator is less memory efficient not to mention the need to relink it, but is otherwise
+			more compatible with iterators for subclassing---and thus more extensible.
+
+			A null iterator signifier is more efficient but less extensible.
+
+			The policy I have settled upon is to maintain an "end" iterator. As this is a weak generic class,
+			keep in mind it can always be composed or inherited to reinterpret the end iterator to be a "last"
+			iterator---one which has a meaningful dereferentiable value. The added value is in being able to
+			append to this chain without having to find the end iterator each time.
+
+		Policy also needed to be decided on whether to leave "+terminal" uninitialized (saving cycles),
+		or to safely default its initialization to zero.
+
+			I have weighed it carefully. For example the chain_pointer class does not initialize which is inherently
+			unsafe, but within the context and semiotic spaces the default policy is for the burden of safety to be
+			the responsibility of the api coder. It is not unnatural for that same conclusion to be drawn here.
+			The other consideration is that the burden of safety within the media space is given to the api coder.
+
+			The expectation is that the code user does not have to worry about such safeties, but as they have access
+			to the the chain::iterator they have access to some of the potentially unsafe features. I have decided
+			to maintain the "uninitialized" default policy for the reason that initialize(), terminalize(), copy_initialize(),
+			grow(), shrink() have been well thought out grammar points in how they relate to each other.
+
+			The burden is on the api coder of the media space to ensure code user safeties at that level as well.
+*/
 
 namespace nik
 {
-	namespace semiotic
-	{
-		namespace iterator
-		{
+ namespace semiotic
+ {
+  namespace iterator
+  {
 /*
 	chain:
-		Basic intuitive members are first (pointer), last (pointer), and length (size_type). Any one can be determined
-		from the other two. For consistency of narrative (and method efficiency), first and last have been chosen.
-		Assumes an iterator class to navigate its memory space (which is really just a renaming of the topos_pointer type).
-
-		My original thinking was---given the preexisting narrative of the array pointer for vectors---that it makes
-		the most sense to design a pointer class that actually also holds the memory module it is meant to iterate over.
-		Unfortunately, I do not know how to do that with this language (if it's even possible) in a minimalist and efficient way.
-
-		As such, adhering to a weak/strong version of lists/vectors seems best with pointers and iterators attached.
-		As the purpose of having a weak class is the likelihood of reuse, it makes sense to make it as minimalist and efficient
-		as possible; as such I do not make use here in this code of the existing iterator class for the base constructors
-		and accessors. Such a design does not follow the memory saving specification of the library as a whole.  Regardless,
-		I still include the iterator class as it might reasonably be used in extensions other than the strong version.
-
-		With regards to vector, initialize() is a shortform for "new T[n]" (as well as setting up "last"), and terminalize()
-		is a shortform for deallocation. As such, it should be parallelled here---with the necessary recontextualization.
-		The only additional consideration is that deallocation for a pointer array is all or nothing in C++, and so a complete
-		purge is necessary. Here though---with lists---it is possible to reinterpret the role of terminalize() to deallocate
-		everything but the "last" node. The deciding consideration would be: Is a complete purge ever necessary when working
-		with a list ?
-
-		Though it breaks the design slightly, for these very important base classes cpu cycle efficiency matters just as much,
-		and so it is not allowed to call from the generic context topos methods, if there's redundancy of code, that's okay.
-
-		*I tested whether to include function calls to initialize() within and it actually does take up more memory,*
-		*I tested whether compact code that makes additional initializations
-			(while (n--) first=first->edge0=new node(v, 0, first);)
-		uses more or less cpu cycles than expanded code that makes less and it seems the compact code is actually better.
-		Again, at the low lever as cpu cycles are privileged, compact code is privileged.
-
-		Policy I've decided on:
-
-			If you can declare uninstantiated (and you should be able to), you should also be able to "reset"
-			to an uninstantiated state. Additionally, it is often convenient to initialize, as well as terminalize
-			(reduce to an initialized state) as seperate operations (not to mention the convenience roles they play
-			within the constructors and destructors).
 */
-			template<typename T, typename SizeType>
-			struct chain
-			{
-				typedef topos2<T> node;
-				typedef typename node::value_type value_type;
-				typedef typename node::reference reference;
-				typedef typename node::value_type const & const_reference;
-				typedef node* pointer;
-				typedef node const * const_pointer;
-				typedef typename topos2<T, SizeType>::pointer iterator;
-				typedef typename topos2<T, SizeType>::const_pointer const_iterator;
-				typedef SizeType size_type;
+	template<typename T, typename SizeType=size_t>
+	struct chain
+	{
+		typedef traits::container<chain, T, SizeType> attributes;
+		typedef typename attributes::value_type value_type;
+		typedef typename attributes::reference reference;
+		typedef typename attributes::const_reference const_reference;
+		typedef context::context::chain_pointer<T, SizeType> iterator;
+		typedef context::context::const_chain_pointer<T, SizeType> const_iterator;
+		typedef SizeType size_type;
 
-				pointer first;
-				pointer last;
+		typedef context::semiotic::iterator::extensionwise::policy<size_type> c_exte_policy;
+
+		iterator initial;
+		iterator terminal;
 /*
-		The empty constructor is useful as this is a weak class, meaning as few assumptions as possible are made
-		about its use. first and last are initialized for general safety.
+	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
+	expects an iterator without a value, while with "initial" a value is expected when the chain is non-empty.
 */
-				chain() { }
-/*
-		Note as last == first the chain is technically empty.
-*/
-				void initialize() { first=last=new node(); }
-				void initialize(pointer f, pointer l) { first=last=new node(f, l); }
-/*
-		Worth having ?
-*/
-				chain(const value_type & v)
-				{
-					initialize(0, 0);
-					first=first->edge0=new node(v, 0, first);
-				}
-/*
-		Breaks for n < 0.
-*/
-				chain(size_type n, const value_type & v)
-				{
-					initialize(0, 0);
-					while (n--) first=first->edge0=new node(v, 0, first);
-				}
-/*
-	copy:
-		Defining pointers relative to 'l' is intentional---fewer assumptions
-		made about "this" chain makes such a function more portable for outside use.
+		void initialize()
+			{ initial=terminal=new iterator(); }
 
-		Assumes first and last as well as l.first and l.last are already instantiated.
-*/
-				void copy(const chain & l)
-				{
-					for (const_pointer k(l.first); k != l.last; k=k->edge1)
-					{
-						last->value=k->value;
-						last=last->edge1=new node(last, 0);
-					}
-				}
-				chain(const chain & l)
-				{
-					initialize(0, 0);
-					copy(l);
-				}
+		template<typename RIterator, typename ERIterator>
+		void prepend(RIterator first, ERIterator last)
+			{ c_exte_policy::bid_over::prepend::no_return(initial, first, last); }
 
-				void terminalize()
-				{
-					while (first != last)
-					{
-						first=first->edge1;
-						delete first->edge0;
-					}
-				}
-				void terminalize(pointer f, pointer l)
-				{
-					terminalize();
-					first->edge0=f;
-					last->edge1=l;
-				}
-				const chain & operator = (const chain & l)
-				{
-					terminalize(0, 0);
-					copy(l);
-					return *this;
-				}
+		template<typename RIterator, typename ERIterator>
+		void append(RIterator first, ERIterator last)
+			{ c_exte_policy::bid_over::append::no_return(terminal, first, last); }
 
-				void destroy()
-				{
-					terminalize();
-					delete last;
-				}
-				~chain() { destroy(); }
+		void shrink()
+			{ c_exte_policy::fwd_over::clear::no_return(initial, terminal); }
 
-				iterator begin() { return first; }
-				const_iterator cbegin() const { return first; }
-				iterator end() { return last; }
-				const_iterator cend() const { return last; }
-
-				size_type size() const
-				{
-					size_type n(0);
-					for (pointer f(first); f != last; ++n) f=f->edge1;
-					return n;
-				}
-			};
+		template<typename RIterator, typename ERIterator>
+		void copy_initialize(RIterator first, ERIterator last)
+		{
+			initialize();
+			append(first, last);
 		}
-	}
+
+		void terminalize()
+		{
+			shrink();
+			delete terminal;
+		}
+
+		chain() { }
+		chain(const chain & n) { }
+		~chain() { }
+
+		const chain & operator = (const chain & n)
+			{ return *this; }
+
+		iterator begin() { return initial; }
+		const_iterator cbegin() const { return initial; }
+		iterator end() { return terminal; }
+		const_iterator cend() const { return terminal; }
+	};
+  }
+ }
 }
 
 #endif

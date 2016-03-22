@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_ITERATOR_VECTOR_H
-#define MEDIA_ITERATOR_VECTOR_H
+#ifndef NIK_MEDIA_ITERATOR_VECTOR_H
+#define NIK_MEDIA_ITERATOR_VECTOR_H
 
 #include"../../context/vector/vector.h"
 #include"../../context/iterator/random_access_iterator.h"

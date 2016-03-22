@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_PARAMETER_META_H
-#define CONTEXT_CONTEXT_PARAMETER_META_H
+#ifndef NIK_CONTEXT_CONTEXT_PARAMETER_META_H
+#define NIK_CONTEXT_CONTEXT_PARAMETER_META_H
 
 namespace nik
 {

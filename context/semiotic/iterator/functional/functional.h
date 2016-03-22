@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
-#define CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_FUNCTIONAL_H
 
 #include"../../../context/policy/policy.h"
 

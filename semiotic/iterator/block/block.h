@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_BLOCK_H
-#define SEMIOTIC_ITERATOR_BLOCK_H
+#ifndef NIK_SEMIOTIC_ITERATOR_BLOCK_H
+#define NIK_SEMIOTIC_ITERATOR_BLOCK_H
 
 #include"../traits/traits.h"
 #include"../../../context/semiotic/iterator/policy/policy.h"

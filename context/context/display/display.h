@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_DISPLAY_H
-#define CONTEXT_CONTEXT_DISPLAY_H
+#ifndef NIK_CONTEXT_CONTEXT_DISPLAY_H
+#define NIK_CONTEXT_CONTEXT_DISPLAY_H
 
 #include<stdint.h>
 #include<stdio.h>

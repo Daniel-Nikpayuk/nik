@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POLICY_H
-#define CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POLICY_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POLICY_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POLICY_H
 
 #include"../overload/overload.h"
 #include"../arithmetic/arithmetic.h"

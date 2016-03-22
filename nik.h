@@ -30,12 +30,12 @@ stringify(../nik/context/context/header/header.h)
 stringify(../nik/context/context/construct/header/header.h)
 
 // system:
-#define niksys(navigator, header) \
-stringify(../nik/context/semiotic/navigator/header/header.h)
+#define niksys(navigator, construct, header) \
+stringify(../nik/context/semiotic/navigator/construct/header/header.h)
 
 // generic:
-#define nikgen(navigator, header) \
-stringify(../nik/context/media/navigator/header/header.h)
+#define nikgen(navigator, construct, header) \
+stringify(../nik/context/media/navigator/construct/header/header.h)
 
 // semiotic:
 #define niksign(navigator, header) \

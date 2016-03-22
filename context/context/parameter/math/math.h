@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_PARAMETER_MATH_H
-#define CONTEXT_CONTEXT_PARAMETER_MATH_H
+#ifndef NIK_CONTEXT_CONTEXT_PARAMETER_MATH_H
+#define NIK_CONTEXT_CONTEXT_PARAMETER_MATH_H
 
 #include"../../unit/unit.h"
 #include"../meta/meta.h"

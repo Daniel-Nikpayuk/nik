@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_UNIT_H
-#define CONTEXT_CONTEXT_UNIT_H
+#ifndef NIK_CONTEXT_CONTEXT_UNIT_H
+#define NIK_CONTEXT_CONTEXT_UNIT_H
 
 namespace nik
 {
@@ -32,6 +32,7 @@ namespace nik
 		static const size_type zero = 0;
 		static const size_type one = 1;
 		static const size_type two = 2;
+		static const size_type three = 3;
 
 		static const size_type nibble = 4;
 		static const size_type byte = 8;

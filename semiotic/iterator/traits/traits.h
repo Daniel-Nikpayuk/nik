@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_TRAITS_H
-#define SEMIOTIC_ITERATOR_TRAITS_H
+#ifndef NIK_SEMIOTIC_ITERATOR_TRAITS_H
+#define NIK_SEMIOTIC_ITERATOR_TRAITS_H
 
 /*
 	The justification for this traits class is threefold:

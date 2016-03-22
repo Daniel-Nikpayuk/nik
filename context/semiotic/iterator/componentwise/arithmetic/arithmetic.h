@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_H
-#define CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_H
 
 // overhead dependencies:
 

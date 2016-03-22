@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_CHAIN_H
-#define CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_CHAIN_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_CHAIN_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_CHAIN_H
 
 #include"../overload/overload.h"
 

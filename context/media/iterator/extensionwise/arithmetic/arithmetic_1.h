@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_ARITHMETIC_1_H
-#define CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_ARITHMETIC_1_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_ARITHMETIC_1_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_ARITHMETIC_1_H
 
 // overhead dependencies:
 

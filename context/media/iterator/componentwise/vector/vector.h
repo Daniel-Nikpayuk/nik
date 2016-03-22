@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
-#define CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
 
 #include"../functional/functional.h"
 

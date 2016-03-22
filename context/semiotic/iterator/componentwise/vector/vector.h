@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
-#define CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
 
 #include"../overload/overload.h"
 

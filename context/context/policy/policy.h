@@ -15,10 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_CONTEXT_POLICY_H
-#define CONTEXT_CONTEXT_POLICY_H
+#ifndef NIK_CONTEXT_CONTEXT_POLICY_H
+#define NIK_CONTEXT_CONTEXT_POLICY_H
 
 #include"../unit/unit.h"
+#include"../pointer/pointer.h"
 #include"../parameter/meta/meta.h"
 #include"../parameter/binary/binary.h"
 #include"../parameter/math/math.h"
@@ -49,6 +50,20 @@ namespace nik
 	unit:
 */
 		using unit=context::unit<size_type>;
+/*
+	pointer:
+*/
+		template<typename value_type>
+		using list_pointer=context::pointer<value_type, size_type, unit::two>;
+
+		template<typename value_type>
+		using const_list_pointer=context::const_pointer<value_type, size_type, unit::two>;
+
+		template<typename value_type>
+		using chain_pointer=context::pointer<value_type, size_type, unit::three>;
+
+		template<typename value_type>
+		using const_chain_pointer=context::const_pointer<value_type, size_type, unit::three>;
 /*
 	parameter:
 */

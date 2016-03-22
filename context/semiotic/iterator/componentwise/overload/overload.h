@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
-#define CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
 
 // overhead dependencies:
 
@@ -1533,6 +1533,6 @@ namespace nik
  }
 }
 
-#undef CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_H
+#undef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_H
 
 #endif

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef SEMIOTIC_ITERATOR_TOPOS_H
-#define SEMIOTIC_ITERATOR_TOPOS_H
+#ifndef NIK_SEMIOTIC_ITERATOR_TOPOS_H
+#define NIK_SEMIOTIC_ITERATOR_TOPOS_H
 
 #include"../traits/traits.h"
 #include"topos_pointer.h"

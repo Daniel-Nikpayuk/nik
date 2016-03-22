@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef MEDIA_ITERATOR_DISPLAY_H
-#define MEDIA_ITERATOR_DISPLAY_H
+#ifndef NIK_MEDIA_ITERATOR_DISPLAY_H
+#define NIK_MEDIA_ITERATOR_DISPLAY_H
 
 #include"../../../../context/context/display/display.h"
 
