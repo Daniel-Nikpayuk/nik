@@ -66,7 +66,7 @@ namespace nik
 /*
 	chain:
 */
-	template<typename T, typename SizeType=size_t>
+	template<typename T, typename SizeType>
 	struct chain
 	{
 		typedef traits::container<chain, T, SizeType> attributes;

@@ -118,13 +118,13 @@ namespace nik
 		{ static const unsigned long long max=ULLONG_MAX; };
 	template<>
 	struct numeric_limits<float>
-		{ static const float max=FLT_MAX; };
+		{ static constexpr float max=FLT_MAX; };
 	template<>
 	struct numeric_limits<double>
-		{ static const double max=DBL_MAX; };
+		{ static constexpr double max=DBL_MAX; };
 	template<>
 	struct numeric_limits<long double>
-		{ static const long double max=LDBL_MAX; };
+		{ static constexpr long double max=LDBL_MAX; };
    }
   }
  }

@@ -18,13 +18,14 @@
 #ifndef NIK_CONTEXT_CONTEXT_POLICY_H
 #define NIK_CONTEXT_CONTEXT_POLICY_H
 
-#include"../unit/unit.h"
 #include"../pointer/pointer.h"
-#include"../parameter/meta/meta.h"
-#include"../parameter/binary/binary.h"
-#include"../parameter/math/math.h"
+#include"../unit/unit.h"
 #include"../argument/binary/binary.h"
 #include"../argument/math/math.h"
+#include"../parameter/binary/binary.h"
+#include"../parameter/math/math.h"
+#include"../parameter/meta/meta.h"
+#include"../parameter/numeric_limits/numeric_limits.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -65,21 +66,6 @@ namespace nik
 		template<typename value_type>
 		using const_chain_pointer=context::const_pointer<value_type, size_type, unit::three>;
 /*
-	parameter:
-*/
-/*
-		meta:
-*/
-			using par_met=parameter::meta;
-/*
-		binary:
-*/
-			using par_bin=parameter::binary<size_type>;
-/*
-		math:
-*/
-			using par_mat=parameter::math<size_type>;
-/*
 	argument:
 */
 /*
@@ -90,6 +76,25 @@ namespace nik
 		math:
 */
 			using arg_mat=argument::math<size_type>;
+/*
+	parameter:
+*/
+/*
+		binary:
+*/
+			using par_bin=parameter::binary<size_type>;
+/*
+		math:
+*/
+			using par_mat=parameter::math<size_type>;
+/*
+		meta:
+*/
+			using par_met=parameter::meta;
+/*
+		numeric_limits:
+*/
+			using par_num=parameter::numeric_limits<size_type>;
 	};
   }
  }

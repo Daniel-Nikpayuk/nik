@@ -66,7 +66,7 @@ namespace nik
 /*
 	list:
 */
-	template<typename T, typename SizeType=size_t>
+	template<typename T, typename SizeType>
 	struct list
 	{
 		typedef traits::container<list, T, SizeType> attributes;

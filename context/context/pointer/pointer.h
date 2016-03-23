@@ -124,9 +124,23 @@ namespace nik
 */
 			bool operator == (const pointer & p) const
 				{ return (current == p.current); }
-
+/*
+	Inversion allows for the conversion of *this to a const_pointer,
+	and the above comparison is defined for const_pointer.
+*/
+			bool operator == (const const_pointer & p) const
+				{ return (p == *this); }
+/*
+	Broader definitions of inequality comparison.
+*/
 			bool operator != (const pointer & p) const
 				{ return (current != p.current); }
+/*
+	Inversion allows for the conversion of *this to a const_pointer,
+	and the above comparison is defined for const_pointer.
+*/
+			bool operator != (const const_pointer & p) const
+				{ return (p != *this); }
 /*
 	Safely initializes the pointer before passing it on.
 */

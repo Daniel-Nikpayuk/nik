@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_ITERATOR_VECTOR_H
-#define NIK_MEDIA_ITERATOR_VECTOR_H
+#ifndef NIK_MEDIA_ITERATOR_GENERIC_VECTOR_H
+#define NIK_MEDIA_ITERATOR_GENERIC_VECTOR_H
 
 #include"../../context/vector/vector.h"
 #include"../../context/iterator/random_access_iterator.h"
@@ -29,6 +29,8 @@ namespace nik
  {
   namespace iterator
   {
+   namespace generic
+   {
 /*
 	vector:
 		Things need fixing: const_cast instead of relying on (begin()+(n-begin())) in the generic context methods.
@@ -37,7 +39,7 @@ namespace nik
 
 		subvector iterator probably needs updating to reflect that topos0_pointer no longer exists.
 */
-	template<typename T, typename SizeType=size_t>
+	template<typename T, typename SizeType>
 	class vector
 	{
 		protected:
@@ -188,7 +190,11 @@ namespace nik
 				&current=&tmp;
 			}
 	};
+   }
   }
+
+	template<typename T, typename SizeType=size_t>
+	using vector=iterator::generic::vector<T, SizeType>;
  }
 }
 

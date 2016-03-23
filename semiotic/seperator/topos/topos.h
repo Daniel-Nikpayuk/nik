@@ -73,7 +73,7 @@ namespace nik
 	topos0:
 		I don't know if this will actually be of any use, but I've included it just in case it ever is.
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos0
 			{
 				typedef traits::container<topos0,ValueType,SizeType> container;
@@ -100,7 +100,7 @@ namespace nik
 /*
 	topos1:
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos1
 			{
 				typedef traits::container<topos1,ValueType,SizeType> container;
@@ -135,7 +135,7 @@ namespace nik
 /*
 	topos2:
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos2
 			{
 				typedef traits::container<topos2,ValueType,SizeType> container;
@@ -172,7 +172,7 @@ namespace nik
 /*
 	topos3:
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos3
 			{
 				typedef traits::container<topos3,ValueType,SizeType> container;
@@ -209,7 +209,7 @@ namespace nik
 /*
 	topos4:
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos4
 			{
 				typedef traits::container<topos4,ValueType,SizeType> container;
@@ -248,7 +248,7 @@ namespace nik
 /*
 	topos5:
 */
-			template<typename ValueType, typename SizeType=size_t>
+			template<typename ValueType, typename SizeType>
 			struct topos5
 			{
 				typedef traits::container<topos5,ValueType,SizeType> container;

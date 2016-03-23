@@ -15,39 +15,18 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_ITERATOR_LIST_H
-#define NIK_MEDIA_ITERATOR_LIST_H
+#ifndef NIK_MEDIA_ITERATOR_GENERIC_LIST_H
+#define NIK_MEDIA_ITERATOR_GENERIC_LIST_H
 
 /*
-	Is it better to have sublist as a member or to inherit? Aside from swap I see no reason not to inherit. Is swap really
-	needed that badly? Just swap first and last! I've tested it and the memory required doesn't seem to be effected either way.
-	As such, I have chosen to inherit.
-
-	Two alternate designs have, either an "end" iterator, or, a null iterator signifying the end:
-
-	An end iterator is less memory efficient not to mention the need to relink it, but is otherwise more
-	compatible with iterators for subclassing---and thus more extensible.
-
-	A null iterator signifier is more efficient but less extensible. On the otherhand, if you were to make
-	the "last" iterator a legitimate iterator (not just signifier) then you have the best of both worlds,
-	not to mention it becomes easier to append to the numeral list as you don't have to figure out what's
-	second last (to be able to insert before last). It also fits with the application idea that a "numeral"
-	should never actually be empty and should default to '0', but such a restriction should not be specified here.
-
-	The final consideration, given that the numeric classes intended to be extended from here are
-	additionally intended to be workhorse types for the whole library, and thus cpu efficiency is again
-	privileged over memory. The constraint however remains that compromising memory remains limited to constant
-	or linear increase. In anycase case, as comparison operators are a basic and repeatedly used test for
-	these types, they must be as efficient as possible. In this case, it makes more sense to have
-	constant-time access to the "order" of these polynomials (positional notation) as well as their leading
-	coefficients for fast comparisons (==; !=; <; <=; >; >=).
+	Given the unsafe nature of semiotic::list policy here is composability instead of inheritance.
 
 	Test against self-assignment!
 */
 
-#include"../../../context/topos/topos2.h"
-#include"../../../context/numeric_limits/numeric_limits.h"
-#include"../../../semiotic/list/list.h"
+#include"../../../../context/context/policy/policy.h"
+#include"../../../../context/semiotic/iterator/extensionwise/policy/policy.h"
+#include"../../../../semiotic/iterator/list/list.h"
 
 namespace nik
 {
@@ -55,191 +34,213 @@ namespace nik
  {
   namespace iterator
   {
+   namespace generic
+   {
 /*
 	list:
 */
-	template<typename T, typename SizeType=size_t>
-	class list : protected semiotic::list<T, SizeType>
+	template<typename T, typename SizeType>
+	class list
 	{
 		protected:
-			typedef context::topos2 method;
-			typedef semiotic::list<T,SizeType> sublist;
+			typedef context::context::policy<SizeType> c_policy;
+			typedef context::semiotic::iterator::extensionwise::policy<SizeType> c_exte_policy;
+			typedef semiotic::iterator::list<T,SizeType> weaklist;
 		public:
-			typedef typename sublist::value_type value_type;
-			typedef typename sublist::reference reference;
-			typedef typename sublist::const_reference const_reference;
-			typedef typename sublist::iterator iterator;
-			typedef typename sublist::const_iterator const_iterator;
-			typedef typename sublist::size_type size_type;
+			typedef typename weaklist::value_type value_type;
+			typedef typename weaklist::reference reference;
+			typedef typename weaklist::const_reference const_reference;
+			typedef typename weaklist::iterator iterator;
+			typedef typename weaklist::const_iterator const_iterator;
+			typedef typename weaklist::size_type size_type;
 		protected:
+			weaklist sublist; 
+
 			size_type length;
 		public:
-			list() : sublist(0, 0), length(0) { }
+			list() : length(0) { sublist.initialize(); }
+			~list() { sublist.terminalize(); }
 		public:
 				// element access:
-			reference front() { return sublist::first->value; }
-			const_reference front() const { return sublist::first->value; }
-			reference back() { return sublist::last->edge0->value; }
-			const_reference back() const { return sublist::last->edge0->value; }
+			reference front() { return *sublist.initial; }
+			const_reference front() const { return *sublist.initial; }
+			reference back() { return **-sublist.terminal; }
+			const_reference back() const { return **-sublist.terminal; }
 				// iterators:
-			iterator begin() { return sublist::first; }
-			const_iterator begin() const { return sublist::first; }
-			const_iterator cbegin() const { return sublist::first; }
-			iterator end() { return sublist::last; }
-			const_iterator end() const { return sublist::last; }
-			const_iterator cend() const { return sublist::last; }
+			iterator begin() { return sublist.initial; }
+			const_iterator begin() const { return sublist.initial; }
+			const_iterator cbegin() const { return sublist.initial; }
+			iterator end() { return sublist.terminal; }
+			const_iterator end() const { return sublist.terminal; }
+			const_iterator cend() const { return sublist.terminal; }
 				// capacity:
-			bool empty() const { return length == 0; }
+			bool empty() const { return length; }
 			size_type size() const { return length; }
-			size_type max_size() const { return context::numeric_limits<size_type>::max(); }
+			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
-			void clear() { sublist::terminalize(0, 0); }
+			void clear() { sublist.shrink(); }
 /*
-	Is not well defined when it is past last.
-	In this case the faster algorithm would be to copy the edges as pointers rather than navigating the topoi, probably.
-*/
-				// more of this code can be refactored into the method template class.
-				// write the code first, for this and what's below, then figure out how
-				// best to refactor.
 			iterator insert(const_iterator it, const value_type & value)
 			{
 				++length;
-				if (it.current == sublist::first) return sublist::first=
-					method::prepend(sublist::first, new typename sublist::node(value));
-				else return method::impend(const_cast<typename iterator::address>(it.current),
-					new typename sublist::node(value));
+				if (it == sublist.initial)
+					return sublist.initial=c_exte_policy::bid_chai::prepend::with_return(sublist.initial, value);
+				else return c_exte_policy::bid_chai::impend::with_return(it, value);
 			}
+
 			iterator insert(const_iterator it, value_type && value)
 			{
 				++length;
-				if (it.current == sublist::first) return sublist::first=
-					method::prepend(sublist::first, new typename sublist::node(value));
-				else return method::impend(const_cast<typename iterator::address>(it.current),
-					new typename sublist::node(value));
+				if (it == sublist.initial)
+					return sublist.initial=c_exte_policy::bid_chai::prepend::with_return(sublist.initial, value);
+				else return c_exte_policy::bid_chai::impend::with_return(it, value);
 			}
-	// should the const_cast be here ? or should I centralize it at the generic level ? probably here.
+
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
 				length+=count;
-				if (it.current == sublist::first) return sublist::first=method::rep0(sublist::first, count, value);
+				if (it == sublist.initial)
+				{
+					-sublist.initial=new weaklist::iterator();
+					return sublist.initial=c_exte_policy::bwd_over::repeat::with_return(-sublist.initial, count, value);
+				}
 				else
 				{
-					typename iterator::address i(const_cast<typename iterator::address>(it.current));
-					return method::prepend(i, method::rep1(i->edge0, count, value))->edge1;
+					weaklist::iterator i=new weaklist::iterator(),
+						t=c_exte_policy::fwd_over::repeat::with_return(, count, value);
+					return c_exte_policy::impend::with_return(it, i, t);
 				}
 			}
+*/
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
 	as a better match.
 */
+/*
 			iterator insert(const_iterator it, int count, const value_type & value)
 				{ return insert(it, (size_type) count, value); }
-/*
-*/
-			template<typename InputIterator>
+
+			template<typename RIterator, typename ERIterator>
 			iterator insert(const_iterator it, InputIterator first, InputIterator last)
 			{
 				if (first != last)
 				{
-					if (it.current == sublist::first) return sublist::first=
-						method::reverse_prepend_count(sublist::first, length, first, last);
-					else return method::impend_count(
-						const_cast<typename iterator::address>(it.current), length, first, last);
+					if (it == sublist.initial)
+					{
+						-sublist.initial=new weaklist::iterator();
+						return sublist.initial=c_exte_policy::bid_chai::
+							prepend::count::with_return(length, -sublist.initial, first, last);
+					}
+					else return c_exte_policy::bid_chai::impend::count::with_return(length, it, first, last);
 				}
 			}
+
 			iterator erase(const_iterator it)
 			{
-				if (sublist::first != sublist::last)
+				if (sublist.initial != sublist.terminal)
 				{
 					--length;
-					if (it.current == sublist::first) return sublist::first=method::deject(sublist::first);
-					else return method::eject(const_cast<typename iterator::address>(it.current));
+					if (it == sublist.initial)
+						return sublist.initial=c_exte_policy::bid_chai::deject::with_return(sublist.initial);
+					else return c_exte_policy::bid_chai::eject::with_return(it);
 				}
 			}
+*/
 /*
-	As first and last *should be* iterators within the bounds of sublist::first and sublist::last, a comparative approach (<=)
+	As first and last *should be* iterators within the bounds of sublist.initial and sublist.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
+/*
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				if (sublist::first != sublist::last && first != last)
+				if (sublist.initial != sublist.terminal && first != last)
 				{
-					if (first.current == sublist::first) return sublist::first=method::deject_count(length,
-						const_cast<typename iterator::address>(first.current),
-							const_cast<typename iterator::address>(last.current));
-					else return method::eject_count(length,
-						const_cast<typename iterator::address>(first.current),
-							const_cast<typename iterator::address>(last.current));
+					if (first == sublist.initial) return sublist.initial=
+						c_exte_policy::bid_chai::deject::count::with_return(length, first, last);
+					else return c_exte_policy::bid_chai::eject::count::with_return(length, first, last);
 				}
 			}
+
 			void push_back(const value_type & value)
 			{
 				++length;
-				if (sublist::first == sublist::last) sublist::first=
-					method::prepend(sublist::first, new typename sublist::node(value));
-				else method::attach(sublist::last, new typename sublist::node(value));
+				if (sublist.initial == sublist.terminal)
+					sublist.initial=c_exte_policy::bid_chai::append::with_return(sublist.initial, value);
+				else c_exte_policy::bid_chai::append::no_return(sublist.terminal, value);
 			}
+
 			void push_back(value_type && value)
 			{
 				++length;
-				if (sublist::first == sublist::last) sublist::first=
-					method::prepend(sublist::first, new typename sublist::node(value));
-				else method::attach(sublist::last, new typename sublist::node(value));
+				if (sublist.initial == sublist.terminal)
+					sublist.initial=c_exte_policy::bid_chai::append::with_return(sublist.initial, value);
+				else c_exte_policy::bid_chai::append::no_return(sublist.terminal, value);
 			}
+
 			void pop_back()
 			{
-				if (sublist::first != sublist::last)
+				if (sublist.initial != sublist.terminal)
 				{
 					--length;
-					if (sublist::first->edge1 == sublist::last) sublist::first=method::deject(sublist::first);
-					else method::eject(sublist::last->edge0);
+					if (+sublist.initial == sublist.terminal)
+						sublist.initial=c_exte_policy::bid_chai::deject::with_return(sublist.initial);
+					else c_exte_policy::bid_chai::eject::no_return(-sublist.terminal);
 				}
 			}
+
 			void push_front(const value_type & value)
 			{
-				sublist::first=method::prepend(sublist::first, new typename sublist::node(value));
 				++length;
+				sublist.initial=c_exte_policy::bid_chai::prepend::with_return(sublist.initial, value);
 			}
+
 			void push_front(value_type && value)
 			{
-				sublist::first=method::prepend(sublist::first, new typename sublist::node(value));
 				++length;
+				sublist.initial=c_exte_policy::bid_chai::prepend::with_return(sublist.initial, value);
 			}
+
 			void pop_front()
 			{
-				if (sublist::first != sublist::last)
+				if (sublist.initial != sublist.terminal)
 				{
-					sublist::first=method::deject(sublist::first);
 					--length;
+					sublist.initial=c_exte_policy::bid_chai::deject::with_return(sublist.initial);
 				}
 			}
-/*
-				void resize(size_type count)
-				{
-					size_type cap=sublist::size();
-					if (count > cap) method::insert(sublist, sublist::last, count-cap, value_type());
-					length=count;
-				}
-				void resize(size_type count, const value_type & value)
-				{
-					size_type cap=sublist::size();
-					if (count > cap) method::insert(sublist, sublist::last, count-cap, value);
-					length=count;
-				}
-*/
+
+			void resize(size_type count)
+			{
+				size_type cap=sublist::size();
+				if (count > cap) c_exte_policy::insert(sublist, sublist.terminal, count-cap, value_type());
+				length=count;
+			}
+
+			void resize(size_type count, const value_type & value)
+			{
+				size_type cap=sublist::size();
+				if (count > cap) c_exte_policy::insert(sublist, sublist.terminal, count-cap, value);
+				length=count;
+			}
+
 			void swap(list & other)
 			{
-				typename sublist::pointer first=other.first, last=other.last;
-				other.first=sublist::first; other.last=sublist::last;
-				sublist::first=first; sublist::last=last;
+				weaklist::iterator oinitial=other.initial, oterminal=other.terminal;
+				other.initial=sublist.initial; other.terminal=sublist.terminal;
+				sublist.initial=oinitial; sublist.terminal=oterminal;
 
 				size_type olength=other.length;
 				other.length=length;
 				length=olength;
 			}
+*/
 	};
+   }
   }
+
+	template<typename T, typename SizeType=size_t>
+	using list=iterator::generic::list<T, SizeType>;
  }
 }
 

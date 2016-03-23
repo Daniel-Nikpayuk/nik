@@ -15,18 +15,18 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_ITERATOR_LIST_H
-#define NIK_MEDIA_ITERATOR_LIST_H
+#ifndef NIK_MEDIA_ITERATOR_GENERIC_CHAIN_H
+#define NIK_MEDIA_ITERATOR_GENERIC_CHAIN_H
 
 /*
-	Is it better to have subchain as a member or to inherit? Aside from swap I see no reason not to inherit. Is swap really
-	needed that badly? Just swap first and last! I've tested it and the memory required doesn't seem to be effected either way.
-	As such, I have chosen to inherit.
+	Given the unsafe nature of semiotic::chain policy here is composability instead of inheritance.
+
+	Test against self-assignment!
 */
 
-#include"../../../context/topos/topos2.h"
-#include"../../../context/numeric_limits/numeric_limits.h"
-#include"../../../semiotic/chain/chain.h"
+#include"../../../../context/context/policy/policy.h"
+#include"../../../../context/semiotic/iterator/extensionwise/policy/policy.h"
+#include"../../../../semiotic/iterator/chain/chain.h"
 
 namespace nik
 {
@@ -34,15 +34,18 @@ namespace nik
  {
   namespace iterator
   {
+   namespace generic
+   {
 /*
 	chain:
 */
-	template<typename T, typename SizeType=size_t>
-	class chain : protected semiotic::chain<T, SizeType>
+	template<typename T, typename SizeType>
+	class chain
 	{
 		protected:
-			typedef context::topos2 method;
-			typedef semiotic::chain<T,SizeType> subchain;
+			typedef context::context::policy<SizeType> c_policy;
+			typedef context::semiotic::iterator::extensionwise::policy<SizeType> c_exte_policy;
+			typedef semiotic::iterator::chain<T,SizeType> weakchain;
 		public:
 			typedef typename subchain::value_type value_type;
 			typedef typename subchain::reference reference;
@@ -51,174 +54,193 @@ namespace nik
 			typedef typename subchain::const_iterator const_iterator;
 			typedef typename subchain::size_type size_type;
 		protected:
+			weakchain subchain; 
+
 			size_type length;
 		public:
-			chain() : subchain(0, 0), length(0) { }
+			chain() : length(0) { subchain.initialize(); }
+			~chain() { subchain.terminalize(); }
 		public:
 				// element access:
-			reference front() { return subchain::first->value; }
-			const_reference front() const { return subchain::first->value; }
-			reference back() { return subchain::last->edge0->value; }
-			const_reference back() const { return subchain::last->edge0->value; }
+			reference front() { return *subchain.initial; }
+			const_reference front() const { return *subchain.initial; }
+			reference back() { return **-subchain.terminal; }
+			const_reference back() const { return **-subchain.terminal; }
 				// iterators:
-			iterator begin() { return subchain::first; }
-			const_iterator begin() const { return subchain::first; }
-			const_iterator cbegin() const { return subchain::first; }
-			iterator end() { return subchain::last; }
-			const_iterator end() const { return subchain::last; }
-			const_iterator cend() const { return subchain::last; }
+			iterator begin() { return subchain.initial; }
+			const_iterator begin() const { return subchain.initial; }
+			const_iterator cbegin() const { return subchain.initial; }
+			iterator end() { return subchain.terminal; }
+			const_iterator end() const { return subchain.terminal; }
+			const_iterator cend() const { return subchain.terminal; }
 				// capacity:
-			bool empty() const { return length == 0; }
+			bool empty() const { return length; }
 			size_type size() const { return length; }
-			size_type max_size() const { return context::numeric_limits<size_type>::max(); }
+			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
-			void clear() { subchain::terminalize(0, 0); }
+			void clear() { subchain.shrink(); }
 /*
-	Is not well defined when it is past last.
-	In this case the faster algorithm would be to copy the edges as pointers rather than navigating the topoi, probably.
-*/
-				// more of this code can be refactored into the method template class.
-				// write the code first, for this and what's below, then figure out how
-				// best to refactor.
 			iterator insert(const_iterator it, const value_type & value)
 			{
 				++length;
-				if (it.current == subchain::first) return subchain::first=
-					method::prepend(subchain::first, new typename subchain::node(value));
-				else return method::impend(const_cast<typename iterator::address>(it.current),
-					new typename subchain::node(value));
+				if (it == subchain.initial)
+					return subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				else return c_exte_policy::bid_chai::impend::with_return(it, value);
 			}
+
 			iterator insert(const_iterator it, value_type && value)
 			{
 				++length;
-				if (it.current == subchain::first) return subchain::first=
-					method::prepend(subchain::first, new typename subchain::node(value));
-				else return method::impend(const_cast<typename iterator::address>(it.current),
-					new typename subchain::node(value));
+				if (it == subchain.initial)
+					return subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				else return c_exte_policy::bid_chai::impend::with_return(it, value);
 			}
-	// should the const_cast be here ? or should I centralize it at the generic level ? probably here.
+
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
 				length+=count;
-				if (it.current == subchain::first) return subchain::first=method::rep0(subchain::first, count, value);
+				if (it == subchain.initial)
+				{
+					-subchain.initial=new weakchain::iterator();
+					return subchain.initial=c_exte_policy::bwd_over::repeat::with_return(-subchain.initial, count, value);
+				}
 				else
 				{
-					typename iterator::address i(const_cast<typename iterator::address>(it.current));
-					return method::prepend(i, method::rep1(i->edge0, count, value))->edge1;
+					weakchain::iterator i=new weakchain::iterator(),
+						t=c_exte_policy::fwd_over::repeat::with_return(, count, value);
+					return c_exte_policy::impend::with_return(it, i, t);
 				}
 			}
+*/
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
 	as a better match.
 */
+/*
 			iterator insert(const_iterator it, int count, const value_type & value)
 				{ return insert(it, (size_type) count, value); }
-/*
-*/
-			template<typename InputIterator>
+
+			template<typename RIterator, typename ERIterator>
 			iterator insert(const_iterator it, InputIterator first, InputIterator last)
 			{
 				if (first != last)
 				{
-					if (it.current == subchain::first) return subchain::first=
-						method::reverse_prepend_count(subchain::first, length, first, last);
-					else return method::impend_count(
-						const_cast<typename iterator::address>(it.current), length, first, last);
+					if (it == subchain.initial)
+					{
+						-subchain.initial=new weakchain::iterator();
+						return subchain.initial=c_exte_policy::bid_chai::
+							prepend::count::with_return(length, -subchain.initial, first, last);
+					}
+					else return c_exte_policy::bid_chai::impend::count::with_return(length, it, first, last);
 				}
 			}
+
 			iterator erase(const_iterator it)
 			{
-				if (subchain::first != subchain::last)
+				if (subchain.initial != subchain.terminal)
 				{
 					--length;
-					if (it.current == subchain::first) return subchain::first=method::deject(subchain::first);
-					else return method::eject(const_cast<typename iterator::address>(it.current));
+					if (it == subchain.initial)
+						return subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
+					else return c_exte_policy::bid_chai::eject::with_return(it);
 				}
 			}
+*/
 /*
-	As first and last *should be* iterators within the bounds of subchain::first and subchain::last, a comparative approach (<=)
+	As first and last *should be* iterators within the bounds of subchain.initial and subchain.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
+/*
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				if (subchain::first != subchain::last && first != last)
+				if (subchain.initial != subchain.terminal && first != last)
 				{
-					if (first.current == subchain::first) return subchain::first=method::deject_count(length,
-						const_cast<typename iterator::address>(first.current),
-							const_cast<typename iterator::address>(last.current));
-					else return method::eject_count(length,
-						const_cast<typename iterator::address>(first.current),
-							const_cast<typename iterator::address>(last.current));
+					if (first == subchain.initial) return subchain.initial=
+						c_exte_policy::bid_chai::deject::count::with_return(length, first, last);
+					else return c_exte_policy::bid_chai::eject::count::with_return(length, first, last);
 				}
 			}
+
 			void push_back(const value_type & value)
 			{
 				++length;
-				if (subchain::first == subchain::last) subchain::first=
-					method::prepend(subchain::first, new typename subchain::node(value));
-				else method::attach(subchain::last, new typename subchain::node(value));
+				if (subchain.initial == subchain.terminal)
+					subchain.initial=c_exte_policy::bid_chai::append::with_return(subchain.initial, value);
+				else c_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
 			}
+
 			void push_back(value_type && value)
 			{
 				++length;
-				if (subchain::first == subchain::last) subchain::first=
-					method::prepend(subchain::first, new typename subchain::node(value));
-				else method::attach(subchain::last, new typename subchain::node(value));
+				if (subchain.initial == subchain.terminal)
+					subchain.initial=c_exte_policy::bid_chai::append::with_return(subchain.initial, value);
+				else c_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
 			}
+
 			void pop_back()
 			{
-				if (subchain::first != subchain::last)
+				if (subchain.initial != subchain.terminal)
 				{
 					--length;
-					if (subchain::first->edge1 == subchain::last) subchain::first=method::deject(subchain::first);
-					else method::eject(subchain::last->edge0);
+					if (+subchain.initial == subchain.terminal)
+						subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
+					else c_exte_policy::bid_chai::eject::no_return(-subchain.terminal);
 				}
 			}
+
 			void push_front(const value_type & value)
 			{
-				subchain::first=method::prepend(subchain::first, new typename subchain::node(value));
 				++length;
+				subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
 			}
+
 			void push_front(value_type && value)
 			{
-				subchain::first=method::prepend(subchain::first, new typename subchain::node(value));
 				++length;
+				subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
 			}
+
 			void pop_front()
 			{
-				if (subchain::first != subchain::last)
+				if (subchain.initial != subchain.terminal)
 				{
-					subchain::first=method::deject(subchain::first);
 					--length;
+					subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
 				}
 			}
-/*
-				void resize(size_type count)
-				{
-					size_type cap=subchain::size();
-					if (count > cap) method::insert(subchain, subchain::last, count-cap, value_type());
-					length=count;
-				}
-				void resize(size_type count, const value_type & value)
-				{
-					size_type cap=subchain::size();
-					if (count > cap) method::insert(subchain, subchain::last, count-cap, value);
-					length=count;
-				}
-*/
+
+			void resize(size_type count)
+			{
+				size_type cap=subchain::size();
+				if (count > cap) c_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
+				length=count;
+			}
+
+			void resize(size_type count, const value_type & value)
+			{
+				size_type cap=subchain::size();
+				if (count > cap) c_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
+				length=count;
+			}
+
 			void swap(chain & other)
 			{
-				typename subchain::pointer first=other.first, last=other.last;
-				other.first=subchain::first; other.last=subchain::last;
-				subchain::first=first; subchain::last=last;
+				weakchain::iterator oinitial=other.initial, oterminal=other.terminal;
+				other.initial=subchain.initial; other.terminal=subchain.terminal;
+				subchain.initial=oinitial; subchain.terminal=oterminal;
 
 				size_type olength=other.length;
 				other.length=length;
 				length=olength;
 			}
+*/
 	};
+   }
   }
+
+	template<typename T, typename SizeType=size_t>
+	using chain=iterator::generic::chain<T, SizeType>;
  }
 }
 
