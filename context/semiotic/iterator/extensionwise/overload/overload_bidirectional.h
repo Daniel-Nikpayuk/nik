@@ -15,50 +15,42 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_ITERATOR_GENERIC_DISPLAY_H
-#define NIK_MEDIA_ITERATOR_GENERIC_DISPLAY_H
-
-#include"../../../../context/context/display/display.h"
-
-#include"../../numeric/uint/uint.h"
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_BIDIRECTIONAL_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_BIDIRECTIONAL_H
 
 namespace nik
 {
- namespace media
+ namespace context
  {
-  namespace iterator
+  namespace semiotic
   {
-   namespace generic
+   namespace iterator
    {
-	struct printer : public context::context::printer
+    namespace extensionwise
+    {
+     namespace bidirectional
+     {
+	template<typename SizeType>
+	struct overload
 	{
-//		using context::context::printer::print;
+		typedef SizeType size_type;
 
-/*
-		template<typename ValueType>
-		void print(const node<ValueType> & n)
+		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
 		{
-//			printf("%zu", u);
-		}
+		};
 
-		template<size_type N>
-		void print(const uint<N> & u)
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
 		{
-			node<size_type> n;
-			while (!u.zero())
-			{
-				bwd_arit::unroll<u::dimension>::divide::
-				n.append();
-			}
-
-			print(n);
-		}
-*/
+		};
 	};
+     }
+    }
    }
   }
-
-	iterator::generic::printer display;
  }
 }
 

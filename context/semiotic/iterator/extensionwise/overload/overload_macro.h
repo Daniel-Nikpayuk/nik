@@ -238,4 +238,230 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	return out; \
 }
 
+//////////////////////////////// Unroll:
+
+/*
+	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
+*/
+#define unroll_no_return_0(method, dir, op) \
+template<typename WPointer, typename ValueType> \
+static void no_return(WPointer out, ValueType in) \
+{ \
+	(*out)op(in); \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, in); \
+}
+
+#define initial_unroll_no_return_0(method, dir, op) \
+template<typename WPointer, typename ValueType> \
+static void no_return(WPointer out, ValueType in) \
+	{ }
+
+/*
+	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
+*/
+#define unroll_with_return_0(method, dir, op) \
+template<typename WPointer, typename ValueType> \
+static WPointer with_return(WPointer out, ValueType in) \
+{ \
+	(*out)op(in); \
+	out=dir(out)=new WPointer(); \
+	return unroll<N-1>::method::with_return(out, in); \
+}
+
+#define initial_unroll_with_return_0(method, dir, op) \
+template<typename WPointer, typename ValueType> \
+static WPointer with_return(WPointer out, ValueType in) \
+	{ return out; }
+
+/*
+	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
+*/
+#define unroll_no_return_left_0(method, dir, op) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	op(*out); \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define initial_unroll_no_return_left_0(method, dir, op) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+/*
+	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
+*/
+#define unroll_no_return_right_0(method, dir, op) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	(*out)op; \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define initial_unroll_no_return_right_0(method, dir, op) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+/************************************************************************************************************************/
+
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define unroll_no_return_1(method, dir, op) \
+template<typename WPointer, typename RIterator> \
+static void no_return(WPointer out, RIterator in) \
+{ \
+	(*out)op(*in); \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+}
+
+#define initial_unroll_no_return_1(method, dir, op) \
+template<typename WPointer, typename RIterator> \
+static void no_return(WPointer out, RIterator in) \
+	{ }
+
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define unroll_with_return_1(method, dir, op) \
+template<typename WPointer, typename RIterator> \
+static WPointer with_return(WPointer out, RIterator in) \
+{ \
+	(*out)op(*in); \
+	out=dir(out)=new WPointer(); \
+	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+}
+
+#define initial_unroll_with_return_1(method, dir, op) \
+template<typename WPointer, typename RIterator> \
+static WPointer with_return(WPointer out, RIterator in) \
+	{ return out; }
+
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define unroll_no_return_right_1(method, dir, op, r) \
+template<typename WPointer, typename RIterator> \
+static void no_return(WPointer out, RIterator in) \
+{ \
+	(*out)op(*in)r; \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+}
+
+#define initial_unroll_no_return_right_1(method, dir, op, r) \
+template<typename WPointer, typename RIterator> \
+static void no_return(WPointer out, RIterator in) \
+	{ }
+
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define unroll_with_return_right_1(method, dir, op, r) \
+template<typename WPointer, typename RIterator> \
+static WPointer with_return(WPointer out, RIterator in) \
+{ \
+	*(out)op(*in)r; \
+	out=dir(out)=new WPointer(); \
+	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+}
+
+#define initial_unroll_with_return_right_1(method, dir, op, r) \
+template<typename WPointer, typename RIterator> \
+static WPointer with_return(WPointer out, RIterator in) \
+	{ return out; }
+
+/************************************************************************************************************************/
+
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define unroll_no_return_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+{ \
+	(*out)=(*in1)op(*in2); \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+}
+
+#define initial_unroll_no_return_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+	{ }
+
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define unroll_with_return_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+{ \
+	(*out)=(*in1)op(*in2); \
+	out=dir(out)=new WPointer(); \
+	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+}
+
+#define initial_unroll_with_return_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+	{ return out; }
+
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define unroll_no_return_bracket_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+{ \
+	(*out)=(*in1)op[*in2]; \
+	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+}
+
+#define initial_unroll_no_return_bracket_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+	{ }
+
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define unroll_with_return_bracket_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+{ \
+	(*out)=(*in1)op[*in2]; \
+	out=dir(out)=new WPointer(); \
+	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+}
+
+#define initial_unroll_with_return_bracket_2(method, dir, op) \
+template<typename WPointer, typename RIterator1, typename RIterator2> \
+static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+	{ return out; }
+
 #endif

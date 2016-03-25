@@ -15,12 +15,15 @@
 **
 *************************************************************************************************************************/
 
-#ifndef CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONAL_H
-#define CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONAL_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
 
-// overhead dependencies:
+#include"../overload/overload.h"
 
-#include"../../../context/policy/policy.h"
+/*
+	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
+	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
+*/
 
 namespace nik
 {
@@ -30,14 +33,31 @@ namespace nik
   {
    namespace iterator
    {
-    namespace forward
+    namespace extensionwise
     {
-	template<typename SizeType, SizeType N>
-	struct extensional
+	template<typename SizeType>
+	struct pointer
 	{
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+
+		typedef forward::overload<size_type> fwd_over;
+
+		struct clear
+		{
+			template<typename WPointer, typename ERPointer>
+			static void no_return(WPointer in, ERPointer end)
+			{
+				WPointer out=in;
+				while (in != end)
+				{
+					++in;
+					delete out;
+					out=in;
+				}
+			}
+		};
 
 			template<typename WPointer, typename RPointer>
 			static RPointer* reverse(RPointer t, const RPointer e)
@@ -147,19 +167,65 @@ namespace nik
 				return out;
 			}
 		};
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+/*
+*/
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+				{
+					WPointer out=in;
+					++in;
+					delete out;
+					unroll<N-1>::clear::no_return(in, end);
+				}
+			};
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer in, ERPointer end)
+					{ }
+			};
+		};
 	};
-    }
 
-/************************************************************************************************************************/
-
-    namespace backward
-    {
 	template<typename SizeType>
-	struct extensional
+	struct list_pointer
 	{
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+
+		typedef forward::overload<size_type> fwd_over;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+
+	template<typename SizeType>
+	struct chain_pointer
+	{
+		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+
+		typedef forward::overload<size_type> fwd_over;
 /*
 	Convenience function. Type deduction fails with size_type.
 */
@@ -547,39 +613,15 @@ namespace nik
 				return last;
 			}
 
-		struct repeat
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
 		{
 		};
 
-		struct assign
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
 		{
 		};
-	};
-    }
-
-/************************************************************************************************************************/
-
-    namespace bidirectional
-    {
-	template<typename SizeType>
-	struct extensional
-	{
-		typedef SizeType size_type;
-
-		typedef context::policy<size_type> c_policy;
-	};
-    }
-
-/************************************************************************************************************************/
-
-    namespace random_access
-    {
-	template<typename SizeType>
-	struct extensional
-	{
-		typedef SizeType size_type;
-
-		typedef context::policy<size_type> c_policy;
 	};
     }
    }
