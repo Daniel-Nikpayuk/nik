@@ -19,8 +19,6 @@
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
 
 /*
-	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
-
 	Overload operators are similar enough to factorize and pass the specific operator
 	as a method, but it is more cpu efficient to NOT---especially given there are few practical
 	contexts in which many different such operators will all be used together.
@@ -43,16 +41,114 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"overload_macro.h"
+#include"macro/loop.h"
+#include"macro/count.h"
+#include"macro/unroll.h"
+#include"macro/initial.h"
 
-// overhead dependencies:
-#include"../../../../context/policy/policy.h"
+namespace nik
+{
+ namespace context
+ {
+  namespace semiotic
+  {
+   namespace iterator
+   {
+    namespace extensionwise
+    {
+     namespace forward
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
 
-#include"overload_forward.h"
-#include"overload_backward.h"
-#include"overload_bidirectional.h"
-#include"overload_random_access.h"
+		#define DIRECTION +
+		#include"../../overload/loop.h"
 
-#undef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_H
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+			#include"../../overload/unroll.h"
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+			#include"../../overload/initial.h"
+		};
+	};
+     }
+
+	#undef DIRECTION
+
+     namespace backward
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		#define DIRECTION -
+		#include"../../overload/loop.h"
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+			#include"../../overload/unroll.h"
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+			#include"../../overload/initial.h"
+		};
+	};
+     }
+
+	#undef DIRECTION
+
+     namespace bidirectional
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+     }
+
+     namespace random_access
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+     }
+    }
+   }
+  }
+ }
+}
 
 #endif

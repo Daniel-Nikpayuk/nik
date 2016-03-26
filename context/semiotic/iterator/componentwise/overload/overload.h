@@ -43,16 +43,114 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"overload_macro.h"
+#include"macro/loop.h"
+#include"macro/count.h"
+#include"macro/unroll.h"
+#include"macro/initial.h"
 
-// overhead dependencies:
-#include"../../../../context/policy/policy.h"
+namespace nik
+{
+ namespace context
+ {
+  namespace semiotic
+  {
+   namespace iterator
+   {
+    namespace componentwise
+    {
+     namespace forward
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
 
-#include"overload_forward.h"
-#include"overload_backward.h"
-#include"overload_bidirectional.h"
-#include"overload_random_access.h"
+		#define DIRECTION +
+		#include"../../overload/loop.h"
 
-#undef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_H
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+			#include"../../overload/unroll.h"
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+			#include"../../overload/initial.h"
+		};
+	};
+     }
+
+	#undef DIRECTION
+
+     namespace backward
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		#define DIRECTION -
+		#include"../../overload/loop.h"
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+			#include"../../overload/unroll.h"
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+			#include"../../overload/initial.h"
+		};
+	};
+     }
+
+	#undef DIRECTION
+
+     namespace bidirectional
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+     }
+
+     namespace random_access
+     {
+	template<typename SizeType>
+	struct overload
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+     }
+    }
+   }
+  }
+ }
+}
 
 #endif
