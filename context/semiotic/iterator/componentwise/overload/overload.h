@@ -43,10 +43,10 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"macro/loop.h"
-#include"macro/count.h"
-#include"macro/unroll.h"
-#include"macro/initial.h"
+#include"inclusive/loop.h"
+#include"inclusive/count.h"
+#include"inclusive/unroll.h"
+#include"inclusive/initial.h"
 
 namespace nik
 {

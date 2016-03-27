@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_COUNT_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_COUNT_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_COUNT_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_COUNT_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -42,24 +42,26 @@
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		(*out)op(*in); \
 	} \
+	while (in != end) \
 }
 
 #define count_with_return_1(dir, op) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		(*out)op(*in); \
 	} \
+	while (in != end) \
  \
 	return out; \
 }
@@ -68,24 +70,26 @@ static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIte
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		(*out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		(*out)op(*in)r; \
 	} \
+	while (in != end) \
 }
 
 #define count_with_return_right_1(dir, op, r) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		*(out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		*(out)op(*in)r; \
 	} \
+	while (in != end) \
  \
 	return out; \
 }
@@ -96,24 +100,26 @@ static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIte
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op(*in2); \
 	} \
+	while (in2 != end2) \
 }
 
 #define count_with_return_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op(*in2); \
 	} \
+	while (in2 != end2) \
  \
 	return out; \
 }
@@ -122,24 +128,26 @@ static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIt
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op[*in2]; \
 	} \
+	while (in2 != end2) \
 }
 
 #define count_with_return_bracket_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
 		++count; dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op[*in2]; \
 	} \
+	while (in2 != end2) \
  \
 	return out; \
 }

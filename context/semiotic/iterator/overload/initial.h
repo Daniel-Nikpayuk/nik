@@ -31,11 +31,11 @@
 
 struct plus
 {
-	initial_no_return_1(DIRECTION, =+)
-	initial_with_return_1(DIRECTION, =+)
+	initial_no_return_1(=+)
+	initial_with_return_1(=+)
 
-	initial_no_return_2(DIRECTION, +)
-	initial_with_return_2(DIRECTION, +)
+	initial_no_return_2(+)
+	initial_with_return_2(+)
 };
 
 /*
@@ -46,11 +46,11 @@ struct plus
 
 struct minus
 {
-	initial_no_return_1(DIRECTION, =-)
-	initial_with_return_1(DIRECTION, =-)
+	initial_no_return_1(=-)
+	initial_with_return_1(=-)
 
-	initial_no_return_2(DIRECTION, -)
-	initial_with_return_2(DIRECTION, -)
+	initial_no_return_2(-)
+	initial_with_return_2(-)
 };
 
 /*
@@ -61,11 +61,11 @@ struct minus
 
 struct asterisk
 {
-	initial_no_return_1(DIRECTION, =*)
-	initial_with_return_1(DIRECTION, =*)
+	initial_no_return_1(=*)
+	initial_with_return_1(=*)
 
-	initial_no_return_2(DIRECTION, *)
-	initial_with_return_2(DIRECTION, *)
+	initial_no_return_2(*)
+	initial_with_return_2(*)
 };
 
 /*
@@ -74,8 +74,8 @@ struct asterisk
 
 struct slash
 {
-	initial_no_return_2(DIRECTION, /)
-	initial_with_return_2(DIRECTION, /)
+	initial_no_return_2(/)
+	initial_with_return_2(/)
 };
 
 /*
@@ -84,8 +84,8 @@ struct slash
 
 struct percent
 {
-	initial_no_return_2(DIRECTION, %)
-	initial_with_return_2(DIRECTION, %)
+	initial_no_return_2(%)
+	initial_with_return_2(%)
 };
 
 /*
@@ -94,8 +94,8 @@ struct percent
 
 struct caret
 {
-	initial_no_return_2(DIRECTION, ^)
-	initial_with_return_2(DIRECTION, ^)
+	initial_no_return_2(^)
+	initial_with_return_2(^)
 };
 
 /*
@@ -106,11 +106,11 @@ struct caret
 
 struct ampersand
 {
-	initial_no_return_1(DIRECTION, =&)
-	initial_with_return_1(DIRECTION, =&)
+	initial_no_return_1(=&)
+	initial_with_return_1(=&)
 
-	initial_no_return_2(DIRECTION, &)
-	initial_with_return_2(DIRECTION, &)
+	initial_no_return_2(&)
+	initial_with_return_2(&)
 };
 
 /*
@@ -119,8 +119,8 @@ struct ampersand
 
 struct bar
 {
-	initial_no_return_2(DIRECTION, |)
-	initial_with_return_2(DIRECTION, |)
+	initial_no_return_2(|)
+	initial_with_return_2(|)
 };
 
 /*
@@ -131,8 +131,8 @@ struct bar
 
 struct tilde
 {
-	initial_no_return_1(DIRECTION, =~)
-	initial_with_return_1(DIRECTION, =~)
+	initial_no_return_1(=~)
+	initial_with_return_1(=~)
 };
 
 /*
@@ -143,8 +143,8 @@ struct tilde
 
 struct exclamation
 {
-	initial_no_return_1(DIRECTION, =!)
-	initial_with_return_1(DIRECTION, =!)
+	initial_no_return_1(=!)
+	initial_with_return_1(=!)
 };
 
 /*
@@ -153,8 +153,8 @@ struct exclamation
 
 struct less_than
 {
-	initial_no_return_2(DIRECTION, <)
-	initial_with_return_2(DIRECTION, <)
+	initial_no_return_2(<)
+	initial_with_return_2(<)
 };
 
 /*
@@ -163,8 +163,8 @@ struct less_than
 
 struct greater_than
 {
-	initial_no_return_2(DIRECTION, >)
-	initial_with_return_2(DIRECTION, >)
+	initial_no_return_2(>)
+	initial_with_return_2(>)
 };
 
 /*
@@ -173,8 +173,8 @@ struct greater_than
 
 struct left_shift
 {
-	initial_no_return_2(DIRECTION, <<)
-	initial_with_return_2(DIRECTION, <<)
+	initial_no_return_2(<<)
+	initial_with_return_2(<<)
 };
 
 /*
@@ -183,8 +183,8 @@ struct left_shift
 
 struct right_shift
 {
-	initial_no_return_2(DIRECTION, >>)
-	initial_with_return_2(DIRECTION, >>)
+	initial_no_return_2(>>)
+	initial_with_return_2(>>)
 };
 
 /*
@@ -193,8 +193,8 @@ struct right_shift
 
 struct equals
 {
-	initial_no_return_2(DIRECTION, ==)
-	initial_with_return_2(DIRECTION, ==)
+	initial_no_return_2(==)
+	initial_with_return_2(==)
 };
 
 /*
@@ -203,8 +203,8 @@ struct equals
 
 struct not_equals
 {
-	initial_no_return_2(DIRECTION, !=)
-	initial_with_return_2(DIRECTION, !=)
+	initial_no_return_2(!=)
+	initial_with_return_2(!=)
 };
 
 /*
@@ -213,8 +213,8 @@ struct not_equals
 
 struct less_than_or_equal
 {
-	initial_no_return_2(DIRECTION, <=)
-	initial_with_return_2(DIRECTION, <=)
+	initial_no_return_2(<=)
+	initial_with_return_2(<=)
 };
 
 /*
@@ -223,8 +223,8 @@ struct less_than_or_equal
 
 struct greater_than_or_equal
 {
-	initial_no_return_2(DIRECTION, >=)
-	initial_with_return_2(DIRECTION, >=)
+	initial_no_return_2(>=)
+	initial_with_return_2(>=)
 };
 
 /*
@@ -233,8 +233,8 @@ struct greater_than_or_equal
 
 struct logical_and
 {
-	initial_no_return_2(DIRECTION, &&)
-	initial_with_return_2(DIRECTION, &&)
+	initial_no_return_2(&&)
+	initial_with_return_2(&&)
 };
 
 /*
@@ -243,8 +243,8 @@ struct logical_and
 
 struct logical_or
 {
-	initial_no_return_2(DIRECTION, ||)
-	initial_with_return_2(DIRECTION, ||)
+	initial_no_return_2(||)
+	initial_with_return_2(||)
 };
 
 /*
@@ -253,12 +253,12 @@ struct logical_or
 
 struct left_increment
 {
-	initial_no_return_left_0(DIRECTION, ++)
+	initial_no_return_left_0(++)
 };
 
 struct right_increment
 {
-	initial_no_return_right_0(DIRECTION, ++)
+	initial_no_return_right_0(++)
 };
 
 /*
@@ -267,12 +267,12 @@ struct right_increment
 
 struct left_decrement
 {
-	initial_no_return_left_0(DIRECTION, --)
+	initial_no_return_left_0(--)
 };
 
 struct right_decrement
 {
-	initial_no_return_right_0(DIRECTION, --)
+	initial_no_return_right_0(--)
 };
 
 /*
@@ -289,8 +289,8 @@ struct comma
 
 struct point_asterisk
 {
-	initial_no_return_2(DIRECTION, ->*)
-	initial_with_return_2(DIRECTION, ->*)
+	initial_no_return_2(->*)
+	initial_with_return_2(->*)
 };
 
 /*
@@ -299,7 +299,7 @@ struct point_asterisk
 
 struct point
 {
-	initial_with_return_2(DIRECTION, .operator->)
+	initial_with_return_2(.operator->)
 };
 
 /*
@@ -310,13 +310,13 @@ struct point
 
 struct parentheses
 {
-	initial_no_return_right_0(DIRECTION, ())
+	initial_no_return_right_0(())
 
-	initial_no_return_right_1(DIRECTION, =, ())
-	initial_with_return_right_1(DIRECTION, =, ())
+	initial_no_return_right_1(=, ())
+	initial_with_return_right_1(=, ())
 
-	initial_no_return_2(DIRECTION, )
-	initial_with_return_2(DIRECTION, )
+	initial_no_return_2()
+	initial_with_return_2()
 };
 
 /*
@@ -325,8 +325,8 @@ struct parentheses
 
 struct brackets
 {
-	initial_no_return_bracket_2(DIRECTION, )
-	initial_with_return_bracket_2(DIRECTION, )
+	initial_no_return_bracket_2()
+	initial_with_return_bracket_2()
 };
 
 /*
@@ -335,77 +335,77 @@ struct brackets
 
 struct repeat
 {
-	initial_no_return_0(DIRECTION, =)
+	initial_no_return_0(=)
 	// There's no need for a "return" version as the out iterator equals the end iterator upon halting.
 /*
 	+=:
 */
 	struct plus
 	{
-		initial_no_return_0(DIRECTION, +=)
+		initial_no_return_0(+=)
 	};
 /*
 	-=:
 */
 	struct minus
 	{
-		initial_no_return_0(DIRECTION, -=)
+		initial_no_return_0(-=)
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
-		initial_no_return_0(DIRECTION, *=)
+		initial_no_return_0(*=)
 	};
 /*
 	/=:
 */
 	struct slash
 	{
-		initial_no_return_0(DIRECTION, /=)
+		initial_no_return_0(/=)
 	};
 /*
 	%=:
 */
 	struct percent
 	{
-		initial_no_return_0(DIRECTION, %=)
+		initial_no_return_0(%=)
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
-		initial_no_return_0(DIRECTION, ^=)
+		initial_no_return_0(^=)
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
-		initial_no_return_0(DIRECTION, &=)
+		initial_no_return_0(&=)
 	};
 /*
 	|=:
 */
 	struct bar
 	{
-		initial_no_return_0(DIRECTION, |=)
+		initial_no_return_0(|=)
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
-		initial_no_return_0(DIRECTION, >>=)
+		initial_no_return_0(>>=)
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
-		initial_no_return_0(DIRECTION, <<=)
+		initial_no_return_0(<<=)
 	};
 };
 
@@ -415,87 +415,87 @@ struct repeat
 
 struct assign
 {
-	initial_no_return_1(DIRECTION, =)
-	initial_with_return_1(DIRECTION, =)
+	initial_no_return_1(=)
+	initial_with_return_1(=)
 /*
 	+=:
 */
 	struct plus
 	{
-		initial_no_return_1(DIRECTION, +=)
-		initial_with_return_1(DIRECTION, +=)
+		initial_no_return_1(+=)
+		initial_with_return_1(+=)
 	};
 /*
 	-=:
 */
 	struct minus
 	{
-		initial_no_return_1(DIRECTION, -=)
-		initial_with_return_1(DIRECTION, -=)
+		initial_no_return_1(-=)
+		initial_with_return_1(-=)
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
-		initial_no_return_1(DIRECTION, *=)
-		initial_with_return_1(DIRECTION, *=)
+		initial_no_return_1(*=)
+		initial_with_return_1(*=)
 	};
 /*
 	/=:
 */
 	struct slash
 	{
-		initial_no_return_1(DIRECTION, /=)
-		initial_with_return_1(DIRECTION, /=)
+		initial_no_return_1(/=)
+		initial_with_return_1(/=)
 	};
 /*
 	%=:
 */
 	struct percent
 	{
-		initial_no_return_1(DIRECTION, %=)
-		initial_with_return_1(DIRECTION, %=)
+		initial_no_return_1(%=)
+		initial_with_return_1(%=)
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
-		initial_no_return_1(DIRECTION, ^=)
-		initial_with_return_1(DIRECTION, ^=)
+		initial_no_return_1(^=)
+		initial_with_return_1(^=)
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
-		initial_no_return_1(DIRECTION, &=)
-		initial_with_return_1(DIRECTION, &=)
+		initial_no_return_1(&=)
+		initial_with_return_1(&=)
 	};
 /*
 	|=:
 */
 	struct bar
 	{
-		initial_no_return_1(DIRECTION, |=)
-		initial_with_return_1(DIRECTION, |=)
+		initial_no_return_1(|=)
+		initial_with_return_1(|=)
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
-		initial_no_return_1(DIRECTION, >>=)
-		initial_with_return_1(DIRECTION, >>=)
+		initial_no_return_1(>>=)
+		initial_with_return_1(>>=)
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
-		initial_no_return_1(DIRECTION, <<=)
-		initial_with_return_1(DIRECTION, <<=)
+		initial_no_return_1(<<=)
+		initial_with_return_1(<<=)
 	};
 };
 
