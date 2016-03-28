@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_LOOP_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_LOOP_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_LOOP_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_LOOP_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -28,66 +28,88 @@
 	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
-#define loop_no_return_0(dir, op) \
+#define post_test_loop_no_return_0(dir, op) \
 template<typename WPointer, typename ValueType> \
 static void no_return(WPointer out, size_type n, ValueType in) \
 { \
-	while (n) \
+	do \
 	{ \
-		(*out)op(in); \
-		out=dir(out)=new WPointer(); \
 		--n; \
+		out=dir(out)=new WPointer(); \
+		(*out)op(in); \
 	} \
+	while (n); \
 }
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
-#define loop_with_return_0(dir, op) \
+#define post_test_loop_with_return_0(dir, op) \
 template<typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, size_type n, ValueType in) \
 { \
-	while (n) \
+	do \
 	{ \
+		--n; \
+		out=dir(out)=new WPointer(); \
 		(*out)op(in); \
-		out=dir(out)=new WPointer(); \
-		--n; \
 	} \
+	while (n); \
  \
 	return out; \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define loop_no_return_left_0(dir, op) \
+#define post_test_loop_no_return_left_0(dir, op) \
 template<typename WPointer> \
 static void no_return(WPointer out, size_type n) \
 { \
-	while (n) \
+	do \
 	{ \
+		--n; \
+		out=dir(out)=new WPointer(); \
 		op(*out); \
-		out=dir(out)=new WPointer(); \
-		--n; \
 	} \
+	while (n); \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define loop_no_return_right_0(dir, op) \
+#define post_test_loop_with_return_left_0(dir, op) \
+template<typename WPointer> \
+static WPointer with_return(WPointer out, size_type n) \
+{ \
+	do \
+	{ \
+		--n; \
+		out=dir(out)=new WPointer(); \
+		op(*out); \
+	} \
+	while (n); \
+ \
+	return out; \
+}
+
+#define post_test_loop_no_return_right_0(dir, op) \
 template<typename WPointer> \
 static void no_return(WPointer out, size_type n) \
 { \
-	while (n) \
+	do \
 	{ \
-		(*out)op; \
-		out=dir(out)=new WPointer(); \
 		--n; \
+		out=dir(out)=new WPointer(); \
+		(*out)op; \
 	} \
+	while (n); \
+}
+
+#define post_test_loop_with_return_right_0(dir, op) \
+template<typename WPointer> \
+static WPointer with_return(WPointer out, size_type n) \
+{ \
+	do \
+	{ \
+		--n; \
+		out=dir(out)=new WPointer(); \
+		(*out)op; \
+	} \
+	while (n); \
+ \
+	return out; \
 }
 
 /************************************************************************************************************************/
@@ -97,16 +119,17 @@ static void no_return(WPointer out, size_type n) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
-#define loop_no_return_1(dir, op) \
+#define post_test_loop_no_return_1(dir, op) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		(*out)op(*in); \
 	} \
+	while (in != end); \
 }
 
 /*
@@ -114,16 +137,17 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define loop_with_return_1(dir, op) \
+#define post_test_loop_with_return_1(dir, op) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		(*out)op(*in); \
 	} \
+	while (in != end); \
  \
 	return out; \
 }
@@ -133,16 +157,17 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
-#define loop_no_return_right_1(dir, op, r) \
+#define post_test_loop_no_return_right_1(dir, op, r) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
+		dir##dir(in); \
+		out=dir(out)=new WPointer(); \
 		(*out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
-		dir##dir(in); \
 	} \
+	while (in != end); \
 }
 
 /*
@@ -150,16 +175,17 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define loop_with_return_right_1(dir, op, r) \
+#define post_test_loop_with_return_right_1(dir, op, r) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	do \
 	{ \
-		*(out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in); \
+		out=dir(out)=new WPointer(); \
+		*(out)op(*in)r; \
 	} \
+	while (in != end); \
  \
 	return out; \
 }
@@ -171,16 +197,17 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
-#define loop_no_return_2(dir, op) \
+#define post_test_loop_no_return_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op(*in2); \
 	} \
+	while (in2 != end2); \
 }
 
 /*
@@ -188,16 +215,17 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define loop_with_return_2(dir, op) \
+#define post_test_loop_with_return_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op(*in2); \
 	} \
+	while (in2 != end2); \
  \
 	return out; \
 }
@@ -207,16 +235,17 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
-#define loop_no_return_bracket_2(dir, op) \
+#define post_test_loop_no_return_bracket_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op[*in2]; \
 	} \
+	while (in2 != end2); \
 }
 
 /*
@@ -224,16 +253,17 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define loop_with_return_bracket_2(dir, op) \
+#define post_test_loop_with_return_bracket_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
-	while (in2 != end2) \
+	do \
 	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
 		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WPointer(); \
+		(*out)=(*in1)op[*in2]; \
 	} \
+	while (in2 != end2); \
  \
 	return out; \
 }

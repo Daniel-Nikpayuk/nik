@@ -15,81 +15,88 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_INITIAL_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_INITIAL_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_DEFINE_INITIAL_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_DEFINE_INITIAL_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
 
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
-
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
 #define initial_no_return_0(op) \
-template<typename WPointer, typename ValueType> \
-static void no_return(WPointer out, ValueType in) \
+template<typename WIterator, typename ValueType> \
+static void no_return(WIterator out, ValueType in) \
 	{ }
 
 #define initial_with_return_0(op) \
-template<typename WPointer, typename ValueType> \
-static WPointer with_return(WPointer out, ValueType in) \
+template<typename WIterator, typename ValueType> \
+static WIterator with_return(WIterator out, ValueType in) \
 	{ return out; }
 
 #define initial_no_return_left_0(op) \
-template<typename WPointer> \
-static void no_return(WPointer out) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
 	{ }
 
+#define initial_with_return_left_0(op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
 #define initial_no_return_right_0(op) \
-template<typename WPointer> \
-static void no_return(WPointer out) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
 	{ }
+
+#define initial_with_return_right_0(op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
 
 /************************************************************************************************************************/
 
 #define initial_no_return_1(op) \
-template<typename WPointer, typename RIterator> \
-static void no_return(WPointer out, RIterator in) \
+template<typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
 	{ }
 
 #define initial_with_return_1(op) \
-template<typename WPointer, typename RIterator> \
-static WPointer with_return(WPointer out, RIterator in) \
+template<typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
 #define initial_no_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
-static void no_return(WPointer out, RIterator in) \
+template<typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
 	{ }
 
 #define initial_with_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
-static WPointer with_return(WPointer out, RIterator in) \
+template<typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
 /************************************************************************************************************************/
 
 #define initial_no_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
 #define initial_with_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
 #define initial_no_return_bracket_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
 #define initial_with_return_bracket_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
 #endif

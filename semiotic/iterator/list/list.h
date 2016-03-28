@@ -93,7 +93,7 @@ namespace nik
 			{ c_exte_policy::fwd_over::assign::no_return(terminal, first, last); }
 
 		void shrink()
-			{ c_exte_policy::fwd_over::clear::no_return(initial, terminal); }
+			{ c_exte_policy::ptr::clear::no_return(initial, terminal); }
 
 		template<typename RIterator, typename ERIterator>
 		void copy_initialize(RIterator first, ERIterator last)

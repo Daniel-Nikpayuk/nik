@@ -15,17 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_UNROLL_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_UNROLL_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_UNROLL_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_UNROLL_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
 
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
-
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 
 	unroll:
 			Compiler constraints require factoring out the size_type parameter, for the partial specializations of unroll.
@@ -38,96 +35,102 @@
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
-#define unroll_no_return_0(method, dir, op) \
-template<typename WPointer, typename ValueType> \
-static void no_return(WPointer out, ValueType in) \
+#define post_test_unroll_no_return_0(method, dir, op) \
+template<typename WIterator, typename ValueType> \
+static void no_return(WIterator out, ValueType in) \
 { \
+	dir##dir(out); \
 	(*out)op(in); \
-	out=dir(out)=new WPointer(); \
+	unroll<N-1>::method::no_return(out, in); \
+}
+
+#define post_test_unroll_with_return_0(method, dir, op) \
+template<typename WIterator, typename ValueType> \
+static WIterator with_return(WIterator out, ValueType in) \
+{ \
+	dir##dir(out); \
+	(*out)op(in); \
+	return unroll<N-1>::method::with_return(out, in); \
+}
+
+#define post_test_unroll_no_return_left_0(method, dir, op) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	op(*out); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_left_0(method, dir, op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	op(*out); \
+	return unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_no_return_right_0(method, dir, op) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	(*out)op; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_right_0(method, dir, op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	(*out)op; \
+	return unroll<N-1>::method::no_return(out); \
+}
+
+/************************************************************************************************************************/
+
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WIterator as reference (assuming referencing is preferred).
+*/
+#define post_test_unroll_no_return_1(method, dir, op) \
+template<typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
+{ \
+	dir##dir(out); dir##dir(in); \
+	(*out)op(*in); \
 	unroll<N-1>::method::no_return(out, in); \
 }
 
 /*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
 */
-#define unroll_with_return_0(method, dir, op) \
-template<typename WPointer, typename ValueType> \
-static WPointer with_return(WPointer out, ValueType in) \
+#define post_test_unroll_with_return_1(method, dir, op) \
+template<typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
 { \
-	(*out)op(in); \
-	out=dir(out)=new WPointer(); \
+	dir##dir(out); dir##dir(in); \
+	(*out)op(*in); \
 	return unroll<N-1>::method::with_return(out, in); \
 }
 
 /*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define unroll_no_return_left_0(method, dir, op) \
-template<typename WPointer> \
-static void no_return(WPointer out) \
-{ \
-	op(*out); \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out); \
-}
-
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define unroll_no_return_right_0(method, dir, op) \
-template<typename WPointer> \
-static void no_return(WPointer out) \
-{ \
-	(*out)op; \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out); \
-}
-
-/************************************************************************************************************************/
-
-/*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with WPointer as reference (assuming referencing is preferred).
+		call this macro with WIterator as reference (assuming referencing is preferred).
 */
-#define unroll_no_return_1(method, dir, op) \
-template<typename WPointer, typename RIterator> \
-static void no_return(WPointer out, RIterator in) \
+#define post_test_unroll_no_return_right_1(method, dir, op, r) \
+template<typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
 { \
-	(*out)op(*in); \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in)); \
-}
-
-/*
-	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
-	2. If you have an interest in the final out value, and you do want to reference,
-		but in addition you still require a return value, call this macro.
-*/
-#define unroll_with_return_1(method, dir, op) \
-template<typename WPointer, typename RIterator> \
-static WPointer with_return(WPointer out, RIterator in) \
-{ \
-	(*out)op(*in); \
-	out=dir(out)=new WPointer(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
-}
-
-/*
-	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
-	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with WPointer as reference (assuming referencing is preferred).
-*/
-#define unroll_no_return_right_1(method, dir, op, r) \
-template<typename WPointer, typename RIterator> \
-static void no_return(WPointer out, RIterator in) \
-{ \
+	dir##dir(out); dir##dir(in); \
 	(*out)op(*in)r; \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+	unroll<N-1>::method::no_return(out, in); \
 }
 
 /*
@@ -135,13 +138,13 @@ static void no_return(WPointer out, RIterator in) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define unroll_with_return_right_1(method, dir, op, r) \
-template<typename WPointer, typename RIterator> \
-static WPointer with_return(WPointer out, RIterator in) \
+#define post_test_unroll_with_return_right_1(method, dir, op, r) \
+template<typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
 { \
+	dir##dir(out); dir##dir(in); \
 	*(out)op(*in)r; \
-	out=dir(out)=new WPointer(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+	return unroll<N-1>::method::with_return(out, in); \
 }
 
 /************************************************************************************************************************/
@@ -149,15 +152,15 @@ static WPointer with_return(WPointer out, RIterator in) \
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with WPointer as reference (assuming referencing is preferred).
+		call this macro with WIterator as reference (assuming referencing is preferred).
 */
-#define unroll_no_return_2(method, dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+#define post_test_unroll_no_return_2(method, dir, op) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	(*out)=(*in1)op(*in2); \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+	unroll<N-1>::method::no_return(out, in1, in2); \
 }
 
 /*
@@ -165,27 +168,27 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define unroll_with_return_2(method, dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+#define post_test_unroll_with_return_2(method, dir, op) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	(*out)=(*in1)op(*in2); \
-	out=dir(out)=new WPointer(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+	return unroll<N-1>::method::with_return(out, in1, in2); \
 }
 
 /*
 	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
 	2. If you have interest in the final out value, but have no interest in a return,
-		call this macro with WPointer as reference (assuming referencing is preferred).
+		call this macro with WIterator as reference (assuming referencing is preferred).
 */
-#define unroll_no_return_bracket_2(method, dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+#define post_test_unroll_no_return_bracket_2(method, dir, op) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	(*out)=(*in1)op[*in2]; \
-	out=dir(out)=new WPointer(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+	unroll<N-1>::method::no_return(out, in1, in2); \
 }
 
 /*
@@ -193,13 +196,13 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define unroll_with_return_bracket_2(method, dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
-static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
+#define post_test_unroll_with_return_bracket_2(method, dir, op) \
+template<typename WIterator, typename RIterator1, typename RIterator2> \
+static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	(*out)=(*in1)op[*in2]; \
-	out=dir(out)=new WPointer(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+	return unroll<N-1>::method::with_return(out, in1, in2); \
 }
 
 #endif

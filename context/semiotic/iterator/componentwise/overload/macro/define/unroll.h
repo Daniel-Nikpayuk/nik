@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_EXCLUSIVE_UNROLL_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_EXCLUSIVE_UNROLL_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_DEFINE_UNROLL_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_DEFINE_UNROLL_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -35,52 +35,52 @@
 			specialization: Explicit specialization isn't allowed. Otherwise, the Filler typename isn't even used.
 */
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
 #define unroll_no_return_0(method, dir, op) \
 template<typename WIterator, typename ValueType> \
 static void no_return(WIterator out, ValueType in) \
 { \
-	dir(out); \
 	(*out)op(in); \
-	unroll<N-1>::method::no_return(out, in); \
+	unroll<N-1>::method::no_return(dir##dir(out), in); \
 }
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
 #define unroll_with_return_0(method, dir, op) \
 template<typename WIterator, typename ValueType> \
 static WIterator with_return(WIterator out, ValueType in) \
 { \
-	dir(out); \
 	(*out)op(in); \
-	return unroll<N-1>::method::with_return(out, in); \
+	return unroll<N-1>::method::with_return(dir##dir(out), in); \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
 #define unroll_no_return_left_0(method, dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 { \
-	dir(out); \
 	op(*out); \
-	unroll<N-1>::method::no_return(out); \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
+#define unroll_with_return_left_0(method, dir, op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	op(*out); \
+	return unroll<N-1>::method::no_return(dir##dir(out)); \
+}
+
 #define unroll_no_return_right_0(method, dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 { \
-	dir(out); \
 	(*out)op; \
-	unroll<N-1>::method::no_return(out); \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
+}
+
+#define unroll_with_return_right_0(method, dir, op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	(*out)op; \
+	return unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
 /************************************************************************************************************************/
@@ -94,9 +94,8 @@ static void no_return(WIterator out) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
 { \
-	dir(out); dir(in); \
 	(*out)op(*in); \
-	unroll<N-1>::method::no_return(out, in); \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -108,9 +107,8 @@ static void no_return(WIterator out, RIterator in) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 { \
-	dir(out); dir(in); \
 	(*out)op(*in); \
-	return unroll<N-1>::method::with_return(out, in); \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -122,9 +120,8 @@ static WIterator with_return(WIterator out, RIterator in) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
 { \
-	dir(out); dir(in); \
 	(*out)op(*in)r; \
-	unroll<N-1>::method::no_return(out, in); \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -136,9 +133,8 @@ static void no_return(WIterator out, RIterator in) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 { \
-	dir(out); dir(in); \
 	*(out)op(*in)r; \
-	return unroll<N-1>::method::with_return(out, in); \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in)); \
 }
 
 /************************************************************************************************************************/
@@ -152,9 +148,8 @@ static WIterator with_return(WIterator out, RIterator in) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
-	dir(out); dir(in1); dir(in2); \
 	(*out)=(*in1)op(*in2); \
-	unroll<N-1>::method::no_return(out, in1, in2); \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -166,9 +161,8 @@ static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
-	dir(out); dir(in1); dir(in2); \
 	(*out)=(*in1)op(*in2); \
-	return unroll<N-1>::method::with_return(out, in1, in2); \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -180,9 +174,8 @@ static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
-	dir(out); dir(in1); dir(in2); \
 	(*out)=(*in1)op[*in2]; \
-	unroll<N-1>::method::no_return(out, in1, in2); \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -194,9 +187,8 @@ static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
-	dir(out); dir(in1); dir(in2); \
 	(*out)=(*in1)op[*in2]; \
-	return unroll<N-1>::method::with_return(out, in1, in2); \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 #endif

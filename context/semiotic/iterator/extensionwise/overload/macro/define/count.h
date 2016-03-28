@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_COUNT_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_INCLUSIVE_COUNT_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_DEFINE_COUNT_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_DEFINE_COUNT_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -34,7 +34,11 @@
 
 #define count_no_return_left_0(dir, op)
 
+#define count_with_return_left_0(dir, op)
+
 #define count_no_return_right_0(dir, op)
+
+#define count_with_return_right_0(dir, op)
 
 /************************************************************************************************************************/
 

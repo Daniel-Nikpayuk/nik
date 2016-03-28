@@ -20,7 +20,7 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 	It is meant to be bootstrapped with a given macro interpretation.
 
-	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
+	overload: 40 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
 */
 
 /*
@@ -36,6 +36,15 @@ struct plus
 
 	unroll_no_return_2(plus, DIRECTION, +)
 	unroll_with_return_2(plus, DIRECTION, +)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(plus, DIRECTION, =+)
+		post_test_unroll_with_return_1(plus, DIRECTION, =+)
+
+		post_test_unroll_no_return_2(plus, DIRECTION, +)
+		post_test_unroll_with_return_2(plus, DIRECTION, +)
+	};
 };
 
 /*
@@ -51,6 +60,15 @@ struct minus
 
 	unroll_no_return_2(minus, DIRECTION, -)
 	unroll_with_return_2(minus, DIRECTION, -)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(minus, DIRECTION, =-)
+		post_test_unroll_with_return_1(minus, DIRECTION, =-)
+
+		post_test_unroll_no_return_2(minus, DIRECTION, -)
+		post_test_unroll_with_return_2(minus, DIRECTION, -)
+	};
 };
 
 /*
@@ -66,6 +84,15 @@ struct asterisk
 
 	unroll_no_return_2(asterisk, DIRECTION, *)
 	unroll_with_return_2(asterisk, DIRECTION, *)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(asterisk, DIRECTION, =*)
+		post_test_unroll_with_return_1(asterisk, DIRECTION, =*)
+
+		post_test_unroll_no_return_2(asterisk, DIRECTION, *)
+		post_test_unroll_with_return_2(asterisk, DIRECTION, *)
+	};
 };
 
 /*
@@ -76,6 +103,12 @@ struct slash
 {
 	unroll_no_return_2(slash, DIRECTION, /)
 	unroll_with_return_2(slash, DIRECTION, /)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(slash, DIRECTION, /)
+		post_test_unroll_with_return_2(slash, DIRECTION, /)
+	};
 };
 
 /*
@@ -86,6 +119,12 @@ struct percent
 {
 	unroll_no_return_2(percent, DIRECTION, %)
 	unroll_with_return_2(percent, DIRECTION, %)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(percent, DIRECTION, %)
+		post_test_unroll_with_return_2(percent, DIRECTION, %)
+	};
 };
 
 /*
@@ -96,6 +135,12 @@ struct caret
 {
 	unroll_no_return_2(caret, DIRECTION, ^)
 	unroll_with_return_2(caret, DIRECTION, ^)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(caret, DIRECTION, ^)
+		post_test_unroll_with_return_2(caret, DIRECTION, ^)
+	};
 };
 
 /*
@@ -111,6 +156,15 @@ struct ampersand
 
 	unroll_no_return_2(ampersand, DIRECTION, &)
 	unroll_with_return_2(ampersand, DIRECTION, &)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(ampersand, DIRECTION, =&)
+		post_test_unroll_with_return_1(ampersand, DIRECTION, =&)
+
+		post_test_unroll_no_return_2(ampersand, DIRECTION, &)
+		post_test_unroll_with_return_2(ampersand, DIRECTION, &)
+	};
 };
 
 /*
@@ -121,6 +175,12 @@ struct bar
 {
 	unroll_no_return_2(bar, DIRECTION, |)
 	unroll_with_return_2(bar, DIRECTION, |)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(bar, DIRECTION, |)
+		post_test_unroll_with_return_2(bar, DIRECTION, |)
+	};
 };
 
 /*
@@ -133,6 +193,12 @@ struct tilde
 {
 	unroll_no_return_1(tilde, DIRECTION, =~)
 	unroll_with_return_1(tilde, DIRECTION, =~)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(tilde, DIRECTION, =~)
+		post_test_unroll_with_return_1(tilde, DIRECTION, =~)
+	};
 };
 
 /*
@@ -145,6 +211,12 @@ struct exclamation
 {
 	unroll_no_return_1(exclamation, DIRECTION, =!)
 	unroll_with_return_1(exclamation, DIRECTION, =!)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(exclamation, DIRECTION, =!)
+		post_test_unroll_with_return_1(exclamation, DIRECTION, =!)
+	};
 };
 
 /*
@@ -155,6 +227,12 @@ struct less_than
 {
 	unroll_no_return_2(less_than, DIRECTION, <)
 	unroll_with_return_2(less_than, DIRECTION, <)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(less_than, DIRECTION, <)
+		post_test_unroll_with_return_2(less_than, DIRECTION, <)
+	};
 };
 
 /*
@@ -165,6 +243,12 @@ struct greater_than
 {
 	unroll_no_return_2(greater_than, DIRECTION, >)
 	unroll_with_return_2(greater_than, DIRECTION, >)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(greater_than, DIRECTION, >)
+		post_test_unroll_with_return_2(greater_than, DIRECTION, >)
+	};
 };
 
 /*
@@ -175,6 +259,12 @@ struct left_shift
 {
 	unroll_no_return_2(left_shift, DIRECTION, <<)
 	unroll_with_return_2(left_shift, DIRECTION, <<)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(left_shift, DIRECTION, <<)
+		post_test_unroll_with_return_2(left_shift, DIRECTION, <<)
+	};
 };
 
 /*
@@ -185,6 +275,12 @@ struct right_shift
 {
 	unroll_no_return_2(right_shift, DIRECTION, >>)
 	unroll_with_return_2(right_shift, DIRECTION, >>)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(right_shift, DIRECTION, >>)
+		post_test_unroll_with_return_2(right_shift, DIRECTION, >>)
+	};
 };
 
 /*
@@ -195,6 +291,12 @@ struct equals
 {
 	unroll_no_return_2(equals, DIRECTION, ==)
 	unroll_with_return_2(equals, DIRECTION, ==)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(equals, DIRECTION, ==)
+		post_test_unroll_with_return_2(equals, DIRECTION, ==)
+	};
 };
 
 /*
@@ -205,6 +307,12 @@ struct not_equals
 {
 	unroll_no_return_2(not_equals, DIRECTION, !=)
 	unroll_with_return_2(not_equals, DIRECTION, !=)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(not_equals, DIRECTION, !=)
+		post_test_unroll_with_return_2(not_equals, DIRECTION, !=)
+	};
 };
 
 /*
@@ -215,6 +323,12 @@ struct less_than_or_equal
 {
 	unroll_no_return_2(less_than_or_equal, DIRECTION, <=)
 	unroll_with_return_2(less_than_or_equal, DIRECTION, <=)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(less_than_or_equal, DIRECTION, <=)
+		post_test_unroll_with_return_2(less_than_or_equal, DIRECTION, <=)
+	};
 };
 
 /*
@@ -225,6 +339,12 @@ struct greater_than_or_equal
 {
 	unroll_no_return_2(greater_than_or_equal, DIRECTION, >=)
 	unroll_with_return_2(greater_than_or_equal, DIRECTION, >=)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(greater_than_or_equal, DIRECTION, >=)
+		post_test_unroll_with_return_2(greater_than_or_equal, DIRECTION, >=)
+	};
 };
 
 /*
@@ -235,6 +355,12 @@ struct logical_and
 {
 	unroll_no_return_2(logical_and, DIRECTION, &&)
 	unroll_with_return_2(logical_and, DIRECTION, &&)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(logical_and, DIRECTION, &&)
+		post_test_unroll_with_return_2(logical_and, DIRECTION, &&)
+	};
 };
 
 /*
@@ -245,6 +371,12 @@ struct logical_or
 {
 	unroll_no_return_2(logical_or, DIRECTION, ||)
 	unroll_with_return_2(logical_or, DIRECTION, ||)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(logical_or, DIRECTION, ||)
+		post_test_unroll_with_return_2(logical_or, DIRECTION, ||)
+	};
 };
 
 /*
@@ -254,11 +386,21 @@ struct logical_or
 struct left_increment
 {
 	unroll_no_return_left_0(left_increment, DIRECTION, ++)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_left_0(left_increment, DIRECTION, ++)
+	};
 };
 
 struct right_increment
 {
 	unroll_no_return_right_0(right_increment, DIRECTION, ++)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_right_0(right_increment, DIRECTION, ++)
+	};
 };
 
 /*
@@ -268,11 +410,21 @@ struct right_increment
 struct left_decrement
 {
 	unroll_no_return_left_0(left_decrement, DIRECTION, --)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_left_0(left_decrement, DIRECTION, --)
+	};
 };
 
 struct right_decrement
 {
 	unroll_no_return_right_0(right_decrement, DIRECTION, --)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_right_0(right_decrement, DIRECTION, --)
+	};
 };
 
 /*
@@ -281,6 +433,9 @@ struct right_decrement
 
 struct comma
 {
+	struct post_test
+	{
+	};
 };
 
 /*
@@ -291,6 +446,12 @@ struct point_asterisk
 {
 	unroll_no_return_2(point_asterisk, DIRECTION, ->*)
 	unroll_with_return_2(point_asterisk, DIRECTION, ->*)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_2(point_asterisk, DIRECTION, ->*)
+		post_test_unroll_with_return_2(point_asterisk, DIRECTION, ->*)
+	};
 };
 
 /*
@@ -300,6 +461,11 @@ struct point_asterisk
 struct point
 {
 	unroll_with_return_2(point, DIRECTION, .operator->)
+
+	struct post_test
+	{
+		post_test_unroll_with_return_2(point, DIRECTION, .operator->)
+	};
 };
 
 /*
@@ -317,6 +483,17 @@ struct parentheses
 
 	unroll_no_return_2(parentheses, DIRECTION, )
 	unroll_with_return_2(parentheses, DIRECTION, )
+
+	struct post_test
+	{
+		post_test_unroll_no_return_right_0(parentheses, DIRECTION, ())
+
+		post_test_unroll_no_return_right_1(parentheses, DIRECTION, =, ())
+		post_test_unroll_with_return_right_1(parentheses, DIRECTION, =, ())
+
+		post_test_unroll_no_return_2(parentheses, DIRECTION, )
+		post_test_unroll_with_return_2(parentheses, DIRECTION, )
+	};
 };
 
 /*
@@ -327,6 +504,12 @@ struct brackets
 {
 	unroll_no_return_bracket_2(brackets, DIRECTION, )
 	unroll_with_return_bracket_2(brackets, DIRECTION, )
+
+	struct post_test
+	{
+		post_test_unroll_no_return_bracket_2(brackets, DIRECTION, )
+		post_test_unroll_with_return_bracket_2(brackets, DIRECTION, )
+	};
 };
 
 /*
@@ -336,13 +519,24 @@ struct brackets
 struct repeat
 {
 	unroll_no_return_0(repeat, DIRECTION, =)
-	// There's no need for a "return" version as the out iterator equals the end iterator upon halting.
+	unroll_with_return_0(repeat, DIRECTION, =)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_0(repeat, DIRECTION, =)
+		post_test_unroll_with_return_0(repeat, DIRECTION, =)
+	};
 /*
 	+=:
 */
 	struct plus
 	{
 		unroll_no_return_0(plus, DIRECTION, +=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(plus, DIRECTION, +=)
+		};
 	};
 /*
 	-=:
@@ -350,6 +544,11 @@ struct repeat
 	struct minus
 	{
 		unroll_no_return_0(minus, DIRECTION, -=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(minus, DIRECTION, -=)
+		};
 	};
 /*
 	*=:
@@ -357,6 +556,11 @@ struct repeat
 	struct asterisk
 	{
 		unroll_no_return_0(asterisk, DIRECTION, *=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(asterisk, DIRECTION, *=)
+		};
 	};
 /*
 	/=:
@@ -364,6 +568,11 @@ struct repeat
 	struct slash
 	{
 		unroll_no_return_0(slash, DIRECTION, /=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(slash, DIRECTION, /=)
+		};
 	};
 /*
 	%=:
@@ -371,6 +580,11 @@ struct repeat
 	struct percent
 	{
 		unroll_no_return_0(percent, DIRECTION, %=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(percent, DIRECTION, %=)
+		};
 	};
 /*
 	ˆ=:
@@ -378,6 +592,11 @@ struct repeat
 	struct caret
 	{
 		unroll_no_return_0(caret, DIRECTION, ^=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(caret, DIRECTION, ^=)
+		};
 	};
 /*
 	&=:
@@ -385,6 +604,11 @@ struct repeat
 	struct ampersand
 	{
 		unroll_no_return_0(ampersand, DIRECTION, &=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(ampersand, DIRECTION, &=)
+		};
 	};
 /*
 	|=:
@@ -392,6 +616,11 @@ struct repeat
 	struct bar
 	{
 		unroll_no_return_0(bar, DIRECTION, |=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(bar, DIRECTION, |=)
+		};
 	};
 /*
 	>>=:
@@ -399,6 +628,11 @@ struct repeat
 	struct right_shift
 	{
 		unroll_no_return_0(right_shift, DIRECTION, >>=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(right_shift, DIRECTION, >>=)
+		};
 	};
 /*
 	<<=:
@@ -406,6 +640,11 @@ struct repeat
 	struct left_shift
 	{
 		unroll_no_return_0(left_shift, DIRECTION, <<=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_0(left_shift, DIRECTION, <<=)
+		};
 	};
 };
 
@@ -417,6 +656,12 @@ struct assign
 {
 	unroll_no_return_1(assign, DIRECTION, =)
 	unroll_with_return_1(assign, DIRECTION, =)
+
+	struct post_test
+	{
+		post_test_unroll_no_return_1(assign, DIRECTION, =)
+		post_test_unroll_with_return_1(assign, DIRECTION, =)
+	};
 /*
 	+=:
 */
@@ -424,6 +669,12 @@ struct assign
 	{
 		unroll_no_return_1(plus, DIRECTION, +=)
 		unroll_with_return_1(plus, DIRECTION, +=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(plus, DIRECTION, +=)
+			post_test_unroll_with_return_1(plus, DIRECTION, +=)
+		};
 	};
 /*
 	-=:
@@ -432,6 +683,12 @@ struct assign
 	{
 		unroll_no_return_1(minus, DIRECTION, -=)
 		unroll_with_return_1(minus, DIRECTION, -=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(minus, DIRECTION, -=)
+			post_test_unroll_with_return_1(minus, DIRECTION, -=)
+		};
 	};
 /*
 	*=:
@@ -440,6 +697,12 @@ struct assign
 	{
 		unroll_no_return_1(asterisk, DIRECTION, *=)
 		unroll_with_return_1(asterisk, DIRECTION, *=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(asterisk, DIRECTION, *=)
+			post_test_unroll_with_return_1(asterisk, DIRECTION, *=)
+		};
 	};
 /*
 	/=:
@@ -448,6 +711,12 @@ struct assign
 	{
 		unroll_no_return_1(slash, DIRECTION, /=)
 		unroll_with_return_1(slash, DIRECTION, /=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(slash, DIRECTION, /=)
+			post_test_unroll_with_return_1(slash, DIRECTION, /=)
+		};
 	};
 /*
 	%=:
@@ -456,6 +725,12 @@ struct assign
 	{
 		unroll_no_return_1(percent, DIRECTION, %=)
 		unroll_with_return_1(percent, DIRECTION, %=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(percent, DIRECTION, %=)
+			post_test_unroll_with_return_1(percent, DIRECTION, %=)
+		};
 	};
 /*
 	ˆ=:
@@ -464,6 +739,12 @@ struct assign
 	{
 		unroll_no_return_1(caret, DIRECTION, ^=)
 		unroll_with_return_1(caret, DIRECTION, ^=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(caret, DIRECTION, ^=)
+			post_test_unroll_with_return_1(caret, DIRECTION, ^=)
+		};
 	};
 /*
 	&=:
@@ -472,6 +753,12 @@ struct assign
 	{
 		unroll_no_return_1(ampersand, DIRECTION, &=)
 		unroll_with_return_1(ampersand, DIRECTION, &=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(ampersand, DIRECTION, &=)
+			post_test_unroll_with_return_1(ampersand, DIRECTION, &=)
+		};
 	};
 /*
 	|=:
@@ -480,6 +767,12 @@ struct assign
 	{
 		unroll_no_return_1(bar, DIRECTION, |=)
 		unroll_with_return_1(bar, DIRECTION, |=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(bar, DIRECTION, |=)
+			post_test_unroll_with_return_1(bar, DIRECTION, |=)
+		};
 	};
 /*
 	>>=:
@@ -488,6 +781,12 @@ struct assign
 	{
 		unroll_no_return_1(right_shift, DIRECTION, >>=)
 		unroll_with_return_1(right_shift, DIRECTION, >>=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(right_shift, DIRECTION, >>=)
+			post_test_unroll_with_return_1(right_shift, DIRECTION, >>=)
+		};
 	};
 /*
 	<<=:
@@ -496,6 +795,26 @@ struct assign
 	{
 		unroll_no_return_1(left_shift, DIRECTION, <<=)
 		unroll_with_return_1(left_shift, DIRECTION, <<=)
+
+		struct post_test
+		{
+			post_test_unroll_no_return_1(left_shift, DIRECTION, <<=)
+			post_test_unroll_with_return_1(left_shift, DIRECTION, <<=)
+		};
+	};
+};
+
+struct allocate
+{
+	struct post_test
+	{
+	};
+};
+
+struct deallocate
+{
+	struct post_test
+	{
 	};
 };
 

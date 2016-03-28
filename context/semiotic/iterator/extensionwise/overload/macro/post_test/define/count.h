@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_COUNT_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_EXCLUSIVE_COUNT_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_COUNT_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_COUNT_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -28,17 +28,21 @@
 	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
-#define count_no_return_0(dir, op)
+#define post_test_count_no_return_0(dir, op)
 
-#define count_with_return_0(dir, op)
+#define post_test_count_with_return_0(dir, op)
 
-#define count_no_return_left_0(dir, op)
+#define post_test_count_no_return_left_0(dir, op)
 
-#define count_no_return_right_0(dir, op)
+#define post_test_count_with_return_left_0(dir, op)
+
+#define post_test_count_no_return_right_0(dir, op)
+
+#define post_test_count_with_return_right_0(dir, op)
 
 /************************************************************************************************************************/
 
-#define count_no_return_1(dir, op) \
+#define post_test_count_no_return_1(dir, op) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
@@ -48,10 +52,10 @@ static void no_return(size_type & count, WPointer out, RIterator in, ERIterator 
 		out=dir(out)=new WPointer(); \
 		(*out)op(*in); \
 	} \
-	while (in != end) \
+	while (in != end); \
 }
 
-#define count_with_return_1(dir, op) \
+#define post_test_count_with_return_1(dir, op) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
@@ -61,12 +65,12 @@ static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIte
 		out=dir(out)=new WPointer(); \
 		(*out)op(*in); \
 	} \
-	while (in != end) \
+	while (in != end); \
  \
 	return out; \
 }
 
-#define count_no_return_right_1(dir, op, r) \
+#define post_test_count_no_return_right_1(dir, op, r) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
@@ -76,10 +80,10 @@ static void no_return(size_type & count, WPointer out, RIterator in, ERIterator 
 		out=dir(out)=new WPointer(); \
 		(*out)op(*in)r; \
 	} \
-	while (in != end) \
+	while (in != end); \
 }
 
-#define count_with_return_right_1(dir, op, r) \
+#define post_test_count_with_return_right_1(dir, op, r) \
 template<typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
@@ -89,14 +93,14 @@ static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIte
 		out=dir(out)=new WPointer(); \
 		*(out)op(*in)r; \
 	} \
-	while (in != end) \
+	while (in != end); \
  \
 	return out; \
 }
 
 /************************************************************************************************************************/
 
-#define count_no_return_2(dir, op) \
+#define post_test_count_no_return_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -106,10 +110,10 @@ static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator
 		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op(*in2); \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
 }
 
-#define count_with_return_2(dir, op) \
+#define post_test_count_with_return_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -119,12 +123,12 @@ static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIt
 		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op(*in2); \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
  \
 	return out; \
 }
 
-#define count_no_return_bracket_2(dir, op) \
+#define post_test_count_no_return_bracket_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -134,10 +138,10 @@ static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator
 		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op[*in2]; \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
 }
 
-#define count_with_return_bracket_2(dir, op) \
+#define post_test_count_with_return_bracket_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -147,7 +151,7 @@ static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIt
 		out=dir(out)=new WPointer(); \
 		(*out)=(*in1)op[*in2]; \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
  \
 	return out; \
 }

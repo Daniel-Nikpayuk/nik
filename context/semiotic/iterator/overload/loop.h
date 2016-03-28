@@ -20,7 +20,7 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 	It is meant to be bootstrapped with a given macro interpretation.
 
-	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
+	overload: 40 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
 */
 
 /*
@@ -44,6 +44,24 @@ struct plus
 
 		count_no_return_2(DIRECTION, +)
 		count_with_return_2(DIRECTION, +)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =+)
+		post_test_loop_with_return_1(DIRECTION, =+)
+
+		post_test_loop_no_return_2(DIRECTION, +)
+		post_test_loop_with_return_2(DIRECTION, +)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =+)
+			post_test_count_with_return_1(DIRECTION, =+)
+
+			post_test_count_no_return_2(DIRECTION, +)
+			post_test_count_with_return_2(DIRECTION, +)
+		};
 	};
 };
 
@@ -69,6 +87,24 @@ struct minus
 		count_no_return_2(DIRECTION, -)
 		count_with_return_2(DIRECTION, -)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =-)
+		post_test_loop_with_return_1(DIRECTION, =-)
+
+		post_test_loop_no_return_2(DIRECTION, -)
+		post_test_loop_with_return_2(DIRECTION, -)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =-)
+			post_test_count_with_return_1(DIRECTION, =-)
+
+			post_test_count_no_return_2(DIRECTION, -)
+			post_test_count_with_return_2(DIRECTION, -)
+		};
+	};
 };
 
 /*
@@ -93,6 +129,24 @@ struct asterisk
 		count_no_return_2(DIRECTION, *)
 		count_with_return_2(DIRECTION, *)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =*)
+		post_test_loop_with_return_1(DIRECTION, =*)
+
+		post_test_loop_no_return_2(DIRECTION, *)
+		post_test_loop_with_return_2(DIRECTION, *)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =*)
+			post_test_count_with_return_1(DIRECTION, =*)
+
+			post_test_count_no_return_2(DIRECTION, *)
+			post_test_count_with_return_2(DIRECTION, *)
+		};
+	};
 };
 
 /*
@@ -108,6 +162,18 @@ struct slash
 	{
 		count_no_return_2(DIRECTION, /)
 		count_with_return_2(DIRECTION, /)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, /)
+		post_test_loop_with_return_2(DIRECTION, /)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, /)
+			post_test_count_with_return_2(DIRECTION, /)
+		};
 	};
 };
 
@@ -125,6 +191,18 @@ struct percent
 		count_no_return_2(DIRECTION, %)
 		count_with_return_2(DIRECTION, %)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, %)
+		post_test_loop_with_return_2(DIRECTION, %)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, %)
+			post_test_count_with_return_2(DIRECTION, %)
+		};
+	};
 };
 
 /*
@@ -140,6 +218,18 @@ struct caret
 	{
 		count_no_return_2(DIRECTION, ^)
 		count_with_return_2(DIRECTION, ^)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, ^)
+		post_test_loop_with_return_2(DIRECTION, ^)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, ^)
+			post_test_count_with_return_2(DIRECTION, ^)
+		};
 	};
 };
 
@@ -165,6 +255,24 @@ struct ampersand
 		count_no_return_2(DIRECTION, &)
 		count_with_return_2(DIRECTION, &)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =&)
+		post_test_loop_with_return_1(DIRECTION, =&)
+
+		post_test_loop_no_return_2(DIRECTION, &)
+		post_test_loop_with_return_2(DIRECTION, &)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =&)
+			post_test_count_with_return_1(DIRECTION, =&)
+
+			post_test_count_no_return_2(DIRECTION, &)
+			post_test_count_with_return_2(DIRECTION, &)
+		};
+	};
 };
 
 /*
@@ -180,6 +288,18 @@ struct bar
 	{
 		count_no_return_2(DIRECTION, |)
 		count_with_return_2(DIRECTION, |)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, |)
+		post_test_loop_with_return_2(DIRECTION, |)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, |)
+			post_test_count_with_return_2(DIRECTION, |)
+		};
 	};
 };
 
@@ -199,6 +319,18 @@ struct tilde
 		count_no_return_1(DIRECTION, =~)
 		count_with_return_1(DIRECTION, =~)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =~)
+		post_test_loop_with_return_1(DIRECTION, =~)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =~)
+			post_test_count_with_return_1(DIRECTION, =~)
+		};
+	};
 };
 
 /*
@@ -217,6 +349,18 @@ struct exclamation
 		count_no_return_1(DIRECTION, =!)
 		count_with_return_1(DIRECTION, =!)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =!)
+		post_test_loop_with_return_1(DIRECTION, =!)
+
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =!)
+			post_test_count_with_return_1(DIRECTION, =!)
+		};
+	};
 };
 
 /*
@@ -232,6 +376,18 @@ struct less_than
 	{
 		count_no_return_2(DIRECTION, <)
 		count_with_return_2(DIRECTION, <)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, <)
+		post_test_loop_with_return_2(DIRECTION, <)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, <)
+			post_test_count_with_return_2(DIRECTION, <)
+		};
 	};
 };
 
@@ -249,6 +405,18 @@ struct greater_than
 		count_no_return_2(DIRECTION, >)
 		count_with_return_2(DIRECTION, >)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, >)
+		post_test_loop_with_return_2(DIRECTION, >)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, >)
+			post_test_count_with_return_2(DIRECTION, >)
+		};
+	};
 };
 
 /*
@@ -264,6 +432,18 @@ struct left_shift
 	{
 		count_no_return_2(DIRECTION, <<)
 		count_with_return_2(DIRECTION, <<)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, <<)
+		post_test_loop_with_return_2(DIRECTION, <<)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, <<)
+			post_test_count_with_return_2(DIRECTION, <<)
+		};
 	};
 };
 
@@ -281,6 +461,18 @@ struct right_shift
 		count_no_return_2(DIRECTION, >>)
 		count_with_return_2(DIRECTION, >>)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, >>)
+		post_test_loop_with_return_2(DIRECTION, >>)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, >>)
+			post_test_count_with_return_2(DIRECTION, >>)
+		};
+	};
 };
 
 /*
@@ -296,6 +488,18 @@ struct equals
 	{
 		count_no_return_2(DIRECTION, ==)
 		count_with_return_2(DIRECTION, ==)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, ==)
+		post_test_loop_with_return_2(DIRECTION, ==)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, ==)
+			post_test_count_with_return_2(DIRECTION, ==)
+		};
 	};
 };
 
@@ -313,6 +517,18 @@ struct not_equals
 		count_no_return_2(DIRECTION, !=)
 		count_with_return_2(DIRECTION, !=)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, !=)
+		post_test_loop_with_return_2(DIRECTION, !=)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, !=)
+			post_test_count_with_return_2(DIRECTION, !=)
+		};
+	};
 };
 
 /*
@@ -328,6 +544,18 @@ struct less_than_or_equal
 	{
 		count_no_return_2(DIRECTION, <=)
 		count_with_return_2(DIRECTION, <=)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, <=)
+		post_test_loop_with_return_2(DIRECTION, <=)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, <=)
+			post_test_count_with_return_2(DIRECTION, <=)
+		};
 	};
 };
 
@@ -345,6 +573,18 @@ struct greater_than_or_equal
 		count_no_return_2(DIRECTION, >=)
 		count_with_return_2(DIRECTION, >=)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, >=)
+		post_test_loop_with_return_2(DIRECTION, >=)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, >=)
+			post_test_count_with_return_2(DIRECTION, >=)
+		};
+	};
 };
 
 /*
@@ -360,6 +600,18 @@ struct logical_and
 	{
 		count_no_return_2(DIRECTION, &&)
 		count_with_return_2(DIRECTION, &&)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, &&)
+		post_test_loop_with_return_2(DIRECTION, &&)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, &&)
+			post_test_count_with_return_2(DIRECTION, &&)
+		};
 	};
 };
 
@@ -377,6 +629,18 @@ struct logical_or
 		count_no_return_2(DIRECTION, ||)
 		count_with_return_2(DIRECTION, ||)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, ||)
+		post_test_loop_with_return_2(DIRECTION, ||)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, ||)
+			post_test_count_with_return_2(DIRECTION, ||)
+		};
+	};
 };
 
 /*
@@ -391,6 +655,16 @@ struct left_increment
 	{
 		count_no_return_left_0(DIRECTION, ++)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_left_0(DIRECTION, ++)
+
+		struct count
+		{
+			post_test_count_no_return_left_0(DIRECTION, ++)
+		};
+	};
 };
 
 struct right_increment
@@ -400,6 +674,16 @@ struct right_increment
 	struct count
 	{
 		count_no_return_right_0(DIRECTION, ++)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_right_0(DIRECTION, ++)
+
+		struct count
+		{
+			post_test_count_no_return_right_0(DIRECTION, ++)
+		};
 	};
 };
 
@@ -415,6 +699,16 @@ struct left_decrement
 	{
 		count_no_return_left_0(DIRECTION, --)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_left_0(DIRECTION, --)
+
+		struct count
+		{
+			post_test_count_no_return_left_0(DIRECTION, --)
+		};
+	};
 };
 
 struct right_decrement
@@ -424,6 +718,16 @@ struct right_decrement
 	struct count
 	{
 		count_no_return_right_0(DIRECTION, --)
+	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_right_0(DIRECTION, --)
+
+		struct count
+		{
+			post_test_count_no_return_right_0(DIRECTION, --)
+		};
 	};
 };
 
@@ -435,6 +739,13 @@ struct comma
 {
 	struct count
 	{
+	};
+
+	struct post_test
+	{
+		struct count
+		{
+		};
 	};
 };
 
@@ -452,6 +763,18 @@ struct point_asterisk
 		count_no_return_2(DIRECTION, ->*)
 		count_with_return_2(DIRECTION, ->*)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_2(DIRECTION, ->*)
+		post_test_loop_with_return_2(DIRECTION, ->*)
+
+		struct count
+		{
+			post_test_count_no_return_2(DIRECTION, ->*)
+			post_test_count_with_return_2(DIRECTION, ->*)
+		};
+	};
 };
 
 /*
@@ -465,6 +788,16 @@ struct point
 	struct count
 	{
 		count_with_return_2(DIRECTION, .operator->)
+	};
+
+	struct post_test
+	{
+		post_test_loop_with_return_2(DIRECTION, .operator->)
+
+		struct count
+		{
+			post_test_count_with_return_2(DIRECTION, .operator->)
+		};
 	};
 };
 
@@ -494,6 +827,28 @@ struct parentheses
 		count_no_return_2(DIRECTION, )
 		count_with_return_2(DIRECTION, )
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_right_0(DIRECTION, ())
+
+		post_test_loop_no_return_right_1(DIRECTION, =, ())
+		post_test_loop_with_return_right_1(DIRECTION, =, ())
+
+		post_test_loop_no_return_2(DIRECTION, )
+		post_test_loop_with_return_2(DIRECTION, )
+
+		struct count
+		{
+			post_test_count_no_return_right_0(DIRECTION, ())
+
+			post_test_count_no_return_right_1(DIRECTION, =, ())
+			post_test_count_with_return_right_1(DIRECTION, =, ())
+
+			post_test_count_no_return_2(DIRECTION, )
+			post_test_count_with_return_2(DIRECTION, )
+		};
+	};
 };
 
 /*
@@ -510,6 +865,18 @@ struct brackets
 		count_no_return_bracket_2(DIRECTION, )
 		count_with_return_bracket_2(DIRECTION, )
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_bracket_2(DIRECTION, )
+		post_test_loop_with_return_bracket_2(DIRECTION, )
+
+		struct count
+		{
+			post_test_count_no_return_bracket_2(DIRECTION, )
+			post_test_count_with_return_bracket_2(DIRECTION, )
+		};
+	};
 };
 
 /*
@@ -519,12 +886,25 @@ struct brackets
 struct repeat
 {
 	loop_no_return_0(DIRECTION, =)
+	loop_with_return_0(DIRECTION, =)
 
 	struct count
 	{
 		count_no_return_0(DIRECTION, =)
+		count_with_return_0(DIRECTION, =)
 	};
-	// There's no need for a "return" version as the out iterator equals the end iterator upon halting.
+
+	struct post_test
+	{
+		post_test_loop_no_return_0(DIRECTION, =)
+		post_test_loop_with_return_0(DIRECTION, =)
+
+		struct count
+		{
+			post_test_count_no_return_0(DIRECTION, =)
+			post_test_count_with_return_0(DIRECTION, =)
+		};
+	};
 /*
 	+=:
 */
@@ -535,6 +915,16 @@ struct repeat
 		struct count
 		{
 			count_no_return_0(DIRECTION, +=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, +=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, +=)
+			};
 		};
 	};
 /*
@@ -548,6 +938,16 @@ struct repeat
 		{
 			count_no_return_0(DIRECTION, -=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, -=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, -=)
+			};
+		};
 	};
 /*
 	*=:
@@ -559,6 +959,16 @@ struct repeat
 		struct count
 		{
 			count_no_return_0(DIRECTION, *=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, *=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, *=)
+			};
 		};
 	};
 /*
@@ -572,6 +982,16 @@ struct repeat
 		{
 			count_no_return_0(DIRECTION, /=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, /=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, /=)
+			};
+		};
 	};
 /*
 	%=:
@@ -583,6 +1003,16 @@ struct repeat
 		struct count
 		{
 			count_no_return_0(DIRECTION, %=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, %=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, %=)
+			};
 		};
 	};
 /*
@@ -596,6 +1026,16 @@ struct repeat
 		{
 			count_no_return_0(DIRECTION, ^=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, ^=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, ^=)
+			};
+		};
 	};
 /*
 	&=:
@@ -607,6 +1047,16 @@ struct repeat
 		struct count
 		{
 			count_no_return_0(DIRECTION, &=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, &=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, &=)
+			};
 		};
 	};
 /*
@@ -620,6 +1070,16 @@ struct repeat
 		{
 			count_no_return_0(DIRECTION, |=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, |=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, |=)
+			};
+		};
 	};
 /*
 	>>=:
@@ -632,6 +1092,16 @@ struct repeat
 		{
 			count_no_return_0(DIRECTION, >>=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, >>=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, >>=)
+			};
+		};
 	};
 /*
 	<<=:
@@ -643,6 +1113,16 @@ struct repeat
 		struct count
 		{
 			count_no_return_0(DIRECTION, <<=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_0(DIRECTION, <<=)
+
+			struct count
+			{
+				post_test_count_no_return_0(DIRECTION, <<=)
+			};
 		};
 	};
 };
@@ -663,6 +1143,20 @@ struct assign
 		count_no_return_1(DIRECTION, =)
 		count_with_return_1(DIRECTION, =)
 	};
+
+	struct post_test
+	{
+		post_test_loop_no_return_1(DIRECTION, =)
+		post_test_loop_with_return_1(DIRECTION, =)
+/*
+	Same as above, but additionally counts the length between first and last as a side-effect.
+*/
+		struct count
+		{
+			post_test_count_no_return_1(DIRECTION, =)
+			post_test_count_with_return_1(DIRECTION, =)
+		};
+	};
 /*
 	+=:
 */
@@ -675,6 +1169,18 @@ struct assign
 		{
 			count_no_return_1(DIRECTION, +=)
 			count_with_return_1(DIRECTION, +=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, +=)
+			post_test_loop_with_return_1(DIRECTION, +=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, +=)
+				post_test_count_with_return_1(DIRECTION, +=)
+			};
 		};
 	};
 /*
@@ -690,6 +1196,18 @@ struct assign
 			count_no_return_1(DIRECTION, -=)
 			count_with_return_1(DIRECTION, -=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, -=)
+			post_test_loop_with_return_1(DIRECTION, -=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, -=)
+				post_test_count_with_return_1(DIRECTION, -=)
+			};
+		};
 	};
 /*
 	*=:
@@ -703,6 +1221,18 @@ struct assign
 		{
 			count_no_return_1(DIRECTION, *=)
 			count_with_return_1(DIRECTION, *=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, *=)
+			post_test_loop_with_return_1(DIRECTION, *=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, *=)
+				post_test_count_with_return_1(DIRECTION, *=)
+			};
 		};
 	};
 /*
@@ -718,6 +1248,18 @@ struct assign
 			count_no_return_1(DIRECTION, /=)
 			count_with_return_1(DIRECTION, /=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, /=)
+			post_test_loop_with_return_1(DIRECTION, /=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, /=)
+				post_test_count_with_return_1(DIRECTION, /=)
+			};
+		};
 	};
 /*
 	%=:
@@ -731,6 +1273,18 @@ struct assign
 		{
 			count_no_return_1(DIRECTION, %=)
 			count_with_return_1(DIRECTION, %=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, %=)
+			post_test_loop_with_return_1(DIRECTION, %=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, %=)
+				post_test_count_with_return_1(DIRECTION, %=)
+			};
 		};
 	};
 /*
@@ -746,6 +1300,18 @@ struct assign
 			count_no_return_1(DIRECTION, ^=)
 			count_with_return_1(DIRECTION, ^=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, ^=)
+			post_test_loop_with_return_1(DIRECTION, ^=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, ^=)
+				post_test_count_with_return_1(DIRECTION, ^=)
+			};
+		};
 	};
 /*
 	&=:
@@ -759,6 +1325,18 @@ struct assign
 		{
 			count_no_return_1(DIRECTION, &=)
 			count_with_return_1(DIRECTION, &=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, &=)
+			post_test_loop_with_return_1(DIRECTION, &=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, &=)
+				post_test_count_with_return_1(DIRECTION, &=)
+			};
 		};
 	};
 /*
@@ -774,6 +1352,18 @@ struct assign
 			count_no_return_1(DIRECTION, |=)
 			count_with_return_1(DIRECTION, |=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, |=)
+			post_test_loop_with_return_1(DIRECTION, |=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, |=)
+				post_test_count_with_return_1(DIRECTION, |=)
+			};
+		};
 	};
 /*
 	>>=:
@@ -788,6 +1378,18 @@ struct assign
 			count_no_return_1(DIRECTION, >>=)
 			count_with_return_1(DIRECTION, >>=)
 		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, >>=)
+			post_test_loop_with_return_1(DIRECTION, >>=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, >>=)
+				post_test_count_with_return_1(DIRECTION, >>=)
+			};
+		};
 	};
 /*
 	<<=:
@@ -801,6 +1403,46 @@ struct assign
 		{
 			count_no_return_1(DIRECTION, <<=)
 			count_with_return_1(DIRECTION, <<=)
+		};
+
+		struct post_test
+		{
+			post_test_loop_no_return_1(DIRECTION, <<=)
+			post_test_loop_with_return_1(DIRECTION, <<=)
+
+			struct count
+			{
+				post_test_count_no_return_1(DIRECTION, <<=)
+				post_test_count_with_return_1(DIRECTION, <<=)
+			};
+		};
+	};
+};
+
+struct allocate
+{
+	struct count
+	{
+	};
+
+	struct post_test
+	{
+		struct count
+		{
+		};
+	};
+};
+
+struct deallocate
+{
+	struct count
+	{
+	};
+
+	struct post_test
+	{
+		struct count
+		{
 		};
 	};
 };

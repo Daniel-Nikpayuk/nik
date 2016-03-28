@@ -19,8 +19,6 @@
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
 
 /*
-	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
-
 	Overload operators are similar enough to factorize and pass the specific operator
 	as a method, but it is more cpu efficient to NOT---especially given there are few practical
 	contexts in which many different such operators will all be used together.
@@ -43,10 +41,15 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"inclusive/loop.h"
-#include"inclusive/count.h"
-#include"inclusive/unroll.h"
-#include"inclusive/initial.h"
+#include"macro/define/loop.h"
+#include"macro/define/count.h"
+#include"macro/define/unroll.h"
+#include"macro/define/initial.h"
+
+#include"macro/post_test/define/loop.h"
+#include"macro/post_test/define/count.h"
+#include"macro/post_test/define/unroll.h"
+#include"macro/post_test/define/initial.h"
 
 namespace nik
 {
@@ -152,5 +155,15 @@ namespace nik
   }
  }
 }
+
+#include"macro/post_test/undef/initial.h"
+#include"macro/post_test/undef/unroll.h"
+#include"macro/post_test/undef/count.h"
+#include"macro/post_test/undef/loop.h"
+
+#include"macro/undef/initial.h"
+#include"macro/undef/unroll.h"
+#include"macro/undef/count.h"
+#include"macro/undef/loop.h"
 
 #endif

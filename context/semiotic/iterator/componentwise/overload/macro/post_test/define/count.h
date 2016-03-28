@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_EXCLUSIVE_COUNT_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_EXCLUSIVE_COUNT_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_COUNT_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_MACRO_POST_TEST_DEFINE_COUNT_H
 
 /*
 	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
@@ -25,10 +25,7 @@
 	in the special case where the data is only accessible through iterators.
 */
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
-#define count_no_return_0(dir, op) \
+#define post_test_count_no_return_0(dir, op) \
 template<typename RWIterator, typename EIterator, typename ValueType> \
 static void no_return(size_type & count, RWIterator out, EIterator end, ValueType in) \
 { \
@@ -37,13 +34,10 @@ static void no_return(size_type & count, RWIterator out, EIterator end, ValueTyp
 		++count; dir##dir(out); \
 		(*out)op(in); \
 	} \
-	while (out != end) \
+	while (out != end); \
 }
 
-/*
-	There's no need for a "return" version of const_overload as the out iterator equals the end iterator upon halting.
-*/
-#define count_with_return_0(dir, op) \
+#define post_test_count_with_return_0(dir, op) \
 template<typename RWIterator, typename EIterator, typename ValueType> \
 static RWIterator with_return(size_type & count, RWIterator out, EIterator end, ValueType in) \
 { \
@@ -52,15 +46,12 @@ static RWIterator with_return(size_type & count, RWIterator out, EIterator end, 
 		++count; dir##dir(out); \
 		(*out)op(in); \
 	} \
-	while (out != end) \
+	while (out != end); \
  \
 	return out; \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define count_no_return_left_0(dir, op) \
+#define post_test_count_no_return_left_0(dir, op) \
 template<typename RWIterator, typename EIterator> \
 static void no_return(size_type & count, RWIterator out, EIterator end) \
 { \
@@ -69,13 +60,24 @@ static void no_return(size_type & count, RWIterator out, EIterator end) \
 		++count; dir##dir(out); \
 		op(*out); \
 	} \
-	while (out != end) \
+	while (out != end); \
 }
 
-/*
-	There's no need for a "return" version of constant_overload as the out iterator equals the end iterator upon halting.
-*/
-#define count_no_return_right_0(dir, op) \
+#define post_test_count_with_return_left_0(dir, op) \
+template<typename RWIterator, typename EIterator> \
+static RWIterator with_return(size_type & count, RWIterator out, EIterator end) \
+{ \
+	do \
+	{ \
+		++count; dir##dir(out); \
+		op(*out); \
+	} \
+	while (out != end); \
+ \
+	return out; \
+}
+
+#define post_test_count_no_return_right_0(dir, op) \
 template<typename RWIterator, typename EIterator> \
 static void no_return(size_type & count, RWIterator out, EIterator end) \
 { \
@@ -84,7 +86,21 @@ static void no_return(size_type & count, RWIterator out, EIterator end) \
 		++count; dir##dir(out); \
 		(*out)op; \
 	} \
-	while (out != end) \
+	while (out != end); \
+}
+
+#define post_test_count_with_return_right_0(dir, op) \
+template<typename RWIterator, typename EIterator> \
+static RWIterator with_return(size_type & count, RWIterator out, EIterator end) \
+{ \
+	do \
+	{ \
+		++count; dir##dir(out); \
+		(*out)op; \
+	} \
+	while (out != end); \
+ \
+	return out; \
 }
 
 /************************************************************************************************************************/
@@ -94,7 +110,7 @@ static void no_return(size_type & count, RWIterator out, EIterator end) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define count_no_return_1(dir, op) \
+#define post_test_count_no_return_1(dir, op) \
 template<typename RWIterator, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, RWIterator out, RIterator in, ERIterator end) \
 { \
@@ -103,7 +119,7 @@ static void no_return(size_type & count, RWIterator out, RIterator in, ERIterato
 		++count; dir##dir(out); dir##dir(in); \
 		(*out)op(*in); \
 	} \
-	while (in != end) \
+	while (in != end); \
 }
 
 /*
@@ -111,7 +127,7 @@ static void no_return(size_type & count, RWIterator out, RIterator in, ERIterato
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define count_with_return_1(dir, op) \
+#define post_test_count_with_return_1(dir, op) \
 template<typename RWIterator, typename RIterator, typename ERIterator> \
 static RWIterator with_return(size_type & count, RWIterator out, RIterator in, ERIterator end) \
 { \
@@ -120,7 +136,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator in, E
 		++count; dir##dir(out); dir##dir(in); \
 		(*out)op(*in); \
 	} \
-	while (in != end) \
+	while (in != end); \
  \
 	return out; \
 }
@@ -130,7 +146,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator in, E
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define count_no_return_right_1(dir, op, r) \
+#define post_test_count_no_return_right_1(dir, op, r) \
 template<typename RWIterator, typename RIterator, typename ERIterator> \
 static void no_return(size_type & count, RWIterator out, RIterator in, ERIterator end) \
 { \
@@ -139,7 +155,7 @@ static void no_return(size_type & count, RWIterator out, RIterator in, ERIterato
 		++count; dir##dir(out); dir##dir(in); \
 		(*out)op(*in)r; \
 	} \
-	while (in != end) \
+	while (in != end); \
 }
 
 /*
@@ -147,7 +163,7 @@ static void no_return(size_type & count, RWIterator out, RIterator in, ERIterato
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define count_with_return_right_1(dir, op, r) \
+#define post_test_count_with_return_right_1(dir, op, r) \
 template<typename RWIterator, typename RIterator, typename ERIterator> \
 static RWIterator with_return(size_type & count, RWIterator out, RIterator in, ERIterator end) \
 { \
@@ -156,7 +172,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator in, E
 		++count; dir##dir(out); dir##dir(in); \
 		*(out)op(*in)r; \
 	} \
-	while (in != end) \
+	while (in != end); \
  \
 	return out; \
 }
@@ -168,7 +184,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator in, E
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define count_no_return_2(dir, op) \
+#define post_test_count_no_return_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -177,7 +193,7 @@ static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterat
 		++count; dir##dir(out); dir##dir(in1); dir##dir(in2); \
 		(*out)=(*in1)op(*in2); \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
 }
 
 /*
@@ -185,7 +201,7 @@ static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterat
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define count_with_return_2(dir, op) \
+#define post_test_count_with_return_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -194,7 +210,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1,
 		++count; dir##dir(out); dir##dir(in1); dir##dir(in2); \
 		(*out)=(*in1)op(*in2); \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
  \
 	return out; \
 }
@@ -204,7 +220,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1,
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define count_no_return_bracket_2(dir, op) \
+#define post_test_count_no_return_bracket_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -213,7 +229,7 @@ static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterat
 		++count; dir##dir(out); dir##dir(in1); dir##dir(in2); \
 		(*out)=(*in1)op[*in2]; \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
 }
 
 /*
@@ -221,7 +237,7 @@ static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterat
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define count_with_return_bracket_2(dir, op) \
+#define post_test_count_with_return_bracket_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -230,7 +246,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1,
 		++count; dir##dir(out); dir##dir(in1); dir##dir(in2); \
 		(*out)=(*in1)op[*in2]; \
 	} \
-	while (in2 != end2) \
+	while (in2 != end2); \
  \
 	return out; \
 }

@@ -41,10 +41,15 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"inclusive/loop.h"
-#include"inclusive/count.h"
-#include"inclusive/unroll.h"
-#include"inclusive/initial.h"
+#include"macro/define/loop.h"
+#include"macro/define/count.h"
+#include"macro/define/unroll.h"
+#include"macro/define/initial.h"
+
+#include"macro/post_test/define/loop.h"
+#include"macro/post_test/define/count.h"
+#include"macro/post_test/define/unroll.h"
+#include"macro/post_test/define/initial.h"
 
 namespace nik
 {
@@ -150,5 +155,15 @@ namespace nik
   }
  }
 }
+
+#include"macro/post_test/undef/initial.h"
+#include"macro/post_test/undef/unroll.h"
+#include"macro/post_test/undef/count.h"
+#include"macro/post_test/undef/loop.h"
+
+#include"macro/undef/initial.h"
+#include"macro/undef/unroll.h"
+#include"macro/undef/count.h"
+#include"macro/undef/loop.h"
 
 #endif

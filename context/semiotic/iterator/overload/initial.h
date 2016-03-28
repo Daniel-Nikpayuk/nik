@@ -20,7 +20,7 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 	It is meant to be bootstrapped with a given macro interpretation.
 
-	overload: 38 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
+	overload: 40 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
 */
 
 /*
@@ -36,6 +36,15 @@ struct plus
 
 	initial_no_return_2(+)
 	initial_with_return_2(+)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=+)
+		post_test_initial_with_return_1(=+)
+
+		post_test_initial_no_return_2(+)
+		post_test_initial_with_return_2(+)
+	};
 };
 
 /*
@@ -51,6 +60,15 @@ struct minus
 
 	initial_no_return_2(-)
 	initial_with_return_2(-)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=-)
+		post_test_initial_with_return_1(=-)
+
+		post_test_initial_no_return_2(-)
+		post_test_initial_with_return_2(-)
+	};
 };
 
 /*
@@ -66,6 +84,15 @@ struct asterisk
 
 	initial_no_return_2(*)
 	initial_with_return_2(*)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=*)
+		post_test_initial_with_return_1(=*)
+
+		post_test_initial_no_return_2(*)
+		post_test_initial_with_return_2(*)
+	};
 };
 
 /*
@@ -76,6 +103,12 @@ struct slash
 {
 	initial_no_return_2(/)
 	initial_with_return_2(/)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(/)
+		post_test_initial_with_return_2(/)
+	};
 };
 
 /*
@@ -86,6 +119,12 @@ struct percent
 {
 	initial_no_return_2(%)
 	initial_with_return_2(%)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(%)
+		post_test_initial_with_return_2(%)
+	};
 };
 
 /*
@@ -96,6 +135,12 @@ struct caret
 {
 	initial_no_return_2(^)
 	initial_with_return_2(^)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(^)
+		post_test_initial_with_return_2(^)
+	};
 };
 
 /*
@@ -111,6 +156,15 @@ struct ampersand
 
 	initial_no_return_2(&)
 	initial_with_return_2(&)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=&)
+		post_test_initial_with_return_1(=&)
+
+		post_test_initial_no_return_2(&)
+		post_test_initial_with_return_2(&)
+	};
 };
 
 /*
@@ -121,6 +175,12 @@ struct bar
 {
 	initial_no_return_2(|)
 	initial_with_return_2(|)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(|)
+		post_test_initial_with_return_2(|)
+	};
 };
 
 /*
@@ -133,6 +193,12 @@ struct tilde
 {
 	initial_no_return_1(=~)
 	initial_with_return_1(=~)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=~)
+		post_test_initial_with_return_1(=~)
+	};
 };
 
 /*
@@ -145,6 +211,12 @@ struct exclamation
 {
 	initial_no_return_1(=!)
 	initial_with_return_1(=!)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=!)
+		post_test_initial_with_return_1(=!)
+	};
 };
 
 /*
@@ -155,6 +227,12 @@ struct less_than
 {
 	initial_no_return_2(<)
 	initial_with_return_2(<)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(<)
+		post_test_initial_with_return_2(<)
+	};
 };
 
 /*
@@ -165,6 +243,12 @@ struct greater_than
 {
 	initial_no_return_2(>)
 	initial_with_return_2(>)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(>)
+		post_test_initial_with_return_2(>)
+	};
 };
 
 /*
@@ -175,6 +259,12 @@ struct left_shift
 {
 	initial_no_return_2(<<)
 	initial_with_return_2(<<)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(<<)
+		post_test_initial_with_return_2(<<)
+	};
 };
 
 /*
@@ -185,6 +275,12 @@ struct right_shift
 {
 	initial_no_return_2(>>)
 	initial_with_return_2(>>)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(>>)
+		post_test_initial_with_return_2(>>)
+	};
 };
 
 /*
@@ -195,6 +291,12 @@ struct equals
 {
 	initial_no_return_2(==)
 	initial_with_return_2(==)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(==)
+		post_test_initial_with_return_2(==)
+	};
 };
 
 /*
@@ -205,6 +307,12 @@ struct not_equals
 {
 	initial_no_return_2(!=)
 	initial_with_return_2(!=)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(!=)
+		post_test_initial_with_return_2(!=)
+	};
 };
 
 /*
@@ -215,6 +323,12 @@ struct less_than_or_equal
 {
 	initial_no_return_2(<=)
 	initial_with_return_2(<=)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(<=)
+		post_test_initial_with_return_2(<=)
+	};
 };
 
 /*
@@ -225,6 +339,12 @@ struct greater_than_or_equal
 {
 	initial_no_return_2(>=)
 	initial_with_return_2(>=)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(>=)
+		post_test_initial_with_return_2(>=)
+	};
 };
 
 /*
@@ -235,6 +355,12 @@ struct logical_and
 {
 	initial_no_return_2(&&)
 	initial_with_return_2(&&)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(&&)
+		post_test_initial_with_return_2(&&)
+	};
 };
 
 /*
@@ -245,6 +371,12 @@ struct logical_or
 {
 	initial_no_return_2(||)
 	initial_with_return_2(||)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(||)
+		post_test_initial_with_return_2(||)
+	};
 };
 
 /*
@@ -254,11 +386,21 @@ struct logical_or
 struct left_increment
 {
 	initial_no_return_left_0(++)
+
+	struct post_test
+	{
+		post_test_initial_no_return_left_0(++)
+	};
 };
 
 struct right_increment
 {
 	initial_no_return_right_0(++)
+
+	struct post_test
+	{
+		post_test_initial_no_return_right_0(++)
+	};
 };
 
 /*
@@ -268,11 +410,21 @@ struct right_increment
 struct left_decrement
 {
 	initial_no_return_left_0(--)
+
+	struct post_test
+	{
+		post_test_initial_no_return_left_0(--)
+	};
 };
 
 struct right_decrement
 {
 	initial_no_return_right_0(--)
+
+	struct post_test
+	{
+		post_test_initial_no_return_right_0(--)
+	};
 };
 
 /*
@@ -281,6 +433,9 @@ struct right_decrement
 
 struct comma
 {
+	struct post_test
+	{
+	};
 };
 
 /*
@@ -291,6 +446,12 @@ struct point_asterisk
 {
 	initial_no_return_2(->*)
 	initial_with_return_2(->*)
+
+	struct post_test
+	{
+		post_test_initial_no_return_2(->*)
+		post_test_initial_with_return_2(->*)
+	};
 };
 
 /*
@@ -300,6 +461,11 @@ struct point_asterisk
 struct point
 {
 	initial_with_return_2(.operator->)
+
+	struct post_test
+	{
+		post_test_initial_with_return_2(.operator->)
+	};
 };
 
 /*
@@ -317,6 +483,17 @@ struct parentheses
 
 	initial_no_return_2()
 	initial_with_return_2()
+
+	struct post_test
+	{
+		post_test_initial_no_return_right_0(())
+
+		post_test_initial_no_return_right_1(=, ())
+		post_test_initial_with_return_right_1(=, ())
+
+		post_test_initial_no_return_2()
+		post_test_initial_with_return_2()
+	};
 };
 
 /*
@@ -327,6 +504,12 @@ struct brackets
 {
 	initial_no_return_bracket_2()
 	initial_with_return_bracket_2()
+
+	struct post_test
+	{
+		post_test_initial_no_return_bracket_2()
+		post_test_initial_with_return_bracket_2()
+	};
 };
 
 /*
@@ -336,13 +519,24 @@ struct brackets
 struct repeat
 {
 	initial_no_return_0(=)
-	// There's no need for a "return" version as the out iterator equals the end iterator upon halting.
+	initial_with_return_0(=)
+
+	struct post_test
+	{
+		post_test_initial_no_return_0(=)
+		post_test_initial_with_return_0(=)
+	};
 /*
 	+=:
 */
 	struct plus
 	{
 		initial_no_return_0(+=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(+=)
+		};
 	};
 /*
 	-=:
@@ -350,6 +544,11 @@ struct repeat
 	struct minus
 	{
 		initial_no_return_0(-=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(-=)
+		};
 	};
 /*
 	*=:
@@ -357,6 +556,11 @@ struct repeat
 	struct asterisk
 	{
 		initial_no_return_0(*=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(*=)
+		};
 	};
 /*
 	/=:
@@ -364,6 +568,11 @@ struct repeat
 	struct slash
 	{
 		initial_no_return_0(/=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(/=)
+		};
 	};
 /*
 	%=:
@@ -371,6 +580,11 @@ struct repeat
 	struct percent
 	{
 		initial_no_return_0(%=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(%=)
+		};
 	};
 /*
 	ˆ=:
@@ -378,6 +592,11 @@ struct repeat
 	struct caret
 	{
 		initial_no_return_0(^=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(^=)
+		};
 	};
 /*
 	&=:
@@ -385,6 +604,11 @@ struct repeat
 	struct ampersand
 	{
 		initial_no_return_0(&=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(&=)
+		};
 	};
 /*
 	|=:
@@ -392,6 +616,11 @@ struct repeat
 	struct bar
 	{
 		initial_no_return_0(|=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(|=)
+		};
 	};
 /*
 	>>=:
@@ -399,6 +628,11 @@ struct repeat
 	struct right_shift
 	{
 		initial_no_return_0(>>=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(>>=)
+		};
 	};
 /*
 	<<=:
@@ -406,6 +640,11 @@ struct repeat
 	struct left_shift
 	{
 		initial_no_return_0(<<=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_0(<<=)
+		};
 	};
 };
 
@@ -417,6 +656,12 @@ struct assign
 {
 	initial_no_return_1(=)
 	initial_with_return_1(=)
+
+	struct post_test
+	{
+		post_test_initial_no_return_1(=)
+		post_test_initial_with_return_1(=)
+	};
 /*
 	+=:
 */
@@ -424,6 +669,12 @@ struct assign
 	{
 		initial_no_return_1(+=)
 		initial_with_return_1(+=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(+=)
+			post_test_initial_with_return_1(+=)
+		};
 	};
 /*
 	-=:
@@ -432,6 +683,12 @@ struct assign
 	{
 		initial_no_return_1(-=)
 		initial_with_return_1(-=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(-=)
+			post_test_initial_with_return_1(-=)
+		};
 	};
 /*
 	*=:
@@ -440,6 +697,12 @@ struct assign
 	{
 		initial_no_return_1(*=)
 		initial_with_return_1(*=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(*=)
+			post_test_initial_with_return_1(*=)
+		};
 	};
 /*
 	/=:
@@ -448,6 +711,12 @@ struct assign
 	{
 		initial_no_return_1(/=)
 		initial_with_return_1(/=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(/=)
+			post_test_initial_with_return_1(/=)
+		};
 	};
 /*
 	%=:
@@ -456,6 +725,12 @@ struct assign
 	{
 		initial_no_return_1(%=)
 		initial_with_return_1(%=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(%=)
+			post_test_initial_with_return_1(%=)
+		};
 	};
 /*
 	ˆ=:
@@ -464,6 +739,12 @@ struct assign
 	{
 		initial_no_return_1(^=)
 		initial_with_return_1(^=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(^=)
+			post_test_initial_with_return_1(^=)
+		};
 	};
 /*
 	&=:
@@ -472,6 +753,12 @@ struct assign
 	{
 		initial_no_return_1(&=)
 		initial_with_return_1(&=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(&=)
+			post_test_initial_with_return_1(&=)
+		};
 	};
 /*
 	|=:
@@ -480,6 +767,12 @@ struct assign
 	{
 		initial_no_return_1(|=)
 		initial_with_return_1(|=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(|=)
+			post_test_initial_with_return_1(|=)
+		};
 	};
 /*
 	>>=:
@@ -488,6 +781,12 @@ struct assign
 	{
 		initial_no_return_1(>>=)
 		initial_with_return_1(>>=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(>>=)
+			post_test_initial_with_return_1(>>=)
+		};
 	};
 /*
 	<<=:
@@ -496,6 +795,26 @@ struct assign
 	{
 		initial_no_return_1(<<=)
 		initial_with_return_1(<<=)
+
+		struct post_test
+		{
+			post_test_initial_no_return_1(<<=)
+			post_test_initial_with_return_1(<<=)
+		};
+	};
+};
+
+struct allocate
+{
+	struct post_test
+	{
+	};
+};
+
+struct deallocate
+{
+	struct post_test
+	{
 	};
 };
 

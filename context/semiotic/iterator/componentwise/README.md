@@ -5,11 +5,13 @@ Componentwise?
 
 Prototypical
 
-*Functional* iterators are functional in the sense that they have no side effects. They are methods on the iterators themselves.
-Every other variety of iterator (not classified as functional) comes with side effects (*effective*) on the dereference values
-of these iterators.
-
 *Overload* iterators are the grammatically simplest variety of effective iterators.
+
+"Closed" are equivalent to the overload methods, and could have been implemented at the same level (similar to the way
+"componentwise" and "extensionwise" are), but as the main behavioural difference is from "while" to "do while" looping,
+it makes sense to parallel them to their "while" and "do while" grammatical constructs: These grammar points are also
+at the same level, but in practice "do while" is used far less often. Given this consideration I have decided on the policy
+to navigate the "closed" variety within the name/struct spaces of the default variety.
 
 There's a clear classification for "pure" or truly generic iterators and fuzzier iterator concepts: For example generic *list*
 methods are presented here, but you could argue that lists manipulation methods could be classified under lists not iterators,
