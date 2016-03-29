@@ -23,6 +23,9 @@
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
 	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
+
+	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
+	only the pointer itself.
 */
 
 namespace nik

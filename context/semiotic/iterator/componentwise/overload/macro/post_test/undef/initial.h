@@ -32,8 +32,8 @@
 
 #undef post_test_initial_no_return_2
 #undef post_test_initial_with_return_2
-#undef post_test_initial_no_return_bracket_2
-#undef post_test_initial_with_return_bracket_2
+#undef post_test_initial_no_return_brackets_2
+#undef post_test_initial_with_return_brackets_2
 
 #undef post_test_initial_no_return_new_0
 #undef post_test_initial_with_return_new_0

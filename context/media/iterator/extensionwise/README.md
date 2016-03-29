@@ -5,9 +5,8 @@ Componentwise?
 
 Prototypical
 
-*Functional* iterators are functional in the sense that they have no side effects. They are methods on the iterators themselves.
-Every other variety of iterator (not classified as functional) comes with side effects (*effective*) on the dereference values
-of these iterators.
+*Pointer* iterators are pure in the sense that they have no side effects: They are an inventory of methods focused on accessing
+and modifying pointers themselves, not having to do with the dereferenciable value they hold.
 
 *Overload* iterators are the grammatically simplest variety of effective iterators.
 

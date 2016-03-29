@@ -32,8 +32,8 @@
 
 #undef post_test_loop_no_return_2
 #undef post_test_loop_with_return_2
-#undef post_test_loop_no_return_bracket_2
-#undef post_test_loop_with_return_bracket_2
+#undef post_test_loop_no_return_brackets_2
+#undef post_test_loop_with_return_brackets_2
 
 #undef post_test_loop_no_return_new_0
 #undef post_test_loop_with_return_new_0

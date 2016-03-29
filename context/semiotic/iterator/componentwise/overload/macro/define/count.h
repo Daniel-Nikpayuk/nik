@@ -208,7 +208,7 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1,
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define count_no_return_bracket_2(dir, op) \
+#define count_no_return_brackets_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -224,7 +224,7 @@ static void no_return(size_type & count, RWIterator out, RIterator1 in1, RIterat
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define count_with_return_bracket_2(dir, op) \
+#define count_with_return_brackets_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \

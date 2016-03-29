@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_ORDER_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_ORDER_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -36,69 +36,61 @@ namespace nik
     namespace extensionwise
     {
 	template<typename SizeType>
-	struct pointer
+	struct order
 	{
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
 
-		struct clear
+/*
+	Reverses the order from [in, end), while maintaining method composability:
+	The original "out" as input is the end pointer of the returned list.
+	In practice this is usually a symbolic place-holding pointer.
+*/
+		struct reverse
 		{
-			template<typename WPointer, typename ERPointer>
-			static void no_return(WPointer out, ERPointer end)
-				{ while (out != end) delete out++; }
-		};
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-			struct clear
+			template<typename WPointer, typename EWIterator>
+			static void no_return(WPointer out, EWIterator end)
 			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
+				// does not destroy existing values held, only rearranges pointers relative to each other.
+			}
+
+			template<typename WPointer, typename EWIterator>
+			static WPointer with_return(WPointer out, EWIterator end)
+			{
+				// does not destroy existing values held, only rearranges pointers relative to each other.
+
+				return out;
+			}
+
+			template<typename WPointer, typename RIterator, typename ERIterator>
+			static void no_return(WPointer out, RIterator in, ERIterator end)
+			{
+				while (in != end)
 				{
-					delete out++;
-					unroll<N-1>::clear::no_return(out, end);
+					WPointer next=out;
+					out=new WPointer();
+					+out=next;
+					*out=*in;
+					++in;
 				}
-			};
-		};
+			}
 
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-			struct clear
+			template<typename WPointer, typename RIterator, typename ERIterator>
+			static WPointer with_return(WPointer out, RIterator in, ERIterator end)
 			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
-					{ }
-			};
+				while (in != end)
+				{
+					WPointer next=out;
+					out=new WPointer();
+					+out=next;
+					*out=*in;
+					++in;
+				}
+
+				return out;
+			}
 		};
-	};
-
-	template<typename SizeType>
-	struct list_pointer
-	{
-		typedef SizeType size_type;
-
-		typedef context::policy<size_type> c_policy;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-		};
-	};
-
-	template<typename SizeType>
-	struct chain_pointer
-	{
-		typedef SizeType size_type;
-
-		typedef context::policy<size_type> c_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll

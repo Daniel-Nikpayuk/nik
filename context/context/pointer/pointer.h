@@ -19,6 +19,8 @@
 #define NIK_CONTEXT_CONTEXT_POINTER_H
 
 #include<stddef.h>
+#include<stdlib.h> // for malloc.
+#include"../display/display.h" // for debugging.
 
 /*
 	This class is meant to be as narratively similar as possible to the builtin array pointer.
@@ -35,6 +37,9 @@
 
 	void pointer casting is subtle, as the same memory cast to two different types works, but referencing within such memory
 	changes on the interpretation of the type of that memory.
+
+	A proper amount of memory needs to be allocated for "current" when constructed,
+	otherwise there will be subtle and strange bugs and behaviours!
 */
 
 namespace nik
@@ -79,8 +84,16 @@ namespace nik
 			pointer(pointer_ptr p) { current=p? p->current : 0; }
 /*
 	"const pointer &" can't be zero, so no need to safely test against it.
+
+	A proper amount of memory needs to be allocated for "current" when constructed,
+	otherwise there will be subtle and strange bugs and behaviours!
 */
-			pointer(const pointer & p) { current=p.current; }
+			pointer(const pointer & p)
+			{
+				current=new void_ptr[N];
+				current=p.current;
+			}
+//			pointer(const pointer & p) { current=p.current; }
 			~pointer() { }
 /*
 	In the case p == this, nothing is changed.
@@ -125,22 +138,26 @@ namespace nik
 			bool operator == (const pointer & p) const
 				{ return (current == p.current); }
 /*
+	Might not be necessary. Compiler says it cannot overload.
+
 	Inversion allows for the conversion of *this to a const_pointer,
 	and the above comparison is defined for const_pointer.
-*/
 			bool operator == (const const_pointer & p) const
 				{ return (p == *this); }
+*/
 /*
 	Broader definitions of inequality comparison.
 */
 			bool operator != (const pointer & p) const
 				{ return (current != p.current); }
 /*
+	Might not be necessary. Compiler says it cannot overload.
+
 	Inversion allows for the conversion of *this to a const_pointer,
 	and the above comparison is defined for const_pointer.
-*/
 			bool operator != (const const_pointer & p) const
 				{ return (p != *this); }
+*/
 /*
 	Safely initializes the pointer before passing it on.
 */
@@ -160,6 +177,9 @@ namespace nik
 */
 			virtual value_type_ref operator * () const
 				{ return (value_type_ref) current[value]; }
+
+			virtual pointer_ptr*& operator & () const				// for debugging!
+				{ return (pointer_ptr*&) current; }
 /*
 	Virtually defined as const_pointer redefines it.
 */

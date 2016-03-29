@@ -857,24 +857,24 @@ struct parentheses
 
 struct brackets
 {
-	loop_no_return_bracket_2(DIRECTION, )
-	loop_with_return_bracket_2(DIRECTION, )
+	loop_no_return_brackets_2(DIRECTION, )
+	loop_with_return_brackets_2(DIRECTION, )
 
 	struct count
 	{
-		count_no_return_bracket_2(DIRECTION, )
-		count_with_return_bracket_2(DIRECTION, )
+		count_no_return_brackets_2(DIRECTION, )
+		count_with_return_brackets_2(DIRECTION, )
 	};
 
 	struct post_test
 	{
-		post_test_loop_no_return_bracket_2(DIRECTION, )
-		post_test_loop_with_return_bracket_2(DIRECTION, )
+		post_test_loop_no_return_brackets_2(DIRECTION, )
+		post_test_loop_with_return_brackets_2(DIRECTION, )
 
 		struct count
 		{
-			post_test_count_no_return_bracket_2(DIRECTION, )
-			post_test_count_with_return_bracket_2(DIRECTION, )
+			post_test_count_no_return_brackets_2(DIRECTION, )
+			post_test_count_with_return_brackets_2(DIRECTION, )
 		};
 	};
 };
@@ -1424,10 +1424,16 @@ struct allocate
 	loop_no_return_new_0(DIRECTION)
 	loop_with_return_new_0(DIRECTION)
 
+//	loop_no_return_new_brackets_0(DIRECTION)
+//	loop_with_return_new_brackets_0(DIRECTION)
+
 	struct count
 	{
 		count_no_return_new_0(DIRECTION)
 		count_with_return_new_0(DIRECTION)
+
+//		count_no_return_new_brackets_0(DIRECTION)
+//		count_with_return_new_brackets_0(DIRECTION)
 	};
 
 	struct post_test
@@ -1435,10 +1441,16 @@ struct allocate
 		post_test_loop_no_return_new_0(DIRECTION)
 		post_test_loop_with_return_new_0(DIRECTION)
 
+//		post_test_loop_no_return_new_brackets_0(DIRECTION)
+//		post_test_loop_with_return_new_brackets_0(DIRECTION)
+
 		struct count
 		{
 			post_test_count_no_return_new_0(DIRECTION)
 			post_test_count_with_return_new_0(DIRECTION)
+
+//			post_test_count_no_return_new_brackets_0(DIRECTION)
+//			post_test_count_with_return_new_brackets_0(DIRECTION)
 		};
 	};
 };
@@ -1448,10 +1460,16 @@ struct deallocate
 	loop_no_return_delete_0(DIRECTION)
 	loop_with_return_delete_0(DIRECTION)
 
+//	loop_no_return_delete_brackets_0(DIRECTION)
+//	loop_with_return_delete_brackets_0(DIRECTION)
+
 	struct count
 	{
 		count_no_return_delete_0(DIRECTION)
 		count_with_return_delete_0(DIRECTION)
+
+//		count_no_return_delete_brackets_0(DIRECTION)
+//		count_with_return_delete_brackets_0(DIRECTION)
 	};
 
 	struct post_test
@@ -1459,10 +1477,16 @@ struct deallocate
 		post_test_loop_no_return_delete_0(DIRECTION)
 		post_test_loop_with_return_delete_0(DIRECTION)
 
+//		post_test_loop_no_return_delete_brackets_0(DIRECTION)
+//		post_test_loop_with_return_delete_brackets_0(DIRECTION)
+
 		struct count
 		{
 			post_test_count_no_return_delete_0(DIRECTION)
 			post_test_count_with_return_delete_0(DIRECTION)
+
+//			post_test_count_no_return_delete_brackets_0(DIRECTION)
+//			post_test_count_with_return_delete_brackets_0(DIRECTION)
 		};
 	};
 };

@@ -19,10 +19,14 @@
 #define NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POINTER_H
 
 #include"../../../../context/policy/policy.h"
+#include"../../../../semiotic/iterator/extensionwise/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
+	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
+
+	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
+	only the pointer itself.
 */
 
 namespace nik
@@ -41,39 +45,16 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-
-		struct clear
-		{
-			template<typename WPointer, typename ERPointer>
-			static void no_return(WPointer in, ERPointer end)
-				{ while (in != end) delete in++; }
-		};
+		typedef semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer in, ERPointer end)
-				{
-					WPointer out=in;
-					++in;
-					delete out;
-					unroll<N-1>::clear::no_return(in, end);
-				}
-			};
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer in, ERPointer end)
-					{ }
-			};
 		};
 	};
 
@@ -83,38 +64,110 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+		typedef semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
 
-/*
-	Reverses the order from [in, end), while maintaining method composability:
-	The original "out" as input is the end pointer of the returned list.
-	In practice this is usually a symbolic place-holding pointer.
-*/
-		struct reverse
+		struct prepend
 		{
-			template<typename WPointer, typename RIterator, typename ERIterator>
-			static void no_return(WPointer out, RIterator in, ERIterator end)
+			template<typename WPointer>
+			static void no_return(WPointer in, WPointer out)
+				{ +out=in; }
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer in, WPointer out)
 			{
-				while (in != end)
-				{
-					WPointer next=out;
-					out=new WPointer();
-					+out=next;
-					*out=*in;
-					++in;
-				}
+				+out=in;
+
+				return out;
 			}
 
-			template<typename WPointer, typename RIterator, typename ERIterator>
-			static WPointer with_return(WPointer out, RIterator in, ERIterator end)
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, ValueType value)
 			{
-				while (in != end)
-				{
-					WPointer next=out;
-					out=new WPointer();
-					+out=next;
-					*out=*in;
-					++in;
-				}
+				WPointer out=new WPointer();
+				+out=in;
+				*out=value;
+
+				return out;
+			}
+/*
+	n >= 1.
+*/
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, size_type n, ValueType value)
+			{
+				WPointer out=new WPointer();
+				no_return(in, s_exte_policy::fwd_over::repeat::post_test::with_return(out, n-1, value));
+				*out=value;
+
+				return out;
+			}
+		};
+
+		struct append
+		{
+			template<typename WPointer>
+			static void no_return(WPointer in, WPointer out)
+				{ +in=out; }
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer in, WPointer out)
+			{
+				+in=out;
+
+				return out;
+			}
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer out)
+				{ return out=+out=new WPointer(); }
+
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer out, ValueType value)
+			{
+				out=+out=new WPointer();
+				*out=value;
+
+				return out;
+			}
+		};
+
+		struct impend
+		{
+			template<typename WPointer>
+			static void no_return(WPointer in, WPointer out)
+			{
+				+out=+in;
+				+in=out;
+			}
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer in, WPointer out)
+			{
+				+out=+in;
+				+in=out;
+
+				return out;
+			}
+
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, ValueType value)
+			{
+				WPointer out=new WPointer();
+				+out=+in;
+				*out=value;
+				+in=out;
+
+				return out;
+			}
+/*
+	n >= 1.
+*/
+			template<typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, size_type n, ValueType value)
+			{
+				WPointer out=new WPointer();
+				no_return(in, s_exte_policy::fwd_over::repeat::post_test::with_return(out, n-1, value));
+				*out=value;
 
 				return out;
 			}
@@ -137,12 +190,12 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
+		typedef semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
 /*
 	Attaches e to t in the following order: e -- t.
 
 	Assumes 't' is existing "front", in which case -t is assumed '0'. nothing is assumed of +e
 	before it is replaced---this leaves potential for memory leaks; burden is on coder.
-*/
 		struct prepend
 		{
 			template<typename WPointer>
@@ -163,11 +216,10 @@ namespace nik
 
 			struct swap
 			{
+*/
 /*
 	Swaps and returns what was originally there. May be useful in the future.
 	Does not detach 't' from what was originally there resulting in a dangling pointer.
-
-*/
 				template<typename WPointer>
 				static WPointer with_return(WPointer out, WPointer out1)
 				{
@@ -179,12 +231,12 @@ namespace nik
 				}
 			};
 		};
+*/
 /*
 	Attaches e to t in the following order: t -- e.
 
 	Assumes 't' is existing "back", in which case +t is assumed '0'. nothing is assumed of -e
 	before it is replaced---this leaves potential for memory leaks; burden is on coder.
-*/
 		struct append
 		{
 			template<typename WPointer>
@@ -202,10 +254,10 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Swaps and returns what was originally there. May be useful in the future.
 	Does not detach 't' from what was originally there resulting in a dangling pointer.
-*/
 			struct swap
 			{
 				template<typename WPointer>
@@ -219,9 +271,9 @@ namespace nik
 				}
 			};
 		};
+*/
 /*
 	Attaches e to t as an "insert" operation---assumes -t != 0.
-*/
 		struct impend
 		{
 			template<typename WPointer>
@@ -243,6 +295,7 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Creates a chain generated (deep copied) from first to last, then inserts before 't' while returning the new pointer to where 't'
 	original was. This requires first as a forward iterator.
@@ -250,7 +303,6 @@ namespace nik
 	Note: Regarding design decisions, you either check if first == last here, or in code calling this method.
 	Given these low level generic methods privilege efficiency over safety checks, it makes more sense to assume first != last
 	(otherwise you have to consider seperate cases, which is effectively a safety check from this specification.
-*/
 			template<typename WPointer, typename RIterator, typename ERIterator>
 			static WPointer with_return(WPointer out, RIterator first, ERIterator last)
 			{
@@ -260,9 +312,9 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Same as above impend, but additionally "count"s the length between first and last as a side-effect (reference).
-*/
 			struct count
 			{
 				template<typename WPointer, typename RIterator, typename ERIterator>
@@ -280,11 +332,11 @@ namespace nik
 				}
 			};
 		};
+*/
 /*
 	Assumes 't' is the original front: detaches 't'; deletes 't'; returns the new front.
 
 	Does not detach new front from original front resulting in a dangling pointer.
-*/
 		struct deject
 		{
 			template<typename WPointer>
@@ -296,11 +348,11 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Pops everything from first to last while returning last.
 
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
-*/
 			template<typename WPointer, typename ERPointer>
 			static WPointer with_return(WPointer out, ERPointer end)
 			{
@@ -310,9 +362,9 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
-*/
 			struct count
 			{
 				template<typename WPointer, typename ERPointer>
@@ -325,11 +377,11 @@ namespace nik
 					return out;
 				}
 			};
+*/
 /*
 	Pops everything from first to last while returning last.
 
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
-*/
 			struct reverse
 			{
 				template<typename WPointer, typename ERPointer>
@@ -342,9 +394,9 @@ namespace nik
 
 					return out;
 				}
+*/
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
-*/
 				struct count
 				{
 					template<typename WPointer, typename ERPointer>
@@ -360,11 +412,11 @@ namespace nik
 				};
 			};
 		};
+*/
 /*
 	Assumes 't' is the original back: detaches 't'; deletes 't'; returns the new back.
 
 	Does not detach new back from original back resulting in a dangling pointer.
-*/
 		struct reject
 		{
 			template<typename WPointer>
@@ -376,11 +428,11 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Pops everything from first to last while returning before first.
 
 	Assumes last is the proper back.  No need for generic Iterator as you are erasing from a given structure.
-*/
 			template<typename WPointer, typename ERPointer>
 			static WPointer with_return(WPointer out, ERPointer end)
 			{
@@ -392,9 +444,9 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
-*/
 			struct count
 			{
 				template<typename WPointer, typename ERPointer>
@@ -410,11 +462,11 @@ namespace nik
 				}
 			};
 		};
+*/
 /*
 	Erases at location of 't' and returns the new pointer at that same location.
 
 	Assumes -t != 0 and +t != 0.
-*/
 		struct eject
 		{
 			template<typename WPointer>
@@ -427,11 +479,11 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Erases everything from first to last and returns the new pointer at that same location where first was.
 
 	No need for generic Iterator as you are erasing from a given structure.
-*/
 			template<typename WPointer, typename ERPointer>
 			static WPointer with_return(WPointer out, ERPointer end)
 			{
@@ -442,9 +494,9 @@ namespace nik
 
 				return out;
 			}
+*/
 /*
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
-*/
 			struct count
 			{
 				template<typename WPointer, typename ERPointer>
@@ -459,6 +511,7 @@ namespace nik
 				}
 			};
 		};
+*/
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll

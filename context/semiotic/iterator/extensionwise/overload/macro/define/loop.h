@@ -223,7 +223,7 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
-#define loop_no_return_bracket_2(dir, op) \
+#define loop_no_return_brackets_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -240,7 +240,7 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define loop_with_return_bracket_2(dir, op) \
+#define loop_with_return_brackets_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \

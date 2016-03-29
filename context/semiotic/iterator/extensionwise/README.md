@@ -7,11 +7,11 @@ Prototypical
 
 *Overload* iterators are the grammatically simplest variety of effective iterators.
 
-"Closed" are equivalent to the overload methods, and could have been implemented at the same level (similar to the way
+"post\_test" are equivalent to the overload methods, and could have been implemented at the same level (similar to the way
 "componentwise" and "extensionwise" are), but as the main behavioural difference is from "while" to "do while" looping,
 it makes sense to parallel them to their "while" and "do while" grammatical constructs: These grammar points are also
 at the same level, but in practice "do while" is used far less often. Given this consideration I have decided on the policy
-to navigate the "closed" variety within the name/struct spaces of the default variety.
+to navigate the "post\_test" variety within the name/struct spaces of the default variety.
 
 There's a clear classification for "pure" or truly generic iterators and fuzzier iterator concepts: For example generic *list*
 methods are presented here, but you could argue that lists manipulation methods could be classified under lists not iterators,
@@ -55,4 +55,23 @@ For example with bidirectional, you might have a forward iterator in1--end1 as w
 What order do you present these as function arguments? If for example (in1, end1, end2, in2), then this implicitly privileges
 forward iteration. This lowers entropy in general and as such it is better to privilege (initial, terminal) regardless of
 iterator direction. By extension, if you have any inbetween iterator values, they should be ordered accordingly.
+
+*Deep Copy/Shallow Copy*:
+-------------------------
+
+Keep in mind, if shallow copying is being done, memory needs to be dynamically allocated, otherwise you'll end up with
+a bunch of dangling pointers once one/any construct holding the data is destroyed (persistent memory is needed).
+Hence: an array or list or chain of pointers will be required, and as such *componentwise* already has the sufficient
+methods to handle shallow copying (as it is equivalent to deep copying of pointers values).
+
+Keep in mind *componentwise* is an inventory of methods for pointers which already exist. As *extensionwise* and *expansionwise*
+are meant for methods which (de)allocate memory along the way, it should also be meant for moving pointers and not values.
+So for example if you have a list of values you want to sort, but the values themselves you don't want reassigned,
+you can just rearrange the pointer/node memory holding such values relative to each other. As *extensionwise* primarily deals
+with values but in addition the node memory holding such values---and such node (de)construction---it also makes sense it
+would hold "soft" sorting methods (where the values themselves are accessed for comparison but otherwise not copied).
+
+Finally, it at times is worthwhile to create explicit deep copies as one is sorting similar to *componentwise* but still
+with a need to allocate memory. This also fits *extensionwise* expectations and will have a different signature for
+a method of the same name.
 

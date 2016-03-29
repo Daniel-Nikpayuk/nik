@@ -502,13 +502,13 @@ struct parentheses
 
 struct brackets
 {
-	initial_no_return_bracket_2()
-	initial_with_return_bracket_2()
+	initial_no_return_brackets_2()
+	initial_with_return_brackets_2()
 
 	struct post_test
 	{
-		post_test_initial_no_return_bracket_2()
-		post_test_initial_with_return_bracket_2()
+		post_test_initial_no_return_brackets_2()
+		post_test_initial_with_return_brackets_2()
 	};
 };
 
@@ -809,10 +809,16 @@ struct allocate
 	initial_no_return_new_0()
 	initial_with_return_new_0()
 
+//	initial_no_return_new_brackets_0()
+//	initial_with_return_new_brackets_0()
+
 	struct post_test
 	{
 		post_test_initial_no_return_new_0()
 		post_test_initial_with_return_new_0()
+
+//		post_test_initial_no_return_new_brackets_0()
+//		post_test_initial_with_return_new_brackets_0()
 	};
 };
 
@@ -821,10 +827,16 @@ struct deallocate
 	initial_no_return_delete_0()
 	initial_with_return_delete_0()
 
+//	initial_no_return_delete_brackets_0()
+//	initial_with_return_delete_brackets_0()
+
 	struct post_test
 	{
 		post_test_initial_no_return_delete_0()
 		post_test_initial_with_return_delete_0()
+
+//		post_test_initial_no_return_delete_brackets_0()
+//		post_test_initial_with_return_delete_brackets_0()
 	};
 };
 

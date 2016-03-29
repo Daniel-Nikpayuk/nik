@@ -128,7 +128,7 @@ static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIt
 	return out; \
 }
 
-#define post_test_count_no_return_bracket_2(dir, op) \
+#define post_test_count_no_return_brackets_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -141,7 +141,7 @@ static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator
 	while (in2 != end2); \
 }
 
-#define post_test_count_with_return_bracket_2(dir, op) \
+#define post_test_count_with_return_brackets_2(dir, op) \
 template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \

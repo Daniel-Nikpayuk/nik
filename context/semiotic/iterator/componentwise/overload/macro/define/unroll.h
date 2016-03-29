@@ -170,7 +170,7 @@ static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with WIterator as reference (assuming referencing is preferred).
 */
-#define unroll_no_return_bracket_2(method, dir, op) \
+#define unroll_no_return_brackets_2(method, dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \
@@ -183,7 +183,7 @@ static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define unroll_with_return_bracket_2(method, dir, op) \
+#define unroll_with_return_brackets_2(method, dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 { \

@@ -92,12 +92,12 @@ template<typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
-#define initial_no_return_bracket_2(op) \
+#define initial_no_return_brackets_2(op) \
 template<typename WPointer, typename RIterator1, typename RIterator2> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
-#define initial_with_return_bracket_2(op) \
+#define initial_with_return_brackets_2(op) \
 template<typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }

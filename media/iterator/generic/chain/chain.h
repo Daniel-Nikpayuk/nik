@@ -26,6 +26,7 @@
 
 #include"../../../../context/context/policy/policy.h"
 #include"../../../../context/semiotic/iterator/extensionwise/policy/policy.h"
+#include"../../../../context/media/iterator/extensionwise/policy/policy.h"
 #include"../../../../semiotic/iterator/chain/chain.h"
 
 namespace nik
@@ -44,7 +45,8 @@ namespace nik
 	{
 		protected:
 			typedef context::context::policy<SizeType> c_policy;
-			typedef context::semiotic::iterator::extensionwise::policy<SizeType> c_exte_policy;
+			typedef context::semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
+			typedef context::media::iterator::extensionwise::policy<SizeType> m_exte_policy;
 			typedef semiotic::iterator::chain<T,SizeType> weakchain;
 		public:
 			typedef typename subchain::value_type value_type;
@@ -84,16 +86,16 @@ namespace nik
 			{
 				++length;
 				if (it == subchain.initial)
-					return subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-				else return c_exte_policy::bid_chai::impend::with_return(it, value);
+					return subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				else return s_exte_policy::bid_chai::impend::with_return(it, value);
 			}
 
 			iterator insert(const_iterator it, value_type && value)
 			{
 				++length;
 				if (it == subchain.initial)
-					return subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-				else return c_exte_policy::bid_chai::impend::with_return(it, value);
+					return subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				else return s_exte_policy::bid_chai::impend::with_return(it, value);
 			}
 
 			iterator insert(const_iterator it, size_type count, const value_type & value)
@@ -102,13 +104,13 @@ namespace nik
 				if (it == subchain.initial)
 				{
 					-subchain.initial=new weakchain::iterator();
-					return subchain.initial=c_exte_policy::bwd_over::repeat::with_return(-subchain.initial, count, value);
+					return subchain.initial=s_exte_policy::bwd_over::repeat::with_return(-subchain.initial, count, value);
 				}
 				else
 				{
 					weakchain::iterator i=new weakchain::iterator(),
-						t=c_exte_policy::fwd_over::repeat::with_return(, count, value);
-					return c_exte_policy::impend::with_return(it, i, t);
+						t=s_exte_policy::fwd_over::repeat::with_return(, count, value);
+					return s_exte_policy::impend::with_return(it, i, t);
 				}
 			}
 */
@@ -128,10 +130,10 @@ namespace nik
 					if (it == subchain.initial)
 					{
 						-subchain.initial=new weakchain::iterator();
-						return subchain.initial=c_exte_policy::bid_chai::
+						return subchain.initial=s_exte_policy::bid_chai::
 							prepend::count::with_return(length, -subchain.initial, first, last);
 					}
-					else return c_exte_policy::bid_chai::impend::count::with_return(length, it, first, last);
+					else return s_exte_policy::bid_chai::impend::count::with_return(length, it, first, last);
 				}
 			}
 
@@ -141,8 +143,8 @@ namespace nik
 				{
 					--length;
 					if (it == subchain.initial)
-						return subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
-					else return c_exte_policy::bid_chai::eject::with_return(it);
+						return subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
+					else return s_exte_policy::bid_chai::eject::with_return(it);
 				}
 			}
 */
@@ -157,8 +159,8 @@ namespace nik
 				if (subchain.initial != subchain.terminal && first != last)
 				{
 					if (first == subchain.initial) return subchain.initial=
-						c_exte_policy::bid_chai::deject::count::with_return(length, first, last);
-					else return c_exte_policy::bid_chai::eject::count::with_return(length, first, last);
+						s_exte_policy::bid_chai::deject::count::with_return(length, first, last);
+					else return s_exte_policy::bid_chai::eject::count::with_return(length, first, last);
 				}
 			}
 
@@ -166,16 +168,16 @@ namespace nik
 			{
 				++length;
 				if (subchain.initial == subchain.terminal)
-					subchain.initial=c_exte_policy::bid_chai::append::with_return(subchain.initial, value);
-				else c_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
+					subchain.initial=s_exte_policy::bid_chai::append::with_return(subchain.initial, value);
+				else s_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
 			}
 
 			void push_back(value_type && value)
 			{
 				++length;
 				if (subchain.initial == subchain.terminal)
-					subchain.initial=c_exte_policy::bid_chai::append::with_return(subchain.initial, value);
-				else c_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
+					subchain.initial=s_exte_policy::bid_chai::append::with_return(subchain.initial, value);
+				else s_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
 			}
 
 			void pop_back()
@@ -184,21 +186,21 @@ namespace nik
 				{
 					--length;
 					if (+subchain.initial == subchain.terminal)
-						subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
-					else c_exte_policy::bid_chai::eject::no_return(-subchain.terminal);
+						subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
+					else s_exte_policy::bid_chai::eject::no_return(-subchain.terminal);
 				}
 			}
 
 			void push_front(const value_type & value)
 			{
 				++length;
-				subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
 			}
 
 			void push_front(value_type && value)
 			{
 				++length;
-				subchain.initial=c_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
+				subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
 			}
 
 			void pop_front()
@@ -206,21 +208,21 @@ namespace nik
 				if (subchain.initial != subchain.terminal)
 				{
 					--length;
-					subchain.initial=c_exte_policy::bid_chai::deject::with_return(subchain.initial);
+					subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
 				}
 			}
 
 			void resize(size_type count)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) c_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
+				if (count > cap) s_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
 				length=count;
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) c_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
+				if (count > cap) s_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
 				length=count;
 			}
 

@@ -77,7 +77,7 @@ namespace nik
 		typedef context::context::const_list_pointer<T, SizeType> const_iterator;
 		typedef SizeType size_type;
 
-		typedef context::semiotic::iterator::extensionwise::policy<size_type> c_exte_policy;
+		typedef context::semiotic::iterator::extensionwise::policy<size_type> s_exte_policy;
 
 		iterator initial;
 		iterator terminal;
@@ -90,10 +90,10 @@ namespace nik
 
 		template<typename RIterator, typename ERIterator>
 		void grow(RIterator first, ERIterator last)
-			{ c_exte_policy::fwd_over::assign::no_return(terminal, first, last); }
+			{ s_exte_policy::fwd_over::assign::no_return(terminal, first, last); }
 
 		void shrink()
-			{ c_exte_policy::ptr::clear::no_return(initial, terminal); }
+			{ s_exte_policy::ptr::clear::no_return(initial, terminal); }
 
 		template<typename RIterator, typename ERIterator>
 		void copy_initialize(RIterator first, ERIterator last)
@@ -116,9 +116,9 @@ namespace nik
 			{ return *this; }
 
 		iterator begin() { return initial; }
-		const_iterator cbegin() const { return initial; }
+		const_iterator cbegin() const { return (const_iterator) initial; }
 		iterator end() { return terminal; }
-		const_iterator cend() const { return terminal; }
+		const_iterator cend() const { return (const_iterator) terminal; }
 	};
   }
  }

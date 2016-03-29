@@ -89,12 +89,12 @@ template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
-#define post_test_initial_no_return_bracket_2(op) \
+#define post_test_initial_no_return_brackets_2(op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
-#define post_test_initial_with_return_bracket_2(op) \
+#define post_test_initial_with_return_brackets_2(op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }

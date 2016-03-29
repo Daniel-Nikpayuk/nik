@@ -32,8 +32,8 @@
 
 #undef count_no_return_2
 #undef count_with_return_2
-#undef count_no_return_bracket_2
-#undef count_with_return_bracket_2
+#undef count_no_return_brackets_2
+#undef count_with_return_brackets_2
 
 #undef count_no_return_new_0
 #undef count_with_return_new_0

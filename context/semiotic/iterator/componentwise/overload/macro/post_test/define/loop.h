@@ -220,7 +220,7 @@ static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, ER
 	2. If you have interest in the final out value, but have no interest in a return,
 		call this macro with RWIterator as reference (assuming referencing is preferred).
 */
-#define post_test_loop_no_return_bracket_2(dir, op) \
+#define post_test_loop_no_return_brackets_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
@@ -237,7 +237,7 @@ static void no_return(RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator
 	2. If you have an interest in the final out value, and you do want to reference,
 		but in addition you still require a return value, call this macro.
 */
-#define post_test_loop_with_return_bracket_2(dir, op) \
+#define post_test_loop_with_return_brackets_2(dir, op) \
 template<typename RWIterator, typename RIterator1, typename RIterator2, typename ERIterator> \
 static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \

@@ -18,6 +18,7 @@
 #ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POLICY_H
 #define NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POLICY_H
 
+#include"../pointer/pointer.h"
 #include"../arithmetic/arithmetic.h"
 //#include"../vector/vector.h"
 //#include"../list/list.h"
@@ -46,6 +47,25 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	pointer:
+*/
+			using ptr=pointer<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using ptr_unroll=typename ptr::template unroll<N, M, L>;
+/*
+*/
+			using lst_ptr=list_pointer<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using lst_ptr_unroll=typename lst_ptr::template unroll<N, M, L>;
+/*
+*/
+			using chn_ptr=chain_pointer<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using chn_ptr_unroll=typename chn_ptr::template unroll<N, M, L>;
 /*
 	forward:
 */

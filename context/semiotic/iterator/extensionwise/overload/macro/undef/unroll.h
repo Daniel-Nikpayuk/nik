@@ -32,8 +32,8 @@
 
 #undef unroll_no_return_2
 #undef unroll_with_return_2
-#undef unroll_no_return_bracket_2
-#undef unroll_with_return_bracket_2
+#undef unroll_no_return_brackets_2
+#undef unroll_with_return_brackets_2
 
 #undef unroll_no_return_new_0
 #undef unroll_with_return_new_0
