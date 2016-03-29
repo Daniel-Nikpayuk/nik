@@ -806,15 +806,25 @@ struct assign
 
 struct allocate
 {
+	initial_no_return_new_0()
+	initial_with_return_new_0()
+
 	struct post_test
 	{
+		post_test_initial_no_return_new_0()
+		post_test_initial_with_return_new_0()
 	};
 };
 
 struct deallocate
 {
+	initial_no_return_delete_0()
+	initial_with_return_delete_0()
+
 	struct post_test
 	{
+		post_test_initial_no_return_delete_0()
+		post_test_initial_with_return_delete_0()
 	};
 };
 

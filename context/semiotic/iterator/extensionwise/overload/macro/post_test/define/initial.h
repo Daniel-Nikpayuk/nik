@@ -102,4 +102,26 @@ template<typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
+/************************************************************************************************************************/
+
+#define post_test_initial_no_return_new_0(op) \
+template<typename Pointer, typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+#define post_test_initial_with_return_new_0(op) \
+template<typename Pointer, typename WPointer> \
+static WPointer with_return(WPointer out) \
+	{ return out; }
+
+#define post_test_initial_no_return_delete_0(op) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+#define post_test_initial_with_return_delete_0(op) \
+template<typename WPointer> \
+static WPointer with_return(WPointer out) \
+	{ return out; }
+
 #endif

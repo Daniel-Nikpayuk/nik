@@ -254,4 +254,58 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	return out; \
 }
 
+/************************************************************************************************************************/
+
+#define loop_no_return_new_0(dir) \
+template<typename Pointer, typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		dir##dir(out); \
+		*out=new Pointer(); \
+	} \
+}
+
+#define loop_with_return_new_0(dir) \
+template<typename Pointer, typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		dir##dir(out); \
+		*out=new Pointer(); \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_delete_0(dir) \
+template<typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+}
+
+#define loop_with_return_delete_0(dir) \
+template<typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+ \
+	return out; \
+}
+
 #endif

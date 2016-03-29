@@ -237,4 +237,54 @@ static RWIterator with_return(size_type & count, RWIterator out, RIterator1 in1,
 	return out; \
 }
 
+/************************************************************************************************************************/
+
+#define count_no_return_new_0(dir) \
+template<typename Pointer, typename WIterator, typename EWIterator> \
+static void no_return(size_type & count, WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Pointer(); \
+		++count; dir##dir(out); \
+	} \
+}
+
+#define count_with_return_new_0(dir) \
+template<typename Pointer, typename WIterator, typename EWIterator> \
+static WIterator with_return(size_type & count, WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Pointer(); \
+		++count; dir##dir(out); \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static void no_return(size_type & count, WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		delete *out; \
+		++count; dir##dir(out); \
+	} \
+}
+
+#define count_with_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static WIterator with_return(size_type & count, WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		delete *out; \
+		++count; dir##dir(out); \
+	} \
+ \
+	return out; \
+}
+
 #endif

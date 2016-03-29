@@ -208,4 +208,46 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
 }
 
+/************************************************************************************************************************/
+
+#define unroll_no_return_new_0(method, dir) \
+template<typename Pointer, typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	dir##dir(out); \
+	*out=new Pointer(); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define unroll_with_return_new_0(method, dir) \
+template<typename Pointer, typename WPointer> \
+static WPointer with_return(WPointer out) \
+{ \
+	dir##dir(out); \
+	*out=new Pointer(); \
+	return unroll<N-1>::method::with_return(out); \
+}
+
+#define unroll_no_return_delete_0(method, dir) \
+template<typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete *current; \
+	delete current; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define unroll_with_return_delete_0(method, dir) \
+template<typename WPointer> \
+static WPointer with_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete *current; \
+	delete current; \
+	return unroll<N-1>::method::with_return(out); \
+}
+
 #endif

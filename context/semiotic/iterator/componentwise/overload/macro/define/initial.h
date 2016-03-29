@@ -99,4 +99,26 @@ template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
+/************************************************************************************************************************/
+
+#define initial_no_return_new_0() \
+template<typename Pointer, typename WIterator> \
+static void no_return(WIterator out) \
+	{ }
+
+#define initial_with_return_new_0() \
+template<typename Pointer, typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
+#define initial_no_return_delete_0() \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+	{ }
+
+#define initial_with_return_delete_0() \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
 #endif

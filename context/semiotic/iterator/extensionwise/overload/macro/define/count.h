@@ -148,4 +148,58 @@ static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIt
 	return out; \
 }
 
+/************************************************************************************************************************/
+
+#define count_no_return_new_0(dir) \
+template<typename Pointer, typename WPointer, typename EWPointer> \
+static void no_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		++count; dir##dir(out); \
+		*out=new Pointer(); \
+	} \
+}
+
+#define count_with_return_new_0(dir) \
+template<typename Pointer, typename WPointer, typename EWPointer> \
+static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		++count; dir##dir(out); \
+		*out=new Pointer(); \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_delete_0(dir) \
+template<typename WPointer, typename EWPointer> \
+static void no_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		++count; dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+}
+
+#define count_with_return_delete_0(dir) \
+template<typename WPointer, typename EWPointer> \
+static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		++count; dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+ \
+	return out; \
+}
+
 #endif

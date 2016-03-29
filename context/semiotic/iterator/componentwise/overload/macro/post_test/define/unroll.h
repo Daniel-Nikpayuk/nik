@@ -205,4 +205,42 @@ static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	return unroll<N-1>::method::with_return(out, in1, in2); \
 }
 
+/************************************************************************************************************************/
+
+#define post_test_unroll_no_return_new_0(method, dir) \
+template<typename Pointer, typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Pointer(); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_new_0(method, dir) \
+template<typename Pointer, typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Pointer(); \
+	return unroll<N-1>::method::with_return(out); \
+}
+
+#define post_test_unroll_no_return_delete_0(method, dir) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_delete_0(method, dir) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+	return unroll<N-1>::method::with_return(out); \
+}
+
 #endif

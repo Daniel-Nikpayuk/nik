@@ -806,15 +806,25 @@ struct assign
 
 struct allocate
 {
+	unroll_no_return_new_0(allocate, DIRECTION)
+	unroll_with_return_new_0(allocate, DIRECTION)
+
 	struct post_test
 	{
+		post_test_unroll_no_return_new_0(allocate, DIRECTION)
+		post_test_unroll_with_return_new_0(allocate, DIRECTION)
 	};
 };
 
 struct deallocate
 {
+	unroll_no_return_delete_0(deallocate, DIRECTION)
+	unroll_with_return_delete_0(deallocate, DIRECTION)
+
 	struct post_test
 	{
+		post_test_unroll_no_return_delete_0(deallocate, DIRECTION)
+		post_test_unroll_with_return_delete_0(deallocate, DIRECTION)
 	};
 };
 

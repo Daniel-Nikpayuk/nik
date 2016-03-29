@@ -24,13 +24,20 @@
 #undef loop_with_return_left_0
 #undef loop_no_return_right_0
 #undef loop_with_return_right_0
+
 #undef loop_no_return_1
 #undef loop_with_return_1
 #undef loop_no_return_right_1
 #undef loop_with_return_right_1
+
 #undef loop_no_return_2
 #undef loop_with_return_2
 #undef loop_no_return_bracket_2
 #undef loop_with_return_bracket_2
+
+#undef loop_no_return_new_0
+#undef loop_with_return_new_0
+#undef loop_no_return_delete_0
+#undef loop_with_return_delete_0
 
 #endif

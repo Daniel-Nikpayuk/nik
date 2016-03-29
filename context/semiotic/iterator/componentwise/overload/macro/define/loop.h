@@ -237,4 +237,54 @@ static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, ER
 	return out; \
 }
 
+/************************************************************************************************************************/
+
+#define loop_no_return_new_0(dir) \
+template<typename Pointer, typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Pointer(); \
+		dir##dir(out); \
+	} \
+}
+
+#define loop_with_return_new_0(dir) \
+template<typename Pointer, typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Pointer(); \
+		dir##dir(out); \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		delete *out; \
+		dir##dir(out); \
+	} \
+}
+
+#define loop_with_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end) \
+{ \
+	while (out != end) \
+	{ \
+		delete *out; \
+		dir##dir(out); \
+	} \
+ \
+	return out; \
+}
+
 #endif

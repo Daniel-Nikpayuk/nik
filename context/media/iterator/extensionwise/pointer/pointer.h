@@ -46,15 +46,7 @@ namespace nik
 		{
 			template<typename WPointer, typename ERPointer>
 			static void no_return(WPointer in, ERPointer end)
-			{
-				while (in != end)
-				{
-					WPointer current=in;
-					++in;
-					delete current;
-					current=in;
-				}
-			}
+				{ while (in != end) delete in++; }
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>
