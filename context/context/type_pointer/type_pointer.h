@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_POINTER_H
-#define NIK_CONTEXT_CONTEXT_POINTER_H
+#ifndef NIK_CONTEXT_CONTEXT_TYPE_POINTER_H
+#define NIK_CONTEXT_CONTEXT_TYPE_POINTER_H
 
 #include<stddef.h>
 
@@ -69,8 +69,8 @@ namespace nik
 			typedef type_pointer_ptr& type_pointer_ptr_ref;
 
 			typedef type_pointer<T const, SizeType, N> const_type_pointer;
-
 			typedef type<T>* type_ptr;
+			typedef void* void_ptr;
 
 			typedef T value_type;
 			typedef T* value_type_ptr;
@@ -81,13 +81,13 @@ namespace nik
 			enum : size_type { next=0, previous=1, dimension=N };
 		protected:
 			type_ptr current;
-			type_pointer_ptr_ptr array;
+			type_pointer_ptr array;
 		public:
 			type_pointer() { }
 			type_pointer(type_ptr p)
 			{
 				current=p;
-				array=new type_pointer_ptr[N];
+				array=new type_pointer[N];
 			}
 			type_pointer(const type_pointer & p)
 			{
@@ -102,7 +102,7 @@ namespace nik
 			const type_pointer & operator = (type_ptr p)
 			{
 				current=p;
-				array=new type_pointer_ptr[N];
+				array=new type_pointer[N];
 				return *this;
 			}
 /*
@@ -120,8 +120,8 @@ namespace nik
 */
 			static void operator delete (void_ptr p)
 			{
-				delete p->array;
-				delete p->current;
+				delete ((type_pointer_ptr) p)->array;
+				delete ((type_pointer_ptr) p)->current;
 			}
 /*
 	Needed for loop condition testing "while (type_pointer)".
@@ -131,8 +131,8 @@ namespace nik
 /*
 	Needed for delete conversion.
 */
-			operator type_pointer_ptr () const
-				{ return (type_pointer_ptr) this; }
+//			operator type_pointer_ptr () const
+//				{ return (type_pointer_ptr) this; }
 /*
 	Needed for implicit const conversions.
 */
@@ -152,28 +152,30 @@ namespace nik
 	Virtually defined as const_type_pointer redefines it.
 */
 			virtual value_type_ref operator * () const
-				{ return (value_type_ref) current->value; }
+				{ return current->value; }
 /*
 	Virtually defined as const_type_pointer redefines it.
 */
 			virtual value_type_ptr operator -> () const
-				{ return (value_type_ptr) current->value; }
-
-			type_pointer_ptr_ref operator + () const
+				{ return &current->value; }
+/*
+	If ++ iterates to the next pointer, then + should dereference to it.
+*/
+			type_pointer_ref operator + () const
 				{ return array[next]; }
 
 			type_pointer_ref operator ++ ()
 			{
-				current=array[next]->current;
-				array=array[next]->array;
+				current=array[next].current;
+				array=array[next].array;
 				return *this;
 			}
 
 			type_pointer operator ++ (int)
 			{
 				type_pointer out(*this);
-				current=array[next]->current;
-				array=array[next]->array;
+				current=array[next].current;
+				array=array[next].array;
 				return out;
 			}
 
@@ -181,8 +183,8 @@ namespace nik
 			{
 				while (n)
 				{
-					current=array[next]->current;
-					array=array[next]->array;
+					current=array[next].current;
+					array=array[next].array;
 					--n;
 				}
 
@@ -194,29 +196,29 @@ namespace nik
 				type_pointer out(*this);
 				while (n)
 				{
-					out.current=out.array[next]->current;
-					out.array=out.array[next]->array;
+					out.current=out.array[next].current;
+					out.array=out.array[next].array;
 					--n;
 				}
 
 				return out;
 			}
 
-			type_pointer_ptr_ref operator - () const
+			type_pointer_ref operator - () const
 				{ return array[previous]; }
 
 			type_pointer_ref operator -- ()
 			{
-				current=array[previous]->current;
-				array=array[previous]->array;
+				current=array[previous].current;
+				array=array[previous].array;
 				return *this;
 			}
 
 			type_pointer operator -- (int)
 			{
 				type_pointer out(*this);
-				current=array[previous]->current;
-				array=array[previous]->array;
+				current=array[previous].current;
+				array=array[previous].array;
 				return out;
 			}
 
@@ -224,8 +226,8 @@ namespace nik
 			{
 				while (n)
 				{
-					current=array[previous]->current;
-					array=array[previous]->array;
+					current=array[previous].current;
+					array=array[previous].array;
 					--n;
 				}
 
@@ -237,8 +239,8 @@ namespace nik
 				type_pointer out(*this);
 				while (n)
 				{
-					out.current=out.array[previous]->current;
-					out.array=out.array[previous]->array;
+					out.current=out.array[previous].current;
+					out.array=out.array[previous].array;
 					--n;
 				}
 
@@ -252,7 +254,7 @@ namespace nik
 	template<typename T> using hook=type<T>;
 
 	template<typename T, typename SizeType=size_t>
-	using hook_pointer=pointer<T, SizeType, HOOK_SIZE>;
+	using hook_pointer=type_pointer<T, SizeType, HOOK_SIZE>;
 
 	#undef LINK_SIZE
 	#undef HOOK_SIZE
