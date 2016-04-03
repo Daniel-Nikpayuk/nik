@@ -21,23 +21,29 @@
 #include<stddef.h>
 
 /*
-	This class is meant to be as narratively similar as possible to the builtin array pointer.
+	This class is meant to be as narratively similar as possible to the builtin array node_pointer.
 
-	It is natural that unit::pointers should be able to convert to unit::const_pointers, as such within the unit::const_pointer
-	class there is a conversion constructor---thus the additional need to (at least) declare the existence of the unit::pointer
-	class ahead of time.
+	It is intuitive that node_pointers should be able to convert to const_node_pointers, the design follows this intuition.
 
-	In terms of dynamic binding, unit::const_pointers can semantically be considered a unit::pointer subclass,
-	and is nearly implemented as such. As it stands, I have decided to prevent the use of polymorphism,
+	In terms of dynamic binding, const_node_pointers can semantically be considered a node_pointer subclass,
+	and is nearly implemented as such. As it stands, I have decided to prevent this use of polymorphism,
 	and have implemented this code in such a way that the compiler will allow no such direct conversion.
+	Otherwise, I have defined hook as well as chain pointers as semantically related allowing polymorphism
+	through their common base class node_pointer.
 
 	It takes a policy of soft or shallow copying, and does not delete or destroy by default.
 
-	void pointer casting is subtle, as the same memory cast to two different types works, but referencing within such memory
+	void node_pointer casting is subtle, as the same memory cast to two different types works, but referencing within such memory
 	changes on the interpretation of the type of that memory.
 
-	A proper amount of memory needs to be allocated for "current" when constructed,
-	otherwise there will be subtle and strange bugs and behaviours!
+	By defining the node before the node_pointer, we can call "new node()" outside of the pointer's scope,
+	the tradeoff is the extended namespace calling in order to do so (nik::context::context:: ...).
+	One would need to typedef both the node_pointer as well as the node. The complication here is in needing to specify
+	the same template parameters for both.
+
+	Some coders may wish to still do this, and so it is policy to leave the definition of node outside the node_pointer
+	scope, but for those coders looking to refactor specifying the template parameters, I have included a typedef of
+	the node within its respective specialized node_pointer. This way the only scoping needed is "new node_pointer::node()".
 */
 
 namespace nik
@@ -46,216 +52,283 @@ namespace nik
  {
   namespace context
   {
-	template<typename T>
-	struct type
+	template<typename T, typename SizeType, SizeType N>
+	class node
 	{
-		T value;
-
-		type() { }
-		type(const T & v) : value(v) { }
-		~type() { }
-
-		const type & operator = (const type & n)
-			{ value=n.value; }
+		protected:
+			typedef void* void_ptr;
+		public:
+			typedef T value_type;
+		public:
+			static void_ptr operator new (size_t n)
+				{ return new void_ptr[N]; }
 	};
 
 	template<typename T, typename SizeType, SizeType N>
-	class type_pointer
+	class node_pointer
 	{
 		protected:
-			typedef type_pointer* type_pointer_ptr;
-			typedef type_pointer& type_pointer_ref;
-			typedef type_pointer_ptr* type_pointer_ptr_ptr;
-			typedef type_pointer_ptr& type_pointer_ptr_ref;
+			typedef node_pointer* node_pointer_ptr;
+			typedef node_pointer& node_pointer_ref;
+			typedef node_pointer<T const, SizeType, N> const_node_pointer;
+			typedef node<T, SizeType, N>* node_ptr;
+			typedef node_ptr& node_ptr_ref;
 
-			typedef type_pointer<T const, SizeType, N> const_type_pointer;
-
-			typedef type<T>* type_ptr;
-
-			typedef T value_type;
 			typedef T* value_type_ptr;
 			typedef T& value_type_ref;
 
 			typedef SizeType size_type;
+			enum : size_type { value=0, next=1, previous=2 };
 
-			enum : size_type { next=0, previous=1, dimension=N };
-		protected:
-			type_ptr current;
-			type_pointer_ptr_ptr array;
+			typedef void* void_ptr;
+			typedef void_ptr* void_ptr_ptr;
+			typedef void_ptr const* void_ptr_const_ptr;
+
+				// an array of unknown types.
+			void_ptr_ptr current;
 		public:
-			type_pointer() { }
-			type_pointer(type_ptr p)
-			{
-				current=p;
-				array=new type_pointer_ptr[N];
-			}
-			type_pointer(const type_pointer & p)
-			{
-				current=p.current;
-				array=p.array;
-			}
-			~type_pointer() { }
+			enum : size_type { dimension=N };
+		public:
+			node_pointer() { }
+			node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
+			node_pointer(const node_pointer & p) { current=p.current; }
+			~node_pointer() { }
 /*
-	This version is needed for compatibility with the existing constructors, to accept "=new type()" code.
+	This version is needed for compatibility with the existing constructors, to accept "=new node()" code.
 	Allows for potential memory leak. Burden is placed on the api coder.
 */
-			const type_pointer & operator = (type_ptr p)
+			const node_pointer & operator = (node_ptr p)
 			{
-				current=p;
-				array=new type_pointer_ptr[N];
+				current=(void_ptr_ptr) p;
 				return *this;
 			}
 /*
 	In the case &p == this, nothing is changed.
 	Allows for potential memory leak. Burden is placed on the api coder.
 */
-			const type_pointer & operator = (const type_pointer & p)
+			const node_pointer & operator = (const node_pointer & p)
 			{
 				current=p.current;
-				array=p.array;
 				return *this;
 			}
-/*
-	Sufficient? Or does this cause memory leaks?
-*/
+
 			static void operator delete (void_ptr p)
-			{
-				delete p->array;
-				delete p->current;
-			}
-/*
-	Needed for loop condition testing "while (type_pointer)".
-*/
-			operator bool () const
-				{ return current; }
+				{ delete ((node_pointer_ptr) p)->current; }
 /*
 	Needed for delete conversion.
 */
-			operator type_pointer_ptr () const
-				{ return (type_pointer_ptr) this; }
+			operator node_pointer_ptr () const
+				{ return (node_pointer_ptr) this; }
 /*
 	Needed for implicit const conversions.
 */
-			operator const const_type_pointer & () const
-				{ return *((const_type_pointer*) this); }
+			operator const const_node_pointer & () const
+				{ return *((const_node_pointer*) this); }
 /*
-	Broader definitions of equality comparison.
+	Needed for loop condition testing "while (node_pointer)".
 */
-			bool operator == (const type_pointer & p) const
-				{ return (current == p.current && array == p.array); }
+			operator bool () const
+				{ return current; }
+
+			bool operator == (const node_pointer & p) const
+				{ return (current == p.current); }
+
+			bool operator != (const node_pointer & p) const
+				{ return (current != p.current); }
 /*
-	Broader definitions of inequality comparison.
-*/
-			bool operator != (const type_pointer & p) const
-				{ return (current != p.current || array != p.array); }
-/*
-	Virtually defined as const_type_pointer redefines it.
+	Virtually defined: const_node_pointer below redefines it.
 */
 			virtual value_type_ref operator * () const
-				{ return (value_type_ref) current->value; }
+				{ return (value_type_ref) current[value]; }
 /*
-	Virtually defined as const_type_pointer redefines it.
+	Virtually defined: const_node_pointer below redefines it.
 */
 			virtual value_type_ptr operator -> () const
-				{ return (value_type_ptr) current->value; }
+				{ return (value_type_ptr) current[value]; }
 
-			type_pointer_ptr_ref operator + () const
-				{ return array[next]; }
+			node_pointer_ref operator + () const
+				{ return (node_pointer_ref) current[next]; }
 
-			type_pointer_ref operator ++ ()
+			node_pointer_ref operator ++ ()
 			{
-				current=array[next]->current;
-				array=array[next]->array;
+				current=((node_pointer_ref) current[next]).current;
 				return *this;
 			}
 
-			type_pointer operator ++ (int)
+			node_pointer operator ++ (int)
 			{
-				type_pointer out(*this);
-				current=array[next]->current;
-				array=array[next]->array;
+				node_pointer out(*this);
+				current=((node_pointer_ref) current[next]).current;
 				return out;
 			}
 
-			type_pointer_ref operator += (size_type n)
+			node_pointer_ref operator += (size_type n)
 			{
 				while (n)
 				{
-					current=array[next]->current;
-					array=array[next]->array;
+					current=((node_pointer_ref) current[next]).current;
 					--n;
 				}
 
 				return *this;
 			}
 
-			type_pointer operator + (size_type n) const
+			node_pointer operator + (size_type n) const
 			{
-				type_pointer out(*this);
+				node_pointer out(*this);
 				while (n)
 				{
-					out.current=out.array[next]->current;
-					out.array=out.array[next]->array;
+					out.current=((node_pointer_ref) out.current[next]).current;
 					--n;
 				}
 
 				return out;
 			}
 
-			type_pointer_ptr_ref operator - () const
-				{ return array[previous]; }
+			node_pointer_ref operator - () const
+				{ return (node_pointer_ref) current[previous]; }
 
-			type_pointer_ref operator -- ()
+			node_pointer_ref operator -- ()
 			{
-				current=array[previous]->current;
-				array=array[previous]->array;
+				current=((node_pointer_ref) current[previous]).current;
 				return *this;
 			}
 
-			type_pointer operator -- (int)
+			node_pointer operator -- (int)
 			{
-				type_pointer out(*this);
-				current=array[previous]->current;
-				array=array[previous]->array;
+				node_pointer out(*this);
+				current=((node_pointer_ref) current[previous]).current;
 				return out;
 			}
 
-			type_pointer_ref operator -= (size_type n)
+			node_pointer_ref operator -= (size_type n)
 			{
 				while (n)
 				{
-					current=array[previous]->current;
-					array=array[previous]->array;
+					current=((node_pointer_ref) current[previous]).current;
 					--n;
 				}
 
 				return *this;
 			}
 
-			type_pointer operator - (size_type n) const
+			node_pointer operator - (size_type n) const
 			{
-				type_pointer out(*this);
+				node_pointer out(*this);
 				while (n)
 				{
-					out.current=out.array[previous]->current;
-					out.array=out.array[previous]->array;
+					out.current=((node_pointer_ref) out.current[previous]).current;
 					--n;
 				}
 
 				return out;
 			}
 	};
+/*
+	GCC 4.8.4 crashes when declaring a const_node_pointer if an uninitialized pointer has been dereferenced in the existing code.
 
-	#define HOOK_SIZE 1
-	#define LINK_SIZE 2
+	Dereferencing an uninitialized pointer has undefined behaviour to begin with, and in practice would not happen anyway.
+	The policy here might change to initialize the pointer array member in the above pointer class to be zero,
+	but for now narrative consistency is preferred.
+*/
+	template<typename T, typename SizeType, SizeType N>
+	using const_node=node<T const, SizeType, N>;
 
-	template<typename T> using hook=type<T>;
+	template<typename T, typename SizeType, SizeType N>
+	class const_node_pointer : public node_pointer<T const, SizeType, N>
+	{
+		private:
+			typedef node_pointer<T const, SizeType, N> base;
+			typedef node<T const, SizeType, N>* const_node_ptr;
+
+			typedef typename base::value_type_ptr value_type_ptr;
+			typedef typename base::value_type_ref value_type_ref;
+		public:
+			const_node_pointer() { }
+			const_node_pointer(const base & p) : base::node_pointer(p) { }
+			const_node_pointer(const_node_ptr p) : base::node_pointer(p) { }
+			const_node_pointer(const const_node_pointer & p) : base::node_pointer(p) { }
+			~const_node_pointer() { }
+
+			const const_node_pointer & operator = (const base & p)
+			{
+				base::operator=(p);
+				return *this;
+			}
+
+			const const_node_pointer & operator = (const_node_ptr p)
+			{
+				base::operator=(p);
+				return *this;
+			}
+
+			const const_node_pointer & operator = (const const_node_pointer & p)
+			{
+				base::operator=(p);
+				return *this;
+			}
+
+			value_type_ref operator * () const
+				{ return (value_type_ref) base::current[base::value]; }
+
+			value_type_ptr operator -> () const
+				{ return (value_type_ptr) base::current[base::value]; }
+	};
+
+	#define HOOK_SIZE 2
 
 	template<typename T, typename SizeType=size_t>
-	using hook_pointer=pointer<T, SizeType, HOOK_SIZE>;
+	using hook=node<T, SizeType, HOOK_SIZE>;
+
+	template<typename T, typename SizeType=size_t>
+	class hook_pointer : public node_pointer<T, SizeType, HOOK_SIZE>
+	{
+		private:
+			typedef node_pointer<T, SizeType, HOOK_SIZE> base;
+			typedef node<T, SizeType, HOOK_SIZE>* hook_ptr;
+		public:
+			typedef node<T, SizeType, HOOK_SIZE> hook;
+		public:
+			using base::base;
+	};
+
+	template<typename T, typename SizeType=size_t>
+	using const_hook=const_node<T, SizeType, HOOK_SIZE>;
+
+	template<typename T, typename SizeType=size_t>
+	class const_hook_pointer : public const_node_pointer<T, SizeType, HOOK_SIZE>
+	{
+		private:
+		public:
+			typedef const_node<T, SizeType, HOOK_SIZE> const_hook;
+	};
+
+	#undef HOOK_SIZE
+	#define LINK_SIZE 3
+
+	template<typename T, typename SizeType=size_t>
+	using link=node<T, SizeType, LINK_SIZE>;
+
+	template<typename T, typename SizeType=size_t>
+	class link_pointer : public node_pointer<T, SizeType, LINK_SIZE>
+	{
+		private:
+		public:
+			typedef node<T, SizeType, LINK_SIZE> hook;
+	};
+
+	template<typename T, typename SizeType=size_t>
+	using const_link=const_node<T, SizeType, LINK_SIZE>;
+
+	template<typename T, typename SizeType=size_t>
+	class const_link_pointer : public const_node_pointer<T, SizeType, LINK_SIZE>
+	{
+		private:
+		public:
+			typedef const_node<T, SizeType, LINK_SIZE> const_hook;
+	};
 
 	#undef LINK_SIZE
-	#undef HOOK_SIZE
   }
  }
 }
