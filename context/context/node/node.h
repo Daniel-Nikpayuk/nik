@@ -114,9 +114,6 @@ namespace nik
 				current=p.current;
 				return *this;
 			}
-
-			static void operator delete (void_ptr p)
-				{ delete ((node_pointer_ptr) p)->current; }
 /*
 	Needed for delete conversion.
 */
@@ -138,6 +135,9 @@ namespace nik
 
 			bool operator != (const node_pointer & p) const
 				{ return (current != p.current); }
+
+			static void operator delete (void_ptr p)
+				{ delete ((node_pointer_ptr) p)->current; }
 
 			value_type_ref operator * () const
 				{ return (value_type_ref) current[value]; }
@@ -238,31 +238,24 @@ namespace nik
 	{
 		private:
 			typedef node_pointer<T const, SizeType, N> base;
-			typedef node<T const, const_node_pointer, SizeType, N>* const_node_ptr;
+			typedef const_node<T, base, SizeType, N>* const_node_ptr;
 
 			typedef typename base::value_type_ptr value_type_ptr;
 			typedef typename base::value_type_ref value_type_ref;
 		public:
 			const_node_pointer() { }
-//			const_node_pointer(const base & p) : base::node_pointer(p) { }
-			const_node_pointer(const node_pointer<T, SizeType, N> & p) : base::node_pointer(p) { }
 			const_node_pointer(const_node_ptr p) : base::node_pointer(p) { }
+			const_node_pointer(const node_pointer<T, SizeType, N> & p) : base::node_pointer(p) { }
 			const_node_pointer(const const_node_pointer & p) : base::node_pointer(p) { }
 			~const_node_pointer() { }
 
-			const const_node_pointer & operator = (const base & p)
+			const const_node_pointer & operator = (const_node_ptr p)
 			{
 				base::operator=(p);
 				return *this;
 			}
 
 			const const_node_pointer & operator = (const node_pointer<T, SizeType, N> & p)
-			{
-				base::operator=(p);
-				return *this;
-			}
-
-			const const_node_pointer & operator = (const_node_ptr p)
 			{
 				base::operator=(p);
 				return *this;
@@ -290,7 +283,7 @@ namespace nik
 	using hook_pointer=typename hook<T, SizeType>::pointer;
 
 	template<typename T, typename SizeType=size_t>
-	using const_hook=const_node<T, const_node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
+	using const_hook=const_node<T, node_pointer<T const, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
 	using const_hook_pointer=typename const_hook<T, SizeType>::pointer;
@@ -305,7 +298,7 @@ namespace nik
 	using link_pointer=typename link<T, SizeType>::pointer;
 
 	template<typename T, typename SizeType=size_t>
-	using const_link=const_node<T, const_node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
+	using const_link=const_node<T, node_pointer<T const, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
 	using const_link_pointer=typename const_link<T, SizeType>::pointer;
