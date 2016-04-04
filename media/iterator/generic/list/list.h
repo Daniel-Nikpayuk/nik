@@ -64,8 +64,8 @@ namespace nik
 				// element access:
 			reference front() { return *sublist.initial; }
 			const_reference front() const { return *sublist.initial; }
-			reference back() { return **-sublist.terminal; }
-			const_reference back() const { return **-sublist.terminal; }
+			reference back() { return *-sublist.terminal; }
+			const_reference back() const { return *-sublist.terminal; }
 				// iterators:
 			iterator begin() { return sublist.initial; }
 			const_iterator begin() const { return (const_iterator) sublist.initial; }

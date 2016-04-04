@@ -18,7 +18,7 @@
 #ifndef NIK_SEMIOTIC_ITERATOR_LIST_H
 #define NIK_SEMIOTIC_ITERATOR_LIST_H
 
-#include"../../../context/context/pointer/pointer.h"
+#include"../../../context/context/node/node.h"
 #include"../../../context/semiotic/iterator/extensionwise/policy/policy.h"
 
 #include"../traits/traits.h"
@@ -73,8 +73,10 @@ namespace nik
 		typedef typename attributes::value_type value_type;
 		typedef typename attributes::reference reference;
 		typedef typename attributes::const_reference const_reference;
-		typedef context::context::list_pointer<T, SizeType> iterator;
-		typedef context::context::const_list_pointer<T, SizeType> const_iterator;
+		typedef typename context::context::hook<T, SizeType> node;
+		typedef typename context::context::const_hook<T, SizeType> const_node;
+		typedef typename node::pointer iterator;
+		typedef typename const_node::pointer const_iterator;
 		typedef SizeType size_type;
 
 		typedef context::semiotic::iterator::extensionwise::policy<size_type> s_exte_policy;
@@ -86,7 +88,7 @@ namespace nik
 	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
 */
 		void initialize()
-			{ initial=terminal=new iterator(); }
+			{ initial=terminal=new node(); }
 
 		template<typename RIterator, typename ERIterator>
 		void grow(RIterator first, ERIterator last)

@@ -18,7 +18,7 @@
 #ifndef NIK_CONTEXT_CONTEXT_POLICY_H
 #define NIK_CONTEXT_CONTEXT_POLICY_H
 
-#include"../pointer/pointer.h"
+#include"../node/node.h"
 #include"../unit/unit.h"
 #include"../argument/binary/binary.h"
 #include"../argument/math/math.h"
@@ -52,19 +52,19 @@ namespace nik
 */
 		using unit=context::unit<size_type>;
 /*
-	pointer:
+	node:
 */
 		template<typename value_type>
-		using list_pointer=context::pointer<value_type, size_type, unit::two>;
+		using hook=context::hook<value_type, size_type>;
 
 		template<typename value_type>
-		using const_list_pointer=context::const_pointer<value_type, size_type, unit::two>;
+		using const_hook=context::const_hook<value_type, size_type>;
 
 		template<typename value_type>
-		using chain_pointer=context::pointer<value_type, size_type, unit::three>;
+		using link=context::link<value_type, size_type>;
 
 		template<typename value_type>
-		using const_chain_pointer=context::const_pointer<value_type, size_type, unit::three>;
+		using const_link=context::const_link<value_type, size_type>;
 /*
 	argument:
 */

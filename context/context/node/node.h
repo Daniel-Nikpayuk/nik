@@ -43,7 +43,7 @@
 
 	Some coders may wish to still do this, and so it is policy to leave the definition of node outside the node_pointer
 	scope, but for those coders looking to refactor specifying the template parameters, I have included a typedef of
-	the node within its respective specialized node_pointer. This way the only scoping needed is "new node_pointer::node()".
+	the node_pointer within its respective specialized node.
 
 	Intermixing polymorphism and void* seems to cause issues. Though I don't fully understand why, I resolved a bug by
 	removing the virtual declarations of the (*) and (+) operator overloads. The bug arose when they combined (*+).
@@ -93,7 +93,7 @@ namespace nik
 			enum : size_type { dimension=N };
 		public:
 			node_pointer() { }
-			node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
+			node_pointer(void_ptr p) { current=(void_ptr_ptr) p; }
 			node_pointer(const node_pointer & p) { current=p.current; }
 			~node_pointer() { }
 /*
@@ -224,11 +224,7 @@ namespace nik
 			}
 	};
 /*
-	GCC 4.8.4 crashes when declaring a const_node_pointer if an uninitialized pointer has been dereferenced in the existing code.
-
-	Dereferencing an uninitialized pointer has undefined behaviour to begin with, and in practice would not happen anyway.
-	The policy here might change to initialize the pointer array member in the above pointer class to be zero,
-	but for now narrative consistency is preferred.
+	const version:
 */
 	template<typename T, typename Pointer, typename SizeType, SizeType N>
 	using const_node=node<T const, Pointer, SizeType, N>;
@@ -280,13 +276,7 @@ namespace nik
 	using hook=node<T, node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	using hook_pointer=typename hook<T, SizeType>::pointer;
-
-	template<typename T, typename SizeType=size_t>
 	using const_hook=const_node<T, node_pointer<T const, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
-
-	template<typename T, typename SizeType=size_t>
-	using const_hook_pointer=typename const_hook<T, SizeType>::pointer;
 
 	#undef HOOK_SIZE
 	#define LINK_SIZE 3
@@ -295,13 +285,7 @@ namespace nik
 	using link=node<T, node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	using link_pointer=typename link<T, SizeType>::pointer;
-
-	template<typename T, typename SizeType=size_t>
 	using const_link=const_node<T, node_pointer<T const, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
-
-	template<typename T, typename SizeType=size_t>
-	using const_link_pointer=typename const_link<T, SizeType>::pointer;
 
 	#undef LINK_SIZE
   }

@@ -36,6 +36,7 @@ namespace nik
 
 		void print(char v) { printf("%c", v); }
 		void print(const char *v) { printf("%s", v); }
+		void print(bool v) { printf("%s", v? "true" : "false"); }
 	};
 
 	template<typename S, typename T>
