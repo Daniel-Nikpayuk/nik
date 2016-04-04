@@ -44,6 +44,9 @@
 	Some coders may wish to still do this, and so it is policy to leave the definition of node outside the node_pointer
 	scope, but for those coders looking to refactor specifying the template parameters, I have included a typedef of
 	the node within its respective specialized node_pointer. This way the only scoping needed is "new node_pointer::node()".
+
+	Intermixing polymorphism and void* seems to cause issues. Though I don't fully understand why, I resolved a bug by
+	removing the virtual declarations of the (*) and (+) operator overloads. The bug arose when they combined (*+).
 */
 
 namespace nik
@@ -52,16 +55,33 @@ namespace nik
  {
   namespace context
   {
-	template<typename T, typename SizeType, SizeType N>
-	class node
+	template<typename T, typename Pointer, typename SizeType, SizeType N>
+	struct node
 	{
-		protected:
-			typedef void* void_ptr;
-		public:
-			typedef T value_type;
-		public:
-			static void_ptr operator new (size_t n)
-				{ return new void_ptr[N]; }
+		typedef node<T const, Pointer, SizeType, N> const_node;
+		typedef T value_type;
+		typedef Pointer pointer;
+
+		node() { }
+		node(const node & p)
+		{
+			value=p.value;
+			array=p.array;
+		}
+		~node() { }
+
+		const node & operator = (const node & p)
+		{
+			value=p.value;
+			array=p.array;
+			return *this;
+		}
+
+		operator const const_node & () const
+			{ return *((const_node*) this); }
+
+		value_type value;
+		pointer array[N];
 	};
 
 	template<typename T, typename SizeType, SizeType N>
@@ -71,26 +91,22 @@ namespace nik
 			typedef node_pointer* node_pointer_ptr;
 			typedef node_pointer& node_pointer_ref;
 			typedef node_pointer<T const, SizeType, N> const_node_pointer;
-			typedef node<T, SizeType, N>* node_ptr;
-			typedef node_ptr& node_ptr_ref;
+			typedef node<T, node_pointer, SizeType, N>* node_ptr;
 
 			typedef T* value_type_ptr;
 			typedef T& value_type_ref;
 
 			typedef SizeType size_type;
-			enum : size_type { value=0, next=1, previous=2 };
+			enum : size_type { next=0, previous=1 };
 
 			typedef void* void_ptr;
-			typedef void_ptr* void_ptr_ptr;
-			typedef void_ptr const* void_ptr_const_ptr;
 
-				// an array of unknown types.
-			void_ptr_ptr current;
+			node_ptr current;
 		public:
 			enum : size_type { dimension=N };
-		public:
+
 			node_pointer() { }
-			node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
+			node_pointer(node_ptr p) { current=p; }
 			node_pointer(const node_pointer & p) { current=p.current; }
 			~node_pointer() { }
 /*
@@ -99,7 +115,7 @@ namespace nik
 */
 			const node_pointer & operator = (node_ptr p)
 			{
-				current=(void_ptr_ptr) p;
+				current=p;
 				return *this;
 			}
 /*
@@ -135,30 +151,26 @@ namespace nik
 
 			bool operator != (const node_pointer & p) const
 				{ return (current != p.current); }
-/*
-	Virtually defined: const_node_pointer below redefines it.
-*/
-			virtual value_type_ref operator * () const
-				{ return (value_type_ref) current[value]; }
-/*
-	Virtually defined: const_node_pointer below redefines it.
-*/
-			virtual value_type_ptr operator -> () const
-				{ return (value_type_ptr) current[value]; }
+
+			value_type_ref operator * () const
+				{ return current->value; }
+
+			value_type_ptr operator -> () const
+				{ return current->value; }
 
 			node_pointer_ref operator + () const
-				{ return (node_pointer_ref) current[next]; }
+				{ return current->array[next]; }
 
 			node_pointer_ref operator ++ ()
 			{
-				current=((node_pointer_ref) current[next]).current;
+				current=current->array[next].current;
 				return *this;
 			}
 
 			node_pointer operator ++ (int)
 			{
 				node_pointer out(*this);
-				current=((node_pointer_ref) current[next]).current;
+				current=current->array[next].current;
 				return out;
 			}
 
@@ -166,7 +178,7 @@ namespace nik
 			{
 				while (n)
 				{
-					current=((node_pointer_ref) current[next]).current;
+					current=current->array[next].current;
 					--n;
 				}
 
@@ -178,7 +190,7 @@ namespace nik
 				node_pointer out(*this);
 				while (n)
 				{
-					out.current=((node_pointer_ref) out.current[next]).current;
+					out.current=out.current->array[next].current;
 					--n;
 				}
 
@@ -186,18 +198,18 @@ namespace nik
 			}
 
 			node_pointer_ref operator - () const
-				{ return (node_pointer_ref) current[previous]; }
+				{ return current->array[previous]; }
 
 			node_pointer_ref operator -- ()
 			{
-				current=((node_pointer_ref) current[previous]).current;
+				current=current->array[previous].current;
 				return *this;
 			}
 
 			node_pointer operator -- (int)
 			{
 				node_pointer out(*this);
-				current=((node_pointer_ref) current[previous]).current;
+				current=current->array[previous].current;
 				return out;
 			}
 
@@ -205,7 +217,7 @@ namespace nik
 			{
 				while (n)
 				{
-					current=((node_pointer_ref) current[previous]).current;
+					current=current->array[previous].current;
 					--n;
 				}
 
@@ -217,7 +229,7 @@ namespace nik
 				node_pointer out(*this);
 				while (n)
 				{
-					out.current=((node_pointer_ref) out.current[previous]).current;
+					out.current=out.current->array[previous].current;
 					--n;
 				}
 
@@ -231,15 +243,37 @@ namespace nik
 	The policy here might change to initialize the pointer array member in the above pointer class to be zero,
 	but for now narrative consistency is preferred.
 */
-	template<typename T, typename SizeType, SizeType N>
-	using const_node=node<T const, SizeType, N>;
+	template<typename T, typename Pointer, typename SizeType, SizeType N>
+	struct const_node : public node<T const, Pointer, SizeType, N>
+	{
+		typedef node<T const, Pointer, SizeType, N> base;
+		typedef T const value_type;
+		typedef Pointer pointer;
+
+		const_node() { }
+		const_node(const base & p) : base::node(p) { }
+		const_node(const const_node & p) : base::node(p) { }
+		~const_node() { }
+
+		const const_node & operator = (const base & p)
+		{
+			base::operator=(p);
+			return *this;
+		}
+
+		const const_node & operator = (const const_node & p)
+		{
+			base::operator=(p);
+			return *this;
+		}
+	};
 
 	template<typename T, typename SizeType, SizeType N>
 	class const_node_pointer : public node_pointer<T const, SizeType, N>
 	{
 		private:
 			typedef node_pointer<T const, SizeType, N> base;
-			typedef node<T const, SizeType, N>* const_node_ptr;
+			typedef node<T const, node_pointer<T const, SizeType, N>, SizeType, N>* const_node_ptr;
 
 			typedef typename base::value_type_ptr value_type_ptr;
 			typedef typename base::value_type_ref value_type_ref;
@@ -269,64 +303,29 @@ namespace nik
 			}
 
 			value_type_ref operator * () const
-				{ return (value_type_ref) base::current[base::value]; }
+				{ return base::current->array[base::value]; }
 
 			value_type_ptr operator -> () const
-				{ return (value_type_ptr) base::current[base::value]; }
+				{ return base::current->array[base::value]; }
 	};
 
 	#define HOOK_SIZE 2
 
 	template<typename T, typename SizeType=size_t>
-	using hook=node<T, SizeType, HOOK_SIZE>;
+	using hook=node<T, node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	class hook_pointer : public node_pointer<T, SizeType, HOOK_SIZE>
-	{
-		private:
-			typedef node_pointer<T, SizeType, HOOK_SIZE> base;
-			typedef node<T, SizeType, HOOK_SIZE>* hook_ptr;
-		public:
-			typedef node<T, SizeType, HOOK_SIZE> hook;
-		public:
-			using base::base;
-	};
+	using hook_pointer=typename hook<T, SizeType>::pointer;
 
 	template<typename T, typename SizeType=size_t>
-	using const_hook=const_node<T, SizeType, HOOK_SIZE>;
+	using const_hook=const_node<T, const_node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	class const_hook_pointer : public const_node_pointer<T, SizeType, HOOK_SIZE>
-	{
-		private:
-		public:
-			typedef const_node<T, SizeType, HOOK_SIZE> const_hook;
-	};
+	using const_hook_pointer=typename const_hook<T, SizeType>::pointer;
+
 
 	#undef HOOK_SIZE
 	#define LINK_SIZE 3
-
-	template<typename T, typename SizeType=size_t>
-	using link=node<T, SizeType, LINK_SIZE>;
-
-	template<typename T, typename SizeType=size_t>
-	class link_pointer : public node_pointer<T, SizeType, LINK_SIZE>
-	{
-		private:
-		public:
-			typedef node<T, SizeType, LINK_SIZE> hook;
-	};
-
-	template<typename T, typename SizeType=size_t>
-	using const_link=const_node<T, SizeType, LINK_SIZE>;
-
-	template<typename T, typename SizeType=size_t>
-	class const_link_pointer : public const_node_pointer<T, SizeType, LINK_SIZE>
-	{
-		private:
-		public:
-			typedef const_node<T, SizeType, LINK_SIZE> const_hook;
-	};
 
 	#undef LINK_SIZE
   }
