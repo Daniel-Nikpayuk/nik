@@ -19,7 +19,7 @@
 #define NIK_MEDIA_ITERATOR_GENERIC_LIST_H
 
 /*
-	Given the unsafe nature of semiotic::list policy here is composability instead of inheritance.
+	Given the unsafe nature of semiotic::list, policy here is designed for composability instead of inheritance.
 
 	Test against self-assignment!
 */
@@ -88,7 +88,7 @@ namespace nik
 					return sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
 				else return m_exte_policy::lst_ptr::impend::with_return(it, value);
 			}
-
+/*
 			iterator insert(const_iterator it, value_type && value)
 			{
 				++length;
@@ -96,7 +96,7 @@ namespace nik
 					return sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
 				else return m_exte_policy::lst_ptr::impend::with_return(it, value);
 			}
-
+*/
 // needs to be "const_iterator it"
 			iterator insert(iterator it, size_type count, const value_type & value)
 			{

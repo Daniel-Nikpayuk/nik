@@ -21,32 +21,31 @@
 #include<stddef.h>
 
 /*
-	This class is meant to be as narratively similar as possible to the builtin array node_pointer.
+	This class is meant to be as narratively similar as possible to the builtin array pointer.
+	I have privileged this above all other considerations in the design. Let me reiterate:
+	The design privileges effective grammar expressivity as similar as possible to the builtin array pointer.
+
+	As this is an exceptionally low-level class upon which many other classes are meant to be built, it is safe
+	to say it has not been thorough tested in production. As such, I cannot guarantee it has been as optimized
+	as it can be (premature optimization is the root of all evil).
 
 	It is intuitive that node_pointers should be able to convert to const_node_pointers, the design follows this intuition.
 
 	In terms of dynamic binding, const_node_pointers can semantically be considered a node_pointer subclass,
-	and is nearly implemented as such. As it stands, I have decided to prevent this use of polymorphism,
-	and have implemented this code in such a way that the compiler will allow no such direct conversion.
-	Otherwise, I have defined hook as well as chain pointers as semantically related allowing polymorphism
-	through their common base class node_pointer.
+	and is nearly implemented as such. As it stands, I have decided to prevent this use of polymorphism.
+	This policy will hold unless I find sufficient reason to change it. Furthermore, in a previous iteration in which
+	it was allowed, I have learned intermixing polymorphism and void* seems to cause general issues. Though I don't
+	fully understand why, I resolved a bug by removing the virtual declarations of the (*) and (+) operator overloads.
+	The bug arose when they combined (*+).
 
 	It takes a policy of soft or shallow copying, and does not delete or destroy by default.
 
-	void node_pointer casting is subtle, as the same memory cast to two different types works, but referencing within such memory
+	void* casting is subtle, as the same memory cast to two different types works, but referencing within such memory
 	changes on the interpretation of the type of that memory.
 
 	By defining the node before the node_pointer, we can call "new node()" outside of the pointer's scope,
 	the tradeoff is the extended namespace calling in order to do so (nik::context::context:: ...).
-	One would need to typedef both the node_pointer as well as the node. The complication here is in needing to specify
-	the same template parameters for both.
-
-	Some coders may wish to still do this, and so it is policy to leave the definition of node outside the node_pointer
-	scope, but for those coders looking to refactor specifying the template parameters, I have included a typedef of
-	the node_pointer within its respective specialized node.
-
-	Intermixing polymorphism and void* seems to cause issues. Though I don't fully understand why, I resolved a bug by
-	removing the virtual declarations of the (*) and (+) operator overloads. The bug arose when they combined (*+).
+	One would need to typedef. I have included a typedef of the pointer within its node.
 */
 
 namespace nik
@@ -68,13 +67,15 @@ namespace nik
 				{ return new void_ptr[N]; }
 	};
 
+	template<typename T, typename SizeType, SizeType N> class const_node_pointer;
+
 	template<typename T, typename SizeType, SizeType N>
 	class node_pointer
 	{
+			friend class const_node_pointer<T, SizeType, N>;
 		protected:
 			typedef node_pointer* node_pointer_ptr;
 			typedef node_pointer& node_pointer_ref;
-			typedef node_pointer<T const, SizeType, N> const_node_pointer;
 			typedef node<T, node_pointer, SizeType, N>* node_ptr;
 
 			typedef T* value_type_ptr;
@@ -85,7 +86,6 @@ namespace nik
 
 			typedef void* void_ptr;
 			typedef void_ptr* void_ptr_ptr;
-			typedef void_ptr const* void_ptr_const_ptr;
 
 				// an array of unknown types.
 			void_ptr_ptr current;
@@ -93,37 +93,14 @@ namespace nik
 			enum : size_type { dimension=N };
 		public:
 			node_pointer() { }
-			node_pointer(void_ptr p) { current=(void_ptr_ptr) p; }
+			node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
 			node_pointer(const node_pointer & p) { current=p.current; }
 			~node_pointer() { }
-/*
-	This version is needed for compatibility with the existing constructors, to accept "=new node()" code.
-	Allows for potential memory leak. Burden is placed on the api coder.
-*/
-			const node_pointer & operator = (node_ptr p)
-			{
-				current=(void_ptr_ptr) p;
-				return *this;
-			}
-/*
-	In the case &p == this, nothing is changed.
-	Allows for potential memory leak. Burden is placed on the api coder.
-*/
-			const node_pointer & operator = (const node_pointer & p)
-			{
-				current=p.current;
-				return *this;
-			}
 /*
 	Needed for delete conversion.
 */
 			operator node_pointer_ptr () const
 				{ return (node_pointer_ptr) this; }
-/*
-	Needed for implicit const conversions.
-*/
-			operator const const_node_pointer & () const
-				{ return *((const_node_pointer*) this); }
 /*
 	Needed for loop condition testing "while (node_pointer)".
 */
@@ -143,7 +120,7 @@ namespace nik
 				{ return (value_type_ref) current[value]; }
 
 			value_type_ptr operator -> () const
-				{ return (value_type_ptr) current[value]; }
+				{ return & (value_type_ref) current[value]; }
 
 			node_pointer_ref operator + () const
 				{ return (node_pointer_ref) current[next]; }
@@ -226,48 +203,136 @@ namespace nik
 /*
 	const version:
 */
-	template<typename T, typename Pointer, typename SizeType, SizeType N>
-	using const_node=node<T const, Pointer, SizeType, N>;
-
 	template<typename T, typename SizeType, SizeType N>
-	class const_node_pointer : public node_pointer<T const, SizeType, N>
+	class const_node_pointer
 	{
-		private:
-			typedef node_pointer<T const, SizeType, N> base;
-			typedef const_node<T, base, SizeType, N>* const_node_ptr;
+		protected:
+			typedef const_node_pointer* const_node_pointer_ptr;
+			typedef const_node_pointer& const_node_pointer_ref;
+			typedef node<T const, const_node_pointer, SizeType, N>* const_node_ptr;
 
-			typedef typename base::value_type_ptr value_type_ptr;
-			typedef typename base::value_type_ref value_type_ref;
+			typedef T const * value_type_ptr;
+			typedef T const & value_type_ref;
+
+			typedef SizeType size_type;
+			enum : size_type { value=0, next=1, previous=2 };
+
+			typedef void* void_ptr;
+			typedef void_ptr* void_ptr_ptr;
+
+				// an array of unknown types.
+			void_ptr_ptr current;
+		public:
+			enum : size_type { dimension=N };
 		public:
 			const_node_pointer() { }
-			const_node_pointer(const_node_ptr p) : base::node_pointer(p) { }
-			const_node_pointer(const node_pointer<T, SizeType, N> & p) : base::node_pointer(p) { }
-			const_node_pointer(const const_node_pointer & p) : base::node_pointer(p) { }
+			const_node_pointer(const_node_ptr p) { current=(void_ptr_ptr) p; }
+			const_node_pointer(const node_pointer<T, SizeType, N> & p) { current=p.current; }
+			const_node_pointer(const const_node_pointer & p) { current=p.current; }
 			~const_node_pointer() { }
+/*
+	Needed for delete conversion.
+*/
+			operator const_node_pointer_ptr () const
+				{ return (const_node_pointer_ptr) this; }
+/*
+	Needed for loop condition testing "while (node_pointer)".
+*/
+			operator bool () const
+				{ return current; }
 
-			const const_node_pointer & operator = (const_node_ptr p)
-			{
-				base::operator=(p);
-				return *this;
-			}
+			bool operator == (const const_node_pointer & p) const
+				{ return (current == p.current); }
 
-			const const_node_pointer & operator = (const node_pointer<T, SizeType, N> & p)
-			{
-				base::operator=(p);
-				return *this;
-			}
+			bool operator != (const const_node_pointer & p) const
+				{ return (current != p.current); }
 
-			const const_node_pointer & operator = (const const_node_pointer & p)
-			{
-				base::operator=(p);
-				return *this;
-			}
+			static void operator delete (void_ptr p)
+				{ delete ((const_node_pointer_ptr) p)->current; }
 
 			value_type_ref operator * () const
-				{ return (value_type_ref) base::current[base::value]; }
+				{ return (value_type_ref) current[value]; }
 
 			value_type_ptr operator -> () const
-				{ return (value_type_ptr) base::current[base::value]; }
+				{ return & (value_type_ref) current[value]; }
+
+			const_node_pointer_ref operator + () const
+				{ return (const_node_pointer_ref) current[next]; }
+
+			const_node_pointer_ref operator ++ ()
+			{
+				current=((const_node_pointer_ref) current[next]).current;
+				return *this;
+			}
+
+			const_node_pointer operator ++ (int)
+			{
+				const_node_pointer out(*this);
+				current=((const_node_pointer_ref) current[next]).current;
+				return out;
+			}
+
+			const_node_pointer_ref operator += (size_type n)
+			{
+				while (n)
+				{
+					current=((const_node_pointer_ref) current[next]).current;
+					--n;
+				}
+
+				return *this;
+			}
+
+			const_node_pointer operator + (size_type n) const
+			{
+				const_node_pointer out(*this);
+				while (n)
+				{
+					out.current=((const_node_pointer_ref) out.current[next]).current;
+					--n;
+				}
+
+				return out;
+			}
+
+			const_node_pointer_ref operator - () const
+				{ return (const_node_pointer_ref) current[previous]; }
+
+			const_node_pointer_ref operator -- ()
+			{
+				current=((const_node_pointer_ref) current[previous]).current;
+				return *this;
+			}
+
+			const_node_pointer operator -- (int)
+			{
+				const_node_pointer out(*this);
+				current=((const_node_pointer_ref) current[previous]).current;
+				return out;
+			}
+
+			const_node_pointer_ref operator -= (size_type n)
+			{
+				while (n)
+				{
+					current=((const_node_pointer_ref) current[previous]).current;
+					--n;
+				}
+
+				return *this;
+			}
+
+			const_node_pointer operator - (size_type n) const
+			{
+				const_node_pointer out(*this);
+				while (n)
+				{
+					out.current=((const_node_pointer_ref) out.current[previous]).current;
+					--n;
+				}
+
+				return out;
+			}
 	};
 
 	#define HOOK_SIZE 2
@@ -276,7 +341,7 @@ namespace nik
 	using hook=node<T, node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	using const_hook=const_node<T, node_pointer<T const, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
+	using const_hook=node<T const, const_node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
 
 	#undef HOOK_SIZE
 	#define LINK_SIZE 3
@@ -285,7 +350,7 @@ namespace nik
 	using link=node<T, node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
 
 	template<typename T, typename SizeType=size_t>
-	using const_link=const_node<T, node_pointer<T const, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
+	using const_link=node<T const, const_node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
 
 	#undef LINK_SIZE
   }
