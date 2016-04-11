@@ -114,7 +114,7 @@ namespace nik
 				{ return (current != p.current); }
 
 			static void operator delete (void_ptr p)
-				{ delete ((node_pointer_ptr) p)->current; }
+				{ delete [] ((node_pointer_ptr) p)->current; }
 
 			value_type_ref operator * () const
 				{ return (value_type_ref) current[value]; }
@@ -248,7 +248,7 @@ namespace nik
 				{ return (current != p.current); }
 
 			static void operator delete (void_ptr p)
-				{ delete ((const_node_pointer_ptr) p)->current; }
+				{ delete [] ((const_node_pointer_ptr) p)->current; }
 
 			value_type_ref operator * () const
 				{ return (value_type_ref) current[value]; }
