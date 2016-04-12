@@ -809,16 +809,28 @@ struct allocate
 	unroll_no_return_new_0(allocate, DIRECTION)
 	unroll_with_return_new_0(allocate, DIRECTION)
 
-//	unroll_no_return_new_brackets_0(allocate, DIRECTION)
-//	unroll_with_return_new_brackets_0(allocate, DIRECTION)
+	struct brackets
+	{
+		unroll_no_return_new_brackets_0(allocate, DIRECTION)
+		unroll_with_return_new_brackets_0(allocate, DIRECTION)
+
+		unroll_no_return_new_brackets_1(allocate, DIRECTION)
+		unroll_with_return_new_brackets_1(allocate, DIRECTION)
+	};
 
 	struct post_test
 	{
 		post_test_unroll_no_return_new_0(allocate, DIRECTION)
 		post_test_unroll_with_return_new_0(allocate, DIRECTION)
 
-//		post_test_unroll_no_return_new_brackets_0(allocate, DIRECTION)
-//		post_test_unroll_with_return_new_brackets_0(allocate, DIRECTION)
+		struct brackets
+		{
+			post_test_unroll_no_return_new_brackets_0(allocate, DIRECTION)
+			post_test_unroll_with_return_new_brackets_0(allocate, DIRECTION)
+
+			post_test_unroll_no_return_new_brackets_1(allocate, DIRECTION)
+			post_test_unroll_with_return_new_brackets_1(allocate, DIRECTION)
+		};
 	};
 };
 
@@ -827,16 +839,22 @@ struct deallocate
 	unroll_no_return_delete_0(deallocate, DIRECTION)
 	unroll_with_return_delete_0(deallocate, DIRECTION)
 
-//	unroll_no_return_delete_brackets_0(deallocate, DIRECTION)
-//	unroll_with_return_delete_brackets_0(deallocate, DIRECTION)
+	struct brackets
+	{
+		unroll_no_return_delete_brackets_0(deallocate, DIRECTION)
+		unroll_with_return_delete_brackets_0(deallocate, DIRECTION)
+	};
 
 	struct post_test
 	{
 		post_test_unroll_no_return_delete_0(deallocate, DIRECTION)
 		post_test_unroll_with_return_delete_0(deallocate, DIRECTION)
 
-//		post_test_unroll_no_return_delete_brackets_0(deallocate, DIRECTION)
-//		post_test_unroll_with_return_delete_brackets_0(deallocate, DIRECTION)
+		struct brackets
+		{
+			post_test_unroll_no_return_delete_brackets_0(deallocate, DIRECTION)
+			post_test_unroll_with_return_delete_brackets_0(deallocate, DIRECTION)
+		};
 	};
 };
 

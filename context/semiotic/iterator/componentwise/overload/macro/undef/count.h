@@ -25,19 +25,26 @@
 #undef count_no_return_right_0
 #undef count_with_return_right_0
 
+#undef count_no_return_new_0
+#undef count_with_return_new_0
+#undef count_no_return_delete_0
+#undef count_with_return_delete_0
+
+#undef count_no_return_new_brackets_0
+#undef count_with_return_new_brackets_0
+#undef count_no_return_delete_brackets_0
+#undef count_with_return_delete_brackets_0
+
 #undef count_no_return_1
 #undef count_with_return_1
 #undef count_no_return_right_1
 #undef count_with_return_right_1
+#undef count_no_return_new_brackets_1
+#undef count_with_return_new_brackets_1
 
 #undef count_no_return_2
 #undef count_with_return_2
 #undef count_no_return_brackets_2
 #undef count_with_return_brackets_2
-
-#undef count_no_return_new_0
-#undef count_with_return_new_0
-#undef count_no_return_delete_0
-#undef count_with_return_delete_0
 
 #endif

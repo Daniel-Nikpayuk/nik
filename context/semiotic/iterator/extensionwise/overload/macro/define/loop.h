@@ -29,25 +29,25 @@
 */
 
 #define loop_no_return_0(dir, op) \
-template<typename WPointer, typename ValueType> \
+template<typename WNode, typename WPointer, typename ValueType> \
 static void no_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
 		(*out)op(in); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
 	} \
 }
 
 #define loop_with_return_0(dir, op) \
-template<typename WPointer, typename ValueType> \
+template<typename WNode, typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
 		(*out)op(in); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
 	} \
  \
@@ -55,25 +55,25 @@ static WPointer with_return(WPointer out, size_type n, ValueType in) \
 }
 
 #define loop_no_return_left_0(dir, op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
 		op(*out); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
 	} \
 }
 
 #define loop_with_return_left_0(dir, op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
 		op(*out); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
 	} \
  \
@@ -81,26 +81,130 @@ static WPointer with_return(WPointer out, size_type n) \
 }
 
 #define loop_no_return_right_0(dir, op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
 		(*out)op; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
 	} \
 }
 
 #define loop_with_return_right_0(dir, op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
 		(*out)op; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		--n; \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_new_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node(); \
+		out=dir(out)=new WNode(); \
+	} \
+}
+
+#define loop_with_return_new_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node(); \
+		out=dir(out)=new WNode(); \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_delete_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+}
+
+#define loop_with_return_delete_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete *current; \
+		delete current; \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end, size_type in) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode(); \
+	} \
+}
+
+#define loop_with_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end, size_type in) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode(); \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete [] *current; \
+		delete current; \
+	} \
+}
+
+#define loop_with_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete [] *current; \
+		delete current; \
 	} \
  \
 	return out; \
@@ -114,13 +218,13 @@ static WPointer with_return(WPointer out, size_type n) \
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
 #define loop_no_return_1(dir, op) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
 		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in); \
 	} \
 }
@@ -131,13 +235,13 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 		but in addition you still require a return value, call this macro.
 */
 #define loop_with_return_1(dir, op) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
 		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in); \
 	} \
  \
@@ -150,13 +254,13 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
 #define loop_no_return_right_1(dir, op, r) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static void no_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
 		(*out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in); \
 	} \
 }
@@ -167,13 +271,39 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 		but in addition you still require a return value, call this macro.
 */
 #define loop_with_return_right_1(dir, op, r) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 { \
 	while (in != end) \
 	{ \
 		*(out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
+		dir##dir(in); \
+	} \
+ \
+	return out; \
+}
+
+#define loop_no_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static void no_return(WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode(); \
+		dir##dir(in); \
+	} \
+}
+
+#define loop_with_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static WPointer with_return(WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode(); \
 		dir##dir(in); \
 	} \
  \
@@ -188,13 +318,13 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
 #define loop_no_return_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in1); dir##dir(in2); \
 	} \
 }
@@ -205,13 +335,13 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 		but in addition you still require a return value, call this macro.
 */
 #define loop_with_return_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in1); dir##dir(in2); \
 	} \
  \
@@ -224,13 +354,13 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 		call this macro with WPointer as reference (assuming referencing is preferred).
 */
 #define loop_no_return_brackets_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in1); dir##dir(in2); \
 	} \
 }
@@ -241,68 +371,14 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 		but in addition you still require a return value, call this macro.
 */
 #define loop_with_return_brackets_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
+		out=dir(out)=new WNode(); \
 		dir##dir(in1); dir##dir(in2); \
-	} \
- \
-	return out; \
-}
-
-/************************************************************************************************************************/
-
-#define loop_no_return_new_0(dir) \
-template<typename Pointer, typename WPointer, typename EWPointer> \
-static void no_return(WPointer out, EWPointer end) \
-{ \
-	while (out != end) \
-	{ \
-		dir##dir(out); \
-		*out=new Pointer(); \
-	} \
-}
-
-#define loop_with_return_new_0(dir) \
-template<typename Pointer, typename WPointer, typename EWPointer> \
-static WPointer with_return(WPointer out, EWPointer end) \
-{ \
-	while (out != end) \
-	{ \
-		dir##dir(out); \
-		*out=new Pointer(); \
-	} \
- \
-	return out; \
-}
-
-#define loop_no_return_delete_0(dir) \
-template<typename WPointer, typename EWPointer> \
-static void no_return(WPointer out, EWPointer end) \
-{ \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete *current; \
-		delete current; \
-	} \
-}
-
-#define loop_with_return_delete_0(dir) \
-template<typename WPointer, typename EWPointer> \
-static WPointer with_return(WPointer out, EWPointer end) \
-{ \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete *current; \
-		delete current; \
 	} \
  \
 	return out; \

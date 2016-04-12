@@ -55,6 +55,46 @@ template<typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
+#define initial_no_return_new_0(op) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out) \
+	{ }
+
+#define initial_with_return_new_0(op) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
+#define initial_no_return_delete_0(op) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+	{ }
+
+#define initial_with_return_delete_0(op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
+#define initial_no_return_new_brackets_0(op) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out, size_type in) \
+	{ }
+
+#define initial_with_return_new_brackets_0(op) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out, size_type in) \
+	{ return out; }
+
+#define initial_no_return_delete_brackets_0(op) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+	{ }
+
+#define initial_with_return_delete_brackets_0(op) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+	{ return out; }
+
 /************************************************************************************************************************/
 
 #define initial_no_return_1(op) \
@@ -74,6 +114,16 @@ static void no_return(WIterator out, RIterator in) \
 
 #define initial_with_return_right_1(op, r) \
 template<typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
+	{ return out; }
+
+#define initial_no_return_new_brackets_1(op) \
+template<typename Node, typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
+	{ }
+
+#define initial_with_return_new_brackets_1(op) \
+template<typename Node, typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
@@ -97,28 +147,6 @@ static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 #define initial_with_return_brackets_2(op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
-
-/************************************************************************************************************************/
-
-#define initial_no_return_new_0() \
-template<typename Pointer, typename WIterator> \
-static void no_return(WIterator out) \
-	{ }
-
-#define initial_with_return_new_0() \
-template<typename Pointer, typename WIterator> \
-static WIterator with_return(WIterator out) \
-	{ return out; }
-
-#define initial_no_return_delete_0() \
-template<typename WIterator> \
-static void no_return(WIterator out) \
-	{ }
-
-#define initial_with_return_delete_0() \
-template<typename WIterator> \
-static WIterator with_return(WIterator out) \
 	{ return out; }
 
 #endif

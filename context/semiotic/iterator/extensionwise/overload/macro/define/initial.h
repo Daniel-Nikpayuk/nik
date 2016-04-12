@@ -29,99 +29,127 @@
 */
 
 #define initial_no_return_0(op) \
-template<typename WPointer, typename ValueType> \
+template<typename WNode, typename WPointer, typename ValueType> \
 static void no_return(WPointer out, ValueType in) \
 	{ }
 
 #define initial_with_return_0(op) \
-template<typename WPointer, typename ValueType> \
+template<typename WNode, typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, ValueType in) \
 	{ return out; }
 
 #define initial_no_return_left_0(op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 	{ }
 
 #define initial_with_return_left_0(op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 	{ return out; }
 
 #define initial_no_return_right_0(op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 	{ }
 
 #define initial_with_return_right_0(op) \
-template<typename WPointer> \
+template<typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+	{ return out; }
+
+#define initial_no_return_new_0(op) \
+template<typename Node, typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+#define initial_with_return_new_0(op) \
+template<typename Node, typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+	{ return out; }
+
+#define initial_no_return_delete_0(op) \
+template<typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+#define initial_with_return_delete_0(op) \
+template<typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+	{ return out; }
+
+#define initial_no_return_new_brackets_0(op) \
+template<typename Node, typename WNode, typename WPointer> \
+static void no_return(WPointer out, size_type in) \
+	{ }
+
+#define initial_with_return_new_brackets_0(op) \
+template<typename Node, typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out, size_type in) \
+	{ return out; }
+
+#define initial_no_return_delete_brackets_0(op) \
+template<typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+	{ }
+
+#define initial_with_return_delete_brackets_0(op) \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 	{ return out; }
 
 /************************************************************************************************************************/
 
 #define initial_no_return_1(op) \
-template<typename WPointer, typename RIterator> \
+template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 	{ }
 
 #define initial_with_return_1(op) \
-template<typename WPointer, typename RIterator> \
+template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
 	{ return out; }
 
 #define initial_no_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
+template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 	{ }
 
 #define initial_with_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
+template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
+	{ return out; }
+
+#define initial_no_return_new_brackets_1(op) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer> \
+static void no_return(WPointer out, RPointer in) \
+	{ }
+
+#define initial_with_return_new_brackets_1(op) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer> \
+static WPointer with_return(WPointer out, RPointer in) \
 	{ return out; }
 
 /************************************************************************************************************************/
 
 #define initial_no_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
 #define initial_with_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
 #define initial_no_return_brackets_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
 #define initial_with_return_brackets_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
-
-/************************************************************************************************************************/
-
-#define initial_no_return_new_0() \
-template<typename Pointer, typename WPointer> \
-static void no_return(WPointer out) \
-	{ }
-
-#define initial_with_return_new_0() \
-template<typename Pointer, typename WPointer> \
-static WPointer with_return(WPointer out) \
-	{ return out; }
-
-#define initial_no_return_delete_0() \
-template<typename WPointer> \
-static void no_return(WPointer out) \
-	{ }
-
-#define initial_with_return_delete_0() \
-template<typename WPointer> \
-static WPointer with_return(WPointer out) \
 	{ return out; }
 
 #endif

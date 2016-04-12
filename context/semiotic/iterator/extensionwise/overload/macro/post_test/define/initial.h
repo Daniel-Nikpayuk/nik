@@ -28,100 +28,282 @@
 	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
-#define post_test_initial_no_return_0(op) \
-template<typename WPointer, typename ValueType> \
+#define post_test_initial_no_return_0(dir, op) \
+template<typename WNode, typename WPointer, typename ValueType> \
 static void no_return(WPointer out, ValueType in) \
-	{ }
+{ \
+	out=dir(out)=new WNode(); \
+	(*out)op(in); \
+}
 
-#define post_test_initial_with_return_0(op) \
-template<typename WPointer, typename ValueType> \
+#define post_test_initial_with_return_0(dir, op) \
+template<typename WNode, typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, ValueType in) \
-	{ return out; }
+{ \
+	out=dir(out)=new WNode(); \
+	(*out)op(in); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_left_0(op) \
-template<typename WPointer> \
+#define post_test_initial_no_return_left_0(dir, op) \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
-	{ }
+{ \
+	out=dir(out)=new WNode(); \
+	op(*out); \
+}
 
-#define post_test_initial_with_return_left_0(op) \
-template<typename WPointer> \
+#define post_test_initial_with_return_left_0(dir, op) \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
-	{ return out; }
+{ \
+	out=dir(out)=new WNode(); \
+	op(*out); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_right_0(op) \
-template<typename WPointer> \
+#define post_test_initial_no_return_right_0(dir, op) \
+template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
-	{ }
+{ \
+	out=dir(out)=new WNode(); \
+	(*out)op; \
+}
 
-#define post_test_initial_with_return_right_0(op) \
-template<typename WPointer> \
+#define post_test_initial_with_return_right_0(dir, op) \
+template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
-	{ return out; }
+{ \
+	out=dir(out)=new WNode(); \
+	(*out)op; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_0(dir) \
+template<typename Node, typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	out=dir(out)=new WNode(); \
+	*out=new Node(); \
+}
+
+#define post_test_initial_with_return_new_0(dir) \
+template<typename Node, typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+{ \
+	out=dir(out)=new WNode(); \
+	*out=new Node(); \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_delete_0(dir) \
+template<typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete *current; \
+	delete current; \
+}
+
+#define post_test_initial_with_return_delete_0(dir) \
+template<typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete *current; \
+	delete current; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer> \
+static void no_return(WPointer out, size_type in) \
+{ \
+	out=dir(out)=new WNode(); \
+	*out=new Node[in]; \
+}
+
+#define post_test_initial_with_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out, size_type in) \
+{ \
+	out=dir(out)=new WNode(); \
+	*out=new Node[in]; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer> \
+static void no_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete [] *current; \
+	delete current; \
+}
+
+#define post_test_initial_with_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer> \
+static WPointer with_return(WPointer out) \
+{ \
+	WPointer current=out; \
+	dir##dir(out); \
+	delete [] *current; \
+	delete current; \
+ \
+	return out; \
+}
 
 /************************************************************************************************************************/
 
-#define post_test_initial_no_return_1(op) \
-template<typename WPointer, typename RIterator> \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_1(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
-	{ }
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	(*out)op(*in); \
+}
 
-#define post_test_initial_with_return_1(op) \
-template<typename WPointer, typename RIterator> \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_1(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
-	{ return out; }
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	(*out)op(*in); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_right_1(dir, op, r) \
+template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
-	{ }
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	(*out)op(*in)r; \
+}
 
-#define post_test_initial_with_return_right_1(op, r) \
-template<typename WPointer, typename RIterator> \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_right_1(dir, op, r) \
+template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
-	{ return out; }
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	*(out)op(*in)r; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer> \
+static void no_return(WPointer out, RPointer in) \
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	*out=new Node[*in]; \
+}
+
+#define post_test_initial_with_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer> \
+static WPointer with_return(WPointer out, RPointer in) \
+{ \
+	dir##dir(in); \
+	out=dir(out)=new WNode(); \
+	*out=new Node[*in]; \
+ \
+	return out; \
+}
 
 /************************************************************************************************************************/
 
-#define post_test_initial_no_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ }
+{ \
+	dir##dir(in1); dir##dir(in2); \
+	out=dir(out)=new WNode(); \
+	(*out)=(*in1)op(*in2); \
+}
 
-#define post_test_initial_with_return_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
+{ \
+	dir##dir(in1); dir##dir(in2); \
+	out=dir(out)=new WNode(); \
+	(*out)=(*in1)op(*in2); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_brackets_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WPointer as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_brackets_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ }
+{ \
+	dir##dir(in1); dir##dir(in2); \
+	out=dir(out)=new WNode(); \
+	(*out)=(*in1)op[*in2]; \
+}
 
-#define post_test_initial_with_return_brackets_2(op) \
-template<typename WPointer, typename RIterator1, typename RIterator2> \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_brackets_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
-
-/************************************************************************************************************************/
-
-#define post_test_initial_no_return_new_0(op) \
-template<typename Pointer, typename WPointer> \
-static void no_return(WPointer out) \
-	{ }
-
-#define post_test_initial_with_return_new_0(op) \
-template<typename Pointer, typename WPointer> \
-static WPointer with_return(WPointer out) \
-	{ return out; }
-
-#define post_test_initial_no_return_delete_0(op) \
-template<typename WPointer> \
-static void no_return(WPointer out) \
-	{ }
-
-#define post_test_initial_with_return_delete_0(op) \
-template<typename WPointer> \
-static WPointer with_return(WPointer out) \
-	{ return out; }
+{ \
+	dir##dir(in1); dir##dir(in2); \
+	out=dir(out)=new WNode(); \
+	(*out)=(*in1)op[*in2]; \
+ \
+	return out; \
+}
 
 #endif

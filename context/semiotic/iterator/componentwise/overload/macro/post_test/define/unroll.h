@@ -89,6 +89,78 @@ static WIterator with_return(WIterator out) \
 	return unroll<N-1>::method::no_return(out); \
 }
 
+#define post_test_unroll_no_return_new_0(method, dir) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Node(); \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_new_0(method, dir) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Node(); \
+	return unroll<N-1>::method::with_return(out); \
+}
+
+#define post_test_unroll_no_return_delete_0(method, dir) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_delete_0(method, dir) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+	return unroll<N-1>::method::with_return(out); \
+}
+
+#define post_test_unroll_no_return_new_brackets_0(method, dir) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out, size_type in) \
+{ \
+	dir##dir(out); \
+	*out=new Node[in]; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_new_brackets_0(method, dir) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out, size_type in) \
+{ \
+	dir##dir(out); \
+	*out=new Node[in]; \
+	return unroll<N-1>::method::with_return(out); \
+}
+
+#define post_test_unroll_no_return_delete_brackets_0(method, dir) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete [] *out; \
+	unroll<N-1>::method::no_return(out); \
+}
+
+#define post_test_unroll_with_return_delete_brackets_0(method, dir) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete [] *out; \
+	return unroll<N-1>::method::with_return(out); \
+}
+
 /************************************************************************************************************************/
 
 /*
@@ -144,6 +216,24 @@ static WIterator with_return(WIterator out, RIterator in) \
 { \
 	dir##dir(out); dir##dir(in); \
 	*(out)op(*in)r; \
+	return unroll<N-1>::method::with_return(out, in); \
+}
+
+#define post_test_unroll_no_return_new_brackets_1(method, dir) \
+template<typename Node, typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
+{ \
+	dir##dir(out); dir##dir(in); \
+	*out=new Node[*in]; \
+	unroll<N-1>::method::no_return(out, in); \
+}
+
+#define post_test_unroll_with_return_new_brackets_1(method, dir) \
+template<typename Node, typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
+{ \
+	dir##dir(out); dir##dir(in); \
+	*out=new Node[*in]; \
 	return unroll<N-1>::method::with_return(out, in); \
 }
 
@@ -203,44 +293,6 @@ static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	(*out)=(*in1)op[*in2]; \
 	return unroll<N-1>::method::with_return(out, in1, in2); \
-}
-
-/************************************************************************************************************************/
-
-#define post_test_unroll_no_return_new_0(method, dir) \
-template<typename Pointer, typename WIterator> \
-static void no_return(WIterator out) \
-{ \
-	dir##dir(out); \
-	*out=new Pointer(); \
-	unroll<N-1>::method::no_return(out); \
-}
-
-#define post_test_unroll_with_return_new_0(method, dir) \
-template<typename Pointer, typename WIterator> \
-static WIterator with_return(WIterator out) \
-{ \
-	dir##dir(out); \
-	*out=new Pointer(); \
-	return unroll<N-1>::method::with_return(out); \
-}
-
-#define post_test_unroll_no_return_delete_0(method, dir) \
-template<typename WIterator> \
-static void no_return(WIterator out) \
-{ \
-	dir##dir(out); \
-	delete *out; \
-	unroll<N-1>::method::no_return(out); \
-}
-
-#define post_test_unroll_with_return_delete_0(method, dir) \
-template<typename WIterator> \
-static WIterator with_return(WIterator out) \
-{ \
-	dir##dir(out); \
-	delete *out; \
-	return unroll<N-1>::method::with_return(out); \
 }
 
 #endif

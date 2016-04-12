@@ -25,100 +25,264 @@
 	in the special case where the data is only accessible through iterators.
 */
 
-#define post_test_initial_no_return_0(op) \
+#define post_test_initial_no_return_0(dir, op) \
 template<typename WIterator, typename ValueType> \
 static void no_return(WIterator out, ValueType in) \
-	{ }
+{ \
+	dir##dir(out); \
+	(*out)op(in); \
+}
 
-#define post_test_initial_with_return_0(op) \
+#define post_test_initial_with_return_0(dir, op) \
 template<typename WIterator, typename ValueType> \
 static WIterator with_return(WIterator out, ValueType in) \
-	{ return out; }
+{ \
+	dir##dir(out); \
+	(*out)op(in); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_left_0(op) \
+#define post_test_initial_no_return_left_0(dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
-	{ }
+{ \
+	dir##dir(out); \
+	op(*out); \
+}
 
-#define post_test_initial_with_return_left_0(op) \
+#define post_test_initial_with_return_left_0(dir, op) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
-	{ return out; }
+{ \
+	dir##dir(out); \
+	op(*out); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_right_0(op) \
+#define post_test_initial_no_return_right_0(dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
-	{ }
+{ \
+	dir##dir(out); \
+	(*out)op; \
+}
 
-#define post_test_initial_with_return_right_0(op) \
+#define post_test_initial_with_return_right_0(dir, op) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
-	{ return out; }
+{ \
+	dir##dir(out); \
+	(*out)op; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_0(dir) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Node(); \
+}
+
+#define post_test_initial_with_return_new_0(dir) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	*out=new Node(); \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_delete_0(dir) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+}
+
+#define post_test_initial_with_return_delete_0(dir) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete *out; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_brackets_0(dir) \
+template<typename Node, typename WIterator> \
+static void no_return(WIterator out, size_type in) \
+{ \
+	dir##dir(out); \
+	*out=new Node[in]; \
+}
+
+#define post_test_initial_with_return_new_brackets_0(dir) \
+template<typename Node, typename WIterator> \
+static WIterator with_return(WIterator out, size_type in) \
+{ \
+	dir##dir(out); \
+	*out=new Node[in]; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_delete_brackets_0(dir) \
+template<typename WIterator> \
+static void no_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete [] *out; \
+}
+
+#define post_test_initial_with_return_delete_brackets_0(dir) \
+template<typename WIterator> \
+static WIterator with_return(WIterator out) \
+{ \
+	dir##dir(out); \
+	delete [] *out; \
+ \
+	return out; \
+}
 
 /************************************************************************************************************************/
 
-#define post_test_initial_no_return_1(op) \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WIterator as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_1(dir, op) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
-	{ }
+{ \
+	dir##dir(out); dir##dir(in); \
+	(*out)op(*in); \
+}
 
-#define post_test_initial_with_return_1(op) \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_1(dir, op) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
-	{ return out; }
+{ \
+	dir##dir(out); dir##dir(in); \
+	(*out)op(*in); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_right_1(op, r) \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WIterator as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_right_1(dir, op, r) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
-	{ }
+{ \
+	dir##dir(out); dir##dir(in); \
+	(*out)op(*in)r; \
+}
 
-#define post_test_initial_with_return_right_1(op, r) \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_right_1(dir, op, r) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
-	{ return out; }
+{ \
+	dir##dir(out); dir##dir(in); \
+	*(out)op(*in)r; \
+ \
+	return out; \
+}
+
+#define post_test_initial_no_return_new_brackets_1(dir) \
+template<typename Node, typename WIterator, typename RIterator> \
+static void no_return(WIterator out, RIterator in) \
+{ \
+	dir##dir(out); dir##dir(in); \
+	*out=new Node[*in]; \
+}
+
+#define post_test_initial_with_return_new_brackets_1(dir) \
+template<typename Node, typename WIterator, typename RIterator> \
+static WIterator with_return(WIterator out, RIterator in) \
+{ \
+	dir##dir(out); dir##dir(in); \
+	*out=new Node[*in]; \
+ \
+	return out; \
+}
 
 /************************************************************************************************************************/
 
-#define post_test_initial_no_return_2(op) \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WIterator as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
-	{ }
+{ \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op(*in2); \
+}
 
-#define post_test_initial_with_return_2(op) \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
+{ \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op(*in2); \
+ \
+	return out; \
+}
 
-#define post_test_initial_no_return_brackets_2(op) \
+/*
+	1. If you don't have any interest in the final out value (as it has been incremented) call this macro.
+	2. If you have interest in the final out value, but have no interest in a return,
+		call this macro with WIterator as reference (assuming referencing is preferred).
+*/
+#define post_test_initial_no_return_brackets_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
-	{ }
+{ \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op[*in2]; \
+}
 
-#define post_test_initial_with_return_brackets_2(op) \
+/*
+	1. If you have an interest in the final out value, but you don't want to reference, call this macro.
+	2. If you have an interest in the final out value, and you do want to reference,
+		but in addition you still require a return value, call this macro.
+*/
+#define post_test_initial_with_return_brackets_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
-	{ return out; }
-
-/************************************************************************************************************************/
-
-#define post_test_initial_no_return_new_0() \
-template<typename Pointer, typename WIterator> \
-static void no_return(WIterator out) \
-	{ }
-
-#define post_test_initial_with_return_new_0() \
-template<typename Pointer, typename WIterator> \
-static WIterator with_return(WIterator out) \
-	{ return out; }
-
-#define post_test_initial_no_return_delete_0() \
-template<typename WIterator> \
-static void no_return(WIterator out) \
-	{ }
-
-#define post_test_initial_with_return_delete_0() \
-template<typename WIterator> \
-static WIterator with_return(WIterator out) \
-	{ return out; }
+{ \
+	dir##dir(out); dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op[*in2]; \
+ \
+	return out; \
+}
 
 #endif

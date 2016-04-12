@@ -103,6 +103,110 @@ static RWIterator with_return(RWIterator out, EIterator end) \
 	return out; \
 }
 
+#define post_test_loop_no_return_new_0(dir) \
+template<typename Node, typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		*out=new Node(); \
+	} \
+	while (out != end); \
+}
+
+#define post_test_loop_with_return_new_0(dir) \
+template<typename Node, typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		*out=new Node(); \
+	} \
+	while (out != end); \
+ \
+	return out; \
+}
+
+#define post_test_loop_no_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		delete *out; \
+	} \
+	while (out != end); \
+}
+
+#define post_test_loop_with_return_delete_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		delete *out; \
+	} \
+	while (out != end); \
+ \
+	return out; \
+}
+
+#define post_test_loop_no_return_new_brackets_0(dir) \
+template<typename Node, typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end, size_type in) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		*out=new Node[in]; \
+	} \
+	while (out != end); \
+}
+
+#define post_test_loop_with_return_new_brackets_0(dir) \
+template<typename Node, typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end, size_type in) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		*out=new Node[in]; \
+	} \
+	while (out != end); \
+ \
+	return out; \
+}
+
+#define post_test_loop_no_return_delete_brackets_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static void no_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		delete [] *out; \
+	} \
+	while (out != end); \
+}
+
+#define post_test_loop_with_return_delete_brackets_0(dir) \
+template<typename WIterator, typename EWIterator> \
+static WIterator with_return(WIterator out, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); \
+		delete [] *out; \
+	} \
+	while (out != end); \
+ \
+	return out; \
+}
+
 /************************************************************************************************************************/
 
 /*
@@ -171,6 +275,32 @@ static RWIterator with_return(RWIterator out, RIterator in, ERIterator end) \
 	{ \
 		dir##dir(out); dir##dir(in); \
 		*(out)op(*in)r; \
+	} \
+	while (in != end); \
+ \
+	return out; \
+}
+
+#define post_test_loop_no_return_new_brackets_1(dir) \
+template<typename Node, typename WIterator, typename RIterator, typename ERIterator> \
+static void no_return(WIterator out, RIterator in, EWIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); dir##dir(in); \
+		*out=new Node[*in]; \
+	} \
+	while (in != end); \
+}
+
+#define post_test_loop_with_return_new_brackets_1(dir) \
+template<typename Node, typename WIterator, typename RIterator, typename ERIterator> \
+static WIterator with_return(WIterator out, RIterator in, ERIterator end) \
+{ \
+	do \
+	{ \
+		dir##dir(out); dir##dir(in); \
+		*out=new Node[*in]; \
 	} \
 	while (in != end); \
  \
@@ -247,60 +377,6 @@ static RWIterator with_return(RWIterator out, RIterator1 in1, RIterator2 in2, ER
 		(*out)=(*in1)op[*in2]; \
 	} \
 	while (in2 != end2); \
- \
-	return out; \
-}
-
-/************************************************************************************************************************/
-
-#define post_test_loop_no_return_new_0(dir) \
-template<typename Pointer, typename WIterator, typename EWIterator> \
-static void no_return(WIterator out, EWIterator end) \
-{ \
-	do \
-	{ \
-		dir##dir(out); \
-		*out=new Pointer(); \
-	} \
-	while (out != end); \
-}
-
-#define post_test_loop_with_return_new_0(dir) \
-template<typename Pointer, typename WIterator, typename EWIterator> \
-static WIterator with_return(WIterator out, EWIterator end) \
-{ \
-	do \
-	{ \
-		dir##dir(out); \
-		*out=new Pointer(); \
-	} \
-	while (out != end); \
- \
-	return out; \
-}
-
-#define post_test_loop_no_return_delete_0(dir) \
-template<typename WIterator, typename EWIterator> \
-static void no_return(WIterator out, EWIterator end) \
-{ \
-	do \
-	{ \
-		dir##dir(out); \
-		delete *out; \
-	} \
-	while (out != end); \
-}
-
-#define post_test_loop_with_return_delete_0(dir) \
-template<typename WIterator, typename EWIterator> \
-static WIterator with_return(WIterator out, EWIterator end) \
-{ \
-	do \
-	{ \
-		dir##dir(out); \
-		delete *out; \
-	} \
-	while (out != end); \
  \
 	return out; \
 }

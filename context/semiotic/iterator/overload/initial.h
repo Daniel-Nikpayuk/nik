@@ -39,11 +39,11 @@ struct plus
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=+)
-		post_test_initial_with_return_1(=+)
+		post_test_initial_no_return_1(DIRECTION, =+)
+		post_test_initial_with_return_1(DIRECTION, =+)
 
-		post_test_initial_no_return_2(+)
-		post_test_initial_with_return_2(+)
+		post_test_initial_no_return_2(DIRECTION, +)
+		post_test_initial_with_return_2(DIRECTION, +)
 	};
 };
 
@@ -63,11 +63,11 @@ struct minus
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=-)
-		post_test_initial_with_return_1(=-)
+		post_test_initial_no_return_1(DIRECTION, =-)
+		post_test_initial_with_return_1(DIRECTION, =-)
 
-		post_test_initial_no_return_2(-)
-		post_test_initial_with_return_2(-)
+		post_test_initial_no_return_2(DIRECTION, -)
+		post_test_initial_with_return_2(DIRECTION, -)
 	};
 };
 
@@ -87,11 +87,11 @@ struct asterisk
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=*)
-		post_test_initial_with_return_1(=*)
+		post_test_initial_no_return_1(DIRECTION, =*)
+		post_test_initial_with_return_1(DIRECTION, =*)
 
-		post_test_initial_no_return_2(*)
-		post_test_initial_with_return_2(*)
+		post_test_initial_no_return_2(DIRECTION, *)
+		post_test_initial_with_return_2(DIRECTION, *)
 	};
 };
 
@@ -106,8 +106,8 @@ struct slash
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(/)
-		post_test_initial_with_return_2(/)
+		post_test_initial_no_return_2(DIRECTION, /)
+		post_test_initial_with_return_2(DIRECTION, /)
 	};
 };
 
@@ -122,8 +122,8 @@ struct percent
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(%)
-		post_test_initial_with_return_2(%)
+		post_test_initial_no_return_2(DIRECTION, %)
+		post_test_initial_with_return_2(DIRECTION, %)
 	};
 };
 
@@ -138,8 +138,8 @@ struct caret
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(^)
-		post_test_initial_with_return_2(^)
+		post_test_initial_no_return_2(DIRECTION, ^)
+		post_test_initial_with_return_2(DIRECTION, ^)
 	};
 };
 
@@ -159,11 +159,11 @@ struct ampersand
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=&)
-		post_test_initial_with_return_1(=&)
+		post_test_initial_no_return_1(DIRECTION, =&)
+		post_test_initial_with_return_1(DIRECTION, =&)
 
-		post_test_initial_no_return_2(&)
-		post_test_initial_with_return_2(&)
+		post_test_initial_no_return_2(DIRECTION, &)
+		post_test_initial_with_return_2(DIRECTION, &)
 	};
 };
 
@@ -178,8 +178,8 @@ struct bar
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(|)
-		post_test_initial_with_return_2(|)
+		post_test_initial_no_return_2(DIRECTION, |)
+		post_test_initial_with_return_2(DIRECTION, |)
 	};
 };
 
@@ -196,8 +196,8 @@ struct tilde
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=~)
-		post_test_initial_with_return_1(=~)
+		post_test_initial_no_return_1(DIRECTION, =~)
+		post_test_initial_with_return_1(DIRECTION, =~)
 	};
 };
 
@@ -214,8 +214,8 @@ struct exclamation
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=!)
-		post_test_initial_with_return_1(=!)
+		post_test_initial_no_return_1(DIRECTION, =!)
+		post_test_initial_with_return_1(DIRECTION, =!)
 	};
 };
 
@@ -230,8 +230,8 @@ struct less_than
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(<)
-		post_test_initial_with_return_2(<)
+		post_test_initial_no_return_2(DIRECTION, <)
+		post_test_initial_with_return_2(DIRECTION, <)
 	};
 };
 
@@ -246,8 +246,8 @@ struct greater_than
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(>)
-		post_test_initial_with_return_2(>)
+		post_test_initial_no_return_2(DIRECTION, >)
+		post_test_initial_with_return_2(DIRECTION, >)
 	};
 };
 
@@ -262,8 +262,8 @@ struct left_shift
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(<<)
-		post_test_initial_with_return_2(<<)
+		post_test_initial_no_return_2(DIRECTION, <<)
+		post_test_initial_with_return_2(DIRECTION, <<)
 	};
 };
 
@@ -278,8 +278,8 @@ struct right_shift
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(>>)
-		post_test_initial_with_return_2(>>)
+		post_test_initial_no_return_2(DIRECTION, >>)
+		post_test_initial_with_return_2(DIRECTION, >>)
 	};
 };
 
@@ -294,8 +294,8 @@ struct equals
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(==)
-		post_test_initial_with_return_2(==)
+		post_test_initial_no_return_2(DIRECTION, ==)
+		post_test_initial_with_return_2(DIRECTION, ==)
 	};
 };
 
@@ -310,8 +310,8 @@ struct not_equals
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(!=)
-		post_test_initial_with_return_2(!=)
+		post_test_initial_no_return_2(DIRECTION, !=)
+		post_test_initial_with_return_2(DIRECTION, !=)
 	};
 };
 
@@ -326,8 +326,8 @@ struct less_than_or_equal
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(<=)
-		post_test_initial_with_return_2(<=)
+		post_test_initial_no_return_2(DIRECTION, <=)
+		post_test_initial_with_return_2(DIRECTION, <=)
 	};
 };
 
@@ -342,8 +342,8 @@ struct greater_than_or_equal
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(>=)
-		post_test_initial_with_return_2(>=)
+		post_test_initial_no_return_2(DIRECTION, >=)
+		post_test_initial_with_return_2(DIRECTION, >=)
 	};
 };
 
@@ -358,8 +358,8 @@ struct logical_and
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(&&)
-		post_test_initial_with_return_2(&&)
+		post_test_initial_no_return_2(DIRECTION, &&)
+		post_test_initial_with_return_2(DIRECTION, &&)
 	};
 };
 
@@ -374,8 +374,8 @@ struct logical_or
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(||)
-		post_test_initial_with_return_2(||)
+		post_test_initial_no_return_2(DIRECTION, ||)
+		post_test_initial_with_return_2(DIRECTION, ||)
 	};
 };
 
@@ -389,7 +389,7 @@ struct left_increment
 
 	struct post_test
 	{
-		post_test_initial_no_return_left_0(++)
+		post_test_initial_no_return_left_0(DIRECTION, ++)
 	};
 };
 
@@ -399,7 +399,7 @@ struct right_increment
 
 	struct post_test
 	{
-		post_test_initial_no_return_right_0(++)
+		post_test_initial_no_return_right_0(DIRECTION, ++)
 	};
 };
 
@@ -413,7 +413,7 @@ struct left_decrement
 
 	struct post_test
 	{
-		post_test_initial_no_return_left_0(--)
+		post_test_initial_no_return_left_0(DIRECTION, --)
 	};
 };
 
@@ -423,7 +423,7 @@ struct right_decrement
 
 	struct post_test
 	{
-		post_test_initial_no_return_right_0(--)
+		post_test_initial_no_return_right_0(DIRECTION, --)
 	};
 };
 
@@ -449,8 +449,8 @@ struct point_asterisk
 
 	struct post_test
 	{
-		post_test_initial_no_return_2(->*)
-		post_test_initial_with_return_2(->*)
+		post_test_initial_no_return_2(DIRECTION, ->*)
+		post_test_initial_with_return_2(DIRECTION, ->*)
 	};
 };
 
@@ -464,7 +464,7 @@ struct point
 
 	struct post_test
 	{
-		post_test_initial_with_return_2(.operator->)
+		post_test_initial_with_return_2(DIRECTION, .operator->)
 	};
 };
 
@@ -486,13 +486,13 @@ struct parentheses
 
 	struct post_test
 	{
-		post_test_initial_no_return_right_0(())
+		post_test_initial_no_return_right_0(DIRECTION, ())
 
-		post_test_initial_no_return_right_1(=, ())
-		post_test_initial_with_return_right_1(=, ())
+		post_test_initial_no_return_right_1(DIRECTION, =, ())
+		post_test_initial_with_return_right_1(DIRECTION, =, ())
 
-		post_test_initial_no_return_2()
-		post_test_initial_with_return_2()
+		post_test_initial_no_return_2(DIRECTION, )
+		post_test_initial_with_return_2(DIRECTION, )
 	};
 };
 
@@ -507,8 +507,8 @@ struct brackets
 
 	struct post_test
 	{
-		post_test_initial_no_return_brackets_2()
-		post_test_initial_with_return_brackets_2()
+		post_test_initial_no_return_brackets_2(DIRECTION, )
+		post_test_initial_with_return_brackets_2(DIRECTION, )
 	};
 };
 
@@ -523,8 +523,8 @@ struct repeat
 
 	struct post_test
 	{
-		post_test_initial_no_return_0(=)
-		post_test_initial_with_return_0(=)
+		post_test_initial_no_return_0(DIRECTION, =)
+		post_test_initial_with_return_0(DIRECTION, =)
 	};
 /*
 	+=:
@@ -535,7 +535,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(+=)
+			post_test_initial_no_return_0(DIRECTION, +=)
 		};
 	};
 /*
@@ -547,7 +547,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(-=)
+			post_test_initial_no_return_0(DIRECTION, -=)
 		};
 	};
 /*
@@ -559,7 +559,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(*=)
+			post_test_initial_no_return_0(DIRECTION, *=)
 		};
 	};
 /*
@@ -571,7 +571,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(/=)
+			post_test_initial_no_return_0(DIRECTION, /=)
 		};
 	};
 /*
@@ -583,7 +583,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(%=)
+			post_test_initial_no_return_0(DIRECTION, %=)
 		};
 	};
 /*
@@ -595,7 +595,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(^=)
+			post_test_initial_no_return_0(DIRECTION, ^=)
 		};
 	};
 /*
@@ -607,7 +607,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(&=)
+			post_test_initial_no_return_0(DIRECTION, &=)
 		};
 	};
 /*
@@ -619,7 +619,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(|=)
+			post_test_initial_no_return_0(DIRECTION, |=)
 		};
 	};
 /*
@@ -631,7 +631,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(>>=)
+			post_test_initial_no_return_0(DIRECTION, >>=)
 		};
 	};
 /*
@@ -643,7 +643,7 @@ struct repeat
 
 		struct post_test
 		{
-			post_test_initial_no_return_0(<<=)
+			post_test_initial_no_return_0(DIRECTION, <<=)
 		};
 	};
 };
@@ -659,8 +659,8 @@ struct assign
 
 	struct post_test
 	{
-		post_test_initial_no_return_1(=)
-		post_test_initial_with_return_1(=)
+		post_test_initial_no_return_1(DIRECTION, =)
+		post_test_initial_with_return_1(DIRECTION, =)
 	};
 /*
 	+=:
@@ -672,8 +672,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(+=)
-			post_test_initial_with_return_1(+=)
+			post_test_initial_no_return_1(DIRECTION, +=)
+			post_test_initial_with_return_1(DIRECTION, +=)
 		};
 	};
 /*
@@ -686,8 +686,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(-=)
-			post_test_initial_with_return_1(-=)
+			post_test_initial_no_return_1(DIRECTION, -=)
+			post_test_initial_with_return_1(DIRECTION, -=)
 		};
 	};
 /*
@@ -700,8 +700,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(*=)
-			post_test_initial_with_return_1(*=)
+			post_test_initial_no_return_1(DIRECTION, *=)
+			post_test_initial_with_return_1(DIRECTION, *=)
 		};
 	};
 /*
@@ -714,8 +714,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(/=)
-			post_test_initial_with_return_1(/=)
+			post_test_initial_no_return_1(DIRECTION, /=)
+			post_test_initial_with_return_1(DIRECTION, /=)
 		};
 	};
 /*
@@ -728,8 +728,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(%=)
-			post_test_initial_with_return_1(%=)
+			post_test_initial_no_return_1(DIRECTION, %=)
+			post_test_initial_with_return_1(DIRECTION, %=)
 		};
 	};
 /*
@@ -742,8 +742,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(^=)
-			post_test_initial_with_return_1(^=)
+			post_test_initial_no_return_1(DIRECTION, ^=)
+			post_test_initial_with_return_1(DIRECTION, ^=)
 		};
 	};
 /*
@@ -756,8 +756,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(&=)
-			post_test_initial_with_return_1(&=)
+			post_test_initial_no_return_1(DIRECTION, &=)
+			post_test_initial_with_return_1(DIRECTION, &=)
 		};
 	};
 /*
@@ -770,8 +770,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(|=)
-			post_test_initial_with_return_1(|=)
+			post_test_initial_no_return_1(DIRECTION, |=)
+			post_test_initial_with_return_1(DIRECTION, |=)
 		};
 	};
 /*
@@ -784,8 +784,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(>>=)
-			post_test_initial_with_return_1(>>=)
+			post_test_initial_no_return_1(DIRECTION, >>=)
+			post_test_initial_with_return_1(DIRECTION, >>=)
 		};
 	};
 /*
@@ -798,8 +798,8 @@ struct assign
 
 		struct post_test
 		{
-			post_test_initial_no_return_1(<<=)
-			post_test_initial_with_return_1(<<=)
+			post_test_initial_no_return_1(DIRECTION, <<=)
+			post_test_initial_with_return_1(DIRECTION, <<=)
 		};
 	};
 };
@@ -809,16 +809,28 @@ struct allocate
 	initial_no_return_new_0()
 	initial_with_return_new_0()
 
-//	initial_no_return_new_brackets_0()
-//	initial_with_return_new_brackets_0()
+	struct brackets
+	{
+		initial_no_return_new_brackets_0()
+		initial_with_return_new_brackets_0()
+
+		initial_no_return_new_brackets_1()
+		initial_with_return_new_brackets_1()
+	};
 
 	struct post_test
 	{
-		post_test_initial_no_return_new_0()
-		post_test_initial_with_return_new_0()
+		post_test_initial_no_return_new_0(DIRECTION)
+		post_test_initial_with_return_new_0(DIRECTION)
 
-//		post_test_initial_no_return_new_brackets_0()
-//		post_test_initial_with_return_new_brackets_0()
+		struct brackets
+		{
+			post_test_initial_no_return_new_brackets_0(DIRECTION)
+			post_test_initial_with_return_new_brackets_0(DIRECTION)
+
+			post_test_initial_no_return_new_brackets_1(DIRECTION)
+			post_test_initial_with_return_new_brackets_1(DIRECTION)
+		};
 	};
 };
 
@@ -827,16 +839,22 @@ struct deallocate
 	initial_no_return_delete_0()
 	initial_with_return_delete_0()
 
-//	initial_no_return_delete_brackets_0()
-//	initial_with_return_delete_brackets_0()
+	struct brackets
+	{
+		initial_no_return_delete_brackets_0()
+		initial_with_return_delete_brackets_0()
+	};
 
 	struct post_test
 	{
-		post_test_initial_no_return_delete_0()
-		post_test_initial_with_return_delete_0()
+		post_test_initial_no_return_delete_0(DIRECTION)
+		post_test_initial_with_return_delete_0(DIRECTION)
 
-//		post_test_initial_no_return_delete_brackets_0()
-//		post_test_initial_with_return_delete_brackets_0()
+		struct brackets
+		{
+			post_test_initial_no_return_delete_brackets_0(DIRECTION)
+			post_test_initial_with_return_delete_brackets_0(DIRECTION)
+		};
 	};
 };
 

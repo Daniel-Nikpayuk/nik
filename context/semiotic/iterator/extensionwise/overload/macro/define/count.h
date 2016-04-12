@@ -40,142 +40,34 @@
 
 #define count_with_return_right_0(dir, op)
 
-/************************************************************************************************************************/
-
-#define count_no_return_1(dir, op) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
-static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in); \
-	} \
-}
-
-#define count_with_return_1(dir, op) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
-static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		(*out)op(*in); \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in); \
-	} \
- \
-	return out; \
-}
-
-#define count_no_return_right_1(dir, op, r) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
-static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		(*out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in); \
-	} \
-}
-
-#define count_with_return_right_1(dir, op, r) \
-template<typename WPointer, typename RIterator, typename ERIterator> \
-static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		*(out)op(*in)r; \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in); \
-	} \
- \
-	return out; \
-}
-
-/************************************************************************************************************************/
-
-#define count_no_return_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
-{ \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in1); dir##dir(in2); \
-	} \
-}
-
-#define count_with_return_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
-{ \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in1); dir##dir(in2); \
-	} \
- \
-	return out; \
-}
-
-#define count_no_return_brackets_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
-{ \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in1); dir##dir(in2); \
-	} \
-}
-
-#define count_with_return_brackets_2(dir, op) \
-template<typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
-{ \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WPointer(); \
-		++count; dir##dir(in1); dir##dir(in2); \
-	} \
- \
-	return out; \
-}
-
-/************************************************************************************************************************/
-
 #define count_no_return_new_0(dir) \
-template<typename Pointer, typename WPointer, typename EWPointer> \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
 static void no_return(size_type & count, WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		++count; dir##dir(out); \
-		*out=new Pointer(); \
+		*out=new Node(); \
+		out=dir(out)=new WNode(); \
+		++count; \
 	} \
 }
 
 #define count_with_return_new_0(dir) \
-template<typename Pointer, typename WPointer, typename EWPointer> \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
 static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		++count; dir##dir(out); \
-		*out=new Pointer(); \
+		*out=new Node(); \
+		out=dir(out)=new WNode(); \
+		++count; \
 	} \
  \
 	return out; \
 }
 
 #define count_no_return_delete_0(dir) \
-template<typename WPointer, typename EWPointer> \
+template<typename WNode, typename WPointer, typename EWPointer> \
 static void no_return(size_type & count, WPointer out, EWPointer end) \
 { \
 	while (out != end) \
@@ -188,7 +80,7 @@ static void no_return(size_type & count, WPointer out, EWPointer end) \
 }
 
 #define count_with_return_delete_0(dir) \
-template<typename WPointer, typename EWPointer> \
+template<typename WNode, typename WPointer, typename EWPointer> \
 static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
 { \
 	while (out != end) \
@@ -197,6 +89,194 @@ static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
 		++count; dir##dir(out); \
 		delete *current; \
 		delete current; \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(size_type & count, WPointer out, EWPointer end, size_type in) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode(); \
+		++count; \
+	} \
+}
+
+#define count_with_return_new_brackets_0(dir) \
+template<typename Node, typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(size_type & count, WPointer out, EWPointer end, size_type in) \
+{ \
+	while (out != end) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode(); \
+		++count; \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static void no_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		++count; dir##dir(out); \
+		delete [] *current; \
+		delete current; \
+	} \
+}
+
+#define count_with_return_delete_brackets_0(dir) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static WPointer with_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		++count; dir##dir(out); \
+		delete [] *current; \
+		delete current; \
+	} \
+ \
+	return out; \
+}
+
+/************************************************************************************************************************/
+
+#define count_no_return_1(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		(*out)op(*in); \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+}
+
+#define count_with_return_1(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		(*out)op(*in); \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_right_1(dir, op, r) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static void no_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		(*out)op(*in)r; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+}
+
+#define count_with_return_right_1(dir, op, r) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		*(out)op(*in)r; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static void no_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+}
+
+#define count_with_return_new_brackets_1(dir) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static WPointer with_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in); \
+	} \
+ \
+	return out; \
+}
+
+/************************************************************************************************************************/
+
+#define count_no_return_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in1); dir##dir(in2); \
+	} \
+}
+
+#define count_with_return_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	return out; \
+}
+
+#define count_no_return_brackets_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static void no_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in1); dir##dir(in2); \
+	} \
+}
+
+#define count_with_return_brackets_2(dir, op) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static WPointer with_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode(); \
+		++count; dir##dir(in1); dir##dir(in2); \
 	} \
  \
 	return out; \
