@@ -25,126 +25,126 @@
 	in the special case where the data is only accessible through iterators.
 */
 
-#define initial_no_return_0(op) \
+#define initial_no_return_0(dir, op) \
 template<typename WIterator, typename ValueType> \
 static void no_return(WIterator out, ValueType in) \
 	{ }
 
-#define initial_with_return_0(op) \
+#define initial_with_return_0(dir, op) \
 template<typename WIterator, typename ValueType> \
 static WIterator with_return(WIterator out, ValueType in) \
 	{ return out; }
 
-#define initial_no_return_left_0(op) \
+#define initial_no_return_left_0(dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 	{ }
 
-#define initial_with_return_left_0(op) \
+#define initial_with_return_left_0(dir, op) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
-#define initial_no_return_right_0(op) \
+#define initial_no_return_right_0(dir, op) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 	{ }
 
-#define initial_with_return_right_0(op) \
+#define initial_with_return_right_0(dir, op) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
-#define initial_no_return_new_0(op) \
+#define initial_no_return_new_0(dir) \
 template<typename Node, typename WIterator> \
 static void no_return(WIterator out) \
 	{ }
 
-#define initial_with_return_new_0(op) \
+#define initial_with_return_new_0(dir) \
 template<typename Node, typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
-#define initial_no_return_delete_0(op) \
+#define initial_no_return_delete_0(dir) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 	{ }
 
-#define initial_with_return_delete_0(op) \
+#define initial_with_return_delete_0(dir) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
-#define initial_no_return_new_brackets_0(op) \
+#define initial_no_return_new_brackets_0(dir) \
 template<typename Node, typename WIterator> \
 static void no_return(WIterator out, size_type in) \
 	{ }
 
-#define initial_with_return_new_brackets_0(op) \
+#define initial_with_return_new_brackets_0(dir) \
 template<typename Node, typename WIterator> \
 static WIterator with_return(WIterator out, size_type in) \
 	{ return out; }
 
-#define initial_no_return_delete_brackets_0(op) \
+#define initial_no_return_delete_brackets_0(dir) \
 template<typename WIterator> \
 static void no_return(WIterator out) \
 	{ }
 
-#define initial_with_return_delete_brackets_0(op) \
+#define initial_with_return_delete_brackets_0(dir) \
 template<typename WIterator> \
 static WIterator with_return(WIterator out) \
 	{ return out; }
 
 /************************************************************************************************************************/
 
-#define initial_no_return_1(op) \
+#define initial_no_return_1(dir, op) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
 	{ }
 
-#define initial_with_return_1(op) \
+#define initial_with_return_1(dir, op) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
-#define initial_no_return_right_1(op, r) \
+#define initial_no_return_right_1(dir, op, r) \
 template<typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
 	{ }
 
-#define initial_with_return_right_1(op, r) \
+#define initial_with_return_right_1(dir, op, r) \
 template<typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
-#define initial_no_return_new_brackets_1(op) \
+#define initial_no_return_new_brackets_1(dir) \
 template<typename Node, typename WIterator, typename RIterator> \
 static void no_return(WIterator out, RIterator in) \
 	{ }
 
-#define initial_with_return_new_brackets_1(op) \
+#define initial_with_return_new_brackets_1(dir) \
 template<typename Node, typename WIterator, typename RIterator> \
 static WIterator with_return(WIterator out, RIterator in) \
 	{ return out; }
 
 /************************************************************************************************************************/
 
-#define initial_no_return_2(op) \
+#define initial_no_return_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
-#define initial_with_return_2(op) \
+#define initial_with_return_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }
 
-#define initial_no_return_brackets_2(op) \
+#define initial_no_return_brackets_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static void no_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ }
 
-#define initial_with_return_brackets_2(op) \
+#define initial_with_return_brackets_2(dir, op) \
 template<typename WIterator, typename RIterator1, typename RIterator2> \
 static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2) \
 	{ return out; }

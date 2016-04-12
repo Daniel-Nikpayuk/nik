@@ -31,11 +31,11 @@
 
 struct plus
 {
-	initial_no_return_1(=+)
-	initial_with_return_1(=+)
+	initial_no_return_1(DIRECTION, =+)
+	initial_with_return_1(DIRECTION, =+)
 
-	initial_no_return_2(+)
-	initial_with_return_2(+)
+	initial_no_return_2(DIRECTION, +)
+	initial_with_return_2(DIRECTION, +)
 
 	struct post_test
 	{
@@ -55,11 +55,11 @@ struct plus
 
 struct minus
 {
-	initial_no_return_1(=-)
-	initial_with_return_1(=-)
+	initial_no_return_1(DIRECTION, =-)
+	initial_with_return_1(DIRECTION, =-)
 
-	initial_no_return_2(-)
-	initial_with_return_2(-)
+	initial_no_return_2(DIRECTION, -)
+	initial_with_return_2(DIRECTION, -)
 
 	struct post_test
 	{
@@ -79,11 +79,11 @@ struct minus
 
 struct asterisk
 {
-	initial_no_return_1(=*)
-	initial_with_return_1(=*)
+	initial_no_return_1(DIRECTION, =*)
+	initial_with_return_1(DIRECTION, =*)
 
-	initial_no_return_2(*)
-	initial_with_return_2(*)
+	initial_no_return_2(DIRECTION, *)
+	initial_with_return_2(DIRECTION, *)
 
 	struct post_test
 	{
@@ -101,8 +101,8 @@ struct asterisk
 
 struct slash
 {
-	initial_no_return_2(/)
-	initial_with_return_2(/)
+	initial_no_return_2(DIRECTION, /)
+	initial_with_return_2(DIRECTION, /)
 
 	struct post_test
 	{
@@ -117,8 +117,8 @@ struct slash
 
 struct percent
 {
-	initial_no_return_2(%)
-	initial_with_return_2(%)
+	initial_no_return_2(DIRECTION, %)
+	initial_with_return_2(DIRECTION, %)
 
 	struct post_test
 	{
@@ -133,8 +133,8 @@ struct percent
 
 struct caret
 {
-	initial_no_return_2(^)
-	initial_with_return_2(^)
+	initial_no_return_2(DIRECTION, ^)
+	initial_with_return_2(DIRECTION, ^)
 
 	struct post_test
 	{
@@ -151,11 +151,11 @@ struct caret
 
 struct ampersand
 {
-	initial_no_return_1(=&)
-	initial_with_return_1(=&)
+	initial_no_return_1(DIRECTION, =&)
+	initial_with_return_1(DIRECTION, =&)
 
-	initial_no_return_2(&)
-	initial_with_return_2(&)
+	initial_no_return_2(DIRECTION, &)
+	initial_with_return_2(DIRECTION, &)
 
 	struct post_test
 	{
@@ -173,8 +173,8 @@ struct ampersand
 
 struct bar
 {
-	initial_no_return_2(|)
-	initial_with_return_2(|)
+	initial_no_return_2(DIRECTION, |)
+	initial_with_return_2(DIRECTION, |)
 
 	struct post_test
 	{
@@ -191,8 +191,8 @@ struct bar
 
 struct tilde
 {
-	initial_no_return_1(=~)
-	initial_with_return_1(=~)
+	initial_no_return_1(DIRECTION, =~)
+	initial_with_return_1(DIRECTION, =~)
 
 	struct post_test
 	{
@@ -209,8 +209,8 @@ struct tilde
 
 struct exclamation
 {
-	initial_no_return_1(=!)
-	initial_with_return_1(=!)
+	initial_no_return_1(DIRECTION, =!)
+	initial_with_return_1(DIRECTION, =!)
 
 	struct post_test
 	{
@@ -225,8 +225,8 @@ struct exclamation
 
 struct less_than
 {
-	initial_no_return_2(<)
-	initial_with_return_2(<)
+	initial_no_return_2(DIRECTION, <)
+	initial_with_return_2(DIRECTION, <)
 
 	struct post_test
 	{
@@ -241,8 +241,8 @@ struct less_than
 
 struct greater_than
 {
-	initial_no_return_2(>)
-	initial_with_return_2(>)
+	initial_no_return_2(DIRECTION, >)
+	initial_with_return_2(DIRECTION, >)
 
 	struct post_test
 	{
@@ -257,8 +257,8 @@ struct greater_than
 
 struct left_shift
 {
-	initial_no_return_2(<<)
-	initial_with_return_2(<<)
+	initial_no_return_2(DIRECTION, <<)
+	initial_with_return_2(DIRECTION, <<)
 
 	struct post_test
 	{
@@ -273,8 +273,8 @@ struct left_shift
 
 struct right_shift
 {
-	initial_no_return_2(>>)
-	initial_with_return_2(>>)
+	initial_no_return_2(DIRECTION, >>)
+	initial_with_return_2(DIRECTION, >>)
 
 	struct post_test
 	{
@@ -289,8 +289,8 @@ struct right_shift
 
 struct equals
 {
-	initial_no_return_2(==)
-	initial_with_return_2(==)
+	initial_no_return_2(DIRECTION, ==)
+	initial_with_return_2(DIRECTION, ==)
 
 	struct post_test
 	{
@@ -305,8 +305,8 @@ struct equals
 
 struct not_equals
 {
-	initial_no_return_2(!=)
-	initial_with_return_2(!=)
+	initial_no_return_2(DIRECTION, !=)
+	initial_with_return_2(DIRECTION, !=)
 
 	struct post_test
 	{
@@ -321,8 +321,8 @@ struct not_equals
 
 struct less_than_or_equal
 {
-	initial_no_return_2(<=)
-	initial_with_return_2(<=)
+	initial_no_return_2(DIRECTION, <=)
+	initial_with_return_2(DIRECTION, <=)
 
 	struct post_test
 	{
@@ -337,8 +337,8 @@ struct less_than_or_equal
 
 struct greater_than_or_equal
 {
-	initial_no_return_2(>=)
-	initial_with_return_2(>=)
+	initial_no_return_2(DIRECTION, >=)
+	initial_with_return_2(DIRECTION, >=)
 
 	struct post_test
 	{
@@ -353,8 +353,8 @@ struct greater_than_or_equal
 
 struct logical_and
 {
-	initial_no_return_2(&&)
-	initial_with_return_2(&&)
+	initial_no_return_2(DIRECTION, &&)
+	initial_with_return_2(DIRECTION, &&)
 
 	struct post_test
 	{
@@ -369,8 +369,8 @@ struct logical_and
 
 struct logical_or
 {
-	initial_no_return_2(||)
-	initial_with_return_2(||)
+	initial_no_return_2(DIRECTION, ||)
+	initial_with_return_2(DIRECTION, ||)
 
 	struct post_test
 	{
@@ -385,7 +385,7 @@ struct logical_or
 
 struct left_increment
 {
-	initial_no_return_left_0(++)
+	initial_no_return_left_0(DIRECTION, ++)
 
 	struct post_test
 	{
@@ -395,7 +395,7 @@ struct left_increment
 
 struct right_increment
 {
-	initial_no_return_right_0(++)
+	initial_no_return_right_0(DIRECTION, ++)
 
 	struct post_test
 	{
@@ -409,7 +409,7 @@ struct right_increment
 
 struct left_decrement
 {
-	initial_no_return_left_0(--)
+	initial_no_return_left_0(DIRECTION, --)
 
 	struct post_test
 	{
@@ -419,7 +419,7 @@ struct left_decrement
 
 struct right_decrement
 {
-	initial_no_return_right_0(--)
+	initial_no_return_right_0(DIRECTION, --)
 
 	struct post_test
 	{
@@ -444,8 +444,8 @@ struct comma
 
 struct point_asterisk
 {
-	initial_no_return_2(->*)
-	initial_with_return_2(->*)
+	initial_no_return_2(DIRECTION, ->*)
+	initial_with_return_2(DIRECTION, ->*)
 
 	struct post_test
 	{
@@ -460,7 +460,7 @@ struct point_asterisk
 
 struct point
 {
-	initial_with_return_2(.operator->)
+	initial_with_return_2(DIRECTION, .operator->)
 
 	struct post_test
 	{
@@ -476,13 +476,13 @@ struct point
 
 struct parentheses
 {
-	initial_no_return_right_0(())
+	initial_no_return_right_0(DIRECTION, ())
 
-	initial_no_return_right_1(=, ())
-	initial_with_return_right_1(=, ())
+	initial_no_return_right_1(DIRECTION, =, ())
+	initial_with_return_right_1(DIRECTION, =, ())
 
-	initial_no_return_2()
-	initial_with_return_2()
+	initial_no_return_2(DIRECTION, )
+	initial_with_return_2(DIRECTION, )
 
 	struct post_test
 	{
@@ -502,8 +502,8 @@ struct parentheses
 
 struct brackets
 {
-	initial_no_return_brackets_2()
-	initial_with_return_brackets_2()
+	initial_no_return_brackets_2(DIRECTION, )
+	initial_with_return_brackets_2(DIRECTION, )
 
 	struct post_test
 	{
@@ -518,8 +518,8 @@ struct brackets
 
 struct repeat
 {
-	initial_no_return_0(=)
-	initial_with_return_0(=)
+	initial_no_return_0(DIRECTION, =)
+	initial_with_return_0(DIRECTION, =)
 
 	struct post_test
 	{
@@ -531,7 +531,7 @@ struct repeat
 */
 	struct plus
 	{
-		initial_no_return_0(+=)
+		initial_no_return_0(DIRECTION, +=)
 
 		struct post_test
 		{
@@ -543,7 +543,7 @@ struct repeat
 */
 	struct minus
 	{
-		initial_no_return_0(-=)
+		initial_no_return_0(DIRECTION, -=)
 
 		struct post_test
 		{
@@ -555,7 +555,7 @@ struct repeat
 */
 	struct asterisk
 	{
-		initial_no_return_0(*=)
+		initial_no_return_0(DIRECTION, *=)
 
 		struct post_test
 		{
@@ -567,7 +567,7 @@ struct repeat
 */
 	struct slash
 	{
-		initial_no_return_0(/=)
+		initial_no_return_0(DIRECTION, /=)
 
 		struct post_test
 		{
@@ -579,7 +579,7 @@ struct repeat
 */
 	struct percent
 	{
-		initial_no_return_0(%=)
+		initial_no_return_0(DIRECTION, %=)
 
 		struct post_test
 		{
@@ -591,7 +591,7 @@ struct repeat
 */
 	struct caret
 	{
-		initial_no_return_0(^=)
+		initial_no_return_0(DIRECTION, ^=)
 
 		struct post_test
 		{
@@ -603,7 +603,7 @@ struct repeat
 */
 	struct ampersand
 	{
-		initial_no_return_0(&=)
+		initial_no_return_0(DIRECTION, &=)
 
 		struct post_test
 		{
@@ -615,7 +615,7 @@ struct repeat
 */
 	struct bar
 	{
-		initial_no_return_0(|=)
+		initial_no_return_0(DIRECTION, |=)
 
 		struct post_test
 		{
@@ -627,7 +627,7 @@ struct repeat
 */
 	struct right_shift
 	{
-		initial_no_return_0(>>=)
+		initial_no_return_0(DIRECTION, >>=)
 
 		struct post_test
 		{
@@ -639,7 +639,7 @@ struct repeat
 */
 	struct left_shift
 	{
-		initial_no_return_0(<<=)
+		initial_no_return_0(DIRECTION, <<=)
 
 		struct post_test
 		{
@@ -654,8 +654,8 @@ struct repeat
 
 struct assign
 {
-	initial_no_return_1(=)
-	initial_with_return_1(=)
+	initial_no_return_1(DIRECTION, =)
+	initial_with_return_1(DIRECTION, =)
 
 	struct post_test
 	{
@@ -667,8 +667,8 @@ struct assign
 */
 	struct plus
 	{
-		initial_no_return_1(+=)
-		initial_with_return_1(+=)
+		initial_no_return_1(DIRECTION, +=)
+		initial_with_return_1(DIRECTION, +=)
 
 		struct post_test
 		{
@@ -681,8 +681,8 @@ struct assign
 */
 	struct minus
 	{
-		initial_no_return_1(-=)
-		initial_with_return_1(-=)
+		initial_no_return_1(DIRECTION, -=)
+		initial_with_return_1(DIRECTION, -=)
 
 		struct post_test
 		{
@@ -695,8 +695,8 @@ struct assign
 */
 	struct asterisk
 	{
-		initial_no_return_1(*=)
-		initial_with_return_1(*=)
+		initial_no_return_1(DIRECTION, *=)
+		initial_with_return_1(DIRECTION, *=)
 
 		struct post_test
 		{
@@ -709,8 +709,8 @@ struct assign
 */
 	struct slash
 	{
-		initial_no_return_1(/=)
-		initial_with_return_1(/=)
+		initial_no_return_1(DIRECTION, /=)
+		initial_with_return_1(DIRECTION, /=)
 
 		struct post_test
 		{
@@ -723,8 +723,8 @@ struct assign
 */
 	struct percent
 	{
-		initial_no_return_1(%=)
-		initial_with_return_1(%=)
+		initial_no_return_1(DIRECTION, %=)
+		initial_with_return_1(DIRECTION, %=)
 
 		struct post_test
 		{
@@ -737,8 +737,8 @@ struct assign
 */
 	struct caret
 	{
-		initial_no_return_1(^=)
-		initial_with_return_1(^=)
+		initial_no_return_1(DIRECTION, ^=)
+		initial_with_return_1(DIRECTION, ^=)
 
 		struct post_test
 		{
@@ -751,8 +751,8 @@ struct assign
 */
 	struct ampersand
 	{
-		initial_no_return_1(&=)
-		initial_with_return_1(&=)
+		initial_no_return_1(DIRECTION, &=)
+		initial_with_return_1(DIRECTION, &=)
 
 		struct post_test
 		{
@@ -765,8 +765,8 @@ struct assign
 */
 	struct bar
 	{
-		initial_no_return_1(|=)
-		initial_with_return_1(|=)
+		initial_no_return_1(DIRECTION, |=)
+		initial_with_return_1(DIRECTION, |=)
 
 		struct post_test
 		{
@@ -779,8 +779,8 @@ struct assign
 */
 	struct right_shift
 	{
-		initial_no_return_1(>>=)
-		initial_with_return_1(>>=)
+		initial_no_return_1(DIRECTION, >>=)
+		initial_with_return_1(DIRECTION, >>=)
 
 		struct post_test
 		{
@@ -793,8 +793,8 @@ struct assign
 */
 	struct left_shift
 	{
-		initial_no_return_1(<<=)
-		initial_with_return_1(<<=)
+		initial_no_return_1(DIRECTION, <<=)
+		initial_with_return_1(DIRECTION, <<=)
 
 		struct post_test
 		{
@@ -806,16 +806,16 @@ struct assign
 
 struct allocate
 {
-	initial_no_return_new_0()
-	initial_with_return_new_0()
+	initial_no_return_new_0(DIRECTION)
+	initial_with_return_new_0(DIRECTION)
 
 	struct brackets
 	{
-		initial_no_return_new_brackets_0()
-		initial_with_return_new_brackets_0()
+		initial_no_return_new_brackets_0(DIRECTION)
+		initial_with_return_new_brackets_0(DIRECTION)
 
-		initial_no_return_new_brackets_1()
-		initial_with_return_new_brackets_1()
+		initial_no_return_new_brackets_1(DIRECTION)
+		initial_with_return_new_brackets_1(DIRECTION)
 	};
 
 	struct post_test
@@ -836,13 +836,13 @@ struct allocate
 
 struct deallocate
 {
-	initial_no_return_delete_0()
-	initial_with_return_delete_0()
+	initial_no_return_delete_0(DIRECTION)
+	initial_with_return_delete_0(DIRECTION)
 
 	struct brackets
 	{
-		initial_no_return_delete_brackets_0()
-		initial_with_return_delete_brackets_0()
+		initial_no_return_delete_brackets_0(DIRECTION)
+		initial_with_return_delete_brackets_0(DIRECTION)
 	};
 
 	struct post_test
