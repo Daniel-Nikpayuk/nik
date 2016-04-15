@@ -50,89 +50,101 @@ namespace nik
 			typedef typename weaklist::value_type value_type;
 			typedef typename weaklist::reference reference;
 			typedef typename weaklist::const_reference const_reference;
+			typedef typename weaklist::node node;
 			typedef typename weaklist::iterator iterator;
 			typedef typename weaklist::const_iterator const_iterator;
 			typedef typename weaklist::size_type size_type;
 		protected:
-			weaklist sublist; 
+			weaklist sublist;
 
-			size_type length;
+			iterator before;
 		public:
-			list() : length(0) { sublist.initialize(); }
-			~list() { sublist.terminalize(); }
+			list()
+			{
+				before=new node();
+				sublist.initialize();
+				+before=sublist.initial;
+			}
+			~list()
+			{
+				sublist.terminalize();
+				delete before;
+			}
 		public:
 				// element access:
 			reference front() { return *sublist.initial; }
 			const_reference front() const { return *sublist.initial; }
-			reference back() { return *-sublist.terminal; }
-			const_reference back() const { return *-sublist.terminal; }
 				// iterators:
+			iterator before_begin() { return before; }
+			const_iterator before_begin() const { return before; }
+			const_iterator cbefore_begin() const { return before; }
 			iterator begin() { return sublist.initial; }
-			const_iterator begin() const { return (const_iterator) sublist.initial; }
-			const_iterator cbegin() const { return (const_iterator) sublist.initial; }
+			const_iterator begin() const { return sublist.initial; }
+			const_iterator cbegin() const { return sublist.initial; }
 			iterator end() { return sublist.terminal; }
-			const_iterator end() const { return (const_iterator) sublist.terminal; }
-			const_iterator cend() const { return (const_iterator) sublist.terminal; }
+			const_iterator end() const { return sublist.terminal; }
+			const_iterator cend() const { return sublist.terminal; }
 				// capacity:
-			bool empty() const { return length; }
-			size_type size() const { return length; }
+			bool empty() const { return sublist.initial == sublist.terminal; }
 			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
-			void clear() { sublist.shrink(); }
+			void clear()
+			{
+				sublist.shrink();
+				+before=sublist.terminal;
+			}
 
-// needs to be "const_iterator it"
-			iterator insert(iterator it, const value_type & value)
+			iterator insert_after(const_iterator it, const value_type & value)
 			{
-				++length;
-				if (it == sublist.initial)
-					return sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
-				else return m_exte_policy::lst_ptr::impend::with_return(it, value);
+				iterator out=m_exte_policy::lst_ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
+				if (it == before) +before=sublist.initial=out;
+
+				return out;
 			}
-/*
-			iterator insert(const_iterator it, value_type && value)
+
+			iterator insert_after(const_iterator it, value_type && value)
 			{
-				++length;
-				if (it == sublist.initial)
-					return sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
-				else return m_exte_policy::lst_ptr::impend::with_return(it, value);
+				iterator out=m_exte_policy::lst_ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
+				if (it == before) +before=sublist.initial=out;
+
+				return out;
 			}
-*/
-// needs to be "const_iterator it"
-			iterator insert(iterator it, size_type count, const value_type & value)
+
+			iterator insert_after(const_iterator it, size_type count, const value_type & value)
 			{
-				length+=count;
-				if (it == sublist.initial)
-					return sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, count, value);
-				else return m_exte_policy::lst_ptr::impend::with_return(it, count, value);
+				iterator out=m_exte_policy::lst_ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
+				if (it == before) +before=sublist.initial=out;
+
+				return out;
 			}
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
 	as a better match.
 */
-// needs to be "const_iterator it"
-			iterator insert(iterator it, int count, const value_type & value)
-				{ return insert(it, (size_type) count, value); }
-/*
+			iterator insert_after(const_iterator it, int count, const value_type & value)
+				{ return insert_after(it, (size_type) count, value); }
+
 			template<typename RIterator, typename ERIterator>
-			iterator insert(const_iterator it, InputIterator first, InputIterator last)
+			iterator insert_after(const_iterator it, RIterator first, ERIterator last)
 			{
 				if (first != last)
 				{
-					if (it == sublist.initial)
-					{
-						-sublist.initial=new weaklist::iterator();
-						return sublist.initial=m_exte_policy::lst_ptr::
-							prepend::count::with_return(length, -sublist.initial, first, last);
-					}
-					else return m_exte_policy::lst_ptr::impend::count::with_return(length, it, first, last);
+					iterator out=m_exte_policy::lst_ptr::impend::template
+						with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
+					if (it == before) +before=sublist.initial=out;
+
+					return out;
 				}
 			}
 
+/*
 			iterator erase(const_iterator it)
 			{
 				if (sublist.initial != sublist.terminal)
 				{
-					--length;
 					if (it == sublist.initial)
 						return sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
 					else return m_exte_policy::lst_ptr::eject::with_return(it);
@@ -150,14 +162,13 @@ namespace nik
 				if (sublist.initial != sublist.terminal && first != last)
 				{
 					if (first == sublist.initial) return sublist.initial=
-						m_exte_policy::lst_ptr::deject::count::with_return(length, first, last);
-					else return m_exte_policy::lst_ptr::eject::count::with_return(length, first, last);
+						m_exte_policy::lst_ptr::deject::with_return(first, last);
+					else return m_exte_policy::lst_ptr::eject::with_return(first, last);
 				}
 			}
 
 			void push_back(const value_type & value)
 			{
-				++length;
 				if (sublist.initial == sublist.terminal)
 					sublist.initial=m_exte_policy::lst_ptr::append::with_return(sublist.initial, value);
 				else m_exte_policy::lst_ptr::append::no_return(sublist.terminal, value);
@@ -165,7 +176,6 @@ namespace nik
 
 			void push_back(value_type && value)
 			{
-				++length;
 				if (sublist.initial == sublist.terminal)
 					sublist.initial=m_exte_policy::lst_ptr::append::with_return(sublist.initial, value);
 				else m_exte_policy::lst_ptr::append::no_return(sublist.terminal, value);
@@ -175,7 +185,6 @@ namespace nik
 			{
 				if (sublist.initial != sublist.terminal)
 				{
-					--length;
 					if (+sublist.initial == sublist.terminal)
 						sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
 					else m_exte_policy::lst_ptr::eject::no_return(-sublist.terminal);
@@ -184,13 +193,11 @@ namespace nik
 
 			void push_front(const value_type & value)
 			{
-				++length;
 				sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
 			}
 
 			void push_front(value_type && value)
 			{
-				++length;
 				sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
 			}
 
@@ -198,7 +205,6 @@ namespace nik
 			{
 				if (sublist.initial != sublist.terminal)
 				{
-					--length;
 					sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
 				}
 			}
@@ -207,14 +213,12 @@ namespace nik
 			{
 				size_type cap=sublist::size();
 				if (count > cap) m_exte_policy::insert(sublist, sublist.terminal, count-cap, value_type());
-				length=count;
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=sublist::size();
 				if (count > cap) m_exte_policy::insert(sublist, sublist.terminal, count-cap, value);
-				length=count;
 			}
 
 			void swap(list & other)
@@ -222,10 +226,6 @@ namespace nik
 				weaklist::iterator oinitial=other.initial, oterminal=other.terminal;
 				other.initial=sublist.initial; other.terminal=sublist.terminal;
 				sublist.initial=oinitial; sublist.terminal=oterminal;
-
-				size_type olength=other.length;
-				other.length=length;
-				length=olength;
 			}
 */
 	};

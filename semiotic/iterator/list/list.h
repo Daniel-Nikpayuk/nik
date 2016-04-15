@@ -92,7 +92,7 @@ namespace nik
 
 		template<typename RIterator, typename ERIterator>
 		void grow(RIterator first, ERIterator last)
-			{ s_exte_policy::fwd_over::assign::no_return(terminal, first, last); }
+			{ s_exte_policy::fwd_over::assign::template no_return<node>(terminal, first, last); }
 
 		void shrink()
 			{ s_exte_policy::ptr::clear::no_return(initial, terminal); }

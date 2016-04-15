@@ -45,13 +45,13 @@ namespace nik
 	{
 		protected:
 			typedef context::context::policy<SizeType> c_policy;
-			typedef context::semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
 			typedef context::media::iterator::extensionwise::policy<SizeType> m_exte_policy;
 			typedef semiotic::iterator::chain<T,SizeType> weakchain;
 		public:
 			typedef typename subchain::value_type value_type;
 			typedef typename subchain::reference reference;
 			typedef typename subchain::const_reference const_reference;
+			typedef typename weaklist::node node;
 			typedef typename subchain::iterator iterator;
 			typedef typename subchain::const_iterator const_iterator;
 			typedef typename subchain::size_type size_type;
@@ -66,8 +66,8 @@ namespace nik
 				// element access:
 			reference front() { return *subchain.initial; }
 			const_reference front() const { return *subchain.initial; }
-			reference back() { return **-subchain.terminal; }
-			const_reference back() const { return **-subchain.terminal; }
+			reference back() { return *-subchain.terminal; }
+			const_reference back() const { return *-subchain.terminal; }
 				// iterators:
 			iterator begin() { return subchain.initial; }
 			const_iterator begin() const { return subchain.initial; }

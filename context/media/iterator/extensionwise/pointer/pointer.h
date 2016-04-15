@@ -80,27 +80,40 @@ namespace nik
 				return out;
 			}
 
-			template<typename WPointer, typename ValueType>
+			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WPointer();
-				+out=in;
+				WPointer out=new WNode();
 				*out=value;
+				+out=in;
 
 				return out;
 			}
 /*
 	n >= 1.
-*/
-			template<typename WPointer, typename ValueType>
+			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WPointer();
-				no_return(in, s_exte_policy::fwd_over::repeat::post_test::with_return(out, n-1, value));
+				WPointer out=new WNode();
+				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
 				return out;
 			}
+*/
+/*
+	in != end
+			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+			static WPointer with_return(WPointer in0, RIterator in, ERIterator end)
+			{
+				WPointer out=new WNode();
+				*out=*in;
+				no_return(in0, s_exte_policy::fwd_over::assign::post_test::
+					template with_return<WNode>(out, in, end));
+
+				return out;
+			}
+*/
 		};
 
 		struct append
@@ -117,18 +130,30 @@ namespace nik
 				return out;
 			}
 
-			template<typename WPointer>
+			template<typename WNode, typename WPointer>
 			static WPointer with_return(WPointer out)
-				{ return out=+out=new WPointer(); }
+				{ return out=+out=new WNode(); }
 
-			template<typename WPointer, typename ValueType>
+			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, ValueType value)
 			{
-				out=+out=new WPointer();
+				out=+out=new WNode();
 				*out=value;
 
 				return out;
 			}
+
+/*
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, size_type n, ValueType value)
+			{
+				WPointer out=new WNode();
+				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
+				*out=value;
+
+				return out;
+			}
+*/
 		};
 
 		struct impend
@@ -149,12 +174,12 @@ namespace nik
 				return out;
 			}
 
-			template<typename WPointer, typename ValueType>
+			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WPointer();
-				+out=+in;
+				WPointer out=new WNode();
 				*out=value;
+				+out=+in;
 				+in=out;
 
 				return out;
@@ -162,12 +187,26 @@ namespace nik
 /*
 	n >= 1.
 */
-			template<typename WPointer, typename ValueType>
+			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WPointer();
-				no_return(in, s_exte_policy::fwd_over::repeat::post_test::with_return(out, n-1, value));
+				WPointer out=new WNode();
 				*out=value;
+				+s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value)=+in;
+				+in=out;
+
+				return out;
+			}
+/*
+	in != end
+*/
+			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+			static WPointer with_return(WPointer in0, RIterator in, ERIterator end)
+			{
+				WPointer out=new WNode();
+				*out=*in;
+				s_exte_policy::fwd_over::assign::post_test::template with_return<WNode>(out, in, end)=+in0;
+				+in0=out;
 
 				return out;
 			}
@@ -307,7 +346,7 @@ namespace nik
 			static WPointer with_return(WPointer out, RIterator first, ERIterator last)
 			{
 				RPointer initial=-t, *current=initial;
-				while (first != last) current=+current=new RPointer(*first++, current, 0);
+				while (first != last) current=+current=new RNode(*first++, current, 0);
 				attach1(current, t);
 
 				return out;
@@ -323,7 +362,7 @@ namespace nik
 					RPointer initial=-t, *current=initial;
 					while (first != last)
 					{
-						current=+current=new RPointer(*first++, current, 0);
+						current=+current=new RNode(*first++, current, 0);
 						++count;
 					}
 					attach1(current, t);

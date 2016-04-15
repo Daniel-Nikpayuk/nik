@@ -68,24 +68,21 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		#define DIRECTION +
-		#include"../../overload/loop.h"
+		#include"../../overload/loop_plus.h"
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			#include"../../overload/unroll.h"
+			#include"../../overload/unroll_plus.h"
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			#include"../../overload/initial.h"
+			#include"../../overload/initial_plus.h"
 		};
 	};
      }
-
-	#undef DIRECTION
 
      namespace backward
      {
@@ -94,24 +91,21 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		#define DIRECTION -
-		#include"../../overload/loop.h"
+		#include"../../overload/loop_minus.h"
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			#include"../../overload/unroll.h"
+			#include"../../overload/unroll_minus.h"
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			#include"../../overload/initial.h"
+			#include"../../overload/initial_minus.h"
 		};
 	};
      }
-
-	#undef DIRECTION
 
      namespace bidirectional
      {

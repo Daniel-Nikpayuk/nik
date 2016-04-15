@@ -22,6 +22,7 @@
 #include"../unit/unit.h"
 #include"../argument/binary/binary.h"
 #include"../argument/math/math.h"
+#include"../argument/meta/meta.h"
 #include"../parameter/binary/binary.h"
 #include"../parameter/math/math.h"
 #include"../parameter/meta/meta.h"
@@ -77,6 +78,11 @@ namespace nik
 */
 			using arg_mat=argument::math<size_type>;
 /*
+		meta:
+*/
+			using arg_met=argument::meta;
+/*
+
 	parameter:
 */
 /*
