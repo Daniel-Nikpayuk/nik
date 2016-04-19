@@ -54,71 +54,70 @@ namespace nik
 			typedef typename weaklist::iterator iterator;
 			typedef typename weaklist::const_iterator const_iterator;
 			typedef typename weaklist::size_type size_type;
+
+			typedef typename weaklist::s_exte_policy s_exte_policy;
 		protected:
+				// sublist.initial is interpreted to be "before initial".
+				// sublist.terminal is interpreted to be "this terminal".
 			weaklist sublist;
 
-			iterator before;
+			void initialize()
+			{
+				sublist.terminal=new node();
+				sublist.initial=new node();
+				+sublist.initial=sublist.terminal;
+			}
 		public:
-			list()
+			list() { initialize(); }
+
+			list(const list & l)
 			{
-				before=new node();
-				sublist.initialize();
-				+before=sublist.initial;
+				initialize();
+				sublist.terminal=s_exte_policy::fwd_over::assign::template
+					with_return<node>(sublist.terminal, +l.sublist.initial, l.sublist.terminal);
 			}
-			~list()
-			{
-				sublist.terminalize();
-				delete before;
-			}
+
+			~list() { sublist.terminalize(); }
 		public:
 				// element access:
-			reference front() { return *sublist.initial; }
-			const_reference front() const { return *sublist.initial; }
+			reference front() { return *+sublist.initial; }
+			const_reference front() const { return *+sublist.initial; }
 				// iterators:
-			iterator before_begin() { return before; }
-			const_iterator before_begin() const { return before; }
-			const_iterator cbefore_begin() const { return before; }
-			iterator begin() { return sublist.initial; }
-			const_iterator begin() const { return sublist.initial; }
-			const_iterator cbegin() const { return sublist.initial; }
+			iterator before_begin() { return sublist.initial; }
+			const_iterator before_begin() const { return sublist.initial; }
+			const_iterator cbefore_begin() const { return sublist.initial; }
+			iterator begin() { return +sublist.initial; }
+			const_iterator begin() const { return +sublist.initial; }
+			const_iterator cbegin() const { return +sublist.initial; }
 			iterator end() { return sublist.terminal; }
 			const_iterator end() const { return sublist.terminal; }
 			const_iterator cend() const { return sublist.terminal; }
 				// capacity:
-			bool empty() const { return sublist.initial == sublist.terminal; }
+			bool empty() const { return +sublist.initial == sublist.terminal; }
 			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
 			void clear()
 			{
-				sublist.shrink();
-				+before=sublist.terminal;
+				s_exte_policy::ptr::clear::no_return(sublist.initial+size_type(1), sublist.terminal);
+				+sublist.initial=sublist.terminal;
 			}
 
 			iterator insert_after(const_iterator it, const value_type & value)
 			{
-				iterator out=m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::lst_ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
-				if (it == before) +before=sublist.initial=out;
-
-				return out;
 			}
 
 			iterator insert_after(const_iterator it, value_type && value)
 			{
-				iterator out=m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::lst_ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
-				if (it == before) +before=sublist.initial=out;
-
-				return out;
 			}
 
 			iterator insert_after(const_iterator it, size_type count, const value_type & value)
 			{
-				iterator out=m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::lst_ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
-				if (it == before) +before=sublist.initial=out;
-
-				return out;
 			}
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
@@ -130,85 +129,41 @@ namespace nik
 			template<typename RIterator, typename ERIterator>
 			iterator insert_after(const_iterator it, RIterator first, ERIterator last)
 			{
-				if (first != last)
-				{
-					iterator out=m_exte_policy::lst_ptr::impend::template
-						with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
-					if (it == before) +before=sublist.initial=out;
-
-					return out;
-				}
+				return m_exte_policy::lst_ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
-/*
-			iterator erase(const_iterator it)
+			iterator erase_after(const_iterator it)
 			{
-				if (sublist.initial != sublist.terminal)
-				{
-					if (it == sublist.initial)
-						return sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
-					else return m_exte_policy::lst_ptr::eject::with_return(it);
-				}
+				if (+sublist.initial != sublist.terminal)
+					return m_exte_policy::lst_ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
 			}
-*/
 /*
 	As first and last *should be* iterators within the bounds of sublist.initial and sublist.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
-/*
-			iterator erase(const_iterator first, const_iterator last)
+			iterator erase_after(const_iterator first, const_iterator last)
 			{
-				if (sublist.initial != sublist.terminal && first != last)
-				{
-					if (first == sublist.initial) return sublist.initial=
-						m_exte_policy::lst_ptr::deject::with_return(first, last);
-					else return m_exte_policy::lst_ptr::eject::with_return(first, last);
-				}
-			}
-
-			void push_back(const value_type & value)
-			{
-				if (sublist.initial == sublist.terminal)
-					sublist.initial=m_exte_policy::lst_ptr::append::with_return(sublist.initial, value);
-				else m_exte_policy::lst_ptr::append::no_return(sublist.terminal, value);
-			}
-
-			void push_back(value_type && value)
-			{
-				if (sublist.initial == sublist.terminal)
-					sublist.initial=m_exte_policy::lst_ptr::append::with_return(sublist.initial, value);
-				else m_exte_policy::lst_ptr::append::no_return(sublist.terminal, value);
-			}
-
-			void pop_back()
-			{
-				if (sublist.initial != sublist.terminal)
-				{
-					if (+sublist.initial == sublist.terminal)
-						sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
-					else m_exte_policy::lst_ptr::eject::no_return(-sublist.terminal);
-				}
+				if (+sublist.initial != sublist.terminal)
+					return m_exte_policy::lst_ptr::eject::with_return(
+						c_policy::arg_met::template recast<iterator>(first),
+						c_policy::arg_met::template recast<iterator>(last));
 			}
 
 			void push_front(const value_type & value)
-			{
-				sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
-			}
+				{ m_exte_policy::lst_ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void push_front(value_type && value)
-			{
-				sublist.initial=m_exte_policy::lst_ptr::prepend::with_return(sublist.initial, value);
-			}
+				{ m_exte_policy::lst_ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void pop_front()
 			{
-				if (sublist.initial != sublist.terminal)
-				{
-					sublist.initial=m_exte_policy::lst_ptr::deject::with_return(sublist.initial);
-				}
+				if (+sublist.initial != sublist.terminal)
+					m_exte_policy::lst_ptr::eject::no_return(sublist.initial);
 			}
 
+/*
 			void resize(size_type count)
 			{
 				size_type cap=sublist::size();
@@ -220,14 +175,14 @@ namespace nik
 				size_type cap=sublist::size();
 				if (count > cap) m_exte_policy::insert(sublist, sublist.terminal, count-cap, value);
 			}
+*/
 
 			void swap(list & other)
 			{
-				weaklist::iterator oinitial=other.initial, oterminal=other.terminal;
-				other.initial=sublist.initial; other.terminal=sublist.terminal;
+				iterator oinitial=other.sublist.initial, oterminal=other.sublist.terminal;
+				other.sublist.initial=sublist.initial; other.sublist.terminal=sublist.terminal;
 				sublist.initial=oinitial; sublist.terminal=oterminal;
 			}
-*/
 	};
    }
   }
