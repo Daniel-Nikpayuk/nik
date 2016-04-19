@@ -15,12 +15,12 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POLICY_H
-#define NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POLICY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POLICY_H
 
 #include"../pointer/pointer.h"
 #include"../arithmetic/arithmetic.h"
-//#include"../list/list.h"
+//#include"../chain/chain.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -38,7 +38,7 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
 /*
 */

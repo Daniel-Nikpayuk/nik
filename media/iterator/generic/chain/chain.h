@@ -25,8 +25,7 @@
 */
 
 #include"../../../../context/context/policy/policy.h"
-#include"../../../../context/semiotic/iterator/extensionwise/policy/policy.h"
-#include"../../../../context/media/iterator/extensionwise/policy/policy.h"
+#include"../../../../context/media/iterator/expansionwise/policy/policy.h"
 #include"../../../../semiotic/iterator/chain/chain.h"
 
 namespace nik
@@ -45,16 +44,18 @@ namespace nik
 	{
 		protected:
 			typedef context::context::policy<SizeType> c_policy;
-			typedef context::media::iterator::extensionwise::policy<SizeType> m_exte_policy;
+			typedef context::media::iterator::expansionwise::policy<SizeType> m_exte_policy;
 			typedef semiotic::iterator::chain<T,SizeType> weakchain;
 		public:
-			typedef typename subchain::value_type value_type;
-			typedef typename subchain::reference reference;
-			typedef typename subchain::const_reference const_reference;
-			typedef typename weaklist::node node;
-			typedef typename subchain::iterator iterator;
-			typedef typename subchain::const_iterator const_iterator;
-			typedef typename subchain::size_type size_type;
+			typedef typename weakchain::value_type value_type;
+			typedef typename weakchain::reference reference;
+			typedef typename weakchain::const_reference const_reference;
+			typedef typename weakchain::node node;
+			typedef typename weakchain::iterator iterator;
+			typedef typename weakchain::const_iterator const_iterator;
+			typedef typename weakchain::size_type size_type;
+
+			typedef typename weakchain::s_expa_policy s_expa_policy;
 		protected:
 			weakchain subchain; 
 
@@ -76,7 +77,7 @@ namespace nik
 			const_iterator end() const { return subchain.terminal; }
 			const_iterator cend() const { return subchain.terminal; }
 				// capacity:
-			bool empty() const { return length; }
+			bool empty() const { return !length; }
 			size_type size() const { return length; }
 			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
@@ -84,34 +85,20 @@ namespace nik
 /*
 			iterator insert(const_iterator it, const value_type & value)
 			{
-				++length;
-				if (it == subchain.initial)
-					return subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-				else return s_exte_policy::bid_chai::impend::with_return(it, value);
+				return m_exte_policy::ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert(const_iterator it, value_type && value)
 			{
-				++length;
-				if (it == subchain.initial)
-					return subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-				else return s_exte_policy::bid_chai::impend::with_return(it, value);
+				return m_exte_policy::ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
-				length+=count;
-				if (it == subchain.initial)
-				{
-					-subchain.initial=new weakchain::iterator();
-					return subchain.initial=s_exte_policy::bwd_over::repeat::with_return(-subchain.initial, count, value);
-				}
-				else
-				{
-					weakchain::iterator i=new weakchain::iterator(),
-						t=s_exte_policy::fwd_over::repeat::with_return(, count, value);
-					return s_exte_policy::impend::with_return(it, i, t);
-				}
+				return m_exte_policy::ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
 			}
 */
 /*
@@ -120,32 +107,19 @@ namespace nik
 */
 /*
 			iterator insert(const_iterator it, int count, const value_type & value)
-				{ return insert(it, (size_type) count, value); }
+				{ return insert_after(it, (size_type) count, value); }
 
 			template<typename RIterator, typename ERIterator>
-			iterator insert(const_iterator it, InputIterator first, InputIterator last)
+			iterator insert(const_iterator it, RIterator first, ERIterator last)
 			{
-				if (first != last)
-				{
-					if (it == subchain.initial)
-					{
-						-subchain.initial=new weakchain::iterator();
-						return subchain.initial=s_exte_policy::bid_chai::
-							prepend::count::with_return(length, -subchain.initial, first, last);
-					}
-					else return s_exte_policy::bid_chai::impend::count::with_return(length, it, first, last);
-				}
+				return m_exte_policy::ptr::impend::template
+					with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
 			iterator erase(const_iterator it)
 			{
-				if (subchain.initial != subchain.terminal)
-				{
-					--length;
-					if (it == subchain.initial)
-						return subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
-					else return s_exte_policy::bid_chai::eject::with_return(it);
-				}
+				if (+subchain.initial != subchain.terminal)
+					return m_exte_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
 			}
 */
 /*
@@ -156,86 +130,59 @@ namespace nik
 /*
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				if (subchain.initial != subchain.terminal && first != last)
-				{
-					if (first == subchain.initial) return subchain.initial=
-						s_exte_policy::bid_chai::deject::count::with_return(length, first, last);
-					else return s_exte_policy::bid_chai::eject::count::with_return(length, first, last);
-				}
+				if (+subchain.initial != subchain.terminal)
+					return m_exte_policy::ptr::eject::with_return(
+						c_policy::arg_met::template recast<iterator>(first),
+						c_policy::arg_met::template recast<iterator>(last));
 			}
 
 			void push_back(const value_type & value)
-			{
-				++length;
-				if (subchain.initial == subchain.terminal)
-					subchain.initial=s_exte_policy::bid_chai::append::with_return(subchain.initial, value);
-				else s_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
-			}
+				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void push_back(value_type && value)
-			{
-				++length;
-				if (subchain.initial == subchain.terminal)
-					subchain.initial=s_exte_policy::bid_chai::append::with_return(subchain.initial, value);
-				else s_exte_policy::bid_chai::append::no_return(subchain.terminal, value);
-			}
+				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void pop_back()
 			{
-				if (subchain.initial != subchain.terminal)
-				{
-					--length;
-					if (+subchain.initial == subchain.terminal)
-						subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
-					else s_exte_policy::bid_chai::eject::no_return(-subchain.terminal);
-				}
+				if (+subchain.initial != subchain.terminal)
+					m_exte_policy::ptr::eject::no_return(subchain.initial);
 			}
 
 			void push_front(const value_type & value)
-			{
-				++length;
-				subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-			}
+				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void push_front(value_type && value)
-			{
-				++length;
-				subchain.initial=s_exte_policy::bid_chai::prepend::with_return(subchain.initial, value);
-			}
+				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void pop_front()
 			{
-				if (subchain.initial != subchain.terminal)
-				{
-					--length;
-					subchain.initial=s_exte_policy::bid_chai::deject::with_return(subchain.initial);
-				}
+				if (+subchain.initial != subchain.terminal)
+					m_exte_policy::ptr::eject::no_return(subchain.initial);
 			}
+*/
 
+/*
 			void resize(size_type count)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) s_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
-				length=count;
+				if (count > cap) m_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) s_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
-				length=count;
+				if (count > cap) m_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
 			}
+*/
 
+/*
 			void swap(chain & other)
 			{
-				weakchain::iterator oinitial=other.initial, oterminal=other.terminal;
-				other.initial=subchain.initial; other.terminal=subchain.terminal;
+				iterator oinitial=other.subchain.initial, oterminal=other.subchain.terminal;
+				other.subchain.initial=subchain.initial; other.subchain.terminal=subchain.terminal;
 				subchain.initial=oinitial; subchain.terminal=oterminal;
-
-				size_type olength=other.length;
-				other.length=length;
-				length=olength;
 			}
+
 */
 	};
    }

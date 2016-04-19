@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -33,7 +33,7 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
 	template<typename SizeType>
 	struct pointer

@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POINTER_H
-#define NIK_CONTEXT_MEDIA_ITERATOR_EXTENSIONWISE_POINTER_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_H
 
 #include"../../../../context/policy/policy.h"
-#include"../../../../semiotic/iterator/extensionwise/policy/policy.h"
+#include"../../../../semiotic/iterator/expansionwise/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -37,7 +37,7 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
 	template<typename SizeType>
 	struct pointer
@@ -45,19 +45,11 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-		typedef semiotic::iterator::extensionwise::policy<SizeType> s_exte_policy;
+		typedef semiotic::iterator::expansionwise::policy<SizeType> s_expa_policy;
 
 			// not really tested.
 		struct prepend
 		{
-			template<typename WNode, typename WPointer, typename ValueType>
-			static void no_return(WPointer in, ValueType value)
-			{
-				WPointer out=new WNode();
-				*out=value;
-				+out=in;
-			}
-
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
@@ -73,7 +65,7 @@ namespace nik
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
 				WPointer out=new WNode();
-				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
+				no_return(in, s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
 				return out;
@@ -86,7 +78,7 @@ namespace nik
 			{
 				WPointer out=new WNode();
 				*out=*in;
-				no_return(in0, s_exte_policy::fwd_over::assign::post_test::
+				no_return(in0, s_expa_policy::fwd_over::assign::post_test::
 					template with_return<WNode>(out, in, end));
 
 				return out;
@@ -97,13 +89,6 @@ namespace nik
 			// not really tested.
 		struct append
 		{
-			template<typename WNode, typename WPointer, typename ValueType>
-			static void no_return(WPointer out, ValueType value)
-			{
-				out=+out=new WNode();
-				*out=value;
-			}
-
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, ValueType value)
 			{
@@ -118,7 +103,7 @@ namespace nik
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
 				WPointer out=new WNode();
-				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
+				no_return(in, s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
 				return out;
@@ -155,7 +140,7 @@ namespace nik
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
 				WPointer out=+in;
-				+s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(in, n, value)=out;
+				+s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(in, n, value)=out;
 
 				return +in;
 			}
@@ -299,14 +284,14 @@ namespace nik
 			template<typename WPointer, typename EWPointer>
 			static void no_return(WPointer in, EWPointer end)
 			{
-				s_exte_policy::ptr::clear::no_return(+in, end);
+				s_expa_policy::ptr::clear::no_return(+in, end);
 				+in=end;
 			}
 
 			template<typename WPointer, typename EWPointer>
 			static WPointer with_return(WPointer in, EWPointer end)
 			{
-				s_exte_policy::ptr::clear::no_return(+in, end);
+				s_expa_policy::ptr::clear::no_return(+in, end);
 				+in=end;
 
 				return +in;

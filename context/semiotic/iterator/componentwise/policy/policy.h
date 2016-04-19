@@ -19,6 +19,7 @@
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POLICY_H
 
 #include"../overload/overload.h"
+#include"../overload/pointer.h"
 #include"../arithmetic/arithmetic.h"
 
 /*
@@ -45,6 +46,13 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	pointer:
+*/
+			using ptr=pointer<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using ptr_unroll=typename ptr::template unroll<N, M, L>;
 /*
 	forward:
 */

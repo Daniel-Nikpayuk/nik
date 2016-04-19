@@ -104,19 +104,19 @@ namespace nik
 
 			iterator insert_after(const_iterator it, const value_type & value)
 			{
-				return m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert_after(const_iterator it, value_type && value)
 			{
-				return m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert_after(const_iterator it, size_type count, const value_type & value)
 			{
-				return m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
 			}
 /*
@@ -129,14 +129,14 @@ namespace nik
 			template<typename RIterator, typename ERIterator>
 			iterator insert_after(const_iterator it, RIterator first, ERIterator last)
 			{
-				return m_exte_policy::lst_ptr::impend::template
+				return m_exte_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
 			iterator erase_after(const_iterator it)
 			{
 				if (+sublist.initial != sublist.terminal)
-					return m_exte_policy::lst_ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
+					return m_exte_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
 			}
 /*
 	As first and last *should be* iterators within the bounds of sublist.initial and sublist.terminal, a comparative approach (<=)
@@ -146,21 +146,21 @@ namespace nik
 			iterator erase_after(const_iterator first, const_iterator last)
 			{
 				if (+sublist.initial != sublist.terminal)
-					return m_exte_policy::lst_ptr::eject::with_return(
+					return m_exte_policy::ptr::eject::with_return(
 						c_policy::arg_met::template recast<iterator>(first),
 						c_policy::arg_met::template recast<iterator>(last));
 			}
 
 			void push_front(const value_type & value)
-				{ m_exte_policy::lst_ptr::impend::template no_return<node>(sublist.initial, value); }
+				{ m_exte_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void push_front(value_type && value)
-				{ m_exte_policy::lst_ptr::impend::template no_return<node>(sublist.initial, value); }
+				{ m_exte_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void pop_front()
 			{
 				if (+sublist.initial != sublist.terminal)
-					m_exte_policy::lst_ptr::eject::no_return(sublist.initial);
+					m_exte_policy::ptr::eject::no_return(sublist.initial);
 			}
 
 /*

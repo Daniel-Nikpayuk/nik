@@ -18,9 +18,9 @@
 #ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
 #define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
 
+#include"../pointer/pointer.h"
 #include"../arithmetic/arithmetic.h"
 //#include"../vector/vector.h"
-//#include"../list/list.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -46,6 +46,13 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	pointer:
+*/
+			using ptr=pointer<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using ptr_unroll=typename ptr::template unroll<N, M, L>;
 /*
 	forward:
 */

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_OVERLOAD_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_OVERLOAD_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_OVERLOAD_H
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -59,7 +59,7 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
      namespace forward
      {

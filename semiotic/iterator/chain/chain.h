@@ -18,8 +18,8 @@
 #ifndef NIK_SEMIOTIC_ITERATOR_CHAIN_H
 #define NIK_SEMIOTIC_ITERATOR_CHAIN_H
 
-#include"../../../context/context/pointer/pointer.h"
-#include"../../../context/semiotic/iterator/extensionwise/policy/policy.h"
+#include"../../../context/context/node/node.h"
+#include"../../../context/semiotic/iterator/expansionwise/policy/policy.h"
 
 #include"../traits/traits.h"
 
@@ -73,11 +73,13 @@ namespace nik
 		typedef typename attributes::value_type value_type;
 		typedef typename attributes::reference reference;
 		typedef typename attributes::const_reference const_reference;
-		typedef context::context::chain_pointer<T, SizeType> iterator;
-		typedef context::context::const_chain_pointer<T, SizeType> const_iterator;
+		typedef context::context::link<T, SizeType> node;
+		typedef context::context::const_link<T, SizeType> const_node;
+		typedef typename node::pointer iterator;
+		typedef typename const_node::pointer const_iterator;
 		typedef SizeType size_type;
 
-		typedef context::semiotic::iterator::extensionwise::policy<size_type> c_exte_policy;
+		typedef context::semiotic::iterator::expansionwise::policy<size_type> s_expa_policy;
 
 		iterator initial;
 		iterator terminal;
@@ -86,18 +88,18 @@ namespace nik
 	expects an iterator without a value, while with "initial" a value is expected when the chain is non-empty.
 */
 		void initialize()
-			{ initial=terminal=new iterator(); }
+			{ initial=terminal=new node(); }
 
 		template<typename RIterator, typename ERIterator>
 		void prepend(RIterator first, ERIterator last)
-			{ c_exte_policy::bid_over::prepend::no_return(initial, first, last); }
+			{ s_expa_policy::bid_over::prepend::no_return(initial, first, last); }
 
 		template<typename RIterator, typename ERIterator>
 		void append(RIterator first, ERIterator last)
-			{ c_exte_policy::bid_over::append::no_return(terminal, first, last); }
+			{ s_expa_policy::bid_over::append::no_return(terminal, first, last); }
 
 		void shrink()
-			{ c_exte_policy::fwd_over::clear::no_return(initial, terminal); }
+			{ s_expa_policy::ptr::clear::no_return(initial, terminal); }
 
 		template<typename RIterator, typename ERIterator>
 		void copy_initialize(RIterator first, ERIterator last)
