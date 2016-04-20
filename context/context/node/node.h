@@ -21,6 +21,24 @@
 #include<stddef.h>
 
 /*
+	Intuition:
+
+	A standard pointer is a variable to an address. A node is a bundling of addresses, and a pointer
+	to such a bundling is thus a variable to a bundling of addresses. So when you dereference for example,
+	you don't dereference the bundling of addresses as an object, you deference the value. The plus (+)
+	as well as minus (-) unary operators become ways to dereference the alternate addresses. The difference
+	being that if you conceptualize this space memory addresses as an object, it means all the regular
+	grammar and interpretations of C++ all of a sudden apply: If it's an object, then you should be able to
+	dereference the pointer as an object as well as act on the object itself. You'd also then need to make
+	the additional function call of dereferencing the value from the object. The idea of the pointer is to
+	access the memory directly, with no inbetween object.
+
+	This intuitive conceptualization is the guiding design for any additional future considerations.
+	For example, one might wish to create specialized convenience constructors for a node, but from the above
+	interpretation, a node is not an object, it is NOT meant to be perceived to have constructors, only allocators.
+
+	-----------
+
 	This class is meant to be as narratively similar as possible to the builtin array pointer.
 	I have privileged this above all other considerations in the design. Let me reiterate:
 	The design privileges effective grammar expressivity as similar as possible to the builtin array pointer.
@@ -54,17 +72,22 @@ namespace nik
  {
   namespace context
   {
-	template<typename T, typename Pointer, typename SizeType, SizeType N>
+/*
+	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
+	It is only meant to have an allocator as well as meta information about the type of memory it holds.
+*/
+	template<typename Pointer>
 	class node
 	{
+		public:
+			typedef Pointer pointer;
+			typedef typename pointer::value_type value_type;
+			typedef typename pointer::size_type size_type;
 		protected:
 			typedef void* void_ptr;
 		public:
-			typedef T value_type;
-			typedef Pointer pointer;
-		public:
 			static void_ptr operator new (size_t n)
-				{ return new void_ptr[N]; }
+				{ return new void_ptr[pointer::dimension]; }
 	};
 
 	template<typename T, typename SizeType, SizeType N> class const_node_pointer;
@@ -73,15 +96,19 @@ namespace nik
 	class node_pointer
 	{
 			friend class const_node_pointer<T, SizeType, N>;
+		public:
+			typedef T value_type;
+			typedef SizeType size_type;
+
+			enum : size_type { dimension=N };
 		protected:
 			typedef node_pointer* node_pointer_ptr;
 			typedef node_pointer& node_pointer_ref;
-			typedef node<T, node_pointer, SizeType, N>* node_ptr;
+			typedef node<node_pointer>* node_ptr;
 
 			typedef T* value_type_ptr;
 			typedef T& value_type_ref;
 
-			typedef SizeType size_type;
 			enum : size_type { value=0, next=1, previous=2 };
 
 			typedef void* void_ptr;
@@ -89,8 +116,6 @@ namespace nik
 
 				// an array of unknown types.
 			void_ptr_ptr current;
-		public:
-			enum : size_type { dimension=N };
 		public:
 			node_pointer() { }
 			node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
@@ -206,15 +231,19 @@ namespace nik
 	template<typename T, typename SizeType, SizeType N>
 	class const_node_pointer
 	{
+		public:
+			typedef T const value_type;
+			typedef SizeType size_type;
+
+			enum : size_type { dimension=N };
 		protected:
 			typedef const_node_pointer* const_node_pointer_ptr;
 			typedef const_node_pointer& const_node_pointer_ref;
-			typedef node<T const, const_node_pointer, SizeType, N>* const_node_ptr;
+			typedef node<const_node_pointer>* const_node_ptr;
 
 			typedef T const * value_type_ptr;
 			typedef T const & value_type_ref;
 
-			typedef SizeType size_type;
 			enum : size_type { value=0, next=1, previous=2 };
 
 			typedef void* void_ptr;
@@ -222,8 +251,6 @@ namespace nik
 
 				// an array of unknown types.
 			void_ptr_ptr current;
-		public:
-			enum : size_type { dimension=N };
 		public:
 			const_node_pointer() { }
 			const_node_pointer(const_node_ptr p) { current=(void_ptr_ptr) p; }
@@ -338,19 +365,19 @@ namespace nik
 	#define HOOK_SIZE 2
 
 	template<typename T, typename SizeType=size_t>
-	using hook=node<T, node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
+	using hook=node<node_pointer<T, SizeType, HOOK_SIZE> >;
 
 	template<typename T, typename SizeType=size_t>
-	using const_hook=node<T const, const_node_pointer<T, SizeType, HOOK_SIZE>, SizeType, HOOK_SIZE>;
+	using const_hook=node<const_node_pointer<T, SizeType, HOOK_SIZE> >;
 
 	#undef HOOK_SIZE
 	#define LINK_SIZE 3
 
 	template<typename T, typename SizeType=size_t>
-	using link=node<T, node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
+	using link=node<node_pointer<T, SizeType, LINK_SIZE> >;
 
 	template<typename T, typename SizeType=size_t>
-	using const_link=node<T const, const_node_pointer<T, SizeType, LINK_SIZE>, SizeType, LINK_SIZE>;
+	using const_link=node<const_node_pointer<T, SizeType, LINK_SIZE> >;
 
 	#undef LINK_SIZE
   }

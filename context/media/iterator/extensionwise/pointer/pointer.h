@@ -53,7 +53,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static void no_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
 				+out=in;
 			}
@@ -61,7 +61,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
 				+out=in;
 
@@ -72,7 +72,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
@@ -84,7 +84,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
 			static WPointer with_return(WPointer in0, RIterator in, ERIterator end)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=*in;
 				no_return(in0, s_exte_policy::fwd_over::assign::post_test::
 					template with_return<WNode>(out, in, end));
@@ -100,14 +100,14 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static void no_return(WPointer out, ValueType value)
 			{
-				out=+out=new WNode();
+				out=+out=new WNode;
 				*out=value;
 			}
 
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, ValueType value)
 			{
-				out=+out=new WNode();
+				out=+out=new WNode;
 				*out=value;
 
 				return out;
@@ -117,7 +117,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				no_return(in, s_exte_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
@@ -132,7 +132,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer no_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
 				+out=+in;
 				+in=out;
@@ -141,7 +141,7 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
 				+out=+in;
 				+in=out;
@@ -170,7 +170,7 @@ namespace nik
 				WPointer out=+in, in0=in;
 				while (first != last)
 				{
-					in0=+in0=new WNode();
+					in0=+in0=new WNode;
 					*in0=*first;
 					++first;
 				}

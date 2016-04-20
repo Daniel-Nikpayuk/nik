@@ -45,8 +45,9 @@ template<typename WNode, typename WPointer, typename ValueType> \
 static void no_return(WPointer out, ValueType in) \
 { \
 	(*out)op(in); \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, in); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), in); \
 }
 
 #define unroll_with_return_0(method, dir, inv, op) \
@@ -54,8 +55,9 @@ template<typename WNode, typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, ValueType in) \
 { \
 	(*out)op(in); \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, in); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), in); \
 }
 
 #define unroll_no_return_left_0(method, dir, inv, op) \
@@ -63,8 +65,9 @@ template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
 	op(*out); \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
 #define unroll_with_return_left_0(method, dir, inv, op) \
@@ -72,8 +75,9 @@ template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
 	op(*out); \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out)); \
 }
 
 #define unroll_no_return_right_0(method, dir, inv, op) \
@@ -81,8 +85,9 @@ template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
 	(*out)op; \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
 #define unroll_with_return_right_0(method, dir, inv, op) \
@@ -90,8 +95,9 @@ template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
 	(*out)op; \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out)); \
 }
 
 #define unroll_no_return_new_0(method, dir, inv) \
@@ -99,8 +105,9 @@ template<typename Node, typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
 	*out=new Node(); \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
 #define unroll_with_return_new_0(method, dir, inv) \
@@ -108,18 +115,18 @@ template<typename Node, typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
 	*out=new Node(); \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out)); \
 }
 
 #define unroll_no_return_delete_0(method, dir, inv) \
 template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
-	WPointer current=out; \
 	dir##dir(out); \
-	delete *current; \
-	delete current; \
+	delete *inv(out); \
+	delete inv(out); \
 	unroll<N-1>::method::no_return(out); \
 }
 
@@ -127,10 +134,9 @@ static void no_return(WPointer out) \
 template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
-	WPointer current=out; \
 	dir##dir(out); \
-	delete *current; \
-	delete current; \
+	delete *inv(out); \
+	delete inv(out); \
 	return unroll<N-1>::method::with_return(out); \
 }
 
@@ -139,8 +145,9 @@ template<typename Node, typename WNode, typename WPointer> \
 static void no_return(WPointer out, size_type in) \
 { \
 	*out=new Node[in]; \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out)); \
 }
 
 #define unroll_with_return_new_brackets_0(method, dir, inv) \
@@ -148,18 +155,18 @@ template<typename Node, typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out, size_type in) \
 { \
 	*out=new Node[in]; \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out)); \
 }
 
 #define unroll_no_return_delete_brackets_0(method, dir, inv) \
 template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
-	WPointer current=out; \
 	dir##dir(out); \
-	delete [] *current; \
-	delete current; \
+	delete [] *inv(out); \
+	delete inv(out); \
 	unroll<N-1>::method::no_return(out); \
 }
 
@@ -167,10 +174,9 @@ static void no_return(WPointer out) \
 template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
-	WPointer current=out; \
 	dir##dir(out); \
-	delete [] *current; \
-	delete current; \
+	delete [] *inv(out); \
+	delete inv(out); \
 	return unroll<N-1>::method::with_return(out); \
 }
 
@@ -186,8 +192,9 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 { \
 	(*out)op(*in); \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -200,8 +207,9 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
 { \
 	(*out)op(*in); \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -214,8 +222,9 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 { \
 	(*out)op(*in)r; \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in)); \
 }
 
 /*
@@ -228,8 +237,9 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
 { \
 	*(out)op(*in)r; \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in)); \
 }
 
 #define unroll_no_return_new_brackets_1(method, dir, inv) \
@@ -237,8 +247,9 @@ template<typename Node, typename WNode, typename WPointer, typename RPointer> \
 static void no_return(WPointer out, RPointer in) \
 { \
 	*out=new Node[*in]; \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in)); \
 }
 
 #define unroll_with_return_new_brackets_1(method, dir, inv) \
@@ -246,8 +257,9 @@ template<typename Node, typename WNode, typename WPointer, typename RPointer> \
 static WPointer with_return(WPointer out, RPointer in) \
 { \
 	*out=new Node[*in]; \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in)); \
 }
 
 /************************************************************************************************************************/
@@ -262,8 +274,9 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	(*out)=(*in1)op(*in2); \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -276,8 +289,9 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	(*out)=(*in1)op(*in2); \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -290,8 +304,9 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	(*out)=(*in1)op[*in2]; \
-	out=dir(out)=new WNode(); \
-	unroll<N-1>::method::no_return(out, dir##dir(in1), dir##dir(in2)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	unroll<N-1>::method::no_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 
 /*
@@ -304,7 +319,8 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	(*out)=(*in1)op[*in2]; \
-	out=dir(out)=new WNode(); \
-	return unroll<N-1>::method::with_return(out, dir##dir(in1), dir##dir(in2)); \
+	dir(out)=new WNode; \
+	inv(dir(out))=out; \
+	return unroll<N-1>::method::with_return(dir##dir(out), dir##dir(in1), dir##dir(in2)); \
 }
 

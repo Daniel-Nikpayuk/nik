@@ -53,30 +53,34 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
-				*out=value;
-				+out=in;
+				-in=new WNode;
+				+(-in)=in;
+				*--in=value;
 
-				return out;
+				return in;
 			}
 /*
 	n >= 1.
+*/
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WNode();
-				no_return(in, s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
-				*out=value;
+				WPointer begin=new WNode;
+				*begin=value;
+				WPointer before_end=s_expa_policy::fwd_over::repeat::post_test::template
+					with_return<WNode>(begin, n-1, value);
 
-				return out;
+				+before_end=in;
+				-in=before_end;
+
+				return begin;
 			}
-*/
 /*
 	in != end
 			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
 			static WPointer with_return(WPointer in0, RIterator in, ERIterator end)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=*in;
 				no_return(in0, s_expa_policy::fwd_over::assign::post_test::
 					template with_return<WNode>(out, in, end));
@@ -92,17 +96,18 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, ValueType value)
 			{
-				out=+out=new WNode();
-				*out=value;
+				+out=new WNode;
+				*+out=value;
+				-(+out)=out;
 
-				return out;
+				return +out;
 			}
 
 /*
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				no_return(in, s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
 				*out=value;
 
@@ -117,19 +122,23 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer no_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
-				+out=+in;
-				+in=out;
+				+(-in)=out;
+				-out=-in;
+				+out=in;
+				-in=out;
 			}
 
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, ValueType value)
 			{
-				WPointer out=new WNode();
+				WPointer out=new WNode;
 				*out=value;
-				+out=+in;
-				+in=out;
+				+(-in)=out;
+				-out=-in;
+				+out=in;
+				-in=out;
 
 				return out;
 			}
@@ -139,10 +148,14 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer out=+in;
-				+s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(in, n, value)=out;
+				WPointer before_begin=-in;
+				WPointer before_end=s_expa_policy::fwd_over::repeat::post_test::template
+					with_return<WNode>(before_begin, n, value);
 
-				return +in;
+				+before_end=in;
+				-in=before_end;
+
+				return +before_begin;
 			}
 /*
 	first != last:
@@ -155,7 +168,7 @@ namespace nik
 				WPointer out=+in, in0=in;
 				while (first != last)
 				{
-					in0=+in0=new WNode();
+					in0=+in0=new WNode;
 					*in0=*first;
 					++first;
 				}

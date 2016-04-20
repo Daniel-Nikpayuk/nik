@@ -37,7 +37,9 @@ static void no_return(WPointer out, size_type n, ValueType in) \
 	while (n) \
 	{ \
 		(*out)op(in); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
 }
@@ -49,7 +51,9 @@ static WPointer with_return(WPointer out, size_type n, ValueType in) \
 	while (n) \
 	{ \
 		(*out)op(in); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
  \
@@ -63,7 +67,9 @@ static void no_return(WPointer out, size_type n) \
 	while (n) \
 	{ \
 		op(*out); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
 }
@@ -75,7 +81,9 @@ static WPointer with_return(WPointer out, size_type n) \
 	while (n) \
 	{ \
 		op(*out); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
  \
@@ -89,7 +97,9 @@ static void no_return(WPointer out, size_type n) \
 	while (n) \
 	{ \
 		(*out)op; \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
 }
@@ -101,7 +111,9 @@ static WPointer with_return(WPointer out, size_type n) \
 	while (n) \
 	{ \
 		(*out)op; \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 		--n; \
 	} \
  \
@@ -115,7 +127,9 @@ static void no_return(WPointer out, EWPointer end) \
 	while (out != end) \
 	{ \
 		*out=new Node(); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 	} \
 }
 
@@ -126,7 +140,9 @@ static WPointer with_return(WPointer out, EWPointer end) \
 	while (out != end) \
 	{ \
 		*out=new Node(); \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 	} \
  \
 	return out; \
@@ -138,10 +154,9 @@ static void no_return(WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		WPointer current=out; \
 		dir##dir(out); \
-		delete *current; \
-		delete current; \
+		delete *inv(out); \
+		delete inv(out); \
 	} \
 }
 
@@ -151,10 +166,9 @@ static WPointer with_return(WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		WPointer current=out; \
 		dir##dir(out); \
-		delete *current; \
-		delete current; \
+		delete *inv(out); \
+		delete inv(out); \
 	} \
  \
 	return out; \
@@ -167,7 +181,9 @@ static void no_return(WPointer out, EWPointer end, size_type in) \
 	while (out != end) \
 	{ \
 		*out=new Node[in]; \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 	} \
 }
 
@@ -178,7 +194,9 @@ static WPointer with_return(WPointer out, EWPointer end, size_type in) \
 	while (out != end) \
 	{ \
 		*out=new Node[in]; \
-		out=dir(out)=new WNode(); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); \
 	} \
  \
 	return out; \
@@ -190,10 +208,9 @@ static void no_return(WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		WPointer current=out; \
 		dir##dir(out); \
-		delete [] *current; \
-		delete current; \
+		delete [] *inv(out); \
+		delete inv(out); \
 	} \
 }
 
@@ -203,10 +220,9 @@ static WPointer with_return(WPointer out, EWPointer end) \
 { \
 	while (out != end) \
 	{ \
-		WPointer current=out; \
 		dir##dir(out); \
-		delete [] *current; \
-		delete current; \
+		delete [] *inv(out); \
+		delete inv(out); \
 	} \
  \
 	return out; \
@@ -226,8 +242,9 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		(*out)op(*in); \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
 }
 
@@ -243,8 +260,9 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		(*out)op(*in); \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
  \
 	return out; \
@@ -262,8 +280,9 @@ static void no_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		(*out)op(*in)r; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
 }
 
@@ -279,8 +298,9 @@ static WPointer with_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		*(out)op(*in)r; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
  \
 	return out; \
@@ -293,8 +313,9 @@ static void no_return(WPointer out, RPointer in, ERPointer end) \
 	while (in != end) \
 	{ \
 		*out=new Node[*in]; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
 }
 
@@ -305,8 +326,9 @@ static WPointer with_return(WPointer out, RPointer in, ERPointer end) \
 	while (in != end) \
 	{ \
 		*out=new Node[*in]; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in); \
 	} \
  \
 	return out; \
@@ -326,8 +348,9 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WNode(); \
-		dir##dir(in1); dir##dir(in2); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	} \
 }
 
@@ -343,8 +366,9 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WNode(); \
-		dir##dir(in1); dir##dir(in2); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	} \
  \
 	return out; \
@@ -362,8 +386,9 @@ static void no_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator e
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in1); dir##dir(in2); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	} \
 }
 
@@ -379,8 +404,9 @@ static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIter
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WNode(); \
-		dir##dir(in1); dir##dir(in2); \
+		dir(out)=new WNode; \
+		inv(dir(out))=out; \
+		dir##dir(out); dir##dir(in1); dir##dir(in2); \
 	} \
  \
 	return out; \

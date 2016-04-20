@@ -92,11 +92,11 @@ namespace nik
 
 		template<typename RIterator, typename ERIterator>
 		void prepend(RIterator first, ERIterator last)
-			{ s_expa_policy::bid_over::prepend::no_return(initial, first, last); }
+			{ s_expa_policy::bwd_over::assign::post_test::template no_return<node>(initial, last, first); }
 
 		template<typename RIterator, typename ERIterator>
 		void append(RIterator first, ERIterator last)
-			{ s_expa_policy::bid_over::append::no_return(terminal, first, last); }
+			{ s_expa_policy::fwd_over::assign::template no_return<node>(terminal, first, last); }
 
 		void shrink()
 			{ s_expa_policy::ptr::clear::no_return(initial, terminal); }

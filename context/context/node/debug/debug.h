@@ -31,7 +31,7 @@ namespace nik
  {
 	struct node
 	{
-		typedef context::context::node<int, int, size_t, 2> node_type;
+		typedef context::context::hook<int> node_type;
 
 		static void allocator()
 		{

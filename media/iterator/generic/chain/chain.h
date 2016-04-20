@@ -44,7 +44,7 @@ namespace nik
 	{
 		protected:
 			typedef context::context::policy<SizeType> c_policy;
-			typedef context::media::iterator::expansionwise::policy<SizeType> m_exte_policy;
+			typedef context::media::iterator::expansionwise::policy<SizeType> m_expa_policy;
 			typedef semiotic::iterator::chain<T,SizeType> weakchain;
 		public:
 			typedef typename weakchain::value_type value_type;
@@ -62,6 +62,7 @@ namespace nik
 			size_type length;
 		public:
 			chain() : length(0) { subchain.initialize(); }
+			chain(const chain & c) { subchain.copy_initialize(c.begin(), c.end()); }
 			~chain() { subchain.terminalize(); }
 		public:
 				// element access:
@@ -81,45 +82,63 @@ namespace nik
 			size_type size() const { return length; }
 			size_type max_size() const { return c_policy::par_num::max(); }
 				// modifiers:
-			void clear() { subchain.shrink(); }
-/*
+			void clear()
+			{
+				subchain.shrink();
+				length=0;
+			}
+
 			iterator insert(const_iterator it, const value_type & value)
 			{
-				return m_exte_policy::ptr::impend::template
+				++length;
+				if (it == subchain.initial)
+					return subchain.initial=m_expa_policy::ptr::prepend::template
+						with_return<node>(subchain.initial, value);
+				else return m_expa_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert(const_iterator it, value_type && value)
 			{
-				return m_exte_policy::ptr::impend::template
+				++length;
+				if (it == subchain.initial)
+					return subchain.initial=m_expa_policy::ptr::prepend::template
+						with_return<node>(subchain.initial, value);
+				else return m_expa_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
 			}
 
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
-				return m_exte_policy::ptr::impend::template
+				length+=count;
+				if (it == subchain.initial)
+					return subchain.initial=m_expa_policy::ptr::prepend::template
+						with_return<node>(subchain.initial, count, value);
+				else return m_expa_policy::ptr::impend::template
 					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
 			}
-*/
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
 	as a better match.
 */
-/*
 			iterator insert(const_iterator it, int count, const value_type & value)
-				{ return insert_after(it, (size_type) count, value); }
+				{ return insert(it, (size_type) count, value); }
 
+/*
 			template<typename RIterator, typename ERIterator>
 			iterator insert(const_iterator it, RIterator first, ERIterator last)
 			{
-				return m_exte_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
+				if (it == subchain.initial)
+					return subchain.initial=m_expa_policy::ptr::prepend::count::template
+						with_return<node>(length, subchain.initial, first, last);
+				else return m_expa_policy::ptr::impend::count::template
+					with_return<node>(length, c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
 			iterator erase(const_iterator it)
 			{
 				if (+subchain.initial != subchain.terminal)
-					return m_exte_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
+					return m_expa_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
 			}
 */
 /*
@@ -131,33 +150,33 @@ namespace nik
 			iterator erase(const_iterator first, const_iterator last)
 			{
 				if (+subchain.initial != subchain.terminal)
-					return m_exte_policy::ptr::eject::with_return(
+					return m_expa_policy::ptr::eject::with_return(
 						c_policy::arg_met::template recast<iterator>(first),
 						c_policy::arg_met::template recast<iterator>(last));
 			}
 
 			void push_back(const value_type & value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void push_back(value_type && value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void pop_back()
 			{
 				if (+subchain.initial != subchain.terminal)
-					m_exte_policy::ptr::eject::no_return(subchain.initial);
+					m_expa_policy::ptr::eject::no_return(subchain.initial);
 			}
 
 			void push_front(const value_type & value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void push_front(value_type && value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
 
 			void pop_front()
 			{
 				if (+subchain.initial != subchain.terminal)
-					m_exte_policy::ptr::eject::no_return(subchain.initial);
+					m_expa_policy::ptr::eject::no_return(subchain.initial);
 			}
 */
 
@@ -165,13 +184,13 @@ namespace nik
 			void resize(size_type count)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) m_exte_policy::insert(subchain, subchain.terminal, count-cap, value_type());
+				if (count > cap) m_expa_policy::insert(subchain, subchain.terminal, count-cap, value_type());
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=subchain::size();
-				if (count > cap) m_exte_policy::insert(subchain, subchain.terminal, count-cap, value);
+				if (count > cap) m_expa_policy::insert(subchain, subchain.terminal, count-cap, value);
 			}
 */
 

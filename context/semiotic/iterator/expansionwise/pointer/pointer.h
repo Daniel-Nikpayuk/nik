@@ -46,7 +46,7 @@ namespace nik
 		{
 			template<typename WPointer, typename ERPointer>
 			static void no_return(WPointer out, ERPointer end)
-				{ while (out != end) delete out++; }
+				{ while (out != end) delete -(++out); }
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>
@@ -57,7 +57,7 @@ namespace nik
 				template<typename WPointer, typename ERPointer>
 				static void no_return(WPointer out, ERPointer end)
 				{
-					delete out++;
+					delete -(++out);
 					unroll<N-1>::clear::no_return(out, end);
 				}
 			};

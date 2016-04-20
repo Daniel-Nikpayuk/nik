@@ -20,7 +20,9 @@
 
 #include"../../../../context/context/display/display.h"
 
-#include"../../numeric/uint/uint.h"
+//#include"../../numeric/uint/uint.h"
+#include"../list/list.h"
+#include"../chain/chain.h"
 
 namespace nik
 {
@@ -32,7 +34,15 @@ namespace nik
    {
 	struct printer : public context::context::printer
 	{
-//		using context::context::printer::print;
+		using context::context::printer::print;
+
+		template<typename T, typename SizeType>
+		void print(const chain<T, SizeType> & c)
+		{
+			for (typename chain<T, SizeType>::const_iterator k=c.begin(); k != c.end(); ++k) nik::display << *k << ' ';
+			nik::display << nik::endl;
+			nik::display << "hi" << nik::endl;
+		}
 
 /*
 		template<typename ValueType>

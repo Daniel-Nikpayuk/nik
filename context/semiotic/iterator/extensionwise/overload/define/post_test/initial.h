@@ -34,7 +34,7 @@
 template<typename WNode, typename WPointer, typename ValueType> \
 static void no_return(WPointer out, ValueType in) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op(in); \
 }
 
@@ -42,7 +42,7 @@ static void no_return(WPointer out, ValueType in) \
 template<typename WNode, typename WPointer, typename ValueType> \
 static WPointer with_return(WPointer out, ValueType in) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op(in); \
  \
 	return out; \
@@ -52,7 +52,7 @@ static WPointer with_return(WPointer out, ValueType in) \
 template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	op(*out); \
 }
 
@@ -60,7 +60,7 @@ static void no_return(WPointer out) \
 template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	op(*out); \
  \
 	return out; \
@@ -70,7 +70,7 @@ static WPointer with_return(WPointer out) \
 template<typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op; \
 }
 
@@ -78,7 +78,7 @@ static void no_return(WPointer out) \
 template<typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op; \
  \
 	return out; \
@@ -88,7 +88,7 @@ static WPointer with_return(WPointer out) \
 template<typename Node, typename WNode, typename WPointer> \
 static void no_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node(); \
 }
 
@@ -96,7 +96,7 @@ static void no_return(WPointer out) \
 template<typename Node, typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node(); \
  \
 	return out; \
@@ -128,7 +128,7 @@ static WPointer with_return(WPointer out) \
 template<typename Node, typename WNode, typename WPointer> \
 static void no_return(WPointer out, size_type in) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node[in]; \
 }
 
@@ -136,7 +136,7 @@ static void no_return(WPointer out, size_type in) \
 template<typename Node, typename WNode, typename WPointer> \
 static WPointer with_return(WPointer out, size_type in) \
 { \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node[in]; \
  \
 	return out; \
@@ -176,7 +176,7 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op(*in); \
 }
 
@@ -190,7 +190,7 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op(*in); \
  \
 	return out; \
@@ -206,7 +206,7 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static void no_return(WPointer out, RIterator in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)op(*in)r; \
 }
 
@@ -220,7 +220,7 @@ template<typename WNode, typename WPointer, typename RIterator> \
 static WPointer with_return(WPointer out, RIterator in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*(out)op(*in)r; \
  \
 	return out; \
@@ -231,7 +231,7 @@ template<typename Node, typename WNode, typename WPointer, typename RPointer> \
 static void no_return(WPointer out, RPointer in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node[*in]; \
 }
 
@@ -240,7 +240,7 @@ template<typename Node, typename WNode, typename WPointer, typename RPointer> \
 static WPointer with_return(WPointer out, RPointer in) \
 { \
 	dir##dir(in); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	*out=new Node[*in]; \
  \
 	return out; \
@@ -258,7 +258,7 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	dir##dir(in1); dir##dir(in2); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)=(*in1)op(*in2); \
 }
 
@@ -272,7 +272,7 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	dir##dir(in1); dir##dir(in2); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)=(*in1)op(*in2); \
  \
 	return out; \
@@ -288,7 +288,7 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static void no_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	dir##dir(in1); dir##dir(in2); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)=(*in1)op[*in2]; \
 }
 
@@ -302,7 +302,7 @@ template<typename WNode, typename WPointer, typename RIterator1, typename RItera
 static WPointer with_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
 	dir##dir(in1); dir##dir(in2); \
-	out=dir(out)=new WNode(); \
+	out=dir(out)=new WNode; \
 	(*out)=(*in1)op[*in2]; \
  \
 	return out; \
