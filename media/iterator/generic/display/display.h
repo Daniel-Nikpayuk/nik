@@ -38,11 +38,7 @@ namespace nik
 
 		template<typename T, typename SizeType>
 		void print(const chain<T, SizeType> & c)
-		{
-			for (typename chain<T, SizeType>::const_iterator k=c.begin(); k != c.end(); ++k) nik::display << *k << ' ';
-			nik::display << nik::endl;
-			nik::display << "hi" << nik::endl;
-		}
+			{ for (typename chain<T, SizeType>::const_iterator k=c.begin(); k != c.end(); ++k) nik::display << *k << ' '; }
 
 /*
 		template<typename ValueType>
