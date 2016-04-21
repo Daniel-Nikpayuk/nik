@@ -88,7 +88,7 @@ namespace nik
 	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
 */
 		void initialize()
-			{ initial=terminal=new node(); }
+			{ initial=terminal=new node; }
 
 		template<typename RIterator, typename ERIterator>
 		void grow(RIterator first, ERIterator last)

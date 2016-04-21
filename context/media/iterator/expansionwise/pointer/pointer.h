@@ -47,15 +47,151 @@ namespace nik
 		typedef context::policy<size_type> c_policy;
 		typedef semiotic::iterator::expansionwise::policy<SizeType> s_expa_policy;
 
-			// not really tested.
+			// somewhat tested.
 		struct prepend
 		{
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, ValueType value)
+			template<typename WPointer>
+			static void no_return(WPointer out, WPointer in)
 			{
-				-in=new WNode;
-				+(-in)=in;
-				*--in=value;
+				+in=out;
+				-out=in;
+			}
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer out, WPointer in)
+			{
+				+in=out;
+				-out=in;
+
+				return in;
+			}
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static void no_return(WPointer out, ValueType value)
+				{ *with_return(out, WPointer(new WNode))=value; }
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer out, ValueType value)
+			{
+				WPointer in=with_return(out, WPointer(new WNode));
+				*in=value;
+
+				return in;
+			}
+/*
+	n >= 1.
+*/
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, size_type n, ValueType value)
+				{ return s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(in, n, value); }
+/*
+	in != end
+*/
+			struct count
+			{
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				{
+					WPointer b=new WNode;
+					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+					no_return(in0, -e);
+					delete e;
+
+					return b;
+				}
+
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer fast_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				{
+					return s_expa_policy::bwd_over::assign::post_test::count::template
+						with_return<WNode>(count, in0, end, in);
+				}
+			};
+		};
+
+			// somewhat tested.
+		struct append
+		{
+			template<typename WPointer>
+			static void no_return(WPointer out, WPointer in)
+			{
+				+out=in;
+				-in=out;
+			}
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer out, WPointer in)
+			{
+				+out=in;
+				-in=out;
+
+				return in;
+			}
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static void no_return(WPointer out, ValueType value)
+				{ *with_return(out, WPointer(new WNode))=value; }
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer out, ValueType value)
+			{
+				WPointer in=with_return(out, WPointer(new WNode));
+				*in=value;
+
+				return in;
+			}
+/*
+	n >= 1.
+*/
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer in, size_type n, ValueType value)
+				{ return s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(in, n, value); }
+/*
+	in != end
+*/
+			struct count
+			{
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				{
+					WPointer b=with_return(in0, WPointer(new WNode));
+					return s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+				}
+			};
+		};
+
+			// somewhat tested.
+		struct impend
+		{
+			template<typename WPointer>
+			static WPointer no_return(WPointer out, WPointer in)
+			{
+				+(-out)=in;
+				-in=-out;
+				+in=out;
+				-out=in;
+			}
+
+			template<typename WPointer>
+			static WPointer with_return(WPointer out, WPointer in)
+			{
+				+(-out)=in;
+				-in=-out;
+				+in=out;
+				-out=in;
+
+				return in;
+			}
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer no_return(WPointer out, ValueType value)
+				{ *with_return(out, WPointer(new WNode))=value; }
+
+			template<typename WNode, typename WPointer, typename ValueType>
+			static WPointer with_return(WPointer out, ValueType value)
+			{
+				WPointer in=with_return(out, WPointer(new WNode));
+				*in=value;
 
 				return in;
 			}
@@ -65,118 +201,35 @@ namespace nik
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer in, size_type n, ValueType value)
 			{
-				WPointer begin=new WNode;
-				*begin=value;
-				WPointer before_end=s_expa_policy::fwd_over::repeat::post_test::template
-					with_return<WNode>(begin, n-1, value);
-
-				+before_end=in;
-				-in=before_end;
-
-				return begin;
-			}
-/*
-	in != end
-			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-			static WPointer with_return(WPointer in0, RIterator in, ERIterator end)
-			{
-				WPointer out=new WNode;
-				*out=*in;
-				no_return(in0, s_expa_policy::fwd_over::assign::post_test::
-					template with_return<WNode>(out, in, end));
-
-				return out;
-			}
-*/
-		};
-
-			// not really tested.
-		struct append
-		{
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer out, ValueType value)
-			{
-				+out=new WNode;
-				*+out=value;
-				-(+out)=out;
-
-				return +out;
-			}
-
-/*
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, size_type n, ValueType value)
-			{
-				WPointer out=new WNode;
-				no_return(in, s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n-1, value));
-				*out=value;
-
-				return out;
-			}
-*/
-		};
-
-			// somewhat tested.
-		struct impend
-		{
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer no_return(WPointer in, ValueType value)
-			{
-				WPointer out=new WNode;
-				*out=value;
-				+(-in)=out;
-				-out=-in;
-				+out=in;
-				-in=out;
-			}
-
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, ValueType value)
-			{
-				WPointer out=new WNode;
-				*out=value;
-				+(-in)=out;
-				-out=-in;
-				+out=in;
-				-in=out;
-
-				return out;
-			}
-/*
-	n >= 1.
-*/
-			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, size_type n, ValueType value)
-			{
-				WPointer before_begin=-in;
-				WPointer before_end=s_expa_policy::fwd_over::repeat::post_test::template
-					with_return<WNode>(before_begin, n, value);
-
-				+before_end=in;
-				-in=before_end;
-
-				return +before_begin;
+				return append::with_return(-in,
+					s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(in, n, value));
 			}
 /*
 	first != last:
 
 	Semantically nothing changes if (first == last), but a bit of unnecessary work is still done.
 */
-			template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-			static WPointer with_return(WPointer in, RIterator first, ERIterator last)
+			struct count
 			{
-				WPointer out=+in, in0=in;
-				while (first != last)
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
 				{
-					in0=+in0=new WNode;
-					*in0=*first;
-					++first;
+					WPointer b=new WNode;
+					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+					no_return(in0, -e);
+					delete e;
+
+					return b;
 				}
 
-				+in0=out;
-
-				return +in;
-			}
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer fast_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				{
+					return append::with_return(-in0,
+							s_expa_policy::bwd_over::assign::post_test::count::template
+								with_return<WNode>(count, in0, end, in));
+				}
+			};
 		};
 
 			// not really tested.

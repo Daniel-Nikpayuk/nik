@@ -61,7 +61,7 @@
 	void* casting is subtle, as the same memory cast to two different types works, but referencing within such memory
 	changes on the interpretation of the type of that memory.
 
-	By defining the node before the node_pointer, we can call "new node()" outside of the pointer's scope,
+	By defining the node before the node_pointer, we can call "new node" outside of the pointer's scope,
 	the tradeoff is the extended namespace calling in order to do so (nik::context::context:: ...).
 	One would need to typedef. I have included a typedef of the pointer within its node.
 */

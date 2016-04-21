@@ -63,8 +63,8 @@ namespace nik
 
 			void initialize()
 			{
-				sublist.terminal=new node();
-				sublist.initial=new node();
+				sublist.terminal=new node;
+				sublist.initial=new node;
 				+sublist.initial=sublist.terminal;
 			}
 		public:

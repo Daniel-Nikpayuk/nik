@@ -124,7 +124,6 @@ namespace nik
 			iterator insert(const_iterator it, int count, const value_type & value)
 				{ return insert(it, (size_type) count, value); }
 
-/*
 			template<typename RIterator, typename ERIterator>
 			iterator insert(const_iterator it, RIterator first, ERIterator last)
 			{
@@ -135,6 +134,7 @@ namespace nik
 					with_return<node>(length, c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
+/*
 			iterator erase(const_iterator it)
 			{
 				if (+subchain.initial != subchain.terminal)

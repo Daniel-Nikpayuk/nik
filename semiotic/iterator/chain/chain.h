@@ -88,10 +88,21 @@ namespace nik
 	expects an iterator without a value, while with "initial" a value is expected when the chain is non-empty.
 */
 		void initialize()
-			{ initial=terminal=new node(); }
+			{ initial=terminal=new node; }
 
 		template<typename RIterator, typename ERIterator>
 		void prepend(RIterator first, ERIterator last)
+		{
+			iterator b=new node;
+			iterator e=--s_expa_policy::fwd_over::assign::template with_return<node>(b, first, last);
+			delete +e;
+			+e=initial;
+			-initial=e;
+			initial=b;
+		}
+
+		template<typename RIterator, typename ERIterator>
+		void fast_prepend(RIterator first, ERIterator last)
 			{ initial=s_expa_policy::bwd_over::assign::post_test::template with_return<node>(initial, last, first); }
 
 		template<typename RIterator, typename ERIterator>
