@@ -47,6 +47,19 @@ namespace nik
 			template<typename WPointer, typename ERPointer>
 			static void no_return(WPointer out, ERPointer end)
 				{ while (out != end) delete -(++out); }
+
+			struct count
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(size_type & count, WPointer out, ERPointer end)
+				{
+					while (out != end)
+					{
+						delete -(++out);
+						--count;
+					}
+				}
+			};
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>

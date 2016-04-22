@@ -82,29 +82,29 @@ namespace nik
 	n >= 1.
 */
 			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, size_type n, ValueType value)
-				{ return s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(in, n, value); }
+			static WPointer with_return(WPointer out, size_type n, ValueType value)
+				{ return s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
 /*
 	in != end
 */
 			struct count
 			{
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					WPointer b=new WNode;
 					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
-					no_return(in0, -e);
+					no_return(out, -e);
 					delete e;
 
 					return b;
 				}
 
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer fast_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				static WPointer fast_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					return s_expa_policy::bwd_over::assign::post_test::count::template
-						with_return<WNode>(count, in0, end, in);
+						with_return<WNode>(count, out, end, in);
 				}
 			};
 		};
@@ -144,17 +144,17 @@ namespace nik
 	n >= 1.
 */
 			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, size_type n, ValueType value)
-				{ return s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(in, n, value); }
+			static WPointer with_return(WPointer out, size_type n, ValueType value)
+				{ return s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
 /*
 	in != end
 */
 			struct count
 			{
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
-					WPointer b=with_return(in0, WPointer(new WNode));
+					WPointer b=with_return(out, WPointer(new WNode));
 					return s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
 				}
 			};
@@ -199,10 +199,10 @@ namespace nik
 	n >= 1.
 */
 			template<typename WNode, typename WPointer, typename ValueType>
-			static WPointer with_return(WPointer in, size_type n, ValueType value)
+			static WPointer with_return(WPointer out, size_type n, ValueType value)
 			{
-				return append::with_return(-in,
-					s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(in, n, value));
+				return append::with_return(-out,
+					s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value));
 			}
 /*
 	first != last:
@@ -212,22 +212,22 @@ namespace nik
 			struct count
 			{
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer with_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					WPointer b=new WNode;
 					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
-					no_return(in0, -e);
+					no_return(out, -e);
 					delete e;
 
 					return b;
 				}
 
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer fast_return(size_type & count, WPointer in0, RIterator in, ERIterator end)
+				static WPointer fast_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
-					return append::with_return(-in0,
+					return append::with_return(-out,
 							s_expa_policy::bwd_over::assign::post_test::count::template
-								with_return<WNode>(count, in0, end, in));
+								with_return<WNode>(count, out, end, in));
 				}
 			};
 		};
@@ -239,30 +239,48 @@ namespace nik
 	Assumes 't' is the original front: detaches 't'; deletes 't'; returns the new front.
 
 	Does not detach new front from original front resulting in a dangling pointer.
+*/
+			template<typename WPointer>
+			static void no_return(WPointer out) { delete -++out; }
+
 			template<typename WPointer>
 			static WPointer with_return(WPointer out)
 			{
-				++out;
-				delete -out;
-				-out=0;
+				delete -++out;
 
 				return out;
 			}
-*/
 /*
 	Pops everything from first to last while returning last.
 
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
-			template<typename WPointer, typename ERPointer>
-			static WPointer with_return(WPointer out, ERPointer end)
-			{
-				-last=0;
-				while ((first=+first) != last) delete (-first);
-				delete (-first);
-
-				return out;
-			}
 */
+			template<typename WPointer, typename EWPointer>
+			static void no_return(WPointer out, EWPointer end)
+				{ s_expa_policy::ptr::clear::no_return(out, end); }
+
+			template<typename WPointer, typename EWPointer>
+			static WPointer with_return(WPointer out, EWPointer end)
+			{
+				s_expa_policy::ptr::clear::no_return(out, end);
+
+				return end;
+			}
+
+			struct count
+			{
+				template<typename WPointer, typename EWPointer>
+				static void no_return(size_type & count, WPointer out, EWPointer end)
+					{ s_expa_policy::ptr::clear::count::no_return(count, out, end); }
+
+				template<typename WPointer, typename EWPointer>
+				static WPointer with_return(size_type & count, WPointer out, EWPointer end)
+				{
+					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+
+					return end;
+				}
+			};
 		};
 
 			// not really tested.
@@ -326,21 +344,23 @@ namespace nik
 	Assumes -t != 0 and +t != 0.
 */
 			template<typename WPointer>
-			static void no_return(WPointer in)
+			static void no_return(WPointer out)
 			{
-				WPointer out=+(+in);
-				delete +in;
-				+in=out;
+				WPointer in=+out;
+				+(-out)=in;
+				-in=-out;
+				delete out;
 			}
 
 			template<typename WPointer>
-			static WPointer with_return(WPointer in)
+			static WPointer with_return(WPointer out)
 			{
-				WPointer out=+(+in);
-				delete +in;
-				+in=out;
+				WPointer in=+out;
+				+(-out)=in;
+				-in=-out;
+				delete out;
 
-				return +in;
+				return in;
 			}
 /*
 	Erases everything from first to last and returns the new pointer at that same location where first was.
@@ -348,20 +368,47 @@ namespace nik
 	No need for generic Iterator as you are erasing from a given structure.
 */
 			template<typename WPointer, typename EWPointer>
-			static void no_return(WPointer in, EWPointer end)
+			static void no_return(WPointer out, EWPointer end)
 			{
-				s_expa_policy::ptr::clear::no_return(+in, end);
+				WPointer in=-out;
+				s_expa_policy::ptr::clear::no_return(out, end);
 				+in=end;
+				-end=in;
 			}
 
 			template<typename WPointer, typename EWPointer>
-			static WPointer with_return(WPointer in, EWPointer end)
+			static WPointer with_return(WPointer out, EWPointer end)
 			{
-				s_expa_policy::ptr::clear::no_return(+in, end);
+				WPointer in=-out;
+				s_expa_policy::ptr::clear::no_return(out, end);
 				+in=end;
+				-end=in;
 
-				return +in;
+				return end;
 			}
+
+			struct count
+			{
+				template<typename WPointer, typename EWPointer>
+				static void no_return(size_type & count, WPointer out, EWPointer end)
+				{
+					WPointer in=-out;
+					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+					+in=end;
+					-end=in;
+				}
+
+				template<typename WPointer, typename EWPointer>
+				static WPointer with_return(size_type & count, WPointer out, EWPointer end)
+				{
+					WPointer in=-out;
+					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+					+in=end;
+					-end=in;
+
+					return end;
+				}
+			};
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>

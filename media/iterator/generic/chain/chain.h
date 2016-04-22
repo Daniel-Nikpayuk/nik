@@ -134,51 +134,76 @@ namespace nik
 					with_return<node>(length, c_policy::arg_met::template recast<iterator>(it), first, last);
 			}
 
-/*
 			iterator erase(const_iterator it)
 			{
-				if (+subchain.initial != subchain.terminal)
-					return m_expa_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
+				if (subchain.initial != subchain.terminal)
+				{
+					--length;
+					if (it == subchain.initial)
+						return subchain.initial=m_expa_policy::ptr::deject::
+							with_return(subchain.initial);
+					else return m_expa_policy::ptr::eject::
+						with_return(c_policy::arg_met::template recast<iterator>(it));
+				}
 			}
-*/
 /*
 	As first and last *should be* iterators within the bounds of subchain.initial and subchain.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
-/*
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				if (+subchain.initial != subchain.terminal)
-					return m_expa_policy::ptr::eject::with_return(
+				if (subchain.initial != subchain.terminal)
+					if (first == subchain.initial)
+						return subchain.initial=m_expa_policy::ptr::deject::count::with_return(length,
+							c_policy::arg_met::template recast<iterator>(first),
+							c_policy::arg_met::template recast<iterator>(last));
+					else return m_expa_policy::ptr::eject::count::with_return(length,
 						c_policy::arg_met::template recast<iterator>(first),
 						c_policy::arg_met::template recast<iterator>(last));
 			}
 
 			void push_back(const value_type & value)
-				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+			{
+				++length;
+				m_expa_policy::ptr::impend::template no_return<node>(subchain.terminal, value);
+			}
 
 			void push_back(value_type && value)
-				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+			{
+				++length;
+				m_expa_policy::ptr::impend::template no_return<node>(subchain.terminal, value);
+			}
 
 			void pop_back()
 			{
-				if (+subchain.initial != subchain.terminal)
-					m_expa_policy::ptr::eject::no_return(subchain.initial);
+				if (subchain.initial != subchain.terminal)
+				{
+					--length;
+					m_expa_policy::ptr::eject::no_return(-subchain.terminal);
+				}
 			}
 
 			void push_front(const value_type & value)
-				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+			{
+				++length;
+				subchain.initial=m_expa_policy::ptr::prepend::template with_return<node>(subchain.initial, value);
+			}
 
 			void push_front(value_type && value)
-				{ m_expa_policy::ptr::impend::template no_return<node>(subchain.initial, value); }
+			{
+				++length;
+				subchain.initial=m_expa_policy::ptr::prepend::template with_return<node>(subchain.initial, value);
+			}
 
 			void pop_front()
 			{
-				if (+subchain.initial != subchain.terminal)
-					m_expa_policy::ptr::eject::no_return(subchain.initial);
+				if (subchain.initial != subchain.terminal)
+				{
+					--length;
+					subchain.initial=m_expa_policy::ptr::deject::with_return(subchain.initial);
+				}
 			}
-*/
 
 /*
 			void resize(size_type count)
@@ -194,15 +219,17 @@ namespace nik
 			}
 */
 
-/*
 			void swap(chain & other)
 			{
 				iterator oinitial=other.subchain.initial, oterminal=other.subchain.terminal;
-				other.subchain.initial=subchain.initial; other.subchain.terminal=subchain.terminal;
-				subchain.initial=oinitial; subchain.terminal=oterminal;
-			}
+				size_type olength=other.length;
 
-*/
+				other.subchain.initial=subchain.initial; other.subchain.terminal=subchain.terminal;
+				other.length=length;
+
+				subchain.initial=oinitial; subchain.terminal=oterminal;
+				length=olength;
+			}
 	};
    }
   }
