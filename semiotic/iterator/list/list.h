@@ -52,7 +52,7 @@
 			The expectation is that the code user does not have to worry about such safeties, but as they have access
 			to the the list::iterator they have access to some of the potentially unsafe features. I have decided
 			to maintain the "uninitialized" default policy for the reason that initialize(), terminalize(), copy_initialize(),
-			grow(), shrink() have been well thought out grammar points in how they relate to each other.
+			have been well thought out grammar points in how they relate to each other.
 
 			The burden is on the api coder of the media space to ensure code user safeties at that level as well.
 */
@@ -91,22 +91,15 @@ namespace nik
 			{ initial=terminal=new node; }
 
 		template<typename RIterator, typename ERIterator>
-		void grow(RIterator first, ERIterator last)
-			{ s_exte_policy::fwd_over::assign::template no_return<node>(terminal, first, last); }
-
-		void shrink()
-			{ s_exte_policy::ptr::clear::no_return(initial, terminal); }
-
-		template<typename RIterator, typename ERIterator>
 		void copy_initialize(RIterator first, ERIterator last)
 		{
 			initialize();
-			grow(first, last);
+			terminal=s_exte_policy::fwd_over::assign::template with_return<node>(terminal, first, last);
 		}
 
 		void terminalize()
 		{
-			shrink();
+			s_exte_policy::ptr::clear::no_return(initial, terminal);
 			delete terminal;
 		}
 

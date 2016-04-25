@@ -224,6 +224,18 @@ namespace nik
 
 				return out;
 			}
+
+			size_type operator - (node_pointer p) const
+			{
+				size_type n=0;
+				while (p.current != current)
+				{
+					p.current=((node_pointer_ref) p.current[next]).current;
+					++n;
+				}
+
+				return n;
+			}
 	};
 /*
 	const version:
@@ -359,6 +371,18 @@ namespace nik
 				}
 
 				return out;
+			}
+
+			size_type operator - (const_node_pointer p) const
+			{
+				size_type n=0;
+				while (p.current != current)
+				{
+					p.current=((const_node_pointer_ref) p.current[next]).current;
+					++n;
+				}
+
+				return n;
 			}
 	};
 

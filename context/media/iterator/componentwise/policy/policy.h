@@ -19,7 +19,7 @@
 #define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
 
 #include"../pointer/pointer.h"
-#include"../arithmetic/arithmetic.h"
+//#include"../arithmetic/arithmetic.h"
 //#include"../vector/vector.h"
 
 /*
@@ -58,41 +58,41 @@ namespace nik
 */
 /*
 		arithmetic:
-*/
 			using fwd_arit=forward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using fwd_arit_unroll=typename fwd_arit::template unroll<N, M, L>;
+*/
 /*
 	backward:
 */
 /*
 		arithmetic:
-*/
 			using bwd_arit=backward::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bwd_arit_unroll=typename bwd_arit::template unroll<N, M, L>;
+*/
 /*
 	bidirectional:
 */
 /*
 		arithmetic:
-*/
 			using bid_arit=bidirectional::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
+*/
 /*
 	random_access:
 */
 /*
 		arithmetic:
-*/
 			using rnd_arit=random_access::arithmetic<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
+*/
 	};
     }
    }

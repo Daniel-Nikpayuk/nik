@@ -23,6 +23,7 @@
 //#include"../../numeric/uint/uint.h"
 #include"../list/list.h"
 #include"../chain/chain.h"
+#include"../vector/vector.h"
 
 namespace nik
 {
@@ -37,8 +38,16 @@ namespace nik
 		using context::context::printer::print;
 
 		template<typename T, typename SizeType>
+		void print(const list<T, SizeType> & l)
+			{ for (typename list<T, SizeType>::const_iterator k=l.begin(); k != l.end(); ++k) nik::display << *k << ' '; }
+
+		template<typename T, typename SizeType>
 		void print(const chain<T, SizeType> & c)
 			{ for (typename chain<T, SizeType>::const_iterator k=c.begin(); k != c.end(); ++k) nik::display << *k << ' '; }
+
+		template<typename T, typename SizeType>
+		void print(const vector<T, SizeType> & v)
+			{ for (typename vector<T, SizeType>::const_iterator k=v.begin(); k != v.end(); ++k) nik::display << *k << ' '; }
 
 /*
 		template<typename ValueType>

@@ -15,18 +15,17 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_SEMIOTIC_ITERATOR_CHAIN_H
-#define NIK_SEMIOTIC_ITERATOR_CHAIN_H
+#ifndef NIK_SEMIOTIC_ITERATOR_VECTOR_H
+#define NIK_SEMIOTIC_ITERATOR_VECTOR_H
 
-#include"../../../context/context/node/node.h"
-#include"../../../context/semiotic/iterator/expansionwise/policy/policy.h"
+#include"../../../context/semiotic/iterator/componentwise/policy/policy.h"
 
 #include"../traits/traits.h"
 
 /*
-	chain:
-		Choice of the word "chain" was hard to settle on. Was tempted to use the word "cascade" as "chain"
-		is overused, but I've decided on it in the sense of a LISP chain. In that way it is a singly linked chain.
+	vector:
+		Choice of the word "vector" was hard to settle on. Was tempted to use the word "cascade" as "vector"
+		is overused, but I've decided on it in the sense of a LISP vector. In that way it is a singly linked vector.
 
 		The policy here has taken into consideration two alternate designs: Have an "end" iterator,
 		or a null iterator signifying the end.
@@ -39,20 +38,20 @@
 			The policy I have settled upon is to maintain an "end" iterator. As this is a weak generic class,
 			keep in mind it can always be composed or inherited to reinterpret the end iterator to be a "last"
 			iterator---one which has a meaningful dereferentiable value. The added value is in being able to
-			append to this chain without having to find the end iterator each time.
+			append to this vector without having to find the end iterator each time.
 
 		Policy also needed to be decided on whether to leave "+terminal" uninitialized (saving cycles),
 		or to safely default its initialization to zero.
 
-			I have weighed it carefully. For example the chain_pointer class does not initialize which is inherently
+			I have weighed it carefully. For example the vector_pointer class does not initialize which is inherently
 			unsafe, but within the context and semiotic spaces the default policy is for the burden of safety to be
 			the responsibility of the api coder. It is not unnatural for that same conclusion to be drawn here.
 			The other consideration is that the burden of safety within the media space is given to the api coder.
 
 			The expectation is that the code user does not have to worry about such safeties, but as they have access
-			to the the chain::iterator they have access to some of the potentially unsafe features. I have decided
+			to the the vector::iterator they have access to some of the potentially unsafe features. I have decided
 			to maintain the "uninitialized" default policy for the reason that initialize(), terminalize(), copy_initialize(),
-			have been well thought out grammar points in how they relate to each other.
+			grow(), shrink() have been well thought out grammar points in how they relate to each other.
 
 			The burden is on the api coder of the media space to ensure code user safeties at that level as well.
 */
@@ -64,50 +63,49 @@ namespace nik
   namespace iterator
   {
 /*
-	chain:
+	vector:
 */
 	template<typename T, typename SizeType>
-	struct chain
+	struct vector
 	{
-		typedef traits::container<chain, T, SizeType> attributes;
+		typedef traits::container<vector, T, SizeType> attributes;
 		typedef typename attributes::value_type value_type;
 		typedef typename attributes::reference reference;
 		typedef typename attributes::const_reference const_reference;
-		typedef context::context::link<T, SizeType> node;
-		typedef context::context::const_link<T, SizeType> const_node;
-		typedef typename node::pointer iterator;
-		typedef typename const_node::pointer const_iterator;
+		typedef T node;
+		typedef T const const_node;
+		typedef node* iterator;
+		typedef const_node* const_iterator;
 		typedef SizeType size_type;
 
-		typedef context::semiotic::iterator::expansionwise::policy<size_type> s_expa_policy;
+		typedef context::semiotic::iterator::componentwise::policy<size_type> s_comp_policy;
 
 		iterator initial;
 		iterator terminal;
 /*
 	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
-	expects an iterator without a value, while with "initial" a value is expected when the chain is non-empty.
+	expects an iterator without a value, while with "initial" a value is expected when the vector is non-empty.
 */
-		void initialize()
-			{ initial=terminal=new node; }
+		void initialize(size_type n)
+		{
+			initial=new node[n];
+			terminal=initial+n;
+		}
 
 		template<typename RIterator, typename ERIterator>
 		void copy_initialize(RIterator first, ERIterator last)
 		{
-			initialize();
-			terminal=s_expa_policy::fwd_over::assign::template with_return<node>(terminal, first, last);
+			initialize(last-first);
+			s_comp_policy::fwd_over::assign::template no_return(initial, first, last);
 		}
 
-		void terminalize()
-		{
-			s_expa_policy::ptr::clear::no_return(initial, terminal);
-			delete terminal;
-		}
+		void terminalize() { delete [] initial; }
 
-		chain() { }
-		chain(const chain & n) { }
-		~chain() { }
+		vector() { }
+		vector(const vector & n) { }
+		~vector() { }
 
-		const chain & operator = (const chain & n)
+		const vector & operator = (const vector & n)
 			{ return *this; }
 
 		iterator begin() { return initial; }

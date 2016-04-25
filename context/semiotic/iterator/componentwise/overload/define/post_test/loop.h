@@ -285,7 +285,7 @@ static RWIterator with_return(RWIterator out, RIterator in, ERIterator end) \
 
 #define post_test_loop_no_return_new_brackets_1(dir, inv) \
 template<typename Node, typename WIterator, typename RIterator, typename ERIterator> \
-static void no_return(WIterator out, RIterator in, EWIterator end) \
+static void no_return(WIterator out, RIterator in, ERIterator end) \
 { \
 	do \
 	{ \

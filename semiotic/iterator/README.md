@@ -33,15 +33,9 @@ Constructors normally initialize that data.
 
 Finally, the classes within the semiotic space are generally expected to have one additional constraint:
 They are expected to interact with memory dynamically. Once initialized, it is expected to have various
-"grow" as well as "shrink" methods. It is worth including defaults here, but we will keep it minimalistic.
-
-	Given this, the policy then is to include grow and shrink methods as simple, or rather as self-similar
-	to our alternate constructors and destructors as possible. As such, the following methods are expected:
-
-		grow(), shrink().
-
-	Restricting it to these prevent unnecessary complications, and furthermore such methods in practice
-	can even help define our alternate constructors and destructors.
+"grow" as well as "shrink" methods. It is tempting to include defaults here, but doing so would create
+implicit assumptions about how best to "grow" and "shrink" such memory. As such it is left to the iterator
+inventories.
 
 -------------------
 
