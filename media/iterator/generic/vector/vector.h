@@ -58,12 +58,14 @@ namespace nik
 
 			typedef typename weakvector::s_comp_policy s_comp_policy;
 		protected:
+				// subvector.length represents the capacity.
 			weakvector subvector; 
 
-			size_type length;
+			size_type length; // length represents the existing length.
 		public:
 			vector() : length(0) { subvector.initialize(0); }
-			vector(const vector & v) : length(v.size()) { subvector.copy_initialize(v.begin(), v.end()); }
+			vector(const vector & v) : length(v.length)
+				{ subvector.copy_initialize(v.subvector.initial, v.subvector.length); }
 			~vector() { subvector.terminalize(); }
 		public:
 				// element access:
@@ -111,22 +113,21 @@ namespace nik
 
 			void reserve(size_type new_cap)
 			{
-				size_type cap=subvector.terminal-subvector.initial; // capacity
-				if (new_cap > cap)
+				if (new_cap > subvector.length)
 				{
 					subvector.initial=m_comp_policy::ptr::upsize::template
-						with_return<node>(subvector.initial, subvector.terminal, new_cap, 0);
-					subvector.terminal=subvector.initial+new_cap;
+						with_return<node>(subvector.initial, length, new_cap, 0);
+					subvector.length=new_cap;
 				}
 			}
 
-			size_type capacity() const { return subvector.terminal-subvector.initial; }
+			size_type capacity() const { return subvector.length; }
 
 			void shrink_to_fit()
 			{
 				subvector.initial=m_comp_policy::ptr::downsize::template
-					with_return<node>(subvector.initial, subvector.terminal, length, 0);
-				subvector.terminal=subvector.initial+length;
+					with_return<node>(subvector.initial, length, 0);
+				subvector.length=length;
 			}
 				// modifiers:
 			void clear() // sufficient ?
@@ -138,41 +139,54 @@ namespace nik
 			iterator insert(const_iterator it, const value_type & value)
 			{
 				iterator in=c_policy::arg_met::template recast<iterator>(it);
-				iterator end=subvector.initial+length;
-				++length;
-
-				if (end < subvector.terminal)
+				if (length < subvector.length)
 				{
+					iterator end=subvector.initial+length;
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else if (it == subvector.initial)
+				else // length == subvector.length
 				{
-					subvector.initial=m_comp_policy::ptr::prepend::template
-						with_return<node>(subvector.initial, subvector.terminal, value);
-					subvector.terminal=subvector.initial+length;
+					if (in == subvector.initial)
+						subvector.initial=m_comp_policy::ptr::prepend::template
+							with_return<node>(subvector.initial, length, value);
+					else subvector.initial=m_comp_policy::ptr::impend::template
+						with_return<node>(subvector.initial, length, in-subvector.initial, value);
+
+					++subvector.length;
 				}
-				else
+
+				++length;
+
+				return in;
+			}
+
+			iterator insert(const_iterator it, value_type && value)
+			{
+				iterator in=c_policy::arg_met::template recast<iterator>(it);
+				if (length < subvector.length)
 				{
-					subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, subvector.terminal, in, value);
-					subvector.terminal=subvector.initial+length;
+					iterator end=subvector.initial+length;
+					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+					*in=value;
 				}
+				else // length == subvector.length
+				{
+					if (in == subvector.initial)
+						subvector.initial=m_comp_policy::ptr::prepend::template
+							with_return<node>(subvector.initial, length, value);
+					else subvector.initial=m_comp_policy::ptr::impend::template
+						with_return<node>(subvector.initial, length, in-subvector.initial, value);
+
+					++subvector.length;
+				}
+
+				++length;
 
 				return in;
 			}
 
 /*
-			iterator insert(const_iterator it, value_type && value)
-			{
-				++length;
-				if (it == subvector.initial)
-					return subvector.initial=m_comp_policy::ptr::prepend::template
-						with_return<node>(subvector.initial, value);
-				else return m_comp_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
-			}
-
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
 				length+=count;

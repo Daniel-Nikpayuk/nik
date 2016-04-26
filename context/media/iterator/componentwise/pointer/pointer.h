@@ -51,66 +51,71 @@ namespace nik
 */
 		struct upsize
 		{
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static void no_return(WIterator out, EWIterator end, size_type length, size_type offset)
+			template<typename WNode, typename WIterator>
+			static void no_return(WIterator out, size_type length, size_type new_length, size_type offset)
 			{
 				WIterator in=out;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out+offset, in, end);
+				out=new WNode[new_length];
+				s_comp_policy::fwd_over::assign::no_return(out+offset, in, in+length);
 				delete [] in;
 			}
 
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static WIterator with_return(WIterator out, EWIterator end, size_type length, size_type offset)
+			template<typename WNode, typename WIterator>
+			static WIterator with_return(WIterator out, size_type length, size_type new_length, size_type offset)
 			{
 				WIterator in=out;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out+offset, in, end);
-				delete [] in;
-
-				return out;
-			}
-
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static void no_return(WIterator out, EWIterator end, size_type length, size_type offset)
-			{
-				WIterator in=out;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out+offset, in, end);
-				delete [] in;
-			}
-
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static WIterator with_return(WIterator out, EWIterator end, size_type length, size_type offset)
-			{
-				WIterator in=out;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out+offset, in, end);
+				out=new WNode[new_length];
+				s_comp_policy::fwd_over::assign::no_return(out+offset, in, in+length);
 				delete [] in;
 
 				return out;
 			}
+
+			struct split
+			{
+				template<typename WNode, typename WIterator>
+				static void no_return(WIterator out, size_type length, size_type new_length, size_type offset)
+				{
+					WIterator in=out, mid=out+offset;
+					out=new WNode[new_length];
+					WIterator out1=s_comp_policy::fwd_over::assign::with_return(out, in, mid);
+					s_comp_policy::fwd_over::assign::no_return(out1+(new_length-length), mid, in+length);
+					delete [] in;
+				}
+
+				template<typename WNode, typename WIterator>
+				static WIterator with_return(WIterator out, size_type length, size_type new_length, size_type offset)
+				{
+					WIterator in=out, mid=out+offset;
+					out=new WNode[new_length];
+					WIterator out1=s_comp_policy::fwd_over::assign::with_return(out, in, mid);
+					s_comp_policy::fwd_over::assign::no_return(out1+(new_length-length), mid, in+length);
+					delete [] in;
+
+					return out;
+				}
+			};
 		};
 /*
 	Similar to resize but optimized to decrease the size, and copy the existing array starting at pos.
 */
 		struct downsize
 		{
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static void no_return(WIterator out, EWIterator end, size_type length, size_type offset)
+			template<typename WNode, typename WIterator>
+			static void no_return(WIterator out, size_type new_length, size_type offset)
 			{
 				WIterator in0=out, in1=out+offset;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out, in1, in1+length);
+				out=new WNode[new_length];
+				s_comp_policy::fwd_over::assign::no_return(out, in1, in1+new_length);
 				delete [] in0;
 			}
 
-			template<typename WNode, typename WIterator, typename EWIterator>
-			static WIterator with_return(WIterator out, EWIterator end, size_type length, size_type offset)
+			template<typename WNode, typename WIterator>
+			static WIterator with_return(WIterator out, size_type new_length, size_type offset)
 			{
 				WIterator in0=out, in1=out+offset;
-				out=new WNode[length];
-				s_comp_policy::fwd_over::assign::template no_return(out, in1, in1+length);
+				out=new WNode[new_length];
+				s_comp_policy::fwd_over::assign::no_return(out, in1, in1+new_length);
 				delete [] in0;
 
 				return out;
@@ -119,15 +124,15 @@ namespace nik
 
 		struct prepend
 		{
-			template<typename WNode, typename WIterator, typename EWIterator, typename ValueType>
-			static void no_return(WIterator out, EWIterator end, ValueType value)
-				{ *upsize::with_return<WNode>(out, end, end-out+1, 1)=value; }
+			template<typename WNode, typename WIterator, typename ValueType>
+			static void no_return(WIterator out, size_type length, ValueType value)
+				{ *upsize::template with_return<WNode>(out, length, length+1, 1)=value; }
 
-			template<typename WNode, typename WIterator, typename EWIterator, typename ValueType>
-			static WIterator with_return(WIterator out, EWIterator end, ValueType value)
+			template<typename WNode, typename WIterator, typename ValueType>
+			static WIterator with_return(WIterator out, size_type length, ValueType value)
 			{
 				WIterator in=out;
-				out=upsize::with_return<WNode>(in, end, end-in+1, 1);
+				out=upsize::template with_return<WNode>(in, length, length+1, 1);
 				*out=value;
 
 				return out;
@@ -140,18 +145,20 @@ namespace nik
 
 		struct impend
 		{
-			template<typename WNode, typename WIterator, typename EWIterator, typename ValueType>
-			static void no_return(WIterator out, EWIterator end, WIterator in, ValueType value)
+			template<typename WNode, typename WIterator, typename ValueType>
+			static void no_return(WIterator out, size_type length, size_type offset, ValueType value)
 			{
-				out=upsize::with_return<WNode>(out, end, end-out+1, 1);
-				*out=value;
+				WIterator in=out;
+				out=upsize::split::template with_return<WNode>(in, length, length+1, offset);
+				*(out+offset)=value;
 			}
 
-			template<typename WNode, typename WIterator, typename EWIterator, typename ValueType>
-			static WIterator with_return(WIterator out, EWIterator end, WIterator in, ValueType value)
+			template<typename WNode, typename WIterator, typename ValueType>
+			static WIterator with_return(WIterator out, size_type length, size_type offset, ValueType value)
 			{
-				out=upsize::with_return<WNode>(out, end, end-out+1, 1);
-				*out=value;
+				WIterator in=out;
+				out=upsize::split::template with_return<WNode>(in, length, length+1, offset);
+				*(out+offset)=value;
 
 				return out;
 			}
