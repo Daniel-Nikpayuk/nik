@@ -18,7 +18,8 @@
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_H
 
-#include"../overload/overload.h"
+#include"../../../../context/policy/policy.h"
+#include"../policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -41,32 +42,137 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-
-		typedef forward::overload<size_type> fwd_over;
-
-		struct size
+		typedef semiotic::iterator::componentwise::policy<SizeType> s_comp_policy;
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = c_policy::unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+*/
+		struct right_shift
 		{
-			template<typename RPointer, typename ERPointer>
-			static size_type with_return(RPointer in, ERPointer end)
+			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
+			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
 			{
-				size_type n=0;
-				while (in != end)
+				while (in2 != end)
 				{
-					++n;
-					++in;
+					*out=(*in1>>m)+(*in2<<n);
+					++out; ++in1; ++in2;
+				}
+			}
+
+			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
+			static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1>>m)+(*in2<<n);
+					++out; ++in1; ++in2;
 				}
 
-				return n;
+				return out;
 			}
 		};
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --RIterator(in1),
+	as well as n = c_policy::unit::length-m.
+		struct left_shift
+		{
+			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
+			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					--out; --in1; --in2;
+				}
+			}
 
+			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
+			static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
+			{
+				while (in2 != end)
+				{
+					*out=(*in1<<m)+(*in2>>n);
+					--out; --in1; --in2;
+				}
+
+				return out;
+			}
+		};
+*/
+
+		struct assign
+		{
+/*
+	For the "natural" right_shift,
+	define in2 = ++RIterator(in1),
+	as well as n = c_policy::unit::length-m,
+	finally, *out=(*in1>>m) needs appending.
+			struct right_shift
+			{
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(WIterator out, RIterator in, ERIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out>>=m)+=(*in<<n);
+						++out; ++in;
+					}
+				}
+
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(WIterator out, RIterator in, ERIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out>>=m)+=(*in<<n);
+						++out; ++in;
+					}
+
+					return out;
+				}
+			};
+*/
+/*
+	For the "natural" left_shift,
+	N is interpreted here as (array length - # of array positional shifts).
+	define in2 = --RIterator(in1),
+	as well as n = c_policy::unit::length-m.
+			struct left_shift
+			{
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(WIterator out, RIterator in, ERIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out<<=m)+=(*in>>n);
+						--out; --in;
+					}
+				}
+
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(WIterator out, RIterator in, ERIterator end, size_type m, size_type n)
+				{
+					while (in != end)
+					{
+						(*out<<=m)+=(*in>>n);
+						--out; --in;
+					}
+
+					return out;
+				}
+			};
+*/
+		};
 /*
 	Not fully satisfied with the categorization or naming scheme within this library.
-*/
 		struct convert
 		{
-			template<typename WIterator, typename RIterator, typename EIterator>
-			static void no_return(WIterator out, RIterator in, EIterator end)
+			template<typename WIterator, typename RIterator, typename ERIterator>
+			static void no_return(WIterator out, RIterator in, ERIterator end)
 			{
 				while (in != end)
 				{
@@ -76,8 +182,8 @@ namespace nik
 				}
 			}
 
-			template<typename WIterator, typename RIterator, typename EIterator>
-			static WIterator with_return(WIterator out, RIterator in, EIterator end)
+			template<typename WIterator, typename RIterator, typename ERIterator>
+			static WIterator with_return(WIterator out, RIterator in, ERIterator end)
 			{
 				while (in != end)
 				{
@@ -91,8 +197,8 @@ namespace nik
 
 			struct half
 			{
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(WIterator out, RIterator in, EIterator end)
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static void no_return(WIterator out, RIterator in, ERIterator end)
 				{
 					while (in != end)
 					{
@@ -102,8 +208,8 @@ namespace nik
 					}
 				}
 
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(WIterator out, RIterator in, EIterator end)
+				template<typename WIterator, typename RIterator, typename ERIterator>
+				static WIterator with_return(WIterator out, RIterator in, ERIterator end)
 				{
 					while (in != end)
 					{
@@ -116,150 +222,13 @@ namespace nik
 				}
 			};
 		};
-
-		struct right_shift
-		{
-/*
-	For the "natural" right_shift,
-	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
-	finally, *out=(*in1>>m) needs appending.
 */
-			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
-			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)
-			{
-				while (in2 != end)
-				{
-					*out=(*in1>>m)+(*in2<<n);
-					++out; ++in1; ++in2;
-				}
-			}
-/*
-	For the "natural" right_shift,
-	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
-	finally, *out=(*in1>>m) needs appending.
-*/
-			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
-			static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)
-			{
-				while (in2 != end)
-				{
-					*out=(*in1>>m)+(*in2<<n);
-					++out; ++in1; ++in2;
-				}
-
-				return out;
-			}
-		};
-
-		struct left_shift
-		{
-/*
-	For the "natural" left_shift,
-	N is interpreted here as (array length - # of array positional shifts).
-	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
-*/
-			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
-			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)
-			{
-				while (in2 != end)
-				{
-					*out=(*in1<<m)+(*in2>>n);
-					--out; --in1; --in2;
-				}
-			}
-
-			template<typename WIterator, typename RIterator1, typename RIterator2, typename EIterator>
-			static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, EIterator end, size_type m, size_type n)
-			{
-				while (in2 != end)
-				{
-					*out=(*in1<<m)+(*in2>>n);
-					--out; --in1; --in2;
-				}
-
-				return out;
-			}
-		};
-
-		struct assign
-		{
-			struct right_shift
-			{
-/*
-	For the "natural" right_shift,
-	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
-	finally, *out=(*in1>>m) needs appending.
-*/
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
-				{
-					while (in != end)
-					{
-						(*out>>=m)+=(*in<<n);
-						++out; ++in;
-					}
-				}
-/*
-	For the "natural" right_shift,
-	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
-	finally, *out=(*in1>>m) needs appending.
-*/
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
-				{
-					while (in != end)
-					{
-						(*out>>=m)+=(*in<<n);
-						++out; ++in;
-					}
-
-					return out;
-				}
-			};
-
-			struct left_shift
-			{
-/*
-	For the "natural" left_shift,
-	N is interpreted here as (array length - # of array positional shifts).
-	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
-*/
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static void no_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
-				{
-					while (in != end)
-					{
-						(*out<<=m)+=(*in>>n);
-						--out; --in;
-					}
-				}
-
-				template<typename WIterator, typename RIterator, typename EIterator>
-				static WIterator with_return(WIterator out, RIterator in, EIterator end, size_type m, size_type n)
-				{
-					while (in != end)
-					{
-						(*out<<=m)+=(*in>>n);
-						--out; --in;
-					}
-
-					return out;
-				}
-			};
-		};
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
 /*
 	Not fully satisfied with the categorization or naming scheme within this library.
-*/
 			struct convert
 			{
 				template<typename WIterator, typename RIterator>
@@ -297,9 +266,8 @@ namespace nik
 					}
 				};
 			};
+*/
 
-			struct right_shift
-			{
 /*
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
@@ -308,22 +276,15 @@ namespace nik
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
-*/
+			struct right_shift
+			{
 				template<typename WIterator, typename RIterator1, typename RIterator2>
 				static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 				{
 					*out=(*in1>>m)+(*in2<<n);
 					unroll<N-1>::right_shift::no_return(++out, ++in1, ++in2, m, n);
 				}
-/*
-	For the "natural" right_shift,
-	N is interpreted here as (array length - # of array positional shifts).
-	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m.
 
-	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
-	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
-*/
 				template<typename WIterator, typename RIterator1, typename RIterator2>
 				static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 				{
@@ -331,9 +292,8 @@ namespace nik
 					return unroll<N-1>::right_shift::with_return(++out, ++in1, ++in2, m, n);
 				}
 			};
+*/
 
-			struct left_shift
-			{
 /*
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
@@ -342,7 +302,8 @@ namespace nik
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
-*/
+			struct left_shift
+			{
 				template<typename WIterator, typename RIterator1, typename RIterator2>
 				static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 				{
@@ -357,11 +318,10 @@ namespace nik
 					return unroll<N-1>::left_shift::with_return(--out, --in1, --in2, m, n);
 				}
 			};
+*/
 
 			struct assign
 			{
-				struct right_shift
-				{
 /*
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
@@ -370,7 +330,8 @@ namespace nik
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
 	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
-*/
+				struct right_shift
+				{
 					template<typename RWIterator, typename RIterator>
 					static void no_return(RWIterator out, RIterator in, size_type m, size_type n)
 					{
@@ -385,9 +346,8 @@ namespace nik
 						return unroll<N-1>::assign::right_shift::with_return(++out, ++in, m, n);
 					}
 				};
+*/
 
-				struct left_shift
-				{
 /*
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
@@ -396,7 +356,8 @@ namespace nik
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
 	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.
-*/
+				struct left_shift
+				{
 					template<typename RWIterator, typename RIterator>
 					static void no_return(RWIterator out, RIterator in, size_type m, size_type n)
 					{
@@ -411,12 +372,14 @@ namespace nik
 						return unroll<N-1>::assign::left_shift::with_return(--out, --in, m, n);
 					}
 				};
+*/
 			};
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
+/*
 			struct convert
 			{
 				template<typename WIterator, typename RIterator>
@@ -438,7 +401,9 @@ namespace nik
 						{ return out; }
 				};
 			};
+*/
 
+/*
 			struct right_shift
 			{
 				template<typename WIterator, typename RIterator1, typename RIterator2>
@@ -449,12 +414,12 @@ namespace nik
 				static WIterator with_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 					{ return out; }
 			};
+*/
 
-			struct left_shift
-			{
 /*
 	Does not perform adding (*in2>>n) as in2 may be past the boundary.
-*/
+			struct left_shift
+			{
 				template<typename WIterator, typename RIterator1, typename RIterator2>
 				static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 					{ }
@@ -464,9 +429,11 @@ namespace nik
 					RIterator1 in1, RIterator2 in2, size_type m, size_type n)
 						{ return out; }
 			};
+*/
 
 			struct assign
 			{
+/*
 				struct right_shift
 				{
 					template<typename RWIterator, typename RIterator>
@@ -477,12 +444,12 @@ namespace nik
 					static RWIterator with_return(RWIterator out, RIterator in, size_type m, size_type n)
 						{ return out; }
 				};
+*/
 
-				struct left_shift
-				{
 /*
 		Does not perform adding (*in>>n) as in2 may be past the boundary.
-*/
+				struct left_shift
+				{
 					template<typename RWIterator, typename RIterator>
 					static void no_return(RWIterator out, RIterator in, size_type m, size_type n)
 						{ }
@@ -491,6 +458,7 @@ namespace nik
 					static RWIterator with_return(RWIterator out, RIterator in, size_type m, size_type n)
 						{ return out; }
 				};
+*/
 			};
 		};
 	};

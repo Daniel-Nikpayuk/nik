@@ -21,6 +21,7 @@
 #include"../overload/overload.h"
 #include"../pointer/pointer.h"
 //#include"../arithmetic/arithmetic.h"
+#include"../vector/vector.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -53,6 +54,13 @@ namespace nik
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using ptr_unroll=typename ptr::template unroll<N, M, L>;
+/*
+	vector:
+*/
+			using vtr=vector<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using vtr_unroll=typename vtr::template unroll<N, M, L>;
 /*
 	forward:
 */

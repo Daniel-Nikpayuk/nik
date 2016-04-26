@@ -27,6 +27,7 @@
 	in the special case where the data is only accessible through iterators.
 */
 
+/*
 #define loop_no_return_0(dir, inv, op) \
 template<typename RWIterator, typename EIterator, typename ValueType> \
 static void no_return(RWIterator out, EIterator end, ValueType in) \
@@ -37,7 +38,21 @@ static void no_return(RWIterator out, EIterator end, ValueType in) \
 		dir##dir(out); \
 	} \
 }
+*/
 
+#define loop_no_return_0(dir, inv, op) \
+template<typename RWIterator, typename ValueType> \
+static void no_return(RWIterator out, size_type n, ValueType in) \
+{ \
+	while (n) \
+	{ \
+		(*out)op(in); \
+		dir##dir(out); \
+		--n; \
+	} \
+}
+
+/*
 #define loop_with_return_0(dir, inv, op) \
 template<typename RWIterator, typename EIterator, typename ValueType> \
 static RWIterator with_return(RWIterator out, EIterator end, ValueType in) \
@@ -46,6 +61,21 @@ static RWIterator with_return(RWIterator out, EIterator end, ValueType in) \
 	{ \
 		(*out)op(in); \
 		dir##dir(out); \
+	} \
+ \
+	return out; \
+}
+*/
+
+#define loop_with_return_0(dir, inv, op) \
+template<typename RWIterator, typename ValueType> \
+static RWIterator with_return(RWIterator out, size_type n, ValueType in) \
+{ \
+	while (n) \
+	{ \
+		(*out)op(in); \
+		dir##dir(out); \
+		--n; \
 	} \
  \
 	return out; \

@@ -120,6 +120,7 @@ namespace nik
 					subvector.length=new_cap;
 				}
 			}
+/*
 
 			size_type capacity() const { return subvector.length; }
 
@@ -135,7 +136,9 @@ namespace nik
 				shrink_to_fit();
 				length=0;
 			}
+*/
 
+/*
 			iterator insert(const_iterator it, const value_type & value)
 			{
 				iterator in=c_policy::arg_met::template recast<iterator>(it);
@@ -145,13 +148,10 @@ namespace nik
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else // length == subvector.length
+				else
 				{
-					if (in == subvector.initial)
-						subvector.initial=m_comp_policy::ptr::prepend::template
-							with_return<node>(subvector.initial, length, value);
-					else subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, length, in-subvector.initial, value);
+					subvector.initial=m_comp_policy::ptr::impend::template
+						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, value);
 
 					++subvector.length;
 				}
@@ -170,13 +170,10 @@ namespace nik
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else // length == subvector.length
+				else
 				{
-					if (in == subvector.initial)
-						subvector.initial=m_comp_policy::ptr::prepend::template
-							with_return<node>(subvector.initial, length, value);
-					else subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, length, in-subvector.initial, value);
+					subvector.initial=m_comp_policy::ptr::impend::template
+						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, value);
 
 					++subvector.length;
 				}
@@ -186,26 +183,27 @@ namespace nik
 				return in;
 			}
 
-/*
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
-				length+=count;
-				if (it == subvector.initial)
-					return subvector.initial=m_comp_policy::ptr::prepend::template
-						with_return<node>(subvector.initial, count, value);
-				else return m_comp_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
-			}
-			iterator insert(const_iterator it, size_type count, const value_type & value)
-			{
-				if (subvector.initial+length+count < subvector.terminal)
-				{
-					iterator i=m_comp_policy::shift_right(subvector, it, subvector.initial+(++length), count);
-					subiterator::repeat(i, i+count, value);
-				}
-				else m_comp_policy::insert(subvector, it, count, value);
-			}
+				iterator in=c_policy::arg_met::template recast<iterator>(it);
 
+				size_type new_length=length+count;
+				if (new_length <= subvector.length)
+				{
+					iterator end=subvector.initial+new_length-1;
+					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+					s_comp_policy::fwd_over::repeat::no_return(in, count, value);
+				}
+				else
+				{
+					subvector.initial=m_comp_policy::ptr::impend::template
+						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, count, value);
+
+					subvector.length=new_length;
+				}
+
+				length=new_length;
+			}
 */
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
@@ -218,39 +216,39 @@ namespace nik
 			template<typename RIterator, typename ERIterator>
 			iterator insert(const_iterator it, RIterator first, ERIterator last)
 			{
-				if (it == subvector.initial)
-					return subvector.initial=m_comp_policy::ptr::prepend::count::template
-						with_return<node>(length, subvector.initial, first, last);
-				else return m_comp_policy::ptr::impend::count::template
-					with_return<node>(length, c_policy::arg_met::template recast<iterator>(it), first, last);
-			}
-			template<typename InputIterator>
-			iterator insert(const_iterator it, InputIterator initial, InputIterator terminal)
-			{
-				size_type n=InputIterator::category_tag::size(initial, terminal);
-				if (subvector.initial+length+n < subvector.terminal)
+				if (first != last)
 				{
-					iterator i=m_comp_policy::shift_right(subvector, it, subvector.initial+(++length), n);
-					subiterator::assign(i, initial, terminal);
+					iterator in=c_policy::arg_met::template recast<iterator>(it);
+
+					size_type count=last-first;
+					size_type new_length=length+count;
+					if (new_length <= subvector.length)
+					{
+						iterator end=subvector.initial+new_length-1;
+						s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+						s_comp_policy::fwd_over::assign::no_return(in, first, last);
+					}
+					else
+					{
+						subvector.initial=m_comp_policy::ptr::impend::template with_return<node>(
+							subvector.initial, subvector.length, new_length, in-subvector.initial, first, last);
+
+						subvector.length=new_length;
+					}
+
+					length=new_length;
 				}
-				else m_comp_policy::insert(subvector, it, initial, terminal);
 			}
 
 			iterator erase(const_iterator it)
 			{
-				if (subvector.initial != subvector.terminal)
+				if (length)
 				{
+					iterator in=c_policy::arg_met::template recast<iterator>(it);
+					s_comp_policy::fwd_over::assign::no_return(in, in+1, subvector.initial+length);
 					--length;
-					if (it == subvector.initial)
-						return subvector.initial=m_comp_policy::ptr::deject::
-							with_return(subvector.initial);
-					else return m_comp_policy::ptr::eject::
-						with_return(c_policy::arg_met::template recast<iterator>(it));
 				}
 			}
-			iterator erase(const_iterator it)
-				{ m_comp_policy::shift_left(subvector, it+1, subvector.initial+(length--), 1); }
-
 */
 /*
 	As first and last *should be* iterators within the bounds of subvector.initial and subvector.terminal, a comparative approach (<=)
@@ -260,74 +258,73 @@ namespace nik
 /*
 			iterator erase(const_iterator first, const_iterator last)
 			{
-				if (subvector.initial != subvector.terminal)
-					if (first == subvector.initial)
-						return subvector.initial=m_comp_policy::ptr::deject::count::with_return(length,
-							c_policy::arg_met::template recast<iterator>(first),
-							c_policy::arg_met::template recast<iterator>(last));
-					else return m_comp_policy::ptr::eject::count::with_return(length,
-						c_policy::arg_met::template recast<iterator>(first),
-						c_policy::arg_met::template recast<iterator>(last));
-			}
-			iterator erase(const_iterator initial, const_iterator terminal)
-			{
-				size_type n=terminal-initial;
-				m_comp_policy::shift_left(subvector, initial+n, subvector.initial+(length--), n);
-			}
-
-			void push_back(const value_type & value)
-			{
-				++length;
-				m_comp_policy::ptr::impend::template no_return<node>(subvector.terminal, value);
-			}
-			void push_back(const value_type & value)
-			{
-				if (subvector.size() > length)
-					subvector[length++]=value;
-				else m_comp_policy::insert(subvector, subvector.initial+(length++), value);
-			}
-
-			void push_back(value_type && value)
-			{
-				++length;
-				m_comp_policy::ptr::impend::template no_return<node>(subvector.terminal, value);
-			}
-			void push_back(value_type && value)
-			{
-					// not right, has to do with "&&" ?
-				if (subvector.size() > length)
-					subvector[length++]=value;
-				else m_comp_policy::insert(subvector, subvector.initial+(length++), value);
-			}
-
-			void pop_back()
-			{
-				if (subvector.initial != subvector.terminal)
+				if (first != last)
 				{
-					--length;
-					m_comp_policy::ptr::eject::no_return(-subvector.terminal);
+					size_type count=last-first;
+					if (length >= count)
+					{
+						iterator in=c_policy::arg_met::template recast<iterator>(first);
+						iterator end=c_policy::arg_met::template recast<iterator>(last);
+						s_comp_policy::fwd_over::assign::no_return(in, end, end+count);
+						length-=count;
+					}
 				}
 			}
-			void pop_back() { --length; }
+*/
+
+/*
+			void push_back(const value_type & value)
+			{
+				if (length < subvector.length) *(subvector.initial+length)=value;
+				else
+				{
+					subvector.initial=m_comp_policy::ptr::append::template
+						with_return<node>(subvector.initial, subvector.length, value);
+
+					++subvector.length;
+				}
+
+				++length;
+
+				return in;
+
+				++length;
+				m_comp_policy::ptr::impend::template no_return<node>(subvector.terminal, value);
+			}
+			void push_back(const value_type & value)
+			{
+				if (subvector.size() > length)
+					subvector[length++]=value;
+				else m_comp_policy::insert(subvector, subvector.initial+(length++), value);
+			}
+*/
+
+/*
+			void push_back(value_type && value)
+			{
+			}
+
+			void pop_back() { if (length) --length; }
 
 			void push_front(const value_type & value)
 			{
+
+					if (in == subvector.initial)
+						subvector.initial=m_comp_policy::ptr::prepend::template
+							with_return<node>(subvector.initial, subvector.length, value);
 				++length;
 				subvector.initial=m_comp_policy::ptr::prepend::template with_return<node>(subvector.initial, value);
 			}
 
 			void push_front(value_type && value)
 			{
-				++length;
-				subvector.initial=m_comp_policy::ptr::prepend::template with_return<node>(subvector.initial, value);
 			}
 
 			void pop_front()
 			{
-				if (subvector.initial != subvector.terminal)
+				if (length)
 				{
 					--length;
-					subvector.initial=m_comp_policy::ptr::deject::with_return(subvector.initial);
 				}
 			}
 */
