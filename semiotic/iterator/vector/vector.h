@@ -79,7 +79,7 @@ namespace nik
 		void copy_initialize(RIterator first, size_type size)
 		{
 			initialize(size);
-			s_comp_policy::fwd_over::assign::template no_return(initial, first, first+size);
+			s_comp_policy::fwd_over::assign::no_return(initial, first, first+size);
 		}
 
 		void terminalize() { delete [] initial; }

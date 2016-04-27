@@ -39,61 +39,68 @@ namespace nik
    {
     namespace componentwise
     {
-	template<typename Vector>
+	template<typename SizeType>
 	struct vector
 	{
-		typedef typename Vector::value_type value_type;
-		typedef typename Vector::reference reference;
-		typedef typename Vector::const_reference const_reference;
-		typedef typename Vector::node node;
-		typedef typename Vector::const_node const_node;
-		typedef typename Vector::iterator iterator;
-		typedef typename Vector::const_iterator const_iterator;
-		typedef typename Vector::size_type size_type;
+		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-		typedef policy<SizeType> s_comp_policy;
+		typedef policy<size_type> s_comp_policy;
 /*
 	Similar to resize but optimized to increase the size, and copy the existing array starting at pos.
 */
+		struct copy
+		{
+/*
+	Assumes out is uninitialized.
+*/
+			template<typename WVector, typename RVector>
+			static void no_return(WVector out, RVector in)
+			{
+				out.initialize(in.length);
+				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+			}
+
+			struct shallow
+			{
+				template<typename WVector, typename RVector>
+				static void no_return(WVector out, RVector in)
+				{
+					out.initial=in.initial;
+					out.length=in.length;
+				}
+			};
+		};
+
 		struct grow
 		{
-			static void before(Vector & out, size_type length)
+			template<typename WVector>
+			static void before(WVector out, WVector in, size_type length)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp+length, out.initial, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length+length);
+				s_comp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
+				in.terminalize();
 			}
 
-			static void after(Vector & out, size_type length)
+			template<typename WVector>
+			static void after(WVector out, WVector in, size_type length)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp, out.initial, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length+length);
+				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				in.terminalize();
 			}
 
-			static void inbetween(Vector & out, size_type length, size_type offset)
+			template<typename WVector>
+			static void between(WVector out, WVector in, size_type length, size_type offset)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				iterator out_middle=out.initial+offset;
-				iterator swp_middle=s_comp_policy::fwd_over::assign::with_return(swp, out.initial, out_middle);
-				s_comp_policy::fwd_over::assign::no_return(swp_middle+length, out_middle, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length+length);
+				typename WVector::iterator out_middle, in_middle=in.initial+offset;
+				out_middle=s_comp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				s_comp_policy::fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
+				in.terminalize();
 			}
 		};
 /*
@@ -101,42 +108,33 @@ namespace nik
 */
 		struct shrink
 		{
-			static void before(Vector & out, size_type length)
+			template<typename WVector>
+			static void before(WVector out, WVector in, size_type length)
 			{
-				size_type new_length=out.length-length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp, out.initial+length, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length-length);
+				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
+				in.terminalize();
 			}
 
-			static void after(Vector & out, size_type length)
+			template<typename WVector>
+			static void after(WVector out, WVector in, size_type length)
 			{
-				size_type new_length=out.length-length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp, out.initial, out.initial+new_length);
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length-length);
+				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
+				in.terminalize();
 			}
 
-			static void inbetween(Vector & out, size_type length, size_type offset)
+			template<typename WVector>
+			static void between(WVector out, WVector in, size_type length, size_type offset)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				iterator out_middle=out.initial+offset;
-				iterator swp_middle=s_comp_policy::fwd_over::assign::with_return(swp, out.initial, out_middle);
-				s_comp_policy::fwd_over::assign::no_return(swp_middle, out_middle+length, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				copy::shallow::no_return(in, out);
+				out.initialize(in.length-length);
+				typename WVector::iterator out_middle, in_middle=in.initial+offset;
+				out_middle=s_comp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				s_comp_policy::fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
+				in.terminalize();
 			}
 		};
 	};
