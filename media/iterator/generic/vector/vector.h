@@ -120,10 +120,10 @@ namespace nik
 					subvector.length=new_cap;
 				}
 			}
-/*
 
 			size_type capacity() const { return subvector.length; }
 
+/*
 			void shrink_to_fit()
 			{
 				subvector.initial=m_comp_policy::ptr::downsize::template
