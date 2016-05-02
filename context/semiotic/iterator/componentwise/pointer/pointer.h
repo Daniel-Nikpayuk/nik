@@ -19,7 +19,6 @@
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_H
 
 #include"../../../../context/policy/policy.h"
-#include"../policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -42,7 +41,6 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-		typedef semiotic::iterator::componentwise::policy<SizeType> s_comp_policy;
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
@@ -51,6 +49,7 @@ namespace nik
 */
 		struct right_shift
 		{
+/*
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
 			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
 			{
@@ -72,6 +71,7 @@ namespace nik
 
 				return out;
 			}
+*/
 		};
 /*
 	For the "natural" left_shift,

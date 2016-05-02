@@ -45,8 +45,11 @@ namespace nik
 	{
 		protected:
 			typedef context::context::policy<SizeType> c_policy;
-			typedef context::media::iterator::componentwise::policy<SizeType> m_comp_policy;
+
 			typedef semiotic::iterator::vector<T,SizeType> weakvector;
+			typedef typename weakvector::s_comp_policy s_comp_policy;
+
+			typedef context::media::iterator::componentwise::policy<SizeType> m_comp_policy;
 		public:
 			typedef typename weakvector::value_type value_type;
 			typedef typename weakvector::reference reference;
@@ -55,8 +58,6 @@ namespace nik
 			typedef typename weakvector::iterator iterator;
 			typedef typename weakvector::const_iterator const_iterator;
 			typedef typename weakvector::size_type size_type;
-
-			typedef typename weakvector::s_comp_policy s_comp_policy;
 		protected:
 				// subvector.length represents the capacity.
 			weakvector subvector; 
@@ -115,46 +116,40 @@ namespace nik
 			{
 				if (new_cap > subvector.length)
 				{
-					subvector.initial=m_comp_policy::ptr::upsize::template
-						with_return<node>(subvector.initial, length, new_cap, 0);
-					subvector.length=new_cap;
+					weakvector tmp;
+					s_comp_policy::vtr::grow::after(subvector, tmp, new_cap-subvector.length);
 				}
 			}
 
 			size_type capacity() const { return subvector.length; }
 
-/*
 			void shrink_to_fit()
 			{
-				subvector.initial=m_comp_policy::ptr::downsize::template
-					with_return<node>(subvector.initial, length, 0);
-				subvector.length=length;
+				if (subvector.length > length)
+				{
+					weakvector tmp;
+					s_comp_policy::vtr::shrink::after(subvector, tmp, subvector.length-length);
+				}
 			}
+
 				// modifiers:
 			void clear() // sufficient ?
 			{
 				shrink_to_fit();
 				length=0;
 			}
-*/
 
-/*
 			iterator insert(const_iterator it, const value_type & value)
 			{
 				iterator in=c_policy::arg_met::template recast<iterator>(it);
+
 				if (length < subvector.length)
 				{
 					iterator end=subvector.initial+length;
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else
-				{
-					subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, value);
-
-					++subvector.length;
-				}
+				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, value);
 
 				++length;
 
@@ -164,19 +159,14 @@ namespace nik
 			iterator insert(const_iterator it, value_type && value)
 			{
 				iterator in=c_policy::arg_met::template recast<iterator>(it);
+
 				if (length < subvector.length)
 				{
 					iterator end=subvector.initial+length;
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else
-				{
-					subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, value);
-
-					++subvector.length;
-				}
+				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, value);
 
 				++length;
 
@@ -194,22 +184,14 @@ namespace nik
 					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					s_comp_policy::fwd_over::repeat::no_return(in, count, value);
 				}
-				else
-				{
-					subvector.initial=m_comp_policy::ptr::impend::template
-						with_return<node>(subvector.initial, subvector.length, in-subvector.initial, count, value);
-
-					subvector.length=new_length;
-				}
+				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, count, value);
 
 				length=new_length;
 			}
-*/
 /*
-	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
-	as a better match.
+	Included to resolve type deduction when "count" and "value" are integer constants.
+	Otherwise the template version below is privileged as a better match.
 */
-/*
 			iterator insert(const_iterator it, int count, const value_type & value)
 				{ return insert(it, (size_type) count, value); }
 
@@ -228,13 +210,7 @@ namespace nik
 						s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 						s_comp_policy::fwd_over::assign::no_return(in, first, last);
 					}
-					else
-					{
-						subvector.initial=m_comp_policy::ptr::impend::template with_return<node>(
-							subvector.initial, subvector.length, new_length, in-subvector.initial, first, last);
-
-						subvector.length=new_length;
-					}
+					else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, first, last);
 
 					length=new_length;
 				}
@@ -245,17 +221,16 @@ namespace nik
 				if (length)
 				{
 					iterator in=c_policy::arg_met::template recast<iterator>(it);
+
 					s_comp_policy::fwd_over::assign::no_return(in, in+1, subvector.initial+length);
 					--length;
 				}
 			}
-*/
 /*
 	As first and last *should be* iterators within the bounds of subvector.initial and subvector.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
-/*
 			iterator erase(const_iterator first, const_iterator last)
 			{
 				if (first != last)
@@ -265,12 +240,12 @@ namespace nik
 					{
 						iterator in=c_policy::arg_met::template recast<iterator>(first);
 						iterator end=c_policy::arg_met::template recast<iterator>(last);
+
 						s_comp_policy::fwd_over::assign::no_return(in, end, end+count);
 						length-=count;
 					}
 				}
 			}
-*/
 
 /*
 			void push_back(const value_type & value)

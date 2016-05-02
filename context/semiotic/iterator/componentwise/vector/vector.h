@@ -19,7 +19,6 @@
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
 
 #include"../../../../context/policy/policy.h"
-#include"../../policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -45,97 +44,112 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-		typedef policy<size_type> s_comp_policy;
-/*
-	Similar to resize but optimized to increase the size, and copy the existing array starting at pos.
-*/
+
+		typedef forward::overload<size_type> fwd_over;
+
 		struct copy
 		{
 /*
 	Assumes out is uninitialized.
 */
 			template<typename WVector, typename RVector>
-			static void no_return(WVector out, RVector in)
+			static void no_return(WVector & out, const RVector & in)
 			{
 				out.initialize(in.length);
-				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				fwd_over::assign::no_return(out.initial, in.initial, in.end());
 			}
 
 			struct shallow
 			{
 				template<typename WVector, typename RVector>
-				static void no_return(WVector out, RVector in)
+				static void no_return(WVector & out, const RVector & in)
 				{
 					out.initial=in.initial;
 					out.length=in.length;
 				}
 			};
 		};
+/*
+	Similar to resize but optimized to increase the size, and copy the existing array starting at pos.
 
+	Assumes in is uninitialized.
+*/
 		struct grow
 		{
 			template<typename WVector>
-			static void before(WVector out, WVector in, size_type length)
+			static void before(WVector & out, WVector & in, size_type length)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
-				s_comp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
+				fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
 				in.terminalize();
 			}
 
 			template<typename WVector>
-			static void after(WVector out, WVector in, size_type length)
+			static void after(WVector & out, WVector & in, size_type length)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
-				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				fwd_over::assign::no_return(out.initial, in.initial, in.end());
 				in.terminalize();
 			}
 
 			template<typename WVector>
-			static void between(WVector out, WVector in, size_type length, size_type offset)
+			static void between(WVector & out, WVector & in, size_type length, size_type offset)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
 				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=s_comp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				s_comp_policy::fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
+				out_middle=fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
 				in.terminalize();
 			}
 		};
 /*
 	Similar to resize but optimized to decrease the size, and copy the existing array starting at pos.
+
+	Assumes in is uninitialized.
 */
 		struct shrink
 		{
 			template<typename WVector>
-			static void before(WVector out, WVector in, size_type length)
+			static void before(WVector & out, WVector & in, size_type length)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
-				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
+				fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
 				in.terminalize();
 			}
 
 			template<typename WVector>
-			static void after(WVector out, WVector in, size_type length)
+			static void after(WVector & out, WVector & in, size_type length)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
-				s_comp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
+				fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
 				in.terminalize();
 			}
 
 			template<typename WVector>
-			static void between(WVector out, WVector in, size_type length, size_type offset)
+			static void between(WVector & out, WVector & in, size_type length, size_type offset)
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
 				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=s_comp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				s_comp_policy::fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
+				out_middle=fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
 				in.terminalize();
 			}
+		};
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
 		};
 	};
     }

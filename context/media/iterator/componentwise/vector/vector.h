@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
 
 #include"../../../../context/policy/policy.h"
-#include"../../policy/policy.h"
+#include"../../../../semiotic/iterator/componentwise/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -33,199 +33,84 @@ namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace media
   {
    namespace iterator
    {
     namespace componentwise
     {
-	template<typename Vector>
+	template<typename SizeType>
 	struct vector
 	{
-		typedef typename Vector::value_type value_type;
-		typedef typename Vector::reference reference;
-		typedef typename Vector::const_reference const_reference;
-		typedef typename Vector::node node;
-		typedef typename Vector::const_node const_node;
-		typedef typename Vector::iterator iterator;
-		typedef typename Vector::const_iterator const_iterator;
-		typedef typename Vector::size_type size_type;
+		typedef SizeType size_type;
 
 		typedef context::policy<size_type> c_policy;
-		typedef policy<SizeType> s_comp_policy;
-/*
-	Similar to resize but optimized to increase the size, and copy the existing array starting at pos.
-*/
-		struct grow
+		typedef semiotic::iterator::componentwise::policy<size_type> s_comp_policy;
+
+		struct insert
 		{
-			static void before(Vector & out, size_type length)
+			// prepend:
+
+			template<typename WVector, typename ValueType>
+			static void prepend(WVector & out, ValueType value)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp+length, out.initial, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				WVector tmp;
+				*s_comp_policy::vtr::grow::before(out, tmp, 1)=value;
 			}
 
-			static void after(Vector & out, size_type length)
+			template<typename WVector, typename ValueType>
+			static void prepend(WVector & out, size_type count, ValueType value)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				s_comp_policy::fwd_over::assign::no_return(swp, out.initial, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
+				WVector tmp;
+				s_comp_policy::vtr::grow::before(out, tmp, count);
+				s_comp_policy::fwd_over::repeat::no_return(out.initial, count, value);
 			}
 
-			static void between(Vector & out, size_type length, size_type offset)
+			template<typename WVector, typename RIterator, typename ERIterator>
+			static void prepend(WVector & out, RIterator in, ERIterator end)
 			{
-				size_type new_length=out.length+length;
-				iterator swp=new node[new_length];
-
-				iterator out_middle=out.initial+offset;
-				iterator swp_middle=s_comp_policy::fwd_over::assign::with_return(swp, out.initial, out_middle);
-				s_comp_policy::fwd_over::assign::no_return(swp_middle+length, out_middle, out.end());
-				out.terminalize();
-
-				out.initial=swp;
-				out.length=new_length;
-			}
-		};
-/*
-	Similar to resize but optimized to decrease the size, and copy the existing array starting at pos.
-*/
-		struct shrink
-		{
-			template<typename Vector>
-			static void no_return(Vector out, size_type new_length, size_type offset)
-			{
-				Vector in0=out, in1=out+offset;
-				out=new Vector::node[new_length];
-				s_comp_policy::fwd_over::assign::no_return(out, in1, in1+new_length);
-				delete [] in0;
+				WVector tmp;
+				s_comp_policy::vtr::grow::before(out, tmp, end-in);
+				s_comp_policy::fwd_over::assign::no_return(out.initial, in, end);
 			}
 
-			template<typename Vector>
-			static Vector with_return(Vector out, size_type new_length, size_type offset)
-			{
-				Vector in0=out, in1=out+offset;
-				out=new Vector::node[new_length];
-				s_comp_policy::fwd_over::assign::no_return(out, in1, in1+new_length);
-				delete [] in0;
+			// append:
 
-				return out;
+			// impend:
+
+			template<typename WVector, typename ValueType>
+			static void impend(WVector & out, size_type offset, ValueType value)
+			{
+				WVector tmp;
+				s_comp_policy::vtr::grow::between(out, tmp, 1, offset);
+				*(out.initial+offset)=value;
+			}
+
+			template<typename WVector, typename ValueType>
+			static void impend(WVector & out, size_type offset, size_type count, ValueType value)
+			{
+				WVector tmp;
+				s_comp_policy::vtr::grow::between(out, tmp, count, offset);
+				s_comp_policy::fwd_over::repeat::no_return(out.initial+offset, count, value);
+			}
+
+			template<typename WVector, typename RIterator, typename ERIterator>
+			static void impend(WVector & out, size_type offset, RIterator in, ERIterator end)
+			{
+				WVector tmp;
+				s_comp_policy::vtr::grow::between(out, tmp, end-in, offset);
+				s_comp_policy::fwd_over::assign::no_return(out.initial+offset, in, end);
 			}
 		};
 
-		struct prepend
-		{
-			template<typename Vector, typename ValueType>
-			static void no_return(Vector out, size_type length, ValueType value)
-				{ *upsize::template with_return<Vector::node>(out, length, length+1, 1)=value; }
-
-			template<typename Vector, typename ValueType>
-			static Vector with_return(Vector out, size_type length, ValueType value)
-			{
-				out=upsize::template with_return<Vector::node>(out, length, length+1, 1);
-				*out=value;
-
-				return out;
-			}
-
-			template<typename Vector, typename ValueType>
-			static void no_return(Vector out, size_type length, size_type count, ValueType value)
-			{
-				out=upsize::template with_return<Vector::node>(out, length, length+count, count);
-				s_comp_policy::fwd_over::repeat::no_return(out, count, value);
-			}
-
-			template<typename Vector, typename ValueType>
-			static Vector with_return(Vector out, size_type length, size_type count, ValueType value)
-			{
-				out=upsize::template with_return<Vector::node>(out, length, length+count, count);
-				s_comp_policy::fwd_over::repeat::no_return(out, count, value);
-
-				return out;
-			}
-
-			template<typename Vector, typename RIterator, typename ERIterator>
-			static void no_return(Vector out, size_type length, size_type new_length, RIterator in, ERIterator end)
-			{
-				out=upsize::template with_return<Vector::node>(out, length, new_length, new_length-length);
-				s_comp_policy::fwd_over::assign::no_return(out, in, end);
-			}
-
-			template<typename Vector, typename RIterator, typename ERIterator>
-			static Vector with_return(Vector out, size_type length, size_type new_length, RIterator in, ERIterator end)
-			{
-				size_type count=end-in;
-				out=upsize::template with_return<Vector::node>(out, length, new_length, new_length-length);
-				s_comp_policy::fwd_over::assign::no_return(out, in, end);
-
-				return out;
-			}
-		};
-
-		struct append
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
 		{
 		};
 
-		struct impend
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
 		{
-			template<typename Vector, typename ValueType>
-			static void no_return(Vector out, size_type length, size_type offset, ValueType value)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, length+1, offset);
-				*(out+offset)=value;
-			}
-
-			template<typename Vector, typename ValueType>
-			static Vector with_return(Vector out, size_type length, size_type offset, ValueType value)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, length+1, offset);
-				*(out+offset)=value;
-
-				return out;
-			}
-
-			template<typename Vector, typename ValueType>
-			static void no_return(Vector out, size_type length, size_type offset, size_type count, ValueType value)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, length+count, offset);
-				s_comp_policy::fwd_over::repeat::no_return(out+offset, count, value);
-			}
-
-			template<typename Vector, typename ValueType>
-			static Vector with_return(Vector out, size_type length, size_type offset, size_type count, ValueType value)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, length+count, offset);
-				s_comp_policy::fwd_over::repeat::no_return(out+offset, count, value);
-
-				return out;
-			}
-
-			template<typename Vector, typename RIterator, typename ERIterator>
-			static void no_return(Vector out, size_type length,
-				size_type new_length, size_type offset, RIterator in, ERIterator end)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, new_length, offset);
-				s_comp_policy::fwd_over::assign::no_return(out+offset, in, end);
-			}
-
-			template<typename Vector, typename RIterator, typename ERIterator>
-			static Vector with_return(Vector out, size_type length,
-				size_type new_length, size_type offset, RIterator in, ERIterator end)
-			{
-				out=upsize::split::template with_return<Vector::node>(out, length, new_length, offset);
-				s_comp_policy::fwd_over::assign::no_return(out+offset, in, end);
-
-				return out;
-			}
 		};
 	};
     }
