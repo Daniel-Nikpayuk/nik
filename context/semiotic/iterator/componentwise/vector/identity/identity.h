@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -38,8 +38,10 @@ namespace nik
    {
     namespace componentwise
     {
+     namespace vector
+     {
 	template<typename SizeType>
-	struct vector
+	struct identity
 	{
 		typedef SizeType size_type;
 

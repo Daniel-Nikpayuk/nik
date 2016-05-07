@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_OVERLOAD_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_OVERLOAD_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_OVERLOAD_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_OVERLOAD_H
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -59,10 +59,12 @@ namespace nik
   {
    namespace iterator
    {
-    namespace expansionwise
+    namespace componentwise
     {
-     namespace forward
+     namespace pointer
      {
+      namespace forward
+      {
 	template<typename SizeType>
 	struct overload
 	{
@@ -82,10 +84,10 @@ namespace nik
 			#include"../../define/plus/initial.h"
 		};
 	};
-     }
+      }
 
-     namespace backward
-     {
+      namespace backward
+      {
 	template<typename SizeType>
 	struct overload
 	{
@@ -105,10 +107,10 @@ namespace nik
 			#include"../../define/minus/initial.h"
 		};
 	};
-     }
+      }
 
-     namespace bidirectional
-     {
+      namespace bidirectional
+      {
 	template<typename SizeType>
 	struct overload
 	{
@@ -124,10 +126,10 @@ namespace nik
 		{
 		};
 	};
-     }
+      }
 
-     namespace random_access
-     {
+      namespace random_access
+      {
 	template<typename SizeType>
 	struct overload
 	{
@@ -143,6 +145,7 @@ namespace nik
 		{
 		};
 	};
+      }
      }
     }
    }

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_ORDER_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_ORDER_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_ORDER_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_ORDER_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -35,6 +35,8 @@ namespace nik
    {
     namespace extensionwise
     {
+     namespace pointer
+     {
 	template<typename SizeType>
 	struct order
 	{
@@ -102,6 +104,7 @@ namespace nik
 		{
 		};
 	};
+     }
     }
    }
   }

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_ORDER_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_ORDER_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_ORDER_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_ORDER_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -35,6 +35,10 @@ namespace nik
    {
     namespace expansionwise
     {
+     namespace pointer
+     {
+      namespace forward
+      {
 	template<typename SizeType>
 	struct order
 	{
@@ -102,6 +106,50 @@ namespace nik
 		{
 		};
 	};
+      }
+
+      namespace backward
+      {
+	template<typename SizeType>
+	struct order
+	{
+		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+      }
+
+      namespace bidirectional
+      {
+	template<typename SizeType>
+	struct order
+	{
+		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+      }
+     }
     }
    }
   }

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_DISCRETE_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_POINTER_DISCRETE_H
 
 #include"../../../../context/policy/policy.h"
 
@@ -33,10 +33,14 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
+     namespace pointer
+     {
+      namespace forward
+      {
 	template<typename SizeType>
-	struct pointer
+	struct discrete
 	{
 		typedef SizeType size_type;
 
@@ -46,7 +50,20 @@ namespace nik
 		{
 			template<typename WPointer, typename ERPointer>
 			static void no_return(WPointer out, ERPointer end)
-				{ while (out != end) delete out++; }
+				{ while (out != end) delete -(++out); }
+
+			struct count
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(size_type & count, WPointer out, ERPointer end)
+				{
+					while (out != end)
+					{
+						delete -(++out);
+						--count;
+					}
+				}
+			};
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>
@@ -57,7 +74,7 @@ namespace nik
 				template<typename WPointer, typename ERPointer>
 				static void no_return(WPointer out, ERPointer end)
 				{
-					delete out++;
+					delete -(++out);
 					unroll<N-1>::clear::no_return(out, end);
 				}
 			};
@@ -74,6 +91,50 @@ namespace nik
 			};
 		};
 	};
+      }
+
+      namespace backward
+      {
+	template<typename SizeType>
+	struct discrete
+	{
+		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+      }
+
+      namespace bidirectional
+      {
+	template<typename SizeType>
+	struct discrete
+	{
+		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+      }
+     }
     }
    }
   }

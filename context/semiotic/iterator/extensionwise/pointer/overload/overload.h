@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_OVERLOAD_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_OVERLOAD_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_OVERLOAD_H
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -59,9 +59,9 @@ namespace nik
   {
    namespace iterator
    {
-    namespace componentwise
+    namespace extensionwise
     {
-     namespace forward
+     namespace pointer
      {
 	template<typename SizeType>
 	struct overload
@@ -80,67 +80,6 @@ namespace nik
 		struct unroll<0, M, L>
 		{
 			#include"../../define/plus/initial.h"
-		};
-	};
-     }
-
-     namespace backward
-     {
-	template<typename SizeType>
-	struct overload
-	{
-		typedef SizeType size_type;
-
-		#include"../../define/minus/loop.h"
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-			#include"../../define/minus/unroll.h"
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-			#include"../../define/minus/initial.h"
-		};
-	};
-     }
-
-     namespace bidirectional
-     {
-	template<typename SizeType>
-	struct overload
-	{
-		typedef SizeType size_type;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-		};
-	};
-     }
-
-     namespace random_access
-     {
-	template<typename SizeType>
-	struct overload
-	{
-		typedef SizeType size_type;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
 		};
 	};
      }
