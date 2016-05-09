@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_H
-#define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_DISCRETE_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_POINTER_DISCRETE_H
 
 #include"../../../../context/policy/policy.h"
 #include"../../../../semiotic/iterator/expansionwise/policy/policy.h"
@@ -39,8 +39,10 @@ namespace nik
    {
     namespace expansionwise
     {
+     namespace pointer
+     {
 	template<typename SizeType>
-	struct pointer
+	struct discrete
 	{
 		typedef SizeType size_type;
 
@@ -421,6 +423,7 @@ namespace nik
 		{
 		};
 	};
+     }
     }
    }
   }

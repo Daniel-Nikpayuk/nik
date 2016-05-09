@@ -21,11 +21,6 @@
 #include"../../pointer/policy/policy.h"
 
 /*
-	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
-
-	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
-	only the pointer itself.
 */
 
 namespace nik
@@ -47,6 +42,10 @@ namespace nik
 
 		typedef pointer::policy<size_type> sicp_policy;
 
+/*
+	This method would have higher entropy without calling additional methods within [namely initialize()],
+	unfortunately the nature of array allocation requires such additional calls.
+*/
 		struct copy
 		{
 /*
@@ -57,6 +56,13 @@ namespace nik
 			{
 				out.initialize(in.length);
 				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+			}
+
+			template<typename WVector, typename RIterator, typename ERIterator>
+			static void no_return(WVector & out, RIterator in, ERIterator end)
+			{
+				out.initialize(end-in);
+				sicp_policy::fwd_over::assign::no_return(out.initial, in, end);
 			}
 
 			struct shallow

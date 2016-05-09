@@ -50,7 +50,8 @@ namespace nik
 			typedef context::context::argument::policy<SizeType> ca_policy;
 			typedef context::context::parameter::policy<SizeType> cp_policy;
 
-			typedef context::media::iterator::extensionwise::list::policy<SizeType> sitl_policy;
+			typedef context::semiotic::iterator::extensionwise::list::policy<SizeType> sitl_policy;
+
 			typedef context::media::iterator::extensionwise::list::policy<SizeType> mitl_policy;
 
 			typedef semiotic::iterator::list<T,SizeType> weaklist;
@@ -66,22 +67,10 @@ namespace nik
 				// sublist.initial is interpreted to be "before initial".
 				// sublist.terminal is interpreted to be "this terminal".
 			weaklist sublist;
-
-			void initialize()
-			{
-				sublist.terminal=new node;
-				sublist.initial=new node;
-				+sublist.initial=sublist.terminal;
-			}
 		public:
-			list() { initialize(); }
+			list() { sitl_policy::iden::initialize::no_return(sublist); }
 
-			list(const list & l)
-			{
-				initialize();
-				sublist.terminal=sitl_policy::fwd_over::assign::template
-					with_return<node>(sublist.terminal, +l.sublist.initial, l.sublist.terminal);
-			}
+			list(const list & l) { sitl_policy::iden::copy::no_return(sublist, l); }
 
 			~list() { sublist.terminalize(); }
 		public:

@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_DISCRETE_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_DISCRETE_H
+#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_CHAIN_IDENTITY_H
+#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_CHAIN_IDENTITY_H
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -31,82 +31,23 @@ namespace nik
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace expansionwise
     {
-     namespace pointer
+     namespace chain
      {
 	template<typename SizeType>
-	struct discrete
+	struct identity
 	{
 		typedef SizeType size_type;
-
-		struct copy
-		{
-			struct before
-			{
-/*
-	in != end
-*/
-				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static void no_return(WPointer out, RIterator in, ERIterator end)
-				{
-					while (+in != end)
-					{
-						*out=*in;
-						out=+out=new WNode;
-						++in;
-					}
-
-					*out=*in;
-				}
-
-				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
-				static WPointer with_return(WPointer out, RIterator in, ERIterator end)
-				{
-					while (+in != end)
-					{
-						*out=*in;
-						out=+out=new WNode;
-						++in;
-					}
-
-					*out=*in;
-
-					return out;
-				}
-			};
-		};
-
-		struct clear
-		{
-			template<typename WPointer, typename ERPointer>
-			static void no_return(WPointer out, ERPointer end)
-				{ while (out != end) delete out++; }
-		};
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
-				{
-					delete out++;
-					unroll<N-1>::clear::no_return(out, end);
-				}
-			};
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
-					{ }
-			};
 		};
 	};
      }

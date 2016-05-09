@@ -18,6 +18,7 @@
 #ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_CHAIN_POLICY_H
 #define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_CHAIN_POLICY_H
 
+#include"../identity/identity.h"
 //#include"../arithmetic/arithmetic.h"
 
 /*
@@ -46,6 +47,13 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	identity:
+*/
+			using iden=identity<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using iden_unroll=typename iden::template unroll<N, M, L>;
 	};
      }
     }

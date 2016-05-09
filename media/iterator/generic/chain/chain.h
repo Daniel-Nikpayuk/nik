@@ -52,6 +52,7 @@ namespace nik
 			typedef context::context::parameter::policy<SizeType> cp_policy;
 
 			typedef context::semiotic::iterator::expansionwise::chain::policy<SizeType> sipc_policy;
+
 			typedef context::media::iterator::expansionwise::chain::policy<SizeType> mipc_policy;
 
 			typedef semiotic::iterator::chain<T,SizeType> weakchain;

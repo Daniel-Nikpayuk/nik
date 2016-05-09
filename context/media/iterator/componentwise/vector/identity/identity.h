@@ -22,11 +22,9 @@
 #include"../../../../../semiotic/iterator/componentwise/vector/policy/policy.h"
 
 /*
-	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
-
-	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
-	only the pointer itself.
+	There is higher entropy in letting the compiler type-deduce things like "ValueType" even though
+	they may be determined by the given Vector type itself. It is assumed during compile-time these
+	will be aligned to match up.
 */
 
 namespace nik
