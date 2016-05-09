@@ -22,32 +22,25 @@
 #string
 
 // base:
-#define nikbase(header) \
-stringify(../nik/context/context/header/header.h)
-
-#define nikbase_debug(header) \
-stringify(../nik/context/context/header/debug/debug.h)
-
-// meta:
-#define nikmeta(construct, header) \
+#define nikbase(construct, header) \
 stringify(../nik/context/context/construct/header/header.h)
 
-#define nikmeta_debug(construct, header) \
+#define nikbase_debug(construct, header) \
 stringify(../nik/context/context/construct/header/debug/debug.h)
 
 // system:
-#define niksys(navigator, construct, header) \
-stringify(../nik/context/semiotic/navigator/construct/header/header.h)
+#define niksys(navigator, structure, construct, header) \
+stringify(../nik/context/semiotic/navigator/structure/construct/header/header.h)
 
-#define niksys_debug(navigator, construct, header) \
-stringify(../nik/context/semiotic/navigator/construct/header/debug/debug.h)
+#define niksys_debug(navigator, structure, construct, header) \
+stringify(../nik/context/semiotic/navigator/structure/construct/header/debug/debug.h)
 
 // generic:
-#define nikgen(navigator, construct, header) \
-stringify(../nik/context/media/navigator/construct/header/header.h)
+#define nikgen(navigator, structure, construct, header) \
+stringify(../nik/context/media/navigator/structure/construct/header/header.h)
 
-#define nikgen_debug(navigator, construct, header) \
-stringify(../nik/context/media/navigator/construct/header/debug/debug.h)
+#define nikgen_debug(navigator, structure, construct, header) \
+stringify(../nik/context/media/navigator/structure/construct/header/debug/debug.h)
 
 // semiotic:
 #define niksign(navigator, header) \

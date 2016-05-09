@@ -18,8 +18,9 @@
 #ifndef NIK_SEMIOTIC_ITERATOR_CHAIN_H
 #define NIK_SEMIOTIC_ITERATOR_CHAIN_H
 
-#include"../../../context/context/node/node.h"
-#include"../../../context/semiotic/iterator/expansionwise/policy/policy.h"
+#include"../../../context/context/generic/node/node.h"
+#include"../../../context/semiotic/iterator/expansionwise/pointer/policy/policy.h"
+#include"../../../context/semiotic/iterator/expansionwise/chain/policy/policy.h"
 
 #include"../traits/traits.h"
 
@@ -73,13 +74,14 @@ namespace nik
 		typedef typename attributes::value_type value_type;
 		typedef typename attributes::reference reference;
 		typedef typename attributes::const_reference const_reference;
-		typedef context::context::link<T, SizeType> node;
-		typedef context::context::const_link<T, SizeType> const_node;
+		typedef context::context::generic::link<T, SizeType> node;
+		typedef context::context::generic::const_link<T, SizeType> const_node;
 		typedef typename node::pointer iterator;
 		typedef typename const_node::pointer const_iterator;
 		typedef SizeType size_type;
 
-		typedef context::semiotic::iterator::expansionwise::policy<size_type> s_expa_policy;
+		typedef context::semiotic::iterator::expansionwise::pointer::policy<size_type> sipp_policy;
+		typedef context::semiotic::iterator::expansionwise::chain::policy<size_type> sipc_policy;
 
 		iterator initial;
 		iterator terminal;
@@ -94,12 +96,12 @@ namespace nik
 		void copy_initialize(RIterator first, ERIterator last)
 		{
 			initialize();
-			terminal=s_expa_policy::fwd_over::assign::template with_return<node>(terminal, first, last);
+			terminal=sipp_policy::fwd_over::assign::template with_return<node>(terminal, first, last);
 		}
 
 		void terminalize()
 		{
-			s_expa_policy::ptr::clear::no_return(initial, terminal);
+			sipp_policy::disc::clear::no_return(initial, terminal);
 			delete terminal;
 		}
 

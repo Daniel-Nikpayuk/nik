@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_NODE_H
-#define NIK_CONTEXT_CONTEXT_NODE_H
+#ifndef NIK_CONTEXT_CONTEXT_GENERIC_NODE_H
+#define NIK_CONTEXT_CONTEXT_GENERIC_NODE_H
 
 #include<stddef.h>
 
@@ -72,6 +72,8 @@ namespace nik
  {
   namespace context
   {
+   namespace generic
+   {
 /*
 	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
 	It is only meant to have an allocator as well as meta information about the type of memory it holds.
@@ -404,6 +406,7 @@ namespace nik
 	using const_link=node<const_node_pointer<T, SizeType, LINK_SIZE> >;
 
 	#undef LINK_SIZE
+   }
   }
  }
 }

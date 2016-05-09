@@ -15,10 +15,12 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
+#ifndef NIK_CONTEXT_CONTEXT_ARGUMENT_POLICY_H
+#define NIK_CONTEXT_CONTEXT_ARGUMENT_POLICY_H
 
-//#include"../arithmetic/arithmetic.h"
+#include"../binary/binary.h"
+#include"../math/math.h"
+#include"../meta/meta.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -32,23 +34,29 @@ namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace context
   {
-   namespace iterator
+   namespace argument
    {
-    namespace extensionwise
-    {
-     namespace list
-     {
 /*
 */
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	binary:
+*/
+			using bina=argument::binary<size_type>;
+/*
+	math:
+*/
+			using math=argument::math<size_type>;
+/*
+	meta:
+*/
+			using meta=argument::meta;
 	};
-     }
-    }
    }
   }
  }

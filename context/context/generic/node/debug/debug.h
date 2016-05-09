@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_NODE_DEBUG_H
-#define NIK_CONTEXT_CONTEXT_NODE_DEBUG_H
+#ifndef NIK_CONTEXT_CONTEXT_GENERIC_NODE_DEBUG_H
+#define NIK_CONTEXT_CONTEXT_GENERIC_NODE_DEBUG_H
 
 #include"../node.h"
 #include"../../display/display.h"
@@ -41,9 +41,9 @@ namespace nik
 
 	struct hook_pointer
 	{
-		typedef context::context::hook<int> hook;
+		typedef context::context::generic::hook<int> hook;
 		typedef typename hook::pointer pointer;
-		typedef context::context::hook<int const>::pointer const & pointer_const;
+		typedef context::context::generic::hook<int const>::pointer const & pointer_const;
 
 		static void dimension()
 		{
@@ -176,7 +176,7 @@ namespace nik
 
 		static void point()
 		{
-			typedef context::context::hook<container> c_hook;
+			typedef context::context::generic::hook<container> c_hook;
 			typedef typename c_hook::pointer c_pointer;
 			c_pointer n=new c_hook();
 			*n=container();
@@ -234,13 +234,13 @@ namespace nik
 
 	struct const_hook_pointer
 	{
-		typedef context::context::hook<int> hook;
+		typedef context::context::generic::hook<int> hook;
 		typedef typename hook::pointer pointer;
-		typedef context::context::hook<int const>::pointer const & pointer_const;
+		typedef context::context::generic::hook<int const>::pointer const & pointer_const;
 
 		typedef context::context::const_hook<int> const_hook;
 		typedef typename const_hook::pointer const_pointer;
-		typedef context::context::const_hook<int const>::pointer const & const_pointer_const;
+		typedef context::context::generic::const_hook<int const>::pointer const & const_pointer_const;
 
 		static void dimension()
 		{
@@ -402,10 +402,10 @@ namespace nik
 
 		static void point()
 		{
-			typedef context::context::hook<container> c_hook;
+			typedef context::context::generic::hook<container> c_hook;
 			typedef typename c_hook::pointer c_pointer;
 
-			typedef context::context::const_hook<container> c_const_hook;
+			typedef context::context::generic::const_hook<container> c_const_hook;
 			typedef typename c_const_hook::pointer c_const_pointer;
 
 			c_pointer n=new c_hook();

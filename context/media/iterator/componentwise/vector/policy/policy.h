@@ -15,9 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_POLICY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_POLICY_H
 
+#include"../identity/identity.h"
 //#include"../arithmetic/arithmetic.h"
 
 /*
@@ -32,13 +33,13 @@ namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace media
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace componentwise
     {
-     namespace list
+     namespace vector
      {
 /*
 */
@@ -46,6 +47,13 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	identity:
+*/
+			using iden=identity<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using iden_unroll=typename iden::template unroll<N, M, L>;
 	};
      }
     }

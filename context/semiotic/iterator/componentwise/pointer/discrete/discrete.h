@@ -18,7 +18,7 @@
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
 
-#include"../../../../context/policy/policy.h"
+#include"../../../../../context/generic/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -44,11 +44,11 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
+		typedef context::generic::policy<size_type> cg_policy;
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
+	as well as n = cg_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 */
 		struct right_shift
@@ -83,7 +83,7 @@ namespace nik
 /*
 	For the "natural" right_shift,
 	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m,
+	as well as n = cg_policy::unit::length-m,
 	finally, *out=(*in1>>m) needs appending.
 			struct right_shift
 			{
@@ -121,8 +121,8 @@ namespace nik
 			{
 				while (in != end)
 				{
-					*out=(c_policy::unit::low_pass & *in);
-					*++out=*in>>c_policy::unit::half::length;
+					*out=(cg_policy::unit::low_pass & *in);
+					*++out=*in>>cg_policy::unit::half::length;
 					++out; ++in;
 				}
 			}
@@ -132,8 +132,8 @@ namespace nik
 			{
 				while (in != end)
 				{
-					*out=(c_policy::unit::low_pass & *in);
-					*++out=*in>>c_policy::unit::half::length;
+					*out=(cg_policy::unit::low_pass & *in);
+					*++out=*in>>cg_policy::unit::half::length;
 					++out; ++in;
 				}
 
@@ -148,7 +148,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<c_policy::unit::half::length);
+						*out+=(*++in<<cg_policy::unit::half::length);
 						++out; ++in;
 					}
 				}
@@ -159,7 +159,7 @@ namespace nik
 					while (in != end)
 					{
 						*out=*in;
-						*out+=(*++in<<c_policy::unit::half::length);
+						*out+=(*++in<<cg_policy::unit::half::length);
 						++out; ++in;
 					}
 
@@ -179,16 +179,16 @@ namespace nik
 				template<typename WIterator, typename RIterator>
 				static void no_return(WIterator out, RIterator in)
 				{
-					*out=(c_policy::unit::low_pass & *in);
-					*++out=*in>>c_policy::unit::half::length;
+					*out=(cg_policy::unit::low_pass & *in);
+					*++out=*in>>cg_policy::unit::half::length;
 					unroll<N-1>::convert::no_return(++out, ++in);
 				}
 
 				template<typename WIterator, typename RIterator>
 				static WIterator with_return(WIterator out, RIterator in)
 				{
-					*out=(c_policy::unit::low_pass & *in);
-					*++out=*in>>c_policy::unit::half::length;
+					*out=(cg_policy::unit::low_pass & *in);
+					*++out=*in>>cg_policy::unit::half::length;
 					return unroll<N-1>::convert::with_return(++out, ++in);
 				}
 
@@ -198,7 +198,7 @@ namespace nik
 					static void no_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<c_policy::unit::half::length);
+						*out+=(*++in<<cg_policy::unit::half::length);
 						unroll<N-1>::convert::half::no_return(++out, ++in);
 					}
 
@@ -206,7 +206,7 @@ namespace nik
 					static WIterator with_return(WIterator out, RIterator in)
 					{
 						*out=*in;
-						*out+=(*++in<<c_policy::unit::half::length);
+						*out+=(*++in<<cg_policy::unit::half::length);
 						return unroll<N-1>::convert::half::with_return(++out, ++in);
 					}
 				};
@@ -219,7 +219,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1>>m); }.
 	Do not add (*in2<<n) as in this specialization, in2 may be past the boundary.
@@ -247,7 +247,7 @@ namespace nik
 	For the "natural" right_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = ++RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out>>=m); }.
 	Do not add (*in<<n) as in this specialization, in2 may be past the boundary.
@@ -335,7 +335,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
+		typedef context::generic::policy<size_type> cg_policy;
 
 		struct left_shift
 		{
@@ -343,7 +343,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 			template<typename WIterator, typename RIterator1, typename RIterator2, typename ERIterator>
 			static void no_return(WIterator out, RIterator1 in1, RIterator2 in2, ERIterator end, size_type m, size_type n)
 			{
@@ -374,7 +374,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 			struct left_shift
 			{
 				template<typename WIterator, typename RIterator, typename ERIterator>
@@ -411,7 +411,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out=(*in1<<m); }.
 	Do not add (*in2>>n) as in this specialization, in2 may be past the boundary.
@@ -439,7 +439,7 @@ namespace nik
 	For the "natural" left_shift,
 	N is interpreted here as (array length - # of array positional shifts).
 	define in2 = --RIterator(in1),
-	as well as n = c_policy::unit::length-m.
+	as well as n = cg_policy::unit::length-m.
 
 	Within the safe version, unroll <N-1> instead of <N>, and append { *out<<=m); }.
 	Do not add (*in>>n) as in this specialization, in2 may be past the boundary.
@@ -506,7 +506,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
+		typedef context::generic::policy<size_type> cg_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
@@ -527,7 +527,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
+		typedef context::generic::policy<size_type> cg_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll

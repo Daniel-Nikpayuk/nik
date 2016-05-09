@@ -24,8 +24,14 @@
 	Test against self-assignment!
 */
 
-#include"../../../../context/context/policy/policy.h"
-#include"../../../../context/media/iterator/componentwise/policy/policy.h"
+#include"../../../../context/context/argument/policy/policy.h"
+#include"../../../../context/context/parameter/policy/policy.h"
+
+#include"../../../../context/semiotic/iterator/componentwise/pointer/policy/policy.h"
+#include"../../../../context/semiotic/iterator/componentwise/vector/policy/policy.h"
+
+#include"../../../../context/media/iterator/componentwise/vector/policy/policy.h"
+
 #include"../../../../semiotic/iterator/vector/vector.h"
 
 namespace nik
@@ -38,18 +44,20 @@ namespace nik
    {
 /*
 	vector:
-		Things need fixing: const_cast instead of relying on (begin()+(n-begin())) in the generic context m_ethods.
 */
 	template<typename T, typename SizeType>
 	class vector
 	{
 		protected:
-			typedef context::context::policy<SizeType> c_policy;
+			typedef context::context::argument::policy<SizeType> ca_policy;
+			typedef context::context::parameter::policy<SizeType> cp_policy;
+
+			typedef context::semiotic::iterator::componentwise::pointer::policy<SizeType> sicp_policy;
+			typedef context::semiotic::iterator::componentwise::vector::policy<SizeType> sicv_policy;
+
+			typedef context::media::iterator::componentwise::vector::policy<SizeType> micv_policy;
 
 			typedef semiotic::iterator::vector<T,SizeType> weakvector;
-			typedef typename weakvector::s_comp_policy s_comp_policy;
-
-			typedef context::media::iterator::componentwise::policy<SizeType> m_comp_policy;
 		public:
 			typedef typename weakvector::value_type value_type;
 			typedef typename weakvector::reference reference;
@@ -110,14 +118,14 @@ namespace nik
 				// capacity:
 			bool empty() const { return !length; }
 			size_type size() const { return length; }
-			size_type max_size() const { return c_policy::par_num::max(); }
+			size_type max_size() const { return cp_policy::nume::max(); }
 
 			void reserve(size_type new_cap)
 			{
 				if (new_cap > subvector.length)
 				{
 					weakvector tmp;
-					s_comp_policy::vtr::grow::after(subvector, tmp, new_cap-subvector.length);
+					sicv_policy::iden::grow::after(subvector, tmp, new_cap-subvector.length);
 				}
 			}
 
@@ -128,7 +136,7 @@ namespace nik
 				if (subvector.length > length)
 				{
 					weakvector tmp;
-					s_comp_policy::vtr::shrink::after(subvector, tmp, subvector.length-length);
+					sicv_policy::iden::shrink::after(subvector, tmp, subvector.length-length);
 				}
 			}
 
@@ -141,15 +149,15 @@ namespace nik
 
 			iterator insert(const_iterator it, const value_type & value)
 			{
-				iterator in=c_policy::arg_met::template recast<iterator>(it);
+				iterator in=ca_policy::meta::template recast<iterator>(it);
 
 				if (length < subvector.length)
 				{
 					iterator end=subvector.initial+length;
-					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+					sicv_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, value);
+				else micv_policy::iden::insert::impend(subvector, in-subvector.initial, value);
 
 				++length;
 
@@ -158,15 +166,15 @@ namespace nik
 
 			iterator insert(const_iterator it, value_type && value)
 			{
-				iterator in=c_policy::arg_met::template recast<iterator>(it);
+				iterator in=ca_policy::meta::template recast<iterator>(it);
 
 				if (length < subvector.length)
 				{
 					iterator end=subvector.initial+length;
-					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+					sicp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, value);
+				else micv_policy::iden::insert::impend(subvector, in-subvector.initial, value);
 
 				++length;
 
@@ -175,16 +183,16 @@ namespace nik
 
 			iterator insert(const_iterator it, size_type count, const value_type & value)
 			{
-				iterator in=c_policy::arg_met::template recast<iterator>(it);
+				iterator in=ca_policy::meta::template recast<iterator>(it);
 
 				size_type new_length=length+count;
 				if (new_length <= subvector.length)
 				{
 					iterator end=subvector.initial+new_length-1;
-					s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
-					s_comp_policy::fwd_over::repeat::no_return(in, count, value);
+					sicp_policy::bwd_over::assign::no_return(end, end-1, in-1);
+					sicp_policy::fwd_over::repeat::no_return(in, count, value);
 				}
-				else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, count, value);
+				else micv_policy::iden::insert::impend(subvector, in-subvector.initial, count, value);
 
 				length=new_length;
 			}
@@ -200,17 +208,17 @@ namespace nik
 			{
 				if (first != last)
 				{
-					iterator in=c_policy::arg_met::template recast<iterator>(it);
+					iterator in=ca_policy::meta::template recast<iterator>(it);
 
 					size_type count=last-first;
 					size_type new_length=length+count;
 					if (new_length <= subvector.length)
 					{
 						iterator end=subvector.initial+new_length-1;
-						s_comp_policy::bwd_over::assign::no_return(end, end-1, in-1);
-						s_comp_policy::fwd_over::assign::no_return(in, first, last);
+						sicv_policy::bwd_over::assign::no_return(end, end-1, in-1);
+						sicv_policy::fwd_over::assign::no_return(in, first, last);
 					}
-					else m_comp_policy::vtr::insert::impend(subvector, in-subvector.initial, first, last);
+					else micv_policy::iden::insert::impend(subvector, in-subvector.initial, first, last);
 
 					length=new_length;
 				}
@@ -220,9 +228,9 @@ namespace nik
 			{
 				if (length)
 				{
-					iterator in=c_policy::arg_met::template recast<iterator>(it);
+					iterator in=ca_policy::meta::template recast<iterator>(it);
 
-					s_comp_policy::fwd_over::assign::no_return(in, in+1, subvector.initial+length);
+					sicv_policy::fwd_over::assign::no_return(in, in+1, subvector.initial+length);
 					--length;
 				}
 			}
@@ -238,10 +246,10 @@ namespace nik
 					size_type count=last-first;
 					if (length >= count)
 					{
-						iterator in=c_policy::arg_met::template recast<iterator>(first);
-						iterator end=c_policy::arg_met::template recast<iterator>(last);
+						iterator in=ca_policy::meta::template recast<iterator>(first);
+						iterator end=ca_policy::meta::template recast<iterator>(last);
 
-						s_comp_policy::fwd_over::assign::no_return(in, end, end+count);
+						sicp_policy::fwd_over::assign::no_return(in, end, end+count);
 						length-=count;
 					}
 				}
@@ -253,7 +261,7 @@ namespace nik
 				if (length < subvector.length) *(subvector.initial+length)=value;
 				else
 				{
-					subvector.initial=m_comp_policy::ptr::append::template
+					subvector.initial=micv_policy::ptr::append::template
 						with_return<node>(subvector.initial, subvector.length, value);
 
 					++subvector.length;
@@ -264,13 +272,13 @@ namespace nik
 				return in;
 
 				++length;
-				m_comp_policy::ptr::impend::template no_return<node>(subvector.terminal, value);
+				micv_policy::ptr::impend::template no_return<node>(subvector.terminal, value);
 			}
 			void push_back(const value_type & value)
 			{
 				if (subvector.size() > length)
 					subvector[length++]=value;
-				else m_comp_policy::insert(subvector, subvector.initial+(length++), value);
+				else micv_policy::insert(subvector, subvector.initial+(length++), value);
 			}
 */
 
@@ -285,10 +293,10 @@ namespace nik
 			{
 
 					if (in == subvector.initial)
-						subvector.initial=m_comp_policy::ptr::prepend::template
+						subvector.initial=micv_policy::ptr::prepend::template
 							with_return<node>(subvector.initial, subvector.length, value);
 				++length;
-				subvector.initial=m_comp_policy::ptr::prepend::template with_return<node>(subvector.initial, value);
+				subvector.initial=micv_policy::ptr::prepend::template with_return<node>(subvector.initial, value);
 			}
 
 			void push_front(value_type && value)
@@ -308,24 +316,24 @@ namespace nik
 			void resize(size_type count)
 			{
 				size_type cap=subvector::size();
-				if (count > cap) m_comp_policy::insert(subvector, subvector.terminal, count-cap, value_type());
+				if (count > cap) micv_policy::insert(subvector, subvector.terminal, count-cap, value_type());
 			}
 			void resize(size_type count)
 			{
 				size_type cap=subvector.size();
-				if (count > cap) m_comp_policy::insert(subvector, subvector.terminal, count-cap, value_type());
+				if (count > cap) micv_policy::insert(subvector, subvector.terminal, count-cap, value_type());
 				length=count;
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=subvector::size();
-				if (count > cap) m_comp_policy::insert(subvector, subvector.terminal, count-cap, value);
+				if (count > cap) micv_policy::insert(subvector, subvector.terminal, count-cap, value);
 			}
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=subvector.size();
-				if (count > cap) m_comp_policy::insert(subvector, subvector.terminal, count-cap, value);
+				if (count > cap) micv_policy::insert(subvector, subvector.terminal, count-cap, value);
 				length=count;
 			}
 

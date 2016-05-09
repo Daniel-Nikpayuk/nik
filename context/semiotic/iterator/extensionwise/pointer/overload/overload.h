@@ -68,18 +68,18 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		#include"../../define/plus/loop.h"
+		#include"../../../define/plus/loop.h"
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			#include"../../define/plus/unroll.h"
+			#include"../../../define/plus/unroll.h"
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			#include"../../define/plus/initial.h"
+			#include"../../../define/plus/initial.h"
 		};
 	};
      }
@@ -89,14 +89,14 @@ namespace nik
  }
 }
 
-#include"../../undef/post_test/initial.h"
-#include"../../undef/post_test/unroll.h"
-#include"../../undef/post_test/count.h"
-#include"../../undef/post_test/loop.h"
+#include"../../../undef/post_test/initial.h"
+#include"../../../undef/post_test/unroll.h"
+#include"../../../undef/post_test/count.h"
+#include"../../../undef/post_test/loop.h"
 
-#include"../../undef/test/initial.h"
-#include"../../undef/test/unroll.h"
-#include"../../undef/test/count.h"
-#include"../../undef/test/loop.h"
+#include"../../../undef/test/initial.h"
+#include"../../../undef/test/unroll.h"
+#include"../../../undef/test/count.h"
+#include"../../../undef/test/loop.h"
 
 #endif

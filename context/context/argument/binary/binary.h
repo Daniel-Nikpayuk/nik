@@ -18,7 +18,7 @@
 #ifndef NIK_CONTEXT_CONTEXT_ARGUMENT_BINARY_H
 #define NIK_CONTEXT_CONTEXT_ARGUMENT_BINARY_H
 
-#include"../../unit/unit.h"
+#include"../../generic/policy/policy.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
@@ -49,28 +49,28 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::unit<size_type> unit;
+		typedef generic::policy<size_type> cg_policy;
 
 		static size_type shift_up(size_type in, size_type n)
 			{ return in << n; }
 
 	// common enough to optimize:
 		static size_type shift_up(size_type in)
-			{ return in << unit::half::length; }
+			{ return in << cg_policy::unit::half::length; }
 
 		static size_type shift_down(size_type in, size_type n)
 			{ return in >> n; }
 
 	// common enough to optimize:
 		static size_type shift_down(size_type in)
-			{ return in >> unit::half::length; }
+			{ return in >> cg_policy::unit::half::length; }
 /*
 	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
 
 	Should the code here be manually expanded so as to not rely on function calls? Will the compiler optimize?
 */
 		static size_type low_pass(size_type t)
-			{ return shift_up(unit::one, t)-unit::one; }
+			{ return shift_up(cg_policy::unit::one, t)-cg_policy::unit::one; }
 
 		static size_type high_pass(size_type s)
 			{ return ~ low_pass(s); }
@@ -83,19 +83,19 @@ namespace nik
 
 			// common enough to optimize:
 		static size_type low(size_type in)
-			{ return (unit::filter::low_pass & in); }
+			{ return (cg_policy::unit::filter::low_pass & in); }
 
 		static size_type high(size_type in, size_type s)
 			{ return shift_down(in, s); }
 
 			// common enough to optimize:
 		static size_type high(size_type in)
-			{ return in >> unit::half::length; }
+			{ return in >> cg_policy::unit::half::length; }
 
 		static size_type mid(size_type in, size_type s, size_type t)
 			{ return low(shift_down(in, s), t-s); }
 
-		template<size_type N, size_type M=unit::zero, size_type L=unit::zero>
+		template<size_type N, size_type M=cg_policy::unit::zero, size_type L=cg_policy::unit::zero>
 		struct unroll
 		{
 /*
@@ -105,23 +105,23 @@ namespace nik
 */
 			static size_type order(size_type primary, size_type secondary)
 			{
-				size_type m=mid(secondary, (N >> unit::one), N);
-				if (m) primary += (N >> unit::one);
-				else m=mid(secondary, unit::zero, (N >> unit::one));
+				size_type m=mid(secondary, (N >> cg_policy::unit::one), N);
+				if (m) primary += (N >> cg_policy::unit::one);
+				else m=mid(secondary, cg_policy::unit::zero, (N >> cg_policy::unit::one));
 
-				return unroll<(N >> unit::one)>::order(primary, m);
+				return unroll<(N >> cg_policy::unit::one)>::order(primary, m);
 			}
 		};
 
 		template<size_type M, size_type L>
-		struct unroll<unit::zero, M, L>
+		struct unroll<cg_policy::unit::zero, M, L>
 		{
 			static size_type order(size_type primary, size_type secondary)
 				{ return primary; }
 		};
 
 		static size_type order(size_type in)
-			{ return unroll<unit::length>::order(unit::zero, in); }
+			{ return unroll<cg_policy::unit::length>::order(cg_policy::unit::zero, in); }
 	};
    }
   }

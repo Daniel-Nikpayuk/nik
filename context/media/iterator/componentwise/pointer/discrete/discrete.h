@@ -15,37 +15,49 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
 
-//#include"../arithmetic/arithmetic.h"
+#include"../../../../../context/policy/policy.h"
+#include"../../../../../semiotic/iterator/componentwise/pointer/policy/policy.h"
 
 /*
-	The justification for this policy class is threefold:
+	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
+	but as pointer specifically assumes an array pointer there is no need for these additional namespaces.
 
-	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
-	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
-		easing the headerload within the media classes.
+	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
+	only the pointer itself.
 */
 
 namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace media
   {
    namespace iterator
    {
-    namespace extensionwise
+    namespace componentwise
     {
-     namespace list
+     namespace pointer
      {
-/*
-*/
 	template<typename SizeType>
-	struct policy
+	struct discrete
 	{
 		typedef SizeType size_type;
+
+		typedef context::policy<size_type> c_policy;
+		typedef semiotic::iterator::componentwise::pointer::policy<SizeType> sicp_policy;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
 	};
      }
     }

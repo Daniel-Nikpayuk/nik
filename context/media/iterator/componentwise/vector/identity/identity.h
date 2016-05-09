@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
-#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
 
-#include"../../../../context/policy/policy.h"
-#include"../../../../semiotic/iterator/componentwise/policy/policy.h"
+#include"../../../../../semiotic/iterator/componentwise/pointer/policy/policy.h"
+#include"../../../../../semiotic/iterator/componentwise/vector/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -39,13 +39,15 @@ namespace nik
    {
     namespace componentwise
     {
+     namespace vector
+     {
 	template<typename SizeType>
-	struct vector
+	struct identity
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
-		typedef semiotic::iterator::componentwise::policy<size_type> s_comp_policy;
+		typedef semiotic::iterator::componentwise::pointer::policy<size_type> sicp_policy;
+		typedef semiotic::iterator::componentwise::vector::policy<size_type> sicv_policy;
 
 		struct insert
 		{
@@ -55,23 +57,23 @@ namespace nik
 			static void prepend(WVector & out, ValueType value)
 			{
 				WVector tmp;
-				*s_comp_policy::vtr::grow::before(out, tmp, 1)=value;
+				*sicv_policy::iden::grow::before(out, tmp, 1)=value;
 			}
 
 			template<typename WVector, typename ValueType>
 			static void prepend(WVector & out, size_type count, ValueType value)
 			{
 				WVector tmp;
-				s_comp_policy::vtr::grow::before(out, tmp, count);
-				s_comp_policy::fwd_over::repeat::no_return(out.initial, count, value);
+				sicv_policy::iden::grow::before(out, tmp, count);
+				sicp_policy::fwd_over::repeat::no_return(out.initial, count, value);
 			}
 
 			template<typename WVector, typename RIterator, typename ERIterator>
 			static void prepend(WVector & out, RIterator in, ERIterator end)
 			{
 				WVector tmp;
-				s_comp_policy::vtr::grow::before(out, tmp, end-in);
-				s_comp_policy::fwd_over::assign::no_return(out.initial, in, end);
+				sicv_policy::iden::grow::before(out, tmp, end-in);
+				sicp_policy::fwd_over::assign::no_return(out.initial, in, end);
 			}
 
 			// append:
@@ -82,7 +84,7 @@ namespace nik
 			static void impend(WVector & out, size_type offset, ValueType value)
 			{
 				WVector tmp;
-				s_comp_policy::vtr::grow::between(out, tmp, 1, offset);
+				sicv_policy::iden::grow::between(out, tmp, 1, offset);
 				*(out.initial+offset)=value;
 			}
 
@@ -90,16 +92,16 @@ namespace nik
 			static void impend(WVector & out, size_type offset, size_type count, ValueType value)
 			{
 				WVector tmp;
-				s_comp_policy::vtr::grow::between(out, tmp, count, offset);
-				s_comp_policy::fwd_over::repeat::no_return(out.initial+offset, count, value);
+				sicv_policy::iden::grow::between(out, tmp, count, offset);
+				sicp_policy::fwd_over::repeat::no_return(out.initial+offset, count, value);
 			}
 
 			template<typename WVector, typename RIterator, typename ERIterator>
 			static void impend(WVector & out, size_type offset, RIterator in, ERIterator end)
 			{
 				WVector tmp;
-				s_comp_policy::vtr::grow::between(out, tmp, end-in, offset);
-				s_comp_policy::fwd_over::assign::no_return(out.initial+offset, in, end);
+				sicv_policy::iden::grow::between(out, tmp, end-in, offset);
+				sicp_policy::fwd_over::assign::no_return(out.initial+offset, in, end);
 			}
 		};
 
@@ -113,6 +115,7 @@ namespace nik
 		{
 		};
 	};
+     }
     }
    }
   }

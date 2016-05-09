@@ -15,10 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_LIST_POLICY_H
+#ifndef NIK_CONTEXT_CONTEXT_GENERIC_POLICY_H
+#define NIK_CONTEXT_CONTEXT_GENERIC_POLICY_H
 
-//#include"../arithmetic/arithmetic.h"
+#include"../node/node.h"
+#include"../unit/unit.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -32,23 +33,35 @@ namespace nik
 {
  namespace context
  {
-  namespace semiotic
+  namespace context
   {
-   namespace iterator
+   namespace generic
    {
-    namespace extensionwise
-    {
-     namespace list
-     {
 /*
 */
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	unit:
+*/
+		using unit=generic::unit<size_type>;
+/*
+	node:
+*/
+		template<typename value_type>
+		using hook=generic::hook<value_type, size_type>;
+
+		template<typename value_type>
+		using chook=generic::const_hook<value_type, size_type>;
+
+		template<typename value_type>
+		using link=generic::link<value_type, size_type>;
+
+		template<typename value_type>
+		using clink=generic::const_link<value_type, size_type>;
 	};
-     }
-    }
    }
   }
  }

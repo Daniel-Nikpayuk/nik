@@ -18,7 +18,7 @@
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_VECTOR_IDENTITY_H
 
-#include"../../../../context/policy/policy.h"
+#include"../../pointer/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
@@ -45,9 +45,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
-
-		typedef forward::overload<size_type> fwd_over;
+		typedef pointer::policy<size_type> sicp_policy;
 
 		struct copy
 		{
@@ -58,7 +56,7 @@ namespace nik
 			static void no_return(WVector & out, const RVector & in)
 			{
 				out.initialize(in.length);
-				fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
 			}
 
 			struct shallow
@@ -83,7 +81,7 @@ namespace nik
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
-				fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
+				sicp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
 				in.terminalize();
 			}
 
@@ -92,7 +90,7 @@ namespace nik
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
-				fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
 				in.terminalize();
 			}
 
@@ -102,8 +100,8 @@ namespace nik
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length+length);
 				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
+				out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				sicp_policy::fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
 				in.terminalize();
 			}
 		};
@@ -119,7 +117,7 @@ namespace nik
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
-				fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
+				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
 				in.terminalize();
 			}
 
@@ -128,7 +126,7 @@ namespace nik
 			{
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
-				fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
+				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
 				in.terminalize();
 			}
 
@@ -138,8 +136,8 @@ namespace nik
 				copy::shallow::no_return(in, out);
 				out.initialize(in.length-length);
 				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
+				out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+				sicp_policy::fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
 				in.terminalize();
 			}
 		};
@@ -154,6 +152,7 @@ namespace nik
 		{
 		};
 	};
+     }
     }
    }
   }

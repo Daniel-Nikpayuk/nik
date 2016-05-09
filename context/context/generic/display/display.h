@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_DISPLAY_H
-#define NIK_CONTEXT_CONTEXT_DISPLAY_H
+#ifndef NIK_CONTEXT_CONTEXT_GENERIC_DISPLAY_H
+#define NIK_CONTEXT_CONTEXT_GENERIC_DISPLAY_H
 
 #include<stdint.h>
 #include<stdio.h>
@@ -27,6 +27,8 @@ namespace nik
  {
   namespace context
   {
+   namespace generic
+   {
 	struct printer
 	{
 		void print(int v) { printf("%d", v); }
@@ -45,12 +47,13 @@ namespace nik
 		s.print(v);
 		return s;
 	}
+   }
   }
  }
 
 	char endl='\n'; // portable ?
 
-	context::context::printer display;
+	context::context::generic::printer display;
 }
 
 #endif

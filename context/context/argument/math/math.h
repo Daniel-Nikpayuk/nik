@@ -18,11 +18,8 @@
 #ifndef NIK_CONTEXT_CONTEXT_ARGUMENT_MATH_H
 #define NIK_CONTEXT_CONTEXT_ARGUMENT_MATH_H
 
-#include"../../unit/unit.h"
+#include"../../generic/unit/unit.h"
 #include"../binary/binary.h"
-
-// for debugging:
-//#include"../../display/display.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
@@ -48,7 +45,8 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::unit<size_type> unit;
+		typedef generic::policy<size_type> cg_policy;
+
 		typedef argument::binary<size_type> binary;
 /*
 	multiply:
@@ -159,8 +157,8 @@ namespace nik
 			{
 				static size_type with_return(size_type & out, size_type in2)
 				{
-					out=(unit::one & in2);
-					return unit::max_power + (in2 >> unit::one);
+					out=(cg_policy::unit::one & in2);
+					return cg_policy::unit::max_power + (in2 >> cg_policy::unit::one);
 				}
 			};
 
@@ -183,8 +181,8 @@ namespace nik
 					// in1, high_in2 are now free.
 					in1=in2/d; big_in2=in2%d;
 
-					in1 <<= unit::half::length;
-					(big_in2 <<= unit::half::length) += little_in2;
+					in1 <<= cg_policy::unit::half::length;
+					(big_in2 <<= cg_policy::unit::half::length) += little_in2;
 					// little_in2 is now free.
 
 					little_in2=big_in2/d; out=big_in2%d;
@@ -195,7 +193,7 @@ namespace nik
 
 			static bool improve_quotient(size_type & q, size_type uc, size_type u, size_type v)
 			{
-				size_type t=unit::zero, tc=multiply::high_return(t, v, q);
+				size_type t=cg_policy::unit::zero, tc=multiply::high_return(t, v, q);
 				if (tc > uc || (tc == uc && t > u))
 				{
 					--q;
@@ -210,7 +208,7 @@ namespace nik
 
 				if (uc) q=(uc < big_v) ?
 					(binary::shift_up(uc)+binary::high(u))/big_v :
-						unit::half::max_size;
+						cg_policy::unit::half::max_size;
 				else q=u/v;
 
 				if (improve_quotient(q, uc, u, v))
@@ -245,11 +243,11 @@ namespace nik
 				{
 					q=knuth_quotient(r, in1, d);
 					in1-=multiply::low_return(q, d);
-					q <<= unit::half::length;
+					q <<= cg_policy::unit::half::length;
 				}
 
 				r=binary::high(in1);
-				(in1 <<= unit::half::length)+=in2;
+				(in1 <<= cg_policy::unit::half::length)+=in2;
 				// in2 is now free.
 
 				if (r || in1 >= d)
@@ -266,21 +264,21 @@ namespace nik
 			static size_type with_return(size_type in1, size_type in2, size_type d)
 			{
 				size_type	rank=binary::order(d)+1,
-						power=unit::length-rank;
+						power=cg_policy::unit::length-rank;
 
 				(in1<<=power)+=bool(power)*binary::high(in2, rank);
 				in2<<=power;
 				d<<=power;
 
 				return clean_return(binary::high(in1),
-					(in1 <<= unit::half::length) += binary::high(in2),
+					(in1 <<= cg_policy::unit::half::length) += binary::high(in2),
 					binary::low(in2), d);
 			}
 
 			static size_type with_return(size_type & r, size_type in1, size_type in2, size_type d)
 			{
 				size_type	rank=binary::order(d)+1,
-						power=unit::length-rank;
+						power=cg_policy::unit::length-rank;
 
 				(in1<<=power)+=bool(power)*binary::high(in2, rank);
 				in2<<=power;
@@ -288,7 +286,7 @@ namespace nik
 
 				r=binary::high(in1);
 				in1=clean_return(r,
-					(in1 <<= unit::half::length) += binary::high(in2),
+					(in1 <<= cg_policy::unit::half::length) += binary::high(in2),
 					binary::low(in2), d);
 
 				r>>=power;

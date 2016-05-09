@@ -18,7 +18,8 @@
 #ifndef NIK_SEMIOTIC_ITERATOR_VECTOR_H
 #define NIK_SEMIOTIC_ITERATOR_VECTOR_H
 
-#include"../../../context/semiotic/iterator/componentwise/policy/policy.h"
+#include"../../../context/semiotic/iterator/componentwise/pointer/policy/policy.h"
+#include"../../../context/semiotic/iterator/componentwise/vector/policy/policy.h"
 
 #include"../traits/traits.h"
 
@@ -61,7 +62,8 @@ namespace nik
 		typedef const_node* const_iterator;
 		typedef SizeType size_type;
 
-		typedef context::semiotic::iterator::componentwise::policy<size_type> s_comp_policy;
+		typedef context::semiotic::iterator::componentwise::pointer::policy<size_type> sicp_policy;
+		typedef context::semiotic::iterator::componentwise::vector::policy<size_type> sicv_policy;
 
 		iterator initial;
 		size_type length;
@@ -79,7 +81,7 @@ namespace nik
 		void copy_initialize(RIterator first, size_type size)
 		{
 			initialize(size);
-			s_comp_policy::fwd_over::assign::no_return(initial, first, first+size);
+			sicp_policy::fwd_over::assign::no_return(initial, first, first+size);
 		}
 
 		void terminalize() { delete [] initial; }

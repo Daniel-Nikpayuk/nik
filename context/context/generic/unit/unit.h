@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_UNIT_H
-#define NIK_CONTEXT_CONTEXT_UNIT_H
+#ifndef NIK_CONTEXT_CONTEXT_GENERIC_UNIT_H
+#define NIK_CONTEXT_CONTEXT_GENERIC_UNIT_H
 
 namespace nik
 {
@@ -24,6 +24,8 @@ namespace nik
  {
   namespace context
   {
+   namespace generic
+   {
 	template<typename SizeType>
 	struct unit
 	{
@@ -73,6 +75,7 @@ namespace nik
 			static const size_type high_pass = low_pass << half::length;
 		};
 	};
+   }
   }
  }
 }

@@ -18,8 +18,6 @@
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_DISCRETE_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXTENSIONWISE_POINTER_DISCRETE_H
 
-#include"../../../../context/policy/policy.h"
-
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
 	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
@@ -41,8 +39,6 @@ namespace nik
 	struct discrete
 	{
 		typedef SizeType size_type;
-
-		typedef context::policy<size_type> c_policy;
 
 		struct clear
 		{

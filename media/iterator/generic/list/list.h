@@ -24,8 +24,12 @@
 	Test against self-assignment!
 */
 
-#include"../../../../context/context/policy/policy.h"
-#include"../../../../context/media/iterator/extensionwise/policy/policy.h"
+#include"../../../../context/context/argument/policy/policy.h"
+#include"../../../../context/context/parameter/policy/policy.h"
+
+#include"../../../../context/semiotic/iterator/extensionwise/list/policy/policy.h"
+#include"../../../../context/media/iterator/extensionwise/list/policy/policy.h"
+
 #include"../../../../semiotic/iterator/list/list.h"
 
 namespace nik
@@ -43,8 +47,12 @@ namespace nik
 	class list
 	{
 		protected:
-			typedef context::context::policy<SizeType> c_policy;
-			typedef context::media::iterator::extensionwise::policy<SizeType> m_exte_policy;
+			typedef context::context::argument::policy<SizeType> ca_policy;
+			typedef context::context::parameter::policy<SizeType> cp_policy;
+
+			typedef context::media::iterator::extensionwise::list::policy<SizeType> sitl_policy;
+			typedef context::media::iterator::extensionwise::list::policy<SizeType> mitl_policy;
+
 			typedef semiotic::iterator::list<T,SizeType> weaklist;
 		public:
 			typedef typename weaklist::value_type value_type;
@@ -54,8 +62,6 @@ namespace nik
 			typedef typename weaklist::iterator iterator;
 			typedef typename weaklist::const_iterator const_iterator;
 			typedef typename weaklist::size_type size_type;
-
-			typedef typename weaklist::s_exte_policy s_exte_policy;
 		protected:
 				// sublist.initial is interpreted to be "before initial".
 				// sublist.terminal is interpreted to be "this terminal".
@@ -73,7 +79,7 @@ namespace nik
 			list(const list & l)
 			{
 				initialize();
-				sublist.terminal=s_exte_policy::fwd_over::assign::template
+				sublist.terminal=sitl_policy::fwd_over::assign::template
 					with_return<node>(sublist.terminal, +l.sublist.initial, l.sublist.terminal);
 			}
 
@@ -94,30 +100,30 @@ namespace nik
 			const_iterator cend() const { return sublist.terminal; }
 				// capacity:
 			bool empty() const { return +sublist.initial == sublist.terminal; }
-			size_type max_size() const { return c_policy::par_num::max(); }
+			size_type max_size() const { return cp_policy::nume::max(); }
 				// modifiers:
 			void clear()
 			{
-				s_exte_policy::ptr::clear::no_return(sublist.initial+size_type(1), sublist.terminal);
+				sitl_policy::ptr::clear::no_return(sublist.initial+size_type(1), sublist.terminal);
 				+sublist.initial=sublist.terminal;
 			}
 
 			iterator insert_after(const_iterator it, const value_type & value)
 			{
-				return m_exte_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
+				return mitl_policy::ptr::impend::template
+					with_return<node>(ca_policy::meta::template recast<iterator>(it), value);
 			}
 
 			iterator insert_after(const_iterator it, value_type && value)
 			{
-				return m_exte_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), value);
+				return mitl_policy::ptr::impend::template
+					with_return<node>(ca_policy::meta::template recast<iterator>(it), value);
 			}
 
 			iterator insert_after(const_iterator it, size_type count, const value_type & value)
 			{
-				return m_exte_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), count, value);
+				return mitl_policy::ptr::impend::template
+					with_return<node>(ca_policy::meta::template recast<iterator>(it), count, value);
 			}
 /*
 	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
@@ -129,14 +135,14 @@ namespace nik
 			template<typename RIterator, typename ERIterator>
 			iterator insert_after(const_iterator it, RIterator first, ERIterator last)
 			{
-				return m_exte_policy::ptr::impend::template
-					with_return<node>(c_policy::arg_met::template recast<iterator>(it), first, last);
+				return mitl_policy::ptr::impend::template
+					with_return<node>(ca_policy::meta::template recast<iterator>(it), first, last);
 			}
 
 			iterator erase_after(const_iterator it)
 			{
 				if (+sublist.initial != sublist.terminal)
-					return m_exte_policy::ptr::eject::with_return(c_policy::arg_met::template recast<iterator>(it));
+					return mitl_policy::ptr::eject::with_return(ca_policy::meta::template recast<iterator>(it));
 			}
 /*
 	As first and last *should be* iterators within the bounds of sublist.initial and sublist.terminal, a comparative approach (<=)
@@ -146,34 +152,34 @@ namespace nik
 			iterator erase_after(const_iterator first, const_iterator last)
 			{
 				if (+sublist.initial != sublist.terminal)
-					return m_exte_policy::ptr::eject::with_return(
-						c_policy::arg_met::template recast<iterator>(first),
-						c_policy::arg_met::template recast<iterator>(last));
+					return mitl_policy::ptr::eject::with_return(
+						ca_policy::meta::template recast<iterator>(first),
+						ca_policy::meta::template recast<iterator>(last));
 			}
 
 			void push_front(const value_type & value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
+				{ mitl_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void push_front(value_type && value)
-				{ m_exte_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
+				{ mitl_policy::ptr::impend::template no_return<node>(sublist.initial, value); }
 
 			void pop_front()
 			{
 				if (+sublist.initial != sublist.terminal)
-					m_exte_policy::ptr::eject::no_return(sublist.initial);
+					mitl_policy::ptr::eject::no_return(sublist.initial);
 			}
 
 /*
 			void resize(size_type count)
 			{
 				size_type cap=sublist::size();
-				if (count > cap) m_exte_policy::insert(sublist, sublist.terminal, count-cap, value_type());
+				if (count > cap) mitl_policy::insert(sublist, sublist.terminal, count-cap, value_type());
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
 				size_type cap=sublist::size();
-				if (count > cap) m_exte_policy::insert(sublist, sublist.terminal, count-cap, value);
+				if (count > cap) mitl_policy::insert(sublist, sublist.terminal, count-cap, value);
 			}
 */
 

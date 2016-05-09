@@ -15,12 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
-#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_POLICY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_POLICY_H
 
-#include"../pointer/pointer.h"
 //#include"../arithmetic/arithmetic.h"
-#include"../vector/vector.h"
+#include"../discrete/discrete.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -40,26 +39,14 @@ namespace nik
    {
     namespace componentwise
     {
+     namespace pointer
+     {
 /*
 */
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
-/*
-	pointer:
-*/
-			using ptr=pointer<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using ptr_unroll=typename ptr::template unroll<N, M, L>;
-/*
-	vector:
-*/
-			using vtr=vector<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using vtr_unroll=typename vtr::template unroll<N, M, L>;
 /*
 	forward:
 */
@@ -71,6 +58,13 @@ namespace nik
 			using fwd_arit_unroll=typename fwd_arit::template unroll<N, M, L>;
 */
 /*
+		discrete:
+*/
+			using fwd_disc=forward::discrete<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using fwd_disc_unroll=typename fwd_disc::template unroll<N, M, L>;
+/*
 	backward:
 */
 /*
@@ -80,6 +74,13 @@ namespace nik
 			template<size_type N, size_type M=0, size_type L=0>
 			using bwd_arit_unroll=typename bwd_arit::template unroll<N, M, L>;
 */
+/*
+		discrete:
+*/
+			using bwd_disc=backward::discrete<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using bwd_disc_unroll=typename bwd_disc::template unroll<N, M, L>;
 /*
 	bidirectional:
 */
@@ -91,6 +92,13 @@ namespace nik
 			using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
 */
 /*
+		discrete:
+*/
+			using bid_disc=bidirectional::discrete<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using bid_disc_unroll=typename bid_disc::template unroll<N, M, L>;
+/*
 	random_access:
 */
 /*
@@ -100,7 +108,15 @@ namespace nik
 			template<size_type N, size_type M=0, size_type L=0>
 			using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
 */
+/*
+		discrete:
+*/
+			using rnd_disc=random_access::discrete<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using rnd_disc_unroll=typename rnd_disc::template unroll<N, M, L>;
 	};
+     }
     }
    }
   }

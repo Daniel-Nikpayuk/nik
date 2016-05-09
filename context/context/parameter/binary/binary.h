@@ -18,7 +18,7 @@
 #ifndef NIK_CONTEXT_CONTEXT_PARAMETER_BINARY_H
 #define NIK_CONTEXT_CONTEXT_PARAMETER_BINARY_H
 
-#include"../../unit/unit.h"
+#include"../../generic/unit/unit.h"
 #include"../meta/meta.h"
 
 namespace nik
@@ -34,7 +34,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::unit<size_type> unit;
+		typedef generic::policy<size_type> cg_policy;
 
 		template<size_type x, size_type n>
 		struct shift_up
@@ -47,7 +47,7 @@ namespace nik
 */
 		template<size_type t>
 		struct low_pass
-			{ enum : size_type { value = shift_up<unit::one, t>::value - unit::one }; };
+			{ enum : size_type { value = shift_up<cg_policy::unit::one, t>::value - cg_policy::unit::one }; };
 		template<size_type s>
 		struct high_pass
 			{ enum : size_type { value = ~ low_pass<s>::value }; };
@@ -67,10 +67,10 @@ namespace nik
 
 		template<size_type x>
 		struct lower_half
-			{ enum : size_type { value = low<x, unit::half::length>::value }; };
+			{ enum : size_type { value = low<x, cg_policy::unit::half::length>::value }; };
 		template<size_type x>
 		struct upper_half
-			{ enum : size_type { value = high<x, unit::half::length>::value }; };
+			{ enum : size_type { value = high<x, cg_policy::unit::half::length>::value }; };
 
 		template<size_type x>
 		struct order
@@ -80,19 +80,20 @@ namespace nik
 			{
 				enum : size_type
 				{
-					value=meta::if_then_else<band<secondary, (n>>unit::one), n>::value,
-						fast_order<primary+(n>>unit::one),
-							band<secondary, (n>>unit::one), n>::value, (n>>unit::one)>,
+					value=meta::if_then_else<band<secondary, (n>>cg_policy::unit::one), n>::value,
+						fast_order<primary+(n>>cg_policy::unit::one),
+							band<secondary, (n>>cg_policy::unit::one), n>::value, (n>>cg_policy::unit::one)>,
 						fast_order<primary,
-							band<secondary, unit::zero, (n>>unit::one)>::value, (n>>unit::one)>
+							band<secondary, cg_policy::unit::zero,
+								(n>>cg_policy::unit::one)>::value, (n>>cg_policy::unit::one)>
 							>::return_type::value
 				};
 			};
 
 			template<size_type primary, size_type secondary>
-			struct fast_order<primary, secondary, unit::zero> { enum : size_type { value=primary }; };
+			struct fast_order<primary, secondary, cg_policy::unit::zero> { enum : size_type { value=primary }; };
 
-			enum : size_type { value=fast_order<unit::zero, x, unit::length>::value };
+			enum : size_type { value=fast_order<cg_policy::unit::zero, x, cg_policy::unit::length>::value };
 		};
 	};
    }

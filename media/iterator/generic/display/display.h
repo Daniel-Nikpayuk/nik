@@ -18,7 +18,7 @@
 #ifndef NIK_MEDIA_ITERATOR_GENERIC_DISPLAY_H
 #define NIK_MEDIA_ITERATOR_GENERIC_DISPLAY_H
 
-#include"../../../../context/context/display/display.h"
+#include"../../../../context/context/generic/display/display.h"
 
 //#include"../../numeric/uint/uint.h"
 #include"../list/list.h"
@@ -33,9 +33,9 @@ namespace nik
   {
    namespace generic
    {
-	struct printer : public context::context::printer
+	struct printer : public context::context::generic::printer
 	{
-		using context::context::printer::print;
+		using context::context::generic::printer::print;
 
 		template<typename T, typename SizeType>
 		void print(const list<T, SizeType> & l)

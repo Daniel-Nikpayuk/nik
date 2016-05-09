@@ -15,18 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_CONTEXT_POLICY_H
-#define NIK_CONTEXT_CONTEXT_POLICY_H
+#ifndef NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_CHAIN_POLICY_H
+#define NIK_CONTEXT_MEDIA_ITERATOR_EXPANSIONWISE_CHAIN_POLICY_H
 
-#include"../node/node.h"
-#include"../unit/unit.h"
-#include"../argument/binary/binary.h"
-#include"../argument/math/math.h"
-#include"../argument/meta/meta.h"
-#include"../parameter/binary/binary.h"
-#include"../parameter/math/math.h"
-#include"../parameter/meta/meta.h"
-#include"../parameter/numeric_limits/numeric_limits.h"
+//#include"../arithmetic/arithmetic.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -40,68 +32,24 @@ namespace nik
 {
  namespace context
  {
-  namespace context
+  namespace media
   {
+   namespace iterator
+   {
+    namespace expansionwise
+    {
+     namespace chain
+     {
 /*
 */
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
-/*
-	unit:
-*/
-		using unit=context::unit<size_type>;
-/*
-	node:
-*/
-		template<typename value_type>
-		using hook=context::hook<value_type, size_type>;
-
-		template<typename value_type>
-		using const_hook=context::const_hook<value_type, size_type>;
-
-		template<typename value_type>
-		using link=context::link<value_type, size_type>;
-
-		template<typename value_type>
-		using const_link=context::const_link<value_type, size_type>;
-/*
-	argument:
-*/
-/*
-		binary:
-*/
-			using arg_bin=argument::binary<size_type>;
-/*
-		math:
-*/
-			using arg_mat=argument::math<size_type>;
-/*
-		meta:
-*/
-			using arg_met=argument::meta;
-/*
-
-	parameter:
-*/
-/*
-		binary:
-*/
-			using par_bin=parameter::binary<size_type>;
-/*
-		math:
-*/
-			using par_mat=parameter::math<size_type>;
-/*
-		meta:
-*/
-			using par_met=parameter::meta;
-/*
-		numeric_limits:
-*/
-			using par_num=parameter::numeric_limits<size_type>;
 	};
+     }
+    }
+   }
   }
  }
 }
