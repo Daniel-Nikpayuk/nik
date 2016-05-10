@@ -53,24 +53,19 @@ namespace nik
 
 			template<typename WVector, typename ValueType>
 			static void prepend(WVector & out, ValueType value)
-			{
-				WVector tmp;
-				*sicv_policy::iden::grow::before(out, tmp, 1)=value;
-			}
+				{ *sicv_policy::iden::grow::before::with_return(out, WVector(), 1)=value; }
 
 			template<typename WVector, typename ValueType>
 			static void prepend(WVector & out, size_type count, ValueType value)
 			{
-				WVector tmp;
-				sicv_policy::iden::grow::before(out, tmp, count);
+				sicv_policy::iden::grow::before::no_return(out, WVector(), count);
 				sicp_policy::fwd_over::repeat::no_return(out.initial, count, value);
 			}
 
 			template<typename WVector, typename RIterator, typename ERIterator>
 			static void prepend(WVector & out, RIterator in, ERIterator end)
 			{
-				WVector tmp;
-				sicv_policy::iden::grow::before(out, tmp, end-in);
+				sicv_policy::iden::grow::before::no_return(out, WVector(), end-in);
 				sicp_policy::fwd_over::assign::no_return(out.initial, in, end);
 			}
 
@@ -81,25 +76,23 @@ namespace nik
 			template<typename WVector, typename ValueType>
 			static void impend(WVector & out, size_type offset, ValueType value)
 			{
-				WVector tmp;
-				sicv_policy::iden::grow::between(out, tmp, 1, offset);
-				*(out.initial+offset)=value;
+				sicv_policy::iden::grow::between::with_return(out, WVector(), 1, offset)=value;
 			}
 
 			template<typename WVector, typename ValueType>
 			static void impend(WVector & out, size_type offset, size_type count, ValueType value)
 			{
-				WVector tmp;
-				sicv_policy::iden::grow::between(out, tmp, count, offset);
-				sicp_policy::fwd_over::repeat::no_return(out.initial+offset, count, value);
+				sicp_policy::fwd_over::repeat::no_return(
+					sicv_policy::iden::grow::between::with_return(out, WVector(), count, offset),
+					count, value);
 			}
 
 			template<typename WVector, typename RIterator, typename ERIterator>
 			static void impend(WVector & out, size_type offset, RIterator in, ERIterator end)
 			{
-				WVector tmp;
-				sicv_policy::iden::grow::between(out, tmp, end-in, offset);
-				sicp_policy::fwd_over::assign::no_return(out.initial+offset, in, end);
+				sicp_policy::fwd_over::assign::no_return(
+					sicv_policy::iden::grow::between::with_return(out, WVector(), end-in, offset),
+					in, end);
 			}
 		};
 

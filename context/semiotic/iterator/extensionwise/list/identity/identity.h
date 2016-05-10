@@ -20,11 +20,6 @@
 
 #include"../../pointer/policy/policy.h"
 
-/*
-	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
-*/
-
 namespace nik
 {
  namespace context
@@ -43,66 +38,60 @@ namespace nik
 		typedef SizeType size_type;
 
 		typedef pointer::policy<size_type> sitp_policy;
-			
+
+/*
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
+*/
 		struct initialize
 		{
-			struct after
+			struct disjoint
 			{
-/*
-	Assumes out is uninitialized.
-*/
 				template<typename WList>
 				static void no_return(WList & out)
 				{
-					out.terminal=new typename WList::node;
 					out.initial=new typename WList::node;
+					out.terminal=new typename WList::node;
 					+out.initial=out.terminal;
 				}
 			};
 		};
+
 /*
-	These methods have higher entropy by calling fewer functions within, but for better composability
-	it is better policy to assume out is uninitialized.
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
 */
 		struct copy
 		{
-/*
-	Assumes out is uninitialized.
-*/
-			template<typename WList, typename RList>
-			static void no_return(WList & out, const RList & in)
+			struct initialize
 			{
-				out.initialize();
-				out.terminal=sitp_policy::fwd_over::assign::template
-					with_return<typename WList::node>(out.terminal, in.initial, in.terminal);
-			}
-
-			struct before
-			{
-/*
-	Assumes out is uninitialized.
-*/
-				template<typename WList, typename RIterator, typename ERIterator>
-				static void no_return(WList & out, RIterator in, ERIterator end)
-				{
-					out.initialize();
-					out.terminal=sitp_policy::disc::copy::before::template
-						with_return<typename WList::node>(out.terminal, in, end);
-				}
-			};
-
-			struct after
-			{
-/*
-	Assumes out is uninitialized.
-*/
 				template<typename WList, typename RList>
 				static void no_return(WList & out, const RList & in)
 				{
-					initialize::after::no_return(out);
+					out.initialize();
 					out.terminal=sitp_policy::fwd_over::assign::template
-						with_return<typename WList::node>(out.terminal, +in.initial, in.terminal);
+						with_return<typename WList::node>(out.terminal, in.initial, in.terminal);
 				}
+
+				struct prepost
+				{
+					template<typename WList, typename RIterator, typename ERIterator>
+					static void no_return(WList & out, RIterator in, ERIterator end)
+					{
+						out.initialize();
+						out.terminal=sitp_policy::disc::copy::before::template
+							with_return<typename WList::node>(out.terminal, in, end);
+					}
+				};
+
+				struct disjoint
+				{
+					template<typename WList, typename RList>
+					static void no_return(WList & out, const RList & in)
+					{
+						initialize::disjoint::no_return(out);
+						out.terminal=sitp_policy::fwd_over::assign::template
+							with_return<typename WList::node>(out.terminal, +in.initial, in.terminal);
+					}
+				};
 			};
 
 			struct shallow
@@ -112,6 +101,179 @@ namespace nik
 				{
 					out.initial=in.initial;
 					out.terminal=in.terminal;
+				}
+			};
+		};
+/*
+*/
+		struct grow
+		{
+/*
+*/
+			struct before
+			{
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer in)
+				{
+					+in=out.initial;
+					out.initial=in;
+				}
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(WList & out, WPointer in)
+				{
+					+in=out.initial;
+					out.initial=in;
+
+					return in;
+				}
+
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer in, WPointer end)
+				{
+					+end=out.initial;
+					out.initial=in;
+				}
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(WList & out, WPointer in, WPointer end)
+				{
+					+end=out.initial;
+					out.initial=in;
+
+					return in;
+				}
+			};
+/*
+*/
+			struct after
+			{
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer in)
+					{ out.terminal=+out.terminal=in; }
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(WList & out, WPointer in)
+				{
+					out.terminal=+out.terminal=in;
+
+					return in;
+				}
+
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer in, WPointer end)
+				{
+					+out.terminal=in;
+					out.terminal=end;
+				}
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(WList & out, WPointer in, WPointer end)
+				{
+					+out.terminal=in;
+					out.terminal=end;
+
+					return end;
+				}
+			};
+/*
+	Slightly awkward grammar, but categorization of this algorithm within the larger design takes precidence.
+*/
+			struct between
+			{
+				template<typename WList, typename WPointer>
+				static void no_return(typename WList::iterator out, WPointer in)
+				{
+					+in=+out;
+					+out=in;
+				}
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(typename WList::iterator out, WPointer in)
+				{
+					+in=+out;
+					+out=in;
+
+					return in;
+				}
+
+				template<typename WList, typename WPointer>
+				static void no_return(typename WList::iterator out, WPointer in, WPointer end)
+				{
+					+end=+out;
+					+out=in;
+				}
+
+				template<typename WList, typename WPointer>
+				static WPointer with_return(typename WList::iterator out, WPointer in, WPointer end)
+				{
+					+end=+out;
+					+out=in;
+
+					return in;
+				}
+			};
+		};
+/*
+*/
+		struct shrink
+		{
+/*
+*/
+			struct before
+			{
+				template<typename WList>
+				static void no_return(WList & out)
+					{ delete out.initial++; }
+/*
+*/
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer end)
+				{
+					sitp_policy::disc::clear::no_return(out.initial, end);
+					out.initial=end;
+				}
+			};
+/*
+*/
+			struct after
+			{
+				struct fast
+				{
+					template<typename WList, typename WPointer>
+					static void no_return(WList & out, WPointer in)
+					{
+						delete out.terminal;
+						out.terminal=in;
+					}
+				};
+
+				template<typename WList, typename WPointer>
+				static void no_return(WList & out, WPointer in)
+				{
+					sitp_policy::disc::clear::no_return(+in, out.terminal);
+					delete out.terminal;
+					out.terminal=in;
+				}
+			};
+/*
+	Slightly awkward grammar, but categorization of this algorithm within the larger design takes precidence.
+*/
+			struct between
+			{
+				template<typename WList>
+				static void no_return(typename WList::iterator out)
+				{
+					typename WList::iterator in=+(+out);
+					delete +out;
+					+out=in;
+				}
+
+				template<typename WList, typename WPointer>
+				static void no_return(typename WList::iterator out, WPointer end)
+				{
+					sitp_policy::disc::clear::no_return(+out, end);
+					+out=end;
 				}
 			};
 		};

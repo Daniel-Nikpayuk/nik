@@ -18,7 +18,6 @@
 #ifndef NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
 #define NIK_CONTEXT_MEDIA_ITERATOR_COMPONENTWISE_POINTER_DISCRETE_H
 
-#include"../../../../../context/policy/policy.h"
 #include"../../../../../semiotic/iterator/componentwise/pointer/policy/policy.h"
 
 /*
@@ -46,7 +45,6 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
 		typedef semiotic::iterator::componentwise::pointer::policy<SizeType> sicp_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>

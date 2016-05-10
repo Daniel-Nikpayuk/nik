@@ -18,10 +18,7 @@
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_CHAIN_IDENTITY_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_EXPANSIONWISE_CHAIN_IDENTITY_H
 
-/*
-	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
-*/
+#include"../../pointer/policy/policy.h"
 
 namespace nik
 {
@@ -39,6 +36,63 @@ namespace nik
 	struct identity
 	{
 		typedef SizeType size_type;
+
+		typedef pointer::policy<size_type> sipp_policy;
+
+/*
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
+*/
+		struct initialize
+		{
+			struct disjoint
+			{
+				template<typename WChain>
+				static void no_return(WChain & out)
+				{
+					out.initial=new typename WChain::node;
+					out.terminal=new typename WChain::node;
+					+out.initial=out.terminal;
+					-out.terminal=out.initial;
+				}
+			};
+		};
+/*
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
+*/
+		struct copy
+		{
+			struct initialize
+			{
+				template<typename WChain, typename RChain>
+				static void no_return(WChain & out, const RChain & in)
+				{
+					out.initialize();
+					out.terminal=sipp_policy::fwd_over::assign::template
+						with_return<typename WChain::node>(out.terminal, in.initial, in.terminal);
+				}
+
+				struct disjoint
+				{
+					template<typename WChain, typename RChain>
+					static void no_return(WChain & out, const RChain & in)
+					{
+						initialize::disjoint::no_return(out);
+						out.terminal=sipp_policy::fwd_over::assign::template
+							with_return<typename WChain::node>(out.terminal, +in.initial, in.terminal);
+					}
+				};
+			};
+
+			struct shallow
+			{
+				template<typename WChain, typename RChain>
+				static void no_return(WChain & out, const RChain & in)
+				{
+					out.initial=in.initial;
+					out.terminal=in.terminal;
+				}
+			};
+		};
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll

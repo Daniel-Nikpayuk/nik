@@ -43,27 +43,26 @@ namespace nik
 		typedef pointer::policy<size_type> sicp_policy;
 
 /*
-	This method would have higher entropy without calling additional methods within [namely initialize()],
-	unfortunately the nature of array allocation requires such additional calls.
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
 */
 		struct copy
 		{
-/*
-	Assumes out is uninitialized.
-*/
-			template<typename WVector, typename RVector>
-			static void no_return(WVector & out, const RVector & in)
+			struct initialize
 			{
-				out.initialize(in.length);
-				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
-			}
+				template<typename WVector, typename RVector>
+				static void no_return(WVector & out, const RVector & in)
+				{
+					out.initialize(in.length);
+					sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+				}
 
-			template<typename WVector, typename RIterator, typename ERIterator>
-			static void no_return(WVector & out, RIterator in, ERIterator end)
-			{
-				out.initialize(end-in);
-				sicp_policy::fwd_over::assign::no_return(out.initial, in, end);
-			}
+				template<typename WVector, typename RIterator, typename ERIterator>
+				static void no_return(WVector & out, RIterator in, ERIterator end)
+				{
+					out.initialize(end-in);
+					sicp_policy::fwd_over::assign::no_return(out.initial, in, end);
+				}
+			};
 
 			struct shallow
 			{
@@ -76,76 +75,137 @@ namespace nik
 			};
 		};
 /*
-	Similar to resize but optimized to increase the size, and copy the existing array starting at pos.
+	Grows the size of out by the given length.
 
-	Assumes in is uninitialized.
+	out a vector.
+	in an uninitialized temporary vector.
+	length the size to grow the array of out by.
 */
 		struct grow
 		{
-			template<typename WVector>
-			static void before(WVector & out, WVector & in, size_type length)
+			struct before
 			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length+length);
-				sicp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
-				in.terminalize();
-			}
+/*
+	puts the newly allocated space before the existing array.
+*/
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					sicp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
+					in.terminalize();
+				}
 
-			template<typename WVector>
-			static void after(WVector & out, WVector & in, size_type length)
-			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length+length);
-				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
-				in.terminalize();
-			}
+				template<typename WVector>
+				static typename WVector::iterator with_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					sicp_policy::fwd_over::assign::no_return(out.initial+length, in.initial, in.end());
+					in.terminalize();
 
-			template<typename WVector>
-			static void between(WVector & out, WVector & in, size_type length, size_type offset)
+					return out.initial;
+				}
+			};
+/*
+	puts the newly allocated space after the existing array.
+*/
+			struct after
 			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length+length);
-				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				sicp_policy::fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
-				in.terminalize();
-			}
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.end());
+					in.terminalize();
+				}
+
+				template<typename WVector>
+				static typename WVector::iterator with_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					typename WVector::iterator rtn=sicp_policy::fwd_over::
+						assign::with_return(out.initial, in.initial, in.end());
+					in.terminalize();
+
+					return rtn;
+				}
+			};
+/*
+	puts the newly allocated space between the existing array starting at the offset.
+*/
+			struct between
+			{
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length, size_type offset)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					typename WVector::iterator out_middle, in_middle=in.initial+offset;
+					out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+					sicp_policy::fwd_over::assign::no_return(out_middle+length, in_middle, in.end());
+					in.terminalize();
+				}
+
+				template<typename WVector>
+				static typename WVector::iterator with_return(WVector & out, WVector & in, size_type length, size_type offset)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length+length);
+					typename WVector::iterator rtn, in_middle=in.initial+offset;
+					rtn=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+					sicp_policy::fwd_over::assign::no_return(rtn+length, in_middle, in.end());
+					in.terminalize();
+
+					return rtn;
+				}
+			};
 		};
 /*
-	Similar to resize but optimized to decrease the size, and copy the existing array starting at pos.
-
 	Assumes in is uninitialized.
 */
 		struct shrink
 		{
-			template<typename WVector>
-			static void before(WVector & out, WVector & in, size_type length)
+			struct before
 			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length-length);
-				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
-				in.terminalize();
-			}
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length-length);
+					sicp_policy::fwd_over::assign::no_return(out.initial, in.initial+length, in.end());
+					in.terminalize();
+				}
+			};
 
-			template<typename WVector>
-			static void after(WVector & out, WVector & in, size_type length)
+			struct after
 			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length-length);
-				sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
-				in.terminalize();
-			}
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length-length);
+					sicp_policy::fwd_over::assign::no_return(out.initial, in.initial, in.initial+out.length);
+					in.terminalize();
+				}
+			};
 
-			template<typename WVector>
-			static void between(WVector & out, WVector & in, size_type length, size_type offset)
+			struct between
 			{
-				copy::shallow::no_return(in, out);
-				out.initialize(in.length-length);
-				typename WVector::iterator out_middle, in_middle=in.initial+offset;
-				out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
-				sicp_policy::fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
-				in.terminalize();
-			}
+				template<typename WVector>
+				static void no_return(WVector & out, WVector & in, size_type length, size_type offset)
+				{
+					copy::shallow::no_return(in, out);
+					out.initialize(in.length-length);
+					typename WVector::iterator out_middle, in_middle=in.initial+offset;
+					out_middle=sicp_policy::fwd_over::assign::with_return(out.initial, in.initial, in_middle);
+					sicp_policy::fwd_over::assign::no_return(out_middle, in_middle+length, in.end());
+					in.terminalize();
+				}
+			};
 		};
 
 		template<size_type N, size_type M=0, size_type L=0>

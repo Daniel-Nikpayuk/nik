@@ -42,49 +42,14 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		struct clear
-		{
-			template<typename WPointer, typename ERPointer>
-			static void no_return(WPointer out, ERPointer end)
-				{ while (out != end) delete -(++out); }
-
-			struct count
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(size_type & count, WPointer out, ERPointer end)
-				{
-					while (out != end)
-					{
-						delete -(++out);
-						--count;
-					}
-				}
-			};
-		};
-
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
-				{
-					delete -(++out);
-					unroll<N-1>::clear::no_return(out, end);
-				}
-			};
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			struct clear
-			{
-				template<typename WPointer, typename ERPointer>
-				static void no_return(WPointer out, ERPointer end)
-					{ }
-			};
 		};
 	};
       }

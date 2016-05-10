@@ -40,9 +40,15 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		struct copy
+		struct assign
 		{
-			struct before
+/*
+	Classified as inherently unsafe because its behaviour deviates from the specification
+	as it does not push or pass and equivalent end iterator within its own pointer list.
+
+	It exists as an efficient transition between pre_test and post_test loops.
+*/
+			struct prepost
 			{
 /*
 	in != end
@@ -76,7 +82,9 @@ namespace nik
 				}
 			};
 		};
-
+/*
+	Inherently unsafe as it may create broken links within a larger context.
+*/
 		struct clear
 		{
 			template<typename WPointer, typename ERPointer>
