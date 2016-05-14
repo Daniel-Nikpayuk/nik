@@ -41,15 +41,25 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-#include"define/test/loop.h"
-#include"define/test/count.h"
-#include"define/test/unroll.h"
-#include"define/test/initial.h"
+#include"define/closed/loop.h"
+#include"define/closed/count.h"
+#include"define/closed/unroll.h"
+#include"define/closed/initial.h"
 
-#include"define/post_test/loop.h"
-#include"define/post_test/count.h"
-#include"define/post_test/unroll.h"
-#include"define/post_test/initial.h"
+#include"define/closing/loop.h"
+#include"define/closing/count.h"
+#include"define/closing/unroll.h"
+#include"define/closing/initial.h"
+
+#include"define/opening/loop.h"
+#include"define/opening/count.h"
+#include"define/opening/unroll.h"
+#include"define/opening/initial.h"
+
+#include"define/open/loop.h"
+#include"define/open/count.h"
+#include"define/open/unroll.h"
+#include"define/open/initial.h"
 
 namespace nik
 {
@@ -68,19 +78,25 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		#include"../../../define/plus/loop.h"
+		#define SGN +
+		#define INV -
+
+		#include"../../../define/loop_count.h"
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
-			#include"../../../define/plus/unroll.h"
+			#include"../../../define/unroll.h"
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
-			#include"../../../define/plus/initial.h"
+			#include"../../../define/initial.h"
 		};
+
+		#undef INV
+		#undef SGN
 	};
      }
     }
@@ -89,14 +105,24 @@ namespace nik
  }
 }
 
-#include"../../../undef/post_test/initial.h"
-#include"../../../undef/post_test/unroll.h"
-#include"../../../undef/post_test/count.h"
-#include"../../../undef/post_test/loop.h"
+#include"../../../undef/open/initial.h"
+#include"../../../undef/open/unroll.h"
+#include"../../../undef/open/count.h"
+#include"../../../undef/open/loop.h"
 
-#include"../../../undef/test/initial.h"
-#include"../../../undef/test/unroll.h"
-#include"../../../undef/test/count.h"
-#include"../../../undef/test/loop.h"
+#include"../../../undef/opening/initial.h"
+#include"../../../undef/opening/unroll.h"
+#include"../../../undef/opening/count.h"
+#include"../../../undef/opening/loop.h"
+
+#include"../../../undef/closing/initial.h"
+#include"../../../undef/closing/unroll.h"
+#include"../../../undef/closing/count.h"
+#include"../../../undef/closing/loop.h"
+
+#include"../../../undef/closed/initial.h"
+#include"../../../undef/closed/unroll.h"
+#include"../../../undef/closed/count.h"
+#include"../../../undef/closed/loop.h"
 
 #endif
