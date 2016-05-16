@@ -15,9 +15,32 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_DISPLAY_H
+#define NIK_DISPLAY_H
 
-#include"media/numeric/processor/display/display.h"
+#include"semiotic/numeric/processor/printer/printer.h"
+#include"semiotic/numeric/random_access/printer/printer.h"
+
+namespace nik
+{
+	char endl='\n'; // portable ?
+
+	typedef semiotic::numeric::processor::printer snp_printer;
+	typedef semiotic::numeric::random_access::printer snr_printer;
+
+	struct printer : public snp_printer, snr_printer {} display;
+
+	template<typename T, typename SizeType=size_t>
+	using list=iterator::generic::list<T, SizeType>;
+
+	template<typename T, typename SizeType=size_t>
+	using chain=iterator::generic::chain<T, SizeType>;
+
+	template<typename T, typename SizeType=size_t>
+	using vector=iterator::generic::vector<T, SizeType>;
+
+	template<size_t BitLength>
+	using uint_block=numeric::uint<size_t>::block<BitLength>;
+}
 
 #endif

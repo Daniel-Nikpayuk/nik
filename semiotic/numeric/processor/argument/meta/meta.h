@@ -15,9 +15,28 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_PROCESSOR_ARGUMENT_META_H
+#define NIK_SEMIOTIC_NUMERIC_PROCESSOR_ARGUMENT_META_H
 
-#include"media/numeric/processor/display/display.h"
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace processor
+   {
+    namespace argument
+    {
+	struct meta
+	{
+		template<typename T, typename F>
+		static T recast(F f) { return *(T*) &f; }
+	};
+    }
+   }
+  }
+ }
+}
 
 #endif

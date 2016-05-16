@@ -15,9 +15,41 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_PROCESSOR_PRINTER_H
+#define NIK_SEMIOTIC_NUMERIC_PROCESSOR_PRINTER_H
 
-#include"media/numeric/processor/display/display.h"
+#include<stdint.h>
+#include<stdio.h>
+
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace processor
+   {
+	struct printer
+	{
+		void print(int v) { printf("%d", v); }
+		void print(unsigned int v) { printf("%u", v); }
+		void print(intmax_t v) { printf("%jd", v); }
+		void print(uintmax_t v) { printf("%ju", v); }
+
+		void print(char v) { printf("%c", v); }
+		void print(const char *v) { printf("%s", v); }
+		void print(bool v) { printf("%s", v? "true" : "false"); }
+	};
+
+	template<typename S, typename T>
+	S & operator << (S & s, T v)
+	{
+		s.print(v);
+		return s;
+	}
+   }
+  }
+ }
+}
 
 #endif

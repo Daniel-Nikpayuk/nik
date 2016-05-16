@@ -15,9 +15,34 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_CONTAINER_H
+#define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_CONTAINER_H
 
-#include"media/numeric/processor/display/display.h"
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace random_access
+   {
+	template<typename ContainerType, typename ValueType, typename SizeType>
+	struct container
+	{
+		typedef ContainerType type;
+		typedef ContainerType* address;
+
+		typedef ValueType value_type;
+		typedef ValueType& reference;
+		typedef ValueType const & const_reference;
+		typedef ValueType* pointer;
+		typedef ValueType const * const_pointer;
+
+		typedef SizeType size_type;
+	};
+   }
+  }
+ }
+}
 
 #endif

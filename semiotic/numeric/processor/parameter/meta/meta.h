@@ -15,9 +15,31 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_PROCESSOR_PARAMETER_META_H
+#define NIK_SEMIOTIC_NUMERIC_PROCESSOR_PARAMETER_META_H
 
-#include"media/numeric/processor/display/display.h"
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace processor
+   {
+    namespace parameter
+    {
+	struct meta
+	{
+		template<bool conditional, typename if_true, typename if_false>
+		struct if_then_else { typedef if_true return_type; };
+		
+		template<typename if_true, typename if_false>
+		struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
+	};
+    }
+   }
+  }
+ }
+}
 
 #endif

@@ -15,9 +15,54 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
+#define NIK_SEMIOTIC_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
 
-#include"media/numeric/processor/display/display.h"
+#include"../binary/binary.h"
+#include"../math/math.h"
+#include"../meta/meta.h"
+
+/*
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
+*/
+
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace processor
+   {
+    namespace argument
+    {
+/*
+*/
+	template<typename SizeType>
+	struct policy
+	{
+		typedef SizeType size_type;
+/*
+	binary:
+*/
+			using bina=argument::binary<size_type>;
+/*
+	math:
+*/
+			using math=argument::math<size_type>;
+/*
+	meta:
+*/
+			using meta=argument::meta;
+	};
+    }
+   }
+  }
+ }
+}
 
 #endif

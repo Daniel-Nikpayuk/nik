@@ -1,59 +1,58 @@
-Context
-=======
+media
+=====
 
-# Context Space
+# Media Space
 
 Decomposed as its own technology space:
 
++ context - *literic*.
++ semiotic - *graphic*, *interic*, *kinetic*, *numeric*, *phonetic*.
++ media - *generic*.
+
+## Intuition
+
+Borrowing from the *Unix Philosophy*:
+
+> Write programs that do one thing and do it well.
+> Write programs to work together. Write programs to handle text streams,
+> because that is a universal interface. (A Quarter Century of Unix, Salus)
+
+Textual strings are universal. This is to say, the hardware type which has highest entropy (information theory)
+relative to the other hardware representations is the literic classes which deal with textual and computational
+literary analyses. It follows then that this would be the *subtext* (sub-context space) within the decomposition
+of the main media space.
+
+Regarding subsemiotics: The graphic, interic, kinetic, numeric, and phonetic classes are all intended to represent
+a specific hardware component, and as such fit best into the semiotic framework. The *numeric* classes are notably
+privileged with much time spent in optimization as they primarily consist of extended number classes: *block* being
+a templated *int* class of dynamic but fixed length.  The *dynamic_block* is like the "Big Int" class in the Python
+or Java programming languages. As arithmetic is used repeatedly in many different classes throughout this library,
+special attention has been paid to these "workhorse" (or in the Inuit case, "workdog") classes and should be for any
+future extensions.
+
+Finally, the submedia is represented with the generic but safe classes. Generics are generic data structures, which
+are constraints applied to accessing the relationships between the subsemiotics and their subtext. In practice,
+the relationship between signifier and signfied (context) plays out as *translation*. As strings are the universal
+medium, we should be able to translate any of the other specific hardware representations to and from string data.
+In this sense the other classes are centralized around the literics classes. In particular then, special care is also
+given to some of these classes like *regular expressions* because they also form workhorse classes within this whole
+library.
+
+## Folders
+
+The current folders within this directory are as follows:
+
++ generic
++ graphic
++ interic
++ kinetic
++ literic
++ numeric
++ phonetic
+
 ## Pedagogical Narrative:
 
-The main question to keep in mind when interpreting the context is: What "universal" approach do we take to navigating memory?
-
-As our technology space has been narrowed to a *computability space*, the context is interpreted as *memory* in an abstract sense.
-The other major theme is that the context as implementation is where we store our generic templated methods. As this is the case,
-our *template space* context becomes metacode: template code as overhead to ease the use of template programming toward our intended
-generic memory methods. Templates (within the C++ grammar) are the language we use to access memory in the most general and universal way.
-Regardless of how we represent our primitives of templates, and of how we constrain our use of them, they are our language of abstract
-memory.
-
-The template semiotic space---as computability space---is a *process* space: It holds primitive generic methods
-(largely having to do with manipulating processor register data) used to represent access to memory in instantiated ways.
-
-Our template media space then as constraint, becomes the constraints we allow in navigating memory. The thing is, there's no universal
-best way to interpret what memory is, and so there ends up being more than one paradigm of navigation. The navigational constraint
-made famous by the C++ STL is that of *iterators*. This is developed here certainly, but there is an alternative within the nik library:
-*seperators*. Seperators are fundamentally sifters and filters when interpreting memory from the lens of set theory.
-
-Template loop unrolling requires unambiguous policy as there are alternatives to general implementations.
-
-Be it componentwise or arithmetic or general recursive, the solution arises from refactoring/compressing code to have a minimal footprint.
-I have decided to borrow from mathematical/combinatorial best practices by making use of the identity value (zero value) as default
-for the specialized initial "seed" code regarding unrolling. This would refactor the loop iterative code to be defined solely within
-the general definition leaving the specialized case to be minimalistic as possible. Any "natural" (intuitive) implementations
-as part of the user-friendly interface versions (as part of the clean/unsafe paradigm split) would handle any specialized
-overhead.
-
-There are several reasons for choosing this particular policy, though the main reason is in privileging the paradigm of seperating
-clean "normal forms" from local user-friendly versions. If these unrolled loops really are cleanly defined, there's no need for
-variant specializations in the first place. Having variant specializations would further encourage such poor/bad coding practices.
-
-The other consideration is when one is able to define composite carrys being passed along the unrolled loop.
-If one has a choice between extending the modification within the body before the next iterative call,
-or within the arguements passed within the next iterative call, for code readability at least it is better to do so within the body.
-
-I have run some basic g++ compiler behavioural tests suggesting an important property: Incrementation under template unrolling
-is not persistent. As such, in order to be able to specialize within the user-friendly versions, one has two options:
-Use the return version of unrolling to update the iterator, or pass the iterator type as a reference when calling.
-
-How a #Mathematician sees #ComputingScience:
-
-With implementation, you should have a universal medium (a universal construct language), then you can build non-linear stories
-around an efficient implementation (minimizing redundancy and overhead) and then simply navigate the story-specifications in more
-complex ways. This is already done with the relationship between hard drive storage and filesystems. Hard drive is (close) to universal,
-while the filesystem is lightweight stories. This is already done in math: The real line (or n-dimensional real number system) is universal,
-while stories around it become nuanced and are in need of localized navigational semiotics and semantics.
-
-Policy: 
-	Other parts of the library simply assume "full_register" as default if not explicitly named.
-	That is the general policy (lazy modularization), but here the context is too broad to simply assume.
+Logically it makes sense to start with the *display* class within the *generic* folder; it is the STL equivalent of *cout*.
+This is necessary as debugging is constantly required for every single class added to this library, and one of
+the best ways to do so is to print values to the screen.
 

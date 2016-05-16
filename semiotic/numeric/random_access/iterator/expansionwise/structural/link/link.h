@@ -15,9 +15,40 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
+#define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
 
-#include"media/numeric/processor/display/display.h"
+#include"../../../node/node.h"
+
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace random_access
+   {
+    namespace iterator
+    {
+     namespace expansionwise
+     {
+      namespace structural
+      {
+	#define LINK_SIZE 3
+
+	template<typename T, typename SizeType=size_t>
+	using link=iterator::node<node_pointer<T, SizeType, LINK_SIZE> >;
+
+	template<typename T, typename SizeType=size_t>
+	using const_link=iterator::node<const_node_pointer<T, SizeType, LINK_SIZE> >;
+
+	#undef LINK_SIZE
+      }
+     }
+    }
+   }
+  }
+ }
+}
 
 #endif

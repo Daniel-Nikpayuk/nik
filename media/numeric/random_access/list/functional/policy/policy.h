@@ -15,9 +15,51 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_LIST_FUNCTIONAL_POLICY_H
+#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_LIST_FUNCTIONAL_POLICY_H
 
-#include"media/numeric/processor/display/display.h"
+#include"../identity/identity.h"
+//#include"../arithmetic/arithmetic.h"
+
+/*
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
+*/
+
+namespace nik
+{
+ namespace media
+ {
+  namespace numeric
+  {
+   namespace random_access
+   {
+    namespace list
+    {
+     namespace functional
+     {
+/*
+*/
+	template<typename SizeType>
+	struct policy
+	{
+		typedef SizeType size_type;
+/*
+	identity:
+*/
+			using iden=identity<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using iden_unroll=typename iden::template unroll<N, M, L>;
+	};
+     }
+    }
+   }
+  }
+ }
+}
 
 #endif

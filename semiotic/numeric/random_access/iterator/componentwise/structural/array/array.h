@@ -15,9 +15,48 @@
 **
 *************************************************************************************************************************/
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
+#define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
 
-#include"media/numeric/processor/display/display.h"
+#include<stddef.h>
+
+namespace nik
+{
+ namespace semiotic
+ {
+  namespace numeric
+  {
+   namespace random_access
+   {
+    namespace iterator
+    {
+     namespace componentwise
+     {
+      namespace structural
+      {
+/*
+	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
+	It is only meant to have an allocator as well as meta information about the type of memory it holds.
+*/
+	template<typename T, typename SizeType=size_t>
+	class array
+	{
+		public:
+			typedef T* pointer;
+			typedef T value_type;
+			typedef SizeType size_type;
+		protected:
+			typedef void* void_ptr;
+		public:
+			static void_ptr operator new (size_t n)
+				{ return new T[n]; }
+	};
+      }
+     }
+    }
+   }
+  }
+ }
+}
 
 #endif
