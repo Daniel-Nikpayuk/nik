@@ -91,6 +91,10 @@ static rtn label##_return(WPointer out, size_type in) \
 
 /************************************************************************************************************************/
 
+/*
+	Keep in mind the return version returns a memory location that has been deallocated!
+*/
+
 #define _closed_initial_delete_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out) \

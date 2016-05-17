@@ -18,8 +18,7 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
 
-#include"../../../../../../semiotic/numeric/random_access/iterator/expansionwise/functional/policy/policy.h"
-#include"../../../../../../semiotic/numeric/random_access/chain/functional/policy/policy.h"
+#include"../../../../../../semiotic/policy/policy.h"
 
 namespace nik
 {
@@ -38,8 +37,8 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef semiotic::numeric::random_access::iterator::expansionwise::functional::policy<size_type> snripf_policy;
-		typedef semiotic::numeric::random_access::chain::functional::policy<size_type> snrcf_policy;
+		typedef semiotic::policy<size_type>::nripf snripf_policy;
+		typedef semiotic::policy<size_type>::nrcf snrcf_policy;
 
 		struct insert
 		{

@@ -153,7 +153,7 @@ its cycles.
 
 In my head, it intuitively looks and feels like this:
 
-![The Shape of Language](images/theShapeOfLanguage3.png)
+![The Shape of Language](context/images/theShapeOfLanguage3.png)
 
 From the outside looking in, you have a clean *handle*, an interface to work with safely, but the innards are messy wires,
 which you are free to work with directly if you know what you're doing. If you don't know what you're doing, don't mess with

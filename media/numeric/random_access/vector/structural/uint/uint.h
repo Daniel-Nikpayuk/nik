@@ -18,11 +18,8 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_STRUCTURAL_UINT_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_STRUCTURAL_UINT_H
 
-#include"../../../../../../semiotic/numeric/processor/argument/policy/policy.h"
-#include"../../../../../../semiotic/numeric/processor/parameter/policy/policy.h"
-
-#include"../../../../../../semiotic/numeric/random_access/vector/structural/traits.h"
-#include"../../../../../../semiotic/numeric/random_access/vector/functional/policy.h"
+#include"../../../../../../semiotic/traits.h"
+#include"../../../../../../semiotic/policy.h"
 
 /*
 	Given the unsafe nature of semiotic::vector policy here is composability instead of inheritance.
@@ -57,6 +54,15 @@ namespace nik
 	template<typename SizeType>
 	struct uint
 	{
+		protected:
+			typedef semiotic::policy<SizeType>::npa snpa_policy;
+			typedef semiotic::policy<SizeType>::npp snpp_policy;
+
+			typedef semiotic::traits<SizeType>::nrvs snrvs_traits;
+			typedef semiotic::policy<SizeType>::nrvf snrvf_policy;
+
+			typedef typename snrvs_traits::base<T,SizeType> weakbase;
+
 		typedef SizeType size_type;
 
 		typedef context::context::policy<size_type> c_policy;

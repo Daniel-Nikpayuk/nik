@@ -95,6 +95,10 @@ static rtn label##_return(WPointer out, size_type in) \
 
 /************************************************************************************************************************/
 
+/*
+	The only form that satifies the design constraints exists already as the "closing" version.
+*/
+
 #define _opening_unroll_delete_0(method, dir, inv, op, label, rtn, stmt)
 
 #define opening_unroll_no_return_delete_0(method, dir, inv)		_opening_unroll_delete_0(method, dir, inv, , no, void, )

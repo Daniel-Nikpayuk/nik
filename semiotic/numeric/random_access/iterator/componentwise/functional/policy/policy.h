@@ -18,7 +18,6 @@
 #ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_FUNCTIONAL_POLICY_H
 #define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_FUNCTIONAL_POLICY_H
 
-#include"../overload/overload.h"
 //#include"../arithmetic/arithmetic.h"
 #include"../discrete/discrete.h"
 
@@ -54,13 +53,6 @@ namespace nik
 	forward:
 */
 /*
-		overload:
-*/
-			using fwd_over=forward::overload<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using fwd_over_unroll=typename fwd_over::template unroll<N, M, L>;
-/*
 		arithmetic:
 			using fwd_arit=forward::arithmetic<size_type>;
 
@@ -77,13 +69,6 @@ namespace nik
 /*
 	backward:
 */
-/*
-		overload:
-*/
-			using bwd_over=backward::overload<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bwd_over_unroll=typename bwd_over::template unroll<N, M, L>;
 /*
 		arithmetic:
 			using bwd_arit=backward::arithmetic<size_type>;
@@ -102,13 +87,6 @@ namespace nik
 	bidirectional:
 */
 /*
-		overload:
-*/
-			using bid_over=bidirectional::overload<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using bid_over_unroll=typename bid_over::template unroll<N, M, L>;
-/*
 		arithmetic:
 			using bid_arit=bidirectional::arithmetic<size_type>;
 
@@ -125,13 +103,6 @@ namespace nik
 /*
 	random_access:
 */
-/*
-		overload:
-*/
-			using rnd_over=random_access::overload<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using rnd_over_unroll=typename rnd_over::template unroll<N, M, L>;
 /*
 		arithmetic:
 			using rnd_arit=random_access::arithmetic<size_type>;

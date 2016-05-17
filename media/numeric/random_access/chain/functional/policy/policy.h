@@ -50,10 +50,10 @@ namespace nik
 /*
 	identity:
 */
-			using iden=identity<size_type>;
+		using iden=identity<size_type>;
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using iden_unroll=typename iden::template unroll<N, M, L>;
+		template<size_type N, size_type M=0, size_type L=0>
+		using iden_unroll=typename iden::template unroll<N, M, L>;
 	};
      }
     }

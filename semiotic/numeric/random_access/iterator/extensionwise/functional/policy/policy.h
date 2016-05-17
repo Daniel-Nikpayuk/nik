@@ -20,7 +20,6 @@
 
 #include"../overload/overload.h"
 //#include"../arithmetic/arithmetic.h"
-#include"../discrete/discrete.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -53,24 +52,17 @@ namespace nik
 /*
 	overload:
 */
-			using over=overload<size_type>;
+		using over=functional::overload<size_type>;
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using over_unroll=typename over::template unroll<N, M, L>;
+		template<size_type N, size_type M=0, size_type L=0>
+		using over_unroll=typename over::template unroll<N, M, L>;
 /*
 	arithmetic:
-			using arit=arithmetic<size_type>;
+		using arit=functional::arithmetic<size_type>;
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using arit_unroll=typename arit::template unroll<N, M, L>;
+		template<size_type N, size_type M=0, size_type L=0>
+		using arit_unroll=typename arit::template unroll<N, M, L>;
 */
-/*
-	discrete:
-*/
-			using disc=discrete<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using disc_unroll=typename disc::template unroll<N, M, L>;
 	};
       }
      }

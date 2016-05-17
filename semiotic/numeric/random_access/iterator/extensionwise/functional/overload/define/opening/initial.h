@@ -75,10 +75,11 @@ static rtn label##_return(WPointer out, size_type in) \
 
 /************************************************************************************************************************/
 
-#define _opening_initial_delete_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-	{ stmt }
+/*
+	The only form that satifies the design constraints exists already as the "closing" version.
+*/
+
+#define _opening_initial_delete_0(dir, inv, op, label, rtn, stmt)
 
 #define opening_initial_no_return_delete_0(dir, inv)			_opening_initial_delete_0(dir, inv, , no, void, )
 #define opening_initial_with_return_delete_0(dir, inv)			_opening_initial_delete_0(dir, inv, , with, WPointer, return out;)

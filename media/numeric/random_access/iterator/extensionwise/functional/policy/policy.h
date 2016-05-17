@@ -18,8 +18,9 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_POLICY_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_POLICY_H
 
+#include"../overload/overload.h"
 //#include"../arithmetic/arithmetic.h"
-#include"../discrete/discrete.h"
+//#include"../discrete/discrete.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -50,19 +51,26 @@ namespace nik
 	{
 		typedef SizeType size_type;
 /*
-	discrete:
+	overload:
 */
-			using disc=functional::discrete<size_type>;
+		using over=functional::overload<size_type>;
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using disc_unroll=typename disc::template unroll<N, M, L>;
+		template<size_type N, size_type M=0, size_type L=0>
+		using over_unroll=typename over::template unroll<N, M, L>;
 /*
 	arithmetic:
-*/
-			using arit=functional::arithmetic<size_type>;
+		using arit=functional::arithmetic<size_type>;
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using arit_unroll=typename arit::template unroll<N, M, L>;
+		template<size_type N, size_type M=0, size_type L=0>
+		using arit_unroll=typename arit::template unroll<N, M, L>;
+*/
+/*
+	discrete:
+		using disc=functional::discrete<size_type>;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		using disc_unroll=typename disc::template unroll<N, M, L>;
+*/
 	};
       }
      }

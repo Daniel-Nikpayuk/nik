@@ -19,6 +19,7 @@
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_POLICY_H
 
 //#include"../arithmetic/arithmetic.h"
+//#include"../order/order.h"
 #include"../discrete/discrete.h"
 
 /*
@@ -53,6 +54,13 @@ namespace nik
 	forward:
 */
 /*
+		overload:
+*/
+			using fwd_over=forward::overload<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using fwd_over_unroll=typename fwd_over::template unroll<N, M, L>;
+/*
 		arithmetic:
 			using fwd_arit=forward::arithmetic<size_type>;
 
@@ -70,6 +78,13 @@ namespace nik
 	backward:
 */
 /*
+		overload:
+*/
+			using bwd_over=backward::overload<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using bwd_over_unroll=typename bwd_over::template unroll<N, M, L>;
+/*
 		arithmetic:
 			using bwd_arit=backward::arithmetic<size_type>;
 
@@ -86,6 +101,13 @@ namespace nik
 /*
 	bidirectional:
 */
+/*
+		overload:
+*/
+			using bid_over=bidirectional::overload<size_type>;
+
+			template<size_type N, size_type M=0, size_type L=0>
+			using bid_over_unroll=typename bid_over::template unroll<N, M, L>;
 /*
 		arithmetic:
 			using bid_arit=bidirectional::arithmetic<size_type>;

@@ -18,7 +18,7 @@
 #ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_VECTOR_STRUCTURAL_BLOCK_H
 #define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_VECTOR_STRUCTURAL_BLOCK_H
 
-#include"../../../container/container.h"
+#include"../../../traits/traits.h"
 
 #include"../../../iterator/componentwise/structural/traits/traits.h"
 #include"../../../iterator/componentwise/functional/policy/policy.h"
@@ -56,7 +56,9 @@ namespace nik
 	template<typename ValueType, typename SizeType, SizeType N>
 	struct block
 	{
-		typedef random_access::container<block, T, SizeType> attributes;
+		typedef random_access::traits<SizeType> r_traits;
+		typedef typename r_traits::container<block, T> attributes;
+
 		typedef typename attributes::value_type value_type;
 		typedef typename attributes::reference reference;
 		typedef typename attributes::const_reference const_reference;

@@ -18,11 +18,8 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_LIST_STRUCTURAL_BASE_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_LIST_STRUCTURAL_BASE_H
 
-#include"../../../../../../semiotic/numeric/processor/argument/policy/policy.h"
-#include"../../../../../../semiotic/numeric/processor/parameter/policy/policy.h"
-
-#include"../../../../../../semiotic/numeric/random_access/list/structural/traits.h"
-#include"../../../../../../semiotic/numeric/random_access/list/functional/policy.h"
+#include"../../../../../../semiotic/traits/traits.h"
+#include"../../../../../../semiotic/policy/policy.h"
 
 /*
 	Given the unsafe nature of semiotic::list, policy here is designed for composability instead of inheritance.
@@ -49,11 +46,11 @@ namespace nik
 	class base
 	{
 		protected:
-			typedef semiotic::numeric::processor::argument::policy<SizeType> snpa_policy;
-			typedef semiotic::numeric::processor::parameter::policy<SizeType> snpp_policy;
+			typedef semiotic::policy<SizeType>::npa snpa_policy;
+			typedef semiotic::policy<SizeType>::npp snpp_policy;
 
-			typedef semiotic::numeric::random_access::list::structural::traits<SizeType> snrls_traits;
-			typedef semiotic::numeric::random_access::list::functional::policy<SizeType> snrlf_policy;
+			typedef semiotic::traits<SizeType>::nrls snrls_traits;
+			typedef semiotic::policy<SizeType>::nrlf snrlf_policy;
 
 			typedef typename snrls_traits::base<T,SizeType> weakbase;
 		public:

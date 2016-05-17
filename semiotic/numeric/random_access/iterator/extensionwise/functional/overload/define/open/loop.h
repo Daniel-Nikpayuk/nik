@@ -32,10 +32,15 @@
 
 /************************************************************************************************************************/
 
+/*
+	n >= 2
+*/
+
 #define _open_loop_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename ValueType> \
 static rtn label##_return(WPointer out, size_type n, ValueType in) \
 { \
+	n-=2; \
 	while (n) \
 	{ \
 		(*out)op(in); \
@@ -51,10 +56,15 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 
 /************************************************************************************************************************/
 
+/*
+	n >= 2
+*/
+
 #define _open_loop_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
 template<typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
+	n-=2; \
 	while (n) \
 	{ \
 		lp(*out)rp; \
@@ -73,10 +83,15 @@ static rtn label##_return(WPointer out, size_type n) \
 
 /************************************************************************************************************************/
 
+/*
+	n >= 2
+*/
+
 #define _open_loop_new_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
+	n-=2; \
 	while (n) \
 	{ \
 		*out=new Node(); \
@@ -92,10 +107,15 @@ static rtn label##_return(WPointer out, size_type n) \
 
 /************************************************************************************************************************/
 
+/*
+	n >= 2
+*/
+
 #define _open_loop_new_brackets_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n, size_type in) \
 { \
+	n-=2; \
 	while (n) \
 	{ \
 		*out=new Node[in]; \
@@ -111,10 +131,16 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 
 /************************************************************************************************************************/
 
+/*
+	out != end
+*/
+
 #define _open_loop_delete_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename EWPointer> \
 static rtn label##_return(WPointer out, EWPointer end) \
 { \
+	dir##dir(out); \
+ \
 	while (out != end) \
 	{ \
 		WPointer current=out; \
@@ -134,10 +160,17 @@ static rtn label##_return(WPointer out, EWPointer end) \
 
 /************************************************************************************************************************/
 
+/*
+	in != end
+*/
+
 #define _open_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
+	dir##dir(in); \
+	out=dir(out)=new WNode; \
+ \
 	while (in != end) \
 	{ \
 		lp(*out)op(*in)rp; \
@@ -156,10 +189,17 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 
 /************************************************************************************************************************/
 
+/*
+	in != end
+*/
+
 #define _open_loop_new_brackets_1(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
 static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 { \
+	dir##dir(in); \
+	out=dir(out)=new WNode; \
+ \
 	while (in != end) \
 	{ \
 		*out=new Node[*in]; \
@@ -175,10 +215,17 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 
 /************************************************************************************************************************/
 
+/*
+	in2 != end2
+*/
+
 #define _open_loop_2(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
+	dir##dir(in2); dir##dir(in1); \
+	out=dir(out)=new WNode; \
+ \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
@@ -194,10 +241,17 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 
 /************************************************************************************************************************/
 
+/*
+	in2 != end2
+*/
+
 #define _open_loop_brackets_2(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
+	dir##dir(in2); dir##dir(in1); \
+	out=dir(out)=new WNode; \
+ \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \

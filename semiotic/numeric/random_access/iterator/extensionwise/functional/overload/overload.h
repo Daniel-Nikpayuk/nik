@@ -18,6 +18,26 @@
 #ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_OVERLOAD_H
 #define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_OVERLOAD_H
 
+#include"define/closed/loop.h"
+#include"define/closed/count.h"
+#include"define/closed/unroll.h"
+#include"define/closed/initial.h"
+
+#include"define/closing/loop.h"
+#include"define/closing/count.h"
+#include"define/closing/unroll.h"
+#include"define/closing/initial.h"
+
+#include"define/opening/loop.h"
+#include"define/opening/count.h"
+#include"define/opening/unroll.h"
+#include"define/opening/initial.h"
+
+#include"define/open/loop.h"
+#include"define/open/count.h"
+#include"define/open/unroll.h"
+#include"define/open/initial.h"
+
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
 	as a method, but it is more cpu efficient to NOT---especially given there are few practical
@@ -40,26 +60,6 @@
 	The struct "repeat" though by name does not associate with an operator overload, is in fact
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
-
-#include"define/closed/loop.h"
-#include"define/closed/count.h"
-#include"define/closed/unroll.h"
-#include"define/closed/initial.h"
-
-#include"define/closing/loop.h"
-#include"define/closing/count.h"
-#include"define/closing/unroll.h"
-#include"define/closing/initial.h"
-
-#include"define/opening/loop.h"
-#include"define/opening/count.h"
-#include"define/opening/unroll.h"
-#include"define/opening/initial.h"
-
-#include"define/open/loop.h"
-#include"define/open/count.h"
-#include"define/open/unroll.h"
-#include"define/open/initial.h"
 
 namespace nik
 {

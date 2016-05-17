@@ -18,8 +18,7 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
 
-#include"../../../../../../semiotic/numeric/random_access/iterator/componentwise/functional/policy/policy.h"
-#include"../../../../../../semiotic/numeric/random_access/vector/functional/policy/policy.h"
+#include"../../../../../../semiotic/policy/policy.h"
 
 /*
 	There is higher entropy in letting the compiler type-deduce things like "ValueType" even though
@@ -44,8 +43,8 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef semiotic::numeric::random_access::iterator::extensionwise::functional::policy<size_type> snritf_policy;
-		typedef semiotic::numeric::random_access::list::functional::policy<size_type> snrlf_policy;
+		typedef semiotic::policy<size_type>::nricf snricf_policy;
+		typedef semiotic::policy<size_type>::nrvf snrvf_policy;
 
 		struct insert
 		{

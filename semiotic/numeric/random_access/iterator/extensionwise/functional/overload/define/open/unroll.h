@@ -36,8 +36,8 @@
 template<typename WNode, typename WPointer, typename ValueType> \
 static rtn label##_return(WPointer out, ValueType in) \
 { \
-	(*out)op(in); \
 	out=dir(out)=new WNode; \
+	(*out)op(in); \
  \
 	stmt unroll<N-1>::method::label##_return(out, in); \
 }
@@ -51,8 +51,8 @@ static rtn label##_return(WPointer out, ValueType in) \
 template<typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out) \
 { \
-	lp(*out)rp; \
 	out=dir(out)=new WNode; \
+	lp(*out)rp; \
  \
 	stmt unroll<N-1>::method::label##_return(out); \
 }
@@ -69,8 +69,8 @@ static rtn label##_return(WPointer out) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out) \
 { \
-	*out=new Node(); \
 	out=dir(out)=new WNode; \
+	*out=new Node(); \
  \
 	stmt unroll<N-1>::method::label##_return(out); \
 }
@@ -84,8 +84,8 @@ static rtn label##_return(WPointer out) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type in) \
 { \
-	*out=new Node[in]; \
 	out=dir(out)=new WNode; \
+	*out=new Node[in]; \
  \
 	stmt unroll<N-1>::method::label##_return(out, in); \
 }
@@ -119,9 +119,9 @@ static rtn label##_return(WPointer out) \
 template<typename WNode, typename WPointer, typename RIterator> \
 static rtn label##_return(WPointer out, RIterator in) \
 { \
-	lp(*out)op(*in)rp; \
-	out=dir(out)=new WNode; \
 	dir##dir(in); \
+	out=dir(out)=new WNode; \
+	lp(*out)op(*in)rp; \
  \
 	stmt unroll<N-1>::method::label##_return(out, in); \
 }
@@ -138,9 +138,9 @@ static rtn label##_return(WPointer out, RIterator in) \
 template<typename Node, typename WNode, typename WPointer, typename RPointer> \
 static rtn label##_return(WPointer out, RPointer in) \
 { \
-	*out=new Node[*in]; \
-	out=dir(out)=new WNode; \
 	dir##dir(in); \
+	out=dir(out)=new WNode; \
+	*out=new Node[*in]; \
  \
 	stmt unroll<N-1>::method::label##_return(out, in); \
 }
@@ -154,9 +154,9 @@ static rtn label##_return(WPointer out, RPointer in) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
-	(*out)=(*in1)op(*in2); \
+	dir##dir(in2); dir##dir(in1); \
 	out=dir(out)=new WNode; \
-	dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op(*in2); \
  \
 	stmt unroll<N-1>::method::label##_return(out, in1, in2); \
 }
@@ -170,9 +170,9 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
-	(*out)=(*in1)op[*in2]; \
+	dir##dir(in2); dir##dir(in1); \
 	out=dir(out)=new WNode; \
-	dir##dir(in1); dir##dir(in2); \
+	(*out)=(*in1)op[*in2]; \
  \
 	stmt unroll<N-1>::method::label##_return(out, in1, in2); \
 }

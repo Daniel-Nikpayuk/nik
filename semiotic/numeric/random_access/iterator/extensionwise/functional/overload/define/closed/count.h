@@ -63,6 +63,10 @@
 
 /************************************************************************************************************************/
 
+/*
+	Keep in mind the return version returns a memory location that has been deallocated!
+*/
+
 #define _closed_count_delete_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename EWPointer> \
 static rtn label##_return(size_type & count, WPointer out, EWPointer end) \

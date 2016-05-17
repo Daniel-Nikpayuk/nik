@@ -22,6 +22,10 @@
 
 #include"../../../../../processor/policy/policy.h"
 
+/*
+	Migrate anything safe over to the mediaspace!
+*/
+
 // Clean up the typedefs/usings namespace stuff.
 
 /*
@@ -29,7 +33,7 @@
 	each location is conditionally independent, whereas arithmetic is similar but also dependent on the previous value
 	(recursive; maybe the simplest variety of recursive?).
 
-	Incrementing and decrementing pointers which should otherwise maintain a snp_policy::unit location is bad practice in general,
+	Incrementing and decrementing pointers which should otherwise maintain a p_policy::unit location is bad practice in general,
 	but is here used for optimized efficiency.
 
 	Template unrolling is very memory expensive. The tradeoff in theory is speed improvement---though that should be tested
@@ -74,7 +78,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> snp_policy;
+		typedef processor::policy<size_type> p_policy;
 
 		struct zero
 		{
@@ -535,8 +539,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry=bool(snp_policy::unit::half::size & carry);
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry=bool(p_policy::unit::half::size & carry);
 						++out; ++in1; ++in2;
 					}
 				}
@@ -547,8 +551,8 @@ namespace nik
 					while (in2 != end2)
 					{
 						carry+=*in1 + *in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry=bool(snp_policy::unit::half::size & carry);
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry=bool(p_policy::unit::half::size & carry);
 						++out; ++in1; ++in2;
 					}
 
@@ -604,7 +608,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * snp_policy::unit::half::size) + *in1 - *out;
+						*out=(carry * p_policy::unit::half::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 				}
@@ -616,7 +620,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * snp_policy::unit::half::size) + *in1 - *out;
+						*out=(carry * p_policy::unit::half::size) + *in1 - *out;
 						++out; ++in1; ++in2;
 					}
 
@@ -633,7 +637,7 @@ namespace nik
 		out is the resultant containing structure.
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
-		in2 is the snp_policy::unit scalar value.
+		in2 is the p_policy::unit scalar value.
 
 		All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -647,8 +651,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry>>=snp_policy::unit::half::length;
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry>>=p_policy::unit::half::length;
 						++out; ++in;
 					}
 				}
@@ -659,8 +663,8 @@ namespace nik
 					while (in != end)
 					{
 						carry+=(*in) * value;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry>>=snp_policy::unit::half::length;
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry>>=p_policy::unit::half::length;
 						++out; ++in;
 					}
 
@@ -955,8 +959,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry=bool(snp_policy::unit::half::size & carry);
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry=bool(p_policy::unit::half::size & carry);
 							++out; ++in;
 						}
 					}
@@ -967,8 +971,8 @@ namespace nik
 						while (in != end)
 						{
 							carry+=*out + *in;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry=bool(snp_policy::unit::half::size & carry);
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry=bool(p_policy::unit::half::size & carry);
 							++out; ++in;
 						}
 
@@ -1030,7 +1034,7 @@ namespace nik
 							before=*out;
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * snp_policy::unit::half::size) + before - *out;
+							*out=(carry * p_policy::unit::half::size) + before - *out;
 							++out; ++in;
 						}
 					}
@@ -1044,7 +1048,7 @@ namespace nik
 							before=*out;
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * snp_policy::unit::half::size) + before - *out;
+							*out=(carry * p_policy::unit::half::size) + before - *out;
 							++out; ++in;
 						}
 
@@ -1061,7 +1065,7 @@ namespace nik
 		out is the resultant containing structure.
 		in1 is the initial containing structure.
 		end1 is the end location of the input containing structure.
-		in2 is the snp_policy::unit scalar value.
+		in2 is the p_policy::unit scalar value.
 
 		All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -1075,8 +1079,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry>>=snp_policy::unit::half::length;
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry>>=p_policy::unit::half::length;
 							++out;
 						}
 					}
@@ -1087,8 +1091,8 @@ namespace nik
 						while (out != end)
 						{
 							carry+=(*out) * value;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry>>=snp_policy::unit::half::length;
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry>>=p_policy::unit::half::length;
 							++out;
 						}
 
@@ -1438,8 +1442,8 @@ namespace nik
 					static void no_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry=bool(snp_policy::unit::half::size & carry);
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry=bool(p_policy::unit::half::size & carry);
 						unroll<N-1>::plus::half::no_return(carry, ++out, ++in1, ++in2);
 					}
 
@@ -1447,8 +1451,8 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator1 in1, RIterator2 in2)
 					{
 						carry+=*in1 + *in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry=bool(snp_policy::unit::half::size & carry);
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry=bool(p_policy::unit::half::size & carry);
 						return unroll<N-1>::plus::half::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
@@ -1491,7 +1495,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * snp_policy::unit::half::size) + *in1 - *out;
+						*out=(carry * p_policy::unit::half::size) + *in1 - *out;
 						unroll<N-1>::minus::half::no_return(carry, ++out, ++in1, ++in2);
 					}
 
@@ -1500,7 +1504,7 @@ namespace nik
 					{
 						*out=carry + *in2;
 						carry=(*in1 < *out);
-						*out=(carry * snp_policy::unit::half::size) + *in1 - *out;
+						*out=(carry * p_policy::unit::half::size) + *in1 - *out;
 						return unroll<N-1>::minus::half::with_return(carry, ++out, ++in1, ++in2);
 					}
 				};
@@ -1514,7 +1518,7 @@ namespace nik
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the snp_policy::unit scalar value.
+	in2 is the p_policy::unit scalar value.
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -1522,15 +1526,15 @@ namespace nik
 					static void no_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry>>=snp_policy::unit::half::length;
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry>>=p_policy::unit::half::length;
 						unroll<N-1>::scale::half::no_return(carry, ++out, ++in1, in2);
 					}
 /*
 	carry is the overhead value. Set this to zero for the "normal" interpretation.
 	out is the resultant containing structure.
 	in1 is the initial containing structure.
-	in2 is the snp_policy::unit scalar value.
+	in2 is the p_policy::unit scalar value.
 
 	All ValueTypes are under the constraint of being less than the half register size.
 */
@@ -1538,8 +1542,8 @@ namespace nik
 					static WIterator with_return(ValueType carry, WIterator out, RIterator in1, ValueType in2)
 					{
 						carry+=(*in1) * in2;
-						*out=snp_policy::unit::filter::low_pass & carry;
-						carry>>=snp_policy::unit::half::length;
+						*out=p_policy::unit::filter::low_pass & carry;
+						carry>>=p_policy::unit::half::length;
 						return unroll<N-1>::scale::half::with_return(carry, ++out, ++in1, in2);
 					}
 				};
@@ -1575,8 +1579,8 @@ namespace nik
 						static void no_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry=bool(snp_policy::unit::half::size & carry);
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry=bool(p_policy::unit::half::size & carry);
 							unroll<N-1>::assign::plus::half::no_return(carry, ++out, ++in);
 						}
 
@@ -1584,8 +1588,8 @@ namespace nik
 						static WIterator with_return(ValueType carry, WIterator out, RIterator in)
 						{
 							carry+=*out + *in;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry=bool(snp_policy::unit::half::size & carry);
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry=bool(p_policy::unit::half::size & carry);
 							return unroll<N-1>::assign::plus::half::with_return(carry, ++out, ++in);
 						}
 					};
@@ -1625,7 +1629,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * snp_policy::unit::half::size) + before - *out;
+							*out=(carry * p_policy::unit::half::size) + before - *out;
 							unroll<N-1>::assign::minus::half::no_return(carry, ++out, ++in);
 						}
 
@@ -1635,7 +1639,7 @@ namespace nik
 							ValueType before(*out);
 							*out=carry + *in;
 							carry=(before < *out);
-							*out=(carry * snp_policy::unit::half::size) + before - *out;
+							*out=(carry * p_policy::unit::half::size) + before - *out;
 							return unroll<N-1>::assign::minus::half::with_return(carry, ++out, ++in);
 						}
 					};
@@ -1649,8 +1653,8 @@ namespace nik
 						static void no_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry>>=snp_policy::unit::half::length;
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry>>=p_policy::unit::half::length;
 							unroll<N-1>::assign::scale::half::no_return(carry, ++out, value);
 						}
 
@@ -1658,8 +1662,8 @@ namespace nik
 						static WIterator with_return(ValueType carry, WIterator out, ValueType value)
 						{
 							carry+=(*out) * value;
-							*out=snp_policy::unit::filter::low_pass & carry;
-							carry>>=snp_policy::unit::half::length;
+							*out=p_policy::unit::filter::low_pass & carry;
+							carry>>=p_policy::unit::half::length;
 							return unroll<N-1>::assign::scale::half::with_return(carry, ++out, value);
 						}
 					};
@@ -1937,7 +1941,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> snp_policy;
+		typedef processor::policy<size_type> p_policy;
 
 		struct zero
 		{
@@ -2647,7 +2651,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> snp_policy;
+		typedef processor::policy<size_type> p_policy;
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll

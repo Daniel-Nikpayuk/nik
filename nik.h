@@ -18,42 +18,41 @@
 #ifndef NIK_H
 #define NIK_H
 
-#define stringify(string) \
-#string
+#include<stddef.h>
 
-// base:
-#define nikbase(construct, header) \
-stringify(../nik/context/context/construct/header/header.h)
+#include"semiotic/traits/traits.h"
+#include"semiotic/policy/policy.h"
 
-#define nikbase_debug(construct, header) \
-stringify(../nik/context/context/construct/header/debug/debug.h)
+#include"media/traits/traits.h"
+#include"media/policy/policy.h"
 
-// system:
-#define niksys(navigator, structure, construct, header) \
-stringify(../nik/context/semiotic/navigator/structure/construct/header/header.h)
+namespace nik
+{
+	typedef size_t size_type;
 
-#define niksys_debug(navigator, structure, construct, header) \
-stringify(../nik/context/semiotic/navigator/structure/construct/header/debug/debug.h)
+	struct policy
+	{
+		typedef media::policy<size_type>::np mnp;
+		typedef media::policy<size_type>::nr mnr;
+	};
 
-// generic:
-#define nikgen(navigator, structure, construct, header) \
-stringify(../nik/context/media/navigator/structure/construct/header/header.h)
+	char endl='\n'; // portable ?
 
-#define nikgen_debug(navigator, structure, construct, header) \
-stringify(../nik/context/media/navigator/structure/construct/header/debug/debug.h)
+	struct printer : public policy::mnp::printer, public policy::mnr::printer {} display;
 
-// semiotic:
-#define niksign(navigator, header) \
-stringify(../nik/semiotic/navigator/header/header.h)
+/*
+	template<typename T, typename SizeType=size_t>
+	using list=iterator::generic::list<T, SizeType>;
 
-#define niksign_debug(navigator, header) \
-stringify(../nik/semiotic/navigator/header/debug/debug.h)
+	template<typename T, typename SizeType=size_t>
+	using chain=iterator::generic::chain<T, SizeType>;
 
-// media:
-#define nikapi(navigator, category, header) \
-stringify(../nik/media/navigator/category/header/header.h)
+	template<typename T, typename SizeType=size_t>
+	using vector=iterator::generic::vector<T, SizeType>;
 
-#define nikapi_debug(navigator, category, header) \
-stringify(../nik/media/navigator/category/header/debug/debug.h)
+	template<size_t BitLength>
+	using uint_block=numeric::uint<size_t>::block<BitLength>;
+*/
+}
 
 #endif

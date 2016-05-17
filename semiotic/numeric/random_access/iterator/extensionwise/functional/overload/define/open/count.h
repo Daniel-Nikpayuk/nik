@@ -63,10 +63,16 @@
 
 /************************************************************************************************************************/
 
+/*
+	out != end
+*/
+
 #define _open_count_delete_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename EWPointer> \
 static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 { \
+	dir##dir(out); \
+ \
 	while (out != end) \
 	{ \
 		WPointer current=out; \
@@ -86,6 +92,10 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 #define open_count_with_return_delete_brackets_0(dir, inv)		_open_count_delete_0(dir, inv, [], with, WPointer, return out;)
 
 /************************************************************************************************************************/
+
+/*
+	in != end
+*/
 
 #define _open_count_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
@@ -113,10 +123,17 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 
 /************************************************************************************************************************/
 
+/*
+	in != end
+*/
+
 #define _open_count_new_brackets_1(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
 static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
 { \
+	dir##dir(in); \
+	out=dir(out)=new WNode; \
+ \
 	while (in != end) \
 	{ \
 		*out=new Node[*in]; \
@@ -133,10 +150,17 @@ static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointe
 
 /************************************************************************************************************************/
 
+/*
+	in2 != end2
+*/
+
 #define _open_count_2(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
+	dir##dir(in2); dir##dir(in1); \
+	out=dir(out)=new WNode; \
+ \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op(*in2); \
@@ -153,10 +177,17 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 
 /************************************************************************************************************************/
 
+/*
+	in2 != end2
+*/
+
 #define _open_count_brackets_2(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 { \
+	dir##dir(in2); dir##dir(in1); \
+	out=dir(out)=new WNode; \
+ \
 	while (in2 != end2) \
 	{ \
 		(*out)=(*in1)op[*in2]; \

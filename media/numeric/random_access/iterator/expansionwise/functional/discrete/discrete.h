@@ -18,15 +18,11 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_DISCRETE_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_DISCRETE_H
 
-#include"../../../../context/policy/policy.h"
-#include"../../../../semiotic/iterator/expansionwise/policy/policy.h"
+#include"../../../../../../../semiotic/policy/policy.h"
 
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
 	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
-
-	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
-	only the pointer itself.
 */
 
 namespace nik
@@ -43,13 +39,14 @@ namespace nik
      {
       namespace functional
       {
+       namespace forward
+       {
 	template<typename SizeType>
 	struct discrete
 	{
 		typedef SizeType size_type;
 
-		typedef context::policy<size_type> c_policy;
-		typedef semiotic::iterator::expansionwise::policy<SizeType> s_expa_policy;
+		typedef semiotic::iterator::expansionwise::policy<SizeType> snripf_policy;
 
 			// somewhat tested.
 		struct prepend
@@ -87,7 +84,7 @@ namespace nik
 */
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, size_type n, ValueType value)
-				{ return s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
+				{ return snripf_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
 /*
 	in != end
 */
@@ -97,7 +94,7 @@ namespace nik
 				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					WPointer b=new WNode;
-					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+					WPointer e=snripf_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
 					no_return(out, -e);
 					delete e;
 
@@ -107,7 +104,7 @@ namespace nik
 				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
 				static WPointer fast_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
-					return s_expa_policy::bwd_over::assign::post_test::count::template
+					return snripf_policy::bwd_over::assign::post_test::count::template
 						with_return<WNode>(count, out, end, in);
 				}
 			};
@@ -149,7 +146,7 @@ namespace nik
 */
 			template<typename WNode, typename WPointer, typename ValueType>
 			static WPointer with_return(WPointer out, size_type n, ValueType value)
-				{ return s_expa_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
+				{ return snripf_policy::fwd_over::repeat::post_test::template with_return<WNode>(out, n, value); }
 /*
 	in != end
 */
@@ -159,7 +156,7 @@ namespace nik
 				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					WPointer b=with_return(out, WPointer(new WNode));
-					return s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+					return snripf_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
 				}
 			};
 		};
@@ -206,7 +203,7 @@ namespace nik
 			static WPointer with_return(WPointer out, size_type n, ValueType value)
 			{
 				return append::with_return(-out,
-					s_expa_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value));
+					snripf_policy::bwd_over::repeat::post_test::template with_return<WNode>(out, n, value));
 			}
 /*
 	first != last:
@@ -219,7 +216,7 @@ namespace nik
 				static WPointer with_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					WPointer b=new WNode;
-					WPointer e=s_expa_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
+					WPointer e=snripf_policy::fwd_over::assign::count::template with_return<WNode>(count, b, in, end);
 					no_return(out, -e);
 					delete e;
 
@@ -230,7 +227,7 @@ namespace nik
 				static WPointer fast_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 				{
 					return append::with_return(-out,
-							s_expa_policy::bwd_over::assign::post_test::count::template
+							snripf_policy::bwd_over::assign::post_test::count::template
 								with_return<WNode>(count, out, end, in));
 				}
 			};
@@ -261,12 +258,12 @@ namespace nik
 */
 			template<typename WPointer, typename EWPointer>
 			static void no_return(WPointer out, EWPointer end)
-				{ s_expa_policy::ptr::clear::no_return(out, end); }
+				{ snripf_policy::ptr::clear::no_return(out, end); }
 
 			template<typename WPointer, typename EWPointer>
 			static WPointer with_return(WPointer out, EWPointer end)
 			{
-				s_expa_policy::ptr::clear::no_return(out, end);
+				snripf_policy::ptr::clear::no_return(out, end);
 
 				return end;
 			}
@@ -275,12 +272,12 @@ namespace nik
 			{
 				template<typename WPointer, typename EWPointer>
 				static void no_return(size_type & count, WPointer out, EWPointer end)
-					{ s_expa_policy::ptr::clear::count::no_return(count, out, end); }
+					{ snripf_policy::ptr::clear::count::no_return(count, out, end); }
 
 				template<typename WPointer, typename EWPointer>
 				static WPointer with_return(size_type & count, WPointer out, EWPointer end)
 				{
-					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+					snripf_policy::ptr::clear::count::no_return(count, out, end);
 
 					return end;
 				}
@@ -375,7 +372,7 @@ namespace nik
 			static void no_return(WPointer out, EWPointer end)
 			{
 				WPointer in=-out;
-				s_expa_policy::ptr::clear::no_return(out, end);
+				snripf_policy::ptr::clear::no_return(out, end);
 				+in=end;
 				-end=in;
 			}
@@ -384,7 +381,7 @@ namespace nik
 			static WPointer with_return(WPointer out, EWPointer end)
 			{
 				WPointer in=-out;
-				s_expa_policy::ptr::clear::no_return(out, end);
+				snripf_policy::ptr::clear::no_return(out, end);
 				+in=end;
 				-end=in;
 
@@ -397,7 +394,7 @@ namespace nik
 				static void no_return(size_type & count, WPointer out, EWPointer end)
 				{
 					WPointer in=-out;
-					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+					snripf_policy::ptr::clear::count::no_return(count, out, end);
 					+in=end;
 					-end=in;
 				}
@@ -406,7 +403,7 @@ namespace nik
 				static WPointer with_return(size_type & count, WPointer out, EWPointer end)
 				{
 					WPointer in=-out;
-					s_expa_policy::ptr::clear::count::no_return(count, out, end);
+					snripf_policy::ptr::clear::count::no_return(count, out, end);
 					+in=end;
 					-end=in;
 
@@ -460,6 +457,45 @@ namespace nik
 			};
 		};
 	};
+       }
+
+       namespace backward
+       {
+	template<typename SizeType>
+	struct discrete
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+       }
+
+       namespace bidirectional
+       {
+	template<typename SizeType>
+	struct discrete
+	{
+		typedef SizeType size_type;
+
+		template<size_type N, size_type M=0, size_type L=0>
+		struct unroll
+		{
+		};
+
+		template<size_type M, size_type L>
+		struct unroll<0, M, L>
+		{
+		};
+	};
+       }
       }
      }
     }

@@ -111,7 +111,31 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 
 /************************************************************************************************************************/
 
-#define _opening_loop_delete_0(dir, inv, op, label, rtn, stmt)
+/*
+	out != end
+
+	Keep in mind the return version returns a memory location that has been deallocated!
+*/
+
+#define _opening_loop_delete_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(WPointer out, EWPointer end) \
+{ \
+	dir##dir(out); \
+ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+	} \
+ \
+	delete op *out; \
+	delete out; \
+ \
+	stmt \
+}
 
 #define opening_loop_no_return_delete_0(dir, inv)			_opening_loop_delete_0(dir, inv, , no, void, )
 #define opening_loop_with_return_delete_0(dir, inv)			_opening_loop_delete_0(dir, inv, , with, WPointer, return out;)

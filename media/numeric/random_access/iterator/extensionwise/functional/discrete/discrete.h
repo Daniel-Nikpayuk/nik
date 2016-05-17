@@ -18,14 +18,9 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_DISCRETE_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_DISCRETE_H
 
-#include"../../../../../../../semiotic/numeric/random_access/iterator/extensionwise/functional/policy/policy.h"
-
 /*
 	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
 	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
-
-	Keep in mind any method categorized here specifically does not act on the dereferenced values of the pointer,
-	only the pointer itself.
 */
 
 namespace nik
@@ -47,16 +42,81 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef semiotic::numeric::random_access::iterator::extensionwise::functional::policy<SizeType> snritf_policy;
+		struct assign
+		{
+/*
+	Classified as inherently unsafe because its behaviour deviates from the specification
+	as it does not push or pass and equivalent end iterator within its own pointer list.
+
+	It exists as an efficient transition between pre_test and post_test loops.
+*/
+			struct prepost
+			{
+/*
+	in != end
+*/
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static void no_return(WPointer out, RIterator in, ERIterator end)
+				{
+					while (+in != end)
+					{
+						*out=*in;
+						out=+out=new WNode;
+						++in;
+					}
+
+					*out=*in;
+				}
+
+				template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>
+				static WPointer with_return(WPointer out, RIterator in, ERIterator end)
+				{
+					while (+in != end)
+					{
+						*out=*in;
+						out=+out=new WNode;
+						++in;
+					}
+
+					*out=*in;
+
+					return out;
+				}
+			};
+		};
+/*
+	Inherently unsafe as it may create broken links within a larger context.
+*/
+		struct clear
+		{
+			template<typename WPointer, typename ERPointer>
+			static void no_return(WPointer out, ERPointer end)
+				{ while (out != end) delete out++; }
+		};
 
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
 		{
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer out, ERPointer end)
+				{
+					delete out++;
+					unroll<N-1>::clear::no_return(out, end);
+				}
+			};
 		};
 
 		template<size_type M, size_type L>
 		struct unroll<0, M, L>
 		{
+			struct clear
+			{
+				template<typename WPointer, typename ERPointer>
+				static void no_return(WPointer out, ERPointer end)
+					{ }
+			};
 		};
 	};
       }

@@ -18,11 +18,8 @@
 #ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_STRUCTURAL_BASE_H
 #define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_STRUCTURAL_BASE_H
 
-#include"../../../../../../semiotic/numeric/processor/argument/policy/policy.h"
-#include"../../../../../../semiotic/numeric/processor/parameter/policy/policy.h"
-
-#include"../../../../../../semiotic/numeric/random_access/chain/structural/traits.h"
-#include"../../../../../../semiotic/numeric/random_access/chain/functional/policy.h"
+#include"../../../../../../semiotic/traits.h"
+#include"../../../../../../semiotic/policy.h"
 
 /*
 	Given the unsafe nature of semiotic::chain policy here is composability instead of inheritance.
@@ -49,11 +46,11 @@ namespace nik
 	class base
 	{
 		protected:
-			typedef semiotic::numeric::processor::argument::policy<SizeType> snpa_policy;
-			typedef semiotic::numeric::processor::parameter::policy<SizeType> snpp_policy;
+			typedef semiotic::policy<SizeType>::npa snpa_policy;
+			typedef semiotic::policy<SizeType>::npp snpp_policy;
 
-			typedef semiotic::numeric::random_access::chain::structural::traits<SizeType> snrcs_traits;
-			typedef semiotic::numeric::random_access::chain::functional::policy<SizeType> snrcf_policy;
+			typedef semiotic::traits<SizeType>::nrcs snrcs_traits;
+			typedef semiotic::policy<SizeType>::nrcf snrcf_policy;
 
 			typedef typename snrcs_traits::base<T,SizeType> weakbase;
 		public:
