@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
 
 #include"../../../../../processor/policy/policy.h"
 
@@ -27,18 +27,16 @@
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace extensionwise
     {
-     namespace extensionwise
+     namespace functional
      {
-      namespace functional
-      {
 	template<typename SizeType>
 	struct order
 	{
@@ -46,67 +44,8 @@ namespace nik
 
 		typedef processor::policy<size_type> p_policy;
 
-/*
-	Reverses the order from [in, end), while maintaining method composability:
-	The original "out" as input is the end pointer of the returned list.
-	In practice this is usually a symbolic place-holding pointer.
-*/
-		struct reverse
-		{
-			template<typename WPointer, typename EWIterator>
-			static void no_return(WPointer out, EWIterator end)
-			{
-				// does not destroy existing values held, only rearranges pointers relative to each other.
-			}
-
-			template<typename WPointer, typename EWIterator>
-			static WPointer with_return(WPointer out, EWIterator end)
-			{
-				// does not destroy existing values held, only rearranges pointers relative to each other.
-
-				return out;
-			}
-
-			template<typename WPointer, typename RIterator, typename ERIterator>
-			static void no_return(WPointer out, RIterator in, ERIterator end)
-			{
-				while (in != end)
-				{
-					WPointer next=out;
-					out=new WPointer();
-					+out=next;
-					*out=*in;
-					++in;
-				}
-			}
-
-			template<typename WPointer, typename RIterator, typename ERIterator>
-			static WPointer with_return(WPointer out, RIterator in, ERIterator end)
-			{
-				while (in != end)
-				{
-					WPointer next=out;
-					out=new WPointer();
-					+out=next;
-					*out=*in;
-					++in;
-				}
-
-				return out;
-			}
-		};
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-		};
+		#include"media.cpp"
 	};
-      }
      }
     }
    }

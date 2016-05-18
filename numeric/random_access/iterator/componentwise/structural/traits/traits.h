@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
 
 #include"../array/array.h"
 
@@ -30,18 +30,16 @@
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace componentwise
     {
-     namespace componentwise
+     namespace structural
      {
-      namespace structural
-      {
 /*
 */
 	template<typename SizeType>
@@ -51,13 +49,8 @@ namespace nik
 /*
 	array:
 */
-		template<typename T>
-		using array=structural::array<T, size_type>;
-
-		template<typename T>
-		using const_array=structural::array<T const, size_type>;
+		using arra=structural::array<size_type>;
 	};
-      }
      }
     }
    }

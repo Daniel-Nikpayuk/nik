@@ -19,14 +19,14 @@
 
 template<typename T>
 using base=
-	typename i_node::semiotic::template base<
-		typename i_node::semiotic::template base_pointer<T, HOOK_SIZE>
+	typename i_traits::node::semiotic::template base<
+		typename i_traits::node::semiotic::template base_pointer<T, HOOK_SIZE>
 	>;
 
 template<typename T>
 using const_base=
-	typename i_node::semiotic::template base<
-		typename i_node::semiotic::template const_base_pointer<T, HOOK_SIZE>
+	typename i_traits::node::semiotic::template base<
+		typename i_traits::node::semiotic::template const_base_pointer<T, HOOK_SIZE>
 	>;
 
 #undef HOOK_SIZE

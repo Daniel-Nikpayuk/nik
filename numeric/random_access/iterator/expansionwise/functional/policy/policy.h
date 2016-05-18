@@ -15,12 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_POLICY_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_POLICY_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_POLICY_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_POLICY_H
 
+//#include"../overload/overload.h"
 //#include"../arithmetic/arithmetic.h"
 //#include"../order/order.h"
-#include"../discrete/discrete.h"
+//#include"../discrete/discrete.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -32,18 +33,16 @@
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace expansionwise
     {
-     namespace expansionwise
+     namespace functional
      {
-      namespace functional
-      {
 /*
 */
 	template<typename SizeType>
@@ -69,11 +68,11 @@ namespace nik
 */
 /*
 		discrete:
-*/
 			using fwd_disc=forward::discrete<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using fwd_disc_unroll=typename fwd_disc::template unroll<N, M, L>;
+*/
 /*
 	backward:
 */
@@ -93,11 +92,11 @@ namespace nik
 */
 /*
 		discrete:
-*/
 			using bwd_disc=backward::discrete<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bwd_disc_unroll=typename bwd_disc::template unroll<N, M, L>;
+*/
 /*
 	bidirectional:
 */
@@ -117,13 +116,12 @@ namespace nik
 */
 /*
 		discrete:
-*/
 			using bid_disc=bidirectional::discrete<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using bid_disc_unroll=typename bid_disc::template unroll<N, M, L>;
+*/
 	};
-      }
      }
     }
    }

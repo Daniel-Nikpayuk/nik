@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_ORDER_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_ORDER_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_ORDER_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_ORDER_H
 
 #include"../../../../../processor/policy/policy.h"
 
@@ -27,20 +27,18 @@
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace expansionwise
     {
-     namespace expansionwise
+     namespace functional
      {
-      namespace functional
+      namespace forward
       {
-       namespace forward
-       {
 	template<typename SizeType>
 	struct order
 	{
@@ -108,10 +106,10 @@ namespace nik
 		{
 		};
 	};
-       }
+      }
 
-       namespace backward
-       {
+      namespace backward
+      {
 	template<typename SizeType>
 	struct order
 	{
@@ -129,10 +127,10 @@ namespace nik
 		{
 		};
 	};
-       }
+      }
 
-       namespace bidirectional
-       {
+      namespace bidirectional
+      {
 	template<typename SizeType>
 	struct order
 	{
@@ -150,7 +148,6 @@ namespace nik
 		{
 		};
 	};
-       }
       }
      }
     }

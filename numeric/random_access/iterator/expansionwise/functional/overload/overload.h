@@ -15,28 +15,28 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_OVERLOAD_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_OVERLOAD_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_OVERLOAD_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_FUNCTIONAL_OVERLOAD_H
 
-#include"define/closed/loop.h"
-#include"define/closed/count.h"
-#include"define/closed/unroll.h"
-#include"define/closed/initial.h"
+#include"define/closed/loop.cpp"
+#include"define/closed/count.cpp"
+#include"define/closed/unroll.cpp"
+#include"define/closed/initial.cpp"
 
-#include"define/closing/loop.h"
-#include"define/closing/count.h"
-#include"define/closing/unroll.h"
-#include"define/closing/initial.h"
+#include"define/closing/loop.cpp"
+#include"define/closing/count.cpp"
+#include"define/closing/unroll.cpp"
+#include"define/closing/initial.cpp"
 
-#include"define/opening/loop.h"
-#include"define/opening/count.h"
-#include"define/opening/unroll.h"
-#include"define/opening/initial.h"
+#include"define/opening/loop.cpp"
+#include"define/opening/count.cpp"
+#include"define/opening/unroll.cpp"
+#include"define/opening/initial.cpp"
 
-#include"define/open/loop.h"
-#include"define/open/count.h"
-#include"define/open/unroll.h"
-#include"define/open/initial.h"
+#include"define/open/loop.cpp"
+#include"define/open/count.cpp"
+#include"define/open/unroll.cpp"
+#include"define/open/initial.cpp"
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -63,24 +63,25 @@
 
 namespace nik
 {
- namespace media
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace expansionwise
     {
-     namespace expansionwise
+     namespace functional
      {
-      namespace functional
+      namespace forward
       {
-       namespace forward
-       {
 	template<typename SizeType>
 	struct overload
 	{
 		typedef SizeType size_type;
+
+		struct semiotic
+		{
+		};
 
 		#define SGN +
 		#define INV -
@@ -102,14 +103,18 @@ namespace nik
 		#undef INV
 		#undef SGN
 	};
-       }
+      }
 
-       namespace backward
-       {
+      namespace backward
+      {
 	template<typename SizeType>
 	struct overload
 	{
 		typedef SizeType size_type;
+
+		struct semiotic
+		{
+		};
 
 		#define SGN -
 		#define INV +
@@ -131,10 +136,10 @@ namespace nik
 		#undef INV
 		#undef SGN
 	};
-       }
+      }
 
-       namespace bidirectional
-       {
+      namespace bidirectional
+      {
 	template<typename SizeType>
 	struct overload
 	{
@@ -150,7 +155,6 @@ namespace nik
 		{
 		};
 	};
-       }
       }
      }
     }
@@ -159,24 +163,24 @@ namespace nik
  }
 }
 
-#include"../../../macro/undef/open/initial.h"
-#include"../../../macro/undef/open/unroll.h"
-#include"../../../macro/undef/open/count.h"
-#include"../../../macro/undef/open/loop.h"
+#include"../../../macro/undef/open/initial.cpp"
+#include"../../../macro/undef/open/unroll.cpp"
+#include"../../../macro/undef/open/count.cpp"
+#include"../../../macro/undef/open/loop.cpp"
 
-#include"../../../macro/undef/opening/initial.h"
-#include"../../../macro/undef/opening/unroll.h"
-#include"../../../macro/undef/opening/count.h"
-#include"../../../macro/undef/opening/loop.h"
+#include"../../../macro/undef/opening/initial.cpp"
+#include"../../../macro/undef/opening/unroll.cpp"
+#include"../../../macro/undef/opening/count.cpp"
+#include"../../../macro/undef/opening/loop.cpp"
 
-#include"../../../macro/undef/closing/initial.h"
-#include"../../../macro/undef/closing/unroll.h"
-#include"../../../macro/undef/closing/count.h"
-#include"../../../macro/undef/closing/loop.h"
+#include"../../../macro/undef/closing/initial.cpp"
+#include"../../../macro/undef/closing/unroll.cpp"
+#include"../../../macro/undef/closing/count.cpp"
+#include"../../../macro/undef/closing/loop.cpp"
 
-#include"../../../macro/undef/closed/initial.h"
-#include"../../../macro/undef/closed/unroll.h"
-#include"../../../macro/undef/closed/count.h"
-#include"../../../macro/undef/closed/loop.h"
+#include"../../../macro/undef/closed/initial.cpp"
+#include"../../../macro/undef/closed/unroll.cpp"
+#include"../../../macro/undef/closed/count.cpp"
+#include"../../../macro/undef/closed/loop.cpp"
 
 #endif

@@ -15,37 +15,19 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_H
+#define LINK_SIZE 3
 
-#include"../../../traits/traits.h"
+template<typename T>
+using base=
+	typename i_traits::node::semiotic::template base<
+		typename i_traits::node::semiotic::template base_pointer<T, LINK_SIZE>
+	>;
 
-namespace nik
-{
- namespace numeric
- {
-  namespace random_access
-  {
-   namespace iterator
-   {
-    namespace extensionwise
-    {
-     namespace structural
-     {
-	template<typename SizeType>
-	struct hook
-	{
-		typedef SizeType size_type;
+template<typename T>
+using const_base=
+	typename i_traits::node::semiotic::template base<
+		typename i_traits::node::semiotic::template const_base_pointer<T, LINK_SIZE>
+	>;
 
-		typedef iterator::traits<size_type> i_traits;
+#undef LINK_SIZE
 
-		#include"media.cpp"
-	};
-     }
-    }
-   }
-  }
- }
-}
-
-#endif

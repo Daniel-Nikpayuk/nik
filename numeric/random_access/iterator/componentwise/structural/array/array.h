@@ -15,43 +15,30 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
 
 #include<stddef.h>
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace componentwise
     {
-     namespace componentwise
+     namespace structural
      {
-      namespace structural
-      {
-/*
-	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
-	It is only meant to have an allocator as well as meta information about the type of memory it holds.
-*/
-	template<typename T, typename SizeType=size_t>
-	class array
+	template<typename SizeType>
+	struct array
 	{
-		public:
-			typedef T* pointer;
-			typedef T value_type;
-			typedef SizeType size_type;
-		protected:
-			typedef void* void_ptr;
-		public:
-			static void_ptr operator new (size_t n)
-				{ return new T[n]; }
+		typedef SizeType size_type;
+
+		#include"media.cpp"
 	};
-      }
      }
     }
    }

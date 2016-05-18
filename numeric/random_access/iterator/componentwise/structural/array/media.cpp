@@ -15,37 +15,22 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_H
+/*
+	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
+	It is only meant to have an allocator as well as meta information about the type of memory it holds.
+*/
 
-#include"../../../traits/traits.h"
-
-namespace nik
+template<typename T, typename SizeType=size_t>
+class array
 {
- namespace numeric
- {
-  namespace random_access
-  {
-   namespace iterator
-   {
-    namespace extensionwise
-    {
-     namespace structural
-     {
-	template<typename SizeType>
-	struct hook
-	{
+	public:
+		typedef T* pointer;
+		typedef T value_type;
 		typedef SizeType size_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		static void_ptr operator new (size_t n)
+			{ return new T[n]; }
+};
 
-		typedef iterator::traits<size_type> i_traits;
-
-		#include"media.cpp"
-	};
-     }
-    }
-   }
-  }
- }
-}
-
-#endif

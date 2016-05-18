@@ -15,35 +15,32 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXPANSIONWISE_STRUCTURAL_LINK_H
 
-#include"../../../../../../semiotic/traits/traits.h"
+#include"../../../traits/traits.h"
 
 namespace nik
 {
- namespace media
+ namespace numeric
  {
-  namespace numeric
+  namespace random_access
   {
-   namespace random_access
+   namespace iterator
    {
-    namespace iterator
+    namespace expansionwise
     {
-     namespace expansionwise
+     namespace structural
      {
-      namespace structural
-      {
-	#define LINK_SIZE 3
+	template<typename SizeType>
+	struct link
+	{
+		typedef SizeType size_type;
 
-	template<typename T, typename SizeType=size_t>
-	using link=typename semiotic::traits<SizeType>::nri::node<T, LINK_SIZE>;
+		typedef iterator::traits<size_type> i_traits;
 
-	template<typename T, typename SizeType=size_t>
-	using const_link=typename semiotic::traits<SizeType>::nri::const_node<T, LINK_SIZE>;
-
-	#undef LINK_SIZE
-      }
+		#include"media.cpp"
+	};
      }
     }
    }
