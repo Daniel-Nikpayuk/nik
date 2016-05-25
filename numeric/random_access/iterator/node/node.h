@@ -83,6 +83,9 @@ namespace nik
 		{
 			#include"semiotic.cpp"
 		};
+
+		// change the name of base?
+		// instead incude hook and link here as the media versions of node.
 	};
    }
   }

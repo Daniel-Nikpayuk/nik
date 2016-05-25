@@ -15,12 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
-#define NIK_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
+#ifndef NIK_NUMERIC_PROCESSOR_ITERATOR_TRAITS_H
+#define NIK_NUMERIC_PROCESSOR_ITERATOR_TRAITS_H
 
-#include"../binary/binary.h"
-#include"../math/math.h"
-#include"../meta/meta.h"
+#include"../bit/bit.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -32,28 +30,22 @@
 
 namespace nik
 {
- namespace numeric
- {
-  namespace processor
+  namespace numeric
   {
-   namespace argument
+   namespace processor
    {
+    namespace iterator
+    {
+/*
+*/
 	template<typename SizeType>
-	struct policy
+	struct traits
 	{
 		typedef SizeType size_type;
 /*
-	binary:
+	traits:
 */
-		using bina=argument::binary<size_type>;
-/*
-	math:
-*/
-		using math=argument::math<size_type>;
-/*
-	meta:
-*/
-		using meta=argument::meta;
+		using bit=iterator::bit<size_type>;
 	};
    }
   }

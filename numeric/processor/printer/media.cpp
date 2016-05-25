@@ -15,12 +15,12 @@
 **
 *************************************************************************************************************************/
 
-void print(int v) { printf("%d", v); }
-void print(unsigned int v) { printf("%u", v); }
-void print(intmax_t v) { printf("%jd", v); }
-void print(uintmax_t v) { printf("%ju", v); }
+void print(int v) const { printf("%d", v); }
+void print(unsigned int v) const { printf("%u", v); }
+void print(intmax_t v) const { printf("%jd", v); }
+void print(uintmax_t v) const { printf("%ju", v); }
 
-void print(char v) { printf("%c", v); }
-void print(const char *v) { printf("%s", v); }
-void print(bool v) { printf("%s", v? "true" : "false"); }
+void print(char v) const { printf("%c", v); }
+void print(const char *v) const { printf("%s", v); }
+void print(bool v) const { printf("%s", v? "true" : "false"); }
 

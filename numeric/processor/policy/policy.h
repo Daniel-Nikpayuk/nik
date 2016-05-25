@@ -18,8 +18,6 @@
 #ifndef NIK_NUMERIC_PROCESSOR_POLICY_H
 #define NIK_NUMERIC_PROCESSOR_POLICY_H
 
-#include"../unit/unit.h"
-
 #include"../printer/printer.h"
 
 /*
@@ -41,17 +39,9 @@ namespace nik
 	{
 		typedef SizeType size_type;
 /*
-	unit:
-*/
-		using unit=processor::unit<size_type>;
-/*
 	printer:
 */
 		using printer=processor::printer<size_type>;
-
-		static const char endl='\n';
-
-		printer display;
 	};
   }
  }

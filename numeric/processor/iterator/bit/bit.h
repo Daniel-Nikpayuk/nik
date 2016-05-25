@@ -15,22 +15,16 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_ARGUMENT_BINARY_H
-#define NIK_NUMERIC_PROCESSOR_ARGUMENT_BINARY_H
+#ifndef NIK_NUMERIC_PROCESSOR_ITERATOR_BIT_H
+#define NIK_NUMERIC_PROCESSOR_ITERATOR_BIT_H
+
+#include<stddef.h>
 
 #include"../../policy/policy.h"
 
 /*
-	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
-	a const reference to one.
+	Intuition:
 
-	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
-	but is here used for optimized efficiency.
-
-	Template unrolling is very memory expensive. As such, given some routines and subroutines are powerhouse workhorses
-	relative to the whole library, it is worth implementing a few to be as processor and memory efficient as possible.
-
-	Shifting functions are actually provided less for improved efficiency, but more for coercion and type deduction safety.
 */
 
 namespace nik
@@ -39,10 +33,10 @@ namespace nik
  {
   namespace processor
   {
-   namespace argument
+   namespace iterator
    {
 	template<typename SizeType>
-	struct binary
+	struct bit
 	{
 		typedef SizeType size_type;
 

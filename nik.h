@@ -20,40 +20,55 @@
 
 #include<stddef.h>
 
-#include"numeric/processor/policy/policy.h"
-#include"numeric/processor/argument/policy/policy.h"
-#include"numeric/processor/parameter/policy/policy.h"
-
-#include"numeric/random_access/traits/traits.h"
-#include"numeric/random_access/policy/policy.h"
-#include"numeric/random_access/iterator/traits/traits.h"
-#include"numeric/random_access/iterator/extensionwise/structural/traits/traits.h"
-#include"numeric/random_access/iterator/extensionwise/functional/policy/policy.h"
+#include"numeric/processor/printer/printer.h"
 
 namespace nik
 {
 	typedef size_t size_type;
 
+	char endl='\n'; // portable ?
+
+	struct printer :
+		public numeric::processor::printer<size_type>
+//		public numeric::random_access::printer<size_type>
+		{} display;
+}
+
+#include"numeric/processor/policy/policy.h"
+#include"numeric/processor/iterator/traits/traits.h"
+//#include"numeric/processor/argument/policy/policy.h"
+//#include"numeric/processor/parameter/policy/policy.h"
+
+//#include"numeric/random_access/traits/traits.h"
+//#include"numeric/random_access/policy/policy.h"
+//#include"numeric/random_access/iterator/traits/traits.h"
+//#include"numeric/random_access/iterator/extensionwise/structural/traits/traits.h"
+//#include"numeric/random_access/iterator/extensionwise/functional/policy/policy.h"
+
+namespace nik
+{
 	struct traits
 	{
-		typedef numeric::random_access::traits<size_type> nr;
-		typedef numeric::random_access::iterator::traits<size_type> nri;
-		typedef numeric::random_access::iterator::extensionwise::structural::traits<size_type> nrits;
+		typedef numeric::processor::iterator::traits<size_type> npi;
+
+//		typedef numeric::random_access::traits<size_type> nr;
+//		typedef numeric::random_access::iterator::traits<size_type> nri;
+//		typedef numeric::random_access::iterator::extensionwise::structural::traits<size_type> nrits;
 	};
 
 	struct policy
 	{
 		typedef numeric::processor::policy<size_type> np;
-		typedef numeric::processor::argument::policy<size_type> npa;
-		typedef numeric::processor::parameter::policy<size_type> npp;
+//		typedef numeric::processor::argument::policy<size_type> npa;
+//		typedef numeric::processor::parameter::policy<size_type> npp;
 
-		typedef numeric::random_access::policy<size_type> nr;
-		typedef numeric::random_access::iterator::extensionwise::functional::policy<size_type> nritf;
+//		typedef numeric::random_access::policy<size_type> nr;
+//		typedef numeric::random_access::iterator::extensionwise::functional::policy<size_type> nritf;
 	};
 
-	char endl='\n'; // portable ?
-
-	struct printer : public policy::np::printer, public policy::nr::printer {} display;
+	template<typename SizeType=size_t>
+	using sbit=typename numeric::processor::iterator::bit<SizeType>::semiotic::template identity<
+			typename numeric::processor::iterator::bit<SizeType>::semiotic::identity_pointer>;
 
 /*
 	template<typename T, typename SizeType=size_t>

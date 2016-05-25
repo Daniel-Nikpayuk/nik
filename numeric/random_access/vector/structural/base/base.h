@@ -35,15 +35,15 @@ namespace nik
   {
    namespace random_access
    {
-    namespace list
+    namespace vector
     {
      namespace structural
      {
 /*
-	base:
+	identity:
 */
 	template<typename T, typename SizeType>
-	class base
+	class identity
 	{
 		protected:
 			typedef semiotic::policy<SizeType>::npa snpa_policy;
@@ -52,32 +52,32 @@ namespace nik
 			typedef semiotic::traits<SizeType>::nrvs snrvs_traits;
 			typedef semiotic::policy<SizeType>::nrvf snrvf_policy;
 
-			typedef typename snrvs_traits::base<T,SizeType> weakbase;
+			typedef typename snrvs_traits::identity<T,SizeType> weakidentity;
 		public:
-			typedef typename weakbase::value_type value_type;
-			typedef typename weakbase::reference reference;
-			typedef typename weakbase::const_reference const_reference;
-			typedef typename weakbase::value_type node;
-			typedef typename weakbase::iterator iterator;
-			typedef typename weakbase::const_iterator const_iterator;
-			typedef typename weakbase::size_type size_type;
+			typedef typename weakidentity::value_type value_type;
+			typedef typename weakidentity::reference reference;
+			typedef typename weakidentity::const_reference const_reference;
+			typedef typename weakidentity::value_type node;
+			typedef typename weakidentity::iterator iterator;
+			typedef typename weakidentity::const_iterator const_iterator;
+			typedef typename weakidentity::size_type size_type;
 		protected:
-				// subbase.length represents the capacity.
-			weakbase subbase; 
+				// subidentity.length represents the capacity.
+			weakidentity subidentity; 
 
 			size_type length; // length represents the existing length.
 		public:
-			base() : length(0) { subbase.initialize(0); }
-			base(const base & v) : length(v.length)
-				{ subbase.copy_initialize(v.subbase.initial, v.subbase.length); }
-			~base() { subbase.terminalize(); }
+			identity() : length(0) { subidentity.initialize(0); }
+			identity(const identity & v) : length(v.length)
+				{ subidentity.copy_initialize(v.subidentity.initial, v.subidentity.length); }
+			~identity() { subidentity.terminalize(); }
 		public:
 				// element access:
 			reference at(size_type pos)
 			{
 				try
 				{
-					if (0 <= pos && pos < length) return *(subbase.initial+pos);
+					if (0 <= pos && pos < length) return *(subidentity.initial+pos);
 					else throw;
 				}
 				catch(...)
@@ -88,7 +88,7 @@ namespace nik
 			{
 				try
 				{
-					if (0 <= pos && pos < length) return *(subbase.initial+pos);
+					if (0 <= pos && pos < length) return *(subidentity.initial+pos);
 					else throw;
 				}
 				catch(...)
@@ -97,19 +97,19 @@ namespace nik
 
 				// terminal != end
 
-			reference operator [] (size_type pos) { return *(subbase.initial+pos); }
-			const_reference operator [] (size_type pos) const { return *(subbase.initial+pos); }
-			reference front() { return *subbase.initial; }
-			const_reference front() const { return *subbase.initial; }
-			reference back() { return *(subbase.initial+length-1); }
-			const_reference back() const { return *(subbase.initial+length-1); }
+			reference operator [] (size_type pos) { return *(subidentity.initial+pos); }
+			const_reference operator [] (size_type pos) const { return *(subidentity.initial+pos); }
+			reference front() { return *subidentity.initial; }
+			const_reference front() const { return *subidentity.initial; }
+			reference back() { return *(subidentity.initial+length-1); }
+			const_reference back() const { return *(subidentity.initial+length-1); }
 				// iterators:
-			iterator begin() { return subbase.initial; }
-			const_iterator begin() const { return subbase.initial; }
-			const_iterator cbegin() const { return subbase.initial; }
-			iterator end() { return subbase.initial+length; }
-			const_iterator end() const { return subbase.initial+length; }
-			const_iterator cend() const { return subbase.initial+length; }
+			iterator begin() { return subidentity.initial; }
+			const_iterator begin() const { return subidentity.initial; }
+			const_iterator cbegin() const { return subidentity.initial; }
+			iterator end() { return subidentity.initial+length; }
+			const_iterator end() const { return subidentity.initial+length; }
+			const_iterator cend() const { return subidentity.initial+length; }
 				// capacity:
 			bool empty() const { return !length; }
 			size_type size() const { return length; }
@@ -117,21 +117,21 @@ namespace nik
 
 			void reserve(size_type new_cap)
 			{
-				if (new_cap > subbase.length)
+				if (new_cap > subidentity.length)
 				{
-					weakbase tmp;
-					sicv_policy::iden::grow::after(subbase, tmp, new_cap-subbase.length);
+					weakidentity tmp;
+					sicv_policy::iden::grow::after(subidentity, tmp, new_cap-subidentity.length);
 				}
 			}
 
-			size_type capacity() const { return subbase.length; }
+			size_type capacity() const { return subidentity.length; }
 
 			void shrink_to_fit()
 			{
-				if (subbase.length > length)
+				if (subidentity.length > length)
 				{
-					weakbase tmp;
-					sicv_policy::iden::shrink::after(subbase, tmp, subbase.length-length);
+					weakidentity tmp;
+					sicv_policy::iden::shrink::after(subidentity, tmp, subidentity.length-length);
 				}
 			}
 
@@ -146,13 +146,13 @@ namespace nik
 			{
 				iterator in=snpa_policy::meta::template recast<iterator>(it);
 
-				if (length < subbase.length)
+				if (length < subidentity.length)
 				{
-					iterator end=subbase.initial+length;
+					iterator end=subidentity.initial+length;
 					sicv_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else snrvf_policy::iden::insert::impend(subbase, in-subbase.initial, value);
+				else snrvf_policy::iden::insert::impend(subidentity, in-subidentity.initial, value);
 
 				++length;
 
@@ -163,13 +163,13 @@ namespace nik
 			{
 				iterator in=snpa_policy::meta::template recast<iterator>(it);
 
-				if (length < subbase.length)
+				if (length < subidentity.length)
 				{
-					iterator end=subbase.initial+length;
+					iterator end=subidentity.initial+length;
 					sisnpp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					*in=value;
 				}
-				else snrvf_policy::iden::insert::impend(subbase, in-subbase.initial, value);
+				else snrvf_policy::iden::insert::impend(subidentity, in-subidentity.initial, value);
 
 				++length;
 
@@ -181,13 +181,13 @@ namespace nik
 				iterator in=snpa_policy::meta::template recast<iterator>(it);
 
 				size_type new_length=length+count;
-				if (new_length <= subbase.length)
+				if (new_length <= subidentity.length)
 				{
-					iterator end=subbase.initial+new_length-1;
+					iterator end=subidentity.initial+new_length-1;
 					sisnpp_policy::bwd_over::assign::no_return(end, end-1, in-1);
 					sisnpp_policy::fwd_over::repeat::no_return(in, count, value);
 				}
-				else snrvf_policy::iden::insert::impend(subbase, in-subbase.initial, count, value);
+				else snrvf_policy::iden::insert::impend(subidentity, in-subidentity.initial, count, value);
 
 				length=new_length;
 			}
@@ -207,13 +207,13 @@ namespace nik
 
 					size_type count=last-first;
 					size_type new_length=length+count;
-					if (new_length <= subbase.length)
+					if (new_length <= subidentity.length)
 					{
-						iterator end=subbase.initial+new_length-1;
+						iterator end=subidentity.initial+new_length-1;
 						sicv_policy::bwd_over::assign::no_return(end, end-1, in-1);
 						sicv_policy::fwd_over::assign::no_return(in, first, last);
 					}
-					else snrvf_policy::iden::insert::impend(subbase, in-subbase.initial, first, last);
+					else snrvf_policy::iden::insert::impend(subidentity, in-subidentity.initial, first, last);
 
 					length=new_length;
 				}
@@ -225,12 +225,12 @@ namespace nik
 				{
 					iterator in=snpa_policy::meta::template recast<iterator>(it);
 
-					sicv_policy::fwd_over::assign::no_return(in, in+1, subbase.initial+length);
+					sicv_policy::fwd_over::assign::no_return(in, in+1, subidentity.initial+length);
 					--length;
 				}
 			}
 /*
-	As first and last *should be* iterators within the bounds of subbase.initial and subbase.terminal, a comparative approach (<=)
+	As first and last *should be* iterators within the bounds of subidentity.initial and subidentity.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
@@ -253,13 +253,13 @@ namespace nik
 /*
 			void push_back(const value_type & value)
 			{
-				if (length < subbase.length) *(subbase.initial+length)=value;
+				if (length < subidentity.length) *(subidentity.initial+length)=value;
 				else
 				{
-					subbase.initial=snrvf_policy::ptr::append::template
-						with_return<node>(subbase.initial, subbase.length, value);
+					subidentity.initial=snrvf_policy::ptr::append::template
+						with_return<node>(subidentity.initial, subidentity.length, value);
 
-					++subbase.length;
+					++subidentity.length;
 				}
 
 				++length;
@@ -267,13 +267,13 @@ namespace nik
 				return in;
 
 				++length;
-				snrvf_policy::ptr::impend::template no_return<node>(subbase.terminal, value);
+				snrvf_policy::ptr::impend::template no_return<node>(subidentity.terminal, value);
 			}
 			void push_back(const value_type & value)
 			{
-				if (subbase.size() > length)
-					subbase[length++]=value;
-				else snrvf_policy::insert(subbase, subbase.initial+(length++), value);
+				if (subidentity.size() > length)
+					subidentity[length++]=value;
+				else snrvf_policy::insert(subidentity, subidentity.initial+(length++), value);
 			}
 */
 
@@ -287,11 +287,11 @@ namespace nik
 			void push_front(const value_type & value)
 			{
 
-					if (in == subbase.initial)
-						subbase.initial=snrvf_policy::ptr::prepend::template
-							with_return<node>(subbase.initial, subbase.length, value);
+					if (in == subidentity.initial)
+						subidentity.initial=snrvf_policy::ptr::prepend::template
+							with_return<node>(subidentity.initial, subidentity.length, value);
 				++length;
-				subbase.initial=snrvf_policy::ptr::prepend::template with_return<node>(subbase.initial, value);
+				subidentity.initial=snrvf_policy::ptr::prepend::template with_return<node>(subidentity.initial, value);
 			}
 
 			void push_front(value_type && value)
@@ -310,47 +310,47 @@ namespace nik
 /*
 			void resize(size_type count)
 			{
-				size_type cap=subbase::size();
-				if (count > cap) snrvf_policy::insert(subbase, subbase.terminal, count-cap, value_type());
+				size_type cap=subidentity::size();
+				if (count > cap) snrvf_policy::insert(subidentity, subidentity.terminal, count-cap, value_type());
 			}
 			void resize(size_type count)
 			{
-				size_type cap=subbase.size();
-				if (count > cap) snrvf_policy::insert(subbase, subbase.terminal, count-cap, value_type());
+				size_type cap=subidentity.size();
+				if (count > cap) snrvf_policy::insert(subidentity, subidentity.terminal, count-cap, value_type());
 				length=count;
 			}
 
 			void resize(size_type count, const value_type & value)
 			{
-				size_type cap=subbase::size();
-				if (count > cap) snrvf_policy::insert(subbase, subbase.terminal, count-cap, value);
+				size_type cap=subidentity::size();
+				if (count > cap) snrvf_policy::insert(subidentity, subidentity.terminal, count-cap, value);
 			}
 			void resize(size_type count, const value_type & value)
 			{
-				size_type cap=subbase.size();
-				if (count > cap) snrvf_policy::insert(subbase, subbase.terminal, count-cap, value);
+				size_type cap=subidentity.size();
+				if (count > cap) snrvf_policy::insert(subidentity, subidentity.terminal, count-cap, value);
 				length=count;
 			}
 
 */
 
 /*
-			void swap(base & other)
+			void swap(identity & other)
 			{
-				iterator oinitial=other.subbase.initial, oterminal=other.subbase.terminal;
+				iterator oinitial=other.subidentity.initial, oterminal=other.subidentity.terminal;
 				size_type olength=other.length;
 
-				other.subbase.initial=subbase.initial; other.subbase.terminal=subbase.terminal;
+				other.subidentity.initial=subidentity.initial; other.subidentity.terminal=subidentity.terminal;
 				other.length=length;
 
-				subbase.initial=oinitial; subbase.terminal=oterminal;
+				subidentity.initial=oinitial; subidentity.terminal=oterminal;
 				length=olength;
 			}
-			void swap(base & other)
+			void swap(identity & other)
 			{
-				weakbase &tmp=other.subbase;
-				&other.subbase=&subbase;
-				&subbase=&tmp;
+				weakidentity &tmp=other.subidentity;
+				&other.subidentity=&subidentity;
+				&subidentity=&tmp;
 			}
 
 */
