@@ -18,26 +18,27 @@
 #ifndef NIK_H
 #define NIK_H
 
-#include<stddef.h>
-
-#include"numeric/processor/printer/printer.h"
+#include"builtin/printer/printer.h"
 
 namespace nik
 {
-	typedef size_t size_type;
-
 	char endl='\n'; // portable ?
 
 	struct printer :
-		public numeric::processor::printer<size_type>
-//		public numeric::random_access::printer<size_type>
-		{} display;
+		public builtin::printer
+//		public numeric::random_access::printer
+	{ } display;
+
+	template<typename S, typename T>
+	S & operator << (S & s, T v)
+	{
+		s.print(v);
+		return s;
+	}
 }
 
-#include"numeric/processor/policy/policy.h"
-#include"numeric/processor/iterator/traits/traits.h"
-//#include"numeric/processor/argument/policy/policy.h"
-//#include"numeric/processor/parameter/policy/policy.h"
+#include"numeric/processor/iterator/structural/traits/traits.h"
+#include"numeric/processor/iterator/functional/policy/policy.h"
 
 //#include"numeric/random_access/traits/traits.h"
 //#include"numeric/random_access/policy/policy.h"
@@ -47,28 +48,32 @@ namespace nik
 
 namespace nik
 {
+	template<typename SizeType>
 	struct traits
 	{
-		typedef numeric::processor::iterator::traits<size_type> npi;
+		typedef SizeType size_type;
+
+		typedef numeric::processor::iterator::structural::traits<size_type> npis;
 
 //		typedef numeric::random_access::traits<size_type> nr;
 //		typedef numeric::random_access::iterator::traits<size_type> nri;
 //		typedef numeric::random_access::iterator::extensionwise::structural::traits<size_type> nrits;
 	};
 
+	template<typename SizeType>
 	struct policy
 	{
-		typedef numeric::processor::policy<size_type> np;
-//		typedef numeric::processor::argument::policy<size_type> npa;
-//		typedef numeric::processor::parameter::policy<size_type> npp;
+		typedef SizeType size_type;
+
+		typedef numeric::processor::iterator::functional::policy<size_type> npif;
 
 //		typedef numeric::random_access::policy<size_type> nr;
 //		typedef numeric::random_access::iterator::extensionwise::functional::policy<size_type> nritf;
 	};
 
 	template<typename SizeType=size_t>
-	using sbit=typename numeric::processor::iterator::bit<SizeType>::semiotic::template identity<
-			typename numeric::processor::iterator::bit<SizeType>::semiotic::identity_pointer>;
+	using sbit=typename traits<SizeType>::npis::identity::template
+			semiotic<typename traits<SizeType>::npis::identity::semiotic_pointer>;
 
 /*
 	template<typename T, typename SizeType=size_t>
