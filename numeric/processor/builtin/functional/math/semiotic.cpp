@@ -20,7 +20,7 @@ struct fast_exp
 {
 	enum : size_type
 	{
-		value=gf_policy::cont::media::template
+		value = gf_policy::cont::media::template
 			if_then_else
 			<
 				(1 & n),

@@ -18,41 +18,91 @@
 /*
 	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
 */
+
 template<size_type t>
 struct low_pass
-	{ enum : size_type { value = over::media::template shift_up<1, t>::value - 1 }; };
+{
+	enum : size_type
+	{
+		value = t ?
+			math::media::template abs<t>::value < unit::media::length ?
+			t > 0 ?
+				over::media::template shift_up<1, t>::value - 1
+				: 0
+			: unit::media::max
+			: 0
+	};
+};
 
 template<size_type s>
 struct high_pass
-	{ enum : size_type { value = ~ low_pass<s>::value }; };
+{
+	enum : size_type
+	{
+		value = unit::media::max & ~low_pass<unit::media::length-s>::value
+	};
+};
 
 template<size_type s, size_type t>
 struct band_pass
-	{ enum : size_type { value = low_pass<t-s>::value << s }; };
+{
+	enum : size_type
+	{
+		value = over::media::template shift_up<low_pass<t-s>::value, s>::value
+	};
+};
 
 template<size_type x, size_type t>
 struct low
-	{ enum : size_type { value = (x & low_pass<t>::value) }; };
+{
+	enum : size_type
+	{
+		value = (x & low_pass<t>::value)
+	};
+};
 
 template<size_type x, size_type s>
 struct high
-	{ enum : size_type { value = over::media::template shift_down<x, s>::value }; };
+{
+	enum : size_type
+	{
+		value = over::media::template shift_down<x, s>::value
+	};
+};
 
 template<size_type x, size_type s, size_type t>
 struct band
-	{ enum : size_type { value = over::media::template shift_up<over::media::template shift_down<x, s>::value, t-s>::value }; };
+{
+	enum : size_type
+	{
+		value = over::media::template shift_up<over::media::template shift_down<x, s>::value, t-s>::value
+	};
+};
 
 template<size_type x>
 struct lower_half
-	{ enum : size_type { value = low<x, unit::half::length>::value }; };
+{
+	enum : size_type
+	{
+		value = low<x, unit::half::length>::value
+	};
+};
 
 template<size_type x>
 struct upper_half
-	{ enum : size_type { value = high<x, unit::half::length>::value }; };
+{
+	enum : size_type
+	{
+		value = high<x, unit::half::length>::value
+	};
+};
 
 template<size_type x>
 struct order
 {
-	enum : size_type { value=semiotic::template fast_order<0, x, unit::length>::value };
+	enum : size_type
+	{
+		value = semiotic::template fast_order<0, x, unit::length>::value
+	};
 };
 

@@ -17,7 +17,7 @@
 
 template<size_type x>
 struct abs
-	{ enum : size_type { value=(x >= 0) ? x : -x }; };
+	{ enum : size_type { value=(x > 0) ? x : -x }; };
 
 template<size_type x>
 struct square
@@ -26,12 +26,11 @@ struct square
 template<size_type base, size_type exponent>
 struct exp
 {
-	static constexpr bool neg_and_odd=(!unit::media::is_unsigned && base < 0 && exponent%2);
+	static constexpr bool neg_and_odd=(!unit::media::is_unsigned && base < 0 && exponent % 2);
 
 	enum : size_type
 	{
-		value=
-			exponent ?
+		value = exponent ?
 			base ?
 			(unit::media::is_unsigned || exponent > 0) ?
 				(1-2*neg_and_odd)*semiotic::template

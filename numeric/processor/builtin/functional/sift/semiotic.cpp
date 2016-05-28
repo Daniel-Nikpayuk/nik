@@ -24,11 +24,8 @@ struct fast_order
 		if_then_else
 		<
 			media::template band<secondary, (n>>1), n>::value,
-			fast_order<primary+(n>>1),
-				media::template band<secondary, (n>>1), n>::value, (n>>1)>,
-			fast_order<primary,
-				media::template band<secondary, 0,
-					(n>>1)>::value, (n>>1)>
+			fast_order<primary+(n>>1), media::template band<secondary, (n>>1), n>::value, (n>>1)>,
+			fast_order<primary, media::template band<secondary, 0, (n>>1)>::value, (n>>1)>
 		>::return_type::value
 	};
 };

@@ -20,12 +20,11 @@ struct shift_up
 {
 	enum : size_type
 	{
-		value =
-			x && n?
+		value = x && n?
 			math::media::template abs<n>::value < unit::media::length ?
 			n > 0 ?
 				math::media::template abs<x>::value << math::media::template abs<n>::value
-				: math::media::template abs<x>::value >> math::media::template abs<n>::value
+				: x
 			: 0
 			: x
 	};
@@ -36,12 +35,11 @@ struct shift_down
 {
 	enum : size_type
 	{
-		value =
-			x && n?
+		value = x && n?
 			math::media::template abs<n>::value < unit::media::length ?
 			n > 0 ?
 				math::media::template abs<x>::value >> math::media::template abs<n>::value
-				: math::media::template abs<x>::value << math::media::template abs<n>::value
+				: x
 			: 0
 			: x
 	};
