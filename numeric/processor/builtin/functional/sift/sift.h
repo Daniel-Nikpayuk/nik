@@ -15,12 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_PARAMETER_BINARY_H
-#define NIK_NUMERIC_PROCESSOR_PARAMETER_BINARY_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
 
-#include"../../policy/policy.h"
+#include"../unit/unit.h"
 
-#include"../meta/meta.h"
+#include"../math/math.h"
+
+#include"../overload/overload.h"
 
 namespace nik
 {
@@ -28,22 +30,34 @@ namespace nik
  {
   namespace processor
   {
-   namespace parameter
+   namespace builtin
    {
+    namespace functional
+    {
 	template<typename SizeType>
-	struct binary
+	struct sift
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> p_policy;
+		typedef grammaric::functional::policy<size_type> gf_policy;
 
-		typedef parameter::meta p_meta;
+		typedef functional::unit<size_type> unit;
+		typedef functional::math<size_type> math;
+		typedef functional::overload<size_type> over;
+
+		struct media;
 
 		struct semiotic
 		{
 			#include"semiotic.cpp"
 		};
+
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
+    }
    }
   }
  }

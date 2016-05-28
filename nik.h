@@ -37,17 +37,11 @@ namespace nik
 	}
 }
 
-#include"grammaric/functional/policy/policy.h"
-
-#include"numeric/processor/builtin/functional/policy/policy.h"
 //#include"numeric/processor/iterator/structural/traits/traits.h"
-//#include"numeric/processor/iterator/functional/policy/policy.h"
 
 //#include"numeric/random_access/traits/traits.h"
-//#include"numeric/random_access/policy/policy.h"
 //#include"numeric/random_access/iterator/traits/traits.h"
 //#include"numeric/random_access/iterator/extensionwise/structural/traits/traits.h"
-//#include"numeric/random_access/iterator/extensionwise/functional/policy/policy.h"
 
 namespace nik
 {
@@ -62,7 +56,18 @@ namespace nik
 //		typedef numeric::random_access::iterator::traits<size_type> nri;
 //		typedef numeric::random_access::iterator::extensionwise::structural::traits<size_type> nrits;
 	};
+}
 
+#include"grammaric/functional/policy/policy.h"
+
+#include"numeric/processor/builtin/functional/policy/policy.h"
+//#include"numeric/processor/iterator/functional/policy/policy.h"
+
+//#include"numeric/random_access/policy/policy.h"
+//#include"numeric/random_access/iterator/extensionwise/functional/policy/policy.h"
+
+namespace nik
+{
 	template<typename SizeType>
 	struct policy
 	{
@@ -76,7 +81,10 @@ namespace nik
 //		typedef numeric::random_access::policy<size_type> nr;
 //		typedef numeric::random_access::iterator::extensionwise::functional::policy<size_type> nritf;
 	};
+}
 
+namespace nik
+{
 /*
 	template<typename SizeType=size_t>
 	using sbit=typename traits<SizeType>::npis::identity::template

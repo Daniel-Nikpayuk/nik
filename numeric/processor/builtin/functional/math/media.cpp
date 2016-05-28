@@ -15,37 +15,30 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_ARITHMETIC_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_ARITHMETIC_H
+template<size_type x>
+struct abs
+	{ enum : size_type { value=(x >= 0) ? x : -x }; };
 
-#include"../../../../../grammaric/functional/policy/policy.h"
+template<size_type x>
+struct square
+	{ enum : size_type { value=x*x }; };
 
-namespace nik
+template<size_type base, size_type exponent>
+struct exp
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct arithmetic
+	static constexpr bool neg_and_odd=(!unit::media::is_unsigned && base < 0 && exponent%2);
+
+	enum : size_type
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
+		value=
+			exponent ?
+			base ?
+			(unit::media::is_unsigned || exponent > 0) ?
+				(1-2*neg_and_odd)*semiotic::template
+					fast_exp<1, abs<base>::value, abs<exponent>::value>::value
+			: 0
+			: 0
+			: 1
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif

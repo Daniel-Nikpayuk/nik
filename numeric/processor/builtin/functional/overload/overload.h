@@ -22,6 +22,8 @@
 
 #include"../unit/unit.h"
 
+#include"../math/math.h"
+
 namespace nik
 {
  namespace numeric
@@ -40,6 +42,7 @@ namespace nik
 		typedef grammaric::functional::policy<size_type> gf_policy;
 
 		typedef functional::unit<size_type> unit;
+		typedef functional::math<size_type> math;
 
 		struct media
 		{

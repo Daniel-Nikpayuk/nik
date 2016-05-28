@@ -15,6 +15,12 @@
 **
 *************************************************************************************************************************/
 
+/*
+	These constants are defined in such a way as to be robust against signed and unsigned integer types.
+
+	Some of these computations are defined the way they are to avoid compiler warnings.
+*/
+
 static constexpr size_type zero = 0;
 static constexpr size_type one = 1;
 static constexpr size_type two = 2;
@@ -23,8 +29,8 @@ static constexpr size_type three = 3;
 static constexpr size_type nibble = 4;
 static constexpr size_type byte = 8;
 
-static constexpr size_type power = byte * sizeof(size_type) - bool(media::min);
-static constexpr size_type order = power - 1;
+static constexpr size_type length = byte * sizeof(size_type) - bool(media::min);
+static constexpr size_type order = length - 1;
 
 static constexpr size_type tail = media::min ? (size_type) 2 << order : 0;
 static constexpr size_type head = (size_type) 1 << order;
@@ -34,7 +40,7 @@ struct half
 	static constexpr size_type min = media::min >> 1;
 	static constexpr size_type max = media::max >> 1;
 
-	static constexpr size_type power = media::power >> 1;
+	static constexpr size_type length = media::length >> 1;
 	static constexpr size_type order = media::order >> 1;
 
 	static constexpr size_type tail = media::tail >> 1;
@@ -43,7 +49,7 @@ struct half
 
 struct filter
 {
-	static constexpr size_type low_pass = ((size_type) 1 << half::power) - 1;
+	static constexpr size_type low_pass = ((size_type) 1 << half::length) - 1;
 	static constexpr size_type high_pass = max & ~low_pass;
 };
 

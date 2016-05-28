@@ -15,12 +15,24 @@
 **
 *************************************************************************************************************************/
 
+void print(char v) const { printf("%c", v); }
+void print(signed char v) const { printf("%c", v); }
+void print(unsigned char v) const { printf("%u", v); }
+void print(wchar_t v) const { printf("%c", v); }
+void print(char16_t v) const { printf("%u", v); }
+void print(char32_t v) const { printf("%u", v); }
+void print(short v) const { printf("%d", v); }
+void print(unsigned short v) const { printf("%u", v); }
 void print(int v) const { printf("%d", v); }
 void print(unsigned int v) const { printf("%u", v); }
-void print(intmax_t v) const { printf("%jd", v); }
-void print(uintmax_t v) const { printf("%ju", v); }
+void print(long v) const { printf("%ld", v); }
+void print(unsigned long v) const { printf("%lu", v); }
+void print(long long v) const { printf("%lld", v); }
+void print(unsigned long long v) const { printf("%llu", v); }
+void print(float v) const { printf("%f", v); }
+void print(double v) const { printf("%f", v); }
+void print(long double v) const { printf("%Lf", v); }
 
-void print(char v) const { printf("%c", v); }
-void print(const char *v) const { printf("%s", v); }
 void print(bool v) const { printf("%s", v? "true" : "false"); }
+void print(const char *v) const { printf("%s", v); }
 

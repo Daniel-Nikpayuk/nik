@@ -21,6 +21,30 @@
 #include<stdint.h>
 #include<stdio.h>
 
+/*
+	char
+	signed char
+	unsigned char
+	wchar_t
+	char16_t
+	char32_t
+	short
+		signed short // redundant
+	unsigned short
+	int
+		signed int // redundant
+	unsigned int
+	long
+		signed long // redundant
+	unsigned long
+	long long
+		signed long long // redundant
+	unsigned long long
+	float
+	double
+	long double
+*/
+
 namespace nik
 {
  namespace numeric

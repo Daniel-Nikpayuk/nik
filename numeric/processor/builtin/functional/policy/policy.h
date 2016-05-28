@@ -19,8 +19,9 @@
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
 
 #include"../unit/unit.h"
-//#include"../overload/overload.h"
-#include"../arithmetic/arithmetic.h"
+#include"../math/math.h"
+#include"../overload/overload.h"
+#include"../sift/sift.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -49,13 +50,17 @@ namespace nik
 */
 		using unit=functional::unit<size_type>;
 /*
-	overload:
-		using over=functional::overload<size_type>;
+	math:
 */
+		using math=functional::math<size_type>;
 /*
-	arithmetic:
+	overload:
 */
-		using arit=functional::arithmetic<size_type>;
+		using over=functional::overload<size_type>;
+/*
+	overload:
+*/
+		using sift=functional::sift<size_type>;
 	};
     }
    }

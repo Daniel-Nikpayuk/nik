@@ -23,6 +23,28 @@
 
 /*
 	limits: (taken from: http://en.cppreference.com/w/cpp/types/limits)
+
+	char
+	signed char
+	unsigned char
+	wchar_t
+	char16_t
+	char32_t
+	short
+		signed short // redundant
+	unsigned short
+	int
+		signed int // redundant
+	unsigned int
+	long
+		signed long // redundant
+	unsigned long
+	long long
+		signed long long // redundant
+	unsigned long long
+	float
+	double
+	long double
 */
 
 namespace nik
@@ -48,6 +70,8 @@ namespace nik
 			static constexpr size_type min=CHAR_MIN;
 			static constexpr size_type max=CHAR_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -66,6 +90,8 @@ namespace nik
 			static constexpr size_type min=CHAR_MIN;
 			static constexpr size_type max=CHAR_MAX;
 
+			static constexpr bool is_unsigned=false;
+
 			#include"media.cpp"
 		};
 	};
@@ -79,6 +105,8 @@ namespace nik
 		{
 			static constexpr size_type min=SCHAR_MIN;
 			static constexpr size_type max=SCHAR_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -94,6 +122,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=UCHAR_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -107,6 +137,8 @@ namespace nik
 		{
 			static constexpr size_type min=WCHAR_MIN;
 			static constexpr size_type max=WCHAR_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -122,6 +154,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_LEAST16_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -136,6 +170,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_LEAST32_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -149,6 +185,8 @@ namespace nik
 		{
 			static constexpr size_type min=SHRT_MIN;
 			static constexpr size_type max=SHRT_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -168,6 +206,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=USHRT_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -181,6 +221,8 @@ namespace nik
 		{
 			static constexpr size_type min=INT_MIN;
 			static constexpr size_type max=INT_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -200,6 +242,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -213,6 +257,8 @@ namespace nik
 		{
 			static constexpr size_type min=LONG_MIN;
 			static constexpr size_type max=LONG_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -232,6 +278,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=ULONG_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -245,6 +293,8 @@ namespace nik
 		{
 			static constexpr size_type min=LLONG_MIN;
 			static constexpr size_type max=LLONG_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 			#include"media.cpp"
 		};
@@ -264,6 +314,8 @@ namespace nik
 			static constexpr size_type min=0;
 			static constexpr size_type max=ULLONG_MAX;
 
+			static constexpr bool is_unsigned=true;
+
 			#include"media.cpp"
 		};
 	};
@@ -277,6 +329,8 @@ namespace nik
 		{
 			static constexpr size_type min=FLT_MIN;
 			static constexpr size_type max=FLT_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 //			#include"media.cpp"
 		};
@@ -292,6 +346,8 @@ namespace nik
 			static constexpr size_type min=DBL_MIN;
 			static constexpr size_type max=DBL_MAX;
 
+			static constexpr bool is_unsigned=false;
+
 //			#include"media.cpp"
 		};
 	};
@@ -305,6 +361,8 @@ namespace nik
 		{
 			static constexpr size_type min=LDBL_MIN;
 			static constexpr size_type max=LDBL_MAX;
+
+			static constexpr bool is_unsigned=false;
 
 //			#include"media.cpp"
 		};

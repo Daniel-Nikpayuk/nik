@@ -15,31 +15,21 @@
 **
 *************************************************************************************************************************/
 
-template<size_type x>
-struct square
-	{ enum : size_type { value=x*x }; };
-
-template<size_type base, size_type exponent>
-struct exp
+template<size_type primary, size_type secondary, size_type n>
+struct fast_exp
 {
-	template<size_type primary, size_type secondary, size_type n>
-	struct fast_exp
+	enum : size_type
 	{
-		enum : size_type
-		{
-			value=gf_policy::cont::media::template
-				if_then_else
-				<
-					(1 & n),
-					fast_exp<primary*secondary, secondary, n-1>,
-					fast_exp<primary, square<secondary>::value, (n>>1)>
-				>::return_type::value
-		};
+		value=gf_policy::cont::media::template
+			if_then_else
+			<
+				(1 & n),
+				fast_exp<primary*secondary, secondary, n-1>,
+				fast_exp<primary, media::template square<secondary>::value, (n>>1)>
+			>::return_type::value
 	};
-
-	template<size_type primary, size_type secondary>
-	struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
-
-	enum : size_type { value=fast_exp<1, base, exponent>::value };
 };
+
+template<size_type primary, size_type secondary>
+struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
 

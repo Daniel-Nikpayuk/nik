@@ -15,24 +15,48 @@
 **
 *************************************************************************************************************************/
 
-template<size_type primary, size_type secondary, size_type n>
-struct fast_order
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
+
+#include"../../../../../grammaric/functional/policy/policy.h"
+
+#include"../unit/unit.h"
+
+namespace nik
 {
-	enum : size_type
+ namespace numeric
+ {
+  namespace processor
+  {
+   namespace builtin
+   {
+    namespace functional
+    {
+	template<typename SizeType>
+	struct math
 	{
-		value=gf_policy::media::template
-		if_then_else
-		<
-			media::template band<secondary, (n>>1), n>::value,
-			fast_order<primary+(n>>1),
-				media::template band<secondary, (n>>1), n>::value, (n>>1)>,
-			fast_order<primary,
-				media::template band<secondary, 0,
-					(n>>1)>::value, (n>>1)>
-		>::return_type::value
+		typedef SizeType size_type;
+
+		typedef grammaric::functional::policy<size_type> gf_policy;
+
+		typedef functional::unit<size_type> unit;
+
+		struct media;
+
+		struct semiotic
+		{
+			#include"semiotic.cpp"
+		};
+
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
-};
+    }
+   }
+  }
+ }
+}
 
-template<size_type primary, size_type secondary>
-struct fast_order<primary, secondary, 0> { enum : size_type { value=primary }; };
-
+#endif
