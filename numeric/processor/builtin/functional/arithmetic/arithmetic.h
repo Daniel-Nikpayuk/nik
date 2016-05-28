@@ -15,38 +15,34 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_TRAITS_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_TRAITS_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_ARITHMETIC_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_ARITHMETIC_H
 
-#include"../node/node.h"
-
-/*
-	The justification for this policy class is threefold:
-
-	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
-	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
-		easing the headerload within the media classes.
-*/
+#include"../../../../../grammaric/functional/policy/policy.h"
 
 namespace nik
 {
-  namespace numeric
+ namespace numeric
+ {
+  namespace processor
   {
-   namespace random_access
+   namespace builtin
    {
-    namespace iterator
+    namespace functional
     {
-/*
-*/
 	template<typename SizeType>
-	struct traits
+	struct arithmetic
 	{
 		typedef SizeType size_type;
-/*
-	node:
-*/
-		using node=iterator::node<size_type>;
+
+		typedef grammaric::functional::policy<size_type> gf_policy;
+
+		struct semiotic
+		{
+			#include"semiotic.cpp"
+		};
 	};
+    }
    }
   }
  }

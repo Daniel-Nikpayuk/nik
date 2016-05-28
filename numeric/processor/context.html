@@ -7,11 +7,16 @@
 
 Context: The Processor Memory.
 
-C++ already has a lot of builtin grammatical support for this variety of memory through its various integer
-types along with their respective operators. As such this area of the library can be streamlined more than others.
+Every abstract hardware type will have specific implementation types as media constructs to represent the context
+(of these abstract types).
 
-Conceptually we start with the hardware memory bit, though in practice we know this cannot actually be separated
-from a byte. Regardless, let's pretend it can.
+As for navigational access of the abstract conceptual type? The implementation types are meant to build up to
+the idea of random-access <em>separators</em> as navigators, specifically sifters/filters. Such accessors have highest
+entropy, but are also the computationally most complex. The first step in that direction but of simpler computational
+efficiency are the types that are naturally associated with <em>iterators</em>. 
+
+The exception to the rule are <em>builtin</em> types. As they do not support their own iterators or separators.
+They get their own categorization as builtin.
 
   </body>
 </html>

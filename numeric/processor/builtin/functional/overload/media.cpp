@@ -15,27 +15,31 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_TRAITS_H
-#define NIK_NUMERIC_RANDOM_ACCESS_TRAITS_H
-
-#include"../container/container.h"
-
-namespace nik
+template<size_type x, size_type n>
+struct shift_up
 {
- namespace numeric
- {
-  namespace random_access
-  {
-	template<typename SizeType>
-	struct traits
+	enum : size_type
 	{
-		typedef SizeType size_type;
-
-		template<typename ContainerType, typename ValueType>
-		using container=random_access::container<ContainerType, ValueType, size_type>;
+		value = if_then_else
+		<
+			(n < unit::power),
+			x << n,
+			0
+		>::return_type::value
 	};
-  }
- }
-}
+};
 
-#endif
+template<size_type x, size_type n>
+struct shift_down
+{
+	enum : size_type
+	{
+		value = if_then_else
+		<
+			(n < unit::power),
+			x >> n,
+			0
+		>::return_type::value
+	};
+};
+

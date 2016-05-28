@@ -15,30 +15,303 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_BUILTIN_TYPE_UNIT_H
-#define NIK_BUILTIN_TYPE_UNIT_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_UNIT_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_UNIT_H
+
+#include<climits>
+#include<cfloat>
+
+/*
+	limits: (taken from: http://en.cppreference.com/w/cpp/types/limits)
+*/
 
 namespace nik
 {
- namespace builtin
+ namespace numeric
  {
-  namespace type
+  namespace processor
   {
+   namespace builtin
+   {
+    namespace functional
+    {
+/*
+	default:
+*/
 	template<typename SizeType>
 	struct unit
 	{
 		typedef SizeType size_type;
 
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
 		struct media
 		{
+			static constexpr size_type min=CHAR_MIN;
+			static constexpr size_type max=CHAR_MAX;
+
 			#include"media.cpp"
 		};
 	};
+
+/*
+	specializations:
+*/
+
+	template<>
+	struct unit<char>
+	{
+		typedef char size_type;
+
+		struct media
+		{
+			static constexpr size_type min=CHAR_MIN;
+			static constexpr size_type max=CHAR_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<signed char>
+	{
+		typedef signed char size_type;
+
+		struct media
+		{
+			static constexpr size_type min=SCHAR_MIN;
+			static constexpr size_type max=SCHAR_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<unsigned char>
+	{
+		typedef unsigned char size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=UCHAR_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<wchar_t>
+	{
+		typedef wchar_t size_type;
+
+		struct media
+		{
+			static constexpr size_type min=WCHAR_MIN;
+			static constexpr size_type max=WCHAR_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<char16_t>
+	{
+		typedef char16_t size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=UINT_LEAST16_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<char32_t>
+	{
+		typedef char32_t size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=UINT_LEAST32_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<short>
+	{
+		typedef short size_type;
+
+		struct media
+		{
+			static constexpr size_type min=SHRT_MIN;
+			static constexpr size_type max=SHRT_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+/*
+	redundant: template<> struct unit<signed short>;
+*/
+
+	template<>
+	struct unit<unsigned short>
+	{
+		typedef unsigned short size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=USHRT_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<int>
+	{
+		typedef int size_type;
+
+		struct media
+		{
+			static constexpr size_type min=INT_MIN;
+			static constexpr size_type max=INT_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+/*
+	redundant: template<> struct unit<signed int>;
+*/
+
+	template<>
+	struct unit<unsigned int>
+	{
+		typedef unsigned int size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=UINT_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<long>
+	{
+		typedef long size_type;
+
+		struct media
+		{
+			static constexpr size_type min=LONG_MIN;
+			static constexpr size_type max=LONG_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+/*
+	redundant: template<> struct unit<signed long>;
+*/
+
+	template<>
+	struct unit<unsigned long>
+	{
+		typedef unsigned long size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=ULONG_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<long long>
+	{
+		typedef long long size_type;
+
+		struct media
+		{
+			static constexpr size_type min=LLONG_MIN;
+			static constexpr size_type max=LLONG_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+/*
+	redundant: template<> struct unit<signed long long>;
+*/
+
+	template<>
+	struct unit<unsigned long long>
+	{
+		typedef unsigned long long size_type;
+
+		struct media
+		{
+			static constexpr size_type min=0;
+			static constexpr size_type max=ULLONG_MAX;
+
+			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<float>
+	{
+		typedef float size_type;
+
+		struct media
+		{
+			static constexpr size_type min=FLT_MIN;
+			static constexpr size_type max=FLT_MAX;
+
+//			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<double>
+	{
+		typedef double size_type;
+
+		struct media
+		{
+			static constexpr size_type min=DBL_MIN;
+			static constexpr size_type max=DBL_MAX;
+
+//			#include"media.cpp"
+		};
+	};
+
+	template<>
+	struct unit<long double>
+	{
+		typedef long double size_type;
+
+		struct media
+		{
+			static constexpr size_type min=LDBL_MIN;
+			static constexpr size_type max=LDBL_MAX;
+
+//			#include"media.cpp"
+		};
+	};
+
+    }
+   }
   }
  }
 }

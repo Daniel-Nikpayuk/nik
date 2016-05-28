@@ -27,10 +27,13 @@ struct exp
 	{
 		enum : size_type
 		{
-			value=p_meta::if_then_else<(1 & n),
-				fast_exp<primary*secondary, secondary, n-1>,
-				fast_exp<primary, square<secondary>::value, (n>>1)>
-					>::return_type::value
+			value=gf_policy::cont::media::template
+				if_then_else
+				<
+					(1 & n),
+					fast_exp<primary*secondary, secondary, n-1>,
+					fast_exp<primary, square<secondary>::value, (n>>1)>
+				>::return_type::value
 		};
 	};
 

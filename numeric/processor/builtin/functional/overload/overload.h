@@ -15,20 +15,40 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_BUILTIN_PRINTER_H
-#define NIK_BUILTIN_PRINTER_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_OVERLOAD_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_OVERLOAD_H
 
-#include<stdint.h>
-#include<stdio.h>
+#include"../../../../../grammaric/functional/policy/policy.h"
+
+#include"../unit/unit.h"
 
 namespace nik
 {
- namespace builtin
+ namespace numeric
  {
-	struct printer
+  namespace processor
+  {
+   namespace builtin
+   {
+    namespace functional
+    {
+	template<typename SizeType>
+	struct overload
 	{
-		#include"media.cpp"
+		typedef SizeType size_type;
+
+		typedef grammaric::functional::policy<size_type> gf_policy;
+
+		typedef functional::unit<size_type> unit;
+
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
+    }
+   }
+  }
  }
 }
 

@@ -18,14 +18,14 @@
 #ifndef NIK_H
 #define NIK_H
 
-#include"builtin/printer/printer.h"
+#include"numeric/processor/builtin/functional/printer/printer.h"
 
 namespace nik
 {
 	char endl='\n'; // portable ?
 
 	struct printer :
-		public builtin::printer
+		public numeric::processor::builtin::functional::printer
 //		public numeric::random_access::printer
 	{ } display;
 
@@ -37,8 +37,11 @@ namespace nik
 	}
 }
 
-#include"numeric/processor/iterator/structural/traits/traits.h"
-#include"numeric/processor/iterator/functional/policy/policy.h"
+#include"grammaric/functional/policy/policy.h"
+
+#include"numeric/processor/builtin/functional/policy/policy.h"
+//#include"numeric/processor/iterator/structural/traits/traits.h"
+//#include"numeric/processor/iterator/functional/policy/policy.h"
 
 //#include"numeric/random_access/traits/traits.h"
 //#include"numeric/random_access/policy/policy.h"
@@ -53,7 +56,7 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef numeric::processor::iterator::structural::traits<size_type> npis;
+//		typedef numeric::processor::iterator::structural::traits<size_type> npis;
 
 //		typedef numeric::random_access::traits<size_type> nr;
 //		typedef numeric::random_access::iterator::traits<size_type> nri;
@@ -65,15 +68,20 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef numeric::processor::iterator::functional::policy<size_type> npif;
+		typedef grammaric::functional::policy<size_type> gf;
+
+		typedef numeric::processor::builtin::functional::policy<size_type> npbf;
+//		typedef numeric::processor::iterator::functional::policy<size_type> npif;
 
 //		typedef numeric::random_access::policy<size_type> nr;
 //		typedef numeric::random_access::iterator::extensionwise::functional::policy<size_type> nritf;
 	};
 
+/*
 	template<typename SizeType=size_t>
 	using sbit=typename traits<SizeType>::npis::identity::template
 			semiotic<typename traits<SizeType>::npis::identity::semiotic_pointer>;
+*/
 
 /*
 	template<typename T, typename SizeType=size_t>

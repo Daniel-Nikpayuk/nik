@@ -15,44 +15,35 @@
 **
 *************************************************************************************************************************/
 
-static const size_type zero = 0;
-static const size_type one = 1;
-static const size_type two = 2;
-static const size_type three = 3;
+static constexpr size_type zero = 0;
+static constexpr size_type one = 1;
+static constexpr size_type two = 2;
+static constexpr size_type three = 3;
 
-static const size_type nibble = 4;
-static const size_type byte = 8;
+static constexpr size_type nibble = 4;
+static constexpr size_type byte = 8;
 
-static const size_type length = byte * sizeof(size_type);
-static const size_type max_length = length - 1;
-static const size_type half_length = length >> 1;
+static constexpr size_type power = byte * sizeof(size_type) - bool(media::min);
+static constexpr size_type order = power - 1;
 
-static const size_type size = 0;
-static const size_type max_size = size - 1;
-static const size_type half_size = 1 << half_length;
-
-static const size_type power = 0;
-static const size_type max_power = 1 << max_length;
-static const size_type half_power = half_size;
+static constexpr size_type tail = media::min ? (size_type) 2 << order : 0;
+static constexpr size_type head = (size_type) 1 << order;
 
 struct half
 {
-	static const size_type length = unit::half_length;
-	static const size_type max_length = length - 1;
-	static const size_type half_length = length >> 1;
+	static constexpr size_type min = media::min >> 1;
+	static constexpr size_type max = media::max >> 1;
 
-	static const size_type size = unit::half_size;
-	static const size_type max_size = size - 1;
-	static const size_type half_size = 1 << half_length;
+	static constexpr size_type power = media::power >> 1;
+	static constexpr size_type order = media::order >> 1;
 
-	static const size_type power = unit::half_power;
-	static const size_type max_power = 1 << max_length;
-	static const size_type half_power = 1 << half_length;
+	static constexpr size_type tail = media::tail >> 1;
+	static constexpr size_type head = media::head >> 1;
 };
 
 struct filter
 {
-	static const size_type low_pass = half::max_size;
-	static const size_type high_pass = low_pass << half::length;
+	static constexpr size_type low_pass = ((size_type) 1 << half::power) - 1;
+	static constexpr size_type high_pass = max & ~low_pass;
 };
 

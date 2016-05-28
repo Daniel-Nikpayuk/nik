@@ -15,22 +15,34 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_PARAMETER_META_H
-#define NIK_NUMERIC_PROCESSOR_PARAMETER_META_H
+#ifndef NIK_GRAMMARIC_PROCEDURAL_POLICY_H
+#define NIK_GRAMMARIC_PROCEDURAL_POLICY_H
+
+#include"../cast/cast.h"
+
+/*
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
+*/
 
 namespace nik
 {
- namespace numeric
+ namespace grammaric
  {
-  namespace processor
+  namespace procedural
   {
-   namespace parameter
-   {
-	struct meta
+	template<typename SizeType>
+	struct policy
 	{
-		#include"media.cpp"
+		typedef SizeType size_type;
+/*
+	cast:
+*/
+		using cast=procedural::cast;
 	};
-   }
   }
  }
 }

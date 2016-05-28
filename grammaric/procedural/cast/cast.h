@@ -15,50 +15,22 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
-
-#include"../unit/unit.h"
-//#include"../overload/overload.h"
-#include"../arithmetic/arithmetic.h"
-
-/*
-	The justification for this policy class is threefold:
-
-	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
-	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
-		easing the headerload within the media classes.
-*/
+#ifndef NIK_GRAMMARIC_PROCEDURAL_CAST_H
+#define NIK_GRAMMARIC_PROCEDURAL_CAST_H
 
 namespace nik
 {
- namespace numeric
+ namespace grammaric
  {
-  namespace processor
+  namespace procedural
   {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct policy
+	struct cast
 	{
-		typedef SizeType size_type;
-/*
-	unit:
-*/
-		using unit=functional::unit<size_type>;
-/*
-	overload:
-		using over=functional::overload<size_type>;
-*/
-/*
-	arithmetic:
-*/
-		using arit=functional::arithmetic<size_type>;
+		struct semiotic
+		{
+			#include"semiotic.cpp"
+		};
 	};
-    }
-   }
   }
  }
 }
