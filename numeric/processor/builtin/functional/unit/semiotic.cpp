@@ -21,40 +21,37 @@
 	Some of these computations are defined the way they are to avoid compiler warnings.
 */
 
-static size_type min() { return semiotic::min; }
-static size_type max() { return semiotic::max; }
+static constexpr bool is_unsigned = size_type(-1) < 0;
 
-static bool is_unsigned() { return semiotic::is_unsigned; }
+static constexpr size_type zero = 0;
+static constexpr size_type one = 1;
+static constexpr size_type two = 2;
+static constexpr size_type three = 3;
 
-static size_type zero() { return semiotic::zero; }
-static size_type one() { return semiotic::one; }
-static size_type two() { return semiotic::two; }
-static size_type three() { return semiotic::three; }
+static constexpr size_type nibble = 4;
+static constexpr size_type byte = 8;
 
-static size_type nibble() { return semiotic::nibble; }
-static size_type byte() { return semiotic::byte; }
+static constexpr size_type length = byte * sizeof(size_type) - bool(semiotic::min);
+static constexpr size_type order = length - 1;
 
-static size_type length() { return semiotic::length; }
-static size_type order() { return semiotic::order; }
-
-static size_type tail() { return semiotic::tail; }
-static size_type head() { return semiotic::head; }
+static constexpr size_type tail = semiotic::min ? (size_type) 2 << order : 0;
+static constexpr size_type head = (size_type) 1 << order;
 
 struct half
 {
-	constexpr size_type min() { return semiotic::half::min; }
-	constexpr size_type max() { return semiotic::half::max; }
+	static constexpr size_type min = semiotic::min >> 1;
+	static constexpr size_type max = semiotic::max >> 1;
 
-	constexpr size_type length() { return semiotic::half::length; }
-	constexpr size_type order() { return semiotic::half::order; }
+	static constexpr size_type length = semiotic::length >> 1;
+	static constexpr size_type order = semiotic::order >> 1;
 
-	constexpr size_type tail() { return semiotic::half::tail; }
-	constexpr size_type head() { return semiotic::half::head; }
+	static constexpr size_type tail = semiotic::tail >> 1;
+	static constexpr size_type head = semiotic::head >> 1;
 };
 
 struct filter
 {
-	constexpr size_type low_pass() { return semiotic::filter::low_pass; }
-	constexpr size_type high_pass() { return semiotic::filter::high_pass; }
+	static constexpr size_type low_pass = ((size_type) 1 << half::length) - 1;
+	static constexpr size_type high_pass = max & ~low_pass;
 };
 

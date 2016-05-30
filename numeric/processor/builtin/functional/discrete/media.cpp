@@ -15,50 +15,12 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-
-#include"../unit/unit.h"
-#include"../math/math.h"
-#include"../overload/overload.h"
-
-namespace nik
+template<size_type x, size_type n>
+struct shift
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
-	{
-		typedef SizeType size_type;
+	static constexpr size_type left=over::media::template left_shift<x, n>::value;
+	static constexpr size_type right=over::media::template right_shift<x, -n>::value;
 
-		typedef grammaric::functional::policy<size_type> gf_policy;
+	enum : size_type { value = n > 0 ?  left : right };
+};
 
-		typedef functional::unit<size_type> unit;
-		typedef functional::math<size_type> math;
-		typedef functional::overload<size_type> over;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
-	};
-    }
-   }
-  }
- }
-}
-
-#endif

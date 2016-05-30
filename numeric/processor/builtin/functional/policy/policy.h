@@ -21,6 +21,7 @@
 #include"../unit/unit.h"
 #include"../math/math.h"
 #include"../overload/overload.h"
+#include"../discrete/discrete.h"
 #include"../sift/sift.h"
 
 /*
@@ -58,7 +59,11 @@ namespace nik
 */
 		using over=functional::overload<size_type>;
 /*
-	overload:
+	discrete:
+*/
+		using disc=functional::discrete<size_type>;
+/*
+	sift:
 */
 		using sift=functional::sift<size_type>;
 	};

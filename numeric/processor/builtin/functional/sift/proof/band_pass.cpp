@@ -15,50 +15,35 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+/*
+	First ask what the idea version is. In this case it's:
 
-#include"../unit/unit.h"
-#include"../math/math.h"
-#include"../overload/overload.h"
+		left_shift<right_shift<unit::media::max, unit::media::length-(t-s)>::value, s>::value
 
-namespace nik
+	Then ask what constraints of the new parameters are required to make this work. The reason we chose the
+	full safe version is that it comes embedded with the necessary assumptions to begin with. In practice,
+	if we had many layers in the efficiency stratification, we would peel one layer at a time and reduce
+	until our additional assumptions were gone.
+*/
+
+template<size_type s, size_type t>
+struct band_pass
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
+	enum : size_type
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::math<size_type> math;
-		typedef functional::overload<size_type> over;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
+		value = left_shift<right_shift<unit::media::max, unit::media::length-(t-s)>::value, s>::value
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif
+// restructure
+template<size_type s, size_type t>
+struct band_pass
+{
+	static constexpr size_type tmp0=right_shift<unit::media::max, unit::media::length-(t-s)>::value;
+
+	enum : size_type
+	{
+		value = left_shift<tmp0, s>::value
+	};
+};
+

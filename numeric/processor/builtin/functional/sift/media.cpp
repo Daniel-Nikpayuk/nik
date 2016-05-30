@@ -16,39 +16,57 @@
 *************************************************************************************************************************/
 
 /*
-	Interface Design: Should be oriented around locations similar to array access. Use s,t (s < t) as default location names.
+	Interface Design: Should be oriented around "locations"---similar to array access.
+	Use s,t (s < t) as default location names.
+
+	If you go "over", it's not equivalent to "wrapping around".
+	Think of it like an infinite array going in both directions, but in the end we only filter
+	within the scope of the processor memory.
 */
 
 template<size_type t>
 struct low_pass
 {
+	static constexpr size_type t1=(t < unit::semiotic::length) ? t : 0;
+
 	enum : size_type
 	{
-		value = t ?
-			math::media::template abs<t>::value < unit::media::length ?
-			t > 0 ?
-				over::media::template shift_up<1, t>::value - 1
-				: 0
-			: unit::media::max
-			: 0
+		value = t < unit::semiotic::length ?
+				semiotic::template low_pass_1<t1>::value
+			: unit::semiotic::max
 	};
 };
 
+/*
 template<size_type s>
 struct high_pass
 {
 	enum : size_type
 	{
-		value = unit::media::max & ~low_pass<unit::media::length-s>::value
+		value = unit::media::max & ~low_pass<s>::value
 	};
 };
 
 template<size_type s, size_type t>
 struct band_pass
 {
+	static constexpr size_type lower=(s > t) ? t+1 : s;
+	static constexpr size_type upper=(s > t) ? s+1 : t;
+		// lower <= upper
+
+	static constexpr size_type diff=upper-lower;
+		// 0 <= diff
+
 	enum : size_type
 	{
-		value = over::media::template shift_up<low_pass<t-s>::value, s>::value
+		value = diff ?
+			diff < unit::media::length ?
+				lower ?
+					(unit::media::max >> (unit::media::length-diff)) << lower
+				: 0
+			: lower ?
+				unit::media::max << lower : 0
+			: 0
 	};
 };
 
@@ -66,16 +84,30 @@ struct high
 {
 	enum : size_type
 	{
-		value = over::media::template shift_down<x, s>::value
+		value = over::media::template right_shift<x, s>::value
 	};
 };
 
 template<size_type x, size_type s, size_type t>
 struct band
 {
+	static constexpr size_type lower=math::media::template max<(s > t) ? t+1 : s, 0>::value;
+	static constexpr size_type upper=math::media::template min<(s > t) ? s+1 : t, unit::media::length>::value;
+		// 0 <= lower <= upper <= length
+
+	static constexpr size_type diff=upper-lower;
+		// 0 <= diff <= length-lower <= length
+
 	enum : size_type
 	{
-		value = over::media::template shift_up<over::media::template shift_down<x, s>::value, t-s>::value
+		value = diff ?
+			diff < unit::media::length ?
+				upper < unit::media::length ?
+					(x & (1 << upper) - 1) >> lower
+				:
+					x >> lower
+			: x
+			: 0
 	};
 };
 
@@ -105,4 +137,5 @@ struct order
 		value = semiotic::template fast_order<0, x, unit::length>::value
 	};
 };
+*/
 

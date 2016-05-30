@@ -15,21 +15,5 @@
 **
 *************************************************************************************************************************/
 
-template<size_type primary, size_type secondary, size_type n>
-struct fast_exp
-{
-	enum : size_type
-	{
-		value = gf_policy::cont::media::template
-			if_then_else
-			<
-				(1 & n),
-				fast_exp<primary*secondary, secondary, n-1>,
-				fast_exp<primary, media::template square<secondary>::value, (n>>1)>
-			>::return_type::value
-	};
-};
-
-template<size_type primary, size_type secondary>
-struct fast_exp<primary, secondary, 0> { enum : size_type { value=primary }; };
+#include"proof/exp.cpp"
 

@@ -16,8 +16,32 @@
 *************************************************************************************************************************/
 
 template<size_type x>
+struct is_odd
+	{ enum : size_type { value=x % 2 }; };
+
+template<size_type x>
+struct is_even
+	{ enum : size_type { value=!(x % 2) }; };
+
+template<size_type x>
+struct is_negative
+	{ enum : size_type { value=x < 0 }; };
+
+template<size_type x>
+struct is_positive
+	{ enum : size_type { value=x > 0 }; };
+
+template<size_type x>
 struct abs
 	{ enum : size_type { value=(x > 0) ? x : -x }; };
+
+template<size_type x, size_type y>
+struct min
+	{ enum : size_type { value=(x < y) ? x : y }; };
+
+template<size_type x, size_type y>
+struct max
+	{ enum : size_type { value=(x > y) ? x : y }; };
 
 template<size_type x>
 struct square
@@ -26,18 +50,13 @@ struct square
 template<size_type base, size_type exponent>
 struct exp
 {
-	static constexpr bool neg_and_odd=(!unit::media::is_unsigned && base < 0 && exponent % 2);
+	static constexpr size_type base1=(base == 1) ? 0 : base;
+	static constexpr size_type exponent1=(exponent == 0) ? 0 : exponent;
 
 	enum : size_type
 	{
-		value = exponent ?
-			base ?
-			(unit::media::is_unsigned || exponent > 0) ?
-				(1-2*neg_and_odd)*semiotic::template
-					fast_exp<1, abs<base>::value, abs<exponent>::value>::value
-			: 0
-			: 0
-			: 1
+		value = base == 1 || !exponent ? 1
+			: semiotic::template exp5<base1, exponent1>::value
 	};
 };
 

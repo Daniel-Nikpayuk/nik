@@ -15,50 +15,62 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+/*
+	requires:
 
-#include"../unit/unit.h"
-#include"../math/math.h"
-#include"../overload/overload.h"
+	t > 0
+	>>> 0
 
-namespace nik
+	t < length
+	>>> max
+*/
+
+template<size_type t>
+struct low_pass
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
+	enum : size_type
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::math<size_type> math;
-		typedef functional::overload<size_type> over;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
+		value = unit::media::max >> (unit::media::length - t)
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif
+/*
+	requires:
+
+	t < length
+	>>> max
+*/
+
+template<size_type t>
+struct low_pass_1
+{
+	static constexpr size_type t1=(t > 0) ? t : 0;
+
+	enum : size_type
+	{
+		value = t > 0 ?
+				low_pass<t1>::value
+			: 0
+	};
+};
+
+/*
+	requires:
+
+	t > 0
+	>>> 0
+*/
+
+template<size_type t>
+struct low_pass_1_1
+{
+	static constexpr size_type t1=(t < unit::semiotic::length) ? t : 0;
+
+	enum : size_type
+	{
+		value = t < unit::media::length ?
+				low_pass<t1>::value
+			: unit::media::max
+	};
+};
+

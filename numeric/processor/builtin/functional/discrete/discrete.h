@@ -15,8 +15,10 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_DISCRETE_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_DISCRETE_H
+
+#include"../../../../../grammaric/functional/policy/policy.h"
 
 #include"../unit/unit.h"
 #include"../math/math.h"
@@ -33,7 +35,7 @@ namespace nik
     namespace functional
     {
 	template<typename SizeType>
-	struct sift
+	struct discrete
 	{
 		typedef SizeType size_type;
 
@@ -42,13 +44,6 @@ namespace nik
 		typedef functional::unit<size_type> unit;
 		typedef functional::math<size_type> math;
 		typedef functional::overload<size_type> over;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
 
 		struct media
 		{

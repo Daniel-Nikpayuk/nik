@@ -15,28 +15,88 @@
 **
 *************************************************************************************************************************/
 
+/*
+	requires:
+
+	(x != 0 && n > 0)
+	>>> x
+
+	n < length
+	>>> 0
+*/
+
 template<size_type x, size_type n>
 struct left_shift
 {
-	static constexpr size_type n1=(n < unit::semiotic::length) ? n : 0;
+	enum : size_type { value = x << n };
+};
+
+/*
+	requires:
+
+	(x != 0 && n > 0)
+	>>> x
+
+	n < length
+	>>> 0
+*/
+
+template<size_type x, size_type n>
+struct left_shift_1
+{
+	static constexpr size_type s=1-2*(x < 0);
+	static constexpr size_type x1=math::media::template abs<x>::value;
+
+	enum : size_type { value = s*left_shift<x1, n>::value };
+};
+
+/*
+	mitigates:
+
+	(x != 0 && n > 0)
+	>>> x
+
+	requires:
+
+	n < length
+	>>> 0
+*/
+
+template<size_type x, size_type n>
+struct left_shift_2
+{
+	static constexpr size_type x1=x ? x : 0;
+	static constexpr size_type n1=(n > 0) ? n : 0;
 
 	enum : size_type
 	{
-		value = n < unit::semiotic::length ?
-				semiotic::template left_shift_2<x, n1>::value
-			: 0
+		value = (x && n > 0) ?
+				left_shift_1<x1, n1>::value
+			: x
 	};
 };
 
+/*
+	mitigates:
+
+	n < length
+	>>> 0
+
+	requires:
+
+	(x != 0 && n > 0)
+	>>> x
+*/
+
 template<size_type x, size_type n>
-struct right_shift
+struct left_shift_2_1
 {
 	static constexpr size_type n1=(n < unit::semiotic::length) ? n : 0;
 
 	enum : size_type
 	{
 		value = n < unit::semiotic::length ?
-			semiotic::template right_shift_2<x, n1>::value
+				left_shift_1<x, n1>::value
 			: 0
 	};
 };

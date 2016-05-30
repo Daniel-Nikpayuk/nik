@@ -65,15 +65,9 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		struct media
-		{
-			static constexpr size_type min=CHAR_MIN;
-			static constexpr size_type max=CHAR_MAX;
+		struct semiotic { };
 
-			static constexpr bool is_unsigned=true;
-
-			#include"media.cpp"
-		};
+		struct media { };
 	};
 
 /*
@@ -85,13 +79,16 @@ namespace nik
 	{
 		typedef char size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=CHAR_MIN;
 			static constexpr size_type max=CHAR_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -101,13 +98,16 @@ namespace nik
 	{
 		typedef signed char size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=SCHAR_MIN;
 			static constexpr size_type max=SCHAR_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -117,13 +117,16 @@ namespace nik
 	{
 		typedef unsigned char size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=UCHAR_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -133,13 +136,16 @@ namespace nik
 	{
 		typedef wchar_t size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=WCHAR_MIN;
 			static constexpr size_type max=WCHAR_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -149,13 +155,16 @@ namespace nik
 	{
 		typedef char16_t size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_LEAST16_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -165,13 +174,16 @@ namespace nik
 	{
 		typedef char32_t size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_LEAST32_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -181,33 +193,37 @@ namespace nik
 	{
 		typedef short size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=SHRT_MIN;
 			static constexpr size_type max=SHRT_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
 
-/*
-	redundant: template<> struct unit<signed short>;
-*/
+//	redundant: template<> struct unit<signed long long>;
 
 	template<>
 	struct unit<unsigned short>
 	{
 		typedef unsigned short size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=USHRT_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -217,33 +233,37 @@ namespace nik
 	{
 		typedef int size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=INT_MIN;
 			static constexpr size_type max=INT_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
 
-/*
-	redundant: template<> struct unit<signed int>;
-*/
+//	redundant: template<> struct unit<signed long long>;
 
 	template<>
 	struct unit<unsigned int>
 	{
 		typedef unsigned int size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=UINT_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -253,33 +273,37 @@ namespace nik
 	{
 		typedef long size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=LONG_MIN;
 			static constexpr size_type max=LONG_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
 
-/*
-	redundant: template<> struct unit<signed long>;
-*/
+//	redundant: template<> struct unit<signed long long>;
 
 	template<>
 	struct unit<unsigned long>
 	{
 		typedef unsigned long size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=ULONG_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -289,33 +313,37 @@ namespace nik
 	{
 		typedef long long size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=LLONG_MIN;
 			static constexpr size_type max=LLONG_MAX;
 
-			static constexpr bool is_unsigned=false;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
 
-/*
-	redundant: template<> struct unit<signed long long>;
-*/
+//	redundant: template<> struct unit<signed long long>;
 
 	template<>
 	struct unit<unsigned long long>
 	{
 		typedef unsigned long long size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=0;
 			static constexpr size_type max=ULLONG_MAX;
 
-			static constexpr bool is_unsigned=true;
+			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 			#include"media.cpp"
 		};
 	};
@@ -325,13 +353,16 @@ namespace nik
 	{
 		typedef float size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=FLT_MIN;
 			static constexpr size_type max=FLT_MAX;
 
-			static constexpr bool is_unsigned=false;
+//			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 //			#include"media.cpp"
 		};
 	};
@@ -341,13 +372,16 @@ namespace nik
 	{
 		typedef double size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=DBL_MIN;
 			static constexpr size_type max=DBL_MAX;
 
-			static constexpr bool is_unsigned=false;
+//			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 //			#include"media.cpp"
 		};
 	};
@@ -357,17 +391,19 @@ namespace nik
 	{
 		typedef long double size_type;
 
-		struct media
+		struct semiotic
 		{
 			static constexpr size_type min=LDBL_MIN;
 			static constexpr size_type max=LDBL_MAX;
 
-			static constexpr bool is_unsigned=false;
+//			#include"semiotic.cpp"
+		};
 
+		struct media
+		{
 //			#include"media.cpp"
 		};
 	};
-
     }
    }
   }

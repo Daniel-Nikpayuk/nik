@@ -15,21 +15,5 @@
 **
 *************************************************************************************************************************/
 
-template<size_type primary, size_type secondary, size_type n>
-struct fast_order
-{
-	enum : size_type
-	{
-		value=gf_policy::media::template
-		if_then_else
-		<
-			media::template band<secondary, (n>>1), n>::value,
-			fast_order<primary+(n>>1), media::template band<secondary, (n>>1), n>::value, (n>>1)>,
-			fast_order<primary, media::template band<secondary, 0, (n>>1)>::value, (n>>1)>
-		>::return_type::value
-	};
-};
-
-template<size_type primary, size_type secondary>
-struct fast_order<primary, secondary, 0> { enum : size_type { value=primary }; };
+#include"proof/low_pass.cpp"
 
