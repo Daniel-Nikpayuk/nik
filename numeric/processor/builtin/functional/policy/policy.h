@@ -19,10 +19,10 @@
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
 
 #include"../unit/unit.h"
-#include"../math/math.h"
 #include"../overload/overload.h"
 #include"../discrete/discrete.h"
-#include"../sift/sift.h"
+//#include"../math/math.h"
+//#include"../sift/sift.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -51,10 +51,6 @@ namespace nik
 */
 		using unit=functional::unit<size_type>;
 /*
-	math:
-*/
-		using math=functional::math<size_type>;
-/*
 	overload:
 */
 		using over=functional::overload<size_type>;
@@ -63,9 +59,13 @@ namespace nik
 */
 		using disc=functional::discrete<size_type>;
 /*
-	sift:
+	math:
+		using math=functional::math<size_type>;
 */
+/*
+	sift:
 		using sift=functional::sift<size_type>;
+*/
 	};
     }
    }

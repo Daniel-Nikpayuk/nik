@@ -15,7 +15,15 @@
 **
 *************************************************************************************************************************/
 
-#include"proof/left_shift.cpp"
+template<size_type x, size_type n>
+struct left_shift
+{
+	enum : size_type { value = x << n };
+};
 
-#include"proof/right_shift.cpp"
+template<size_type x, size_type n>
+struct right_shift
+{
+	enum : size_type { value = x >> n };
+};
 

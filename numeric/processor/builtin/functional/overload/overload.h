@@ -21,7 +21,6 @@
 #include"../../../../../grammaric/functional/policy/policy.h"
 
 #include"../unit/unit.h"
-#include"../math/math.h"
 
 namespace nik
 {
@@ -41,7 +40,6 @@ namespace nik
 		typedef grammaric::functional::policy<size_type> gf_policy;
 
 		typedef functional::unit<size_type> unit;
-		typedef functional::math<size_type> math;
 
 		struct semiotic
 		{

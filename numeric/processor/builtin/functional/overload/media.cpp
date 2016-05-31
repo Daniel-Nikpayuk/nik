@@ -15,29 +15,61 @@
 **
 *************************************************************************************************************************/
 
+/*
+	Constraints:
+
+	{ x < 0, x == 0, x > 0 } x { n <= 0, 0 < n < length, n >= length }
+
+	Dispatch:
+
+	[4]	(n > 0) && (n >= length || x == 0)	->	0
+	[3]	(n <= 0)				->	x
+	[2]	(0 < n < length) && (x != 0)		->	<<
+*/
+
 template<size_type x, size_type n>
 struct left_shift
 {
-	static constexpr size_type n1=(n < unit::semiotic::length) ? n : 0;
+	static constexpr size_type sx = !x ? 0 :
+					(x < 0) ? -x : x;
+	static constexpr size_type sn = (n <= 0) ? 0 :
+					(n >= unit::semiotic::length) ? 0: n;
+	static constexpr size_type s = 1-2*(x < 0);
 
 	enum : size_type
 	{
-		value = n < unit::semiotic::length ?
-				semiotic::template left_shift_2<x, n1>::value
-			: 0
+		value = n <= 0 ? x :
+			n >= unit::semiotic::length || !x ? 0 :
+			s*(sx << sn) // optimization
 	};
 };
+
+/*
+	Constraints:
+
+	{ x < 0, x == 0, x > 0 } x { n <= 0, 0 < n < length, n >= length }
+
+	Dispatch:
+
+	[4]	(n > 0) && (n >= length || x == 0)	->	0
+	[3]	(n <= 0)				->	x
+	[2]	(0 < n < length) && (x != 0)		->	>>
+*/
 
 template<size_type x, size_type n>
 struct right_shift
 {
-	static constexpr size_type n1=(n < unit::semiotic::length) ? n : 0;
+	static constexpr size_type sx = !x ? 0 :
+					(x < 0) ? -x : x;
+	static constexpr size_type sn = (n <= 0) ? 0 :
+					(n >= unit::semiotic::length) ? 0: n;
+	static constexpr size_type s = 1-2*(x < 0);
 
 	enum : size_type
 	{
-		value = n < unit::semiotic::length ?
-			semiotic::template right_shift_2<x, n1>::value
-			: 0
+		value = n <= 0 ? x :
+			n >= unit::semiotic::length || !x ? 0 :
+			s*(sx >> sn) // optimization
 	};
 };
 

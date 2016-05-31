@@ -15,12 +15,37 @@
 **
 *************************************************************************************************************************/
 
+/*
+	Constraints:
+
+	{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+	Dispatch: Wrong! (incomplete)
+
+	[6]	(-length < n < 0) || (0 < n < length)	->	\
+	[6]	(n <= -length) || (n >= length)		->	0
+	[3]	(n == 0)				->	x
+
+	Composition:
+
+	[5]	(-length < n < 0) || ((0 < n < length) && (x < 0 || x > 0))	->	\
+	[7]	(n <= -length) || (n >= length) || (0 < n < length && x = 0)	->	0
+	[3]	(n == 0)							->	x
+*/
+
 template<size_type x, size_type n>
 struct shift
 {
-	static constexpr size_type left=over::media::template left_shift<x, n>::value;
-	static constexpr size_type right=over::media::template right_shift<x, -n>::value;
+	static constexpr size_type sx = (x < 0) ? -x : x;
+	static constexpr size_type sn = !n ? 0 : n;
+	static constexpr size_type an = (n < 0) ? -n : n;
+	static constexpr size_type s = 1-2*(x < 0);
 
-	enum : size_type { value = n > 0 ?  left : right };
+	enum : size_type
+	{
+		value = !n ? x :
+			an >= unit::semiotic::length ? 0 :
+			s*semiotic::template shift<sx, sn>::value
+	};
 };
 
