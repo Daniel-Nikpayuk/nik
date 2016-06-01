@@ -15,15 +15,32 @@
 **
 *************************************************************************************************************************/
 
+/*
+	Constraints:
+
+	(0 < n < length) && (x != 0)
+*/
+
 template<size_type x, size_type n>
 struct left_shift
 {
 	enum : size_type { value = x << n };
 };
 
+/*
+	Constraints:
+
+	(0 < n < length) && (x != 0)
+*/
+
 template<size_type x, size_type n>
 struct right_shift
 {
-	enum : size_type { value = x >> n };
+	enum : size_type
+	{
+		value = x < 0 ?
+			-(-x >> n) :
+			x >> n
+	};
 };
 

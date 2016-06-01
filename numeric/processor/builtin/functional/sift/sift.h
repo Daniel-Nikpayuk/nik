@@ -19,7 +19,6 @@
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
 
 #include"../unit/unit.h"
-#include"../math/math.h"
 #include"../overload/overload.h"
 
 namespace nik
@@ -40,7 +39,6 @@ namespace nik
 		typedef grammaric::functional::policy<size_type> gf_policy;
 
 		typedef functional::unit<size_type> unit;
-		typedef functional::math<size_type> math;
 		typedef functional::overload<size_type> over;
 
 		struct media;

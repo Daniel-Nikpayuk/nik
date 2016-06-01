@@ -21,7 +21,7 @@
 	Some of these computations are defined the way they are to avoid compiler warnings.
 */
 
-static constexpr bool is_unsigned = size_type(-1) < 0;
+static constexpr bool is_unsigned = !semiotic::min;
 
 static constexpr size_type zero = 0;
 static constexpr size_type one = 1;
@@ -34,24 +34,39 @@ static constexpr size_type byte = 8;
 static constexpr size_type length = byte * sizeof(size_type) - bool(semiotic::min);
 static constexpr size_type order = length - 1;
 
-static constexpr size_type tail = semiotic::min ? (size_type) 2 << order : 0;
+static constexpr size_type tail = is_unsigned ? 0 : (size_type) 2 << order;
 static constexpr size_type head = (size_type) 1 << order;
 
 struct half
 {
-	static constexpr size_type min = semiotic::min >> 1;
-	static constexpr size_type max = semiotic::max >> 1;
-
 	static constexpr size_type length = semiotic::length >> 1;
 	static constexpr size_type order = semiotic::order >> 1;
 
-	static constexpr size_type tail = semiotic::tail >> 1;
-	static constexpr size_type head = semiotic::head >> 1;
+	static constexpr size_type max = ((size_type) 1 << length) - 1;
+	static constexpr size_type min = -max - 1;
+
+	static constexpr size_type tail = is_unsigned ? 0 : (size_type) 2 << order;
+	static constexpr size_type head = (size_type) 1 << order;
 };
 
 struct filter
 {
-	static constexpr size_type low_pass = ((size_type) 1 << half::length) - 1;
+	static constexpr size_type low_pass = half::max;
 	static constexpr size_type high_pass = max & ~low_pass;
+};
+
+struct square
+{
+	class odd_max
+	{
+		static constexpr size_type p0 = (size_type) 1 << (length-1 >> 1);
+		static constexpr size_type p1 = (size_type) 1 << (length-5 >> 1);
+		static constexpr size_type p2 = (size_type) 1 << (length+3 >> 1);
+
+		public: enum : size_type { value = p0 + p1 + p2/25 + bool(25 <= 2*p2%25) };
+	};
+
+	static constexpr size_type max = is_unsigned ? half::max : odd_max::value;
+	static constexpr size_type min = is_unsigned ? 0 : -max;
 };
 

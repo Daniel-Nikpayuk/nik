@@ -43,20 +43,49 @@ template<size_type x, size_type y>
 struct max
 	{ enum : size_type { value=(x > y) ? x : y }; };
 
+/*
+	Terms:
+
+	max=unit::semiotic::square::max
+
+	Constraints:
+
+	{ x < -max, -max <= x <= max, x > max }
+
+	Dispatch:
+
+	[2]	(x < max || x > max)	->	0
+	[1]	(-max <= x <= max)	->	square
+*/
+
 template<size_type x>
-struct square
-	{ enum : size_type { value=x*x }; };
+class square
+{
+	static constexpr size_type sx = x < -unit::semiotic::square::max
+					|| x > unit::semiotic::square::max ? 0 : x;
+
+	public: enum : size_type
+	{
+		value = x < -unit::semiotic::square::max
+				|| x > unit::semiotic::square::max ? 0 :
+			x*x
+	};
+};
+
+/*
+	Incomplete dispatch analysis.
+*/
 
 template<size_type base, size_type exponent>
-struct exp
+class exp
 {
-	static constexpr size_type base1=(base == 1) ? 0 : base;
-	static constexpr size_type exponent1=(exponent == 0) ? 0 : exponent;
+	static constexpr size_type sbase=(base == 1) ? 0 : base;
+	static constexpr size_type sexponent=(exponent == 0) ? 0 : exponent;
 
-	enum : size_type
+	public: enum : size_type
 	{
 		value = base == 1 || !exponent ? 1
-			: semiotic::template exp5<base1, exponent1>::value
+			: semiotic::template exp<sbase, sexponent>::value
 	};
 };
 

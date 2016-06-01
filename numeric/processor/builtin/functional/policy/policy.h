@@ -21,8 +21,8 @@
 #include"../unit/unit.h"
 #include"../overload/overload.h"
 #include"../discrete/discrete.h"
-//#include"../math/math.h"
-//#include"../sift/sift.h"
+#include"../math/math.h"
+#include"../sift/sift.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -60,12 +60,12 @@ namespace nik
 		using disc=functional::discrete<size_type>;
 /*
 	math:
-		using math=functional::math<size_type>;
 */
+		using math=functional::math<size_type>;
 /*
 	sift:
-		using sift=functional::sift<size_type>;
 */
+		using sift=functional::sift<size_type>;
 	};
     }
    }

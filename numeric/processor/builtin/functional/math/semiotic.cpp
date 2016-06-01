@@ -15,5 +15,23 @@
 **
 *************************************************************************************************************************/
 
-#include"proof/exp.cpp"
+template<size_type rtn, size_type b, size_type n>
+class exp
+{
+	static constexpr size_type sq = media::template square<b>::value;
+
+	public: enum : size_type
+	{
+		value = gf_policy::cont::media::template
+		if_then_else
+		<
+			(1 & n),
+			exp<rtn*b, b, n-1>,
+			exp<rtn, sq, (n>>1)>
+		>::return_type::value
+	};
+};
+
+template<size_type rtn, size_type b>
+struct exp<rtn, b, 0> { enum : size_type { value = rtn }; };
 

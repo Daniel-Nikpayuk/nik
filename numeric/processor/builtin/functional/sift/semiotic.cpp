@@ -15,5 +15,30 @@
 **
 *************************************************************************************************************************/
 
-#include"proof/low_pass.cpp"
+template<size_type t>
+struct low_pass
+{
+	enum : size_type
+	{
+		value = unit::semiotic::max >> (unit::semiotic::length - t)
+	};
+};
+
+template<size_type primary, size_type secondary, size_type n>
+struct order
+{
+	enum : size_type
+	{
+		value=gf_policy::media::template
+		if_then_else
+		<
+			media::template band<secondary, (n>>1), n>::value,
+			order<primary+(n>>1), media::template band<secondary, (n>>1), n>::value, (n>>1)>,
+			order<primary, media::template band<secondary, 0, (n>>1)>::value, (n>>1)>
+		>::return_type::value
+	};
+};
+
+template<size_type primary, size_type secondary>
+struct order<primary, secondary, 0> { enum : size_type { value=primary }; };
 

@@ -21,40 +21,46 @@
 	Some of these computations are defined the way they are to avoid compiler warnings.
 */
 
-static size_type min() { return semiotic::min; }
-static size_type max() { return semiotic::max; }
+static constexpr size_type min() { return semiotic::min; }
+static constexpr size_type max() { return semiotic::max; }
 
-static bool is_unsigned() { return semiotic::is_unsigned; }
+static constexpr bool is_unsigned() { return semiotic::is_unsigned; }
 
-static size_type zero() { return semiotic::zero; }
-static size_type one() { return semiotic::one; }
-static size_type two() { return semiotic::two; }
-static size_type three() { return semiotic::three; }
+static constexpr size_type zero() { return semiotic::zero; }
+static constexpr size_type one() { return semiotic::one; }
+static constexpr size_type two() { return semiotic::two; }
+static constexpr size_type three() { return semiotic::three; }
 
-static size_type nibble() { return semiotic::nibble; }
-static size_type byte() { return semiotic::byte; }
+static constexpr size_type nibble() { return semiotic::nibble; }
+static constexpr size_type byte() { return semiotic::byte; }
 
-static size_type length() { return semiotic::length; }
-static size_type order() { return semiotic::order; }
+static constexpr size_type length() { return semiotic::length; }
+static constexpr size_type order() { return semiotic::order; }
 
-static size_type tail() { return semiotic::tail; }
-static size_type head() { return semiotic::head; }
+static constexpr size_type tail() { return semiotic::tail; }
+static constexpr size_type head() { return semiotic::head; }
 
 struct half
 {
-	constexpr size_type min() { return semiotic::half::min; }
-	constexpr size_type max() { return semiotic::half::max; }
+	static constexpr size_type min() { return semiotic::half::min; }
+	static constexpr size_type max() { return semiotic::half::max; }
 
-	constexpr size_type length() { return semiotic::half::length; }
-	constexpr size_type order() { return semiotic::half::order; }
+	static constexpr size_type length() { return semiotic::half::length; }
+	static constexpr size_type order() { return semiotic::half::order; }
 
-	constexpr size_type tail() { return semiotic::half::tail; }
-	constexpr size_type head() { return semiotic::half::head; }
+	static constexpr size_type tail() { return semiotic::half::tail; }
+	static constexpr size_type head() { return semiotic::half::head; }
 };
 
 struct filter
 {
-	constexpr size_type low_pass() { return semiotic::filter::low_pass; }
-	constexpr size_type high_pass() { return semiotic::filter::high_pass; }
+	static constexpr size_type low_pass() { return semiotic::filter::low_pass; }
+	static constexpr size_type high_pass() { return semiotic::filter::high_pass; }
+};
+
+struct square
+{
+	static constexpr size_type min() { return semiotic::square::min; }
+	static constexpr size_type max() { return semiotic::square::max; }
 };
 

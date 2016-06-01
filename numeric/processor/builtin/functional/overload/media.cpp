@@ -16,60 +16,66 @@
 *************************************************************************************************************************/
 
 /*
+	Terms:
+
+	unit::semiotic::length
+
 	Constraints:
 
 	{ x < 0, x == 0, x > 0 } x { n <= 0, 0 < n < length, n >= length }
 
 	Dispatch:
 
-	[4]	(n > 0) && (n >= length || x == 0)	->	0
+	[4]	n >= length || (n > 0 && x == 0)	->	0
 	[3]	(n <= 0)				->	x
 	[2]	(0 < n < length) && (x != 0)		->	<<
 */
 
 template<size_type x, size_type n>
-struct left_shift
+class left_shift
 {
-	static constexpr size_type sx = !x ? 0 :
-					(x < 0) ? -x : x;
-	static constexpr size_type sn = (n <= 0) ? 0 :
-					(n >= unit::semiotic::length) ? 0: n;
-	static constexpr size_type s = 1-2*(x < 0);
+	static constexpr size_type sx = !x ? 0 : x;
+	static constexpr size_type sn = n <= 0
+					|| n >= unit::semiotic::length ? 0: n;
 
-	enum : size_type
+	public: enum : size_type
 	{
 		value = n <= 0 ? x :
-			n >= unit::semiotic::length || !x ? 0 :
-			s*(sx << sn) // optimization
+			n >= unit::semiotic::length
+				|| !x ? 0 :
+			semiotic::template left_shift<sx, sn>::value
 	};
 };
 
 /*
+	Terms:
+
+	unit::semiotic::length
+
 	Constraints:
 
 	{ x < 0, x == 0, x > 0 } x { n <= 0, 0 < n < length, n >= length }
 
 	Dispatch:
 
-	[4]	(n > 0) && (n >= length || x == 0)	->	0
+	[4]	n >= length || (n > 0 && x == 0)	->	0
 	[3]	(n <= 0)				->	x
 	[2]	(0 < n < length) && (x != 0)		->	>>
 */
 
 template<size_type x, size_type n>
-struct right_shift
+class right_shift
 {
-	static constexpr size_type sx = !x ? 0 :
-					(x < 0) ? -x : x;
-	static constexpr size_type sn = (n <= 0) ? 0 :
-					(n >= unit::semiotic::length) ? 0: n;
-	static constexpr size_type s = 1-2*(x < 0);
+	static constexpr size_type sx = !x ? 0 : x;
+	static constexpr size_type sn = n <= 0
+					|| n >= unit::semiotic::length ? 0: n;
 
-	enum : size_type
+	public: enum : size_type
 	{
 		value = n <= 0 ? x :
-			n >= unit::semiotic::length || !x ? 0 :
-			s*(sx >> sn) // optimization
+			n >= unit::semiotic::length
+				|| !x ? 0 :
+			semiotic::template right_shift<sx, sn>::value
 	};
 };
 

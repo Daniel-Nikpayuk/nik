@@ -24,16 +24,34 @@
 	within the scope of the processor memory.
 */
 
-template<size_type t>
-struct low_pass
-{
-	static constexpr size_type t1=(t < unit::semiotic::length) ? t : 0;
+/*
+	Terms:
 
-	enum : size_type
+	unit::semiotic::length
+	unit::semiotic::max
+
+	Constraints:
+
+	{ t <= 0, 0 < t < length, t >= length }
+
+	Dispatch:
+
+	[1]	(t <= 0)		->	0
+	[1]	(t >= length)		->	max
+	[1]	(0 < t < length)	->	low_pass
+*/
+
+template<size_type t>
+class low_pass
+{
+	static constexpr size_type st = t <= 0
+					|| t >= unit::semiotic::length ? 0 : t;
+
+	public: enum : size_type
 	{
-		value = t < unit::semiotic::length ?
-				semiotic::template low_pass_1<t1>::value
-			: unit::semiotic::max
+		value = t <= 0 ? 0 :
+			t >= unit::semiotic::length ? unit::semiotic::max :
+				semiotic::template low_pass<st>::value
 	};
 };
 
@@ -43,7 +61,7 @@ struct high_pass
 {
 	enum : size_type
 	{
-		value = unit::media::max & ~low_pass<s>::value
+		value = unit::semiotic::max & ~low_pass<s>::value
 	};
 };
 
@@ -60,12 +78,12 @@ struct band_pass
 	enum : size_type
 	{
 		value = diff ?
-			diff < unit::media::length ?
+			diff < unit::semiotic::length ?
 				lower ?
-					(unit::media::max >> (unit::media::length-diff)) << lower
+					(unit::semiotic::max >> (unit::semiotic::length-diff)) << lower
 				: 0
 			: lower ?
-				unit::media::max << lower : 0
+				unit::semiotic::max << lower : 0
 			: 0
 	};
 };
@@ -92,7 +110,7 @@ template<size_type x, size_type s, size_type t>
 struct band
 {
 	static constexpr size_type lower=math::media::template max<(s > t) ? t+1 : s, 0>::value;
-	static constexpr size_type upper=math::media::template min<(s > t) ? s+1 : t, unit::media::length>::value;
+	static constexpr size_type upper=math::media::template min<(s > t) ? s+1 : t, unit::semiotic::length>::value;
 		// 0 <= lower <= upper <= length
 
 	static constexpr size_type diff=upper-lower;
@@ -101,8 +119,8 @@ struct band
 	enum : size_type
 	{
 		value = diff ?
-			diff < unit::media::length ?
-				upper < unit::media::length ?
+			diff < unit::semiotic::length ?
+				upper < unit::semiotic::length ?
 					(x & (1 << upper) - 1) >> lower
 				:
 					x >> lower

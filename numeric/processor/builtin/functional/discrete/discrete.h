@@ -43,11 +43,6 @@ namespace nik
 		typedef functional::unit<size_type> unit;
 		typedef functional::overload<size_type> over;
 
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
 		struct media
 		{
 			#include"media.cpp"
