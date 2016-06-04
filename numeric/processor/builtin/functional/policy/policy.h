@@ -18,6 +18,7 @@
 #ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_POLICY_H
 
+#include"../meta/meta.h"
 #include"../unit/unit.h"
 #include"../overload/overload.h"
 #include"../discrete/discrete.h"
@@ -46,6 +47,10 @@ namespace nik
 	struct policy
 	{
 		typedef SizeType size_type;
+/*
+	meta:
+*/
+		using meta=functional::meta<size_type>;
 /*
 	unit:
 */
