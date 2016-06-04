@@ -45,7 +45,7 @@ struct half
 	static constexpr size_type max = ((size_type) 1 << length) - 1;
 	static constexpr size_type min = -max - 1;
 
-	static constexpr size_type tail = is_unsigned ? 0 : (size_type) 2 << order;
+	static constexpr size_type tail = is_unsigned ? 0 : -(size_type) 2 << order;
 	static constexpr size_type head = (size_type) 1 << order;
 };
 
@@ -57,16 +57,20 @@ struct filter
 
 struct square
 {
-	class odd_max
+	struct odd_max
 	{
-		static constexpr size_type p0 = (size_type) 1 << (length-1 >> 1);
-		static constexpr size_type p1 = (size_type) 1 << (length-5 >> 1);
-		static constexpr size_type p2 = (size_type) 1 << (length+3 >> 1);
+		template<size_type m>
+		struct test
+		{
+			static constexpr size_type l = m % half::head;
+			static constexpr size_type r = half::head - l;
 
-		public: enum : size_type { value = p0 + p1 + p2/25 + bool(25 <= 2*p2%25) };
+			enum : bool { value = bool(2*l*l < r*r) };
+		};
 	};
 
-	static constexpr size_type max = is_unsigned ? half::max : odd_max::value;
+	static constexpr size_type max = is_unsigned ? half::max :
+						meta::semiotic::midpoint<odd_max, half::head, 2*half::head>::value;
 	static constexpr size_type min = is_unsigned ? 0 : -max;
 };
 

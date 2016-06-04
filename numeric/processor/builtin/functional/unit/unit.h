@@ -21,6 +21,8 @@
 #include<climits>
 #include<cfloat>
 
+#include"../meta/meta.h"
+
 /*
 	limits: (taken from: http://en.cppreference.com/w/cpp/types/limits)
 
@@ -65,6 +67,8 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic { };
 
 		struct media { };
@@ -78,6 +82,8 @@ namespace nik
 	struct unit<char>
 	{
 		typedef char size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -98,6 +104,8 @@ namespace nik
 	{
 		typedef signed char size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=SCHAR_MIN;
@@ -116,6 +124,8 @@ namespace nik
 	struct unit<unsigned char>
 	{
 		typedef unsigned char size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -136,6 +146,8 @@ namespace nik
 	{
 		typedef wchar_t size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=WCHAR_MIN;
@@ -154,6 +166,8 @@ namespace nik
 	struct unit<char16_t>
 	{
 		typedef char16_t size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -174,6 +188,8 @@ namespace nik
 	{
 		typedef char32_t size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=0;
@@ -192,6 +208,8 @@ namespace nik
 	struct unit<short>
 	{
 		typedef short size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -214,6 +232,8 @@ namespace nik
 	{
 		typedef unsigned short size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=0;
@@ -232,6 +252,8 @@ namespace nik
 	struct unit<int>
 	{
 		typedef int size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -254,6 +276,8 @@ namespace nik
 	{
 		typedef unsigned int size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=0;
@@ -272,6 +296,8 @@ namespace nik
 	struct unit<long>
 	{
 		typedef long size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -294,6 +320,8 @@ namespace nik
 	{
 		typedef unsigned long size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=0;
@@ -312,6 +340,8 @@ namespace nik
 	struct unit<long long>
 	{
 		typedef long long size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -334,6 +364,8 @@ namespace nik
 	{
 		typedef unsigned long long size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=0;
@@ -352,6 +384,8 @@ namespace nik
 	struct unit<float>
 	{
 		typedef float size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
@@ -372,6 +406,8 @@ namespace nik
 	{
 		typedef double size_type;
 
+		typedef functional::meta<size_type> meta;
+
 		struct semiotic
 		{
 			static constexpr size_type min=DBL_MIN;
@@ -390,6 +426,8 @@ namespace nik
 	struct unit<long double>
 	{
 		typedef long double size_type;
+
+		typedef functional::meta<size_type> meta;
 
 		struct semiotic
 		{
