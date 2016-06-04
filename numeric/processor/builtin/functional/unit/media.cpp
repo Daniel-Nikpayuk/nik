@@ -58,9 +58,3 @@ struct filter
 	static constexpr size_type high_pass() { return semiotic::filter::high_pass; }
 };
 
-struct square
-{
-	static constexpr size_type min() { return semiotic::square::min; }
-	static constexpr size_type max() { return semiotic::square::max; }
-};
-

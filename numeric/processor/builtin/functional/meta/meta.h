@@ -41,6 +41,11 @@ namespace nik
 		{
 			#include"semiotic.cpp"
 		};
+
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
     }
    }

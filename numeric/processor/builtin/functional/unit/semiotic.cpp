@@ -55,22 +55,3 @@ struct filter
 	static constexpr size_type high_pass = max & ~low_pass;
 };
 
-struct square
-{
-	struct odd_max
-	{
-		template<size_type m>
-		struct test
-		{
-			static constexpr size_type l = m % half::head;
-			static constexpr size_type r = half::head - l;
-
-			enum : bool { value = bool(2*l*l < r*r) };
-		};
-	};
-
-	static constexpr size_type max = is_unsigned ? half::max :
-						meta::semiotic::midpoint<odd_max, half::head, 2*half::head>::value;
-	static constexpr size_type min = is_unsigned ? 0 : -max;
-};
-

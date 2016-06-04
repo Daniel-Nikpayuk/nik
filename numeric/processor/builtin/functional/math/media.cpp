@@ -61,14 +61,31 @@ struct max
 template<size_type x>
 class square
 {
-	static constexpr size_type sx = x < -unit::semiotic::square::max
-					|| x > unit::semiotic::square::max ? 0 : x;
+	static constexpr size_type max = unit::semiotic::is_unsigned ? unit::semiotic::half::max :
+							meta::semiotic::template midpoint
+							<
+								typename semiotic::odd_square_domain,
+								unit::semiotic::half::head,
+								2*unit::semiotic::half::head
+							>::value;
+	static constexpr size_type sx = x < -max
+					|| x > max ? 0 : x;
 
 	public: enum : size_type
 	{
-		value = x < -unit::semiotic::square::max
-				|| x > unit::semiotic::square::max ? 0 :
+		value = x < -max
+				|| x > max ? 0 :
 			x*x
+	};
+};
+
+template<size_type a, size_type b>
+class gcd
+{
+	public: enum : size_type
+	{
+		value = !a && !b ? 0 :
+			semiotic::template gcd<a, b>::value
 	};
 };
 
@@ -84,8 +101,8 @@ class exp
 
 	public: enum : size_type
 	{
-		value = base == 1 || !exponent ? 1
-			: semiotic::template exp<sbase, sexponent>::value
+		value = base == 1 || !exponent ? 1 :
+			semiotic::template exp<sbase, sexponent>::value
 	};
 };
 

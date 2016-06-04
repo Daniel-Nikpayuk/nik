@@ -15,6 +15,27 @@
 **
 *************************************************************************************************************************/
 
+struct odd_square_domain
+{
+	template<size_type m>
+	struct test
+	{
+		static constexpr size_type l = m % unit::semiotic::half::head;
+		static constexpr size_type r = unit::semiotic::half::head - l;
+
+		enum : bool { value = bool(2*l*l < r*r) };
+	};
+};
+
+template<size_type a, size_type b>
+class gcd
+{
+	public: enum : size_type { value = gcd<b, a%b>::value };
+};
+
+template<size_type a>
+class gcd<a, 0> { public: enum : size_type { value = a }; };
+
 template<size_type rtn, size_type b, size_type n>
 class exp
 {
@@ -33,5 +54,5 @@ class exp
 };
 
 template<size_type rtn, size_type b>
-struct exp<rtn, b, 0> { enum : size_type { value = rtn }; };
+struct exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
 

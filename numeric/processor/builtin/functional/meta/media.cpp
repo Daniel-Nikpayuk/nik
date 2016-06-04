@@ -15,50 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../meta/meta.h"
-#include"../unit/unit.h"
-
-namespace nik
+template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+class midpoint
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct math
+	public: enum : size_type
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::meta<size_type> meta;
-		typedef functional::unit<size_type> unit;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
+		value = !diff
+				|| left > right ? left :
+			semiotic::template midpoint<guess_and_check, left, right, diff>::value
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif
