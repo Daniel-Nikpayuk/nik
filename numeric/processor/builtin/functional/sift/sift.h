@@ -18,6 +18,8 @@
 #ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
 
+#include"../../../../../grammaric/functional/policy/policy.h"
+
 #include"../unit/unit.h"
 #include"../overload/overload.h"
 

@@ -58,3 +58,12 @@ struct filter
 	static constexpr size_type high_pass() { return semiotic::filter::high_pass; }
 };
 
+struct overflow
+{
+	struct square
+	{
+		static constexpr size_type lower() { return semiotic::overflow::square::lower; }
+		static constexpr size_type upper() { return semiotic::overflow::square::upper; }
+	};
+};
+

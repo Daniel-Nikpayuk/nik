@@ -18,9 +18,10 @@
 #ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
 #define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
 
+#include<math.h>
+
 #include"../../../../../grammaric/functional/policy/policy.h"
 
-#include"../meta/meta.h"
 #include"../unit/unit.h"
 
 namespace nik
@@ -40,7 +41,6 @@ namespace nik
 
 		typedef grammaric::functional::policy<size_type> gf_policy;
 
-		typedef functional::meta<size_type> meta;
 		typedef functional::unit<size_type> unit;
 
 		struct media;

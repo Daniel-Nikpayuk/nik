@@ -15,6 +15,10 @@
 **
 *************************************************************************************************************************/
 
+/*
+	Optimized as max > 0: We need not call the conforming version.
+*/
+
 template<size_type t>
 struct low_pass
 {
@@ -24,21 +28,108 @@ struct low_pass
 	};
 };
 
-template<size_type primary, size_type secondary, size_type n>
-struct order
+template<size_type s>
+struct high_pass
 {
 	enum : size_type
 	{
-		value=gf_policy::media::template
+		value = unit::semiotic::max & ~low_pass<s>::value
+	};
+};
+
+/*
+	Optimized as max > 0: We need not call the conforming version.
+*/
+
+template<size_type s, size_type t>
+struct band_pass
+{
+	enum : size_type
+	{
+		value = (unit::semiotic::max >> (unit::semiotic::length-t+s)) << s
+	};
+};
+
+template<size_type x, size_type t>
+struct low
+{
+	enum : size_type
+	{
+		value = (x & low_pass<t>::value)
+	};
+};
+
+template<size_type x, size_type s>
+struct high
+{
+	enum : size_type
+	{
+		value = over::semiotic::template right_shift<x, s>::value
+	};
+};
+
+template<size_type x, size_type s, size_type t>
+struct band
+{
+	enum : size_type
+	{
+//		value = (x & (1 << t) - 1) >> s
+		value = over::semiotic::template right_shift<x & (1 << t) - 1, s>::value
+	};
+};
+
+template<size_type x>
+struct lower_half
+{
+	enum : size_type
+	{
+		value = low<x, unit::half::length>::value
+	};
+};
+
+template<size_type x>
+struct upper_half
+{
+	enum : size_type
+	{
+		value = high<x, unit::half::length>::value
+	};
+};
+
+template<size_type primary, size_type secondary>
+class signed_degree
+{
+	static constexpr size_type half_secondary = over::semiotic::template right_shift<secondary, 1>::value;
+
+	public: enum : size_type
+	{
+		value = signed_degree<primary + 1, half_secondary>::value
+	};
+};
+
+template<size_type primary>
+class signed_degree<primary, 1> { public: enum : size_type { value=primary }; };
+
+template<size_type primary>
+class signed_degree<primary, 0> { public: enum : size_type { value=primary }; };
+
+template<size_type primary, size_type secondary, size_type n>
+class unsigned_degree
+{
+	static constexpr size_type m = n >> 1;
+
+	public: enum : size_type
+	{
+		value = gf_policy::cont::media::template
 		if_then_else
 		<
-			media::template band<secondary, (n>>1), n>::value,
-			order<primary+(n>>1), media::template band<secondary, (n>>1), n>::value, (n>>1)>,
-			order<primary, media::template band<secondary, 0, (n>>1)>::value, (n>>1)>
+			band<secondary, m, n>::value,
+			unsigned_degree<primary + m, band<secondary, m, n>::value, m>,
+			unsigned_degree<primary, band<secondary, 0, m>::value, m>
 		>::return_type::value
 	};
 };
 
 template<size_type primary, size_type secondary>
-struct order<primary, secondary, 0> { enum : size_type { value=primary }; };
+class unsigned_degree<primary, secondary, 0> { public: enum : size_type { value=primary }; };
 

@@ -46,7 +46,7 @@ struct max
 /*
 	Terms:
 
-	max=unit::semiotic::square::max
+	unit::semiotic::square::max
 
 	Constraints:
 
@@ -61,20 +61,13 @@ struct max
 template<size_type x>
 class square
 {
-	static constexpr size_type max = unit::semiotic::is_unsigned ? unit::semiotic::half::max :
-							meta::semiotic::template midpoint
-							<
-								typename semiotic::odd_square_domain,
-								unit::semiotic::half::head,
-								2*unit::semiotic::half::head
-							>::value;
-	static constexpr size_type sx = x < -max
-					|| x > max ? 0 : x;
+	static constexpr size_type sx = x <= unit::semiotic::overflow::square::lower
+					|| x >= unit::semiotic::overflow::square::upper ? 0 : x;
 
 	public: enum : size_type
 	{
-		value = x < -max
-				|| x > max ? 0 :
+		value = x <= unit::semiotic::overflow::square::lower
+				|| x >= unit::semiotic::overflow::square::upper ? 0 :
 			x*x
 	};
 };
@@ -90,19 +83,53 @@ class gcd
 };
 
 /*
-	Incomplete dispatch analysis.
+	Terms:
+
+	Constraints:
+
+	B = { b <= under(e), under(e) < b < -2, b == -2, b == -1, b == 0, b == 1, b == 2, 2 < b < over(e), b >= over(e) }
+	E = { e <= -length, -length < e < 0, e == 0, e == 1, 1 < e < length, e == length, e > length }
+
+	|B| = 9, |E| = 7, |BxE| = 63
+
+	Dispatch:
+
+	[15]	(b == 0 && e > 1) || (e < 0 && |b| >= 2)						->	0
+	[14]	(e == 0) || (e != 1 && b == 1)								->	1
+	[15]	(b == 0 && e < 0) || ((1 < e < length) && (b <= under(e) || b >= over(e))) ||
+		(e > length && |b| >= 2) || (e == length && (b == 2 || |b| > 2))			->	undefined
+	[9]	(e == 1)										->	b
+	[5]	(b == -1) && (e < 0 || e > 1)								->	(-1)^|e|
+	[1]	(b == -2) && (e = length)								->	-2^length
+	[1]	(1 < e < length) && (b == -2)								->	(-1)^e * 2^e
+	[1]	(1 < e < length) && (b == 2)								->	2^e
+	[1]	(1 < e < length) && (under(e) < b < -2)							->	(-1)^e * |b|^e
+	[1]	(1 < e < length) && (2 < b < over(e))							->	b^e
 */
 
-template<size_type base, size_type exponent>
+template<size_type b, size_type e>
 class exp
 {
-	static constexpr size_type sbase=(base == 1) ? 0 : base;
-	static constexpr size_type sexponent=(exponent == 0) ? 0 : exponent;
+	static constexpr size_type abs_b = abs<b>::value;
+	static constexpr size_type abs_e = abs<e>::value;
+	static constexpr size_type sign = b < 0 ? 1 - 2 * (e % 2) : 1;
+	static constexpr size_type overload = e <= 1 ? 0 : pow(2, double(unit::semiotic::length)/e);
 
 	public: enum : size_type
 	{
-		value = base == 1 || !exponent ? 1 :
-			semiotic::template exp<sbase, sexponent>::value
+		value = e == 1 ? b :
+			!e || b == 1 ? 1 :
+			(e > 1 && !b) || (e < 0 && abs_b >= 2) ? 0 :
+			!unit::semiotic::is_unsigned && b == -1 ? sign :
+			e == unit::semiotic::length && !unit::semiotic::is_unsigned && b == -2 ? unit::semiotic::tail :
+			1 < e && e < unit::semiotic::length ?
+				abs_b == 2 ? sign << e :
+				-overload-1 < b && b < -2 ?
+					sign*semiotic::template exp<1, abs_b, e>::value
+				: 2 < b && b < overload ?
+					semiotic::template exp<1, abs_b, e>::value
+				: 0 // undefined!
+			: 0 // undefined!
 	};
 };
 

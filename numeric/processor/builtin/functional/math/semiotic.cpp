@@ -15,18 +15,6 @@
 **
 *************************************************************************************************************************/
 
-struct odd_square_domain
-{
-	template<size_type m>
-	struct test
-	{
-		static constexpr size_type l = m % unit::semiotic::half::head;
-		static constexpr size_type r = unit::semiotic::half::head - l;
-
-		enum : bool { value = bool(2*l*l < r*r) };
-	};
-};
-
 template<size_type a, size_type b>
 class gcd
 {
@@ -54,5 +42,5 @@ class exp
 };
 
 template<size_type rtn, size_type b>
-struct exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
+class exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
 

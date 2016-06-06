@@ -55,3 +55,25 @@ struct filter
 	static constexpr size_type high_pass = max & ~low_pass;
 };
 
+struct overflow
+{
+	struct square
+	{
+		struct odd_square_domain
+		{
+			template<size_type m>
+			struct test
+			{
+				static constexpr size_type l = m % half::head;
+				static constexpr size_type r = half::head - l;
+			
+				enum : bool { value = bool(2*l*l < r*r) };
+			};
+		};
+
+		static constexpr size_type upper = (is_unsigned ? half::max :
+			meta::semiotic::template midpoint<odd_square_domain, half::head, 2*half::head>::value)+1;
+		static constexpr size_type lower = -upper;
+	};
+};
+
