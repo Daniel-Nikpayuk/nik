@@ -15,22 +15,45 @@
 **
 *************************************************************************************************************************/
 
+#ifndef NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_STRUCTURAL_TRAITS_H
+#define NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_STRUCTURAL_TRAITS_H
+
+#include"../stern_brocot/stern_brocot.h"
+
 /*
-	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
-	It is only meant to have an allocator as well as meta information about the type of memory it holds.
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
 */
 
-template<typename T, typename SizeType=size_t>
-class array
+namespace nik
 {
-	public:
-		typedef T* pointer;
-		typedef T value_type;
+ namespace numeric
+ {
+  namespace abstract
+  {
+   namespace dense
+   {
+    namespace rational
+    {
+     namespace structural
+     {
+	template<typename SizeType>
+	struct traits
+	{
 		typedef SizeType size_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		static void_ptr operator new (size_t n)
-			{ return new T[n]; }
-};
+/*
+	stern_brocot:
+*/
+		using ster=structural::stern_brocot<size_type>;
+	};
+     }
+    }
+   }
+  }
+ }
+}
 
+#endif

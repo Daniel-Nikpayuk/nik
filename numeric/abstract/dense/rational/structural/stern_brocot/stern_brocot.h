@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_ARRAY_H
+#ifndef NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_STRUCTURAL_STERN_BROCOT_H
+#define NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_STRUCTURAL_STERN_BROCOT_H
 
 #include<stddef.h>
 
@@ -24,20 +24,28 @@ namespace nik
 {
  namespace numeric
  {
-  namespace random_access
+  namespace abstract
   {
-   namespace iterator
+   namespace dense
    {
-    namespace componentwise
+    namespace rational
     {
      namespace structural
      {
 	template<typename SizeType>
-	struct array
+	struct stern_brocot
 	{
 		typedef SizeType size_type;
 
-		#include"media.cpp"
+		struct semiotic
+		{
+			#include"semiotic.cpp"
+		};
+
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
      }
     }

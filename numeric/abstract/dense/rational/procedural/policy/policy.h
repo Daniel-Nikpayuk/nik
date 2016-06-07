@@ -15,50 +15,38 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_PRINTER_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_PRINTER_H
-
-#include<stdint.h>
-#include<stdio.h>
+#ifndef NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_PROCEDURAL_POLICY_H
+#define NIK_NUMERIC_ABSTRACT_DENSE_RATIONAL_PROCEDURAL_POLICY_H
 
 /*
-	char
-	signed char
-	unsigned char
-	wchar_t
-	char16_t
-	char32_t
-	short
-		signed short // redundant
-	unsigned short
-	int
-		signed int // redundant
-	unsigned int
-	long
-		signed long // redundant
-	unsigned long
-	long long
-		signed long long // redundant
-	unsigned long long
-	float
-	double
-	long double
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
 */
 
 namespace nik
 {
  namespace numeric
  {
-  namespace processor
+  namespace abstract
   {
-   namespace builtin
+   namespace dense
    {
-    namespace functional
+    namespace rational
     {
-	struct printer
+     namespace procedural
+     {
+	template<typename SizeType>
+	struct policy
 	{
-		#include"media.cpp"
+		typedef SizeType size_type;
+/*
+	:
+*/
 	};
+     }
     }
    }
   }

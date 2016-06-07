@@ -18,24 +18,10 @@
 #ifndef NIK_H
 #define NIK_H
 
-#include"numeric/processor/builtin/functional/printer/printer.h"
+#include<stdint.h>
+#include<stdio.h>
 
-namespace nik
-{
-	char endl='\n'; // portable ?
-
-	struct printer :
-		public numeric::processor::builtin::functional::printer
-//		public numeric::random_access::printer
-	{ } display;
-
-	template<typename S, typename T>
-	S & operator << (S & s, T v)
-	{
-		s.print(v);
-		return s;
-	}
-}
+#include"numeric/abstract/dense/rational/structural/traits/traits.h"
 
 //#include"numeric/processor/iterator/structural/traits/traits.h"
 
@@ -49,6 +35,8 @@ namespace nik
 	struct traits
 	{
 		typedef SizeType size_type;
+
+		typedef numeric::abstract::dense::rational::structural::traits<size_type> nadrs;
 
 //		typedef numeric::processor::iterator::structural::traits<size_type> npis;
 
@@ -106,6 +94,66 @@ namespace nik
 	template<size_t BitLength>
 	using uint_block=numeric::uint<size_t>::block<BitLength>;
 */
+}
+
+namespace nik
+{
+	constexpr char endl='\n';
+
+	struct builtin_printer
+	{
+		static void print(char v) { printf("%c", v); }
+		static void print(signed char v) { printf("%c", v); }
+		static void print(unsigned char v) { printf("%u", v); }
+		static void print(wchar_t v) { printf("%c", v); }
+		static void print(char16_t v) { printf("%u", v); }
+		static void print(char32_t v) { printf("%u", v); }
+		static void print(short v) { printf("%d", v); }
+		static void print(unsigned short v) { printf("%u", v); }
+		static void print(int v) { printf("%d", v); }
+		static void print(unsigned int v) { printf("%u", v); }
+		static void print(long v) { printf("%ld", v); }
+		static void print(unsigned long v) { printf("%lu", v); }
+		static void print(long long v) { printf("%lld", v); }
+		static void print(unsigned long long v) { printf("%llu", v); }
+		static void print(float v) { printf("%f", v); }
+		static void print(double v) { printf("%f", v); }
+		static void print(long double v) { printf("%Lf", v); }
+
+		static void print(bool v) { printf("%s", v? "true" : "false"); }
+		static void print(const char *v) { printf("%s", v); }
+
+	} builtin;
+
+	struct verbatim_printer : public builtin_printer
+	{
+
+	} verbatim;
+
+	struct display_printer : public builtin_printer
+	{
+		struct rational
+		{
+			static void print(char v) { printf("%c", v); }
+
+			template<typename R>
+			static void print(const R & r)
+			{
+				builtin.print(r.numerator);
+				builtin.print(" / ");
+				builtin.print(r.denominator);
+			}
+
+		} rational;
+
+	} display;
+
+	template<typename S, typename T>
+	S & operator << (S & s, const T & v)
+	{
+		s.print(v);
+		return s;
+	}
 }
 
 #endif

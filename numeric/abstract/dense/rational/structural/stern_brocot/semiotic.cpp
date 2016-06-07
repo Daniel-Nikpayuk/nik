@@ -15,32 +15,33 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_PRINTER_H
-#define NIK_NUMERIC_RANDOM_ACCESS_PRINTER_H
-
-#include"../../processor/policy/policy.h"
-
-//#include"../list/structural/traits/traits.h"
-//#include"../traits/structural/traits/traits.h"
-//#include"../vector/structural/traits/traits.h"
-
-namespace nik
+class identity
 {
- namespace numeric
- {
-  namespace random_access
-  {
-	template<typename SizeType>
-	struct printer
-	{
-		typedef SizeType size_type;
+	public:
+		struct infimum
+		{
+			size_type *numerator;
+			size_type *denominator;
+		};
 
-		typedef processor::policy<size_type> p_policy;
+		struct supremum
+		{
+			size_type *numerator;
+			size_type *denominator;
+		};
 
-		#include"media.cpp"
-	};
-  }
- }
-}
+		size_type numerator;
+		size_type denominator;
+	public:
+		identity(size_type n, size_type d)
+		{
+			numerator=n;
+			denominator=d;
+		}
 
-#endif
+		identity operator + (const identity & i) const
+		{
+			return *this;
+		}
+};
+

@@ -54,10 +54,13 @@ namespace nik
     {
 	struct semiotic
 	{
-		include"semiotic.cpp"
+		#include"semiotic.cpp"
 	};
 
-	include"media.cpp"
+	struct media
+	{
+		#include"media.cpp"
+	};
     }
    }
   }
