@@ -15,10 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_ARGUMENT_BINARY_H
-#define NIK_NUMERIC_PROCESSOR_ARGUMENT_BINARY_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_DISCRETE_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_DISCRETE_H
 
-#include"../../policy/policy.h"
+#include"../../../../../grammaric/functional/policy/policy.h"
+#include"../../functional/policy/policy.h"
+
+#include"../overload/overload.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
@@ -39,20 +42,26 @@ namespace nik
  {
   namespace processor
   {
-   namespace argument
+   namespace builtin
    {
+    namespace procedural
+    {
 	template<typename SizeType>
-	struct binary
+	struct discrete
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> p_policy;
+		typedef grammaric::functional::policy<size_type> gf_policy;
+		typedef functional::policy<size_type> f_policy;
 
-		struct semiotic
+		typedef procedural::overload<size_type> over;
+
+		struct media
 		{
-			#include"semiotic.cpp"
+			#include"media.cpp"
 		};
 	};
+    }
    }
   }
  }

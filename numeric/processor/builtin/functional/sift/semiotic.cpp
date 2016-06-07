@@ -73,7 +73,6 @@ struct band
 {
 	enum : size_type
 	{
-//		value = (x & (1 << t) - 1) >> s
 		value = over::semiotic::template right_shift<x & (1 << t) - 1, s>::value
 	};
 };

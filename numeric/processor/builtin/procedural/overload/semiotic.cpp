@@ -15,48 +15,31 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-#include"../overload/overload.h"
-
-namespace nik
+struct left_shift
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
+	static size_type with_return(size_type x, size_type n) { return x << n; }
+
+	struct half
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
+		static size_type with_return(size_type x) { return x << f_policy::unit::half::length; }
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif
+struct right_shift
+{
+	static size_type with_return(size_type x, size_type n)
+	{
+		if (x >= 0)	return x >> n;
+		else		return -(-x >> n);
+	}
+
+	struct half
+	{
+		static size_type with_return(size_type x)
+		{
+			if (x >= 0)	return x >> f_policy::unit::half::length;
+			else		return -(-x >> f_policy::unit::half::length);
+		}
+	};
+};
+

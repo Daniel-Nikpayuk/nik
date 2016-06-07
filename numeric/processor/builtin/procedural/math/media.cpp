@@ -15,48 +15,39 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+/*
+	multiply:
+*/
 
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-#include"../overload/overload.h"
-
-namespace nik
+struct multiply
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
-	{
-		typedef SizeType size_type;
+};
 
-		typedef grammaric::functional::policy<size_type> gf_policy;
+/*
+	divide:
 
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
+	These algorithms are highly optimized and only work (semantically) if (in1|in2 >= d) where (in1 != 0), and (in1 < d).
 
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
+	The cases d == 0 , d == 1 are not covered as no optimized algorithms are required.
+*/
 
-		struct media
-		{
-			#include"media.cpp"
-		};
-	};
-    }
-   }
-  }
- }
-}
+struct divide
+{
+/*
+	return_quotient:
 
-#endif
+	The return value is the quotient of the division.
+	out is the remainder from the division.
+	in1 is the first digit of the dividend and is such that in1 != 0.
+	in2 is the second digit of the dividend.
+	d is the divisor and is such that in1 < d. Given in1 != 0, this implies 2 <= d.
+			template<typename size_type>
+			static size_type return_quotient(size_type & out, size_type in1, size_type in2, size_type d)
+			{
+				if (d == (size_type) 2) return divisor_equals_2(out, in2);
+				else if (d < shift_up((size_type) 1)) return half::with_return(out, in1, in2, d);
+				else return with_return(out, in1, in2, d);
+			}
+*/
+};
+

@@ -15,44 +15,43 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
+#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_COMPONENTWISE_STRUCTURAL_TRAITS_H
 
-#include"../../../../../grammaric/functional/policy/policy.h"
+#include"../array/array.h"
 
-#include"../unit/unit.h"
-#include"../overload/overload.h"
+/*
+	The justification for this policy class is threefold:
+
+	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
+	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
+		easing the headerload within the media classes.
+*/
 
 namespace nik
 {
  namespace numeric
  {
-  namespace processor
+  namespace random_access
   {
-   namespace builtin
+   namespace iterator
    {
-    namespace functional
+    namespace componentwise
     {
+     namespace structural
+     {
+/*
+*/
 	template<typename SizeType>
-	struct sift
+	struct traits
 	{
 		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
+/*
+	array:
+*/
+		using arra=structural::array<size_type>;
 	};
+     }
     }
    }
   }

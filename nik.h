@@ -61,6 +61,7 @@ namespace nik
 #include"grammaric/functional/policy/policy.h"
 
 #include"numeric/processor/builtin/functional/policy/policy.h"
+#include"numeric/processor/builtin/procedural/policy/policy.h"
 //#include"numeric/processor/iterator/functional/policy/policy.h"
 
 //#include"numeric/random_access/policy/policy.h"
@@ -76,6 +77,7 @@ namespace nik
 		typedef grammaric::functional::policy<size_type> gf;
 
 		typedef numeric::processor::builtin::functional::policy<size_type> npbf;
+		typedef numeric::processor::builtin::procedural::policy<size_type> npbp;
 //		typedef numeric::processor::iterator::functional::policy<size_type> npif;
 
 //		typedef numeric::random_access::policy<size_type> nr;

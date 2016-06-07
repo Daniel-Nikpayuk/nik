@@ -16,15 +16,6 @@
 *************************************************************************************************************************/
 
 /*
-	Interface Design: Should be oriented around "locations"---similar to array access.
-	Use s,t (s < t) as default location names.
-
-	If you go "over", it's not equivalent to "wrapping around".
-	Think of it like an infinite array going in both directions, but in the end we only filter
-	within the scope of the processor memory.
-*/
-
-/*
 	Terms:
 
 	unit::semiotic::length
@@ -43,18 +34,16 @@
 	[1]	(0 < t < length)	->	low_pass
 */
 
-template<size_type t>
-class low_pass
+struct low_pass
 {
-	static constexpr size_type st = t <= 0
-					|| t >= unit::semiotic::length ? 0 : t;
-
-	public: enum : size_type
+	static size_type with_return(size_type t)
 	{
-		value = t <= 0 ? 0 :
-			t >= unit::semiotic::length ? unit::semiotic::max :
-				semiotic::template low_pass<st>::value
-	};
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+
+		if (0 < t && t < length)	return semiotic::low_pass::with_return(t);
+		else if (t >= length)		return f_policy::unit::semiotic::max;
+		else				return 0;
+	}
 };
 
 /*
@@ -76,15 +65,16 @@ class low_pass
 	[1]	(0 < s < length)	->	high_pass
 */
 
-template<size_type s>
 struct high_pass
 {
-	enum : size_type
+	static size_type with_return(size_type s)
 	{
-		value = s <= 0 ? unit::semiotic::max :
-			s >= unit::semiotic::length ? 0 :
-				semiotic::template high_pass<s>::value
-	};
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+
+		if (0 < s && s < length)	return semiotic::high_pass::with_return(s);
+		else if (s >= length)		return f_policy::unit::semiotic::max;
+		else				return 0;
+	}
 };
 
 /*
@@ -111,26 +101,22 @@ struct high_pass
 	[1]	(0 < s < length) && (0 < t < length)			->	band_pass(min(s,t), max(s,t))
 */
 
-template<size_type s, size_type t>
 struct band_pass
 {
-	static constexpr size_type length = unit::semiotic::length;
-
-	static constexpr size_type lower = (s > t) ? t : s;
-	static constexpr size_type upper = (s > t) ? s : t;
-		// lower <= upper
-
-	static constexpr size_type left = semiotic::template low_pass<upper>::value;
-	static constexpr size_type right = semiotic::template high_pass<lower>::value;
-
-	enum : size_type
+	static size_type with_return(size_type s, size_type t)
 	{
-		value = (upper <= 0) || (lower >= length) ? 0 :
-			(lower <= 0 && upper >= length) ? unit::semiotic::max :
-			(lower >= length && 0 < upper && upper < length) ? left :
-			(0 < lower && lower < length && upper >= length) ? right :
-				semiotic::template band_pass<lower, upper>::value
-	};
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+
+		size_type lower = (s > t) ? t : s;
+		size_type upper = (s > t) ? s : t;
+			// lower <= upper
+
+		if (0 < lower && upper < length)				return semiotic::band_pass::with_return(lower, upper);
+		else if (0 < lower && lower < length && upper >= length)	return semiotic::high_pass::with_return(lower);
+		else if (lower >= length && 0 < upper && upper < length)	return semiotic::low_pass::with_return(upper);
+		else if (lower <= 0 && upper >= length)				return f_policy::unit::semiotic::max;
+		else								return 0;
+	}
 };
 
 /*
@@ -152,14 +138,24 @@ struct band_pass
 	[1]	(x != 0 && (0 < t < length)	->	low
 */
 
-template<size_type x, size_type t>
 struct low
 {
-	enum : size_type
+	static size_type with_return(size_type x, size_type t)
 	{
-		value = !x || t <= 0 ? 0 :
-			t >= unit::semiotic::length ? x :
-				semiotic::template low<x, t>::value
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+
+		if (0 < t && t < length && x)	return semiotic::low::with_return(x, t);
+		else if (t >= length && x)	return x;
+		else				return 0;
+	}
+
+	struct half
+	{
+		static size_type with_return(size_type x)
+		{
+			if (x)	return semiotic::low::half::with_return(x);
+			else	return 0;
+		}
 	};
 };
 
@@ -182,14 +178,24 @@ struct low
 	[1]	(x != 0 && (0 < s < length)		->	high
 */
 
-template<size_type x, size_type s>
 struct high
 {
-	enum : size_type
+	static size_type with_return(size_type x, size_type s)
 	{
-		value = !x || s >= unit::semiotic::length ? 0 :
-			s <= 0 ? x :
-				semiotic::template high<x, s>::value
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+
+		if (0 < s && s < length && x)	return semiotic::high::with_return(x, s);
+		else if (s <= 0 && x)		return x;
+		else				return 0;
+	}
+
+	struct half
+	{
+		static size_type with_return(size_type x)
+		{
+			if (x)	return semiotic::high::half::with_return(x);
+			else	return 0;
+		}
 	};
 };
 
@@ -216,76 +222,22 @@ struct high
 	[1]	(0 < s < length) && (0 < t < length)			->	band(x, min(s,t), max(s,t))
 */
 
-template<size_type x, size_type s, size_type t>
 struct band
 {
-	static constexpr size_type length = unit::semiotic::length;
-
-	static constexpr size_type lower = (s > t) ? t : s;
-	static constexpr size_type upper = (s > t) ? s : t;
-		// lower <= upper
-
-	static constexpr size_type left = semiotic::template low<x, upper>::value;
-	static constexpr size_type right = semiotic::template high<x, lower>::value;
-
-	enum : size_type
+	static size_type with_return(size_type x, size_type s, size_type t)
 	{
-		value = (upper <= 0) || (lower >= length) ? 0 :
-			(lower <= 0 && upper >= length) ? x :
-			(lower >= length && 0 < upper && upper < length) ? left :
-			(0 < lower && lower < length && upper >= length) ? right :
-				semiotic::template band<x, lower, upper>::value
-	};
-};
+		static constexpr size_type length = f_policy::unit::semiotic::length;
 
-/*
-	Terms:
+		size_type lower = (s > t) ? t : s;
+		size_type upper = (s > t) ? s : t;
+			// lower <= upper
 
-	Constraints:
-
-	X = { x == 0, x != 0 }
-
-	|X| = 2
-
-	Dispatch:
-
-	[1]	(x == 0)	->	0
-	[1]	(x != 0)	->	lower_half
-*/
-
-template<size_type x>
-struct lower_half
-{
-	enum : size_type
-	{
-		value = !x ? 0 :
-				semiotic::template lower_half<x>::value
-	};
-};
-
-/*
-	Terms:
-
-	Constraints:
-
-	X = { x == 0, x != 0 }
-
-	|X| = 2
-
-	Dispatch:
-
-	[1]	(x == 0)	->	0
-	[1]	(x != 0)	->	upper_half
-*/
-
-template<size_type x>
-struct upper_half
-{
-	enum : size_type
-	{
-		value = !x ? 0 :
-				semiotic::template upper_half<x>::value
-	};
+		if (0 < lower && upper < length)				return semiotic::band::with_return(x, lower, upper);
+		else if (0 < lower && lower < length && upper >= length)	return semiotic::high::with_return(x, lower);
+		else if (lower >= length && 0 < upper && upper < length)	return semiotic::low::with_return(x, upper);
+		else if (lower <= 0 && upper >= length)				return x;
+		else								return 0;
+	}
 };
 
 /*
@@ -303,26 +255,24 @@ struct upper_half
 	Dispatch:
 
 	[3]	(is_unsigned && x <= 0) || (!is_unsigned && x == 0)	->	0
-	[2]	(!is_unsigned && (x > 0 || min < x < 0))		->	signed_degree
 	[1]	(!is_unsigned && x == min)				->	length
+	[2]	(!is_unsigned && (x > 0 || min < x < 0))		->	signed_degree
 	[1]	(is_unsigned && x > 0)					->	unsigned_degree
 */
 
-template<size_type x>
-class degree
+struct degree
 {
-	static constexpr size_type min = unit::semiotic::min;
-	static constexpr size_type length = unit::semiotic::length;
-	static constexpr bool is_unsigned = unit::semiotic::is_unsigned;
-
-	static constexpr size_type unsigned_degree = semiotic::template unsigned_degree<0, x, length>::value;
-	static constexpr size_type signed_degree = semiotic::template signed_degree<0, x>::value;
-
-	public: enum : size_type
+	static size_type with_return(size_type x)
 	{
-		value = (is_unsigned && x <= 0) || (!is_unsigned && !x) ? 0 :
-			!is_unsigned ?  x == min ? length : signed_degree
-			: unsigned_degree
-	};
+		static constexpr size_type min = f_policy::unit::semiotic::min;
+		static constexpr size_type length = f_policy::unit::semiotic::length;
+		static constexpr bool is_unsigned = f_policy::unit::semiotic::is_unsigned;
+
+		if (is_unsigned && x > 0)		return semiotic::template unroll<length>::degree::unsigned_return(0, x);
+		else if (!is_unsigned &&
+			(x > 0 || min < x && x < 0))	return semiotic::degree::signed_return(x); // could be more efficient!
+		else if (!is_unsigned && x == min)	return length;
+		else					return 0;
+	}
 };
 

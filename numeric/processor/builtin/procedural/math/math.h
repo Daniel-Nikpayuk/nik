@@ -15,13 +15,24 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_MATH_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_MATH_H
 
 #include"../../../../../grammaric/functional/policy/policy.h"
+#include"../../functional/policy/policy.h"
 
-#include"../unit/unit.h"
-#include"../overload/overload.h"
+#include"../sift/sift.h"
+
+/*
+	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
+	a const reference to one.
+
+	Incrementing and decrementing pointers which should otherwise maintain a unit location is bad practice in general,
+	but is here used for optimized efficiency.
+
+	Template unrolling is very memory expensive. As such, given some routines and subroutines are powerhouse workhorses
+	relative to the whole library, it is worth implementing a few to be as processor and memory efficient as possible.
+*/
 
 namespace nik
 {
@@ -31,17 +42,17 @@ namespace nik
   {
    namespace builtin
    {
-    namespace functional
+    namespace procedural
     {
 	template<typename SizeType>
-	struct sift
+	struct math
 	{
 		typedef SizeType size_type;
 
 		typedef grammaric::functional::policy<size_type> gf_policy;
+		typedef functional::policy<size_type> f_policy;
 
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
+		typedef procedural::sift<size_type> sift;
 
 		struct semiotic
 		{

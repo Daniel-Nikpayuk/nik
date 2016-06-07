@@ -15,48 +15,22 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
+/*
+	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
+	It is only meant to have an allocator as well as meta information about the type of memory it holds.
+*/
 
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-#include"../overload/overload.h"
-
-namespace nik
+template<typename T, typename SizeType=size_t>
+class array
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
-	{
+	public:
+		typedef T* pointer;
+		typedef T value_type;
 		typedef SizeType size_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		static void_ptr operator new (size_t n)
+			{ return new T[n]; }
+};
 
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
-	};
-    }
-   }
-  }
- }
-}
-
-#endif

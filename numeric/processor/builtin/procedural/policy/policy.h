@@ -15,12 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
-#define NIK_NUMERIC_PROCESSOR_ARGUMENT_POLICY_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_POLICY_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_POLICY_H
 
-#include"../binary/binary.h"
-#include"../math/math.h"
-#include"../meta/meta.h"
+#include"../overload/overload.h"
+#include"../discrete/discrete.h"
+#include"../sift/sift.h"
+//#include"../math/math.h"
 
 /*
 	The justification for this policy class is threefold:
@@ -36,25 +37,32 @@ namespace nik
  {
   namespace processor
   {
-   namespace argument
+   namespace builtin
    {
+    namespace procedural
+    {
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
 /*
-	binary:
+	overload:
 */
-		using bina=argument::binary<size_type>;
+		using over=procedural::overload<size_type>;
+/*
+	discrete:
+*/
+		using disc=procedural::discrete<size_type>;
+/*
+	sift:
+*/
+		using sift=procedural::sift<size_type>;
 /*
 	math:
+		using math=procedural::math<size_type>;
 */
-		using math=argument::math<size_type>;
-/*
-	meta:
-*/
-		using meta=argument::meta;
 	};
+    }
    }
   }
  }

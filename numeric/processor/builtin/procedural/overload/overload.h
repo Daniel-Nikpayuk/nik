@@ -15,12 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_ARGUMENT_MATH_H
-#define NIK_NUMERIC_PROCESSOR_ARGUMENT_MATH_H
+#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_OVERLOAD_H
+#define NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_OVERLOAD_H
 
-#include"../../policy/policy.h"
-
-#include"../binary/binary.h"
+#include"../../../../../grammaric/functional/policy/policy.h"
+#include"../../functional/policy/policy.h"
 
 /*
 	As optimized (fast) types are intended to hold int types, it's more efficient to pass the given size_type instead of
@@ -31,6 +30,8 @@
 
 	Template unrolling is very memory expensive. As such, given some routines and subroutines are powerhouse workhorses
 	relative to the whole library, it is worth implementing a few to be as processor and memory efficient as possible.
+
+	Shifting functions are actually provided less for improved efficiency, but more for coercion and type deduction safety.
 */
 
 namespace nik
@@ -39,24 +40,29 @@ namespace nik
  {
   namespace processor
   {
-   namespace argument
+   namespace builtin
    {
+    namespace procedural
+    {
 	template<typename SizeType>
-	struct math
+	struct overload
 	{
 		typedef SizeType size_type;
 
-		typedef processor::policy<size_type> p_policy;
-
-		typedef typename argument::binary<size_type>::semiotic a_binary;
+		typedef grammaric::functional::policy<size_type> gf_policy;
+		typedef functional::policy<size_type> f_policy;
 
 		struct semiotic
 		{
 			#include"semiotic.cpp"
 		};
 
-		#include"media.cpp"
+		struct media
+		{
+			#include"media.cpp"
+		};
 	};
+    }
    }
   }
  }
