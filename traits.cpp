@@ -15,17 +15,25 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#include"numeric/word/boolean/structural/traits.h"
+#include"numeric/word/uint/structural/traits.h"
+#include"numeric/word/sint/structural/traits.h"
 
-#include"printer.cpp"
+namespace nik
+{
+	template<typename SizeType>
+	struct traits
+	{
+		typedef SizeType size_type;
 
-#include"error.cpp"
+		typedef numeric::word::boolean::structural::semiotic<size_type> nwbss;
+		typedef numeric::word::boolean::structural::media<size_type> nwbsm;
 
-#include"traits.cpp"
+		typedef numeric::word::uint::structural::semiotic<size_type> nwuss;
+		typedef numeric::word::uint::structural::media<size_type> nwusm;
 
-#include"policy.cpp"
+		typedef numeric::word::sint::structural::semiotic<size_type> nwsss;
+		typedef numeric::word::sint::structural::media<size_type> nwssm;
+	};
+}
 
-#include"user.cpp"
-
-#endif

@@ -15,17 +15,31 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_UINT_STRUCTURAL_TRAITS_H
+#define NIK_NUMERIC_WORD_UINT_STRUCTURAL_TRAITS_H
 
-#include"printer.cpp"
+namespace nik		{
+namespace numeric	{
+namespace word		{
+namespace uint		{
+namespace structural	{
 
-#include"error.cpp"
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
 
-#include"traits.cpp"
+		#include"identity/semiotic.cpp"
+	};
 
-#include"policy.cpp"
+	template<typename SizeType>
+	struct media
+	{
+		typedef SizeType size_type;
 
-#include"user.cpp"
+		#include"identity/media.cpp"
+	};
+
+}}}}}
 
 #endif

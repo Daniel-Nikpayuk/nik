@@ -5,5 +5,19 @@
   </head>
   <body>
 
+The numeric restraint has hardware genres having everything to do with memory.
+
+In an abstract sense, we build memory starting with a <em>bit</em>, followed
+by a <em>byte</em> (being eight bits), and then we generalize from there with
+a <em>type</em>. A type being one or more bytes, assumed to have internal
+structure and procedures (class methods), but which are otherwise specific
+to that exact type.
+
+As for types, it is worthwhile splitting them up into <em>word memory</em>
+types which are less than or equal to word length (currently 64 bits or 8 bytes in laptops)
+in size. Next we have <em>address memory</em> which is greater than the word length and
+less than or equal to two to the power of the word length (2^{word length})---at least in theory
+that is, in practice given current architectures it's often far less.
+
   </body>
 </html>

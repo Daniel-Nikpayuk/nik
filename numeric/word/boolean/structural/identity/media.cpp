@@ -15,17 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_MEDIA_CPP
+#define NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_MEDIA_CPP
 
-#include"printer.cpp"
-
-#include"error.cpp"
-
-#include"traits.cpp"
-
-#include"policy.cpp"
-
-#include"user.cpp"
+/*
+	Test against self-assignment!
+*/
 
 #endif

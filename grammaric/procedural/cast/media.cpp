@@ -15,17 +15,3 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
-
-#include"printer.cpp"
-
-#include"error.cpp"
-
-#include"traits.cpp"
-
-#include"policy.cpp"
-
-#include"user.cpp"
-
-#endif

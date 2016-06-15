@@ -15,17 +15,21 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_MEDIA_CPP
+#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_MEDIA_CPP
 
-#include"printer.cpp"
-
-#include"error.cpp"
-
-#include"traits.cpp"
-
-#include"policy.cpp"
-
-#include"user.cpp"
+struct meta
+{
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
+	{
+		public: enum : size_type
+		{
+			value = !diff
+					|| left > right ? left :
+				semiotic::template midpoint<guess_and_check, left, right, diff>::value
+		};
+	};
+};
 
 #endif

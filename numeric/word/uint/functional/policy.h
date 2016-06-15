@@ -15,17 +15,43 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
+#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
 
-#include"printer.cpp"
+namespace nik		{
+namespace numeric	{
+namespace word		{
+namespace uint		{
+namespace functional	{
 
-#include"error.cpp"
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
 
-#include"traits.cpp"
+		#include"meta/semiotic.cpp"
+		#include"unit/semiotic.cpp"
+//		#include"overload/semiotic.cpp"
+//		#include"discrete/semiotic.cpp"
+//		#include"math/semiotic.cpp"
+//		#include"sift/semiotic.cpp"
+	};
 
-#include"policy.cpp"
+	template<typename SizeType>
+	struct media
+	{
+		typedef SizeType size_type;
 
-#include"user.cpp"
+		typedef functional::semiotic<size_type> semiotic;
+
+		#include"meta/media.cpp"
+		#include"unit/media.cpp"
+//		#include"overload/media.cpp"
+//		#include"discrete/media.cpp"
+//		#include"math/media.cpp"
+//		#include"sift/media.cpp"
+	};
+
+}}}}}
 
 #endif

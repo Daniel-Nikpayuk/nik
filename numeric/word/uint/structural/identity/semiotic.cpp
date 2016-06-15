@@ -15,17 +15,22 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_UINT_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
+#define NIK_NUMERIC_WORD_UINT_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
 
-#include"printer.cpp"
+struct base { };
 
-#include"error.cpp"
+template<typename T, unsigned char size>
+struct size_assert
+{
+	static_assert(sizeof(T) == size, "uint size_assert mismatch!");
 
-#include"traits.cpp"
+	typedef T return_type;
+};
 
-#include"policy.cpp"
-
-#include"user.cpp"
+typedef typename size_assert<unsigned char	, 1>::return_type identity8; 
+typedef typename size_assert<unsigned short	, 2>::return_type identity16;
+typedef typename size_assert<unsigned int	, 4>::return_type identity32;
+typedef typename size_assert<unsigned long	, 8>::return_type identity64;
 
 #endif

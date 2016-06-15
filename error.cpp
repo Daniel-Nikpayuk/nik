@@ -15,17 +15,32 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#include<stdlib.h>
 
-#include"printer.cpp"
+namespace nik
+{
+	enum ErrorType : size_t
+	{
+		out_of_bounds
+	};
 
-#include"error.cpp"
+	template<typename T>
+	struct error
+	{
+	/*
+		static constexpr char* message =
+		{
+			"index is out of bounds!"
+		};
+	*/
 
-#include"traits.cpp"
+		static void report(size_t index)
+		{
+	//		builtin << message[index];
+			builtin << "Now exiting.";
 
-#include"policy.cpp"
+			exit(EXIT_FAILURE);
+		}
+	};
+}
 
-#include"user.cpp"
-
-#endif

@@ -15,17 +15,29 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
+#define NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
 
-#include"printer.cpp"
+namespace nik		{
+namespace grammaric	{
+namespace functional	{
 
-#include"error.cpp"
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
 
-#include"traits.cpp"
+		#include"control_flow/semiotic.cpp"
+	};
 
-#include"policy.cpp"
+	template<typename SizeType>
+	struct media
+	{
+		typedef SizeType size_type;
 
-#include"user.cpp"
+		#include"control_flow/media.cpp"
+	};
+
+}}}
 
 #endif

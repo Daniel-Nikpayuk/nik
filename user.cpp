@@ -15,17 +15,26 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+namespace nik
+{
+	/*
+	template<typename SizeType=size_t>
+	using sbit=typename traits<SizeType>::npis::identity::template
+			semiotic<typename traits<SizeType>::npis::identity::semiotic_pointer>;
+	*/
 
-#include"printer.cpp"
+	/*
+	template<typename T, typename SizeType=size_t>
+	using list=iterator::generic::list<T, SizeType>;
 
-#include"error.cpp"
+	template<typename T, typename SizeType=size_t>
+	using chain=iterator::generic::chain<T, SizeType>;
 
-#include"traits.cpp"
+	template<typename T, typename SizeType=size_t>
+	using vector=iterator::generic::vector<T, SizeType>;
 
-#include"policy.cpp"
+	template<size_t BitLength>
+	using uint_block=numeric::uint<size_t>::block<BitLength>;
+	*/
+}
 
-#include"user.cpp"
-
-#endif

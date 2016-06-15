@@ -15,17 +15,37 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_SEMIOTIC_CPP
+#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_SEMIOTIC_CPP
 
-#include"printer.cpp"
+#include"../../../../../grammaric/functional/policy.h"
 
-#include"error.cpp"
+struct meta
+{
+	typedef grammaric::functional::media<size_type> gfm_policy;
 
-#include"traits.cpp"
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
+	{
+		static constexpr size_type mid = (left + right) >> 1;
 
-#include"policy.cpp"
+		public: enum : size_type
+		{
+			value = gfm_policy::cont::template
+			if_then_else
+			<
+				guess_and_check::template test<mid>::value,
+				midpoint<guess_and_check, mid, right>,
+				midpoint<guess_and_check, left, mid>
+			>::return_type::value
+		};
+	};
 
-#include"user.cpp"
+	template<typename guess_and_check, size_type left, size_type right>
+	class midpoint<guess_and_check, left, right, 1>
+	{
+		public: enum : size_type { value = left };
+	};
+};
 
 #endif

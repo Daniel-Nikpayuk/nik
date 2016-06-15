@@ -15,17 +15,33 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#include"grammaric/functional/policy.h"
+#include"grammaric/procedural/policy.h"
 
-#include"printer.cpp"
+#include"numeric/word/uint/functional/policy.h"
+//#include"numeric/word/uint/procedural/policy.h"
 
-#include"error.cpp"
+//#include"numeric/word/sint/functional/policy.h"
+//#include"numeric/word/sint/procedural/policy.h"
 
-#include"traits.cpp"
+namespace nik
+{
+	template<typename SizeType>
+	struct policy
+	{
+		typedef SizeType size_type;
 
-#include"policy.cpp"
+		typedef grammaric::functional::semiotic<size_type> gfs;
+		typedef grammaric::functional::media<size_type> gfm;
 
-#include"user.cpp"
+		typedef grammaric::procedural::semiotic<size_type> gps;
+		typedef grammaric::procedural::media<size_type> gpm;
 
-#endif
+		typedef numeric::word::uint::functional::semiotic<size_type> nwufs;
+		typedef numeric::word::uint::functional::media<size_type> nwufm;
+
+//		typedef numeric::word::uint::procedural::semiotic<size_type> nwups;
+//		typedef numeric::word::uint::procedural::media<size_type> nwupm;
+	};
+}
+

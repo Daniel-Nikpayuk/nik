@@ -15,17 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+#ifndef NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
+#define NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
 
-#include"printer.cpp"
+struct base { };
 
-#include"error.cpp"
-
-#include"traits.cpp"
-
-#include"policy.cpp"
-
-#include"user.cpp"
+typedef bool identity;
 
 #endif
