@@ -15,48 +15,36 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_SIFT_H
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-#include"../overload/overload.h"
-
-namespace nik
+struct discrete
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct sift
+	/*
+		Terms:
+
+		unit::semiotic::length
+
+		Constraints:
+
+		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+		Dispatch:
+
+		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
+		[3]	(n == 0)						->	x
+		[2]	(0 < -n < length) && (x != 0)				->	>>
+		[2]	(0 < n < length) && (x != 0)				->	<<
+	*/
+
+	struct shift
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
-
-		struct semiotic
+		static size_type with_return(size_type x, size_type n)
 		{
-			#include"semiotic.cpp"
-		};
+			static constexpr size_type length = fs_policy::unit::length;
 
-		struct media
-		{
-			#include"media.cpp"
-		};
+			if (0 < n && n < length && x)		return semiotic::over::left_shift::with_return(x, n);
+			else if (0 > n && n > -length && x)	return semiotic::over::right_shift::with_return(x, -n);
+			else if (!n)				return x;
+			else					return 0;
+		}
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif

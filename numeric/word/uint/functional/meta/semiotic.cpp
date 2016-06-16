@@ -15,15 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_SEMIOTIC_CPP
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_META_SEMIOTIC_CPP
-
-#include"../../../../../grammaric/functional/policy.h"
-
 struct meta
 {
-	typedef grammaric::functional::media<size_type> gfm_policy;
-
 	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
 	class midpoint
 	{
@@ -48,4 +41,3 @@ struct meta
 	};
 };
 
-#endif

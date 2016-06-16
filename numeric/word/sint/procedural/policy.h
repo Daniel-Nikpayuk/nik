@@ -15,63 +15,49 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
-
-#include<stdint.h>
-#include<climits>
-#include<cfloat>
-#include<math.h>
+#ifndef NIK_NUMERIC_WORD_SINT_PROCEDURAL_POLICY_H
+#define NIK_NUMERIC_WORD_SINT_PROCEDURAL_POLICY_H
 
 #include"../../../../grammaric/functional/policy.h"
+#include"../functional/policy.h"
 
 namespace nik		{
 namespace numeric	{
 namespace word		{
-namespace uint		{
-namespace functional	{
-
-	#include"limits.h"
+namespace sint		{
+namespace procedural	{
 
 	template<typename SizeType> struct media;
 
 	template<typename SizeType>
 	struct semiotic
 	{
-		static_assert(!limits<SizeType>::min, "uint template parameter signed!");
-
 		typedef SizeType size_type;
 
 		typedef grammaric::functional::media<size_type> gfm_policy;
-		typedef functional::limits<size_type> limits;
+		typedef functional::semiotic<size_type> fs_policy;
 
 		typedef functional::media<size_type> media;
 
-		#include"meta/semiotic.cpp"
-		#include"unit/semiotic.cpp"
 		#include"overload/semiotic.cpp"
 		#include"discrete/semiotic.cpp"
-		#include"math/semiotic.cpp"
+//		#include"math/semiotic.cpp"
 		#include"sift/semiotic.cpp"
 	};
 
 	template<typename SizeType>
 	struct media
 	{
-		static_assert(!limits<SizeType>::min, "uint template parameter signed!");
-
 		typedef SizeType size_type;
 
 		typedef grammaric::functional::media<size_type> gfm_policy;
-		typedef functional::limits<size_type> limits;
+		typedef functional::semiotic<size_type> fs_policy;
 
 		typedef functional::semiotic<size_type> semiotic;
 
-		#include"meta/media.cpp"
-		#include"unit/media.cpp"
 		#include"overload/media.cpp"
 		#include"discrete/media.cpp"
-		#include"math/media.cpp"
+//		#include"math/media.cpp"
 		#include"sift/media.cpp"
 	};
 

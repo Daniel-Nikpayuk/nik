@@ -15,43 +15,35 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_DISCRETE_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_DISCRETE_H
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-#include"../overload/overload.h"
-
-namespace nik
+struct overload
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct discrete
+	/*
+		Constraints:
+
+		(0 < n < length) && (x != 0)
+	*/
+
+	template<size_type x, size_type n>
+	struct left_shift
 	{
-		typedef SizeType size_type;
+		enum : size_type { value = x << n };
+	};
 
-		typedef grammaric::functional::policy<size_type> gf_policy;
+	/*
+		Constraints:
 
-		typedef functional::unit<size_type> unit;
-		typedef functional::overload<size_type> over;
+		(0 < n < length) && (x != 0)
+	*/
 
-		struct media
+	template<size_type x, size_type n>
+	struct right_shift
+	{
+		enum : size_type
 		{
-			#include"media.cpp"
+			value = x < 0 ?
+				-(-x >> n) :
+				x >> n
 		};
 	};
-    }
-   }
-  }
- }
-}
+};
 
-#endif

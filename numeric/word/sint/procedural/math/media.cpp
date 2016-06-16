@@ -15,33 +15,42 @@
 **
 *************************************************************************************************************************/
 
-#include"grammaric/functional/policy.h"
-#include"grammaric/procedural/policy.h"
-
-#include"numeric/word/uint/functional/policy.h"
-//#include"numeric/word/uint/procedural/policy.h"
-
-//#include"numeric/word/sint/functional/policy.h"
-//#include"numeric/word/sint/procedural/policy.h"
-
-namespace nik
+struct math
 {
-	template<typename SizeType>
-	struct policy
+	/*
+		multiply:
+	*/
+
+	struct multiply
 	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::semiotic<size_type> gfs;
-		typedef grammaric::functional::media<size_type> gfm;
-
-		typedef grammaric::procedural::semiotic<size_type> gps;
-		typedef grammaric::procedural::media<size_type> gpm;
-
-		typedef numeric::word::uint::functional::semiotic<size_type> nwufs;
-		typedef numeric::word::uint::functional::media<size_type> nwufm;
-
-//		typedef numeric::word::uint::procedural::semiotic<size_type> nwups;
-//		typedef numeric::word::uint::procedural::media<size_type> nwupm;
 	};
-}
+
+	/*
+		divide:
+
+		These algorithms are highly optimized and only work (semantically) if (in1|in2 >= d) where (in1 != 0), and (in1 < d).
+
+		The cases d == 0 , d == 1 are not covered as no optimized algorithms are required.
+	*/
+
+	struct divide
+	{
+	/*
+		return_quotient:
+
+		The return value is the quotient of the division.
+		out is the remainder from the division.
+		in1 is the first digit of the dividend and is such that in1 != 0.
+		in2 is the second digit of the dividend.
+		d is the divisor and is such that in1 < d. Given in1 != 0, this implies 2 <= d.
+				template<typename size_type>
+				static size_type return_quotient(size_type & out, size_type in1, size_type in2, size_type d)
+				{
+					if (d == (size_type) 2) return divisor_equals_2(out, in2);
+					else if (d < shift_up((size_type) 1)) return half::with_return(out, in1, in2, d);
+					else return with_return(out, in1, in2, d);
+				}
+	*/
+	};
+};
 

@@ -15,35 +15,25 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_UNIT_LIMITS_H
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_UNIT_LIMITS_H
-
-#include<stdint.h>
-
-#include<climits>
-#include<cfloat>
+#ifndef NIK_NUMERIC_WORD_SINT_FUNCTIONAL_LIMITS_H
+#define NIK_NUMERIC_WORD_SINT_FUNCTIONAL_LIMITS_H
 
 /*
 	limits: (taken from: http://en.cppreference.com/w/cpp/types/limits)
 
 	char
 	signed char
-	unsigned char
 	wchar_t
 	char16_t
 	char32_t
 	short
 		signed short // redundant
-	unsigned short
 	int
 		signed int // redundant
-	unsigned int
 	long
 		signed long // redundant
-	unsigned long
 	long long
 		signed long long // redundant
-	unsigned long long
 	float
 	double
 	long double
@@ -57,6 +47,9 @@ template<typename IntType, typename Filler=void>
 struct limits
 {
 	typedef IntType int_type;
+
+	static constexpr int_type min=0;
+	static constexpr int_type max=0;
 };
 
 /*
@@ -79,15 +72,6 @@ struct limits<signed char, Filler>
 
 	static constexpr int_type min=SCHAR_MIN;
 	static constexpr int_type max=SCHAR_MAX;
-};
-
-template<typename Filler>
-struct limits<unsigned char, Filler>
-{
-	typedef unsigned char int_type;
-
-	static constexpr int_type min=0;
-	static constexpr int_type max=UCHAR_MAX;
 };
 
 template<typename Filler>
@@ -126,16 +110,7 @@ struct limits<short, Filler>
 	static constexpr int_type max=SHRT_MAX;
 };
 
-//	redundant: template<> struct limits<signed long long>;
-
-template<typename Filler>
-struct limits<unsigned short, Filler>
-{
-	typedef unsigned short int_type;
-
-	static constexpr int_type min=0;
-	static constexpr int_type max=USHRT_MAX;
-};
+//	redundant: signed short
 
 template<typename Filler>
 struct limits<int, Filler>
@@ -146,16 +121,7 @@ struct limits<int, Filler>
 	static constexpr int_type max=INT_MAX;
 };
 
-//	redundant: template<> struct limits<signed long long>;
-
-template<typename Filler>
-struct limits<unsigned int, Filler>
-{
-	typedef unsigned int int_type;
-
-	static constexpr int_type min=0;
-	static constexpr int_type max=UINT_MAX;
-};
+//	redundant: signed int
 
 template<typename Filler>
 struct limits<long, Filler>
@@ -166,16 +132,7 @@ struct limits<long, Filler>
 	static constexpr int_type max=LONG_MAX;
 };
 
-//	redundant: template<> struct limits<signed long long>;
-
-template<typename Filler>
-struct limits<unsigned long, Filler>
-{
-	typedef unsigned long int_type;
-
-	static constexpr int_type min=0;
-	static constexpr int_type max=ULONG_MAX;
-};
+//	redundant: signed long
 
 template<typename Filler>
 struct limits<long long, Filler>
@@ -186,16 +143,7 @@ struct limits<long long, Filler>
 	static constexpr int_type max=LLONG_MAX;
 };
 
-//	redundant: template<> struct limits<signed long long>;
-
-template<typename Filler>
-struct limits<unsigned long long, Filler>
-{
-	typedef unsigned long long int_type;
-
-	static constexpr int_type min=0;
-	static constexpr int_type max=ULLONG_MAX;
-};
+//	redundant: signed long long
 
 template<typename Filler>
 struct limits<float, Filler>

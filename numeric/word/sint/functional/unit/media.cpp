@@ -26,7 +26,7 @@ struct unit
 	static constexpr size_type min() { return semiotic::unit::min; }
 	static constexpr size_type max() { return semiotic::unit::max; }
 
-	static constexpr bool is_unsigned() { return semiotic::unit::is_unsigned; }
+	static constexpr bool is_signed() { return semiotic::unit::is_signed; }
 
 	static constexpr size_type zero() { return semiotic::unit::zero; }
 	static constexpr size_type one() { return semiotic::unit::one; }

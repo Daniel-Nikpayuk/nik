@@ -15,8 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_POLICY_H
+#ifndef NIK_NUMERIC_WORD_SINT_FUNCTIONAL_POLICY_H
+#define NIK_NUMERIC_WORD_SINT_FUNCTIONAL_POLICY_H
 
 #include<stdint.h>
 #include<climits>
@@ -28,7 +28,7 @@
 namespace nik		{
 namespace numeric	{
 namespace word		{
-namespace uint		{
+namespace sint		{
 namespace functional	{
 
 	#include"limits.h"
@@ -38,7 +38,7 @@ namespace functional	{
 	template<typename SizeType>
 	struct semiotic
 	{
-		static_assert(!limits<SizeType>::min, "uint template parameter signed!");
+		static_assert(limits<SizeType>::min, "sint template parameter unsigned!");
 
 		typedef SizeType size_type;
 
@@ -58,7 +58,7 @@ namespace functional	{
 	template<typename SizeType>
 	struct media
 	{
-		static_assert(!limits<SizeType>::min, "uint template parameter signed!");
+		static_assert(limits<SizeType>::min, "sint template parameter unsigned!");
 
 		typedef SizeType size_type;
 

@@ -15,46 +15,29 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_OVERLOAD_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_OVERLOAD_H
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-
-namespace nik
+struct meta
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct overload
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
 	{
-		typedef SizeType size_type;
+		static constexpr size_type mid = (left + right) >> 1;
 
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-
-		struct semiotic
+		public: enum : size_type
 		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
+			value = gfm_policy::cont::template
+			if_then_else
+			<
+				guess_and_check::template test<mid>::value,
+				midpoint<guess_and_check, mid, right>,
+				midpoint<guess_and_check, left, mid>
+			>::return_type::value
 		};
 	};
-    }
-   }
-  }
- }
-}
 
-#endif
+	template<typename guess_and_check, size_type left, size_type right>
+	class midpoint<guess_and_check, left, right, 1>
+	{
+		public: enum : size_type { value = left };
+	};
+};
+

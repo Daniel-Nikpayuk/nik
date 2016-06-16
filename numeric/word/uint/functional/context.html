@@ -1,0 +1,18 @@
+<!--Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation-->
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+
+Notice in the "cpp" subfiles, if they use code from each other no include macro is given. This is because
+when the code is read, it is library policy to read it from the local "policy" header, and so dependencies
+are resolved there. Furthermore, to accentuate this, there is no---need for---"ifndef" macro use either.
+
+Turns out you can't actually print your "static constexpr" constants within "unit" as they return an
+undefined reference. You can call them successfully within other functions though. If you want to print
+them, just use the media constant function versions. This is a problem that is probably fixable, but
+as of yet I have no actual need to do so. I risk leaving it as is.
+
+  </body>
+</html>

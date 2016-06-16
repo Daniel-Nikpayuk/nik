@@ -18,14 +18,14 @@
 #ifndef NIK_H
 #define NIK_H
 
-#include"printer.cpp"
+#include"printer.h"
 
-#include"error.cpp"
+#include"error.h"
 
-#include"traits.cpp"
+#include"traits.h"
 
-#include"policy.cpp"
+#include"policy.h"
 
-#include"user.cpp"
+#include"user.h"
 
 #endif

@@ -15,57 +15,39 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_POLICY_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_PROCEDURAL_POLICY_H
+#include"grammaric/functional/policy.h"
+#include"grammaric/procedural/policy.h"
 
-#include"../overload/overload.h"
-#include"../discrete/discrete.h"
-#include"../sift/sift.h"
-//#include"../math/math.h"
+#include"numeric/word/uint/functional/policy.h"
+#include"numeric/word/uint/procedural/policy.h"
 
-/*
-	The justification for this policy class is threefold:
-
-	1) Is a modularization strategy toward mitigating the depth complexity of nested namespaces.
-	2) It allows one to include the "policy.h" header which by default includes all existing generic headers,
-		easing the headerload within the media classes.
-*/
+#include"numeric/word/sint/functional/policy.h"
+#include"numeric/word/sint/procedural/policy.h"
 
 namespace nik
 {
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace procedural
-    {
 	template<typename SizeType>
 	struct policy
 	{
 		typedef SizeType size_type;
-/*
-	overload:
-*/
-		using over=procedural::overload<size_type>;
-/*
-	discrete:
-*/
-		using disc=procedural::discrete<size_type>;
-/*
-	sift:
-*/
-		using sift=procedural::sift<size_type>;
-/*
-	math:
-		using math=procedural::math<size_type>;
-*/
+
+		typedef grammaric::functional::semiotic<size_type> gfs;
+		typedef grammaric::functional::media<size_type> gfm;
+
+		typedef grammaric::procedural::semiotic<size_type> gps;
+		typedef grammaric::procedural::media<size_type> gpm;
+
+		typedef numeric::word::uint::functional::semiotic<size_type> nwufs;
+		typedef numeric::word::uint::functional::media<size_type> nwufm;
+
+		typedef numeric::word::uint::procedural::semiotic<size_type> nwups;
+		typedef numeric::word::uint::procedural::media<size_type> nwupm;
+
+		typedef numeric::word::sint::functional::semiotic<size_type> nwsfs;
+		typedef numeric::word::sint::functional::media<size_type> nwsfm;
+
+		typedef numeric::word::sint::procedural::semiotic<size_type> nwsps;
+		typedef numeric::word::sint::procedural::media<size_type> nwspm;
 	};
-    }
-   }
-  }
- }
 }
 
-#endif

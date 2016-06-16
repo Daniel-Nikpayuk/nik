@@ -16,7 +16,7 @@
 *************************************************************************************************************************/
 
 /*
-	These constants are defined in such a way as to be robust against unsigned integer types.
+	These constants are defined in such a way as to be robust against signed and unsigned integer types.
 
 	Some of these computations are defined the way they are to avoid compiler warnings.
 */
@@ -25,8 +25,8 @@ struct unit
 {
 	static constexpr size_type min = limits::min;
 	static constexpr size_type max = limits::max;
-
-	static constexpr bool is_unsigned = !min;
+	
+	static constexpr bool is_signed = min;
 
 	static constexpr size_type zero = 0;
 	static constexpr size_type one = 1;
@@ -36,10 +36,10 @@ struct unit
 	static constexpr size_type nibble = 4;
 	static constexpr size_type byte = 8;
 
-	static constexpr size_type length = byte * sizeof(size_type);
+	static constexpr size_type length = byte * sizeof(size_type) - 1;
 	static constexpr size_type order = length - 1;
 
-	static constexpr size_type tail = 0;
+	static constexpr size_type tail = (size_type) 2 << order;
 	static constexpr size_type head = (size_type) 1 << order;
 
 	struct half
@@ -50,7 +50,7 @@ struct unit
 		static constexpr size_type max = ((size_type) 1 << length) - 1;
 		static constexpr size_type min = -max - 1;
 
-		static constexpr size_type tail = 0;
+		static constexpr size_type tail = -(size_type) 2 << order;
 		static constexpr size_type head = (size_type) 1 << order;
 	};
 
@@ -64,8 +64,21 @@ struct unit
 	{
 		struct square
 		{
-			static constexpr size_type upper = half::max + 1;
-			static constexpr size_type lower = unit::max;
+			struct odd_square_domain
+			{
+				template<size_type m>
+				struct test
+				{
+					static constexpr size_type l = m % half::head;
+					static constexpr size_type r = half::head - l;
+
+					enum : bool { value = bool(2*l*l < r*r) };
+				};
+			};
+
+			static constexpr size_type upper = 
+				meta::template midpoint<odd_square_domain, half::head, 2*half::head>::value + 1;
+			static constexpr size_type lower = -upper;
 		};
 	};
 };

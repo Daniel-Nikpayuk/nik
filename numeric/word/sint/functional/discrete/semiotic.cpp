@@ -15,50 +15,5 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
-#define NIK_NUMERIC_PROCESSOR_BUILTIN_FUNCTIONAL_MATH_H
+struct discrete { };
 
-#include<math.h>
-
-#include"../../../../../grammaric/functional/policy/policy.h"
-
-#include"../unit/unit.h"
-
-namespace nik
-{
- namespace numeric
- {
-  namespace processor
-  {
-   namespace builtin
-   {
-    namespace functional
-    {
-	template<typename SizeType>
-	struct math
-	{
-		typedef SizeType size_type;
-
-		typedef grammaric::functional::policy<size_type> gf_policy;
-
-		typedef functional::unit<size_type> unit;
-
-		struct media;
-
-		struct semiotic
-		{
-			#include"semiotic.cpp"
-		};
-
-		struct media
-		{
-			#include"media.cpp"
-		};
-	};
-    }
-   }
-  }
- }
-}
-
-#endif
