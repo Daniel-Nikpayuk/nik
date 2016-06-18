@@ -58,9 +58,9 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-namespace forward {
-
-	struct zip
+struct zip
+{
+	struct forward
 	{
 		#define SGN +
 		#define INV -
@@ -83,11 +83,7 @@ namespace forward {
 		#undef SGN
 	};
 
-}
-
-namespace backward {
-
-	struct zip
+	struct backward
 	{
 		#define SGN -
 		#define INV +
@@ -110,11 +106,7 @@ namespace backward {
 		#undef SGN
 	};
 
-}
-
-namespace bidirectional {
-
-	struct zip
+	struct bidirectional
 	{
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
@@ -127,11 +119,7 @@ namespace bidirectional {
 		};
 	};
 
-}
-
-namespace random_access {
-
-	struct zip
+	struct random_access
 	{
 		template<size_type N, size_type M=0, size_type L=0>
 		struct unroll
@@ -143,8 +131,7 @@ namespace random_access {
 		{
 		};
 	};
-
-}
+};
 
 #include"../../macro/undef/open/initial.cpp"
 #include"../../macro/undef/open/unroll.cpp"

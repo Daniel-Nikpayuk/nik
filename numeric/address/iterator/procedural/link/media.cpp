@@ -15,7 +15,7 @@
 **
 *************************************************************************************************************************/
 
-struct segment
+struct link
 {
 	#include"zip/media.cpp"
 
@@ -40,13 +40,6 @@ struct segment
 		template<size_type N, size_type M=0, size_type L=0>
 		using bid_zip_unroll=typename bid_zip::template unroll<N, M, L>;
 
-//		random_access:
-
-		using rnd_zip=random_access::zip;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		using rnd_zip_unroll=typename rnd_zip::template unroll<N, M, L>;
-
 	#include"discrete/media.cpp"
 
 //		forward:
@@ -69,13 +62,6 @@ struct segment
 
 		template<size_type N, size_type M=0, size_type L=0>
 		using bid_disc_unroll=typename bid_disc::template unroll<N, M, L>;
-*/
-//		random_access:
-/*
-		using rnd_disc=random_access::discrete<size_type>;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		using rnd_disc_unroll=typename rnd_disc::template unroll<N, M, L>;
 */
 
 //	#include"arithmetic/media.cpp"
@@ -100,13 +86,6 @@ struct segment
 
 		template<size_type N, size_type M=0, size_type L=0>
 		using bid_arit_unroll=typename bid_arit::template unroll<N, M, L>;
-*/
-//		random_access:
-/*
-		using rnd_arit=random_access::arithmetic<size_type>;
-
-		template<size_type N, size_type M=0, size_type L=0>
-		using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
 */
 
 };

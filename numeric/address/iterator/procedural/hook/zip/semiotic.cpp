@@ -15,9 +15,6 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_OVERLOAD_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_OVERLOAD_H
-
 #include"define/closed/loop.cpp"
 #include"define/closed/count.cpp"
 #include"define/closed/unroll.cpp"
@@ -61,72 +58,46 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-namespace nik
+struct zip
 {
- namespace numeric
- {
-  namespace random_access
-  {
-   namespace iterator
-   {
-    namespace extensionwise
-    {
-     namespace functional
-     {
-	template<typename SizeType>
-	struct overload
+	#define SGN +
+	#define INV -
+
+	#include"../../macro/define/loop_count.cpp"
+
+	template<size_type N, size_type M=0, size_type L=0>
+	struct unroll
 	{
-		typedef SizeType size_type;
-
-		struct semiotic
-		{
-		};
-
-		#define SGN +
-		#define INV -
-
-		#include"../../../macro/define/loop_count.cpp"
-
-		template<size_type N, size_type M=0, size_type L=0>
-		struct unroll
-		{
-			#include"../../../macro/define/unroll.cpp"
-		};
-
-		template<size_type M, size_type L>
-		struct unroll<0, M, L>
-		{
-			#include"../../../macro/define/initial.cpp"
-		};
-
-		#undef INV
-		#undef SGN
+		#include"../../macro/define/unroll.cpp"
 	};
-     }
-    }
-   }
-  }
- }
-}
 
-#include"../../../macro/undef/open/initial.cpp"
-#include"../../../macro/undef/open/unroll.cpp"
-#include"../../../macro/undef/open/count.cpp"
-#include"../../../macro/undef/open/loop.cpp"
+	template<size_type M, size_type L>
+	struct unroll<0, M, L>
+	{
+		#include"../../macro/define/initial.cpp"
+	};
 
-#include"../../../macro/undef/opening/initial.cpp"
-#include"../../../macro/undef/opening/unroll.cpp"
-#include"../../../macro/undef/opening/count.cpp"
-#include"../../../macro/undef/opening/loop.cpp"
+	#undef INV
+	#undef SGN
+};
 
-#include"../../../macro/undef/closing/initial.cpp"
-#include"../../../macro/undef/closing/unroll.cpp"
-#include"../../../macro/undef/closing/count.cpp"
-#include"../../../macro/undef/closing/loop.cpp"
+#include"../../macro/undef/open/initial.cpp"
+#include"../../macro/undef/open/unroll.cpp"
+#include"../../macro/undef/open/count.cpp"
+#include"../../macro/undef/open/loop.cpp"
 
-#include"../../../macro/undef/closed/initial.cpp"
-#include"../../../macro/undef/closed/unroll.cpp"
-#include"../../../macro/undef/closed/count.cpp"
-#include"../../../macro/undef/closed/loop.cpp"
+#include"../../macro/undef/opening/initial.cpp"
+#include"../../macro/undef/opening/unroll.cpp"
+#include"../../macro/undef/opening/count.cpp"
+#include"../../macro/undef/opening/loop.cpp"
 
-#endif
+#include"../../macro/undef/closing/initial.cpp"
+#include"../../macro/undef/closing/unroll.cpp"
+#include"../../macro/undef/closing/count.cpp"
+#include"../../macro/undef/closing/loop.cpp"
+
+#include"../../macro/undef/closed/initial.cpp"
+#include"../../macro/undef/closed/unroll.cpp"
+#include"../../macro/undef/closed/count.cpp"
+#include"../../macro/undef/closed/loop.cpp"
+
