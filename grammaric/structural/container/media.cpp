@@ -15,7 +15,7 @@
 **
 *************************************************************************************************************************/
 
-template<typename ContainerType, typename ValueType, typename SizeType>
+template<typename ContainerType, typename ValueType>
 struct container
 {
 	typedef ContainerType type;
@@ -27,6 +27,6 @@ struct container
 	typedef ValueType* pointer;
 	typedef ValueType const * const_pointer;
 
-	typedef SizeType size_type;
+	typedef media::size_type size_type;
 };
 

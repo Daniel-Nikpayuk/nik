@@ -15,47 +15,19 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
-#define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
+#define POINTER_SIZE 2
 
-#include"../../../../grammaric/structural/traits.h"
+template<typename T>
+using hook_pointer = node_pointer<T, POINTER_SIZE>;
 
-namespace nik		{
-namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace structural	{
+template<typename T>
+using hook = node< hook_pointer<T> >;
 
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
+template<typename T>
+using const_hook_pointer = const_node_pointer<T, POINTER_SIZE>;
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
+template<typename T>
+using const_hook = node< const_hook_pointer<T> >;
 
-//		#include"base/semiotic.cpp"
-//		#include"bit/semiotic.cpp"
-		#include"segment/semiotic.cpp"
-		#include"node/semiotic.cpp"
-		#include"hook/semiotic.cpp"
-//		#include"link/semiotic.cpp"
-	};
+#undef POINTER_SIZE
 
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-		typedef grammaric::structural::media<size_type> gsm_traits;
-
-//		#include"base/media.cpp"
-//		#include"bit/media.cpp"
-//		#include"segment/media.cpp"
-//		#include"node/media.cpp"
-//		#include"hook/media.cpp"
-//		#include"link/media.cpp"
-	};
-
-}}}}}
-
-#endif

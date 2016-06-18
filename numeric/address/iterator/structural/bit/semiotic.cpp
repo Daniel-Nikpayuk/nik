@@ -21,7 +21,7 @@
 */
 
 template<typename Pointer>
-class semiotic
+class bit
 {
 	public:
 		typedef Pointer pointer;
@@ -34,15 +34,15 @@ class semiotic
 			{ return new size_type; }
 };
 
-class semiotic_pointer
+class bit_pointer
 {
 	public:
 		typedef bool value_type;
 		typedef identity::size_type size_type;
 	protected:
-		typedef semiotic_pointer* semiotic_pointer_ptr;
-		typedef semiotic_pointer& semiotic_pointer_ref;
-		typedef semiotic<semiotic_pointer>* semiotic_ptr;
+		typedef bit_pointer* bit_pointer_ptr;
+		typedef bit_pointer& bit_pointer_ref;
+		typedef semiotic<bit_pointer>* semiotic_ptr;
 		typedef void* void_ptr;
 
 		typedef size_type* size_type_ptr;
@@ -51,38 +51,38 @@ class semiotic_pointer
 		size_type_ptr current;
 		size_type location;
 	public:
-		semiotic_pointer() { }
-		semiotic_pointer(semiotic_ptr p) { current=(size_type_ptr) p; }
-		semiotic_pointer(size_type v, size_type l)
+		bit_pointer() { }
+		bit_pointer(semiotic_ptr p) { current=(size_type_ptr) p; }
+		bit_pointer(size_type v, size_type l)
 		{
 			*current=v;
 			location=l;
 		}
-		semiotic_pointer(const semiotic_pointer & p)
+		bit_pointer(const bit_pointer & p)
 		{
 			current=p.current;
 			location=p.location;
 		}
-		~semiotic_pointer() { }
+		~bit_pointer() { }
 /*
 	Needed for delete conversion.
 */
-		operator semiotic_pointer_ptr () const
-			{ return (semiotic_pointer_ptr) this; }
+		operator bit_pointer_ptr () const
+			{ return (bit_pointer_ptr) this; }
 /*
-	Needed for loop condition testing "while (semiotic_pointer)".
+	Needed for loop condition testing "while (bit_pointer)".
 */
 		operator bool () const
 			{ return current; }
 
-		bool operator == (const semiotic_pointer & p) const
+		bool operator == (const bit_pointer & p) const
 			{ return (current == p.current && location == p.location); }
 
-		bool operator != (const semiotic_pointer & p) const
+		bool operator != (const bit_pointer & p) const
 			{ return (current != p.current || location != location); }
 
 		static void operator delete (void_ptr p)
-			{ delete ((semiotic_pointer_ptr) p)->current; }
+			{ delete ((bit_pointer_ptr) p)->current; }
 
 		const value_type operator * () const
 			{ return *current & location; }
@@ -96,29 +96,29 @@ class semiotic_pointer
 		void operator + ()
 			{ *current|=location; }
 
-		semiotic_pointer_ref operator ++ ()
+		bit_pointer_ref operator ++ ()
 		{
 			location<<=1;
 			return *this;
 		}
 
-		semiotic_pointer operator ++ (int)
+		bit_pointer operator ++ (int)
 		{
-			semiotic_pointer out(*this);
+			bit_pointer out(*this);
 			location<<=1;
 			return out;
 		}
 
-		semiotic_pointer_ref operator += (size_type n)
+		bit_pointer_ref operator += (size_type n)
 		{
 			location<<=n;
 
 			return *this;
 		}
 
-		semiotic_pointer operator + (size_type n) const
+		bit_pointer operator + (size_type n) const
 		{
-			semiotic_pointer out(*this);
+			bit_pointer out(*this);
 			out.location<<=n;
 
 			return out;
@@ -127,35 +127,35 @@ class semiotic_pointer
 		void operator - ()
 			{ return *current&=~location; }
 
-		semiotic_pointer_ref operator -- ()
+		bit_pointer_ref operator -- ()
 		{
 			location>>=1;
 			return *this;
 		}
 
-		semiotic_pointer operator -- (int)
+		bit_pointer operator -- (int)
 		{
-			semiotic_pointer out(*this);
+			bit_pointer out(*this);
 			location>>=1;
 			return out;
 		}
 
-		semiotic_pointer_ref operator -= (size_type n)
+		bit_pointer_ref operator -= (size_type n)
 		{
 			location>>=n;
 
 			return *this;
 		}
 
-		semiotic_pointer operator - (size_type n) const
+		bit_pointer operator - (size_type n) const
 		{
-			semiotic_pointer out(*this);
+			bit_pointer out(*this);
 			out.location>>=n;
 
 			return out;
 		}
 
-		size_type operator - (semiotic_pointer p) const
+		size_type operator - (bit_pointer p) const
 		{
 			size_type n=0;
 			while (p.location != location)

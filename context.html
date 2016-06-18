@@ -1,6 +1,10 @@
 Design
 ======
 
+classes are considered variant types if they share the same structural base. For example the "identity" vector as well as the "uinteger"
+would share the same base, and so are both under the general type "vector". This includes for example the iterator subtypes
+belonging to the "iterator" type, though this is a technicality as their respective bases are specializations of a broader template.
+
 "include" dependency rules:
 
 The context is what matters, but it's the general idea that the media space is ultimately more similar to the context space

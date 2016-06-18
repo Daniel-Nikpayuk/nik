@@ -15,38 +15,32 @@
 **
 *************************************************************************************************************************/
 
-template<typename T>
-struct identity
+template<typename Pointer, typename T>
+class array
 {
-	typedef random_access::traits<SizeType> r_traits;
-	typedef typename r_traits::cont::media::template identity<identity, T> attributes;
+	public:
+		typedef Pointer pointer;
+		typedef T value_type;
+		typedef semiotic::size_type size_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		operator pointer () const
+			{ return (pointer) this; }
 
-	typedef typename attributes::value_type value_type;
-	typedef typename attributes::reference reference;
-	typedef typename attributes::const_reference const_reference;
-	typedef typename attributes::pointer pointer;
-	typedef typename attributes::const_pointer const_pointer;
-	typedef typename attributes::size_type size_type;
-
-	pointer initial;
-
-	void initialize(pointer p)
-	{
-		initial=p;
-	}
-
-	void copy_initialize(const identity & i)
-	{
-		initial=i.initial;
-	}
-
-	void terminalize() { delete initial; }
-
-	identity() { }
-	identity(const identity & i) { }
-	~identity() { }
-
-	const identity & operator = (const identity & i)
-		{ return *this; }
+		static void_ptr operator new (size_t n)
+			{ return new T; }
 };
+
+template<typename T>
+using segment_pointer = T*;
+
+template<typename T>
+using const_segment_pointer = T const *;
+
+template<typename T>
+using segment = array<segment_pointer<T>, T>;
+
+template<typename T>
+using const_segment = array<const_segment_pointer<T>, T const>;
 

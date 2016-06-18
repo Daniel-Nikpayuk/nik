@@ -15,19 +15,3 @@
 **
 *************************************************************************************************************************/
 
-#define LINK_SIZE 3
-
-template<typename T>
-using base=
-	typename i_traits::node::semiotic::template base<
-		typename i_traits::node::semiotic::template base_pointer<T, LINK_SIZE>
-	>;
-
-template<typename T>
-using const_base=
-	typename i_traits::node::semiotic::template base<
-		typename i_traits::node::semiotic::template const_base_pointer<T, LINK_SIZE>
-	>;
-
-#undef LINK_SIZE
-

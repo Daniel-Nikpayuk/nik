@@ -19,6 +19,8 @@
 #include"numeric/word/uint/structural/traits.h"
 #include"numeric/word/sint/structural/traits.h"
 
+#include"numeric/address/iterator/structural/traits.h"
+
 namespace nik
 {
 	template<typename SizeType>
@@ -34,6 +36,8 @@ namespace nik
 
 		typedef numeric::word::sint::structural::semiotic<size_type> nwsss;
 		typedef numeric::word::sint::structural::media<size_type> nwssm;
+
+		typedef numeric::address::iterator::structural::semiotic<size_type> naiss;
 	};
 }
 

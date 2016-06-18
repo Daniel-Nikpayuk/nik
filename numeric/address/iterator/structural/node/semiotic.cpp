@@ -15,13 +15,61 @@
 **
 *************************************************************************************************************************/
 
+//#include<stddef.h>
+
+/*
+	Intuition:
+
+	A standard pointer is a variable to an address. A node is a bundling of addresses, and a pointer
+	to such a bundling is thus a variable to a bundling of addresses. So when you dereference for example,
+	you don't dereference the bundling of addresses as an object, you deference the value. The plus (+)
+	as well as minus (-) unary operators become ways to dereference the alternate addresses. The difference
+	being that if you conceptualize this space memory addresses as an object, it means all the regular
+	grammar and interpretations of C++ all of a sudden apply: If it's an object, then you should be able to
+	dereference the pointer as an object as well as act on the object itself. You'd also then need to make
+	the additional function call of dereferencing the value from the object. The idea of the pointer is to
+	access the memory directly, with no inbetween object.
+
+	This intuitive conceptualization is the guiding design for any additional future considerations.
+	For example, one might wish to create specialized convenience constructors for a node, but from the above
+	interpretation, a node is not an object, it is NOT meant to be perceived to have constructors, only allocators.
+
+	-----------
+
+	This class is meant to be as narratively similar as possible to the builtin array pointer.
+	I have privileged this above all other considerations in the design. Let me reiterate:
+	The design privileges effective grammar expressivity as similar as possible to the builtin array pointer.
+
+	As this is an exceptionally low-level class upon which many other classes are meant to be built, it is safe
+	to say it has not been thorough tested in production. As such, I cannot guarantee it has been as optimized
+	as it can be (premature optimization is the root of all evil).
+
+	It is intuitive that node_pointers should be able to convert to const_node_pointers, the design follows this intuition.
+
+	In terms of dynamic binding, const_node_pointers can semantically be considered a node_pointer subclass,
+	and is nearly implemented as such. As it stands, I have decided to prevent this use of polymorphism.
+	This policy will hold unless I find sufficient reason to change it. Furthermore, in a previous iteration in which
+	it was allowed, I have learned intermixing polymorphism and void* seems to cause general issues. Though I don't
+	fully understand why, I resolved a bug by removing the virtual declarations of the (*) and (+) operator overloads.
+	The bug arose when they combined (*+).
+
+	It takes a policy of soft or shallow copying, and does not delete or destroy by default.
+
+	void* casting is subtle, as the same memory cast to two different types works, but referencing within such memory
+	changes on the interpretation of the type of that memory.
+
+	By defining the node before the node_pointer, we can call "new node" outside of the pointer's scope,
+	the tradeoff is the extended namespace calling in order to do so (nik::context::context:: ...).
+	One would need to typedef. I have included a typedef of the pointer within its node.
+*/
+
 /*
 	Is not meant to be interpeted as a "class" or an "object" even if it is implemented that way.
 	It is only meant to have an allocator as well as meta information about the type of memory it holds.
 */
 
 template<typename Pointer>
-class base
+class node
 {
 	public:
 		typedef Pointer pointer;
@@ -34,21 +82,21 @@ class base
 			{ return new void_ptr[pointer::dimension]; }
 };
 
-template<typename T, size_type N> class const_base_pointer;
+template<typename T, size_type N> class const_node_pointer;
 
 template<typename T, size_type N>
-class base_pointer
+class node_pointer
 {
-		friend class const_base_pointer<T, N>;
+		friend class const_node_pointer<T, N>;
 	public:
 		typedef T value_type;
-		typedef node::size_type size_type;
+		typedef semiotic::size_type size_type;
 
 		enum : size_type { dimension=N };
 	protected:
-		typedef base_pointer* base_pointer_ptr;
-		typedef base_pointer& base_pointer_ref;
-		typedef base<base_pointer>* base_ptr;
+		typedef node_pointer* node_pointer_ptr;
+		typedef node_pointer& node_pointer_ref;
+		typedef node<node_pointer>* node_ptr;
 
 		typedef T* value_type_ptr;
 		typedef T& value_type_ref;
@@ -61,29 +109,29 @@ class base_pointer
 			// an array of unknown types.
 		void_ptr_ptr current;
 	public:
-		base_pointer() { }
-		base_pointer(base_ptr p) { current=(void_ptr_ptr) p; }
-		base_pointer(const base_pointer & p) { current=p.current; }
-		~base_pointer() { }
+		node_pointer() { }
+		node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
+		node_pointer(const node_pointer & p) { current=p.current; }
+		~node_pointer() { }
 /*
 	Needed for delete conversion.
 */
-		operator base_pointer_ptr () const
-			{ return (base_pointer_ptr) this; }
+		operator node_pointer_ptr () const
+			{ return (node_pointer_ptr) this; }
 /*
-	Needed for loop condition testing "while (base_pointer)".
+	Needed for loop condition testing "while (node_pointer)".
 */
 		operator bool () const
 			{ return current; }
 
-		bool operator == (const base_pointer & p) const
+		bool operator == (const node_pointer & p) const
 			{ return (current == p.current); }
 
-		bool operator != (const base_pointer & p) const
+		bool operator != (const node_pointer & p) const
 			{ return (current != p.current); }
 
 		static void operator delete (void_ptr p)
-			{ delete [] ((base_pointer_ptr) p)->current; }
+			{ delete [] ((node_pointer_ptr) p)->current; }
 
 		value_type_ref operator * () const
 			{ return (value_type_ref) current[value]; }
@@ -91,90 +139,90 @@ class base_pointer
 		value_type_ptr operator -> () const
 			{ return & (value_type_ref) current[value]; }
 
-		base_pointer_ref operator + () const
-			{ return (base_pointer_ref) current[next]; }
+		node_pointer_ref operator + () const
+			{ return (node_pointer_ref) current[next]; }
 
-		base_pointer_ref operator ++ ()
+		node_pointer_ref operator ++ ()
 		{
-			current=((base_pointer_ref) current[next]).current;
+			current=((node_pointer_ref) current[next]).current;
 			return *this;
 		}
 
-		base_pointer operator ++ (int)
+		node_pointer operator ++ (int)
 		{
-			base_pointer out(*this);
-			current=((base_pointer_ref) current[next]).current;
+			node_pointer out(*this);
+			current=((node_pointer_ref) current[next]).current;
 			return out;
 		}
 
-		base_pointer_ref operator += (size_type n)
+		node_pointer_ref operator += (size_type n)
 		{
 			while (n)
 			{
-				current=((base_pointer_ref) current[next]).current;
+				current=((node_pointer_ref) current[next]).current;
 				--n;
 			}
 
 			return *this;
 		}
 
-		base_pointer operator + (size_type n) const
+		node_pointer operator + (size_type n) const
 		{
-			base_pointer out(*this);
+			node_pointer out(*this);
 			while (n)
 			{
-				out.current=((base_pointer_ref) out.current[next]).current;
+				out.current=((node_pointer_ref) out.current[next]).current;
 				--n;
 			}
 
 			return out;
 		}
 
-		base_pointer_ref operator - () const
-			{ return (base_pointer_ref) current[previous]; }
+		node_pointer_ref operator - () const
+			{ return (node_pointer_ref) current[previous]; }
 
-		base_pointer_ref operator -- ()
+		node_pointer_ref operator -- ()
 		{
-			current=((base_pointer_ref) current[previous]).current;
+			current=((node_pointer_ref) current[previous]).current;
 			return *this;
 		}
 
-		base_pointer operator -- (int)
+		node_pointer operator -- (int)
 		{
-			base_pointer out(*this);
-			current=((base_pointer_ref) current[previous]).current;
+			node_pointer out(*this);
+			current=((node_pointer_ref) current[previous]).current;
 			return out;
 		}
 
-		base_pointer_ref operator -= (size_type n)
+		node_pointer_ref operator -= (size_type n)
 		{
 			while (n)
 			{
-				current=((base_pointer_ref) current[previous]).current;
+				current=((node_pointer_ref) current[previous]).current;
 				--n;
 			}
 
 			return *this;
 		}
 
-		base_pointer operator - (size_type n) const
+		node_pointer operator - (size_type n) const
 		{
-			base_pointer out(*this);
+			node_pointer out(*this);
 			while (n)
 			{
-				out.current=((base_pointer_ref) out.current[previous]).current;
+				out.current=((node_pointer_ref) out.current[previous]).current;
 				--n;
 			}
 
 			return out;
 		}
 
-		size_type operator - (base_pointer p) const
+		size_type operator - (node_pointer p) const
 		{
 			size_type n=0;
 			while (p.current != current)
 			{
-				p.current=((base_pointer_ref) p.current[next]).current;
+				p.current=((node_pointer_ref) p.current[next]).current;
 				++n;
 			}
 
@@ -187,17 +235,17 @@ class base_pointer
 */
 
 template<typename T, size_type N>
-class const_base_pointer
+class const_node_pointer
 {
 	public:
 		typedef T const value_type;
-		typedef node::size_type size_type;
+		typedef semiotic::size_type size_type;
 
 		enum : size_type { dimension=N };
 	protected:
-		typedef const_base_pointer* const_base_pointer_ptr;
-		typedef const_base_pointer& const_base_pointer_ref;
-		typedef base<const_base_pointer>* const_base_ptr;
+		typedef const_node_pointer* const_node_pointer_ptr;
+		typedef const_node_pointer& const_node_pointer_ref;
+		typedef node<const_node_pointer>* const_node_ptr;
 
 		typedef T const * value_type_ptr;
 		typedef T const & value_type_ref;
@@ -210,30 +258,30 @@ class const_base_pointer
 			// an array of unknown types.
 		void_ptr_ptr current;
 	public:
-		const_base_pointer() { }
-		const_base_pointer(const_base_ptr p) { current=(void_ptr_ptr) p; }
-		const_base_pointer(const base_pointer<T, N> & p) { current=p.current; }
-		const_base_pointer(const const_base_pointer & p) { current=p.current; }
-		~const_base_pointer() { }
+		const_node_pointer() { }
+		const_node_pointer(const_node_ptr p) { current=(void_ptr_ptr) p; }
+		const_node_pointer(const node_pointer<T, N> & p) { current=p.current; }
+		const_node_pointer(const const_node_pointer & p) { current=p.current; }
+		~const_node_pointer() { }
 /*
 	Needed for delete conversion.
 */
-		operator const_base_pointer_ptr () const
-			{ return (const_base_pointer_ptr) this; }
+		operator const_node_pointer_ptr () const
+			{ return (const_node_pointer_ptr) this; }
 /*
-	Needed for loop condition testing "while (base_pointer)".
+	Needed for loop condition testing "while (node_pointer)".
 */
 		operator bool () const
 			{ return current; }
 
-		bool operator == (const const_base_pointer & p) const
+		bool operator == (const const_node_pointer & p) const
 			{ return (current == p.current); }
 
-		bool operator != (const const_base_pointer & p) const
+		bool operator != (const const_node_pointer & p) const
 			{ return (current != p.current); }
 
 		static void operator delete (void_ptr p)
-			{ delete [] ((const_base_pointer_ptr) p)->current; }
+			{ delete [] ((const_node_pointer_ptr) p)->current; }
 
 		value_type_ref operator * () const
 			{ return (value_type_ref) current[value]; }
@@ -241,90 +289,90 @@ class const_base_pointer
 		value_type_ptr operator -> () const
 			{ return & (value_type_ref) current[value]; }
 
-		const_base_pointer_ref operator + () const
-			{ return (const_base_pointer_ref) current[next]; }
+		const_node_pointer_ref operator + () const
+			{ return (const_node_pointer_ref) current[next]; }
 
-		const_base_pointer_ref operator ++ ()
+		const_node_pointer_ref operator ++ ()
 		{
-			current=((const_base_pointer_ref) current[next]).current;
+			current=((const_node_pointer_ref) current[next]).current;
 			return *this;
 		}
 
-		const_base_pointer operator ++ (int)
+		const_node_pointer operator ++ (int)
 		{
-			const_base_pointer out(*this);
-			current=((const_base_pointer_ref) current[next]).current;
+			const_node_pointer out(*this);
+			current=((const_node_pointer_ref) current[next]).current;
 			return out;
 		}
 
-		const_base_pointer_ref operator += (size_type n)
+		const_node_pointer_ref operator += (size_type n)
 		{
 			while (n)
 			{
-				current=((const_base_pointer_ref) current[next]).current;
+				current=((const_node_pointer_ref) current[next]).current;
 				--n;
 			}
 
 			return *this;
 		}
 
-		const_base_pointer operator + (size_type n) const
+		const_node_pointer operator + (size_type n) const
 		{
-			const_base_pointer out(*this);
+			const_node_pointer out(*this);
 			while (n)
 			{
-				out.current=((const_base_pointer_ref) out.current[next]).current;
+				out.current=((const_node_pointer_ref) out.current[next]).current;
 				--n;
 			}
 
 			return out;
 		}
 
-		const_base_pointer_ref operator - () const
-			{ return (const_base_pointer_ref) current[previous]; }
+		const_node_pointer_ref operator - () const
+			{ return (const_node_pointer_ref) current[previous]; }
 
-		const_base_pointer_ref operator -- ()
+		const_node_pointer_ref operator -- ()
 		{
-			current=((const_base_pointer_ref) current[previous]).current;
+			current=((const_node_pointer_ref) current[previous]).current;
 			return *this;
 		}
 
-		const_base_pointer operator -- (int)
+		const_node_pointer operator -- (int)
 		{
-			const_base_pointer out(*this);
-			current=((const_base_pointer_ref) current[previous]).current;
+			const_node_pointer out(*this);
+			current=((const_node_pointer_ref) current[previous]).current;
 			return out;
 		}
 
-		const_base_pointer_ref operator -= (size_type n)
+		const_node_pointer_ref operator -= (size_type n)
 		{
 			while (n)
 			{
-				current=((const_base_pointer_ref) current[previous]).current;
+				current=((const_node_pointer_ref) current[previous]).current;
 				--n;
 			}
 
 			return *this;
 		}
 
-		const_base_pointer operator - (size_type n) const
+		const_node_pointer operator - (size_type n) const
 		{
-			const_base_pointer out(*this);
+			const_node_pointer out(*this);
 			while (n)
 			{
-				out.current=((const_base_pointer_ref) out.current[previous]).current;
+				out.current=((const_node_pointer_ref) out.current[previous]).current;
 				--n;
 			}
 
 			return out;
 		}
 
-		size_type operator - (const_base_pointer p) const
+		size_type operator - (const_node_pointer p) const
 		{
 			size_type n=0;
 			while (p.current != current)
 			{
-				p.current=((const_base_pointer_ref) p.current[next]).current;
+				p.current=((const_node_pointer_ref) p.current[next]).current;
 				++n;
 			}
 

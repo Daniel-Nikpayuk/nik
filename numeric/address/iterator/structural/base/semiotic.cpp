@@ -15,47 +15,46 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
-#define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
+// defaults to bit base:
 
-#include"../../../../grammaric/structural/traits.h"
+template<typename T, size_type Index=0>
+struct base
+{
+};
 
-namespace nik		{
-namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace structural	{
+// segment base
 
-	template<typename SizeType>
-	struct semiotic
+template<typename T>
+struct base<T, 1>
+{
+	typedef typename gsm_traits::template container<base, T> attributes;
+
+	typedef typename attributes::value_type value_type;
+	typedef typename attributes::reference reference;
+	typedef typename attributes::const_reference const_reference;
+	typedef typename attributes::pointer pointer;
+	typedef typename attributes::const_pointer const_pointer;
+	typedef typename attributes::size_type size_type;
+
+	pointer initial;
+
+	void initialize(pointer p)
 	{
-		typedef SizeType size_type;
+		initial=p;
+	}
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
-
-//		#include"base/semiotic.cpp"
-//		#include"bit/semiotic.cpp"
-		#include"segment/semiotic.cpp"
-		#include"node/semiotic.cpp"
-		#include"hook/semiotic.cpp"
-//		#include"link/semiotic.cpp"
-	};
-
-	template<typename SizeType>
-	struct media
+	void copy_initialize(const base & i)
 	{
-		typedef SizeType size_type;
+		initial=i.initial;
+	}
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
+	void terminalize() { delete initial; }
 
-//		#include"base/media.cpp"
-//		#include"bit/media.cpp"
-//		#include"segment/media.cpp"
-//		#include"node/media.cpp"
-//		#include"hook/media.cpp"
-//		#include"link/media.cpp"
-	};
+	base() { }
+	base(const base & i) { }
+	~base() { }
 
-}}}}}
+	const base & operator = (const base & i)
+		{ return *this; }
+};
 
-#endif

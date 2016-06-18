@@ -29,6 +29,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
+		#include"base/semiotic.cpp"
 		#include"identity/semiotic.cpp"
 	};
 
@@ -37,6 +38,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
+		#include"base/media.cpp"
 		#include"identity/media.cpp"
 	};
 
