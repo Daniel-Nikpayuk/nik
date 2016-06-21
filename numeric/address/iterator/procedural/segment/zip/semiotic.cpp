@@ -15,25 +15,25 @@
 **
 *************************************************************************************************************************/
 
-#include"define/closed/loop.cpp"
-#include"define/closed/count.cpp"
-#include"define/closed/unroll.cpp"
-#include"define/closed/initial.cpp"
+#include"define/semiotic/closed/loop.cpp"
+#include"define/semiotic/closed/count.cpp"
+#include"define/semiotic/closed/unroll.cpp"
+#include"define/semiotic/closed/initial.cpp"
 
-#include"define/closing/loop.cpp"
-#include"define/closing/count.cpp"
-#include"define/closing/unroll.cpp"
-#include"define/closing/initial.cpp"
+#include"define/semiotic/closing/loop.cpp"
+#include"define/semiotic/closing/count.cpp"
+#include"define/semiotic/closing/unroll.cpp"
+#include"define/semiotic/closing/initial.cpp"
 
-#include"define/opening/loop.cpp"
-#include"define/opening/count.cpp"
-#include"define/opening/unroll.cpp"
-#include"define/opening/initial.cpp"
+#include"define/semiotic/opening/loop.cpp"
+#include"define/semiotic/opening/count.cpp"
+#include"define/semiotic/opening/unroll.cpp"
+#include"define/semiotic/opening/initial.cpp"
 
-#include"define/open/loop.cpp"
-#include"define/open/count.cpp"
-#include"define/open/unroll.cpp"
-#include"define/open/initial.cpp"
+#include"define/semiotic/open/loop.cpp"
+#include"define/semiotic/open/count.cpp"
+#include"define/semiotic/open/unroll.cpp"
+#include"define/semiotic/open/initial.cpp"
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator

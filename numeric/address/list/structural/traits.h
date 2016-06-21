@@ -18,6 +18,13 @@
 #ifndef NIK_NUMERIC_ADDRESS_LIST_STRUCTURAL_TRAITS_H
 #define NIK_NUMERIC_ADDRESS_LIST_STRUCTURAL_TRAITS_H
 
+#include"../../../../grammaric/structural/traits.h"
+#include"../../iterator/structural/traits.h"
+
+#include"../../../word/uint/functional/policy.h"
+#include"../../../word/sint/functional/policy.h"
+#include"../../iterator/procedural/hook/policy.h"
+
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -29,6 +36,14 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
+		typedef grammaric::structural::media<size_type> gsm_traits;
+		typedef iterator::structural::semiotic<size_type> iss_traits;
+
+		typedef word::uint::functional::media<size_type> wufm_policy;
+		typedef word::sint::functional::media<size_type> wsfm_policy;
+
+		typedef iterator::procedural::hook::semiotic<size_type> iphs_policy;
+
 		#include"base/semiotic.cpp"
 		#include"identity/semiotic.cpp"
 	};
@@ -38,8 +53,10 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		#include"base/media.cpp"
-		#include"identity/media.cpp"
+		typedef grammaric::structural::media<size_type> gsm_traits;
+
+//		#include"base/media.cpp"
+//		#include"identity/media.cpp"
 	};
 
 }}}}}

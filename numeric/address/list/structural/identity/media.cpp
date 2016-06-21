@@ -55,7 +55,7 @@
 	Test against self-assignment!
 */
 
-template<typename T, typename SizeType>
+template<typename T>
 class identity
 {
 	protected:

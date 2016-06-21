@@ -17,8 +17,9 @@
 
 struct segment
 {
-	#include"zip/semiotic.cpp"
+//	#include"zip/semiotic.cpp"
 
+/*
 //		forward:
 
 		using fwd_zip=forward::zip;
@@ -46,8 +47,9 @@ struct segment
 
 		template<size_type N, size_type M=0, size_type L=0>
 		using rnd_zip_unroll=typename rnd_zip::template unroll<N, M, L>;
+*/
 
-	#include"discrete/semiotic.cpp"
+//	#include"discrete/semiotic.cpp"
 
 //		forward:
 /*
@@ -108,6 +110,5 @@ struct segment
 		template<size_type N, size_type M=0, size_type L=0>
 		using rnd_arit_unroll=typename rnd_arit::template unroll<N, M, L>;
 */
-
 };
 

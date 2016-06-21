@@ -24,6 +24,10 @@
 #include"numeric/word/sint/functional/policy.h"
 #include"numeric/word/sint/procedural/policy.h"
 
+#include"numeric/word/sint/procedural/policy.h"
+
+#include"numeric/address/iterator/procedural/hook/policy.h"
+
 namespace nik
 {
 	template<typename SizeType>
@@ -48,6 +52,8 @@ namespace nik
 
 		typedef numeric::word::sint::procedural::semiotic<size_type> nwsps;
 		typedef numeric::word::sint::procedural::media<size_type> nwspm;
+
+		typedef numeric::address::iterator::procedural::hook::semiotic<size_type> naiphs;
 	};
 }
 

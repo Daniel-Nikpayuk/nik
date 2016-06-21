@@ -1,6 +1,36 @@
 Design
 ======
 
+How to compress a long string of instructions:
+----------------------------------------------
+
+We privilege the idea of function composition.
+
+When looking at a list of code, we want to partition it with the goal of maximally compressing
+it---replacing the partition classes with shortnames.
+
+The most ideal pattern is to find a block in which are recognized partitions are dependent on
+each other in a linear or axiomatic fashion---this is to say the partitions are not independent
+of each other. We may then recursively compress such code.
+
+In theory you can take variations on the idea of recursively compressible code, but you always
+have to weigh it against its computational efficiency, as well as its user-intuitive appeal.
+Something might be highly compressible but not at all intuitive for a human coder.
+
+Beyond that, we then look at partitions of code which the classes become increasingly independent
+of each other. The other extreme of the spectrum are true code partitions---completely independent classes.
+
+When looking for independent partitions, the algorithm is as follows:
+
+1) Split the instruction set into parts by first searching for recursively compressible code.
+2) Of the non-recursively compressible code, take the first encountered, and compare it against the rest
+   to see if they have any sublists in common (in set-theoretic terms, take the intersection).
+   This way the parts are grinding against each other splitting each other up into finer parts (synchronization?).
+3) Refactor the common parts, and repeat until the whole list is complete.
+4) An optimization of this approach is to search for dependent names, and greedily grow the largest subgroups
+   to separate out functions. This approach allows you then to scope and lexically rename variables to continue
+   finding repeating subpatterns.
+
 classes are considered variant types if they share the same structural base. For example the "identity" vector as well as the "uinteger"
 would share the same base, and so are both under the general type "vector". This includes for example the iterator subtypes
 belonging to the "iterator" type, though this is a technicality as their respective bases are specializations of a broader template.

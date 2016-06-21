@@ -15,25 +15,25 @@
 **
 *************************************************************************************************************************/
 
-#include"define/closed/loop.cpp"
-#include"define/closed/count.cpp"
-#include"define/closed/unroll.cpp"
-#include"define/closed/initial.cpp"
+#include"define/semiotic/closed/loop.cpp"
+#include"define/semiotic/closed/count.cpp"
+#include"define/semiotic/closed/unroll.cpp"
+#include"define/semiotic/closed/initial.cpp"
 
-#include"define/closing/loop.cpp"
-#include"define/closing/count.cpp"
-#include"define/closing/unroll.cpp"
-#include"define/closing/initial.cpp"
+#include"define/semiotic/closing/loop.cpp"
+#include"define/semiotic/closing/count.cpp"
+#include"define/semiotic/closing/unroll.cpp"
+#include"define/semiotic/closing/initial.cpp"
 
-#include"define/opening/loop.cpp"
-#include"define/opening/count.cpp"
-#include"define/opening/unroll.cpp"
-#include"define/opening/initial.cpp"
+#include"define/semiotic/opening/loop.cpp"
+#include"define/semiotic/opening/count.cpp"
+#include"define/semiotic/opening/unroll.cpp"
+#include"define/semiotic/opening/initial.cpp"
 
-#include"define/open/loop.cpp"
-#include"define/open/count.cpp"
-#include"define/open/unroll.cpp"
-#include"define/open/initial.cpp"
+#include"define/semiotic/open/loop.cpp"
+#include"define/semiotic/open/count.cpp"
+#include"define/semiotic/open/unroll.cpp"
+#include"define/semiotic/open/initial.cpp"
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -63,41 +63,41 @@ struct zip
 	#define SGN +
 	#define INV -
 
-	#include"../../macro/define/loop_count.cpp"
+	#include"../../macro/define/zip/loop_count.cpp"
 
 	template<size_type N, size_type M=0, size_type L=0>
 	struct unroll
 	{
-		#include"../../macro/define/unroll.cpp"
+		#include"../../macro/define/zip/unroll.cpp"
 	};
 
 	template<size_type M, size_type L>
 	struct unroll<0, M, L>
 	{
-		#include"../../macro/define/initial.cpp"
+		#include"../../macro/define/zip/initial.cpp"
 	};
 
 	#undef INV
 	#undef SGN
 };
 
-#include"../../macro/undef/open/initial.cpp"
-#include"../../macro/undef/open/unroll.cpp"
-#include"../../macro/undef/open/count.cpp"
-#include"../../macro/undef/open/loop.cpp"
+#include"../../macro/undef/zip/open/initial.cpp"
+#include"../../macro/undef/zip/open/unroll.cpp"
+#include"../../macro/undef/zip/open/count.cpp"
+#include"../../macro/undef/zip/open/loop.cpp"
 
-#include"../../macro/undef/opening/initial.cpp"
-#include"../../macro/undef/opening/unroll.cpp"
-#include"../../macro/undef/opening/count.cpp"
-#include"../../macro/undef/opening/loop.cpp"
+#include"../../macro/undef/zip/opening/initial.cpp"
+#include"../../macro/undef/zip/opening/unroll.cpp"
+#include"../../macro/undef/zip/opening/count.cpp"
+#include"../../macro/undef/zip/opening/loop.cpp"
 
-#include"../../macro/undef/closing/initial.cpp"
-#include"../../macro/undef/closing/unroll.cpp"
-#include"../../macro/undef/closing/count.cpp"
-#include"../../macro/undef/closing/loop.cpp"
+#include"../../macro/undef/zip/closing/initial.cpp"
+#include"../../macro/undef/zip/closing/unroll.cpp"
+#include"../../macro/undef/zip/closing/count.cpp"
+#include"../../macro/undef/zip/closing/loop.cpp"
 
-#include"../../macro/undef/closed/initial.cpp"
-#include"../../macro/undef/closed/unroll.cpp"
-#include"../../macro/undef/closed/count.cpp"
-#include"../../macro/undef/closed/loop.cpp"
+#include"../../macro/undef/zip/closed/initial.cpp"
+#include"../../macro/undef/zip/closed/unroll.cpp"
+#include"../../macro/undef/zip/closed/count.cpp"
+#include"../../macro/undef/zip/closed/loop.cpp"
 
