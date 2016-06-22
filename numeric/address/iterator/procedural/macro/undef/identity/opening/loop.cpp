@@ -20,6 +20,42 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 */
 
+#undef opening_loop_no_return_clear
+#undef opening_loop_with_return_clear
+
 #undef opening_loop_no_return_pop_left
 #undef opening_loop_with_return_pop_left
+
+#undef opening_loop_no_return_pop_right
+#undef opening_loop_with_return_pop_right
+
+#undef opening_loop_no_return_push_left
+#undef opening_loop_with_return_push_left
+
+#undef opening_loop_no_return_push_right
+#undef opening_loop_with_return_push_right
+
+#undef opening_loop_no_return_assign_as_opening
+#undef opening_loop_with_return_assign_as_opening
+
+#undef opening_loop_no_return_assign_as_closed
+#undef opening_loop_with_return_assign_as_closed
+
+#undef opening_loop_no_return_assign_as_opening
+#undef opening_loop_with_return_assign_as_opening
+
+#undef opening_loop_no_return_assign_as_open
+#undef opening_loop_with_return_assign_as_open
+
+#undef opening_loop_no_return_catenate_with_opening
+#undef opening_loop_with_return_catenate_with_opening
+
+#undef opening_loop_no_return_catenate_with_closed
+#undef opening_loop_with_return_catenate_with_closed
+
+#undef opening_loop_no_return_catenate_with_opening
+#undef opening_loop_with_return_catenate_with_opening
+
+#undef opening_loop_no_return_catenate_with_open
+#undef opening_loop_with_return_catenate_with_open
 

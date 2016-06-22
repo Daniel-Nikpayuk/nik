@@ -26,8 +26,7 @@
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
 
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
 /************************************************************************************************************************/
@@ -35,259 +34,251 @@
 /*
 	Constraints:
 
-	(0, n), n != 0
 */
 
-#define _open_loop_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename ValueType> \
-static rtn label##_return(WPointer out, size_type n, ValueType in) \
+#define _open_loop_clear(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename ERPointer> \
+static rtn label##_return(WPointer out, ERPointer end) \
 { \
-	out=dir(out)=new WNode; \
-	--n; \
- \
-	while (n) \
-	{ \
-		(*out)op(in); \
-		out=dir(out)=new WNode; \
-		--n; \
-	} \
+	while (out != end) delete (out)dir##dir; \
  \
 	stmt \
 }
 
-#define open_loop_no_return_0(dir, inv, op)				_open_loop_0(dir, inv, op, no, void, )
-#define open_loop_with_return_0(dir, inv, op)				_open_loop_0(dir, inv, op, with, WPointer, return out;)
+#define open_loop_no_return_clear(dir, inv)				_open_loop_clear(dir, inv, no, void, )
+#define open_loop_with_return_clear(dir, inv)				_open_loop_clear(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, n), n != 0
 */
 
-#define _open_loop_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out, size_type n) \
-{ \
-	out=dir(out)=new WNode; \
-	--n; \
- \
-	while (n) \
-	{ \
-		lp(*out)rp; \
-		out=dir(out)=new WNode; \
-		--n; \
-	} \
- \
-	stmt \
-}
+#define _open_loop_close_left(dir, inv, label, rtn, stmt)
 
-#define open_loop_no_return_left_0(dir, inv, op)			_open_loop_lr_0(dir, inv, no, void, , op, )
-#define open_loop_with_return_left_0(dir, inv, op)			_open_loop_lr_0(dir, inv, with, WPointer, return out;, op, )
-
-#define open_loop_no_return_right_0(dir, inv, op)			_open_loop_lr_0(dir, inv, no, void, , , op)
-#define open_loop_with_return_right_0(dir, inv, op)			_open_loop_lr_0(dir, inv, with, WPointer, return out;, , op)
+#define open_loop_no_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, no, void, )
+#define open_loop_with_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, n), n != 0
 */
 
-#define _open_loop_new_0(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out, size_type n) \
-{ \
-	out=dir(out)=new WNode; \
-	--n; \
- \
-	while (n) \
-	{ \
-		*out=new Node(); \
-		out=dir(out)=new WNode; \
-		--n; \
-	} \
- \
-	stmt \
-}
-
-#define open_loop_no_return_new_0(dir, inv)				_open_loop_new_0(dir, inv, no, void, )
-#define open_loop_with_return_new_0(dir, inv)				_open_loop_new_0(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	(0, n), n != 0
-*/
-
-#define _open_loop_new_brackets_0(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out, size_type n, size_type in) \
-{ \
-	out=dir(out)=new WNode; \
-	--n; \
- \
-	while (n) \
-	{ \
-		*out=new Node[in]; \
-		out=dir(out)=new WNode; \
-		--n; \
-	} \
- \
-	stmt \
-}
-
-#define open_loop_no_return_new_brackets_0(dir, inv)			_open_loop_new_brackets_0(dir, inv, no, void, )
-#define open_loop_with_return_new_brackets_0(dir, inv)			_open_loop_new_brackets_0(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	(out, end), out != end
-*/
-
-#define _open_loop_delete_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
+#define _open_loop_close_right(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer> \
 static rtn label##_return(WPointer out, EWPointer end) \
 { \
-	dir##dir(out); \
- \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
-	} \
+	out=search::find::index::before::end::with_return(out, end); \
+	delete dir(out); \
  \
 	stmt \
 }
 
-#define open_loop_no_return_delete_0(dir, inv)				_open_loop_delete_0(dir, inv, , no, void, )
-#define open_loop_with_return_delete_0(dir, inv)			_open_loop_delete_0(dir, inv, , with, WPointer, return out;)
-
-#define open_loop_no_return_delete_brackets_0(dir, inv)			_open_loop_delete_0(dir, inv, [], no, void, )
-#define open_loop_with_return_delete_brackets_0(dir, inv)		_open_loop_delete_0(dir, inv, [], with, WPointer, return out;)
+#define open_loop_no_return_close_right(dir, inv)			_open_loop_close_right(dir, inv, no, void, )
+#define open_loop_with_return_close_right(dir, inv)			_open_loop_close_right(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(in, end), in != end
 */
 
-#define _open_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+#define _open_loop_open_left(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer> \
+static rtn label##_return(WPointer in) \
+{ \
+	WPointer out=new WNode; \
+	dir(out)=in; \
+ \
+	stmt \
+}
+
+#define open_loop_no_return_open_left(dir, inv)				_open_loop_open_left(dir, inv, no, void, )
+#define open_loop_with_return_open_left(dir, inv)			_open_loop_open_left(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_open_right(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_open_right(dir, inv)			_open_loop_open_right(dir, inv, no, void, )
+#define open_loop_with_return_open_right(dir, inv)			_open_loop_open_right(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_assign_as_closing(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_assign_as_closing(dir, inv)			_open_loop_assign_as_closing(dir, inv, no, void, )
+#define open_loop_with_return_assign_as_closing(dir, inv)		_open_loop_assign_as_closing(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_assign_as_closed(dir, inv, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	dir##dir(in); \
-	out=dir(out)=new WNode; \
- \
-	while (in != end) \
+	while (dir(in) != end) \
 	{ \
-		lp(*out)op(*in)rp; \
+		*out=*in; \
 		out=dir(out)=new WNode; \
 		dir##dir(in); \
 	} \
  \
+	*out=*in; \
+ \
 	stmt \
 }
 
-#define open_loop_no_return_1(dir, inv, op)				_open_loop_lr_1(dir, inv, op, no, void, , , )
-#define open_loop_with_return_1(dir, inv, op)				_open_loop_lr_1(dir, inv, op, with, WPointer, return out;, , )
-
-#define open_loop_no_return_right_1(dir, inv, op, r)			_open_loop_lr_1(dir, inv, op, no, void, , , r)
-#define open_loop_with_return_right_1(dir, inv, op, r)			_open_loop_lr_1(dir, inv, op, with, WPointer, return out;, , r)
+#define open_loop_no_return_assign_as_closed(dir, inv)			_open_loop_assign_as_closed(dir, inv, no, void, )
+#define open_loop_with_return_assign_as_closed(dir, inv)		_open_loop_assign_as_closed(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(in, end), in != end
 */
 
-#define _open_loop_new_brackets_1(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
-static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+#define _open_loop_assign_as_opening(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	dir##dir(in); \
 	out=dir(out)=new WNode; \
  \
-	while (in != end) \
+	while (dir(in) != end) \
 	{ \
-		*out=new Node[*in]; \
+		*out=*in; \
 		out=dir(out)=new WNode; \
 		dir##dir(in); \
 	} \
  \
+	*out=*in; \
+ \
 	stmt \
 }
 
-#define open_loop_no_return_new_brackets_1(dir, inv)			_open_loop_new_brackets_1(dir, inv, no, void, )
-#define open_loop_with_return_new_brackets_1(dir, inv)			_open_loop_new_brackets_1(dir, inv, with, WPointer, return out;)
+#define open_loop_no_return_assign_as_opening(dir, inv)			_open_loop_assign_as_opening(dir, inv, no, void, )
+#define open_loop_with_return_assign_as_opening(dir, inv)		_open_loop_assign_as_opening(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
 */
 
-#define _open_loop_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+#define _open_loop_assign_as_open(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	dir##dir(in2); dir##dir(in1); \
 	out=dir(out)=new WNode; \
- \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WNode; \
-		dir##dir(in1); dir##dir(in2); \
-	} \
- \
-	stmt \
+	stmt zip::assign::closing::template label##_return<WNode>(out, in, end); \
 }
 
-#define open_loop_no_return_2(dir, inv, op)				_open_loop_2(dir, inv, op, no, void, )
-#define open_loop_with_return_2(dir, inv, op)				_open_loop_2(dir, inv, op, with, WPointer, return out;)
+#define open_loop_no_return_assign_as_open(dir, inv)			_open_loop_assign_as_open(dir, inv, no, void, )
+#define open_loop_with_return_assign_as_open(dir, inv)			_open_loop_assign_as_open(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
 */
 
-#define _open_loop_brackets_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+#define _open_loop_catenate_with_closing(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
 { \
-	dir##dir(in2); dir##dir(in1); \
-	out=dir(out)=new WNode; \
- \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WNode; \
-		dir##dir(in1); dir##dir(in2); \
-	} \
+	out=search::find::index::before::end::with_return(out, end); \
+	delete dir(out); \
+	dir(out)=in; \
  \
 	stmt \
 }
 
-#define open_loop_no_return_brackets_2(dir, inv, op)			_open_loop_brackets_2(dir, inv, op, no, void, )
-#define open_loop_with_return_brackets_2(dir, inv, op)			_open_loop_brackets_2(dir, inv, op, with, WPointer, return out;)
+#define open_loop_no_return_catenate_with_closing(dir, inv)		_open_loop_catenate_with_closing(dir, inv, no, void, )
+#define open_loop_with_return_catenate_with_closing(dir, inv)		_open_loop_catenate_with_closing(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_catenate_with_closed(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::with_return(out, end); \
+	delete dir(out); \
+	dir(out)=in; \
+ \
+	stmt \
+}
+
+#define open_loop_no_return_catenate_with_closed(dir, inv)		_open_loop_catenate_with_closed(dir, inv, no, void, )
+#define open_loop_with_return_catenate_with_closed(dir, inv)		_open_loop_catenate_with_closed(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_catenate_with_opening(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::with_return(out, end); \
+	delete dir(out); \
+	dir(out)=dir(in); \
+	delete in; \
+ \
+	stmt \
+}
+
+#define open_loop_no_return_catenate_with_opening(dir, inv)		_open_loop_catenate_with_opening(dir, inv, no, void, )
+#define open_loop_with_return_catenate_with_opening(dir, inv)		_open_loop_catenate_with_opening(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_catenate_with_open(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::with_return(out, end); \
+	delete dir(out); \
+	dir(out)=dir(in); \
+	delete in; \
+ \
+	stmt \
+}
+
+#define open_loop_no_return_catenate_with_open(dir, inv)		_open_loop_catenate_with_open(dir, inv, no, void, )
+#define open_loop_with_return_catenate_with_open(dir, inv)		_open_loop_catenate_with_open(dir, inv, with, WPointer, return out;)
 

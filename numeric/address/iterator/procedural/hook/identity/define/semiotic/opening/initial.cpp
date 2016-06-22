@@ -26,8 +26,7 @@
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
 
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
 /************************************************************************************************************************/
@@ -35,156 +34,154 @@
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename ValueType> \
-static rtn label##_return(WPointer out, ValueType in) \
-	{ stmt }
+#define _opening_initial_clear(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_0(dir, inv, op)			_opening_initial_0(dir, inv, op, no, void, )
-#define opening_initial_with_return_0(dir, inv, op)			_opening_initial_0(dir, inv, op, with, WPointer, return out;)
+#define opening_initial_no_return_clear(dir, inv)			_opening_initial_clear(dir, inv, no, void, )
+#define opening_initial_with_return_clear(dir, inv)			_opening_initial_clear(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-	{ stmt }
+#define _opening_initial_close_left(dir, inv, label, rtn, stmt)
 
-#define opening_initial_no_return_left_0(dir, inv, op)			_opening_initial_lr_0(dir, inv, no, void, , op, )
-#define opening_initial_with_return_left_0(dir, inv, op)		_opening_initial_lr_0(dir, inv, with, WPointer, return out;, op, )
-
-#define opening_initial_no_return_right_0(dir, inv, op)			_opening_initial_lr_0(dir, inv, no, void, , , op)
-#define opening_initial_with_return_right_0(dir, inv, op)		_opening_initial_lr_0(dir, inv, with, WPointer, return out;, , op)
+#define opening_initial_no_return_close_left(dir, inv)			_opening_initial_close_left(dir, inv, no, void, )
+#define opening_initial_with_return_close_left(dir, inv)		_opening_initial_close_left(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_new_0(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-	{ stmt }
+#define _opening_initial_close_right(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_new_0(dir, inv)			_opening_initial_new_0(dir, inv, no, void, )
-#define opening_initial_with_return_new_0(dir, inv)			_opening_initial_new_0(dir, inv, with, WPointer, return out;)
+#define opening_initial_no_return_close_right(dir, inv)			_opening_initial_close_right(dir, inv, no, void, )
+#define opening_initial_with_return_close_right(dir, inv)		_opening_initial_close_right(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_new_brackets_0(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out, size_type in) \
-	{ stmt }
+#define _opening_initial_open_left(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_new_brackets_0(dir, inv)		_opening_initial_new_brackets_0(dir, inv, no, void, )
-#define opening_initial_with_return_new_brackets_0(dir, inv)		_opening_initial_new_brackets_0(dir, inv, with, WPointer, return out;)
+#define opening_initial_no_return_open_left(dir, inv)			_opening_initial_open_left(dir, inv, no, void, )
+#define opening_initial_with_return_open_left(dir, inv)			_opening_initial_open_left(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0], N != 0
 */
 
-#define _opening_initial_delete_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-{ \
-	delete op *out; \
-	delete out; \
- \
-	stmt \
-}
+#define _opening_initial_open_right(dir, inv, label, rtn, stmt)
 
-#define opening_initial_no_return_delete_0(dir, inv)			_opening_initial_delete_0(dir, inv, , no, void, )
-#define opening_initial_with_return_delete_0(dir, inv)			// would return a deallocated memory location!
-
-#define opening_initial_no_return_delete_brackets_0(dir, inv)		_opening_initial_delete_0(dir, inv, [], no, void, )
-#define opening_initial_with_return_delete_brackets_0(dir, inv)		// would return a deallocated memory location!
+#define opening_initial_no_return_open_right(dir, inv)			_opening_initial_open_right(dir, inv, no, void, )
+#define opening_initial_with_return_open_right(dir, inv)		_opening_initial_open_right(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator> \
-static rtn label##_return(WPointer out, RIterator in) \
-	{ stmt }
+#define _opening_initial_assign_as_closing(dir, inv, label, rtn, stmt)
 
-#define opening_initial_no_return_1(dir, inv, op)			_opening_initial_lr_1(dir, inv, op, no, void, , , )
-#define opening_initial_with_return_1(dir, inv, op)			_opening_initial_lr_1(dir, inv, op, with, WPointer, return out;, , )
-
-#define opening_initial_no_return_right_1(dir, inv, op, r)		_opening_initial_lr_1(dir, inv, op, no, void, , , r)
-#define opening_initial_with_return_right_1(dir, inv, op, r)		_opening_initial_lr_1(dir, inv, op, with, WPointer, return out;, , r)
+#define opening_initial_no_return_assign_as_closing(dir, inv)		_opening_initial_assign_as_closing(dir, inv, no, void, )
+#define opening_initial_with_return_assign_as_closing(dir, inv)		_opening_initial_assign_as_closing(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_new_brackets_1(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer, typename RPointer> \
-static rtn label##_return(WPointer out, RPointer in) \
-	{ stmt }
+#define _opening_initial_assign_as_closed(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_new_brackets_1(dir, inv)		_opening_initial_new_brackets_1(dir, inv, no, void, )
-#define opening_initial_with_return_new_brackets_1(dir, inv)		_opening_initial_new_brackets_1(dir, inv, with, WPointer, return out;)
+#define opening_initial_no_return_assign_as_closed(dir, inv)		_opening_initial_assign_as_closed(dir, inv, no, void, )
+#define opening_initial_with_return_assign_as_closed(dir, inv)		_opening_initial_assign_as_closed(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ stmt }
+#define _opening_initial_assign_as_opening(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_2(dir, inv, op)			_opening_initial_2(dir, inv, op, no, void, )
-#define opening_initial_with_return_2(dir, inv, op)			_opening_initial_2(dir, inv, op, with, WPointer, return out;)
+#define opening_initial_no_return_assign_as_opening(dir, inv)		_opening_initial_assign_as_opening(dir, inv, no, void, )
+#define opening_initial_with_return_assign_as_opening(dir, inv)		_opening_initial_assign_as_opening(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, N=0]
 */
 
-#define _opening_initial_brackets_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-	{ stmt }
+#define _opening_initial_assign_as_open(dir, inv, label, rtn, stmt) \
 
-#define opening_initial_no_return_brackets_2(dir, inv, op)		_opening_initial_brackets_2(dir, inv, op, no, void, )
-#define opening_initial_with_return_brackets_2(dir, inv, op)		_opening_initial_brackets_2(dir, inv, op, with, WPointer, return out;)
+#define opening_initial_no_return_assign_as_open(dir, inv)		_opening_initial_assign_as_open(dir, inv, no, void, )
+#define opening_initial_with_return_assign_as_open(dir, inv)		_opening_initial_assign_as_open(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_initial_catenate_with_closing(dir, inv, label, rtn, stmt) \
+
+#define opening_initial_no_return_catenate_with_closing(dir, inv)	_opening_initial_catenate_with_closing(dir, inv, no, void, )
+#define opening_initial_with_return_catenate_with_closing(dir, inv)	_opening_initial_catenate_with_closing(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_initial_catenate_with_closed(dir, inv, label, rtn, stmt) \
+
+#define opening_initial_no_return_catenate_with_closed(dir, inv)	_opening_initial_catenate_with_closed(dir, inv, no, void, )
+#define opening_initial_with_return_catenate_with_closed(dir, inv)	_opening_initial_catenate_with_closed(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_initial_catenate_with_opening(dir, inv, label, rtn, stmt) \
+
+#define opening_initial_no_return_catenate_with_opening(dir, inv)	_opening_initial_catenate_with_opening(dir, inv, no, void, )
+#define opening_initial_with_return_catenate_with_opening(dir, inv)	_opening_initial_catenate_with_opening(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_initial_catenate_with_open(dir, inv, label, rtn, stmt) \
+
+#define opening_initial_no_return_catenate_with_open(dir, inv)		_opening_initial_catenate_with_open(dir, inv, no, void, )
+#define opening_initial_with_return_catenate_with_open(dir, inv)	_opening_initial_catenate_with_open(dir, inv, with, WPointer, return out;)
 

@@ -39,14 +39,12 @@ namespace hook		{
 			template<size_type N, size_type M=0, size_type L=0>
 			using zip_unroll=typename zip::template unroll<N, M, L>;
 
-		#include"find/semiotic.cpp"
+		#include"search/semiotic.cpp"
 
-//		#include"identity/semiotic.cpp"
-
-		#include"discrete/semiotic.cpp"
+		#include"identity/semiotic.cpp"
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using discrete_unroll=typename discrete::template unroll<N, M, L>;
+			using identity_unroll=typename identity::template unroll<N, M, L>;
 
 //		#include"arithmetic/semiotic.cpp"
 
@@ -70,13 +68,13 @@ namespace hook		{
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using zip_unroll=zip::template unroll<N, M, L>;
 
-//		#include"discrete/media.cpp"
+//		#include"identity/media.cpp"
 
 /*
-			using discrete=discrete<size_type>;
+			using identity=discrete<size_type>;
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using discrete_unroll=typename discrete::template unroll<N, M, L>;
+			using identity_unroll=typename identity::template unroll<N, M, L>;
 */
 
 //		#include"arithmetic/media.cpp"

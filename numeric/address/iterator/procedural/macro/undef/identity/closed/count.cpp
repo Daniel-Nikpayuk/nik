@@ -20,6 +20,42 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 */
 
+#undef closed_count_no_return_clear
+#undef closed_count_with_return_clear
+
 #undef closed_count_no_return_pop_left
 #undef closed_count_with_return_pop_left
+
+#undef closed_count_no_return_pop_right
+#undef closed_count_with_return_pop_right
+
+#undef closed_count_no_return_push_left
+#undef closed_count_with_return_push_left
+
+#undef closed_count_no_return_push_right
+#undef closed_count_with_return_push_right
+
+#undef closed_count_no_return_assign_as_closed
+#undef closed_count_with_return_assign_as_closed
+
+#undef closed_count_no_return_assign_as_closed
+#undef closed_count_with_return_assign_as_closed
+
+#undef closed_count_no_return_assign_as_opening
+#undef closed_count_with_return_assign_as_opening
+
+#undef closed_count_no_return_assign_as_open
+#undef closed_count_with_return_assign_as_open
+
+#undef closed_count_no_return_catenate_with_closed
+#undef closed_count_with_return_catenate_with_closed
+
+#undef closed_count_no_return_catenate_with_closed
+#undef closed_count_with_return_catenate_with_closed
+
+#undef closed_count_no_return_catenate_with_opening
+#undef closed_count_with_return_catenate_with_opening
+
+#undef closed_count_no_return_catenate_with_open
+#undef closed_count_with_return_catenate_with_open
 

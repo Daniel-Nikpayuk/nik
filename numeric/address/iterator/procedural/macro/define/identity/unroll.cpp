@@ -21,23 +21,176 @@
 	It is meant to be bootstrapped with a given macro interpretation.
 */
 
-struct pop
+struct clear
+{
+	#define clear_interval(name) \
+	struct name \
+	{ \
+		name##_loop_no_return_clear(SGN, INV) \
+		name##_loop_with_return_clear(SGN, INV) \
+	};
+
+	clear_interval(closing)
+	clear_interval(closed)
+	clear_interval(opening)
+	clear_interval(open)
+
+	#undef clear_interval
+};
+
+struct close
 {
 	struct left
 	{
-		#define pop_left_interval(name) \
+		#define close_left_interval(name) \
 		struct name \
 		{ \
-			name##_unroll_no_return_pop_left(pop, left, SGN, INV) \
-			name##_unroll_with_return_pop_left(pop, left, SGN, INV) \
+			name##_unroll_no_return_close_left(SGN, INV) \
+			name##_unroll_with_return_close_left(SGN, INV) \
 		};
-		
-		pop_left_interval(closing)
-		pop_left_interval(closed)
-		pop_left_interval(opening)
-		pop_left_interval(open)
 
-		#undef pop_left_interval
+		close_left_interval(closing)
+		close_left_interval(closed)
+		close_left_interval(opening)
+		close_left_interval(open)
+
+		#undef close_left_interval
 	};
+
+	struct right
+	{
+		#define close_right_interval(name) \
+		struct name \
+		{ \
+			name##_unroll_no_return_close_right(SGN, INV) \
+			name##_unroll_with_return_close_right(SGN, INV) \
+		};
+
+		close_right_interval(closing)
+		close_right_interval(closed)
+		close_right_interval(opening)
+		close_right_interval(open)
+
+		#undef close_right_interval
+	};
+};
+
+struct open
+{
+	struct left
+	{
+		#define open_left_interval(name) \
+		struct name \
+		{ \
+			name##_unroll_no_return_open_left(SGN, INV) \
+			name##_unroll_with_return_open_left(SGN, INV) \
+		};
+
+		open_left_interval(closing)
+		open_left_interval(closed)
+		open_left_interval(opening)
+		open_left_interval(open)
+
+		#undef open_left_interval
+	};
+
+	struct right
+	{
+		#define open_right_interval(name) \
+		struct name \
+		{ \
+			name##_unroll_no_return_open_right(SGN, INV) \
+			name##_unroll_with_return_open_right(SGN, INV) \
+		};
+
+		open_right_interval(closing)
+		open_right_interval(closed)
+		open_right_interval(opening)
+		open_right_interval(open)
+
+		#undef open_right_interval
+	};
+};
+
+struct assign
+{
+	#define assign_as_interval(name) \
+	struct name \
+	{ \
+		struct as \
+		{ \
+			struct closing \
+			{ \
+				name##_unroll_no_return_assign_as_closing(SGN, INV) \
+				name##_unroll_with_return_assign_as_closing(SGN, INV) \
+			}; \
+ \
+			struct closed \
+			{ \
+				name##_unroll_no_return_assign_as_closed(SGN, INV) \
+				name##_unroll_with_return_assign_as_closed(SGN, INV) \
+			}; \
+ \
+			struct opening \
+			{ \
+				name##_unroll_no_return_assign_as_opening(SGN, INV) \
+				name##_unroll_with_return_assign_as_opening(SGN, INV) \
+			}; \
+ \
+			struct open \
+			{ \
+				name##_unroll_no_return_assign_as_open(SGN, INV) \
+				name##_unroll_with_return_assign_as_open(SGN, INV) \
+			}; \
+		}; \
+	};
+
+	assign_as_interval(closing)
+	assign_as_interval(closed)
+	assign_as_interval(opening)
+	assign_as_interval(open)
+
+	#undef assign_as_interval
+};
+
+struct catenate
+{
+	#define catenate_with_interval(name) \
+	struct name \
+	{ \
+		struct with \
+		{ \
+			struct closing \
+			{ \
+				name##_unroll_no_return_catenate_with_closing(SGN, INV) \
+				name##_unroll_with_return_catenate_with_closing(SGN, INV) \
+			}; \
+ \
+			struct closed \
+			{ \
+				name##_unroll_no_return_catenate_with_closed(SGN, INV) \
+				name##_unroll_with_return_catenate_with_closed(SGN, INV) \
+			}; \
+ \
+			struct opening \
+			{ \
+				name##_unroll_no_return_catenate_with_opening(SGN, INV) \
+				name##_unroll_with_return_catenate_with_opening(SGN, INV) \
+			}; \
+ \
+			struct open \
+			{ \
+				name##_unroll_no_return_catenate_with_open(SGN, INV) \
+				name##_unroll_with_return_catenate_with_open(SGN, INV) \
+			}; \
+		}; \
+	};
+
+	catenate_with_interval(closing)
+	catenate_with_interval(closed)
+	catenate_with_interval(opening)
+	catenate_with_interval(open)
+
+	#undef catenate_with_interval
 };
 

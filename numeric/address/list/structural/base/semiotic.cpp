@@ -48,7 +48,7 @@ struct base
 
 	void terminalize()
 	{
-		iphs_policy::discrete::clear::no_return(initial, terminal);
+		iphs_policy::identity::clear::closing::no_return(initial, terminal);
 		delete terminal;
 	}
 

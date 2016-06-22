@@ -26,191 +26,259 @@
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
 
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
-
-/************************************************************************************************************************/
-
-#define _closed_count_0(dir, inv, op, label, rtn, stmt)
-
-#define closed_count_no_return_0(dir, inv, op)				_closed_count_0(dir, inv, op, no, void, )
-#define closed_count_with_return_0(dir, inv, op)			_closed_count_0(dir, inv, op, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-#define _closed_count_lr_0(dir, inv, label, rtn, stmt, lp, rp)
-
-#define closed_count_no_return_left_0(dir, inv, op)			_closed_count_lr_0(dir, inv, no, void, , op, )
-#define closed_count_with_return_left_0(dir, inv, op)			_closed_count_lr_0(dir, inv, with, WPointer, return out;, op, )
-
-#define closed_count_no_return_right_0(dir, inv, op)			_closed_count_lr_0(dir, inv, no, void, , , op)
-#define closed_count_with_return_right_0(dir, inv, op)			_closed_count_lr_0(dir, inv, with, WPointer, return out;, , op)
-
-/************************************************************************************************************************/
-
-#define _closed_count_new_0(dir, inv, label, rtn, stmt)
-
-#define closed_count_no_return_new_0(dir, inv)				_closed_count_new_0(dir, inv, no, void, )
-#define closed_count_with_return_new_0(dir, inv)			_closed_count_new_0(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-#define _closed_count_new_brackets_0(dir, inv, label, rtn, stmt)
-
-#define closed_count_no_return_new_brackets_0(dir, inv)			_closed_count_new_brackets_0(dir, inv, no, void, )
-#define closed_count_with_return_new_brackets_0(dir, inv)		_closed_count_new_brackets_0(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[out, end]
 */
 
-#define _closed_count_delete_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+#define _closed_count_clear(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename ERPointer> \
+static rtn label##_return(size_type & count, WPointer out, ERPointer end) \
 { \
 	while (out != end) \
 	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
+		delete (out)dir##dir; \
 		++count; \
 	} \
- \
-	delete op *out; \
-	delete out; \
-	++count; \
  \
 	stmt \
 }
 
-#define closed_count_no_return_delete_0(dir, inv)			_closed_count_delete_0(dir, inv, , no, void, )
-#define closed_count_with_return_delete_0(dir, inv)			// would return a deallocated memory location!
-
-#define closed_count_no_return_delete_brackets_0(dir, inv)		_closed_count_delete_0(dir, inv, [], no, void, )
-#define closed_count_with_return_delete_brackets_0(dir, inv)		// would return a deallocated memory location!
+#define closed_count_no_return_clear(dir, inv)				_closed_count_clear(dir, inv, no, void, )
+#define closed_count_with_return_clear(dir, inv)			_closed_count_clear(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[in, end]
 */
 
-#define _closed_count_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+#define _closed_count_close_left(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_close_left(dir, inv)			_closed_count_close_left(dir, inv, no, void, )
+#define closed_count_with_return_close_left(dir, inv)			_closed_count_close_left(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_close_right(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	out=search::find::index::before::end::count::with_return(count, out, end); \
+	delete dir(out); \
+ \
+	stmt \
+}
+
+#define closed_count_no_return_close_right(dir, inv)			_closed_count_close_right(dir, inv, no, void, )
+#define closed_count_with_return_close_right(dir, inv)			_closed_count_close_right(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_open_left(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_open_left(dir, inv)			_closed_count_open_left(dir, inv, no, void, )
+#define closed_count_with_return_open_left(dir, inv)			_closed_count_open_left(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_open_right(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_open_right(dir, inv)			_closed_count_open_right(dir, inv, no, void, )
+#define closed_count_with_return_open_right(dir, inv)			_closed_count_open_right(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_assign_as_closing(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_assign_as_closing(dir, inv)		_closed_count_assign_as_closing(dir, inv, no, void, )
+#define closed_count_with_return_assign_as_closing(dir, inv)		_closed_count_assign_as_closing(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_assign_as_closed(dir, inv, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	while (dir(in) != end) \
 	{ \
-		lp(*out)op(*in)rp; \
+		*out=*in; \
 		out=dir(out)=new WNode; \
 		dir##dir(in); \
 		++count; \
 	} \
  \
-	lp(*out)op(*in)rp; \
+	*out=*in; \
 	++count; \
  \
 	stmt \
 }
 
-#define closed_count_no_return_1(dir, inv, op)				_closed_count_lr_1(dir, inv, op, no, void, , , )
-#define closed_count_with_return_1(dir, inv, op)			_closed_count_lr_1(dir, inv, op, with, WPointer, return out;, , )
-
-#define closed_count_no_return_right_1(dir, inv, op, r)			_closed_count_lr_1(dir, inv, op, no, void, , , r)
-#define closed_count_with_return_right_1(dir, inv, op, r)		_closed_count_lr_1(dir, inv, op, with, WPointer, return out;, , r)
+#define closed_count_no_return_assign_as_closed(dir, inv)		_closed_count_assign_as_closed(dir, inv, no, void, )
+#define closed_count_with_return_assign_as_closed(dir, inv)		_closed_count_assign_as_closed(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[in, end]
 */
 
-#define _closed_count_new_brackets_1(dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
-static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+#define _closed_count_assign_as_opening(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in != end) \
+	out=dir(out)=new WNode; \
+ \
+	while (dir(in) != end) \
 	{ \
-		*out=new Node[*in]; \
+		*out=*in; \
 		out=dir(out)=new WNode; \
 		dir##dir(in); \
 		++count; \
 	} \
  \
-	*out=new Node[*in]; \
+	*out=*in; \
 	++count; \
  \
 	stmt \
 }
 
-#define closed_count_no_return_new_brackets_1(dir, inv)			_closed_count_new_brackets_1(dir, inv, no, void, )
-#define closed_count_with_return_new_brackets_1(dir, inv)		_closed_count_new_brackets_1(dir, inv, with, WPointer, return out;)
+#define closed_count_no_return_assign_as_opening(dir, inv)		_closed_count_assign_as_opening(dir, inv, no, void, )
+#define closed_count_with_return_assign_as_opening(dir, inv)		_closed_count_assign_as_opening(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[in2, end2]
 */
 
-#define _closed_count_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+#define _closed_count_assign_as_open(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op(*in2); \
-		out=dir(out)=new WNode; \
-		dir##dir(in1); dir##dir(in2); \
-		++count; \
-	} \
- \
-	(*out)=(*in1)op(*in2); \
-	++count; \
- \
-	stmt \
+	out=dir(out)=new WNode; \
+	stmt zip::assign::closing::count::template label##_return<WNode>(count, out, in, end); \
 }
 
-#define closed_count_no_return_2(dir, inv, op)				_closed_count_2(dir, inv, op, no, void, )
-#define closed_count_with_return_2(dir, inv, op)			_closed_count_2(dir, inv, op, with, WPointer, return out;)
+#define closed_count_no_return_assign_as_open(dir, inv)			_closed_count_assign_as_open(dir, inv, no, void, )
+#define closed_count_with_return_assign_as_open(dir, inv)		_closed_count_assign_as_open(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[in2, end2]
 */
 
-#define _closed_count_brackets_2(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+#define _closed_count_catenate_with_closing(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
 { \
-	while (in2 != end2) \
-	{ \
-		(*out)=(*in1)op[*in2]; \
-		out=dir(out)=new WNode; \
-		dir##dir(in1); dir##dir(in2); \
-		++count; \
-	} \
- \
-	(*out)=(*in1)op[*in2]; \
-	++count; \
+	out=search::find::index::before::end::count::with_return(count, out, end); \
+	delete dir(out); \
+	dir(out)=in; \
  \
 	stmt \
 }
 
-#define closed_count_no_return_brackets_2(dir, inv, op)			_closed_count_brackets_2(dir, inv, op, no, void, )
-#define closed_count_with_return_brackets_2(dir, inv, op)		_closed_count_brackets_2(dir, inv, op, with, WPointer, return out;)
+#define closed_count_no_return_catenate_with_closing(dir, inv)		_closed_count_catenate_with_closing(dir, inv, no, void, )
+#define closed_count_with_return_catenate_with_closing(dir, inv)	_closed_count_catenate_with_closing(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_catenate_with_closed(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::count::with_return(count, out, end); \
+	delete dir(out); \
+	dir(out)=in; \
+ \
+	stmt \
+}
+
+#define closed_count_no_return_catenate_with_closed(dir, inv)		_closed_count_catenate_with_closed(dir, inv, no, void, )
+#define closed_count_with_return_catenate_with_closed(dir, inv)		_closed_count_catenate_with_closed(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_catenate_with_opening(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::count::with_return(count, out, end); \
+	delete dir(out); \
+	dir(out)=dir(in); \
+	delete in; \
+ \
+	stmt \
+}
+
+#define closed_count_no_return_catenate_with_opening(dir, inv)		_closed_count_catenate_with_opening(dir, inv, no, void, )
+#define closed_count_with_return_catenate_with_opening(dir, inv)	_closed_count_catenate_with_opening(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_catenate_with_open(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename EWPointer, typename RPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
+{ \
+	out=search::find::index::before::end::count::with_return(count, out, end); \
+	delete dir(out); \
+	dir(out)=dir(in); \
+	delete in; \
+ \
+	stmt \
+}
+
+#define closed_count_no_return_catenate_with_open(dir, inv)		_closed_count_catenate_with_open(dir, inv, no, void, )
+#define closed_count_with_return_catenate_with_open(dir, inv)		_closed_count_catenate_with_open(dir, inv, with, WPointer, return out;)
 

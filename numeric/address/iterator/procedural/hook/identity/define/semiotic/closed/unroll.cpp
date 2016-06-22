@@ -26,8 +26,7 @@
 	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
 	in the special case where the data is only accessible through iterators.
 
-	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
-	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
 /************************************************************************************************************************/
@@ -35,202 +34,154 @@
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_0(method, dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename ValueType> \
-static rtn label##_return(WPointer out, ValueType in) \
-{ \
-	(*out)op(in); \
-	out=dir(out)=new WNode; \
- \
-	stmt unroll<N-1>::method::label##_return(out, in); \
-}
+#define _closed_unroll_clear(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_0(method, dir, inv, op)			_closed_unroll_0(method, dir, inv, op, no, void, )
-#define closed_unroll_with_return_0(method, dir, inv, op)		_closed_unroll_0(method, dir, inv, op, with, WPointer, return)
+#define closed_unroll_no_return_clear(dir, inv)				_closed_unroll_clear(dir, inv, no, void, )
+#define closed_unroll_with_return_clear(dir, inv)			_closed_unroll_clear(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_lr_0(method, dir, inv, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-{ \
-	lp(*out)rp; \
-	out=dir(out)=new WNode; \
- \
-	stmt unroll<N-1>::method::label##_return(out); \
-}
+#define _closed_unroll_close_left(dir, inv, label, rtn, stmt)
 
-#define closed_unroll_no_return_left_0(method, dir, inv, op)		_closed_unroll_lr_0(method, dir, inv, no, void, , op, )
-#define closed_unroll_with_return_left_0(method, dir, inv, op)		_closed_unroll_lr_0(method, dir, inv, with, WPointer, return, op, )
-
-#define closed_unroll_no_return_right_0(method, dir, inv, op)		_closed_unroll_lr_0(method, dir, inv, no, void, , , op)
-#define closed_unroll_with_return_right_0(method, dir, inv, op)		_closed_unroll_lr_0(method, dir, inv, with, WPointer, return, , op)
+#define closed_unroll_no_return_close_left(dir, inv)			_closed_unroll_close_left(dir, inv, no, void, )
+#define closed_unroll_with_return_close_left(dir, inv)			_closed_unroll_close_left(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_new_0(method, dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-{ \
-	*out=new Node(); \
-	out=dir(out)=new WNode; \
- \
-	stmt unroll<N-1>::method::label##_return(out); \
-}
+#define _closed_unroll_close_right(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_new_0(method, dir, inv)			_closed_unroll_new_0(method, dir, inv, no, void, )
-#define closed_unroll_with_return_new_0(method, dir, inv)		_closed_unroll_new_0(method, dir, inv, with, WPointer, return)
+#define closed_unroll_no_return_close_right(dir, inv)			_closed_unroll_close_right(dir, inv, no, void, )
+#define closed_unroll_with_return_close_right(dir, inv)			_closed_unroll_close_right(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_new_brackets_0(method, dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out, size_type in) \
-{ \
-	*out=new Node[in]; \
-	out=dir(out)=new WNode; \
- \
-	stmt unroll<N-1>::method::label##_return(out, in); \
-}
+#define _closed_unroll_open_left(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_new_brackets_0(method, dir, inv)	_closed_unroll_new_brackets_0(method, dir, inv, no, void, )
-#define closed_unroll_with_return_new_brackets_0(method, dir, inv)	_closed_unroll_new_brackets_0(method, dir, inv, with, WPointer, return)
+#define closed_unroll_no_return_open_left(dir, inv)			_closed_unroll_open_left(dir, inv, no, void, )
+#define closed_unroll_with_return_open_left(dir, inv)			_closed_unroll_open_left(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_delete_0(method, dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer out) \
-{ \
-	WPointer current=out; \
-	dir##dir(out); \
-	delete op *current; \
-	delete current; \
- \
-	stmt unroll<N-1>::method::label##_return(out); \
-}
+#define _closed_unroll_open_right(dir, inv, label, rtn, stmt)
 
-#define closed_unroll_no_return_delete_0(method, dir, inv)		_closed_unroll_delete_0(method, dir, inv, , no, void, )
-#define closed_unroll_with_return_delete_0(method, dir, inv)		// would return a deallocated memory location!
-
-#define closed_unroll_no_return_delete_brackets_0(method, dir, inv)	_closed_unroll_delete_0(method, dir, inv, [], no, void, )
-#define closed_unroll_with_return_delete_brackets_0(method, dir, inv)	// would return a deallocated memory location!
+#define closed_unroll_no_return_open_right(dir, inv)			_closed_unroll_open_right(dir, inv, no, void, )
+#define closed_unroll_with_return_open_right(dir, inv)			_closed_unroll_open_right(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_lr_1(method, dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator> \
-static rtn label##_return(WPointer out, RIterator in) \
-{ \
-	lp(*out)op(*in)rp; \
-	out=dir(out)=new WNode; \
-	dir##dir(in); \
- \
-	stmt unroll<N-1>::method::label##_return(out, in); \
-}
+#define _closed_unroll_assign_as_closing(dir, inv, label, rtn, stmt)
 
-#define closed_unroll_no_return_1(method, dir, inv, op)			_closed_unroll_lr_1(method, dir, inv, op, no, void, , , )
-#define closed_unroll_with_return_1(method, dir, inv, op)		_closed_unroll_lr_1(method, dir, inv, op, with, WPointer, return, , )
-
-#define closed_unroll_no_return_right_1(method, dir, inv, op, r)	_closed_unroll_lr_1(method, dir, inv, op, no, void, , , r)
-#define closed_unroll_with_return_right_1(method, dir, inv, op, r)	_closed_unroll_lr_1(method, dir, inv, op, with, WPointer, return, , r)
+#define closed_unroll_no_return_assign_as_closing(dir, inv)		_closed_unroll_assign_as_closing(dir, inv, no, void, )
+#define closed_unroll_with_return_assign_as_closing(dir, inv)		_closed_unroll_assign_as_closing(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_new_brackets_1(method, dir, inv, label, rtn, stmt) \
-template<typename Node, typename WNode, typename WPointer, typename RPointer> \
-static rtn label##_return(WPointer out, RPointer in) \
-{ \
-	*out=new Node[*in]; \
-	out=dir(out)=new WNode; \
-	dir##dir(in); \
- \
-	stmt unroll<N-1>::method::label##_return(out, in); \
-}
+#define _closed_unroll_assign_as_closed(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_new_brackets_1(method, dir, inv)	_closed_unroll_new_brackets_1(method, dir, inv, no, void, )
-#define closed_unroll_with_return_new_brackets_1(method, dir, inv)	_closed_unroll_new_brackets_1(method, dir, inv, with, WPointer, return)
+#define closed_unroll_no_return_assign_as_closed(dir, inv)		_closed_unroll_assign_as_closed(dir, inv, no, void, )
+#define closed_unroll_with_return_assign_as_closed(dir, inv)		_closed_unroll_assign_as_closed(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_2(method, dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-{ \
-	(*out)=(*in1)op(*in2); \
-	out=dir(out)=new WNode; \
-	dir##dir(in1); dir##dir(in2); \
- \
-	stmt unroll<N-1>::method::label##_return(out, in1, in2); \
-}
+#define _closed_unroll_assign_as_opening(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_2(method, dir, inv, op)			_closed_unroll_2(method, dir, inv, op, no, void, )
-#define closed_unroll_with_return_2(method, dir, inv, op)		_closed_unroll_2(method, dir, inv, op, with, WPointer, return)
+#define closed_unroll_no_return_assign_as_opening(dir, inv)		_closed_unroll_assign_as_opening(dir, inv, no, void, )
+#define closed_unroll_with_return_assign_as_opening(dir, inv)		_closed_unroll_assign_as_opening(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	[0, N]
 */
 
-#define _closed_unroll_brackets_2(method, dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
-static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
-{ \
-	(*out)=(*in1)op[*in2]; \
-	out=dir(out)=new WNode; \
-	dir##dir(in1); dir##dir(in2); \
- \
-	stmt unroll<N-1>::method::label##_return(out, in1, in2); \
-}
+#define _closed_unroll_assign_as_open(dir, inv, label, rtn, stmt) \
 
-#define closed_unroll_no_return_brackets_2(method, dir, inv, op)	_closed_unroll_brackets_2(method, dir, inv, op, no, void, )
-#define closed_unroll_with_return_brackets_2(method, dir, inv, op)	_closed_unroll_brackets_2(method, dir, inv, op, with, WPointer, return)
+#define closed_unroll_no_return_assign_as_open(dir, inv)		_closed_unroll_assign_as_open(dir, inv, no, void, )
+#define closed_unroll_with_return_assign_as_open(dir, inv)		_closed_unroll_assign_as_open(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_unroll_catenate_with_closing(dir, inv, label, rtn, stmt) \
+
+#define closed_unroll_no_return_catenate_with_closing(dir, inv)		_closed_unroll_catenate_with_closing(dir, inv, no, void, )
+#define closed_unroll_with_return_catenate_with_closing(dir, inv)	_closed_unroll_catenate_with_closing(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_unroll_catenate_with_closed(dir, inv, label, rtn, stmt) \
+
+#define closed_unroll_no_return_catenate_with_closed(dir, inv)		_closed_unroll_catenate_with_closed(dir, inv, no, void, )
+#define closed_unroll_with_return_catenate_with_closed(dir, inv)	_closed_unroll_catenate_with_closed(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_unroll_catenate_with_opening(dir, inv, label, rtn, stmt) \
+
+#define closed_unroll_no_return_catenate_with_opening(dir, inv)		_closed_unroll_catenate_with_opening(dir, inv, no, void, )
+#define closed_unroll_with_return_catenate_with_opening(dir, inv)	_closed_unroll_catenate_with_opening(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_unroll_catenate_with_open(dir, inv, label, rtn, stmt) \
+
+#define closed_unroll_no_return_catenate_with_open(dir, inv)		_closed_unroll_catenate_with_open(dir, inv, no, void, )
+#define closed_unroll_with_return_catenate_with_open(dir, inv)		_closed_unroll_catenate_with_open(dir, inv, with, WPointer, return)
 

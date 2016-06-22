@@ -20,6 +20,42 @@
 	It needs to be equipped with a context to be interpreted by the compiler.
 */
 
+#undef open_initial_no_return_clear
+#undef open_initial_with_return_clear
+
 #undef open_initial_no_return_pop_left
 #undef open_initial_with_return_pop_left
+
+#undef open_initial_no_return_pop_right
+#undef open_initial_with_return_pop_right
+
+#undef open_initial_no_return_push_left
+#undef open_initial_with_return_push_left
+
+#undef open_initial_no_return_push_right
+#undef open_initial_with_return_push_right
+
+#undef open_initial_no_return_assign_as_open
+#undef open_initial_with_return_assign_as_open
+
+#undef open_initial_no_return_assign_as_closed
+#undef open_initial_with_return_assign_as_closed
+
+#undef open_initial_no_return_assign_as_opening
+#undef open_initial_with_return_assign_as_opening
+
+#undef open_initial_no_return_assign_as_open
+#undef open_initial_with_return_assign_as_open
+
+#undef open_initial_no_return_catenate_with_open
+#undef open_initial_with_return_catenate_with_open
+
+#undef open_initial_no_return_catenate_with_closed
+#undef open_initial_with_return_catenate_with_closed
+
+#undef open_initial_no_return_catenate_with_opening
+#undef open_initial_with_return_catenate_with_opening
+
+#undef open_initial_no_return_catenate_with_open
+#undef open_initial_with_return_catenate_with_open
 
