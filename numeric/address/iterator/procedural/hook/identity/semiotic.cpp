@@ -45,13 +45,13 @@ struct identity
 	template<size_type N, size_type M=0, size_type L=0>
 	struct unroll
 	{
-		#include"../../macro/define/identity/unroll.cpp"
+//		#include"../../macro/define/identity/unroll.cpp"
 	};
 
 	template<size_type M, size_type L>
 	struct unroll<0, M, L>
 	{
-		#include"../../macro/define/identity/initial.cpp"
+//		#include"../../macro/define/identity/initial.cpp"
 	};
 
 	#undef INV

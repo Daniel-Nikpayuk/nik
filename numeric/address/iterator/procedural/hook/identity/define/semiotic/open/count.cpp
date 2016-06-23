@@ -40,6 +40,7 @@
 template<typename WPointer, typename ERPointer> \
 static rtn label##_return(size_type & count, WPointer out, ERPointer end) \
 { \
+	dir##dir(out); \
 	while (out != end) \
 	{ \
 		delete (out)dir##dir; \
@@ -115,10 +116,15 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 
 */
 
-#define _open_count_assign_as_closing(dir, inv, label, rtn, stmt)
+#define _open_count_assign_as_closing(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	stmt zip::assign::closing::count::template label##_return<WNode>(count, out, dir(in), end); \
+}
 
 #define open_count_no_return_assign_as_closing(dir, inv)		_open_count_assign_as_closing(dir, inv, no, void, )
-#define open_count_with_return_assign_as_closing(dir, inv)		_open_count_assign_as_closing(dir, inv, with, WPointer, return out;)
+#define open_count_with_return_assign_as_closing(dir, inv)		_open_count_assign_as_closing(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
@@ -131,6 +137,7 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
+	dir##dir(in); \
 	while (dir(in) != end) \
 	{ \
 		*out=*in; \
@@ -159,18 +166,13 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	out=dir(out)=new WNode; \
- \
 	while (dir(in) != end) \
 	{ \
-		*out=*in; \
-		out=dir(out)=new WNode; \
 		dir##dir(in); \
+		out=dir(out)=new WNode; \
+		*out=*in; \
 		++count; \
 	} \
- \
-	*out=*in; \
-	++count; \
  \
 	stmt \
 }
@@ -185,13 +187,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 
 */
 
-#define _open_count_assign_as_open(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	out=dir(out)=new WNode; \
-	stmt zip::assign::closing::count::template label##_return<WNode>(count, out, in, end); \
-}
+#define _open_count_assign_as_open(dir, inv, label, rtn, stmt)
 
 #define open_count_no_return_assign_as_open(dir, inv)			_open_count_assign_as_open(dir, inv, no, void, )
 #define open_count_with_return_assign_as_open(dir, inv)			_open_count_assign_as_open(dir, inv, with, WPointer, return)

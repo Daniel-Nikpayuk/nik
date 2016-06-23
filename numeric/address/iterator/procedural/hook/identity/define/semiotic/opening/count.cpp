@@ -40,11 +40,15 @@
 template<typename WPointer, typename ERPointer> \
 static rtn label##_return(size_type & count, WPointer out, ERPointer end) \
 { \
+	dir##dir(out); \
 	while (out != end) \
 	{ \
 		delete (out)dir##dir; \
 		++count; \
 	} \
+ \
+	delete out; \
+	++count; \
  \
 	stmt \
 }
@@ -71,15 +75,7 @@ static rtn label##_return(size_type & count, WPointer out, ERPointer end) \
 
 */
 
-#define _opening_count_close_right(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename EWPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
-{ \
-	out=search::find::index::before::end::count::with_return(count, out, end); \
-	delete dir(out); \
- \
-	stmt \
-}
+#define _opening_count_close_right(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_close_right(dir, inv)			_opening_count_close_right(dir, inv, no, void, )
 #define opening_count_with_return_close_right(dir, inv)			_opening_count_close_right(dir, inv, with, WPointer, return out;)
@@ -115,7 +111,20 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 
 */
 
-#define _opening_count_assign_as_closing(dir, inv, label, rtn, stmt)
+#define _opening_count_assign_as_closing(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		dir##dir(in); \
+		*out=*in; \
+		out=dir(out)=new WNode; \
+		++count; \
+	} \
+ \
+	stmt \
+}
 
 #define opening_count_no_return_assign_as_closing(dir, inv)		_opening_count_assign_as_closing(dir, inv, no, void, )
 #define opening_count_with_return_assign_as_closing(dir, inv)		_opening_count_assign_as_closing(dir, inv, with, WPointer, return out;)
@@ -131,22 +140,11 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
-	while (dir(in) != end) \
-	{ \
-		*out=*in; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-		++count; \
-	} \
- \
-	*out=*in; \
-	++count; \
- \
-	stmt \
+	stmt zip::assign::closed::count::template label##_return<WNode>(count, out, dir(in), end); \
 }
 
 #define opening_count_no_return_assign_as_closed(dir, inv)		_opening_count_assign_as_closed(dir, inv, no, void, )
-#define opening_count_with_return_assign_as_closed(dir, inv)		_opening_count_assign_as_closed(dir, inv, with, WPointer, return out;)
+#define opening_count_with_return_assign_as_closed(dir, inv)		_opening_count_assign_as_closed(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
@@ -155,25 +153,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 
 */
 
-#define _opening_count_assign_as_opening(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
-{ \
-	out=dir(out)=new WNode; \
- \
-	while (dir(in) != end) \
-	{ \
-		*out=*in; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-		++count; \
-	} \
- \
-	*out=*in; \
-	++count; \
- \
-	stmt \
-}
+#define _opening_count_assign_as_opening(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_assign_as_opening(dir, inv)		_opening_count_assign_as_opening(dir, inv, no, void, )
 #define opening_count_with_return_assign_as_opening(dir, inv)		_opening_count_assign_as_opening(dir, inv, with, WPointer, return out;)
@@ -189,12 +169,14 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
 { \
+	out=zip::assign::opening::count::template with_return<WNode>(count, out, in, end); \
 	out=dir(out)=new WNode; \
-	stmt zip::assign::closing::count::template label##_return<WNode>(count, out, in, end); \
+ \
+	stmt \
 }
 
 #define opening_count_no_return_assign_as_open(dir, inv)			_opening_count_assign_as_open(dir, inv, no, void, )
-#define opening_count_with_return_assign_as_open(dir, inv)		_opening_count_assign_as_open(dir, inv, with, WPointer, return)
+#define opening_count_with_return_assign_as_open(dir, inv)		_opening_count_assign_as_open(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -203,16 +185,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 
 */
 
-#define _opening_count_catenate_with_closing(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename EWPointer, typename RPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
-{ \
-	out=search::find::index::before::end::count::with_return(count, out, end); \
-	delete dir(out); \
-	dir(out)=in; \
- \
-	stmt \
-}
+#define _opening_count_catenate_with_closing(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_catenate_with_closing(dir, inv)		_opening_count_catenate_with_closing(dir, inv, no, void, )
 #define opening_count_with_return_catenate_with_closing(dir, inv)	_opening_count_catenate_with_closing(dir, inv, with, WPointer, return out;)
@@ -224,19 +197,10 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPoint
 
 */
 
-#define _opening_count_catenate_with_closed(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename EWPointer, typename RPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
-{ \
-	out=search::find::index::before::end::count::with_return(count, out, end); \
-	delete dir(out); \
-	dir(out)=in; \
- \
-	stmt \
-}
+#define _opening_count_catenate_with_closed(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_catenate_with_closed(dir, inv)		_opening_count_catenate_with_closed(dir, inv, no, void, )
-#define opening_count_with_return_catenate_with_closed(dir, inv)		_opening_count_catenate_with_closed(dir, inv, with, WPointer, return out;)
+#define opening_count_with_return_catenate_with_closed(dir, inv)	_opening_count_catenate_with_closed(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -245,17 +209,7 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPoint
 
 */
 
-#define _opening_count_catenate_with_opening(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename EWPointer, typename RPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
-{ \
-	out=search::find::index::before::end::count::with_return(count, out, end); \
-	delete dir(out); \
-	dir(out)=dir(in); \
-	delete in; \
- \
-	stmt \
-}
+#define _opening_count_catenate_with_opening(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_catenate_with_opening(dir, inv)		_opening_count_catenate_with_opening(dir, inv, no, void, )
 #define opening_count_with_return_catenate_with_opening(dir, inv)	_opening_count_catenate_with_opening(dir, inv, with, WPointer, return out;)
@@ -267,17 +221,7 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPoint
 
 */
 
-#define _opening_count_catenate_with_open(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename EWPointer, typename RPointer> \
-static rtn label##_return(size_type & count, WPointer out, EWPointer end, RPointer in) \
-{ \
-	out=search::find::index::before::end::count::with_return(count, out, end); \
-	delete dir(out); \
-	dir(out)=dir(in); \
-	delete in; \
- \
-	stmt \
-}
+#define _opening_count_catenate_with_open(dir, inv, label, rtn, stmt)
 
 #define opening_count_no_return_catenate_with_open(dir, inv)		_opening_count_catenate_with_open(dir, inv, no, void, )
 #define opening_count_with_return_catenate_with_open(dir, inv)		_opening_count_catenate_with_open(dir, inv, with, WPointer, return out;)

@@ -26,8 +26,8 @@ struct clear
 	#define clear_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_clear(SGN, INV) \
-		name##_loop_with_return_clear(SGN, INV) \
+		name##_initial_no_return_clear(SGN, INV) \
+		name##_initial_with_return_clear(SGN, INV) \
 	};
 
 	clear_interval(closing)

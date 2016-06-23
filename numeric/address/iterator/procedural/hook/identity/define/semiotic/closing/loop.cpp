@@ -161,16 +161,12 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	out=dir(out)=new WNode; \
- \
-	while (dir(in) != end) \
+	while (in != end) \
 	{ \
-		*out=*in; \
 		out=dir(out)=new WNode; \
+		*out=*in; \
 		dir##dir(in); \
 	} \
- \
-	*out=*in; \
  \
 	stmt \
 }

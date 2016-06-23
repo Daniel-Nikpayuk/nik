@@ -40,6 +40,7 @@
 template<typename WPointer, typename ERPointer> \
 static rtn label##_return(WPointer out, ERPointer end) \
 { \
+	dir##dir(out); \
 	while (out != end) delete (out)dir##dir; \
  \
 	stmt \
@@ -55,7 +56,14 @@ static rtn label##_return(WPointer out, ERPointer end) \
 
 */
 
-#define _open_loop_close_left(dir, inv, label, rtn, stmt)
+#define _open_loop_close_left(dir, inv, label, rtn, stmt) \
+template<typename WPointer> \
+static rtn label##_return(WPointer out) \
+{ \
+	delete (out)dir##dir; \
+ \
+	stmt \
+}
 
 #define open_loop_no_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, no, void, )
 #define open_loop_with_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, with, WPointer, return out;)
@@ -87,15 +95,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 
 */
 
-#define _open_loop_open_left(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer> \
-static rtn label##_return(WPointer in) \
-{ \
-	WPointer out=new WNode; \
-	dir(out)=in; \
- \
-	stmt \
-}
+#define _open_loop_open_left(dir, inv, label, rtn, stmt)
 
 #define open_loop_no_return_open_left(dir, inv)				_open_loop_open_left(dir, inv, no, void, )
 #define open_loop_with_return_open_left(dir, inv)			_open_loop_open_left(dir, inv, with, WPointer, return out;)
@@ -119,10 +119,15 @@ static rtn label##_return(WPointer in) \
 
 */
 
-#define _open_loop_assign_as_closing(dir, inv, label, rtn, stmt)
+#define _open_loop_assign_as_closing(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+{ \
+	stmt zip::assign::closing::template label##_return<WNode>(out, dir(in), end); \
+}
 
 #define open_loop_no_return_assign_as_closing(dir, inv)			_open_loop_assign_as_closing(dir, inv, no, void, )
-#define open_loop_with_return_assign_as_closing(dir, inv)		_open_loop_assign_as_closing(dir, inv, with, WPointer, return out;)
+#define open_loop_with_return_assign_as_closing(dir, inv)		_open_loop_assign_as_closing(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
@@ -135,6 +140,7 @@ static rtn label##_return(WPointer in) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
+	dir##dir(in); \
 	while (dir(in) != end) \
 	{ \
 		*out=*in; \
@@ -161,16 +167,12 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
 static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 { \
-	out=dir(out)=new WNode; \
- \
 	while (dir(in) != end) \
 	{ \
-		*out=*in; \
-		out=dir(out)=new WNode; \
 		dir##dir(in); \
+		out=dir(out)=new WNode; \
+		*out=*in; \
 	} \
- \
-	*out=*in; \
  \
 	stmt \
 }
@@ -185,16 +187,10 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 
 */
 
-#define _open_loop_assign_as_open(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	out=dir(out)=new WNode; \
-	stmt zip::assign::closing::template label##_return<WNode>(out, in, end); \
-}
+#define _open_loop_assign_as_open(dir, inv, label, rtn, stmt)
 
 #define open_loop_no_return_assign_as_open(dir, inv)			_open_loop_assign_as_open(dir, inv, no, void, )
-#define open_loop_with_return_assign_as_open(dir, inv)			_open_loop_assign_as_open(dir, inv, with, WPointer, return)
+#define open_loop_with_return_assign_as_open(dir, inv)			_open_loop_assign_as_open(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
