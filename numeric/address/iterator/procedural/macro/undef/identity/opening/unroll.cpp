@@ -23,32 +23,23 @@
 #undef opening_unroll_no_return_clear
 #undef opening_unroll_with_return_clear
 
-#undef opening_unroll_no_return_pop_left
-#undef opening_unroll_with_return_pop_left
+#undef opening_unroll_no_return_close_left
+#undef opening_unroll_with_return_close_left
 
-#undef opening_unroll_no_return_pop_right
-#undef opening_unroll_with_return_pop_right
+#undef opening_unroll_no_return_close_right
+#undef opening_unroll_with_return_close_right
 
-#undef opening_unroll_no_return_push_left
-#undef opening_unroll_with_return_push_left
+#undef opening_unroll_no_return_open_left
+#undef opening_unroll_with_return_open_left
 
-#undef opening_unroll_no_return_push_right
-#undef opening_unroll_with_return_push_right
+#undef opening_unroll_no_return_open_right
+#undef opening_unroll_with_return_open_right
 
-#undef opening_unroll_no_return_assign_as_opening
-#undef opening_unroll_with_return_assign_as_opening
+#undef opening_unroll_no_return_catenate
+#undef opening_unroll_with_return_catenate
 
-#undef opening_unroll_no_return_assign_as_closed
-#undef opening_unroll_with_return_assign_as_closed
-
-#undef opening_unroll_no_return_assign_as_opening
-#undef opening_unroll_with_return_assign_as_opening
-
-#undef opening_unroll_no_return_assign_as_open
-#undef opening_unroll_with_return_assign_as_open
-
-#undef opening_unroll_no_return_catenate_with_opening
-#undef opening_unroll_with_return_catenate_with_opening
+#undef opening_unroll_no_return_catenate_with_closing
+#undef opening_unroll_with_return_catenate_with_closing
 
 #undef opening_unroll_no_return_catenate_with_closed
 #undef opening_unroll_with_return_catenate_with_closed

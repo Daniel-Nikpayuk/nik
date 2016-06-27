@@ -142,133 +142,38 @@ struct open
 	};
 };
 
-struct assign
-{
-	#define assign_as_interval(name) \
-	struct name \
-	{ \
-		struct as \
-		{ \
-			struct closing \
-			{ \
-				name##_loop_no_return_assign_as_closing(SGN, INV) \
-				name##_loop_with_return_assign_as_closing(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_assign_as_closing(SGN, INV) \
-					name##_count_with_return_assign_as_closing(SGN, INV) \
-				}; \
-			}; \
- \
-			struct closed \
-			{ \
-				name##_loop_no_return_assign_as_closed(SGN, INV) \
-				name##_loop_with_return_assign_as_closed(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_assign_as_closed(SGN, INV) \
-					name##_count_with_return_assign_as_closed(SGN, INV) \
-				}; \
-			}; \
- \
-			struct opening \
-			{ \
-				name##_loop_no_return_assign_as_opening(SGN, INV) \
-				name##_loop_with_return_assign_as_opening(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_assign_as_opening(SGN, INV) \
-					name##_count_with_return_assign_as_opening(SGN, INV) \
-				}; \
-			}; \
- \
-			struct open \
-			{ \
-				name##_loop_no_return_assign_as_open(SGN, INV) \
-				name##_loop_with_return_assign_as_open(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_assign_as_open(SGN, INV) \
-					name##_count_with_return_assign_as_open(SGN, INV) \
-				}; \
-			}; \
-		}; \
-	};
-
-	assign_as_interval(closing)
-	assign_as_interval(closed)
-	assign_as_interval(opening)
-	assign_as_interval(open)
-
-	#undef assign_as_interval
-};
-
 struct catenate
 {
-	#define catenate_with_interval(name) \
+	#define catenate_with_interval(name, label) \
+	name##_loop_no_return##label##_catenate(SGN, INV) \
+	name##_loop_with_return##label##_catenate(SGN, INV) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_catenate(SGN, INV) \
+		name##_count_with_return##label##_catenate(SGN, INV) \
+	};
+
+	#define catenate_interval(name) \
 	struct name \
 	{ \
 		struct with \
 		{ \
-			struct closing \
-			{ \
-				name##_loop_no_return_catenate_with_closing(SGN, INV) \
-				name##_loop_with_return_catenate_with_closing(SGN, INV) \
+			catenate_with_interval(name, ) \
  \
-				struct count \
-				{ \
-					name##_count_no_return_catenate_with_closing(SGN, INV) \
-					name##_count_with_return_catenate_with_closing(SGN, INV) \
-				}; \
-			}; \
- \
-			struct closed \
-			{ \
-				name##_loop_no_return_catenate_with_closed(SGN, INV) \
-				name##_loop_with_return_catenate_with_closed(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_catenate_with_closed(SGN, INV) \
-					name##_count_with_return_catenate_with_closed(SGN, INV) \
-				}; \
-			}; \
- \
-			struct opening \
-			{ \
-				name##_loop_no_return_catenate_with_opening(SGN, INV) \
-				name##_loop_with_return_catenate_with_opening(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_catenate_with_opening(SGN, INV) \
-					name##_count_with_return_catenate_with_opening(SGN, INV) \
-				}; \
-			}; \
- \
-			struct open \
-			{ \
-				name##_loop_no_return_catenate_with_open(SGN, INV) \
-				name##_loop_with_return_catenate_with_open(SGN, INV) \
- \
-				struct count \
-				{ \
-					name##_count_no_return_catenate_with_open(SGN, INV) \
-					name##_count_with_return_catenate_with_open(SGN, INV) \
-				}; \
-			}; \
+			struct closing	{ catenate_with_interval(name, _with_closing)	}; \
+			struct closed	{ catenate_with_interval(name, _with_closed)	}; \
+			struct opening	{ catenate_with_interval(name, _with_opening)	}; \
+			struct open	{ catenate_with_interval(name, _with_open)	}; \
 		}; \
 	};
 
-	catenate_with_interval(closing)
-	catenate_with_interval(closed)
-	catenate_with_interval(opening)
-	catenate_with_interval(open)
+	catenate_interval(closing)
+	catenate_interval(closed)
+	catenate_interval(opening)
+	catenate_interval(open)
 
+	#undef catenate_interval
 	#undef catenate_with_interval
 };
 

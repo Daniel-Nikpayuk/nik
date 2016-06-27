@@ -96,54 +96,6 @@
 
 */
 
-#define _closed_unroll_assign_as_closing(dir, inv, label, rtn, stmt)
-
-#define closed_unroll_no_return_assign_as_closing(dir, inv)		_closed_unroll_assign_as_closing(dir, inv, no, void, )
-#define closed_unroll_with_return_assign_as_closing(dir, inv)		_closed_unroll_assign_as_closing(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _closed_unroll_assign_as_closed(dir, inv, label, rtn, stmt) \
-
-#define closed_unroll_no_return_assign_as_closed(dir, inv)		_closed_unroll_assign_as_closed(dir, inv, no, void, )
-#define closed_unroll_with_return_assign_as_closed(dir, inv)		_closed_unroll_assign_as_closed(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _closed_unroll_assign_as_opening(dir, inv, label, rtn, stmt) \
-
-#define closed_unroll_no_return_assign_as_opening(dir, inv)		_closed_unroll_assign_as_opening(dir, inv, no, void, )
-#define closed_unroll_with_return_assign_as_opening(dir, inv)		_closed_unroll_assign_as_opening(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _closed_unroll_assign_as_open(dir, inv, label, rtn, stmt) \
-
-#define closed_unroll_no_return_assign_as_open(dir, inv)		_closed_unroll_assign_as_open(dir, inv, no, void, )
-#define closed_unroll_with_return_assign_as_open(dir, inv)		_closed_unroll_assign_as_open(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
 #define _closed_unroll_catenate_with_closing(dir, inv, label, rtn, stmt) \
 
 #define closed_unroll_no_return_catenate_with_closing(dir, inv)		_closed_unroll_catenate_with_closing(dir, inv, no, void, )

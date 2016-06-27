@@ -31,6 +31,7 @@
 */
 
 /************************************************************************************************************************/
+/************************************************************************************************************************/
 
 /*
 	Constraints:
@@ -55,6 +56,93 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 #define closing_loop_no_return_0(dir, inv, op)				_closing_loop_0(dir, inv, op, no, void, )
 #define closing_loop_with_return_0(dir, inv, op)			_closing_loop_0(dir, inv, op, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _closing_loop_as_closing_0(dir, inv, op, label, rtn, stmt)
+
+#define closing_loop_no_return_as_closing_0(dir, inv, op)		_closing_loop_as_closing_0(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_closing_0(dir, inv, op)		_closing_loop_as_closing_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_as_closed_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename ValueType> \
+static rtn label##_return(WPointer out, size_type n, ValueType in) \
+{ \
+	while (n-1) \
+	{ \
+		(*out)op(in); \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	(*out)op(in); \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_closed_0(dir, inv, op)		_closing_loop_as_closed_0(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_closed_0(dir, inv, op)		_closing_loop_as_closed_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_as_opening_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename ValueType> \
+static rtn label##_return(WPointer out, size_type n, ValueType in) \
+{ \
+	while (n) \
+	{ \
+		out=dir(out)=new WNode; \
+		(*out)op(in); \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_opening_0(dir, inv, op)		_closing_loop_as_opening_0(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_opening_0(dir, inv, op)		_closing_loop_as_opening_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_as_open_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename ValueType> \
+static rtn label##_return(WPointer out, size_type n, ValueType in) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (n) \
+	{ \
+		(*out)op(in); \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_open_0(dir, inv, op)			_closing_loop_as_open_0(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_open_0(dir, inv, op)		_closing_loop_as_open_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -85,6 +173,105 @@ static rtn label##_return(WPointer out, size_type n) \
 
 /************************************************************************************************************************/
 
+#define _closing_loop_lr_as_closing_0(dir, inv, label, rtn, stmt, lp, rp)
+
+#define closing_loop_no_return_left_as_closing_0(dir, inv, op)		_closing_loop_lr_as_closing_0(dir, inv, no, void, , op, )
+#define closing_loop_with_return_left_as_closing_0(dir, inv, op)	_closing_loop_lr_as_closing_0(dir, inv, with, WPointer, return out;, op, )
+
+#define closing_loop_no_return_right_as_closing_0(dir, inv, op)		_closing_loop_lr_as_closing_0(dir, inv, no, void, , , op)
+#define closing_loop_with_return_right_as_closing_0(dir, inv, op)	_closing_loop_lr_as_closing_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_lr_as_closed_0(dir, inv, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	while (n-1) \
+	{ \
+		lp(*out)rp; \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	lp(*out)rp; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_left_as_closed_0(dir, inv, op)		_closing_loop_lr_as_closed_0(dir, inv, no, void, , op, )
+#define closing_loop_with_return_left_as_closed_0(dir, inv, op)		_closing_loop_lr_as_closed_0(dir, inv, with, WPointer, return out;, op, )
+
+#define closing_loop_no_return_right_as_closed_0(dir, inv, op)		_closing_loop_lr_as_closed_0(dir, inv, no, void, , , op)
+#define closing_loop_with_return_right_as_closed_0(dir, inv, op)	_closing_loop_lr_as_closed_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_lr_as_opening_0(dir, inv, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	while (n) \
+	{ \
+		out=dir(out)=new WNode; \
+		lp(*out)rp; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_left_as_opening_0(dir, inv, op)		_closing_loop_lr_as_opening_0(dir, inv, no, void, , op, )
+#define closing_loop_with_return_left_as_opening_0(dir, inv, op)	_closing_loop_lr_as_opening_0(dir, inv, with, WPointer, return out;, op, )
+
+#define closing_loop_no_return_right_as_opening_0(dir, inv, op)		_closing_loop_lr_as_opening_0(dir, inv, no, void, , , op)
+#define closing_loop_with_return_right_as_opening_0(dir, inv, op)	_closing_loop_lr_as_opening_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_lr_as_open_0(dir, inv, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (n) \
+	{ \
+		lp(*out)rp; \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_left_as_open_0(dir, inv, op)		_closing_loop_lr_as_open_0(dir, inv, no, void, , op, )
+#define closing_loop_with_return_left_as_open_0(dir, inv, op)		_closing_loop_lr_as_open_0(dir, inv, with, WPointer, return out;, op, )
+
+#define closing_loop_no_return_right_as_open_0(dir, inv, op)		_closing_loop_lr_as_open_0(dir, inv, no, void, , , op)
+#define closing_loop_with_return_right_as_open_0(dir, inv, op)		_closing_loop_lr_as_open_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 /*
 	Constraints:
 
@@ -110,6 +297,93 @@ static rtn label##_return(WPointer out, size_type n) \
 
 /************************************************************************************************************************/
 
+#define _closing_loop_new_as_closing_0(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_new_as_closing_0(dir, inv)		_closing_loop_new_as_closing_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_as_closing_0(dir, inv)		_closing_loop_new_as_closing_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_new_as_closed_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	while (n-1) \
+	{ \
+		*out=new Node(); \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	*out=new Node(); \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_as_closed_0(dir, inv)		_closing_loop_new_as_closed_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_as_closed_0(dir, inv)		_closing_loop_new_as_closed_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_new_as_opening_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	while (n) \
+	{ \
+		out=dir(out)=new WNode; \
+		*out=new Node(); \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_as_opening_0(dir, inv)		_closing_loop_new_as_opening_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_as_opening_0(dir, inv)		_closing_loop_new_as_opening_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_new_as_open_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (n) \
+	{ \
+		*out=new Node(); \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_as_open_0(dir, inv)			_closing_loop_new_as_open_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_as_open_0(dir, inv)		_closing_loop_new_as_open_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 /*
 	Constraints:
 
@@ -133,6 +407,92 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 #define closing_loop_no_return_new_brackets_0(dir, inv)			_closing_loop_new_brackets_0(dir, inv, no, void, )
 #define closing_loop_with_return_new_brackets_0(dir, inv)		_closing_loop_new_brackets_0(dir, inv, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _closing_loop_new_brackets_as_closing_0(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_new_brackets_as_closing_0(dir, inv)	_closing_loop_new_brackets_as_closing_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_closing_0(dir, inv)	_closing_loop_new_brackets_as_closing_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closing_loop_new_brackets_as_closed_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n, size_type in) \
+{ \
+	while (n-1) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	*out=new Node[in]; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_closed_0(dir, inv)	_closing_loop_new_brackets_as_closed_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_closed_0(dir, inv)	_closing_loop_new_brackets_as_closed_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_new_brackets_as_opening_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n, size_type in) \
+{ \
+	while (n) \
+	{ \
+		out=dir(out)=new WNode; \
+		*out=new Node[in]; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_opening_0(dir, inv)	_closing_loop_new_brackets_as_opening_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_opening_0(dir, inv)	_closing_loop_new_brackets_as_opening_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[0, n)
+*/
+
+#define _closing_loop_new_brackets_as_open_0(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer> \
+static rtn label##_return(WPointer out, size_type n, size_type in) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (n) \
+	{ \
+		*out=new Node[in]; \
+		out=dir(out)=new WNode; \
+		--n; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_open_0(dir, inv)		_closing_loop_new_brackets_as_open_0(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_open_0(dir, inv)	_closing_loop_new_brackets_as_open_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -162,6 +522,107 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define closing_loop_no_return_delete_brackets_0(dir, inv)		_closing_loop_delete_0(dir, inv, [], no, void, )
 #define closing_loop_with_return_delete_brackets_0(dir, inv)		_closing_loop_delete_0(dir, inv, [], with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _closing_loop_delete_as_closing_0(dir, inv, op, label, rtn, stmt)
+
+#define closing_loop_no_return_delete_as_closing_0(dir, inv)		_closing_loop_delete_as_closing_0(dir, inv, , no, void, )
+#define closing_loop_with_return_delete_as_closing_0(dir, inv)		_closing_loop_delete_as_closing_0(dir, inv, , with, WPointer, return out;)
+
+#define closing_loop_no_return_delete_brackets_as_closing_0(dir, inv)	_closing_loop_delete_as_closing_0(dir, inv, [], no, void, )
+#define closing_loop_with_return_delete_brackets_as_closing_0(dir, inv)	_closing_loop_delete_as_closing_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[out, end)
+*/
+
+#define _closing_loop_delete_as_closed_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(WPointer out, EWPointer end) \
+{ \
+	while (dir(out) != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+	} \
+ \
+	delete op *out; \
+	delete out; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_delete_as_closed_0(dir, inv)		_closing_loop_delete_as_closed_0(dir, inv, , no, void, )
+#define closing_loop_with_return_delete_as_closed_0(dir, inv)		_closing_loop_delete_as_closed_0(dir, inv, , with, WPointer, return out;)
+
+#define closing_loop_no_return_delete_brackets_as_closed_0(dir, inv)	_closing_loop_delete_as_closed_0(dir, inv, [], no, void, )
+#define closing_loop_with_return_delete_brackets_as_closed_0(dir, inv)	_closing_loop_delete_as_closed_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[out, end)
+*/
+
+#define _closing_loop_delete_as_opening_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_delete_as_opening_0(dir, inv)		_closing_loop_delete_as_opening_0(dir, inv, , no, void, )
+#define closing_loop_with_return_delete_as_opening_0(dir, inv)		_closing_loop_delete_as_opening_0(dir, inv, , with, WPointer, return out;)
+
+#define closing_loop_no_return_delete_brackets_as_opening_0(dir, inv)	_closing_loop_delete_as_opening_0(dir, inv, [], no, void, )
+#define closing_loop_with_return_delete_brackets_as_opening_0(dir, inv)	_closing_loop_delete_as_opening_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[out, end)
+*/
+
+#define _closing_loop_delete_as_open_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_delete_as_open_0(dir, inv)		_closing_loop_delete_as_open_0(dir, inv, , no, void, )
+#define closing_loop_with_return_delete_as_open_0(dir, inv)		_closing_loop_delete_as_open_0(dir, inv, , with, WPointer, return out;)
+
+#define closing_loop_no_return_delete_brackets_as_open_0(dir, inv)	_closing_loop_delete_as_open_0(dir, inv, [], no, void, )
+#define closing_loop_with_return_delete_brackets_as_open_0(dir, inv)	_closing_loop_delete_as_open_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -195,6 +656,101 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
+*/
+
+#define _closing_loop_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (dir(in) != end) \
+	{ \
+		lp(*out)op(*in)rp; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+	} \
+ \
+	lp(*out)op(*in)rp; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_closed_1(dir, inv, op)		_closing_loop_lr_as_closed_1(dir, inv, op, no, void, , , )
+#define closing_loop_with_return_as_closed_1(dir, inv, op)		_closing_loop_lr_as_closed_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define closing_loop_no_return_right_as_closed_1(dir, inv, op, r)	_closing_loop_lr_as_closed_1(dir, inv, op, no, void, , , r)
+#define closing_loop_with_return_right_as_closed_1(dir, inv, op, r)	_closing_loop_lr_as_closed_1(dir, inv, op, with, WPointer, return out;, , r)
+
+
+#define _closing_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp)
+
+#define closing_loop_no_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , )
+#define closing_loop_with_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define closing_loop_no_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , r)
+#define closing_loop_with_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closing_loop_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		out=dir(out)=new WNode; \
+		lp(*out)op(*in)rp; \
+		dir##dir(in); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_opening_1(dir, inv, op)		_closing_loop_lr_as_opening_1(dir, inv, op, no, void, , , )
+#define closing_loop_with_return_as_opening_1(dir, inv, op)		_closing_loop_lr_as_opening_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define closing_loop_no_return_right_as_opening_1(dir, inv, op, r)	_closing_loop_lr_as_opening_1(dir, inv, op, no, void, , , r)
+#define closing_loop_with_return_right_as_opening_1(dir, inv, op, r)	_closing_loop_lr_as_opening_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closing_loop_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (in != end) \
+	{ \
+		lp(*out)op(*in)rp; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_open_1(dir, inv, op)			_closing_loop_lr_as_open_1(dir, inv, op, no, void, , , )
+#define closing_loop_with_return_as_open_1(dir, inv, op)		_closing_loop_lr_as_open_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define closing_loop_no_return_right_as_open_1(dir, inv, op, r)		_closing_loop_lr_as_open_1(dir, inv, op, no, void, , , r)
+#define closing_loop_with_return_right_as_open_1(dir, inv, op, r)	_closing_loop_lr_as_open_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
 	[in, end)
 */
 
@@ -215,6 +771,93 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 #define closing_loop_no_return_new_brackets_1(dir, inv)			_closing_loop_new_brackets_1(dir, inv, no, void, )
 #define closing_loop_with_return_new_brackets_1(dir, inv)		_closing_loop_new_brackets_1(dir, inv, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _closing_loop_new_brackets_as_closing_1(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_new_brackets_as_closing_1(dir, inv)	_closing_loop_new_brackets_as_closing_1(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_closing_1(dir, inv)	_closing_loop_new_brackets_as_closing_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in, end)
+*/
+
+#define _closing_loop_new_brackets_as_closed_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (dir(in) != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+	} \
+ \
+	*out=new Node[*in]; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_closed_1(dir, inv)	_closing_loop_new_brackets_as_closed_1(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_closed_1(dir, inv)	_closing_loop_new_brackets_as_closed_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in, end)
+*/
+
+#define _closing_loop_new_brackets_as_opening_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (in != end) \
+	{ \
+		out=dir(out)=new WNode; \
+		*out=new Node[*in]; \
+		dir##dir(in); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_opening_1(dir, inv)	_closing_loop_new_brackets_as_opening_1(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_opening_1(dir, inv)	_closing_loop_new_brackets_as_opening_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in, end)
+*/
+
+#define _closing_loop_new_brackets_as_open_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_new_brackets_as_open_1(dir, inv)		_closing_loop_new_brackets_as_open_1(dir, inv, no, void, )
+#define closing_loop_with_return_new_brackets_as_open_1(dir, inv)	_closing_loop_new_brackets_as_open_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -242,6 +885,93 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 
 /************************************************************************************************************************/
 
+#define _closing_loop_as_closing_2(dir, inv, op, label, rtn, stmt)
+
+#define closing_loop_no_return_as_closing_2(dir, inv, op)		_closing_loop_as_closing_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_closing_2(dir, inv, op)		_closing_loop_as_closing_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_as_closed_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (dir(in2) != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	(*out)=(*in1)op(*in2); \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_closed_2(dir, inv, op)		_closing_loop_as_closed_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_closed_2(dir, inv, op)		_closing_loop_as_closed_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_as_opening_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		out=dir(out)=new WNode; \
+		(*out)=(*in1)op(*in2); \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_opening_2(dir, inv, op)		_closing_loop_as_opening_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_opening_2(dir, inv, op)		_closing_loop_as_opening_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_as_open_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_as_open_2(dir, inv, op)			_closing_loop_as_open_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_as_open_2(dir, inv, op)		_closing_loop_as_open_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 /*
 	Constraints:
 
@@ -264,4 +994,90 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 
 #define closing_loop_no_return_brackets_2(dir, inv, op)			_closing_loop_brackets_2(dir, inv, op, no, void, )
 #define closing_loop_with_return_brackets_2(dir, inv, op)		_closing_loop_brackets_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _closing_loop_brackets_as_closing_2(dir, inv, op, label, rtn, stmt)
+
+#define closing_loop_no_return_brackets_as_closing_2(dir, inv, op)	_closing_loop_brackets_as_closing_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_brackets_as_closing_2(dir, inv, op)	_closing_loop_brackets_as_closing_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_brackets_as_closed_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (dir(in2) != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	(*out)=(*in1)op[*in2]; \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_brackets_as_closed_2(dir, inv, op)	_closing_loop_brackets_as_closed_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_brackets_as_closed_2(dir, inv, op)	_closing_loop_brackets_as_closed_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_brackets_as_opening_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (in2 != end2) \
+	{ \
+		out=dir(out)=new WNode; \
+		(*out)=(*in1)op[*in2]; \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_brackets_as_opening_2(dir, inv, op)	_closing_loop_brackets_as_opening_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_brackets_as_opening_2(dir, inv, op)	_closing_loop_brackets_as_opening_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	[in2, end2)
+*/
+
+#define _closing_loop_brackets_as_open_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	out=dir(out)=new WNode; \
+ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+	} \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_brackets_as_open_2(dir, inv, op)		_closing_loop_brackets_as_open_2(dir, inv, op, no, void, )
+#define closing_loop_with_return_brackets_as_open_2(dir, inv, op)	_closing_loop_brackets_as_open_2(dir, inv, op, with, WPointer, return out;)
 

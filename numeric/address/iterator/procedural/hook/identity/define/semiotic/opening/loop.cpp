@@ -119,118 +119,7 @@ static rtn label##_return(WPointer out) \
 
 */
 
-#define _opening_loop_assign_as_closing(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		dir##dir(in); \
-		*out=*in; \
-		out=dir(out)=new WNode; \
-	} \
- \
-	stmt \
-}
-
-#define opening_loop_no_return_assign_as_closing(dir, inv)		_opening_loop_assign_as_closing(dir, inv, no, void, )
-#define opening_loop_with_return_assign_as_closing(dir, inv)		_opening_loop_assign_as_closing(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_assign_as_closed(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	stmt zip::assign::closed::template label##_return<WNode>(out, dir(in), end); \
-}
-
-#define opening_loop_no_return_assign_as_closed(dir, inv)		_opening_loop_assign_as_closed(dir, inv, no, void, )
-#define opening_loop_with_return_assign_as_closed(dir, inv)		_opening_loop_assign_as_closed(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_assign_as_opening(dir, inv, label, rtn, stmt)
-
-#define opening_loop_no_return_assign_as_opening(dir, inv)		_opening_loop_assign_as_opening(dir, inv, no, void, )
-#define opening_loop_with_return_assign_as_opening(dir, inv)		_opening_loop_assign_as_opening(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_assign_as_open(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	out=zip::assign::opening::template with_return<WNode>(out, in, end); \
-	out=dir(out)=new WNode; \
- \
-	stmt \
-}
-
-#define opening_loop_no_return_assign_as_open(dir, inv)			_opening_loop_assign_as_open(dir, inv, no, void, )
-#define opening_loop_with_return_assign_as_open(dir, inv)		_opening_loop_assign_as_open(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_catenate_with_closing(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename RPointer> \
-static rtn label##_return(WPointer out, RPointer in) \
-{ \
-	dir(out)=in; \
- \
-	stmt \
-}
-
-#define opening_loop_no_return_catenate_with_closing(dir, inv)		_opening_loop_catenate_with_closing(dir, inv, no, void, )
-#define opening_loop_with_return_catenate_with_closing(dir, inv)	_opening_loop_catenate_with_closing(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_catenate_with_closed(dir, inv, label, rtn, stmt) \
-template<typename WPointer, typename RPointer> \
-static rtn label##_return(WPointer out, RPointer in) \
-{ \
-	dir(out)=in; \
- \
-	stmt \
-}
-
-#define opening_loop_no_return_catenate_with_closed(dir, inv)		_opening_loop_catenate_with_closed(dir, inv, no, void, )
-#define opening_loop_with_return_catenate_with_closed(dir, inv)		_opening_loop_catenate_with_closed(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_loop_catenate_with_opening(dir, inv, label, rtn, stmt) \
+#define _opening_loop_catenate(dir, inv, label, rtn, stmt) \
 template<typename WPointer, typename RPointer> \
 static rtn label##_return(WPointer out, RPointer in) \
 { \
@@ -240,8 +129,8 @@ static rtn label##_return(WPointer out, RPointer in) \
 	stmt \
 }
 
-#define opening_loop_no_return_catenate_with_opening(dir, inv)		_opening_loop_catenate_with_opening(dir, inv, no, void, )
-#define opening_loop_with_return_catenate_with_opening(dir, inv)	_opening_loop_catenate_with_opening(dir, inv, with, WPointer, return out;)
+#define opening_loop_no_return_catenate(dir, inv)			_opening_loop_catenate(dir, inv, no, void, )
+#define opening_loop_with_return_catenate(dir, inv)			_opening_loop_catenate(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -250,7 +139,52 @@ static rtn label##_return(WPointer out, RPointer in) \
 
 */
 
-#define _opening_loop_catenate_with_open(dir, inv, label, rtn, stmt) \
+#define _opening_loop_with_closing_catenate(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename RPointer> \
+static rtn label##_return(WPointer out, RPointer in) \
+{ \
+	dir(out)=in; \
+ \
+	stmt \
+}
+
+#define opening_loop_no_return_with_closing_catenate(dir, inv)		_opening_loop_with_closing_catenate(dir, inv, no, void, )
+#define opening_loop_with_return_with_closing_catenate(dir, inv)	_opening_loop_with_closing_catenate(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_loop_with_closed_catenate(dir, inv, label, rtn, stmt) \
+template<typename WPointer, typename RPointer> \
+static rtn label##_return(WPointer out, RPointer in) \
+{ \
+	dir(out)=in; \
+ \
+	stmt \
+}
+
+#define opening_loop_no_return_with_closed_catenate(dir, inv)		_opening_loop_with_closed_catenate(dir, inv, no, void, )
+#define opening_loop_with_return_with_closed_catenate(dir, inv)		_opening_loop_with_closed_catenate(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _opening_loop_with_opening_catenate(dir, inv, label, rtn, stmt)
+
+#define opening_loop_no_return_with_opening_catenate(dir, inv)		_opening_loop_with_opening_catenate(dir, inv, no, void, )
+#define opening_loop_with_return_with_opening_catenate(dir, inv)	_opening_loop_with_opening_catenate(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _opening_loop_with_open_catenate(dir, inv, label, rtn, stmt) \
 template<typename WPointer, typename RPointer> \
 static rtn label##_return(WPointer out, RPointer in) \
 { \
@@ -260,6 +194,6 @@ static rtn label##_return(WPointer out, RPointer in) \
 	stmt \
 }
 
-#define opening_loop_no_return_catenate_with_open(dir, inv)		_opening_loop_catenate_with_open(dir, inv, no, void, )
-#define opening_loop_with_return_catenate_with_open(dir, inv)		_opening_loop_catenate_with_open(dir, inv, with, WPointer, return out;)
+#define opening_loop_no_return_with_open_catenate(dir, inv)		_opening_loop_with_open_catenate(dir, inv, no, void, )
+#define opening_loop_with_return_with_open_catenate(dir, inv)		_opening_loop_with_open_catenate(dir, inv, with, WPointer, return out;)
 

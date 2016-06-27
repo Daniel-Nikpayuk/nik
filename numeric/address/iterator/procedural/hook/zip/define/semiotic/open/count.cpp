@@ -31,12 +31,42 @@
 */
 
 /************************************************************************************************************************/
+/************************************************************************************************************************/
 
 #define _open_count_0(dir, inv, op, label, rtn, stmt)
 
 #define open_count_no_return_0(dir, inv, op)				_open_count_0(dir, inv, op, no, void, )
 #define open_count_with_return_0(dir, inv, op)				_open_count_0(dir, inv, op, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _open_count_as_closing_0(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_as_closing_0(dir, inv, op)			_open_count_as_closing_0(dir, inv, op, no, void, )
+#define open_count_with_return_as_closing_0(dir, inv, op)		_open_count_as_closing_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_as_closed_0(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_as_closed_0(dir, inv, op)			_open_count_as_closed_0(dir, inv, op, no, void, )
+#define open_count_with_return_as_closed_0(dir, inv, op)		_open_count_as_closed_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_as_opening_0(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_as_opening_0(dir, inv, op)			_open_count_as_opening_0(dir, inv, op, no, void, )
+#define open_count_with_return_as_opening_0(dir, inv, op)		_open_count_as_opening_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_as_open_0(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_as_open_0(dir, inv, op)			_open_count_as_open_0(dir, inv, op, no, void, )
+#define open_count_with_return_as_open_0(dir, inv, op)			_open_count_as_open_0(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 #define _open_count_lr_0(dir, inv, label, rtn, stmt, lp, rp)
@@ -49,6 +79,47 @@
 
 /************************************************************************************************************************/
 
+#define _open_count_lr_as_closing_0(dir, inv, label, rtn, stmt, lp, rp)
+
+#define open_count_no_return_left_as_closing_0(dir, inv, op)		_open_count_lr_as_closing_0(dir, inv, no, void, , op, )
+#define open_count_with_return_left_as_closing_0(dir, inv, op)		_open_count_lr_as_closing_0(dir, inv, with, WPointer, return out;, op, )
+
+#define open_count_no_return_right_as_closing_0(dir, inv, op)		_open_count_lr_as_closing_0(dir, inv, no, void, , , op)
+#define open_count_with_return_right_as_closing_0(dir, inv, op)		_open_count_lr_as_closing_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+#define _open_count_lr_as_closed_0(dir, inv, label, rtn, stmt, lp, rp)
+
+#define open_count_no_return_left_as_closed_0(dir, inv, op)		_open_count_lr_as_closed_0(dir, inv, no, void, , op, )
+#define open_count_with_return_left_as_closed_0(dir, inv, op)		_open_count_lr_as_closed_0(dir, inv, with, WPointer, return out;, op, )
+
+#define open_count_no_return_right_as_closed_0(dir, inv, op)		_open_count_lr_as_closed_0(dir, inv, no, void, , , op)
+#define open_count_with_return_right_as_closed_0(dir, inv, op)		_open_count_lr_as_closed_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+#define _open_count_lr_as_opening_0(dir, inv, label, rtn, stmt, lp, rp)
+
+#define open_count_no_return_left_as_opening_0(dir, inv, op)		_open_count_lr_as_opening_0(dir, inv, no, void, , op, )
+#define open_count_with_return_left_as_opening_0(dir, inv, op)		_open_count_lr_as_opening_0(dir, inv, with, WPointer, return out;, op, )
+
+#define open_count_no_return_right_as_opening_0(dir, inv, op)		_open_count_lr_as_opening_0(dir, inv, no, void, , , op)
+#define open_count_with_return_right_as_opening_0(dir, inv, op)		_open_count_lr_as_opening_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+
+#define _open_count_lr_as_open_0(dir, inv, label, rtn, stmt, lp, rp)
+
+#define open_count_no_return_left_as_open_0(dir, inv, op)		_open_count_lr_as_open_0(dir, inv, no, void, , op, )
+#define open_count_with_return_left_as_open_0(dir, inv, op)		_open_count_lr_as_open_0(dir, inv, with, WPointer, return out;, op, )
+
+#define open_count_no_return_right_as_open_0(dir, inv, op)		_open_count_lr_as_open_0(dir, inv, no, void, , , op)
+#define open_count_with_return_right_as_open_0(dir, inv, op)		_open_count_lr_as_open_0(dir, inv, with, WPointer, return out;, , op)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 #define _open_count_new_0(dir, inv, label, rtn, stmt)
 
 #define open_count_no_return_new_0(dir, inv)				_open_count_new_0(dir, inv, no, void, )
@@ -56,11 +127,69 @@
 
 /************************************************************************************************************************/
 
+#define _open_count_new_as_closing_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_as_closing_0(dir, inv)			_open_count_new_as_closing_0(dir, inv, no, void, )
+#define open_count_with_return_new_as_closing_0(dir, inv)		_open_count_new_as_closing_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_as_closed_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_as_closed_0(dir, inv)			_open_count_new_as_closed_0(dir, inv, no, void, )
+#define open_count_with_return_new_as_closed_0(dir, inv)		_open_count_new_as_closed_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_as_opening_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_as_opening_0(dir, inv)			_open_count_new_as_opening_0(dir, inv, no, void, )
+#define open_count_with_return_new_as_opening_0(dir, inv)		_open_count_new_as_opening_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_as_open_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_as_open_0(dir, inv)			_open_count_new_as_open_0(dir, inv, no, void, )
+#define open_count_with_return_new_as_open_0(dir, inv)			_open_count_new_as_open_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 #define _open_count_new_brackets_0(dir, inv, label, rtn, stmt)
 
 #define open_count_no_return_new_brackets_0(dir, inv)			_open_count_new_brackets_0(dir, inv, no, void, )
 #define open_count_with_return_new_brackets_0(dir, inv)			_open_count_new_brackets_0(dir, inv, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+#define _open_count_new_brackets_as_closing_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_brackets_as_closing_0(dir, inv)	_open_count_new_brackets_as_closing_0(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_closing_0(dir, inv)	_open_count_new_brackets_as_closing_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_brackets_as_closed_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_brackets_as_closed_0(dir, inv)		_open_count_new_brackets_as_closed_0(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_closed_0(dir, inv)	_open_count_new_brackets_as_closed_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_brackets_as_opening_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_brackets_as_opening_0(dir, inv)	_open_count_new_brackets_as_opening_0(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_opening_0(dir, inv)	_open_count_new_brackets_as_opening_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_brackets_as_open_0(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_brackets_as_open_0(dir, inv)		_open_count_new_brackets_as_open_0(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_open_0(dir, inv)		_open_count_new_brackets_as_open_0(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -93,6 +222,115 @@ static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
 #define open_count_no_return_delete_brackets_0(dir, inv)		_open_count_delete_0(dir, inv, [], no, void, )
 #define open_count_with_return_delete_brackets_0(dir, inv)		_open_count_delete_0(dir, inv, [], with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(out, end), out != end
+*/
+
+#define _open_count_delete_as_closing_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	dir##dir(out); \
+ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_delete_as_closing_0(dir, inv)		_open_count_delete_as_closing_0(dir, inv, , no, void, )
+#define open_count_with_return_delete_as_closing_0(dir, inv)		_open_count_delete_as_closing_0(dir, inv, , with, WPointer, return out;)
+
+#define open_count_no_return_delete_brackets_as_closing_0(dir, inv)	_open_count_delete_as_closing_0(dir, inv, [], no, void, )
+#define open_count_with_return_delete_brackets_as_closing_0(dir, inv)	_open_count_delete_as_closing_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(out, end), out != end
+*/
+
+#define _open_count_delete_as_closed_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	dir##dir(out); \
+ \
+	while (dir(out) != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+		++count; \
+	} \
+ \
+	delete op *out; \
+	delete out; \
+	++count; \
+ \
+	stmt \
+}
+
+#define open_count_no_return_delete_as_closed_0(dir, inv)		_open_count_delete_as_closed_0(dir, inv, , no, void, )
+#define open_count_with_return_delete_as_closed_0(dir, inv)		_open_count_delete_as_closed_0(dir, inv, , with, WPointer, return out;)
+
+#define open_count_no_return_delete_brackets_as_closed_0(dir, inv)	_open_count_delete_as_closed_0(dir, inv, [], no, void, )
+#define open_count_with_return_delete_brackets_as_closed_0(dir, inv)	_open_count_delete_as_closed_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(out, end), out != end
+*/
+
+#define _open_count_delete_as_opening_0(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename EWPointer> \
+static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+{ \
+	while (out != end) \
+	{ \
+		WPointer current=out; \
+		dir##dir(out); \
+		delete op *current; \
+		delete current; \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_delete_as_opening_0(dir, inv)		_open_count_delete_as_opening_0(dir, inv, , no, void, )
+#define open_count_with_return_delete_as_opening_0(dir, inv)		_open_count_delete_as_opening_0(dir, inv, , with, WPointer, return out;)
+
+#define open_count_no_return_delete_brackets_as_opening_0(dir, inv)	_open_count_delete_as_opening_0(dir, inv, [], no, void, )
+#define open_count_with_return_delete_brackets_as_opening_0(dir, inv)	_open_count_delete_as_opening_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_delete_as_open_0(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_delete_as_open_0(dir, inv)			_open_count_delete_as_open_0(dir, inv, , no, void, )
+#define open_count_with_return_delete_as_open_0(dir, inv)		_open_count_delete_as_open_0(dir, inv, , with, WPointer, return out;)
+
+#define open_count_no_return_delete_brackets_as_open_0(dir, inv)	_open_count_delete_as_open_0(dir, inv, [], no, void, )
+#define open_count_with_return_delete_brackets_as_open_0(dir, inv)	_open_count_delete_as_open_0(dir, inv, [], with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -133,6 +371,111 @@ static rtn label##_return(size_type & count, WPointer out, RIterator in, ERItera
 	(in, end), in != end
 */
 
+#define _open_count_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	dir##dir(in); \
+ \
+	while (in != end) \
+	{ \
+		lp(*out)op(*in)rp; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_closing_1(dir, inv, op)			_open_count_lr_as_closing_1(dir, inv, op, no, void, , , )
+#define open_count_with_return_as_closing_1(dir, inv, op)		_open_count_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define open_count_no_return_right_as_closing_1(dir, inv, op, r)	_open_count_lr_as_closing_1(dir, inv, op, no, void, , , r)
+#define open_count_with_return_right_as_closing_1(dir, inv, op, r)	_open_count_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
+#define _open_count_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	dir##dir(in); \
+ \
+	while (dir(in) != end) \
+	{ \
+		lp(*out)op(*in)rp; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+		++count; \
+	} \
+ \
+	lp(*out)op(*in)rp; \
+	++count; \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_closed_1(dir, inv, op)			_open_count_lr_as_closed_1(dir, inv, op, no, void, , , )
+#define open_count_with_return_as_closed_1(dir, inv, op)		_open_count_lr_as_closed_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define open_count_no_return_right_as_closed_1(dir, inv, op, r)		_open_count_lr_as_closed_1(dir, inv, op, no, void, , , r)
+#define open_count_with_return_right_as_closed_1(dir, inv, op, r)	_open_count_lr_as_closed_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
+#define _open_count_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
+template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+{ \
+	while (dir(in) != end) \
+	{ \
+		dir##dir(in); \
+		out=dir(out)=new WNode; \
+		lp(*out)op(*in)rp; \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_opening_1(dir, inv, op)			_open_count_lr_as_opening_1(dir, inv, op, no, void, , , )
+#define open_count_with_return_as_opening_1(dir, inv, op)		_open_count_lr_as_opening_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define open_count_no_return_right_as_opening_1(dir, inv, op, r)	_open_count_lr_as_opening_1(dir, inv, op, no, void, , , r)
+#define open_count_with_return_right_as_opening_1(dir, inv, op, r)	_open_count_lr_as_opening_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+#define _open_count_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp)
+
+#define open_count_no_return_as_open_1(dir, inv, op)			_open_count_lr_as_open_1(dir, inv, op, no, void, , , )
+#define open_count_with_return_as_open_1(dir, inv, op)			_open_count_lr_as_open_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define open_count_no_return_right_as_open_1(dir, inv, op, r)		_open_count_lr_as_open_1(dir, inv, op, no, void, , , r)
+#define open_count_with_return_right_as_open_1(dir, inv, op, r)		_open_count_lr_as_open_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
 #define _open_count_new_brackets_1(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
 static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
@@ -154,6 +497,99 @@ static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointe
 #define open_count_no_return_new_brackets_1(dir, inv)			_open_count_new_brackets_1(dir, inv, no, void, )
 #define open_count_with_return_new_brackets_1(dir, inv)			_open_count_new_brackets_1(dir, inv, with, WPointer, return out;)
 
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
+#define _open_count_new_brackets_as_closing_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+{ \
+	dir##dir(in); \
+ \
+	while (in != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_new_brackets_as_closing_1(dir, inv)	_open_count_new_brackets_as_closing_1(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_closing_1(dir, inv)	_open_count_new_brackets_as_closing_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
+#define _open_count_new_brackets_as_closed_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+{ \
+	dir##dir(in); \
+ \
+	while (dir(in) != end) \
+	{ \
+		*out=new Node[*in]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in); \
+		++count; \
+	} \
+ \
+	*out=new Node[*in]; \
+	++count; \
+ \
+	stmt \
+}
+
+#define open_count_no_return_new_brackets_as_closed_1(dir, inv)		_open_count_new_brackets_as_closed_1(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_closed_1(dir, inv)	_open_count_new_brackets_as_closed_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in, end), in != end
+*/
+
+#define _open_count_new_brackets_as_opening_1(dir, inv, label, rtn, stmt) \
+template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+{ \
+	while (dir(in) != end) \
+	{ \
+		dir##dir(in); \
+		out=dir(out)=new WNode; \
+		*out=new Node[*in]; \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_new_brackets_as_opening_1(dir, inv)	_open_count_new_brackets_as_opening_1(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_opening_1(dir, inv)	_open_count_new_brackets_as_opening_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_new_brackets_as_open_1(dir, inv, label, rtn, stmt)
+
+#define open_count_no_return_new_brackets_as_open_1(dir, inv)		_open_count_new_brackets_as_open_1(dir, inv, no, void, )
+#define open_count_with_return_new_brackets_as_open_1(dir, inv)		_open_count_new_brackets_as_open_1(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
@@ -191,6 +627,99 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 	(in2, end2), in2 != end2
 */
 
+#define _open_count_as_closing_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	dir##dir(in2); dir##dir(in1); \
+ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_closing_2(dir, inv, op)			_open_count_as_closing_2(dir, inv, op, no, void, )
+#define open_count_with_return_as_closing_2(dir, inv, op)		_open_count_as_closing_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
+#define _open_count_as_closed_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	dir##dir(in2); dir##dir(in1); \
+ \
+	while (dir(in2) != end2) \
+	{ \
+		(*out)=(*in1)op(*in2); \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+		++count; \
+	} \
+ \
+	(*out)=(*in1)op(*in2); \
+	++count; \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_closed_2(dir, inv, op)			_open_count_as_closed_2(dir, inv, op, no, void, )
+#define open_count_with_return_as_closed_2(dir, inv, op)		_open_count_as_closed_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
+#define _open_count_as_opening_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (dir(in2) != end2) \
+	{ \
+		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WNode; \
+		(*out)=(*in1)op(*in2); \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_as_opening_2(dir, inv, op)			_open_count_as_opening_2(dir, inv, op, no, void, )
+#define open_count_with_return_as_opening_2(dir, inv, op)		_open_count_as_opening_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_as_open_2(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_as_open_2(dir, inv, op)			_open_count_as_open_2(dir, inv, op, no, void, )
+#define open_count_with_return_as_open_2(dir, inv, op)			_open_count_as_open_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
 #define _open_count_brackets_2(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
 static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
@@ -211,4 +740,96 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 
 #define open_count_no_return_brackets_2(dir, inv, op)			_open_count_brackets_2(dir, inv, op, no, void, )
 #define open_count_with_return_brackets_2(dir, inv, op)			_open_count_brackets_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
+#define _open_count_brackets_as_closing_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	dir##dir(in2); dir##dir(in1); \
+ \
+	while (in2 != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_brackets_as_closing_2(dir, inv, op)	_open_count_brackets_as_closing_2(dir, inv, op, no, void, )
+#define open_count_with_return_brackets_as_closing_2(dir, inv, op)	_open_count_brackets_as_closing_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
+#define _open_count_brackets_as_closed_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	dir##dir(in2); dir##dir(in1); \
+ \
+	while (dir(in2) != end2) \
+	{ \
+		(*out)=(*in1)op[*in2]; \
+		out=dir(out)=new WNode; \
+		dir##dir(in1); dir##dir(in2); \
+		++count; \
+	} \
+ \
+	(*out)=(*in1)op[*in2]; \
+	++count; \
+ \
+	stmt \
+}
+
+#define open_count_no_return_brackets_as_closed_2(dir, inv, op)		_open_count_brackets_as_closed_2(dir, inv, op, no, void, )
+#define open_count_with_return_brackets_as_closed_2(dir, inv, op)	_open_count_brackets_as_closed_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+	(in2, end2), in2 != end2
+*/
+
+#define _open_count_brackets_as_opening_2(dir, inv, op, label, rtn, stmt) \
+template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+{ \
+	while (dir(in2) != end2) \
+	{ \
+		dir##dir(in1); dir##dir(in2); \
+		out=dir(out)=new WNode; \
+		(*out)=(*in1)op[*in2]; \
+		++count; \
+	} \
+ \
+	stmt \
+}
+
+#define open_count_no_return_brackets_as_opening_2(dir, inv, op)	_open_count_brackets_as_opening_2(dir, inv, op, no, void, )
+#define open_count_with_return_brackets_as_opening_2(dir, inv, op)	_open_count_brackets_as_opening_2(dir, inv, op, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+#define _open_count_brackets_as_open_2(dir, inv, op, label, rtn, stmt)
+
+#define open_count_no_return_brackets_as_open_2(dir, inv, op)		_open_count_brackets_as_open_2(dir, inv, op, no, void, )
+#define open_count_with_return_brackets_as_open_2(dir, inv, op)		_open_count_brackets_as_open_2(dir, inv, op, with, WPointer, return out;)
 

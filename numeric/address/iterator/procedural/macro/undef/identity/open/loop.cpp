@@ -23,39 +23,30 @@
 #undef open_loop_no_return_clear
 #undef open_loop_with_return_clear
 
-#undef open_loop_no_return_pop_left
-#undef open_loop_with_return_pop_left
+#undef open_loop_no_return_close_left
+#undef open_loop_with_return_close_left
 
-#undef open_loop_no_return_pop_right
-#undef open_loop_with_return_pop_right
+#undef open_loop_no_return_close_right
+#undef open_loop_with_return_close_right
 
-#undef open_loop_no_return_push_left
-#undef open_loop_with_return_push_left
+#undef open_loop_no_return_open_left
+#undef open_loop_with_return_open_left
 
-#undef open_loop_no_return_push_right
-#undef open_loop_with_return_push_right
+#undef open_loop_no_return_open_right
+#undef open_loop_with_return_open_right
 
-#undef open_loop_no_return_assign_as_open
-#undef open_loop_with_return_assign_as_open
+#undef open_loop_no_return_catenate
+#undef open_loop_with_return_catenate
 
-#undef open_loop_no_return_assign_as_closed
-#undef open_loop_with_return_assign_as_closed
+#undef open_loop_no_return_with_closing_catenate
+#undef open_loop_with_return_with_closing_catenate
 
-#undef open_loop_no_return_assign_as_opening
-#undef open_loop_with_return_assign_as_opening
+#undef open_loop_no_return_with_closed_catenate
+#undef open_loop_with_return_with_closed_catenate
 
-#undef open_loop_no_return_assign_as_open
-#undef open_loop_with_return_assign_as_open
+#undef open_loop_no_return_with_opening_catenate
+#undef open_loop_with_return_with_opening_catenate
 
-#undef open_loop_no_return_catenate_with_open
-#undef open_loop_with_return_catenate_with_open
-
-#undef open_loop_no_return_catenate_with_closed
-#undef open_loop_with_return_catenate_with_closed
-
-#undef open_loop_no_return_catenate_with_opening
-#undef open_loop_with_return_catenate_with_opening
-
-#undef open_loop_no_return_catenate_with_open
-#undef open_loop_with_return_catenate_with_open
+#undef open_loop_no_return_with_open_catenate
+#undef open_loop_with_return_with_open_catenate
 

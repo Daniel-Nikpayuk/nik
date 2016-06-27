@@ -31,22 +31,33 @@
 
 struct plus
 {
+	#define plus_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =+) \
+	name##_loop_with_return##label##_1(SGN, INV, =+) \
+ \
+	name##_loop_no_return##label##_2(SGN, INV, +) \
+	name##_loop_with_return##label##_2(SGN, INV, +) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =+) \
+		name##_count_with_return##label##_1(SGN, INV, =+) \
+ \
+		name##_count_no_return##label##_2(SGN, INV, +) \
+		name##_count_with_return##label##_2(SGN, INV, +) \
+	};
+
 	#define plus_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =+) \
-		name##_loop_with_return_1(SGN, INV, =+) \
+		plus_as_interval(name, ) \
  \
-		name##_loop_no_return_2(SGN, INV, +) \
-		name##_loop_with_return_2(SGN, INV, +) \
- \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =+) \
-			name##_count_with_return_1(SGN, INV, =+) \
- \
-			name##_count_no_return_2(SGN, INV, +) \
-			name##_count_with_return_2(SGN, INV, +) \
+			struct closing	{ plus_as_interval(name, _as_closing)	}; \
+			struct closed	{ plus_as_interval(name, _as_closed)	}; \
+			struct opening	{ plus_as_interval(name, _as_opening)	}; \
+			struct open	{ plus_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -56,6 +67,7 @@ struct plus
 	plus_interval(open)
 
 	#undef plus_interval
+	#undef plus_as_interval
 };
 
 /*
@@ -66,22 +78,33 @@ struct plus
 
 struct minus
 {
+	#define minus_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =-) \
+	name##_loop_with_return##label##_1(SGN, INV, =-) \
+ \
+	name##_loop_no_return##label##_2(SGN, INV, -) \
+	name##_loop_with_return##label##_2(SGN, INV, -) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =-) \
+		name##_count_with_return##label##_1(SGN, INV, =-) \
+ \
+		name##_count_no_return##label##_2(SGN, INV, -) \
+		name##_count_with_return##label##_2(SGN, INV, -) \
+	};
+
 	#define minus_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =-) \
-		name##_loop_with_return_1(SGN, INV, =-) \
+		minus_as_interval(name, ) \
  \
-		name##_loop_no_return_2(SGN, INV, -) \
-		name##_loop_with_return_2(SGN, INV, -) \
- \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =-) \
-			name##_count_with_return_1(SGN, INV, =-) \
- \
-			name##_count_no_return_2(SGN, INV, -) \
-			name##_count_with_return_2(SGN, INV, -) \
+			struct closing	{ minus_as_interval(name, _as_closing)	}; \
+			struct closed	{ minus_as_interval(name, _as_closed)	}; \
+			struct opening	{ minus_as_interval(name, _as_opening)	}; \
+			struct open	{ minus_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -91,6 +114,7 @@ struct minus
 	minus_interval(open)
 
 	#undef minus_interval
+	#undef minus_as_interval
 };
 
 /*
@@ -101,22 +125,33 @@ struct minus
 
 struct asterisk
 {
+	#define asterisk_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =*) \
+	name##_loop_with_return##label##_1(SGN, INV, =*) \
+ \
+	name##_loop_no_return##label##_2(SGN, INV, *) \
+	name##_loop_with_return##label##_2(SGN, INV, *) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =*) \
+		name##_count_with_return##label##_1(SGN, INV, =*) \
+ \
+		name##_count_no_return##label##_2(SGN, INV, *) \
+		name##_count_with_return##label##_2(SGN, INV, *) \
+	};
+
 	#define asterisk_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =*) \
-		name##_loop_with_return_1(SGN, INV, =*) \
+		asterisk_as_interval(name, ) \
  \
-		name##_loop_no_return_2(SGN, INV, *) \
-		name##_loop_with_return_2(SGN, INV, *) \
- \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =*) \
-			name##_count_with_return_1(SGN, INV, =*) \
- \
-			name##_count_no_return_2(SGN, INV, *) \
-			name##_count_with_return_2(SGN, INV, *) \
+			struct closing	{ asterisk_as_interval(name, _as_closing)	}; \
+			struct closed	{ asterisk_as_interval(name, _as_closed)	}; \
+			struct opening	{ asterisk_as_interval(name, _as_opening)	}; \
+			struct open	{ asterisk_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -126,6 +161,7 @@ struct asterisk
 	asterisk_interval(open)
 
 	#undef asterisk_interval
+	#undef asterisk_as_interval
 };
 
 /*
@@ -134,16 +170,27 @@ struct asterisk
 
 struct slash
 {
+	#define slash_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, /) \
+	name##_loop_with_return##label##_2(SGN, INV, /) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, /) \
+		name##_count_with_return##label##_2(SGN, INV, /) \
+	};
+
 	#define slash_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, /) \
-		name##_loop_with_return_2(SGN, INV, /) \
+		slash_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, /) \
-			name##_count_with_return_2(SGN, INV, /) \
+			struct closing	{ slash_as_interval(name, _as_closing)	}; \
+			struct closed	{ slash_as_interval(name, _as_closed)	}; \
+			struct opening	{ slash_as_interval(name, _as_opening)	}; \
+			struct open	{ slash_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -153,6 +200,7 @@ struct slash
 	slash_interval(open)
 
 	#undef slash_interval
+	#undef slash_as_interval
 };
 
 /*
@@ -161,16 +209,27 @@ struct slash
 
 struct percent
 {
+	#define percent_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, %) \
+	name##_loop_with_return##label##_2(SGN, INV, %) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, %) \
+		name##_count_with_return##label##_2(SGN, INV, %) \
+	};
+
 	#define percent_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, %) \
-		name##_loop_with_return_2(SGN, INV, %) \
+		percent_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, %) \
-			name##_count_with_return_2(SGN, INV, %) \
+			struct closing	{ percent_as_interval(name, _as_closing)	}; \
+			struct closed	{ percent_as_interval(name, _as_closed)		}; \
+			struct opening	{ percent_as_interval(name, _as_opening)	}; \
+			struct open	{ percent_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -180,6 +239,7 @@ struct percent
 	percent_interval(open)
 
 	#undef percent_interval
+	#undef percent_as_interval
 };
 
 /*
@@ -188,16 +248,27 @@ struct percent
 
 struct caret
 {
+	#define caret_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, ^) \
+	name##_loop_with_return##label##_2(SGN, INV, ^) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, ^) \
+		name##_count_with_return##label##_2(SGN, INV, ^) \
+	};
+
 	#define caret_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, ^) \
-		name##_loop_with_return_2(SGN, INV, ^) \
+		caret_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, ^) \
-			name##_count_with_return_2(SGN, INV, ^) \
+			struct closing	{ caret_as_interval(name, _as_closing)	}; \
+			struct closed	{ caret_as_interval(name, _as_closed)	}; \
+			struct opening	{ caret_as_interval(name, _as_opening)	}; \
+			struct open	{ caret_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -207,6 +278,7 @@ struct caret
 	caret_interval(open)
 
 	#undef caret_interval
+	#undef caret_as_interval
 };
 
 /*
@@ -217,22 +289,33 @@ struct caret
 
 struct ampersand
 {
+	#define ampersand_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =&) \
+	name##_loop_with_return##label##_1(SGN, INV, =&) \
+ \
+	name##_loop_no_return##label##_2(SGN, INV, &) \
+	name##_loop_with_return##label##_2(SGN, INV, &) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =&) \
+		name##_count_with_return##label##_1(SGN, INV, =&) \
+ \
+		name##_count_no_return##label##_2(SGN, INV, &) \
+		name##_count_with_return##label##_2(SGN, INV, &) \
+	};
+
 	#define ampersand_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =&) \
-		name##_loop_with_return_1(SGN, INV, =&) \
+		ampersand_as_interval(name, ) \
  \
-		name##_loop_no_return_2(SGN, INV, &) \
-		name##_loop_with_return_2(SGN, INV, &) \
- \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =&) \
-			name##_count_with_return_1(SGN, INV, =&) \
- \
-			name##_count_no_return_2(SGN, INV, &) \
-			name##_count_with_return_2(SGN, INV, &) \
+			struct closing	{ ampersand_as_interval(name, _as_closing)	}; \
+			struct closed	{ ampersand_as_interval(name, _as_closed)	}; \
+			struct opening	{ ampersand_as_interval(name, _as_opening)	}; \
+			struct open	{ ampersand_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -242,6 +325,7 @@ struct ampersand
 	ampersand_interval(open)
 
 	#undef ampersand_interval
+	#undef ampersand_as_interval
 };
 
 /*
@@ -250,16 +334,27 @@ struct ampersand
 
 struct bar
 {
+	#define bar_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, |) \
+	name##_loop_with_return##label##_2(SGN, INV, |) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, |) \
+		name##_count_with_return##label##_2(SGN, INV, |) \
+	};
+
 	#define bar_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, |) \
-		name##_loop_with_return_2(SGN, INV, |) \
+		bar_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, |) \
-			name##_count_with_return_2(SGN, INV, |) \
+			struct closing	{ bar_as_interval(name, _as_closing)	}; \
+			struct closed	{ bar_as_interval(name, _as_closed)	}; \
+			struct opening	{ bar_as_interval(name, _as_opening)	}; \
+			struct open	{ bar_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -269,6 +364,7 @@ struct bar
 	bar_interval(open)
 
 	#undef bar_interval
+	#undef bar_as_interval
 };
 
 /*
@@ -279,16 +375,27 @@ struct bar
 
 struct tilde
 {
+	#define tilde_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =~) \
+	name##_loop_with_return##label##_1(SGN, INV, =~) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =~) \
+		name##_count_with_return##label##_1(SGN, INV, =~) \
+	};
+
 	#define tilde_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =~) \
-		name##_loop_with_return_1(SGN, INV, =~) \
+		tilde_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =~) \
-			name##_count_with_return_1(SGN, INV, =~) \
+			struct closing	{ tilde_as_interval(name, _as_closing)	}; \
+			struct closed	{ tilde_as_interval(name, _as_closed)	}; \
+			struct opening	{ tilde_as_interval(name, _as_opening)	}; \
+			struct open	{ tilde_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -298,6 +405,7 @@ struct tilde
 	tilde_interval(open)
 
 	#undef tilde_interval
+	#undef tilde_as_interval
 };
 
 /*
@@ -308,16 +416,27 @@ struct tilde
 
 struct exclamation
 {
+	#define exclamation_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =!) \
+	name##_loop_with_return##label##_1(SGN, INV, =!) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =!) \
+		name##_count_with_return##label##_1(SGN, INV, =!) \
+	};
+
 	#define exclamation_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =!) \
-		name##_loop_with_return_1(SGN, INV, =!) \
+		exclamation_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =!) \
-			name##_count_with_return_1(SGN, INV, =!) \
+			struct closing	{ exclamation_as_interval(name, _as_closing)	}; \
+			struct closed	{ exclamation_as_interval(name, _as_closed)	}; \
+			struct opening	{ exclamation_as_interval(name, _as_opening)	}; \
+			struct open	{ exclamation_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -327,6 +446,7 @@ struct exclamation
 	exclamation_interval(open)
 
 	#undef exclamation_interval
+	#undef exclamation_as_interval
 };
 
 /*
@@ -335,16 +455,27 @@ struct exclamation
 
 struct less_than
 {
+	#define less_than_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, <) \
+	name##_loop_with_return##label##_2(SGN, INV, <) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, <) \
+		name##_count_with_return##label##_2(SGN, INV, <) \
+	};
+
 	#define less_than_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, <) \
-		name##_loop_with_return_2(SGN, INV, <) \
+		less_than_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, <) \
-			name##_count_with_return_2(SGN, INV, <) \
+			struct closing	{ less_than_as_interval(name, _as_closing)	}; \
+			struct closed	{ less_than_as_interval(name, _as_closed)	}; \
+			struct opening	{ less_than_as_interval(name, _as_opening)	}; \
+			struct open	{ less_than_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -354,6 +485,7 @@ struct less_than
 	less_than_interval(open)
 
 	#undef less_than_interval
+	#undef less_than_as_interval
 };
 
 /*
@@ -362,16 +494,27 @@ struct less_than
 
 struct greater_than
 {
+	#define greater_than_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, >) \
+	name##_loop_with_return##label##_2(SGN, INV, >) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, >) \
+		name##_count_with_return##label##_2(SGN, INV, >) \
+	};
+
 	#define greater_than_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, >) \
-		name##_loop_with_return_2(SGN, INV, >) \
+		greater_than_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, >) \
-			name##_count_with_return_2(SGN, INV, >) \
+			struct closing	{ greater_than_as_interval(name, _as_closing)	}; \
+			struct closed	{ greater_than_as_interval(name, _as_closed)	}; \
+			struct opening	{ greater_than_as_interval(name, _as_opening)	}; \
+			struct open	{ greater_than_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -381,6 +524,7 @@ struct greater_than
 	greater_than_interval(open)
 
 	#undef greater_than_interval
+	#undef greater_than_as_interval
 };
 
 /*
@@ -389,16 +533,27 @@ struct greater_than
 
 struct left_shift
 {
+	#define left_shift_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, <<) \
+	name##_loop_with_return##label##_2(SGN, INV, <<) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, <<) \
+		name##_count_with_return##label##_2(SGN, INV, <<) \
+	};
+
 	#define left_shift_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, <<) \
-		name##_loop_with_return_2(SGN, INV, <<) \
+		left_shift_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, <<) \
-			name##_count_with_return_2(SGN, INV, <<) \
+			struct closing	{ left_shift_as_interval(name, _as_closing)	}; \
+			struct closed	{ left_shift_as_interval(name, _as_closed)	}; \
+			struct opening	{ left_shift_as_interval(name, _as_opening)	}; \
+			struct open	{ left_shift_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -408,6 +563,7 @@ struct left_shift
 	left_shift_interval(open)
 
 	#undef left_shift_interval
+	#undef left_shift_as_interval
 };
 
 /*
@@ -416,16 +572,27 @@ struct left_shift
 
 struct right_shift
 {
+	#define right_shift_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, >>) \
+	name##_loop_with_return##label##_2(SGN, INV, >>) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, >>) \
+		name##_count_with_return##label##_2(SGN, INV, >>) \
+	};
+
 	#define right_shift_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, >>) \
-		name##_loop_with_return_2(SGN, INV, >>) \
+		right_shift_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, >>) \
-			name##_count_with_return_2(SGN, INV, >>) \
+			struct closing	{ right_shift_as_interval(name, _as_closing)	}; \
+			struct closed	{ right_shift_as_interval(name, _as_closed)	}; \
+			struct opening	{ right_shift_as_interval(name, _as_opening)	}; \
+			struct open	{ right_shift_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -435,6 +602,7 @@ struct right_shift
 	right_shift_interval(open)
 
 	#undef right_shift_interval
+	#undef right_shift_as_interval
 };
 
 /*
@@ -443,16 +611,27 @@ struct right_shift
 
 struct equals
 {
+	#define equals_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, ==) \
+	name##_loop_with_return##label##_2(SGN, INV, ==) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, ==) \
+		name##_count_with_return##label##_2(SGN, INV, ==) \
+	};
+
 	#define equals_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, ==) \
-		name##_loop_with_return_2(SGN, INV, ==) \
+		equals_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, ==) \
-			name##_count_with_return_2(SGN, INV, ==) \
+			struct closing	{ equals_as_interval(name, _as_closing)	}; \
+			struct closed	{ equals_as_interval(name, _as_closed)	}; \
+			struct opening	{ equals_as_interval(name, _as_opening)	}; \
+			struct open	{ equals_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -462,6 +641,7 @@ struct equals
 	equals_interval(open)
 
 	#undef equals_interval
+	#undef equals_as_interval
 };
 
 /*
@@ -470,16 +650,27 @@ struct equals
 
 struct not_equals
 {
+	#define not_equals_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, !=) \
+	name##_loop_with_return##label##_2(SGN, INV, !=) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, !=) \
+		name##_count_with_return##label##_2(SGN, INV, !=) \
+	};
+
 	#define not_equals_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, !=) \
-		name##_loop_with_return_2(SGN, INV, !=) \
+		not_equals_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, !=) \
-			name##_count_with_return_2(SGN, INV, !=) \
+			struct closing	{ not_equals_as_interval(name, _as_closing)	}; \
+			struct closed	{ not_equals_as_interval(name, _as_closed)	}; \
+			struct opening	{ not_equals_as_interval(name, _as_opening)	}; \
+			struct open	{ not_equals_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -489,6 +680,7 @@ struct not_equals
 	not_equals_interval(open)
 
 	#undef not_equals_interval
+	#undef not_equals_as_interval
 };
 
 /*
@@ -497,16 +689,27 @@ struct not_equals
 
 struct less_than_or_equal
 {
+	#define less_than_or_equal_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, <=) \
+	name##_loop_with_return##label##_2(SGN, INV, <=) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, <=) \
+		name##_count_with_return##label##_2(SGN, INV, <=) \
+	};
+
 	#define less_than_or_equal_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, <=) \
-		name##_loop_with_return_2(SGN, INV, <=) \
+		less_than_or_equal_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, <=) \
-			name##_count_with_return_2(SGN, INV, <=) \
+			struct closing	{ less_than_or_equal_as_interval(name, _as_closing)	}; \
+			struct closed	{ less_than_or_equal_as_interval(name, _as_closed)	}; \
+			struct opening	{ less_than_or_equal_as_interval(name, _as_opening)	}; \
+			struct open	{ less_than_or_equal_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -516,6 +719,7 @@ struct less_than_or_equal
 	less_than_or_equal_interval(open)
 
 	#undef less_than_or_equal_interval
+	#undef less_than_or_equal_as_interval
 };
 
 /*
@@ -524,16 +728,27 @@ struct less_than_or_equal
 
 struct greater_than_or_equal
 {
+	#define greater_than_or_equal_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, >=) \
+	name##_loop_with_return##label##_2(SGN, INV, >=) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, >=) \
+		name##_count_with_return##label##_2(SGN, INV, >=) \
+	};
+
 	#define greater_than_or_equal_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, >=) \
-		name##_loop_with_return_2(SGN, INV, >=) \
+		greater_than_or_equal_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, >=) \
-			name##_count_with_return_2(SGN, INV, >=) \
+			struct closing	{ greater_than_or_equal_as_interval(name, _as_closing)	}; \
+			struct closed	{ greater_than_or_equal_as_interval(name, _as_closed)	}; \
+			struct opening	{ greater_than_or_equal_as_interval(name, _as_opening)	}; \
+			struct open	{ greater_than_or_equal_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -543,6 +758,7 @@ struct greater_than_or_equal
 	greater_than_or_equal_interval(open)
 
 	#undef greater_than_or_equal_interval
+	#undef greater_than_or_equal_as_interval
 };
 
 /*
@@ -551,16 +767,27 @@ struct greater_than_or_equal
 
 struct logical_and
 {
+	#define logical_and_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, &&) \
+	name##_loop_with_return##label##_2(SGN, INV, &&) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, &&) \
+		name##_count_with_return##label##_2(SGN, INV, &&) \
+	};
+
 	#define logical_and_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, &&) \
-		name##_loop_with_return_2(SGN, INV, &&) \
+		logical_and_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, &&) \
-			name##_count_with_return_2(SGN, INV, &&) \
+			struct closing	{ logical_and_as_interval(name, _as_closing)	}; \
+			struct closed	{ logical_and_as_interval(name, _as_closed)	}; \
+			struct opening	{ logical_and_as_interval(name, _as_opening)	}; \
+			struct open	{ logical_and_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -570,6 +797,7 @@ struct logical_and
 	logical_and_interval(open)
 
 	#undef logical_and_interval
+	#undef logical_and_as_interval
 };
 
 /*
@@ -578,16 +806,27 @@ struct logical_and
 
 struct logical_or
 {
+	#define logical_or_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, ||) \
+	name##_loop_with_return##label##_2(SGN, INV, ||) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, ||) \
+		name##_count_with_return##label##_2(SGN, INV, ||) \
+	};
+
 	#define logical_or_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, ||) \
-		name##_loop_with_return_2(SGN, INV, ||) \
+		logical_or_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, ||) \
-			name##_count_with_return_2(SGN, INV, ||) \
+			struct closing	{ logical_or_as_interval(name, _as_closing)	}; \
+			struct closed	{ logical_or_as_interval(name, _as_closed)	}; \
+			struct opening	{ logical_or_as_interval(name, _as_opening)	}; \
+			struct open	{ logical_or_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -597,6 +836,7 @@ struct logical_or
 	logical_or_interval(open)
 
 	#undef logical_or_interval
+	#undef logical_or_as_interval
 };
 
 /*
@@ -605,14 +845,25 @@ struct logical_or
 
 struct left_increment
 {
+	#define left_increment_as_interval(name, label) \
+	name##_loop_no_return_left##label##_0(SGN, INV, ++) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_left##label##_0(SGN, INV, ++) \
+	};
+
 	#define left_increment_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_left_0(SGN, INV, ++) \
+		left_increment_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_left_0(SGN, INV, ++) \
+			struct closing	{ left_increment_as_interval(name, _as_closing)	}; \
+			struct closed	{ left_increment_as_interval(name, _as_closed)	}; \
+			struct opening	{ left_increment_as_interval(name, _as_opening)	}; \
+			struct open	{ left_increment_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -622,18 +873,30 @@ struct left_increment
 	left_increment_interval(open)
 
 	#undef left_increment_interval
+	#undef left_increment_as_interval
 };
 
 struct right_increment
 {
+	#define right_increment_as_interval(name, label) \
+	name##_loop_no_return_right##label##_0(SGN, INV, ++) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_right##label##_0(SGN, INV, ++) \
+	};
+
 	#define right_increment_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_right_0(SGN, INV, ++) \
+		right_increment_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_right_0(SGN, INV, ++) \
+			struct closing	{ right_increment_as_interval(name, _as_closing)	}; \
+			struct closed	{ right_increment_as_interval(name, _as_closed)		}; \
+			struct opening	{ right_increment_as_interval(name, _as_opening)	}; \
+			struct open	{ right_increment_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -643,6 +906,7 @@ struct right_increment
 	right_increment_interval(open)
 
 	#undef right_increment_interval
+	#undef right_increment_as_interval
 };
 
 /*
@@ -651,14 +915,25 @@ struct right_increment
 
 struct left_decrement
 {
+	#define left_decrement_as_interval(name, label) \
+	name##_loop_no_return_left##label##_0(SGN, INV, --) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_left##label##_0(SGN, INV, --) \
+	};
+
 	#define left_decrement_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_left_0(SGN, INV, --) \
+		left_decrement_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_left_0(SGN, INV, --) \
+			struct closing	{ left_decrement_as_interval(name, _as_closing)	}; \
+			struct closed	{ left_decrement_as_interval(name, _as_closed)	}; \
+			struct opening	{ left_decrement_as_interval(name, _as_opening)	}; \
+			struct open	{ left_decrement_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -668,18 +943,30 @@ struct left_decrement
 	left_decrement_interval(open)
 
 	#undef left_decrement_interval
+	#undef left_decrement_as_interval
 };
 
 struct right_decrement
 {
+	#define right_decrement_as_interval(name, label) \
+	name##_loop_no_return_right##label##_0(SGN, INV, --) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_right##label##_0(SGN, INV, --) \
+	};
+
 	#define right_decrement_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_right_0(SGN, INV, --) \
+		right_decrement_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_right_0(SGN, INV, --) \
+			struct closing	{ right_decrement_as_interval(name, _as_closing)	}; \
+			struct closed	{ right_decrement_as_interval(name, _as_closed)		}; \
+			struct opening	{ right_decrement_as_interval(name, _as_opening)	}; \
+			struct open	{ right_decrement_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -689,6 +976,7 @@ struct right_decrement
 	right_decrement_interval(open)
 
 	#undef right_decrement_interval
+	#undef right_decrement_as_interval
 };
 
 /*
@@ -697,11 +985,22 @@ struct right_decrement
 
 struct comma
 {
+	#define comma_as_interval(name, label) \
+	struct count \
+	{ \
+	};
+
 	#define comma_interval(name) \
 	struct name \
 	{ \
-		struct count \
+		comma_as_interval(name, ) \
+ \
+		struct as \
 		{ \
+			struct closing	{ comma_as_interval(name, _as_closing)	}; \
+			struct closed	{ comma_as_interval(name, _as_closed)	}; \
+			struct opening	{ comma_as_interval(name, _as_opening)	}; \
+			struct open	{ comma_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -711,6 +1010,7 @@ struct comma
 	comma_interval(open)
 
 	#undef comma_interval
+	#undef comma_as_interval
 };
 
 /*
@@ -719,16 +1019,27 @@ struct comma
 
 struct point_asterisk
 {
+	#define point_asterisk_as_interval(name, label) \
+	name##_loop_no_return##label##_2(SGN, INV, ->*) \
+	name##_loop_with_return##label##_2(SGN, INV, ->*) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_2(SGN, INV, ->*) \
+		name##_count_with_return##label##_2(SGN, INV, ->*) \
+	};
+
 	#define point_asterisk_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_2(SGN, INV, ->*) \
-		name##_loop_with_return_2(SGN, INV, ->*) \
+		point_asterisk_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_2(SGN, INV, ->*) \
-			name##_count_with_return_2(SGN, INV, ->*) \
+			struct closing	{ point_asterisk_as_interval(name, _as_closing)	}; \
+			struct closed	{ point_asterisk_as_interval(name, _as_closed)	}; \
+			struct opening	{ point_asterisk_as_interval(name, _as_opening)	}; \
+			struct open	{ point_asterisk_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -738,6 +1049,7 @@ struct point_asterisk
 	point_asterisk_interval(open)
 
 	#undef point_asterisk_interval
+	#undef point_asterisk_as_interval
 };
 
 /*
@@ -746,14 +1058,25 @@ struct point_asterisk
 
 struct point
 {
+	#define point_as_interval(name, label) \
+	name##_loop_with_return##label##_2(SGN, INV, .operator->) \
+ \
+	struct count \
+	{ \
+		name##_count_with_return##label##_2(SGN, INV, .operator->) \
+	};
+
 	#define point_interval(name) \
 	struct name \
 	{ \
-		name##_loop_with_return_2(SGN, INV, .operator->) \
+		point_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_with_return_2(SGN, INV, .operator->) \
+			struct closing	{ point_as_interval(name, _as_closing)	}; \
+			struct closed	{ point_as_interval(name, _as_closed)	}; \
+			struct opening	{ point_as_interval(name, _as_opening)	}; \
+			struct open	{ point_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -763,6 +1086,7 @@ struct point
 	point_interval(open)
 
 	#undef point_interval
+	#undef point_as_interval
 };
 
 /*
@@ -773,26 +1097,37 @@ struct point
 
 struct parentheses
 {
+	#define parentheses_as_interval(name, label) \
+	name##_loop_no_return_right##label##_0(SGN, INV, ()) \
+ \
+	name##_loop_no_return_right##label##_1(SGN, INV, =, ()) \
+	name##_loop_with_return_right##label##_1(SGN, INV, =, ()) \
+ \
+	name##_loop_no_return##label##_2(SGN, INV, ) \
+	name##_loop_with_return##label##_2(SGN, INV, ) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_right##label##_0(SGN, INV, ()) \
+ \
+		name##_count_no_return_right##label##_1(SGN, INV, =, ()) \
+		name##_count_with_return_right##label##_1(SGN, INV, =, ()) \
+ \
+		name##_count_no_return##label##_2(SGN, INV, ) \
+		name##_count_with_return##label##_2(SGN, INV, ) \
+	};
+
 	#define parentheses_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_right_0(SGN, INV, ()) \
+		parentheses_as_interval(name, ) \
  \
-		name##_loop_no_return_right_1(SGN, INV, =, ()) \
-		name##_loop_with_return_right_1(SGN, INV, =, ()) \
- \
-		name##_loop_no_return_2(SGN, INV, ) \
-		name##_loop_with_return_2(SGN, INV, ) \
- \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_right_0(SGN, INV, ()) \
- \
-			name##_count_no_return_right_1(SGN, INV, =, ()) \
-			name##_count_with_return_right_1(SGN, INV, =, ()) \
- \
-			name##_count_no_return_2(SGN, INV, ) \
-			name##_count_with_return_2(SGN, INV, ) \
+			struct closing	{ parentheses_as_interval(name, _as_closing)	}; \
+			struct closed	{ parentheses_as_interval(name, _as_closed)	}; \
+			struct opening	{ parentheses_as_interval(name, _as_opening)	}; \
+			struct open	{ parentheses_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -802,6 +1137,7 @@ struct parentheses
 	parentheses_interval(open)
 
 	#undef parentheses_interval
+	#undef parentheses_as_interval
 };
 
 /*
@@ -810,16 +1146,27 @@ struct parentheses
 
 struct brackets
 {
+	#define brackets_as_interval(name, label) \
+	name##_loop_no_return_brackets##label##_2(SGN, INV, ) \
+	name##_loop_with_return_brackets##label##_2(SGN, INV, ) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_brackets##label##_2(SGN, INV, ) \
+		name##_count_with_return_brackets##label##_2(SGN, INV, ) \
+	};
+
 	#define brackets_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_brackets_2(SGN, INV, ) \
-		name##_loop_with_return_brackets_2(SGN, INV, ) \
+		brackets_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_brackets_2(SGN, INV, ) \
-			name##_count_with_return_brackets_2(SGN, INV, ) \
+			struct closing	{ brackets_as_interval(name, _as_closing)	}; \
+			struct closed	{ brackets_as_interval(name, _as_closed)	}; \
+			struct opening	{ brackets_as_interval(name, _as_opening)	}; \
+			struct open	{ brackets_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -829,6 +1176,7 @@ struct brackets
 	brackets_interval(open)
 
 	#undef brackets_interval
+	#undef brackets_as_interval
 };
 
 /*
@@ -837,16 +1185,27 @@ struct brackets
 
 struct repeat
 {
+	#define repeat_as_interval(name, label) \
+	name##_loop_no_return##label##_0(SGN, INV, =) \
+	name##_loop_with_return##label##_0(SGN, INV, =) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_0(SGN, INV, =) \
+		name##_count_with_return##label##_0(SGN, INV, =) \
+	};
+
 	#define repeat_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_0(SGN, INV, =) \
-		name##_loop_with_return_0(SGN, INV, =) \
+		repeat_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_0(SGN, INV, =) \
-			name##_count_with_return_0(SGN, INV, =) \
+			struct closing	{ repeat_as_interval(name, _as_closing)	}; \
+			struct closed	{ repeat_as_interval(name, _as_closed)	}; \
+			struct opening	{ repeat_as_interval(name, _as_opening)	}; \
+			struct open	{ repeat_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -856,19 +1215,31 @@ struct repeat
 	repeat_interval(open)
 
 	#undef repeat_interval
+	#undef repeat_as_interval
 /*
 	+=:
 */
 	struct plus
 	{
+		#define repeat_plus_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, +=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, +=) \
+		};
+
 		#define repeat_plus_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, +=) \
+			repeat_plus_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, +=) \
+				struct closing	{ repeat_plus_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_plus_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_plus_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_plus_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -878,20 +1249,32 @@ struct repeat
 		repeat_plus_interval(open)
 
 		#undef repeat_plus_interval
+		#undef repeat_plus_as_interval
 	};
 /*
 	-=:
 */
 	struct minus
 	{
+		#define repeat_minus_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, -=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, -=) \
+		};
+
 		#define repeat_minus_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, -=) \
+			repeat_minus_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, -=) \
+				struct closing	{ repeat_minus_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_minus_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_minus_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_minus_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -901,20 +1284,32 @@ struct repeat
 		repeat_minus_interval(open)
 
 		#undef repeat_minus_interval
+		#undef repeat_minus_as_interval
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
+		#define repeat_asterisk_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, *=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, *=) \
+		};
+
 		#define repeat_asterisk_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, *=) \
+			repeat_asterisk_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, *=) \
+				struct closing	{ repeat_asterisk_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_asterisk_as_interval(name, _as_closed)		}; \
+				struct opening	{ repeat_asterisk_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_asterisk_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -924,20 +1319,32 @@ struct repeat
 		repeat_asterisk_interval(open)
 
 		#undef repeat_asterisk_interval
+		#undef repeat_asterisk_as_interval
 	};
 /*
 	/=:
 */
 	struct slash
 	{
+		#define repeat_slash_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, /=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, /=) \
+		};
+
 		#define repeat_slash_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, /=) \
+			repeat_slash_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, /=) \
+				struct closing	{ repeat_slash_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_slash_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_slash_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_slash_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -947,20 +1354,32 @@ struct repeat
 		repeat_slash_interval(open)
 
 		#undef repeat_slash_interval
+		#undef repeat_slash_as_interval
 	};
 /*
 	%=:
 */
 	struct percent
 	{
+		#define repeat_percent_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, %=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, %=) \
+		};
+
 		#define repeat_percent_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, %=) \
+			repeat_percent_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, %=) \
+				struct closing	{ repeat_percent_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_percent_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_percent_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_percent_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -970,20 +1389,32 @@ struct repeat
 		repeat_percent_interval(open)
 
 		#undef repeat_percent_interval
+		#undef repeat_percent_as_interval
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
+		#define repeat_caret_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, ^=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, ^=) \
+		};
+
 		#define repeat_caret_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, ^=) \
+			repeat_caret_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, ^=) \
+				struct closing	{ repeat_caret_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_caret_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_caret_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_caret_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -993,20 +1424,32 @@ struct repeat
 		repeat_caret_interval(open)
 
 		#undef repeat_caret_interval
+		#undef repeat_caret_as_interval
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
+		#define repeat_ampersand_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, &=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, &=) \
+		};
+
 		#define repeat_ampersand_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, &=) \
+			repeat_ampersand_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, &=) \
+				struct closing	{ repeat_ampersand_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_ampersand_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_ampersand_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_ampersand_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -1016,20 +1459,32 @@ struct repeat
 		repeat_ampersand_interval(open)
 
 		#undef repeat_ampersand_interval
+		#undef repeat_ampersand_as_interval
 	};
 /*
 	|=:
 */
 	struct bar
 	{
+		#define repeat_bar_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, |=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, |=) \
+		};
+
 		#define repeat_bar_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, |=) \
+			repeat_bar_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, |=) \
+				struct closing	{ repeat_bar_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_bar_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_bar_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_bar_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1039,20 +1494,32 @@ struct repeat
 		repeat_bar_interval(open)
 
 		#undef repeat_bar_interval
+		#undef repeat_bar_as_interval
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
+		#define repeat_right_shift_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, >>=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, >>=) \
+		};
+
 		#define repeat_right_shift_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, >>=) \
+			repeat_right_shift_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, >>=) \
+				struct closing	{ repeat_right_shift_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_right_shift_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_right_shift_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_right_shift_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1062,20 +1529,32 @@ struct repeat
 		repeat_right_shift_interval(open)
 
 		#undef repeat_right_shift_interval
+		#undef repeat_right_shift_as_interval
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
+		#define repeat_left_shift_as_interval(name, label) \
+		name##_loop_no_return##label##_0(SGN, INV, <<=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_0(SGN, INV, <<=) \
+		};
+
 		#define repeat_left_shift_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_0(SGN, INV, <<=) \
+			repeat_left_shift_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_0(SGN, INV, <<=) \
+				struct closing	{ repeat_left_shift_as_interval(name, _as_closing)	}; \
+				struct closed	{ repeat_left_shift_as_interval(name, _as_closed)	}; \
+				struct opening	{ repeat_left_shift_as_interval(name, _as_opening)	}; \
+				struct open	{ repeat_left_shift_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -1085,6 +1564,7 @@ struct repeat
 		repeat_left_shift_interval(open)
 
 		#undef repeat_left_shift_interval
+		#undef repeat_left_shift_as_interval
 	};
 };
 
@@ -1094,16 +1574,27 @@ struct repeat
 
 struct assign
 {
+	#define assign_as_interval(name, label) \
+	name##_loop_no_return##label##_1(SGN, INV, =) \
+	name##_loop_with_return##label##_1(SGN, INV, =) \
+ \
+	struct count \
+	{ \
+		name##_count_no_return##label##_1(SGN, INV, =) \
+		name##_count_with_return##label##_1(SGN, INV, =) \
+	};
+
 	#define assign_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_1(SGN, INV, =) \
-		name##_loop_with_return_1(SGN, INV, =) \
+		assign_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_1(SGN, INV, =) \
-			name##_count_with_return_1(SGN, INV, =) \
+			struct closing	{ assign_as_interval(name, _as_closing)	}; \
+			struct closed	{ assign_as_interval(name, _as_closed)	}; \
+			struct opening	{ assign_as_interval(name, _as_opening)	}; \
+			struct open	{ assign_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -1113,21 +1604,33 @@ struct assign
 	assign_interval(open)
 
 	#undef assign_interval
+	#undef assign_as_interval
 /*
 	+=:
 */
 	struct plus
 	{
+		#define assign_plus_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, +=) \
+		name##_loop_with_return##label##_1(SGN, INV, +=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, +=) \
+			name##_count_with_return##label##_1(SGN, INV, +=) \
+		};
+
 		#define assign_plus_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, +=) \
-			name##_loop_with_return_1(SGN, INV, +=) \
+			assign_plus_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, +=) \
-				name##_count_with_return_1(SGN, INV, +=) \
+				struct closing	{ assign_plus_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_plus_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_plus_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_plus_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1137,22 +1640,34 @@ struct assign
 		assign_plus_interval(open)
 
 		#undef assign_plus_interval
+		#undef assign_plus_as_interval
 	};
 /*
 	-=:
 */
 	struct minus
 	{
+		#define assign_minus_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, -=) \
+		name##_loop_with_return##label##_1(SGN, INV, -=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, -=) \
+			name##_count_with_return##label##_1(SGN, INV, -=) \
+		};
+
 		#define assign_minus_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, -=) \
-			name##_loop_with_return_1(SGN, INV, -=) \
+			assign_minus_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, -=) \
-				name##_count_with_return_1(SGN, INV, -=) \
+				struct closing	{ assign_minus_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_minus_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_minus_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_minus_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1162,22 +1677,34 @@ struct assign
 		assign_minus_interval(open)
 
 		#undef assign_minus_interval
+		#undef assign_minus_as_interval
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
+		#define assign_asterisk_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, *=) \
+		name##_loop_with_return##label##_1(SGN, INV, *=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, *=) \
+			name##_count_with_return##label##_1(SGN, INV, *=) \
+		};
+
 		#define assign_asterisk_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, *=) \
-			name##_loop_with_return_1(SGN, INV, *=) \
+			assign_asterisk_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, *=) \
-				name##_count_with_return_1(SGN, INV, *=) \
+				struct closing	{ assign_asterisk_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_asterisk_as_interval(name, _as_closed)		}; \
+				struct opening	{ assign_asterisk_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_asterisk_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -1187,22 +1714,34 @@ struct assign
 		assign_asterisk_interval(open)
 
 		#undef assign_asterisk_interval
+		#undef assign_asterisk_as_interval
 	};
 /*
 	/=:
 */
 	struct slash
 	{
+		#define assign_slash_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, /=) \
+		name##_loop_with_return##label##_1(SGN, INV, /=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, /=) \
+			name##_count_with_return##label##_1(SGN, INV, /=) \
+		};
+
 		#define assign_slash_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, /=) \
-			name##_loop_with_return_1(SGN, INV, /=) \
+			assign_slash_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, /=) \
-				name##_count_with_return_1(SGN, INV, /=) \
+				struct closing	{ assign_slash_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_slash_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_slash_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_slash_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1212,22 +1751,34 @@ struct assign
 		assign_slash_interval(open)
 
 		#undef assign_slash_interval
+		#undef assign_slash_as_interval
 	};
 /*
 	%=:
 */
 	struct percent
 	{
+		#define assign_percent_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, %=) \
+		name##_loop_with_return##label##_1(SGN, INV, %=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, %=) \
+			name##_count_with_return##label##_1(SGN, INV, %=) \
+		};
+
 		#define assign_percent_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, %=) \
-			name##_loop_with_return_1(SGN, INV, %=) \
+			assign_percent_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, %=) \
-				name##_count_with_return_1(SGN, INV, %=) \
+				struct closing	{ assign_percent_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_percent_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_percent_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_percent_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1237,22 +1788,34 @@ struct assign
 		assign_percent_interval(open)
 
 		#undef assign_percent_interval
+		#undef assign_percent_as_interval
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
+		#define assign_caret_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, ^=) \
+		name##_loop_with_return##label##_1(SGN, INV, ^=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, ^=) \
+			name##_count_with_return##label##_1(SGN, INV, ^=) \
+		};
+
 		#define assign_caret_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, ^=) \
-			name##_loop_with_return_1(SGN, INV, ^=) \
+			assign_caret_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, ^=) \
-				name##_count_with_return_1(SGN, INV, ^=) \
+				struct closing	{ assign_caret_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_caret_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_caret_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_caret_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1262,22 +1825,34 @@ struct assign
 		assign_caret_interval(open)
 
 		#undef assign_caret_interval
+		#undef assign_caret_as_interval
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
+		#define assign_ampersand_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, &=) \
+		name##_loop_with_return##label##_1(SGN, INV, &=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, &=) \
+			name##_count_with_return##label##_1(SGN, INV, &=) \
+		};
+
 		#define assign_ampersand_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, &=) \
-			name##_loop_with_return_1(SGN, INV, &=) \
+			assign_ampersand_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, &=) \
-				name##_count_with_return_1(SGN, INV, &=) \
+				struct closing	{ assign_ampersand_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_ampersand_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_ampersand_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_ampersand_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -1287,22 +1862,34 @@ struct assign
 		assign_ampersand_interval(open)
 
 		#undef assign_ampersand_interval
+		#undef assign_ampersand_as_interval
 	};
 /*
 	|=:
 */
 	struct bar
 	{
+		#define assign_bar_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, |=) \
+		name##_loop_with_return##label##_1(SGN, INV, |=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, |=) \
+			name##_count_with_return##label##_1(SGN, INV, |=) \
+		};
+
 		#define assign_bar_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, |=) \
-			name##_loop_with_return_1(SGN, INV, |=) \
+			assign_bar_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, |=) \
-				name##_count_with_return_1(SGN, INV, |=) \
+				struct closing	{ assign_bar_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_bar_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_bar_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_bar_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1312,22 +1899,34 @@ struct assign
 		assign_bar_interval(open)
 
 		#undef assign_bar_interval
+		#undef assign_bar_as_interval
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
+		#define assign_right_shift_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, >>=) \
+		name##_loop_with_return##label##_1(SGN, INV, >>=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, >>=) \
+			name##_count_with_return##label##_1(SGN, INV, >>=) \
+		};
+
 		#define assign_right_shift_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, >>=) \
-			name##_loop_with_return_1(SGN, INV, >>=) \
+			assign_right_shift_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, >>=) \
-				name##_count_with_return_1(SGN, INV, >>=) \
+				struct closing	{ assign_right_shift_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_right_shift_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_right_shift_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_right_shift_as_interval(name, _as_open)	}; \
 			}; \
 		};
 
@@ -1337,22 +1936,34 @@ struct assign
 		assign_right_shift_interval(open)
 
 		#undef assign_right_shift_interval
+		#undef assign_right_shift_as_interval
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
+		#define assign_left_shift_as_interval(name, label) \
+		name##_loop_no_return##label##_1(SGN, INV, <<=) \
+		name##_loop_with_return##label##_1(SGN, INV, <<=) \
+ \
+		struct count \
+		{ \
+			name##_count_no_return##label##_1(SGN, INV, <<=) \
+			name##_count_with_return##label##_1(SGN, INV, <<=) \
+		};
+
 		#define assign_left_shift_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_1(SGN, INV, <<=) \
-			name##_loop_with_return_1(SGN, INV, <<=) \
+			assign_left_shift_as_interval(name, ) \
  \
-			struct count \
+			struct as \
 			{ \
-				name##_count_no_return_1(SGN, INV, <<=) \
-				name##_count_with_return_1(SGN, INV, <<=) \
+				struct closing	{ assign_left_shift_as_interval(name, _as_closing)	}; \
+				struct closed	{ assign_left_shift_as_interval(name, _as_closed)	}; \
+				struct opening	{ assign_left_shift_as_interval(name, _as_opening)	}; \
+				struct open	{ assign_left_shift_as_interval(name, _as_open)		}; \
 			}; \
 		};
 
@@ -1362,39 +1973,51 @@ struct assign
 		assign_left_shift_interval(open)
 
 		#undef assign_left_shift_interval
+		#undef assign_left_shift_as_interval
 	};
 };
 
 struct allocate
 {
-	#define allocate_interval(name) \
-	struct name \
+	#define allocate_as_interval(name, label) \
+	name##_loop_no_return_new##label##_0(SGN, INV) \
+	name##_loop_with_return_new##label##_0(SGN, INV) \
+ \
+	struct brackets \
 	{ \
-		name##_loop_no_return_new_0(SGN, INV) \
-		name##_loop_with_return_new_0(SGN, INV) \
+		name##_loop_no_return_new_brackets##label##_0(SGN, INV) \
+		name##_loop_with_return_new_brackets##label##_0(SGN, INV) \
+ \
+		name##_loop_no_return_new_brackets##label##_1(SGN, INV) \
+		name##_loop_with_return_new_brackets##label##_1(SGN, INV) \
+	}; \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_new##label##_0(SGN, INV) \
+		name##_count_with_return_new##label##_0(SGN, INV) \
  \
 		struct brackets \
 		{ \
-			name##_loop_no_return_new_brackets_0(SGN, INV) \
-			name##_loop_with_return_new_brackets_0(SGN, INV) \
+			name##_count_no_return_new_brackets##label##_0(SGN, INV) \
+			name##_count_with_return_new_brackets##label##_0(SGN, INV) \
  \
-			name##_loop_no_return_new_brackets_1(SGN, INV) \
-			name##_loop_with_return_new_brackets_1(SGN, INV) \
+			name##_count_no_return_new_brackets##label##_1(SGN, INV) \
+			name##_count_with_return_new_brackets##label##_1(SGN, INV) \
 		}; \
+	};
+
+	#define allocate_interval(name) \
+	struct name \
+	{ \
+		allocate_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_new_0(SGN, INV) \
-			name##_count_with_return_new_0(SGN, INV) \
- \
-			struct brackets \
-			{ \
-				name##_count_no_return_new_brackets_0(SGN, INV) \
-				name##_count_with_return_new_brackets_0(SGN, INV) \
- \
-				name##_count_no_return_new_brackets_1(SGN, INV) \
-				name##_count_with_return_new_brackets_1(SGN, INV) \
-			}; \
+			struct closing	{ allocate_as_interval(name, _as_closing)	}; \
+			struct closed	{ allocate_as_interval(name, _as_closed)	}; \
+			struct opening	{ allocate_as_interval(name, _as_opening)	}; \
+			struct open	{ allocate_as_interval(name, _as_open)		}; \
 		}; \
 	};
 
@@ -1404,32 +2027,44 @@ struct allocate
 	allocate_interval(open)
 
 	#undef allocate_interval
+	#undef allocate_as_interval
 };
 
 struct deallocate
 {
-	#define deallocate_interval(name) \
-	struct name \
+	#define deallocate_as_interval(name, label) \
+	name##_loop_no_return_delete##label##_0(SGN, INV) \
+	name##_loop_with_return_delete##label##_0(SGN, INV) \
+ \
+	struct brackets \
 	{ \
-		name##_loop_no_return_delete_0(SGN, INV) \
-		name##_loop_with_return_delete_0(SGN, INV) \
+		name##_loop_no_return_delete_brackets##label##_0(SGN, INV) \
+		name##_loop_with_return_delete_brackets##label##_0(SGN, INV) \
+	}; \
+ \
+	struct count \
+	{ \
+		name##_count_no_return_delete##label##_0(SGN, INV) \
+		name##_count_with_return_delete##label##_0(SGN, INV) \
  \
 		struct brackets \
 		{ \
-			name##_loop_no_return_delete_brackets_0(SGN, INV) \
-			name##_loop_with_return_delete_brackets_0(SGN, INV) \
+			name##_count_no_return_delete_brackets##label##_0(SGN, INV) \
+			name##_count_with_return_delete_brackets##label##_0(SGN, INV) \
 		}; \
+	};
+
+	#define deallocate_interval(name) \
+	struct name \
+	{ \
+		deallocate_as_interval(name, ) \
  \
-		struct count \
+		struct as \
 		{ \
-			name##_count_no_return_delete_0(SGN, INV) \
-			name##_count_with_return_delete_0(SGN, INV) \
- \
-			struct brackets \
-			{ \
-				name##_count_no_return_delete_brackets_0(SGN, INV) \
-				name##_count_with_return_delete_brackets_0(SGN, INV) \
-			}; \
+			struct closing	{ deallocate_as_interval(name, _as_closing)	}; \
+			struct closed	{ deallocate_as_interval(name, _as_closed)	}; \
+			struct opening	{ deallocate_as_interval(name, _as_opening)	}; \
+			struct open	{ deallocate_as_interval(name, _as_open)	}; \
 		}; \
 	};
 
@@ -1439,5 +2074,6 @@ struct deallocate
 	deallocate_interval(open)
 
 	#undef deallocate_interval
+	#undef deallocate_as_interval
 };
 

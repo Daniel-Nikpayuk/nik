@@ -96,54 +96,6 @@
 
 */
 
-#define _opening_initial_assign_as_closing(dir, inv, label, rtn, stmt)
-
-#define opening_initial_no_return_assign_as_closing(dir, inv)		_opening_initial_assign_as_closing(dir, inv, no, void, )
-#define opening_initial_with_return_assign_as_closing(dir, inv)		_opening_initial_assign_as_closing(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_initial_assign_as_closed(dir, inv, label, rtn, stmt) \
-
-#define opening_initial_no_return_assign_as_closed(dir, inv)		_opening_initial_assign_as_closed(dir, inv, no, void, )
-#define opening_initial_with_return_assign_as_closed(dir, inv)		_opening_initial_assign_as_closed(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_initial_assign_as_opening(dir, inv, label, rtn, stmt) \
-
-#define opening_initial_no_return_assign_as_opening(dir, inv)		_opening_initial_assign_as_opening(dir, inv, no, void, )
-#define opening_initial_with_return_assign_as_opening(dir, inv)		_opening_initial_assign_as_opening(dir, inv, with, WPointer, return out;)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _opening_initial_assign_as_open(dir, inv, label, rtn, stmt) \
-
-#define opening_initial_no_return_assign_as_open(dir, inv)		_opening_initial_assign_as_open(dir, inv, no, void, )
-#define opening_initial_with_return_assign_as_open(dir, inv)		_opening_initial_assign_as_open(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
 #define _opening_initial_catenate_with_closing(dir, inv, label, rtn, stmt) \
 
 #define opening_initial_no_return_catenate_with_closing(dir, inv)	_opening_initial_catenate_with_closing(dir, inv, no, void, )

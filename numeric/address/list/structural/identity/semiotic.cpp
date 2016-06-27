@@ -43,7 +43,7 @@ struct identity
 
 //		identity(const identity & l) { fs_policy::identity::copy::no_return(subidentity, l); }
 
-		~identity() { subidentity.terminalize(); }
+		~identity() { /*subidentity.terminalize()*/; }
 	public:
 
 // element access:

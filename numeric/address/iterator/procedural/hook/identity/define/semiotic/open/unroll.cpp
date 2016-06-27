@@ -96,54 +96,6 @@
 
 */
 
-#define _open_unroll_assign_as_closing(dir, inv, label, rtn, stmt)
-
-#define open_unroll_no_return_assign_as_closing(dir, inv)		_open_unroll_assign_as_closing(dir, inv, no, void, )
-#define open_unroll_with_return_assign_as_closing(dir, inv)		_open_unroll_assign_as_closing(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _open_unroll_assign_as_closed(dir, inv, label, rtn, stmt) \
-
-#define open_unroll_no_return_assign_as_closed(dir, inv)		_open_unroll_assign_as_closed(dir, inv, no, void, )
-#define open_unroll_with_return_assign_as_closed(dir, inv)		_open_unroll_assign_as_closed(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _open_unroll_assign_as_opening(dir, inv, label, rtn, stmt) \
-
-#define open_unroll_no_return_assign_as_opening(dir, inv)		_open_unroll_assign_as_opening(dir, inv, no, void, )
-#define open_unroll_with_return_assign_as_opening(dir, inv)		_open_unroll_assign_as_opening(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
-#define _open_unroll_assign_as_open(dir, inv, label, rtn, stmt) \
-
-#define open_unroll_no_return_assign_as_open(dir, inv)			_open_unroll_assign_as_open(dir, inv, no, void, )
-#define open_unroll_with_return_assign_as_open(dir, inv)		_open_unroll_assign_as_open(dir, inv, with, WPointer, return)
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-*/
-
 #define _open_unroll_catenate_with_closing(dir, inv, label, rtn, stmt) \
 
 #define open_unroll_no_return_catenate_with_closing(dir, inv)		_open_unroll_catenate_with_closing(dir, inv, no, void, )
