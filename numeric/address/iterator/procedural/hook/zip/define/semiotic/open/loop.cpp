@@ -30,13 +30,22 @@
 	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
+/*
+	The main design point when it comes to conversions is that the context is preserved/modified, and only
+	the filler end points are gained or lost:
+
+	[x, y) --> [x, y-1]
+	[x, y) --> (x-1, y-1]
+	[x, y) --> (x-1, y)
+*/
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n), n > 0
 */
 
 #define _open_loop_0(dir, inv, op, label, rtn, stmt) \
@@ -64,7 +73,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-1), n > 0
 */
 
 #define _open_loop_as_closing_0(dir, inv, op, label, rtn, stmt) \
@@ -91,16 +100,16 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-2], n > 1
 */
 
 #define _open_loop_as_closed_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename ValueType> \
 static rtn label##_return(WPointer out, size_type n, ValueType in) \
 { \
-	--n; \
+	n-=2; \
  \
-	while (n-1) \
+	while (n) \
 	{ \
 		(*out)op(in); \
 		out=dir(out)=new WNode; \
@@ -120,18 +129,20 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n-1], n > 0
 */
 
 #define _open_loop_as_opening_0(dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename ValueType> \
 static rtn label##_return(WPointer out, size_type n, ValueType in) \
 { \
-	while (n-1) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		--n; \
 		out=dir(out)=new WNode; \
 		(*out)op(in); \
+		--n; \
 	} \
  \
 	stmt \
@@ -153,7 +164,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n), n > 0
 */
 
 #define _open_loop_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -184,7 +195,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-1), n > 0
 */
 
 #define _open_loop_lr_as_closing_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -214,16 +225,16 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-2], n > 1
 */
 
 #define _open_loop_lr_as_closed_0(dir, inv, label, rtn, stmt, lp, rp) \
 template<typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
-	--n; \
+	n-=2; \
  \
-	while (n-1) \
+	while (n) \
 	{ \
 		lp(*out)rp; \
 		out=dir(out)=new WNode; \
@@ -246,18 +257,20 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n-1], n > 0
 */
 
 #define _open_loop_lr_as_opening_0(dir, inv, label, rtn, stmt, lp, rp) \
 template<typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
-	while (n-1) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		--n; \
 		out=dir(out)=new WNode; \
 		lp(*out)rp; \
+		--n; \
 	} \
  \
 	stmt \
@@ -285,7 +298,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n), n > 0
 */
 
 #define _open_loop_new_0(dir, inv, label, rtn, stmt) \
@@ -313,7 +326,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-1), n > 0
 */
 
 #define _open_loop_new_as_closing_0(dir, inv, label, rtn, stmt) \
@@ -340,16 +353,16 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-2], n > 1
 */
 
 #define _open_loop_new_as_closed_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
-	--n; \
+	n-=2; \
  \
-	while (n-1) \
+	while (n) \
 	{ \
 		*out=new Node(); \
 		out=dir(out)=new WNode; \
@@ -369,18 +382,20 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n-1], n > 0
 */
 
 #define _open_loop_new_as_opening_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n) \
 { \
-	while (n-1) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		--n; \
 		out=dir(out)=new WNode; \
 		*out=new Node(); \
+		--n; \
 	} \
  \
 	stmt \
@@ -402,7 +417,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n), n > 0
 */
 
 #define _open_loop_new_brackets_0(dir, inv, label, rtn, stmt) \
@@ -430,7 +445,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-1), n > 0
 */
 
 #define _open_loop_new_brackets_as_closing_0(dir, inv, label, rtn, stmt) \
@@ -457,16 +472,16 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> [out, out + n-2], n > 1
 */
 
 #define _open_loop_new_brackets_as_closed_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n, size_type in) \
 { \
-	--n; \
+	n-=2; \
  \
-	while (n-1) \
+	while (n) \
 	{ \
 		*out=new Node[in]; \
 		out=dir(out)=new WNode; \
@@ -486,18 +501,20 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n), n != 0
+	(0, n) --> (out, out + n-1], n > 0
 */
 
 #define _open_loop_new_brackets_as_opening_0(dir, inv, label, rtn, stmt) \
 template<typename Node, typename WNode, typename WPointer> \
 static rtn label##_return(WPointer out, size_type n, size_type in) \
 { \
-	while (n-1) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		--n; \
 		out=dir(out)=new WNode; \
 		*out=new Node[in]; \
+		--n; \
 	} \
  \
 	stmt \
@@ -519,7 +536,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(out, end), out != end
+	(out, end) --> (out, end), end-out > 0
 */
 
 #define _open_loop_delete_0(dir, inv, op, label, rtn, stmt) \
@@ -547,28 +564,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 
 /************************************************************************************************************************/
 
-/*
-	Constraints:
-
-	(out, end), out != end
-*/
-
-#define _open_loop_delete_as_closing_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(WPointer out, EWPointer end) \
-{ \
-	dir##dir(out); \
- \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
-	} \
- \
-	stmt \
-}
+#define _open_loop_delete_as_closing_0(dir, inv, op, label, rtn, stmt)
 
 #define open_loop_no_return_delete_as_closing_0(dir, inv)		_open_loop_delete_as_closing_0(dir, inv, , no, void, )
 #define open_loop_with_return_delete_as_closing_0(dir, inv)		_open_loop_delete_as_closing_0(dir, inv, , with, WPointer, return out;)
@@ -578,31 +574,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 
 /************************************************************************************************************************/
 
-/*
-	Constraints:
-
-	(out, end), out != end
-*/
-
-#define _open_loop_delete_as_closed_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(WPointer out, EWPointer end) \
-{ \
-	dir##dir(out); \
- \
-	while (dir(out) != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
-	} \
- \
-	delete op *out; \
-	delete out; \
- \
-	stmt \
-}
+#define _open_loop_delete_as_closed_0(dir, inv, op, label, rtn, stmt)
 
 #define open_loop_no_return_delete_as_closed_0(dir, inv)		_open_loop_delete_as_closed_0(dir, inv, , no, void, )
 #define open_loop_with_return_delete_as_closed_0(dir, inv)		_open_loop_delete_as_closed_0(dir, inv, , with, WPointer, return out;)
@@ -612,26 +584,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 
 /************************************************************************************************************************/
 
-/*
-	Constraints:
-
-	(out, end), out != end
-*/
-
-#define _open_loop_delete_as_opening_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(WPointer out, EWPointer end) \
-{ \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
-	} \
- \
-	stmt \
-}
+#define _open_loop_delete_as_opening_0(dir, inv, op, label, rtn, stmt)
 
 #define open_loop_no_return_delete_as_opening_0(dir, inv)		_open_loop_delete_as_opening_0(dir, inv, , no, void, )
 #define open_loop_with_return_delete_as_opening_0(dir, inv)		_open_loop_delete_as_opening_0(dir, inv, , with, WPointer, return out;)
@@ -655,7 +608,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> (out, out + (end-in)), end-in > 0
 */
 
 #define _open_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -686,7 +639,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> [out, out + (end-in)-1), end-in > 0
 */
 
 #define _open_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -716,7 +669,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> [out, out + (end-in)-2], end-in > 1
 */
 
 #define _open_loop_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -748,7 +701,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> (out, out + (end-in)-1], end-in > 0
 */
 
 #define _open_loop_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -787,7 +740,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> (out, out + (end-in)), end-in > 0
 */
 
 #define _open_loop_new_brackets_1(dir, inv, label, rtn, stmt) \
@@ -815,7 +768,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> [out, out + (end-in)-1), end-in > 0
 */
 
 #define _open_loop_new_brackets_as_closing_1(dir, inv, label, rtn, stmt) \
@@ -842,7 +795,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> [out, out + (end-in)-2], end-in > 1
 */
 
 #define _open_loop_new_brackets_as_closed_1(dir, inv, label, rtn, stmt) \
@@ -871,7 +824,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end), in != end
+	(in, end) --> (out, out + (end-in)-1], end-in > 0
 */
 
 #define _open_loop_new_brackets_as_opening_1(dir, inv, label, rtn, stmt) \
@@ -904,7 +857,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> (out, out + (end2-in2)), end2-in2 > 0
 */
 
 #define _open_loop_2(dir, inv, op, label, rtn, stmt) \
@@ -916,7 +869,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
@@ -932,7 +885,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> [out, out + (end2-in2)-1), end2-in2 > 0
 */
 
 #define _open_loop_as_closing_2(dir, inv, op, label, rtn, stmt) \
@@ -943,7 +896,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
@@ -959,7 +912,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> [out, out + (end2-in2)-2], end2-in2 > 1
 */
 
 #define _open_loop_as_closed_2(dir, inv, op, label, rtn, stmt) \
@@ -970,12 +923,12 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (dir(in2) != end2) \
 	{ \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
  \
-	(*out)=(*in1)op(*in2); \
+	*out=(*in1)op(*in2); \
  \
 	stmt \
 }
@@ -988,7 +941,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> (out, out + (end2-in2)-1], end2-in2 > 0
 */
 
 #define _open_loop_as_opening_2(dir, inv, op, label, rtn, stmt) \
@@ -999,7 +952,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	{ \
 		dir##dir(in1); dir##dir(in2); \
 		out=dir(out)=new WNode; \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 	} \
  \
 	stmt \
@@ -1021,7 +974,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> (out, out + (end2-in2)), end2-in2 > 0
 */
 
 #define _open_loop_brackets_2(dir, inv, op, label, rtn, stmt) \
@@ -1033,7 +986,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
@@ -1049,7 +1002,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> [out, out + (end2-in2)-1), end2-in2 > 0
 */
 
 #define _open_loop_brackets_as_closing_2(dir, inv, op, label, rtn, stmt) \
@@ -1060,7 +1013,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
@@ -1076,7 +1029,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> [out, out + (end2-in2)-2], end2-in2 > 1
 */
 
 #define _open_loop_brackets_as_closed_2(dir, inv, op, label, rtn, stmt) \
@@ -1087,12 +1040,12 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
  \
 	while (dir(in2) != end2) \
 	{ \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		dir##dir(in1); dir##dir(in2); \
 	} \
  \
-	(*out)=(*in1)op[*in2]; \
+	*out=(*in1)op[*in2]; \
  \
 	stmt \
 }
@@ -1105,7 +1058,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2), in2 != end2
+	(in2, end2) --> (out, out + (end2-in2)-1], end2-in2 > 0
 */
 
 #define _open_loop_brackets_as_opening_2(dir, inv, op, label, rtn, stmt) \
@@ -1116,7 +1069,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	{ \
 		dir##dir(in1); dir##dir(in2); \
 		out=dir(out)=new WNode; \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 	} \
  \
 	stmt \

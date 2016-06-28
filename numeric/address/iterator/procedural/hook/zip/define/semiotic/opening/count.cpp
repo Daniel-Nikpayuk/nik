@@ -614,7 +614,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 	{ \
 		dir##dir(in2); dir##dir(in1); \
 		out=dir(out)=new WNode; \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		++count; \
 	} \
  \
@@ -639,7 +639,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		++count; \
 	} \
@@ -666,13 +666,13 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		dir##dir(in2); dir##dir(in1); \
 		++count; \
 	} \
  \
-	(*out)=(*in1)op(*in2); \
+	*out=(*in1)op(*in2); \
 	++count; \
  \
 	stmt \
@@ -702,7 +702,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 { \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op(*in2); \
+		*out=(*in1)op(*in2); \
 		out=dir(out)=new WNode; \
 		dir##dir(in2); dir##dir(in1); \
 		++count; \
@@ -733,7 +733,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 	{ \
 		dir##dir(in2); dir##dir(in1); \
 		out=dir(out)=new WNode; \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		++count; \
 	} \
  \
@@ -758,7 +758,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		++count; \
 	} \
@@ -785,13 +785,13 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
  \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		dir##dir(in2); dir##dir(in1); \
 		++count; \
 	} \
  \
-	(*out)=(*in1)op[*in2]; \
+	*out=(*in1)op[*in2]; \
 	++count; \
  \
 	stmt \
@@ -821,7 +821,7 @@ static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIter
 { \
 	while (in2 != end2) \
 	{ \
-		(*out)=(*in1)op[*in2]; \
+		*out=(*in1)op[*in2]; \
 		out=dir(out)=new WNode; \
 		dir##dir(in2); dir##dir(in1); \
 		++count; \

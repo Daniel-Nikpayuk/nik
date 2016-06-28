@@ -35,7 +35,7 @@
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_0(method, dir, inv, op, label, rtn, stmt) \
@@ -64,7 +64,7 @@ static rtn label##_return(WPointer out, ValueType in) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_lr_0(method, dir, inv, label, rtn, stmt, lp, rp) \
@@ -96,7 +96,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_new_0(method, dir, inv, label, rtn, stmt) \
@@ -125,7 +125,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_new_brackets_0(method, dir, inv, label, rtn, stmt) \
@@ -154,7 +154,7 @@ static rtn label##_return(WPointer out, size_type in) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_delete_0(method, dir, inv, op, label, rtn, stmt) \
@@ -188,7 +188,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_lr_1(method, dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -222,7 +222,7 @@ static rtn label##_return(WPointer out, RIterator in) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_new_brackets_1(method, dir, inv, label, rtn, stmt) \
@@ -253,14 +253,14 @@ static rtn label##_return(WPointer out, RPointer in) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_2(method, dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static rtn _##label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
-	(*out)=(*in1)op(*in2); \
+	*out=(*in1)op(*in2); \
 	out=dir(out)=new WNode; \
 	dir##dir(in1); dir##dir(in2); \
  \
@@ -284,14 +284,14 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 /*
 	Constraints:
 
-	(0, N)
+	(0, N) --> (out, out + N)
 */
 
 #define _open_unroll_brackets_2(method, dir, inv, op, label, rtn, stmt) \
 template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2> \
 static rtn _##label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 { \
-	(*out)=(*in1)op[*in2]; \
+	*out=(*in1)op[*in2]; \
 	out=dir(out)=new WNode; \
 	dir##dir(in1); dir##dir(in2); \
  \

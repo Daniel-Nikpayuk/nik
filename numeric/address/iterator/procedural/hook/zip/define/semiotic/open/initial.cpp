@@ -35,7 +35,7 @@
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_0(dir, inv, op, label, rtn, stmt) \
@@ -55,7 +55,7 @@ static rtn label##_return(WPointer out, ValueType in) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -78,7 +78,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_new_0(dir, inv, label, rtn, stmt) \
@@ -98,7 +98,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_new_brackets_0(dir, inv, label, rtn, stmt) \
@@ -118,7 +118,7 @@ static rtn label##_return(WPointer out, size_type in) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_delete_0(dir, inv, op, label, rtn, stmt) \
@@ -141,7 +141,7 @@ static rtn label##_return(WPointer out) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -164,7 +164,7 @@ static rtn label##_return(WPointer out, RIterator in) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_new_brackets_1(dir, inv, label, rtn, stmt) \
@@ -184,7 +184,7 @@ static rtn label##_return(WPointer out, RPointer in) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_2(dir, inv, op, label, rtn, stmt) \
@@ -204,7 +204,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 /*
 	Constraints:
 
-	(0, N=0)
+	(0, N=0) --> (out, out + N=0)
 */
 
 #define _open_initial_brackets_2(dir, inv, op, label, rtn, stmt) \
