@@ -39,13 +39,14 @@ namespace structural	{
 		typedef grammaric::structural::media<size_type> gsm_traits;
 		typedef iterator::structural::semiotic<size_type> iss_traits;
 
-		typedef word::uint::functional::media<size_type> wufm_policy;
-		typedef word::sint::functional::media<size_type> wsfm_policy;
+		typedef word::uint::functional::semiotic<size_type> wufs_policy;
+		typedef word::sint::functional::semiotic<size_type> wsfs_policy;
 
 		typedef iterator::procedural::hook::semiotic<size_type> iphs_policy;
 
 		#include"base/semiotic.cpp"
 		#include"identity/semiotic.cpp"
+		#include"uint/semiotic.cpp"
 	};
 
 	template<typename SizeType>

@@ -38,8 +38,6 @@ namespace functional	{
 	template<typename SizeType>
 	struct semiotic
 	{
-		static_assert(limits<SizeType>::min, "sint template parameter unsigned!");
-
 		typedef SizeType size_type;
 
 		typedef grammaric::functional::media<size_type> gfm_policy;

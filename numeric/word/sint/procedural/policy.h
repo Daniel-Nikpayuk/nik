@@ -48,6 +48,8 @@ namespace procedural	{
 	template<typename SizeType>
 	struct media
 	{
+		static_assert(functional::limits<SizeType>::min, "sint function argument unsigned!");
+
 		typedef SizeType size_type;
 
 		typedef grammaric::functional::media<size_type> gfm_policy;

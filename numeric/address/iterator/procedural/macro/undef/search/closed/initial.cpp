@@ -15,19 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+/*
+	This code is not intended to be used standalone.
+	It needs to be equipped with a context to be interpreted by the compiler.
+*/
 
-#include"printer.h"
+#undef closed_initial_no_return_find_index_before_last
+#undef closed_initial_with_return_find_index_before_last
 
-#include"error.h"
+#undef closed_initial_no_return_find_index_before_end
+#undef closed_initial_with_return_find_index_before_end
 
-#include"namespace.h"
-
-#include"traits.h"
-
-#include"policy.h"
-
-#include"user.h"
-
-#endif

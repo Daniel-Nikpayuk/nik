@@ -15,19 +15,8 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+namespace nik
+{
+	enum Interval { closed=0, closing, open, opening };
+}
 
-#include"printer.h"
-
-#include"error.h"
-
-#include"namespace.h"
-
-#include"traits.h"
-
-#include"policy.h"
-
-#include"user.h"
-
-#endif

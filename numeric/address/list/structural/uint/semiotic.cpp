@@ -21,11 +21,10 @@
 	Test against self-assignment!
 */
 
-template<typename T, size_type IntervalType=nik::closing>
-struct identity
+struct uint
 {
 	protected:
-		typedef semiotic::base<T, IntervalType> base;
+		typedef semiotic::base<size_type, nik::closed> base;
 	public:
 		typedef typename base::value_type value_type;
 		typedef typename base::reference reference;
@@ -33,41 +32,38 @@ struct identity
 		typedef typename base::node node;
 		typedef typename base::iterator iterator;
 		typedef typename base::const_iterator const_iterator;
-		typedef typename base::size_type size_type;
-
-		static constexpr size_type interval_type=base::interval_type;
 	protected:
-			// subidentity.initial is interpreted to be "before initial".
-			// subidentity.terminal is interpreted to be "this terminal".
-		base subidentity;
+			// subuint.initial is interpreted to be "before initial".
+			// subuint.terminal is interpreted to be "this terminal".
+		base subuint;
 	public:
-//		identity() { fs_policy::identity::initialize::no_return(subidentity); }
+//		uint() { fs_policy::uint::initialize::no_return(subuint); }
 
-//		identity(const identity & l) { fs_policy::identity::copy::no_return(subidentity, l); }
+//		uint(const uint & l) { fs_policy::uint::copy::no_return(subuint, l); }
 
-		~identity() { /*subidentity.terminalize()*/; }
+		~uint() { /*subuint.terminalize()*/; }
 	public:
 
 // element access:
 
-		reference	front()			{ return *+subidentity.initial; }
-		const_reference	front() const		{ return *+subidentity.initial; }
+		reference	front()			{ return *+subuint.initial; }
+		const_reference	front() const		{ return *+subuint.initial; }
 
 // iterators:
 
-		iterator	before_begin()		{ return subidentity.initial; }
-		const_iterator	before_begin() const	{ return subidentity.initial; }
-		const_iterator	cbefore_begin() const	{ return subidentity.initial; }
-		iterator	begin()			{ return +subidentity.initial; }
-		const_iterator	begin() const		{ return +subidentity.initial; }
-		const_iterator	cbegin() const		{ return +subidentity.initial; }
-		iterator	end()			{ return subidentity.terminal; }
-		const_iterator	end() const		{ return subidentity.terminal; }
-		const_iterator	cend() const		{ return subidentity.terminal; }
+		iterator	before_begin()		{ return subuint.initial; }
+		const_iterator	before_begin() const	{ return subuint.initial; }
+		const_iterator	cbefore_begin() const	{ return subuint.initial; }
+		iterator	begin()			{ return +subuint.initial; }
+		const_iterator	begin() const		{ return +subuint.initial; }
+		const_iterator	cbegin() const		{ return +subuint.initial; }
+		iterator	end()			{ return subuint.terminal; }
+		const_iterator	end() const		{ return subuint.terminal; }
+		const_iterator	cend() const		{ return subuint.terminal; }
 
 // capacity:
 
-		bool		empty() const		{ return +subidentity.initial == subidentity.terminal; }
+		bool		empty() const		{ return +subuint.initial == subuint.terminal; }
 		size_type	max_size() const	{ return wufs_policy::unit::is_unsigned ?
 								wufs_policy::unit::max : wsfs_policy::unit::max; }
 
@@ -75,8 +71,8 @@ struct identity
 
 		void clear()
 		{
-			iphs_policy::discrete::clear::no_return(subidentity.initial+1, subidentity.terminal);
-			+subidentity.initial=subidentity.terminal;
+			iphs_policy::discrete::clear::no_return(subuint.initial+1, subuint.terminal);
+			+subuint.initial=subuint.terminal;
 		}
 };
 
@@ -117,56 +113,56 @@ struct identity
 
 		iterator erase_after(const_iterator it)
 		{
-			if (+subidentity.initial != subidentity.terminal)
+			if (+subuint.initial != subuint.terminal)
 				return snrlf_policy::ptr::eject::with_return(snpa_policy::meta::template recast<iterator>(it));
 		}
 */
 /*
-	As first and last *should be* iterators within the bounds of subidentity.initial and subidentity.terminal, a comparative approach (<=)
+	As first and last *should be* iterators within the bounds of subuint.initial and subuint.terminal, a comparative approach (<=)
 	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
 	should be, for efficiency I've left it as is (it might change in the future).
 */
 /*
 		iterator erase_after(const_iterator first, const_iterator last)
 		{
-			if (+subidentity.initial != subidentity.terminal)
+			if (+subuint.initial != subuint.terminal)
 				return snrlf_policy::ptr::eject::with_return(
 					snpa_policy::meta::template recast<iterator>(first),
 					snpa_policy::meta::template recast<iterator>(last));
 		}
 
 		void push_front(const value_type & value)
-			{ snrlf_policy::ptr::impend::template no_return<node>(subidentity.initial, value); }
+			{ snrlf_policy::ptr::impend::template no_return<node>(subuint.initial, value); }
 
 		void push_front(value_type && value)
-			{ snrlf_policy::ptr::impend::template no_return<node>(subidentity.initial, value); }
+			{ snrlf_policy::ptr::impend::template no_return<node>(subuint.initial, value); }
 
 		void pop_front()
 		{
-			if (+subidentity.initial != subidentity.terminal)
-				snrlf_policy::ptr::eject::no_return(subidentity.initial);
+			if (+subuint.initial != subuint.terminal)
+				snrlf_policy::ptr::eject::no_return(subuint.initial);
 		}
 */
 
 /*
 		void resize(size_type count)
 		{
-			size_type cap=subidentity::size();
-			if (count > cap) snrlf_policy::insert(subidentity, subidentity.terminal, count-cap, value_type());
+			size_type cap=subuint::size();
+			if (count > cap) snrlf_policy::insert(subuint, subuint.terminal, count-cap, value_type());
 		}
 
 		void resize(size_type count, const value_type & value)
 		{
-			size_type cap=subidentity::size();
-			if (count > cap) snrlf_policy::insert(subidentity, subidentity.terminal, count-cap, value);
+			size_type cap=subuint::size();
+			if (count > cap) snrlf_policy::insert(subuint, subuint.terminal, count-cap, value);
 		}
 */
 /*
-		void swap(identity & other)
+		void swap(uint & other)
 		{
-			iterator oinitial=other.subidentity.initial, oterminal=other.subidentity.terminal;
-			other.subidentity.initial=subidentity.initial; other.subidentity.terminal=subidentity.terminal;
-			subidentity.initial=oinitial; subidentity.terminal=oterminal;
+			iterator oinitial=other.subuint.initial, oterminal=other.subuint.terminal;
+			other.subuint.initial=subuint.initial; other.subuint.terminal=subuint.terminal;
+			subuint.initial=oinitial; subuint.terminal=oterminal;
 		}
 */
 

@@ -15,99 +15,66 @@
 **
 *************************************************************************************************************************/
 
+#include"define/semiotic/closed/loop.cpp"
+#include"define/semiotic/closed/count.cpp"
+#include"define/semiotic/closed/unroll.cpp"
+#include"define/semiotic/closed/initial.cpp"
+
+#include"define/semiotic/closing/loop.cpp"
+#include"define/semiotic/closing/count.cpp"
+#include"define/semiotic/closing/unroll.cpp"
+#include"define/semiotic/closing/initial.cpp"
+
+#include"define/semiotic/opening/loop.cpp"
+#include"define/semiotic/opening/count.cpp"
+#include"define/semiotic/opening/unroll.cpp"
+#include"define/semiotic/opening/initial.cpp"
+
+#include"define/semiotic/open/loop.cpp"
+#include"define/semiotic/open/count.cpp"
+#include"define/semiotic/open/unroll.cpp"
+#include"define/semiotic/open/initial.cpp"
+
 struct search
 {
-	struct find
+	#define SGN +
+	#define INV -
+
+	#include"../../macro/define/search/loop_count.cpp"
+
+	template<size_type N, size_type M=0, size_type L=0>
+	struct unroll
 	{
-		struct index
-		{
-			struct before
-			{
-				struct last
-				{
-					template<typename WPointer, typename EWPointer>
-					static void no_return(WPointer out, EWPointer end)
-					{
-						while (+(+out) != end) ++out;
-					}
-
-					template<typename WPointer, typename EWPointer>
-					static WPointer with_return(WPointer out, EWPointer end)
-					{
-						while (+(+out) != end) ++out;
-
-						return out;
-					}
-
-					struct count
-					{
-						template<typename WPointer, typename EWPointer>
-						static void no_return(size_type & count, WPointer out, EWPointer end)
-						{
-							while (+(+out) != end)
-							{
-								++out;
-								++count;
-							}
-						}
-
-						template<typename WPointer, typename EWPointer>
-						static WPointer with_return(size_type & count, WPointer out, EWPointer end)
-						{
-							while (+(+out) != end)
-							{
-								++out;
-								++count;
-							}
-
-							return out;
-						}
-					};
-				};
-
-				struct end
-				{
-					template<typename WPointer, typename EWPointer>
-					static void no_return(WPointer out, EWPointer end)
-					{
-						while (+out != end) ++out;
-					}
-
-					template<typename WPointer, typename EWPointer>
-					static WPointer with_return(WPointer out, EWPointer end)
-					{
-						while (+out != end) ++out;
-
-						return out;
-					}
-
-					struct count
-					{
-						template<typename WPointer, typename EWPointer>
-						static void no_return(size_type & count, WPointer out, EWPointer end)
-						{
-							while (+out != end)
-							{
-								++out;
-								++count;
-							}
-						}
-
-						template<typename WPointer, typename EWPointer>
-						static WPointer with_return(size_type & count, WPointer out, EWPointer end)
-						{
-							while (+out != end)
-							{
-								++out;
-								++count;
-							}
-
-							return out;
-						}
-					};
-				};
-			};
-		};
+//		#include"../../macro/define/search/unroll.cpp"
 	};
+
+	template<size_type M, size_type L>
+	struct unroll<0, M, L>
+	{
+//		#include"../../macro/define/search/initial.cpp"
+	};
+
+	#undef INV
+	#undef SGN
 };
+
+#include"../../macro/undef/search/open/initial.cpp"
+#include"../../macro/undef/search/open/unroll.cpp"
+#include"../../macro/undef/search/open/count.cpp"
+#include"../../macro/undef/search/open/loop.cpp"
+
+#include"../../macro/undef/search/opening/initial.cpp"
+#include"../../macro/undef/search/opening/unroll.cpp"
+#include"../../macro/undef/search/opening/count.cpp"
+#include"../../macro/undef/search/opening/loop.cpp"
+
+#include"../../macro/undef/search/closing/initial.cpp"
+#include"../../macro/undef/search/closing/unroll.cpp"
+#include"../../macro/undef/search/closing/count.cpp"
+#include"../../macro/undef/search/closing/loop.cpp"
+
+#include"../../macro/undef/search/closed/initial.cpp"
+#include"../../macro/undef/search/closed/unroll.cpp"
+#include"../../macro/undef/search/closed/count.cpp"
+#include"../../macro/undef/search/closed/loop.cpp"
 
