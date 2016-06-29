@@ -18,6 +18,8 @@
 #ifndef NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_HOOK_POLICY_H
 #define NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_HOOK_POLICY_H
 
+#include"../../../../word/uint/functional/policy.h"
+
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -32,6 +34,8 @@ namespace hook		{
 	{
 		typedef SizeType size_type;
 
+		typedef word::uint::functional::semiotic<size_type> wufs_policy;
+
 		typedef hook::media<size_type> media;
 
 		#include"zip/semiotic.cpp"
@@ -41,19 +45,18 @@ namespace hook		{
 
 		#include"search/semiotic.cpp"
 
+			template<size_type N, size_type M=0, size_type L=0>
+			using search_unroll=typename search::template unroll<N, M, L>;
+
 		#include"identity/semiotic.cpp"
 
 			template<size_type N, size_type M=0, size_type L=0>
 			using identity_unroll=typename identity::template unroll<N, M, L>;
 
-//		#include"arithmetic/semiotic.cpp"
-
-/*
-			using arit=arithmetic<size_type>;
+		#include"arithmetic/semiotic.cpp"
 
 			template<size_type N, size_type M=0, size_type L=0>
-			using arit_unroll=typename arit::template unroll<N, M, L>;
-*/
+			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 	};
 
 	template<typename SizeType>
@@ -68,23 +71,20 @@ namespace hook		{
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using zip_unroll=zip::template unroll<N, M, L>;
 
+//		#include"search/media.cpp"
+
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using search_unroll=typename search::template unroll<N, M, L>;
+
 //		#include"identity/media.cpp"
 
-/*
-			using identity=discrete<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using identity_unroll=typename identity::template unroll<N, M, L>;
-*/
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using identity_unroll=typename identity::template unroll<N, M, L>;
 
 //		#include"arithmetic/media.cpp"
 
-/*
-			using arit=arithmetic<size_type>;
-
-			template<size_type N, size_type M=0, size_type L=0>
-			using arit_unroll=typename arit::template unroll<N, M, L>;
-*/
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 	};
 
 }}}}}}
