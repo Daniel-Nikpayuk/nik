@@ -250,14 +250,42 @@
 /************************************************************************************************************************/
 
 /*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	rc is the second carry value.
+		Set this to zero for the "normal" interpretation.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator.
+	d is the half digit denominator.
+*/
+
+/*
 	Constraints:
 
 */
 
-#define _closing_loop_divide_half_digit(dir, inv, label, rtn, stmt)
+#define _closing_loop_divide_half_digit(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WValueType1, typename WValueType2, \
+	typename WPointer, typename RIterator, typename ERIterator, typename RValueType> \
+static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n, ERIterator end, RValueType d) \
+{ \
+	while (n != end) \
+	{ \
+		if (rc) *q=wufs_policy::math::divide::half::with_return(rc, rc, r, d); \
+		else if (r >= d) { *q=r/d; rc=r%d; } \
+		else { *q=0; rc=r; } \
+ \
+		r=*n; \
+		q=dir(q)=new WNode; \
+		dir##dir(n); \
+	} \
+ \
+	return q; \
+}
 
 #define closing_loop_no_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, no, void, )
-#define closing_loop_with_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, with, WPointer, return out;)
+#define closing_loop_with_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, with, WPointer, return q;)
 
 /************************************************************************************************************************/
 
@@ -274,70 +302,11 @@
 /************************************************************************************************************************/
 
 /*
-	r is the carry value, which is also semantically meaningful as the remainder.
-		Set this to zero for the "normal" interpretation.
-		Digits are shifted into the carry's registers until big enough to divide.
-	out is the highest location of the quotient to be determined.
-	in is the second highest digit location of the numerator as an N block.
-	d is the single digit denominator.
-*/
-
-/*
 	Constraints:
 
 */
 
-#define _closing_loop_divide_single_digit_half(dir, inv, label, rtn, stmt) \
-template<typename WNode, typename WValueType, typename WPointer, typename RIterator, typename ERIterator, typename RValueType> \
-static rtn label##_return(WValueType carry, WPointer out, RIterator in, ERIterator end, RValueType d) \
-{ \
-	while (in != end) \
-	{ \
-		if (carry >= d) \
-		{ \
-			*out=carry/d; \
-			carry=carry%d; \
-			out=dir(out)=new WNode; \
-		} \
- \
-		(carry <<= wufs_policy::unit::half::length) += *in; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-/*
-	r is the carry value, which is also semantically meaningful as the remainder.
-		Set this to the first digit of the numerator for the "normal" interpretation.
-		Digits are shifted into the carry's registers until big enough to divide.
-	q is the highest location of the quotient to be determined.
-	n is the second highest digit location of the numerator as an N block.
-	d is the single digit denominator.
-*/
-
-/*
-	Constraints:
-
-*/
-
-/*
-#define _closing_loop_divide_single_digit_half(dir, inv, label, rtn, stmt) \
-template<typename ValueType, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(ValueType r, WPointer q, RIterator n, ERIterator end, ValueType d) \
-{ \
-	while (n != end) \
-	{ \
-		if (r < d) *q=0; \
-		else { *q=r/d; r=r%d; } \
- \
-		(r<<=wufs_policy::unit::half::length)+=*n; \
-		--q; --n; \
-	} \
- \
-	stmt \
-}
-*/
+#define _closing_loop_divide_single_digit_half(dir, inv, label, rtn, stmt)
 
 #define closing_loop_no_return_divide_single_digit_half(dir, inv)	_closing_loop_divide_single_digit_half(dir, inv, no, void, )
 #define closing_loop_with_return_divide_single_digit_half(dir, inv)	_closing_loop_divide_single_digit_half(dir, inv, with, WPointer, return out;)

@@ -23,146 +23,56 @@
 
 struct uint
 {
-	protected:
-		typedef semiotic::base<size_type, nik::closed> base;
-	public:
-		typedef typename base::value_type value_type;
-		typedef typename base::reference reference;
-		typedef typename base::const_reference const_reference;
-		typedef typename base::node node;
-		typedef typename base::iterator iterator;
-		typedef typename base::const_iterator const_iterator;
-	protected:
-			// subuint.initial is interpreted to be "before initial".
-			// subuint.terminal is interpreted to be "this terminal".
-		base subuint;
-	public:
-//		uint() { fs_policy::uint::initialize::no_return(subuint); }
+	typedef semiotic::base<size_type, nik::closed> base;
 
-//		uint(const uint & l) { fs_policy::uint::copy::no_return(subuint, l); }
+	typedef typename base::value_type value_type;
+	typedef typename base::reference reference;
+	typedef typename base::const_reference const_reference;
+	typedef typename base::node node;
+	typedef typename base::iterator iterator;
+	typedef typename base::const_iterator const_iterator;
 
-		~uint() { /*subuint.terminalize()*/; }
-	public:
+	size_type order;
+	base subint;
 
-// element access:
+	static void display(const uint & u)
+	{
+		iterator o=new node;
+		+o=u.initial;
 
-		reference	front()			{ return *+subuint.initial; }
-		const_reference	front() const		{ return *+subuint.initial; }
+		base rev;
+		rev.initialize();
+		rev.terminal=iphs_policy::sort::reverse::closed::with_return(rev.initial, o, u.terminal);
 
-// iterators:
+		base num;
+		num.initialize();
+		num.terminal=iphs_policy::arithmetic::radix::half_digit::closing::with_return(num.initial, rev.initial, rev.terminal, 10);
 
-		iterator	before_begin()		{ return subuint.initial; }
-		const_iterator	before_begin() const	{ return subuint.initial; }
-		const_iterator	cbefore_begin() const	{ return subuint.initial; }
-		iterator	begin()			{ return +subuint.initial; }
-		const_iterator	begin() const		{ return +subuint.initial; }
-		const_iterator	cbegin() const		{ return +subuint.initial; }
-		iterator	end()			{ return subuint.terminal; }
-		const_iterator	end() const		{ return subuint.terminal; }
-		const_iterator	cend() const		{ return subuint.terminal; }
+		semiotic::template base<size_type, nik::closing>::print(num);
 
-// capacity:
+		num.terminalize();
+		rev.terminalize();
+		delete o;
+	}
 
-		bool		empty() const		{ return +subuint.initial == subuint.terminal; }
-		size_type	max_size() const	{ return wufs_policy::unit::is_unsigned ?
-								wufs_policy::unit::max : wsfs_policy::unit::max; }
+	uint(size_type u=0) : order(0)
+	{
+		subint.initialize();
+		*subint.initial=u;
+	}
 
-// modifiers:
+	uint(const uint & l) : order(l.order) { subint.initialize_from(l.initial, l.terminal); }
 
-		void clear()
-		{
-			iphs_policy::discrete::clear::no_return(subuint.initial+1, subuint.terminal);
-			+subuint.initial=subuint.terminal;
-		}
+	~uint() { subint.terminalize(); }
+
+	const uint & operator = (size_type u)
+	{
+		subint.initial=iphs_policy::identity::clear::closing::with_return(initial, terminal);
+		*subint.initial=u;
+
+		return *this;
+	}
+
+	bool		zero() const		{ return !degree && !*subint.initial; }
 };
-
-/*
-
-		iterator insert_after(const_iterator it, const value_type & value)
-		{
-			return snrlf_policy::ptr::impend::template
-				with_return<node>(snpa_policy::meta::template recast<iterator>(it), value);
-		}
-
-		iterator insert_after(const_iterator it, value_type && value)
-		{
-			return snrlf_policy::ptr::impend::template
-				with_return<node>(snpa_policy::meta::template recast<iterator>(it), value);
-		}
-
-		iterator insert_after(const_iterator it, size_type count, const value_type & value)
-		{
-			return snrlf_policy::ptr::impend::template
-				with_return<node>(snpa_policy::meta::template recast<iterator>(it), count, value);
-		}
-*/
-/*
-	Included to resolve type deduction when "count" and "value" are integer constants. Otherwise the template version is privileged
-	as a better match.
-*/
-/*
-		iterator insert_after(const_iterator it, int count, const value_type & value)
-			{ return insert_after(it, (size_type) count, value); }
-
-		template<typename RIterator, typename ERIterator>
-		iterator insert_after(const_iterator it, RIterator first, ERIterator last)
-		{
-			return snrlf_policy::ptr::impend::template
-				with_return<node>(snpa_policy::meta::template recast<iterator>(it), first, last);
-		}
-
-		iterator erase_after(const_iterator it)
-		{
-			if (+subuint.initial != subuint.terminal)
-				return snrlf_policy::ptr::eject::with_return(snpa_policy::meta::template recast<iterator>(it));
-		}
-*/
-/*
-	As first and last *should be* iterators within the bounds of subuint.initial and subuint.terminal, a comparative approach (<=)
-	is preferred, but would run in linear time. As such, although the main conditional test isn't as logically robust as it
-	should be, for efficiency I've left it as is (it might change in the future).
-*/
-/*
-		iterator erase_after(const_iterator first, const_iterator last)
-		{
-			if (+subuint.initial != subuint.terminal)
-				return snrlf_policy::ptr::eject::with_return(
-					snpa_policy::meta::template recast<iterator>(first),
-					snpa_policy::meta::template recast<iterator>(last));
-		}
-
-		void push_front(const value_type & value)
-			{ snrlf_policy::ptr::impend::template no_return<node>(subuint.initial, value); }
-
-		void push_front(value_type && value)
-			{ snrlf_policy::ptr::impend::template no_return<node>(subuint.initial, value); }
-
-		void pop_front()
-		{
-			if (+subuint.initial != subuint.terminal)
-				snrlf_policy::ptr::eject::no_return(subuint.initial);
-		}
-*/
-
-/*
-		void resize(size_type count)
-		{
-			size_type cap=subuint::size();
-			if (count > cap) snrlf_policy::insert(subuint, subuint.terminal, count-cap, value_type());
-		}
-
-		void resize(size_type count, const value_type & value)
-		{
-			size_type cap=subuint::size();
-			if (count > cap) snrlf_policy::insert(subuint, subuint.terminal, count-cap, value);
-		}
-*/
-/*
-		void swap(uint & other)
-		{
-			iterator oinitial=other.subuint.initial, oterminal=other.subuint.terminal;
-			other.subuint.initial=subuint.initial; other.subuint.terminal=subuint.terminal;
-			subuint.initial=oinitial; subuint.terminal=oterminal;
-		}
-*/
 

@@ -42,10 +42,21 @@ struct base
 
 	iterator initial;
 	iterator terminal;
-/*
-	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
-	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
-*/
+
+	static void print(const base & b)
+	{
+		for (iterator k=b.initial; k != b.terminal; ++k)
+		{
+			builtin.print(*k);
+			builtin.print(' ');
+		}
+
+		builtin.print(endl);
+	}
+
+//	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
+//	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
+
 	void initialize()
 		{ initial=terminal=new node; }
 
@@ -90,10 +101,22 @@ struct base<T, nik::closed>
 
 	iterator initial;
 	iterator terminal;
-/*
-	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
-	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
-*/
+
+	static void print(const base & b)
+	{
+		for (iterator k=b.initial; k != b.terminal; ++k)
+		{
+			builtin.print(*k);
+			builtin.print(' ');
+		}
+
+		builtin.print(*k);
+		builtin.print(endl);
+	}
+
+//	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
+//	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
+
 	void initialize()
 		{ initial=terminal=new node; }
 
@@ -138,10 +161,23 @@ struct base<T, nik::opening>
 
 	iterator initial;
 	iterator terminal;
-/*
-	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
-	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
-*/
+
+	static void print(const base & b)
+	{
+		iterator k=b.initial;
+		while (k != b.terminal)
+		{
+			++k;
+			builtin.print(*k);
+			builtin.print(' ');
+		}
+
+		builtin.print(endl);
+	}
+
+//	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
+//	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
+
 	void initialize()
 		{ initial=terminal=new node; }
 
@@ -187,10 +223,21 @@ struct base<T, nik::open>
 
 	iterator initial;
 	iterator terminal;
-/*
-	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
-	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
-*/
+
+	static void print(const base & b)
+	{
+		for (iterator k=+b.initial; k != b.terminal; ++k)
+		{
+			builtin.print(*k);
+			builtin.print(' ');
+		}
+
+		builtin.print(endl);
+	}
+
+//	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
+//	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
+
 	void initialize()
 	{
 		terminal=new node;

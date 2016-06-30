@@ -650,6 +650,44 @@ namespace nik
 
 					return q;
 				}
+/*
+	r is the carry value, which is also semantically meaningful as the remainder.
+		Set this to the first digit of the numerator for the "normal" interpretation.
+		Digits are shifted into the carry's registers until big enough to divide.
+	q is the highest location of the quotient to be determined.
+	n is the second highest digit location of the numerator as an N block.
+	d is the single digit denominator.
+*/
+				struct half
+				{
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static void no_return(ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+					{
+						while (n != end)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=c_policy::unit::half::length)+=*n;
+							--q; --n;
+						}
+					}
+
+					template<typename ValueType, typename WIterator, typename RIterator, typename ERIterator>
+					static WIterator with_return(ValueType r, WIterator q, RIterator n, ERIterator end, ValueType d)
+					{
+						while (n != end)
+						{
+							if (r < d) *q=0;
+							else { *q=r/d; r=r%d; }
+
+							(r<<=c_policy::unit::half::length)+=*n;
+							--q; --n;
+						}
+
+						return q;
+					}
+				};
 			};
 		};
 

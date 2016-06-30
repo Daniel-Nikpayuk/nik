@@ -33,7 +33,6 @@ struct math
 	{
 	/*
 		Reverify this is optimized.
-	*/
 		static size_type low_return(size_type mid1, size_type mid2)
 		{
 			size_type	little_in1=sift::semiotic::low::with_return(mid1),
@@ -49,11 +48,11 @@ struct math
 
 			return little_in2+sift::semiotic::left_shift::with_return(mid1);
 		}
+	*/
 	/*
 		Adds the initial out value to the return value (carry).
 		The return value is the "little" digit.
 		out is the "big" digit.
-	*/
 		static size_type low_return(size_type & out, size_type mid1, size_type mid2)
 		{
 			size_type	little_in1=sift::semiotic::low::with_return(mid1),
@@ -81,12 +80,12 @@ struct math
 
 			return big_in2;
 		}
+	*/
 	/*
 		Adds to the existing out regardless of its initial value.
 		The return value is the "big" digit.
 		out is the "little" digit.
 		This is intuitively opposite of what it should be, but implements recursively/iteratively better when unrolling.
-	*/
 		static size_type high_return(size_type & out, size_type mid1, size_type mid2)
 		{
 			size_type	little_in1=sift::semiotic::low::with_return(mid1),
@@ -110,15 +109,8 @@ struct math
 				(out < little_in1);
 			// uses mid1, mid2, little_in1, big_in1, little_in2, big_in2, 
 		}
-	};
-
-	/*
-		divide:
-
-		These algorithms are highly optimized and only work (semantically) if (in1|in2 >= d) where (in1 != 0), and (in1 < d).
-
-		The cases d == 0 , d == 1 are not covered as no optimized algorithms are required.
 	*/
+	};
 
 	/*
 		divide:
@@ -130,15 +122,18 @@ struct math
 
 	struct divide
 	{
-		static constexpr size_type length = f_policy::unit::semiotic::length;
-		static constexpr size_type max = f_policy::unit::semiotic::max;
-		static constexpr size_type head = f_policy::unit::semiotic::head;
+/*
+		static constexpr size_type length = fs_policy::unit::length;
+		static constexpr size_type max = fs_policy::unit::max;
+		static constexpr size_type head = fs_policy::unit::head;
 
-		static constexpr size_type half_length = f_policy::unit::semiotic::half::length;
-		static constexpr size_type half_max = f_policy::unit::semiotic::half::max;
+		static constexpr size_type half_length = fs_policy::unit::half::length;
+		static constexpr size_type half_max = fs_policy::unit::half::max;
+
+		static constexpr size_type low_pass = fs_policy::unit::filter::low_pass;
+*/
 	/*
 		The case where d == 2 implies in1 == 1:
-	*/
 		struct shift
 		{
 
@@ -148,6 +143,7 @@ struct math
 				return head + (in2 >> 1);
 			}
 		};
+	*/
 
 		struct half
 		{
@@ -160,24 +156,24 @@ struct math
 	*/
 			static size_type with_return(size_type & out, size_type in1, size_type in2, size_type d)
 			{
-				size_type	little_in2=sift::semiotic::low::with_return(in2),
-						big_in2=sift::semiotic::high::with_return(in2);
+				size_type	little_in2	= (fs_policy::unit::filter::low_pass & in2),
+						big_in2		= (in2 >> fs_policy::unit::half::length);
 
 				// in2 is now free.
-				in2=sift::semiotic::left_shift::with_return(in1)+big_in2;
-				// in1, high_in2 are now free.
-				in1=in2/d; big_in2=in2%d;
+				in2 = (in1 << fs_policy::unit::half::length) + big_in2;
+				// in1, big_in2 are now free.
+				in1 = in2/d; big_in2 = in2%d;
 
-				in1 <<= half_length;
-				(big_in2 <<= half_length) += little_in2;
+				(big_in2 <<= fs_policy::unit::half::length) += little_in2;
 				// little_in2 is now free.
 
-				little_in2=big_in2/d; out=big_in2%d;
+				little_in2 = big_in2/d; out = big_in2%d;
 
-				return in1+little_in2;
+				return (in1 <<= fs_policy::unit::half::length) + little_in2;
 			}
 		};
 
+/*
 		static bool improve_quotient(size_type & q, size_type uc, size_type u, size_type v)
 		{
 			size_type t=0, tc=multiply::high_return(t, v, q);
@@ -203,6 +199,7 @@ struct math
 
 			return q;
 		}
+*/
 	/*
 			The full algorithm assumes u=(u3|u2|u1|u0), v=(v1|v0), where (u3|u2) < v.
 			After the Knuth normalization, we end up with n=(n3|n2|n1|n0), as well as d=(d1|d0).
@@ -223,6 +220,7 @@ struct math
 
 			Debugging note: Every function call within needs to be "half" robust.
 	*/
+/*
 		static size_type clean_return(size_type & r, size_type in1, size_type in2, size_type d)
 		{
 			size_type q=0;
@@ -280,6 +278,7 @@ struct math
 
 			return in1;
 		}
+*/
 	};
 };
 

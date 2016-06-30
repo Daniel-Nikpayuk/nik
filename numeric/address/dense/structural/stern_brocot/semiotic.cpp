@@ -28,7 +28,7 @@ struct stern_brocot
 	size_type *sup_num;
 	size_type *sup_denom;
 
-	static void print(const stern_brocot & i)
+	static void verbatim(const stern_brocot & i)
 	{
 		for (size_type k=i.length-1; k != -1; --k)
 		{

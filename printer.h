@@ -58,13 +58,17 @@ namespace nik
 	{
 		using builtin_printer::print;
 
-		template<typename R>
-		static void print(const R & r) { R::print(r); }
+		template<typename Container>
+		static void print(const Container & c) { Container::verbatim(c); }
 
 	} verbatim;
 
 	struct display_printer : public builtin_printer
 	{
+		using builtin_printer::print;
+
+		template<typename Container>
+		static void print(const Container & c) { Container::display(c); }
 
 	} display;
 }
