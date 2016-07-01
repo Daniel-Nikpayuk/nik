@@ -45,6 +45,15 @@ struct plus
  \
 		name##_count_no_return##label##_2(SGN, INV, +) \
 		name##_count_with_return##label##_2(SGN, INV, +) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =+) \
+		name##_reverse_with_return##label##_1(SGN, INV, =+) \
+ \
+		name##_reverse_no_return##label##_2(SGN, INV, +) \
+		name##_reverse_with_return##label##_2(SGN, INV, +) \
 	};
 
 	#define plus_interval(name) \
@@ -92,6 +101,15 @@ struct minus
  \
 		name##_count_no_return##label##_2(SGN, INV, -) \
 		name##_count_with_return##label##_2(SGN, INV, -) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =-) \
+		name##_reverse_with_return##label##_1(SGN, INV, =-) \
+ \
+		name##_reverse_no_return##label##_2(SGN, INV, -) \
+		name##_reverse_with_return##label##_2(SGN, INV, -) \
 	};
 
 	#define minus_interval(name) \
@@ -139,6 +157,15 @@ struct asterisk
  \
 		name##_count_no_return##label##_2(SGN, INV, *) \
 		name##_count_with_return##label##_2(SGN, INV, *) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =*) \
+		name##_reverse_with_return##label##_1(SGN, INV, =*) \
+ \
+		name##_reverse_no_return##label##_2(SGN, INV, *) \
+		name##_reverse_with_return##label##_2(SGN, INV, *) \
 	};
 
 	#define asterisk_interval(name) \
@@ -178,6 +205,12 @@ struct slash
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, /) \
 		name##_count_with_return##label##_2(SGN, INV, /) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, /) \
+		name##_reverse_with_return##label##_2(SGN, INV, /) \
 	};
 
 	#define slash_interval(name) \
@@ -217,6 +250,12 @@ struct percent
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, %) \
 		name##_count_with_return##label##_2(SGN, INV, %) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, %) \
+		name##_reverse_with_return##label##_2(SGN, INV, %) \
 	};
 
 	#define percent_interval(name) \
@@ -256,6 +295,12 @@ struct caret
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, ^) \
 		name##_count_with_return##label##_2(SGN, INV, ^) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, ^) \
+		name##_reverse_with_return##label##_2(SGN, INV, ^) \
 	};
 
 	#define caret_interval(name) \
@@ -303,6 +348,15 @@ struct ampersand
  \
 		name##_count_no_return##label##_2(SGN, INV, &) \
 		name##_count_with_return##label##_2(SGN, INV, &) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =&) \
+		name##_reverse_with_return##label##_1(SGN, INV, =&) \
+ \
+		name##_reverse_no_return##label##_2(SGN, INV, &) \
+		name##_reverse_with_return##label##_2(SGN, INV, &) \
 	};
 
 	#define ampersand_interval(name) \
@@ -342,6 +396,12 @@ struct bar
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, |) \
 		name##_count_with_return##label##_2(SGN, INV, |) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, |) \
+		name##_reverse_with_return##label##_2(SGN, INV, |) \
 	};
 
 	#define bar_interval(name) \
@@ -383,6 +443,12 @@ struct tilde
 	{ \
 		name##_count_no_return##label##_1(SGN, INV, =~) \
 		name##_count_with_return##label##_1(SGN, INV, =~) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =~) \
+		name##_reverse_with_return##label##_1(SGN, INV, =~) \
 	};
 
 	#define tilde_interval(name) \
@@ -424,6 +490,12 @@ struct exclamation
 	{ \
 		name##_count_no_return##label##_1(SGN, INV, =!) \
 		name##_count_with_return##label##_1(SGN, INV, =!) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =!) \
+		name##_reverse_with_return##label##_1(SGN, INV, =!) \
 	};
 
 	#define exclamation_interval(name) \
@@ -463,6 +535,12 @@ struct less_than
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, <) \
 		name##_count_with_return##label##_2(SGN, INV, <) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, <) \
+		name##_reverse_with_return##label##_2(SGN, INV, <) \
 	};
 
 	#define less_than_interval(name) \
@@ -502,6 +580,12 @@ struct greater_than
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, >) \
 		name##_count_with_return##label##_2(SGN, INV, >) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, >) \
+		name##_reverse_with_return##label##_2(SGN, INV, >) \
 	};
 
 	#define greater_than_interval(name) \
@@ -541,6 +625,12 @@ struct left_shift
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, <<) \
 		name##_count_with_return##label##_2(SGN, INV, <<) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, <<) \
+		name##_reverse_with_return##label##_2(SGN, INV, <<) \
 	};
 
 	#define left_shift_interval(name) \
@@ -580,6 +670,12 @@ struct right_shift
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, >>) \
 		name##_count_with_return##label##_2(SGN, INV, >>) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, >>) \
+		name##_reverse_with_return##label##_2(SGN, INV, >>) \
 	};
 
 	#define right_shift_interval(name) \
@@ -619,6 +715,12 @@ struct equals
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, ==) \
 		name##_count_with_return##label##_2(SGN, INV, ==) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, ==) \
+		name##_reverse_with_return##label##_2(SGN, INV, ==) \
 	};
 
 	#define equals_interval(name) \
@@ -658,6 +760,12 @@ struct not_equals
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, !=) \
 		name##_count_with_return##label##_2(SGN, INV, !=) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, !=) \
+		name##_reverse_with_return##label##_2(SGN, INV, !=) \
 	};
 
 	#define not_equals_interval(name) \
@@ -697,6 +805,12 @@ struct less_than_or_equal
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, <=) \
 		name##_count_with_return##label##_2(SGN, INV, <=) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, <=) \
+		name##_reverse_with_return##label##_2(SGN, INV, <=) \
 	};
 
 	#define less_than_or_equal_interval(name) \
@@ -736,6 +850,12 @@ struct greater_than_or_equal
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, >=) \
 		name##_count_with_return##label##_2(SGN, INV, >=) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, >=) \
+		name##_reverse_with_return##label##_2(SGN, INV, >=) \
 	};
 
 	#define greater_than_or_equal_interval(name) \
@@ -775,6 +895,12 @@ struct logical_and
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, &&) \
 		name##_count_with_return##label##_2(SGN, INV, &&) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, &&) \
+		name##_reverse_with_return##label##_2(SGN, INV, &&) \
 	};
 
 	#define logical_and_interval(name) \
@@ -814,6 +940,12 @@ struct logical_or
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, ||) \
 		name##_count_with_return##label##_2(SGN, INV, ||) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, ||) \
+		name##_reverse_with_return##label##_2(SGN, INV, ||) \
 	};
 
 	#define logical_or_interval(name) \
@@ -851,6 +983,11 @@ struct left_increment
 	struct count \
 	{ \
 		name##_count_no_return_left##label##_0(SGN, INV, ++) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_left##label##_0(SGN, INV, ++) \
 	};
 
 	#define left_increment_interval(name) \
@@ -884,6 +1021,11 @@ struct right_increment
 	struct count \
 	{ \
 		name##_count_no_return_right##label##_0(SGN, INV, ++) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_right##label##_0(SGN, INV, ++) \
 	};
 
 	#define right_increment_interval(name) \
@@ -921,6 +1063,11 @@ struct left_decrement
 	struct count \
 	{ \
 		name##_count_no_return_left##label##_0(SGN, INV, --) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_left##label##_0(SGN, INV, --) \
 	};
 
 	#define left_decrement_interval(name) \
@@ -954,6 +1101,11 @@ struct right_decrement
 	struct count \
 	{ \
 		name##_count_no_return_right##label##_0(SGN, INV, --) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_right##label##_0(SGN, INV, --) \
 	};
 
 	#define right_decrement_interval(name) \
@@ -987,6 +1139,10 @@ struct comma
 {
 	#define comma_as_interval(name, label) \
 	struct count \
+	{ \
+	}; \
+ \
+	struct reverse \
 	{ \
 	};
 
@@ -1027,6 +1183,12 @@ struct point_asterisk
 	{ \
 		name##_count_no_return##label##_2(SGN, INV, ->*) \
 		name##_count_with_return##label##_2(SGN, INV, ->*) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_2(SGN, INV, ->*) \
+		name##_reverse_with_return##label##_2(SGN, INV, ->*) \
 	};
 
 	#define point_asterisk_interval(name) \
@@ -1064,6 +1226,11 @@ struct point
 	struct count \
 	{ \
 		name##_count_with_return##label##_2(SGN, INV, .operator->) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_with_return##label##_2(SGN, INV, .operator->) \
 	};
 
 	#define point_interval(name) \
@@ -1115,6 +1282,17 @@ struct parentheses
  \
 		name##_count_no_return##label##_2(SGN, INV, ) \
 		name##_count_with_return##label##_2(SGN, INV, ) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_right##label##_0(SGN, INV, ()) \
+ \
+		name##_reverse_no_return_right##label##_1(SGN, INV, =, ()) \
+		name##_reverse_with_return_right##label##_1(SGN, INV, =, ()) \
+ \
+		name##_reverse_no_return##label##_2(SGN, INV, ) \
+		name##_reverse_with_return##label##_2(SGN, INV, ) \
 	};
 
 	#define parentheses_interval(name) \
@@ -1154,6 +1332,12 @@ struct brackets
 	{ \
 		name##_count_no_return_brackets##label##_2(SGN, INV, ) \
 		name##_count_with_return_brackets##label##_2(SGN, INV, ) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_brackets##label##_2(SGN, INV, ) \
+		name##_reverse_with_return_brackets##label##_2(SGN, INV, ) \
 	};
 
 	#define brackets_interval(name) \
@@ -1193,6 +1377,12 @@ struct repeat
 	{ \
 		name##_count_no_return##label##_0(SGN, INV, =) \
 		name##_count_with_return##label##_0(SGN, INV, =) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_0(SGN, INV, =) \
+		name##_reverse_with_return##label##_0(SGN, INV, =) \
 	};
 
 	#define repeat_interval(name) \
@@ -1227,6 +1417,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, +=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, +=) \
 		};
 
 		#define repeat_plus_interval(name) \
@@ -1262,6 +1457,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, -=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, -=) \
 		};
 
 		#define repeat_minus_interval(name) \
@@ -1297,6 +1497,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, *=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, *=) \
 		};
 
 		#define repeat_asterisk_interval(name) \
@@ -1332,6 +1537,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, /=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, /=) \
 		};
 
 		#define repeat_slash_interval(name) \
@@ -1367,6 +1577,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, %=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, %=) \
 		};
 
 		#define repeat_percent_interval(name) \
@@ -1402,6 +1617,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, ^=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, ^=) \
 		};
 
 		#define repeat_caret_interval(name) \
@@ -1437,6 +1657,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, &=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, &=) \
 		};
 
 		#define repeat_ampersand_interval(name) \
@@ -1472,6 +1697,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, |=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, |=) \
 		};
 
 		#define repeat_bar_interval(name) \
@@ -1507,6 +1737,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, >>=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, >>=) \
 		};
 
 		#define repeat_right_shift_interval(name) \
@@ -1542,6 +1777,11 @@ struct repeat
 		struct count \
 		{ \
 			name##_count_no_return##label##_0(SGN, INV, <<=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_0(SGN, INV, <<=) \
 		};
 
 		#define repeat_left_shift_interval(name) \
@@ -1582,6 +1822,12 @@ struct assign
 	{ \
 		name##_count_no_return##label##_1(SGN, INV, =) \
 		name##_count_with_return##label##_1(SGN, INV, =) \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return##label##_1(SGN, INV, =) \
+		name##_reverse_with_return##label##_1(SGN, INV, =) \
 	};
 
 	#define assign_interval(name) \
@@ -1618,6 +1864,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, +=) \
 			name##_count_with_return##label##_1(SGN, INV, +=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, +=) \
+			name##_reverse_with_return##label##_1(SGN, INV, +=) \
 		};
 
 		#define assign_plus_interval(name) \
@@ -1655,6 +1907,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, -=) \
 			name##_count_with_return##label##_1(SGN, INV, -=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, -=) \
+			name##_reverse_with_return##label##_1(SGN, INV, -=) \
 		};
 
 		#define assign_minus_interval(name) \
@@ -1692,6 +1950,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, *=) \
 			name##_count_with_return##label##_1(SGN, INV, *=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, *=) \
+			name##_reverse_with_return##label##_1(SGN, INV, *=) \
 		};
 
 		#define assign_asterisk_interval(name) \
@@ -1729,6 +1993,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, /=) \
 			name##_count_with_return##label##_1(SGN, INV, /=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, /=) \
+			name##_reverse_with_return##label##_1(SGN, INV, /=) \
 		};
 
 		#define assign_slash_interval(name) \
@@ -1766,6 +2036,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, %=) \
 			name##_count_with_return##label##_1(SGN, INV, %=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, %=) \
+			name##_reverse_with_return##label##_1(SGN, INV, %=) \
 		};
 
 		#define assign_percent_interval(name) \
@@ -1803,6 +2079,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, ^=) \
 			name##_count_with_return##label##_1(SGN, INV, ^=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, ^=) \
+			name##_reverse_with_return##label##_1(SGN, INV, ^=) \
 		};
 
 		#define assign_caret_interval(name) \
@@ -1840,6 +2122,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, &=) \
 			name##_count_with_return##label##_1(SGN, INV, &=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, &=) \
+			name##_reverse_with_return##label##_1(SGN, INV, &=) \
 		};
 
 		#define assign_ampersand_interval(name) \
@@ -1877,6 +2165,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, |=) \
 			name##_count_with_return##label##_1(SGN, INV, |=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, |=) \
+			name##_reverse_with_return##label##_1(SGN, INV, |=) \
 		};
 
 		#define assign_bar_interval(name) \
@@ -1914,6 +2208,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, >>=) \
 			name##_count_with_return##label##_1(SGN, INV, >>=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, >>=) \
+			name##_reverse_with_return##label##_1(SGN, INV, >>=) \
 		};
 
 		#define assign_right_shift_interval(name) \
@@ -1951,6 +2251,12 @@ struct assign
 		{ \
 			name##_count_no_return##label##_1(SGN, INV, <<=) \
 			name##_count_with_return##label##_1(SGN, INV, <<=) \
+		}; \
+ \
+		struct reverse \
+		{ \
+			name##_reverse_no_return##label##_1(SGN, INV, <<=) \
+			name##_reverse_with_return##label##_1(SGN, INV, <<=) \
 		};
 
 		#define assign_left_shift_interval(name) \
@@ -2005,6 +2311,21 @@ struct allocate
 			name##_count_no_return_new_brackets##label##_1(SGN, INV) \
 			name##_count_with_return_new_brackets##label##_1(SGN, INV) \
 		}; \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_new##label##_0(SGN, INV) \
+		name##_reverse_with_return_new##label##_0(SGN, INV) \
+ \
+		struct brackets \
+		{ \
+			name##_reverse_no_return_new_brackets##label##_0(SGN, INV) \
+			name##_reverse_with_return_new_brackets##label##_0(SGN, INV) \
+ \
+			name##_reverse_no_return_new_brackets##label##_1(SGN, INV) \
+			name##_reverse_with_return_new_brackets##label##_1(SGN, INV) \
+		}; \
 	};
 
 	#define allocate_interval(name) \
@@ -2051,6 +2372,18 @@ struct deallocate
 		{ \
 			name##_count_no_return_delete_brackets##label##_0(SGN, INV) \
 			name##_count_with_return_delete_brackets##label##_0(SGN, INV) \
+		}; \
+	}; \
+ \
+	struct reverse \
+	{ \
+		name##_reverse_no_return_delete##label##_0(SGN, INV) \
+		name##_reverse_with_return_delete##label##_0(SGN, INV) \
+ \
+		struct brackets \
+		{ \
+			name##_reverse_no_return_delete_brackets##label##_0(SGN, INV) \
+			name##_reverse_with_return_delete_brackets##label##_0(SGN, INV) \
 		}; \
 	};
 

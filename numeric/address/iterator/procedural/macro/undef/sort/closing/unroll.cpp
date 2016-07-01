@@ -15,42 +15,14 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
-#define NIK_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_FUNCTIONAL_ORDER_H
-
-#include"../../../../../processor/policy/policy.h"
-
 /*
-	Generic iterator methods are classified further by "forward, backward, bidirectional, random_access",
-	but as pointer specifically assumes a linked pointer there is no need for these additional namespaces.
+	This code is not intended to be used standalone.
+	It needs to be equipped with a context to be interpreted by the compiler.
 */
 
-namespace nik
-{
- namespace numeric
- {
-  namespace random_access
-  {
-   namespace iterator
-   {
-    namespace extensionwise
-    {
-     namespace functional
-     {
-	template<typename SizeType>
-	struct order
-	{
-		typedef SizeType size_type;
+#undef closing_unroll_no_return_reverse
+#undef closing_unroll_with_return_reverse
 
-		typedef processor::policy<size_type> p_policy;
+#undef closing_unroll_no_return_assign_reverse
+#undef closing_unroll_with_return_assign_reverse
 
-		#include"media.cpp"
-	};
-     }
-    }
-   }
-  }
- }
-}
-
-#endif
