@@ -45,7 +45,7 @@
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - n, out]
 */
 
 #define _opening_reverse_0(dir, inv, op, label, rtn, stmt) \
@@ -54,10 +54,10 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
+		(*out)op(in); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		(*out)op(in); \
 		--n; \
 	} \
  \
@@ -72,7 +72,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - n, out)
 */
 
 #define _opening_reverse_as_closing_0(dir, inv, op, label, rtn, stmt) \
@@ -81,10 +81,10 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 { \
 	while (n) \
 	{ \
-		(*out)op(in); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		(*out)op(in); \
 		--n; \
 	} \
  \
@@ -99,7 +99,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - (n-1), out], n > 0
 */
 
 #define _opening_reverse_as_closed_0(dir, inv, op, label, rtn, stmt) \
@@ -137,7 +137,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - (n+1), out)
 */
 
 #define _opening_reverse_as_open_0(dir, inv, op, label, rtn, stmt) \
@@ -153,9 +153,9 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 		--n; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -169,7 +169,7 @@ static rtn label##_return(WPointer out, size_type n, ValueType in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - n, out]
 */
 
 #define _opening_reverse_lr_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -178,10 +178,10 @@ static rtn label##_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
+		lp(*out)rp; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		lp(*out)rp; \
 		--n; \
 	} \
  \
@@ -199,7 +199,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - n, out)
 */
 
 #define _opening_reverse_lr_as_closing_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -208,10 +208,10 @@ static rtn label##_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
-		lp(*out)rp; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		lp(*out)rp; \
 		--n; \
 	} \
  \
@@ -229,7 +229,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - (n-1), out], n > 0
 */
 
 #define _opening_reverse_lr_as_closed_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -273,7 +273,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - (n+1), out)
 */
 
 #define _opening_reverse_lr_as_open_0(dir, inv, label, rtn, stmt, lp, rp) \
@@ -289,9 +289,9 @@ static rtn label##_return(WPointer out, size_type n) \
 		--n; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -308,7 +308,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - n, out]
 */
 
 #define _opening_reverse_new_0(dir, inv, label, rtn, stmt) \
@@ -317,10 +317,10 @@ static rtn label##_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
+		*out=new Node(); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		*out=new Node(); \
 		--n; \
 	} \
  \
@@ -335,7 +335,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - n, out)
 */
 
 #define _opening_reverse_new_as_closing_0(dir, inv, label, rtn, stmt) \
@@ -344,10 +344,10 @@ static rtn label##_return(WPointer out, size_type n) \
 { \
 	while (n) \
 	{ \
-		*out=new Node(); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		*out=new Node(); \
 		--n; \
 	} \
  \
@@ -362,7 +362,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - (n-1), out], n > 0
 */
 
 #define _opening_reverse_new_as_closed_0(dir, inv, label, rtn, stmt) \
@@ -400,7 +400,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - (n+1), out)
 */
 
 #define _opening_reverse_new_as_open_0(dir, inv, label, rtn, stmt) \
@@ -416,9 +416,9 @@ static rtn label##_return(WPointer out, size_type n) \
 		--n; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -432,7 +432,7 @@ static rtn label##_return(WPointer out, size_type n) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - n, out]
 */
 
 #define _opening_reverse_new_brackets_0(dir, inv, label, rtn, stmt) \
@@ -441,10 +441,10 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 { \
 	while (n) \
 	{ \
+		*out=new Node[in]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		*out=new Node[in]; \
 		--n; \
 	} \
  \
@@ -459,7 +459,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - n, out)
 */
 
 #define _opening_reverse_new_brackets_as_closing_0(dir, inv, label, rtn, stmt) \
@@ -468,10 +468,10 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 { \
 	while (n) \
 	{ \
-		*out=new Node[in]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		*out=new Node[in]; \
 		--n; \
 	} \
  \
@@ -486,7 +486,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> [out - (n-1), out], n > 0
 */
 
 #define _opening_reverse_new_brackets_as_closed_0(dir, inv, label, rtn, stmt) \
@@ -524,7 +524,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /*
 	Constraints:
 
-	(0, n] --> 
+	(0, n] --> (out - (n+1), out)
 */
 
 #define _opening_reverse_new_brackets_as_open_0(dir, inv, label, rtn, stmt) \
@@ -540,9 +540,9 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 		--n; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -553,31 +553,7 @@ static rtn label##_return(WPointer out, size_type n, size_type in) \
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-/*
-	Constraints:
-
-	(out, end] --> 
-*/
-
-#define _opening_reverse_delete_0(dir, inv, op, label, rtn, stmt) \
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(WPointer out, EWPointer end) \
-{ \
-	dir##dir(out); \
- \
-	while (out != end) \
-	{ \
-		WPointer current=out; \
-		dir##dir(out); \
-		delete op *current; \
-		delete current; \
-	} \
- \
-	delete op *out; \
-	delete out; \
- \
-	stmt \
-}
+#define _opening_reverse_delete_0(dir, inv, op, label, rtn, stmt)
 
 #define opening_reverse_no_return_delete_0(dir, inv)			_opening_reverse_delete_0(dir, inv, , no, void, )
 #define opening_reverse_with_return_delete_0(dir, inv)			// would return a deallocated memory location!
@@ -590,7 +566,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define _opening_reverse_delete_as_closing_0(dir, inv, op, label, rtn, stmt)
 
 #define opening_reverse_no_return_delete_as_closing_0(dir, inv)		_opening_reverse_delete_as_closing_0(dir, inv, , no, void, )
-#define opening_reverse_with_return_delete_as_closing_0(dir, inv)		// would return a deallocated memory location!
+#define opening_reverse_with_return_delete_as_closing_0(dir, inv)	// would return a deallocated memory location!
 
 #define opening_reverse_no_return_delete_brackets_as_closing_0(dir, inv)	_opening_reverse_delete_as_closing_0(dir, inv, [], no, void, )
 #define opening_reverse_with_return_delete_brackets_as_closing_0(dir, inv)	// would return a deallocated memory location!
@@ -600,9 +576,9 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define _opening_reverse_delete_as_closed_0(dir, inv, op, label, rtn, stmt)
 
 #define opening_reverse_no_return_delete_as_closed_0(dir, inv)		_opening_reverse_delete_as_closed_0(dir, inv, , no, void, )
-#define opening_reverse_with_return_delete_as_closed_0(dir, inv)		// would return a deallocated memory location!
+#define opening_reverse_with_return_delete_as_closed_0(dir, inv)	// would return a deallocated memory location!
 
-#define opening_reverse_no_return_delete_brackets_as_closed_0(dir, inv)	_opening_reverse_delete_as_closed_0(dir, inv, [], no, void, )
+#define opening_reverse_no_return_delete_brackets_as_closed_0(dir, inv)		_opening_reverse_delete_as_closed_0(dir, inv, [], no, void, )
 #define opening_reverse_with_return_delete_brackets_as_closed_0(dir, inv)	// would return a deallocated memory location!
 
 /************************************************************************************************************************/
@@ -610,7 +586,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define _opening_reverse_delete_as_opening_0(dir, inv, op, label, rtn, stmt)
 
 #define opening_reverse_no_return_delete_as_opening_0(dir, inv)		_opening_reverse_delete_as_opening_0(dir, inv, , no, void, )
-#define opening_reverse_with_return_delete_as_opening_0(dir, inv)		// would return a deallocated memory location!
+#define opening_reverse_with_return_delete_as_opening_0(dir, inv)	// would return a deallocated memory location!
 
 #define opening_reverse_no_return_delete_brackets_as_opening_0(dir, inv)	_opening_reverse_delete_as_opening_0(dir, inv, [], no, void, )
 #define opening_reverse_with_return_delete_brackets_as_opening_0(dir, inv)	// would return a deallocated memory location!
@@ -631,7 +607,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> (out - (end-in), out]
 */
 
 #define _opening_reverse_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -641,10 +617,10 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		dir##dir(in); \
+		lp(*out)op(*in)rp; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		lp(*out)op(*in)rp; \
 	} \
  \
 	stmt \
@@ -661,7 +637,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> [out - (end-in), out)
 */
 
 #define _opening_reverse_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -671,10 +647,10 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 	while (in != end) \
 	{ \
 		dir##dir(in); \
-		lp(*out)op(*in)rp; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		lp(*out)op(*in)rp; \
 	} \
  \
 	stmt \
@@ -691,7 +667,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> [out - (end-in-1), out], end-in > 0
 */
 
 #define _opening_reverse_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -735,7 +711,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> (out - (end+1-in), out)
 */
 
 #define _opening_reverse_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -751,9 +727,9 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 		lp(*out)op(*in)rp; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -770,7 +746,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> (out - (end-in), out]
 */
 
 #define _opening_reverse_new_brackets_1(dir, inv, label, rtn, stmt) \
@@ -780,10 +756,10 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 	while (in != end) \
 	{ \
 		dir##dir(in); \
+		*out=new Node[*in]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		*out=new Node[*in]; \
 	} \
  \
 	stmt \
@@ -797,7 +773,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> [out - (end-in), out)
 */
 
 #define _opening_reverse_new_brackets_as_closing_1(dir, inv, label, rtn, stmt) \
@@ -807,10 +783,10 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 	while (in != end) \
 	{ \
 		dir##dir(in); \
-		*out=new Node[*in]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		*out=new Node[*in]; \
 	} \
  \
 	stmt \
@@ -824,7 +800,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> [out - (end-in-1), out], end-in > 0
 */
 
 #define _opening_reverse_new_brackets_as_closed_1(dir, inv, label, rtn, stmt) \
@@ -862,7 +838,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end] --> 
+	(in, end] --> (out - (end+1-in), out)
 */
 
 #define _opening_reverse_new_brackets_as_open_1(dir, inv, label, rtn, stmt) \
@@ -878,9 +854,9 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 		*out=new Node[*in]; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -894,7 +870,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> (out - (end2-in2), out]
 */
 
 #define _opening_reverse_2(dir, inv, op, label, rtn, stmt) \
@@ -904,10 +880,10 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
+		*out=(*in1)op(*in2); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		*out=(*in1)op(*in2); \
 	} \
  \
 	stmt \
@@ -921,7 +897,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> [out - (end2-in2), out)
 */
 
 #define _opening_reverse_as_closing_2(dir, inv, op, label, rtn, stmt) \
@@ -931,10 +907,10 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
-		*out=(*in1)op(*in2); \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		*out=(*in1)op(*in2); \
 	} \
  \
 	stmt \
@@ -948,7 +924,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> [out - (end2-in2-1), out], end2-in2 > 0
 */
 
 #define _opening_reverse_as_closed_2(dir, inv, op, label, rtn, stmt) \
@@ -986,7 +962,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> (out - (end2+1-in2), out)
 */
 
 #define _opening_reverse_as_open_2(dir, inv, op, label, rtn, stmt) \
@@ -1002,9 +978,9 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 		*out=(*in1)op(*in2); \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }
@@ -1018,7 +994,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> (out - (end2-in2), out]
 */
 
 #define _opening_reverse_brackets_2(dir, inv, op, label, rtn, stmt) \
@@ -1028,10 +1004,10 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
+		*out=(*in1)op[*in2]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
-		*out=(*in1)op[*in2]; \
 	} \
  \
 	stmt \
@@ -1045,7 +1021,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> [out - (end2-in2), out)
 */
 
 #define _opening_reverse_brackets_as_closing_2(dir, inv, op, label, rtn, stmt) \
@@ -1055,10 +1031,10 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 	while (in2 != end2) \
 	{ \
 		dir##dir(in2); dir##dir(in1); \
-		*out=(*in1)op[*in2]; \
 		WPointer current=out; \
 		out=new WNode; \
 		dir(out)=current; \
+		*out=(*in1)op[*in2]; \
 	} \
  \
 	stmt \
@@ -1072,7 +1048,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> [out - (end2-in2-1), out], end2-in2 > 0
 */
 
 #define _opening_reverse_brackets_as_closed_2(dir, inv, op, label, rtn, stmt) \
@@ -1110,7 +1086,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> 
+	(in2, end2] --> (out - (end2+1-in2), out)
 */
 
 #define _opening_reverse_brackets_as_open_2(dir, inv, op, label, rtn, stmt) \
@@ -1126,9 +1102,9 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 		*out=(*in1)op[*in2]; \
 	} \
  \
-		WPointer current=out; \
-		out=new WNode; \
-		dir(out)=current; \
+	WPointer current=out; \
+	out=new WNode; \
+	dir(out)=current; \
  \
 	stmt \
 }

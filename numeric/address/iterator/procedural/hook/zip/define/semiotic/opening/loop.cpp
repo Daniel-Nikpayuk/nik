@@ -619,7 +619,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	(in, end] --> [out, out + end-in)
+	(in, end] --> [out, out + (end-in))
 */
 
 #define _opening_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -745,7 +745,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	(in, end] --> [out, out + end-in)
+	(in, end] --> [out, out + (end-in))
 */
 
 #define _opening_loop_new_brackets_as_closing_1(dir, inv, label, rtn, stmt) \
@@ -859,7 +859,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> [out, out + end2-in2)
+	(in2, end2] --> [out, out + (end2-in2))
 */
 
 #define _opening_loop_as_closing_2(dir, inv, op, label, rtn, stmt) \
@@ -973,7 +973,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	(in2, end2] --> [out, out + end2-in2)
+	(in2, end2] --> [out, out + (end2-in2))
 */
 
 #define _opening_loop_brackets_as_closing_2(dir, inv, op, label, rtn, stmt) \

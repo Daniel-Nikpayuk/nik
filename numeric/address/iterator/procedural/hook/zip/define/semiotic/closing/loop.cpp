@@ -586,7 +586,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 /*
 	Constraints:
 
-	[in, end) --> [out, out + end-in)
+	[in, end) --> [out, out + (end-in))
 */
 
 #define _closing_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
@@ -608,6 +608,16 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 
 #define closing_loop_no_return_right_1(dir, inv, op, r)			_closing_loop_lr_1(dir, inv, op, no, void, , , r)
 #define closing_loop_with_return_right_1(dir, inv, op, r)		_closing_loop_lr_1(dir, inv, op, with, WPointer, return out;, , r)
+
+/************************************************************************************************************************/
+
+#define _closing_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp)
+
+#define closing_loop_no_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , )
+#define closing_loop_with_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , )
+
+#define closing_loop_no_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , r)
+#define closing_loop_with_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , r)
 
 /************************************************************************************************************************/
 
@@ -638,15 +648,6 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 
 #define closing_loop_no_return_right_as_closed_1(dir, inv, op, r)	_closing_loop_lr_as_closed_1(dir, inv, op, no, void, , , r)
 #define closing_loop_with_return_right_as_closed_1(dir, inv, op, r)	_closing_loop_lr_as_closed_1(dir, inv, op, with, WPointer, return out;, , r)
-
-
-#define _closing_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp)
-
-#define closing_loop_no_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , )
-#define closing_loop_with_return_as_closing_1(dir, inv, op)		_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , )
-
-#define closing_loop_no_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, no, void, , , r)
-#define closing_loop_with_return_right_as_closing_1(dir, inv, op, r)	_closing_loop_lr_as_closing_1(dir, inv, op, with, WPointer, return out;, , r)
 
 /************************************************************************************************************************/
 
@@ -712,7 +713,7 @@ static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
 /*
 	Constraints:
 
-	[in, end) --> [out, out + end-in)
+	[in, end) --> [out, out + (end-in))
 */
 
 #define _closing_loop_new_brackets_1(dir, inv, label, rtn, stmt) \
@@ -824,7 +825,7 @@ static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
 /*
 	Constraints:
 
-	[in2, end2) --> [out, out + end2-in2)
+	[in2, end2) --> [out, out + (end2-in2))
 */
 
 #define _closing_loop_2(dir, inv, op, label, rtn, stmt) \
@@ -936,7 +937,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterat
 /*
 	Constraints:
 
-	[in2, end2) --> [out, out + end2-in2)
+	[in2, end2) --> [out, out + (end2-in2))
 */
 
 #define _closing_loop_brackets_2(dir, inv, op, label, rtn, stmt) \
