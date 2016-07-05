@@ -242,6 +242,31 @@
 
 */
 
+#define _closed_count_multiply(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_multiply(dir, inv)			_closed_count_multiply(dir, inv, no, void, )
+#define closed_count_with_return_multiply(dir, inv)			_closed_count_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_multiply_half(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_multiply_half(dir, inv)			_closed_count_multiply_half(dir, inv, no, void, )
+#define closed_count_with_return_multiply_half(dir, inv)		_closed_count_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _closed_count_divide(dir, inv, label, rtn, stmt)
 
 #define closed_count_no_return_divide(dir, inv)				_closed_count_divide(dir, inv, no, void, )
@@ -291,10 +316,10 @@
 
 */
 
-#define _closed_count_multiply(dir, inv, label, rtn, stmt)
+#define _closed_count_radix(dir, inv, label, rtn, stmt)
 
-#define closed_count_no_return_multiply(dir, inv)			_closed_count_multiply(dir, inv, no, void, )
-#define closed_count_with_return_multiply(dir, inv)			_closed_count_multiply(dir, inv, with, WPointer, return out;)
+#define closed_count_no_return_radix(dir, inv)			_closed_count_radix(dir, inv, no, void, )
+#define closed_count_with_return_radix(dir, inv)			_closed_count_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -303,10 +328,10 @@
 
 */
 
-#define _closed_count_multiply_half(dir, inv, label, rtn, stmt)
+#define _closed_count_radix_half(dir, inv, label, rtn, stmt)
 
-#define closed_count_no_return_multiply_half(dir, inv)			_closed_count_multiply_half(dir, inv, no, void, )
-#define closed_count_with_return_multiply_half(dir, inv)		_closed_count_multiply_half(dir, inv, with, WPointer, return out;)
+#define closed_count_no_return_radix_half(dir, inv)			_closed_count_radix_half(dir, inv, no, void, )
+#define closed_count_with_return_radix_half(dir, inv)		_closed_count_radix_half(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -392,6 +417,31 @@
 
 */
 
+#define _closed_count_assign_multiply(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_assign_multiply(dir, inv)		_closed_count_assign_multiply(dir, inv, no, void, )
+#define closed_count_with_return_assign_multiply(dir, inv)		_closed_count_assign_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closed_count_assign_multiply_half(dir, inv, label, rtn, stmt)
+
+#define closed_count_no_return_assign_multiply_half(dir, inv)		_closed_count_assign_multiply_half(dir, inv, no, void, )
+#define closed_count_with_return_assign_multiply_half(dir, inv)		_closed_count_assign_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _closed_count_assign_divide(dir, inv, label, rtn, stmt)
 
 #define closed_count_no_return_assign_divide(dir, inv)			_closed_count_assign_divide(dir, inv, no, void, )
@@ -441,10 +491,10 @@
 
 */
 
-#define _closed_count_assign_multiply(dir, inv, label, rtn, stmt)
+#define _closed_count_assign_radix(dir, inv, label, rtn, stmt)
 
-#define closed_count_no_return_assign_multiply(dir, inv)		_closed_count_assign_multiply(dir, inv, no, void, )
-#define closed_count_with_return_assign_multiply(dir, inv)		_closed_count_assign_multiply(dir, inv, with, WPointer, return out;)
+#define closed_count_no_return_assign_radix(dir, inv)		_closed_count_assign_radix(dir, inv, no, void, )
+#define closed_count_with_return_assign_radix(dir, inv)		_closed_count_assign_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -453,8 +503,8 @@
 
 */
 
-#define _closed_count_assign_multiply_half(dir, inv, label, rtn, stmt)
+#define _closed_count_assign_radix_half(dir, inv, label, rtn, stmt)
 
-#define closed_count_no_return_assign_multiply_half(dir, inv)		_closed_count_assign_multiply_half(dir, inv, no, void, )
-#define closed_count_with_return_assign_multiply_half(dir, inv)		_closed_count_assign_multiply_half(dir, inv, with, WPointer, return out;)
+#define closed_count_no_return_assign_radix_half(dir, inv)		_closed_count_assign_radix_half(dir, inv, no, void, )
+#define closed_count_with_return_assign_radix_half(dir, inv)		_closed_count_assign_radix_half(dir, inv, with, WPointer, return out;)
 

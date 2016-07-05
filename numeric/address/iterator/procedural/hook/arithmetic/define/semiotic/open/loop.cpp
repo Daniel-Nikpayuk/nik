@@ -242,6 +242,31 @@
 
 */
 
+#define _open_loop_multiply(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_multiply(dir, inv)				_open_loop_multiply(dir, inv, no, void, )
+#define open_loop_with_return_multiply(dir, inv)			_open_loop_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_multiply_half(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_multiply_half(dir, inv)			_open_loop_multiply_half(dir, inv, no, void, )
+#define open_loop_with_return_multiply_half(dir, inv)			_open_loop_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _open_loop_divide(dir, inv, label, rtn, stmt)
 
 #define open_loop_no_return_divide(dir, inv)				_open_loop_divide(dir, inv, no, void, )
@@ -291,10 +316,10 @@
 
 */
 
-#define _open_loop_multiply(dir, inv, label, rtn, stmt)
+#define _open_loop_radix(dir, inv, label, rtn, stmt)
 
-#define open_loop_no_return_multiply(dir, inv)				_open_loop_multiply(dir, inv, no, void, )
-#define open_loop_with_return_multiply(dir, inv)			_open_loop_multiply(dir, inv, with, WPointer, return out;)
+#define open_loop_no_return_radix(dir, inv)				_open_loop_radix(dir, inv, no, void, )
+#define open_loop_with_return_radix(dir, inv)			_open_loop_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -303,10 +328,10 @@
 
 */
 
-#define _open_loop_multiply_half(dir, inv, label, rtn, stmt)
+#define _open_loop_radix_half(dir, inv, label, rtn, stmt)
 
-#define open_loop_no_return_multiply_half(dir, inv)			_open_loop_multiply_half(dir, inv, no, void, )
-#define open_loop_with_return_multiply_half(dir, inv)			_open_loop_multiply_half(dir, inv, with, WPointer, return out;)
+#define open_loop_no_return_radix_half(dir, inv)			_open_loop_radix_half(dir, inv, no, void, )
+#define open_loop_with_return_radix_half(dir, inv)			_open_loop_radix_half(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -392,6 +417,31 @@
 
 */
 
+#define _open_loop_assign_multiply(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_assign_multiply(dir, inv)			_open_loop_assign_multiply(dir, inv, no, void, )
+#define open_loop_with_return_assign_multiply(dir, inv)			_open_loop_assign_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_loop_assign_multiply_half(dir, inv, label, rtn, stmt)
+
+#define open_loop_no_return_assign_multiply_half(dir, inv)		_open_loop_assign_multiply_half(dir, inv, no, void, )
+#define open_loop_with_return_assign_multiply_half(dir, inv)		_open_loop_assign_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _open_loop_assign_divide(dir, inv, label, rtn, stmt)
 
 #define open_loop_no_return_assign_divide(dir, inv)			_open_loop_assign_divide(dir, inv, no, void, )
@@ -441,10 +491,10 @@
 
 */
 
-#define _open_loop_assign_multiply(dir, inv, label, rtn, stmt)
+#define _open_loop_assign_radix(dir, inv, label, rtn, stmt)
 
-#define open_loop_no_return_assign_multiply(dir, inv)			_open_loop_assign_multiply(dir, inv, no, void, )
-#define open_loop_with_return_assign_multiply(dir, inv)			_open_loop_assign_multiply(dir, inv, with, WPointer, return out;)
+#define open_loop_no_return_assign_radix(dir, inv)			_open_loop_assign_radix(dir, inv, no, void, )
+#define open_loop_with_return_assign_radix(dir, inv)			_open_loop_assign_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -453,8 +503,8 @@
 
 */
 
-#define _open_loop_assign_multiply_half(dir, inv, label, rtn, stmt)
+#define _open_loop_assign_radix_half(dir, inv, label, rtn, stmt)
 
-#define open_loop_no_return_assign_multiply_half(dir, inv)		_open_loop_assign_multiply_half(dir, inv, no, void, )
-#define open_loop_with_return_assign_multiply_half(dir, inv)		_open_loop_assign_multiply_half(dir, inv, with, WPointer, return out;)
+#define open_loop_no_return_assign_radix_half(dir, inv)		_open_loop_assign_radix_half(dir, inv, no, void, )
+#define open_loop_with_return_assign_radix_half(dir, inv)		_open_loop_assign_radix_half(dir, inv, with, WPointer, return out;)
 

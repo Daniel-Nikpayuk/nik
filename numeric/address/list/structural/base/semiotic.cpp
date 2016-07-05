@@ -110,7 +110,7 @@ struct base<T, nik::closed>
 			builtin.print(' ');
 		}
 
-		builtin.print(*k);
+		builtin.print(*b.terminal);
 		builtin.print(endl);
 	}
 

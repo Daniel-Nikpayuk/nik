@@ -66,6 +66,11 @@
 #undef opening_loop_no_return_scale_half
 #undef opening_loop_with_return_scale_half
 
+#undef opening_loop_no_return_multiply
+#undef opening_loop_with_return_multiply
+#undef opening_loop_no_return_multiply_half
+#undef opening_loop_with_return_multiply_half
+
 #undef opening_loop_no_return_divide
 #undef opening_loop_with_return_divide
 #undef opening_loop_no_return_divide_half_digit
@@ -75,10 +80,10 @@
 #undef opening_loop_no_return_divide_half
 #undef opening_loop_with_return_divide_half
 
-#undef opening_loop_no_return_multiply
-#undef opening_loop_with_return_multiply
-#undef opening_loop_no_return_multiply_half
-#undef opening_loop_with_return_multiply_half
+#undef opening_loop_no_return_radix
+#undef opening_loop_with_return_radix
+#undef opening_loop_no_return_radix_half
+#undef opening_loop_with_return_radix_half
 
 //
 
@@ -97,6 +102,11 @@
 #undef opening_loop_no_return_assign_scale_half
 #undef opening_loop_with_return_assign_scale_half
 
+#undef opening_loop_no_return_assign_multiply
+#undef opening_loop_with_return_assign_multiply
+#undef opening_loop_no_return_assign_multiply_half
+#undef opening_loop_with_return_assign_multiply_half
+
 #undef opening_loop_no_return_assign_divide
 #undef opening_loop_with_return_assign_divide
 #undef opening_loop_no_return_assign_divide_half_digit
@@ -106,8 +116,8 @@
 #undef opening_loop_no_return_assign_divide_half
 #undef opening_loop_with_return_assign_divide_half
 
-#undef opening_loop_no_return_assign_multiply
-#undef opening_loop_with_return_assign_multiply
-#undef opening_loop_no_return_assign_multiply_half
-#undef opening_loop_with_return_assign_multiply_half
+#undef opening_loop_no_return_assign_radix
+#undef opening_loop_with_return_assign_radix
+#undef opening_loop_no_return_assign_radix_half
+#undef opening_loop_with_return_assign_radix_half
 

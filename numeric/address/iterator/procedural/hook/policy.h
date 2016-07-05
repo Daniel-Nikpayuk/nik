@@ -38,25 +38,25 @@ namespace hook		{
 
 		typedef hook::media<size_type> media;
 
-		#include"zip/semiotic.cpp"
+		#include"map/semiotic.cpp"
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using zip_unroll=typename zip::template unroll<N, M, L>;
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using map_unroll=typename map::template unroll<N, M, L>;
 
-		#include"search/semiotic.cpp"
+//		#include"search/semiotic.cpp"
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using search_unroll=typename search::template unroll<N, M, L>;
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using search_unroll=typename search::template unroll<N, M, L>;
 
-		#include"identity/semiotic.cpp"
+//		#include"identity/semiotic.cpp"
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using identity_unroll=typename identity::template unroll<N, M, L>;
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using identity_unroll=typename identity::template unroll<N, M, L>;
 
-		#include"arithmetic/semiotic.cpp"
+//		#include"arithmetic/semiotic.cpp"
 
-			template<size_type N, size_type M=0, size_type L=0>
-			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
+//			template<size_type N, size_type M=0, size_type L=0>
+//			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 	};
 
 	template<typename SizeType>
@@ -66,10 +66,10 @@ namespace hook		{
 
 		typedef hook::semiotic<size_type> semiotic;
 
-//		#include"zip/media.cpp"
+//		#include"map/media.cpp"
 
 //			template<size_type N, size_type M=0, size_type L=0>
-//			using zip_unroll=zip::template unroll<N, M, L>;
+//			using map_unroll=map::template unroll<N, M, L>;
 
 //		#include"search/media.cpp"
 

@@ -40,7 +40,7 @@ struct search
 	#define SGN +
 	#define INV -
 
-	#include"../../macro/define/search/loop_count.cpp"
+	#include"../../macro/define/search/loop.cpp"
 
 	template<size_type N, size_type M=0, size_type L=0>
 	struct unroll

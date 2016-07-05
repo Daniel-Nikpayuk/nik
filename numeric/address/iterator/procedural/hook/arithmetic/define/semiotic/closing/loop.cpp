@@ -48,10 +48,33 @@
 
 */
 
-#define _closing_loop_zero_fast(dir, inv, label, rtn, stmt)
+// these don't belong here in the long run. They belong in "segment"
 
-#define closing_loop_no_break_zero_fast(dir, inv)			_closing_loop_zero_fast(dir, inv, no, void, )
-#define closing_loop_with_break_zero_fast(dir, inv)			_closing_loop_zero_fast(dir, inv, with, WPointer, return out;)
+#define closing_loop_no_break_zero_fast(dir, inv) \
+template<typename RIterator, typename EIterator> \
+static bool no_break(bool carry, RIterator in, EIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		carry=carry && !*in; \
+		dir##dir(in); \
+	} \
+ \
+	return carry; \
+} \
+
+#define closing_loop_with_break_zero_fast(dir, inv) \
+template<typename RIterator, typename EIterator> \
+static bool with_break(RIterator in, EIterator end) \
+{ \
+	while (in != end) \
+	{ \
+		if (*in) return false; \
+		dir##dir(in); \
+	} \
+ \
+	return true; \
+} \
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -242,6 +265,31 @@
 
 */
 
+#define _closing_loop_multiply(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, no, void, )
+#define closing_loop_with_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closing_loop_multiply_half(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_multiply_half(dir, inv)			_closing_loop_multiply_half(dir, inv, no, void, )
+#define closing_loop_with_return_multiply_half(dir, inv)		_closing_loop_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _closing_loop_divide(dir, inv, label, rtn, stmt)
 
 #define closing_loop_no_return_divide(dir, inv)				_closing_loop_divide(dir, inv, no, void, )
@@ -281,7 +329,7 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 		dir##dir(n); \
 	} \
  \
-	return q; \
+	stmt \
 }
 
 #define closing_loop_no_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, no, void, )
@@ -319,10 +367,38 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 
 */
 
-#define _closing_loop_multiply(dir, inv, label, rtn, stmt)
+// change zero to segment::zero
 
-#define closing_loop_no_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, no, void, )
-#define closing_loop_with_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, with, WPointer, return out;)
+#define _closing_loop_radix(dir, inv, label, rtn, stmt) \
+template<typename WNode, typename WValueType, typename WPointer, typename EWPointer, typename ValueType> \
+static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType base) \
+{ \
+	WPointer out1, end1; \
+ \
+	while (!zero::fast::closing::with_break(in, end)) \
+	{ \
+		*out=*in; \
+		out1=new WNode; \
+//		end1=divide::half_digit::closing::consume::as::closed::template \
+		end1=divide::half_digit::closing::template with_return<WNode, WValueType>(*out, 0, out1, +in, end, base); \
+ \
+		WPointer current=out; \
+		out=new WNode; \
+		dir(out)=current; \
+ \
+//		delete in; \
+		identity::clear::closed::template no_return(in, end); \
+		in=out1; \
+		end=end1; \
+	} \
+ \
+	identity::clear::closed::template no_return(out1, end1); \
+ \
+	stmt \
+}
+
+#define closing_loop_no_return_radix(dir, inv)				_closing_loop_radix(dir, inv, no, void, )
+#define closing_loop_with_return_radix(dir, inv)			_closing_loop_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -331,10 +407,10 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 
 */
 
-#define _closing_loop_multiply_half(dir, inv, label, rtn, stmt)
+#define _closing_loop_radix_half(dir, inv, label, rtn, stmt)
 
-#define closing_loop_no_return_multiply_half(dir, inv)			_closing_loop_multiply_half(dir, inv, no, void, )
-#define closing_loop_with_return_multiply_half(dir, inv)		_closing_loop_multiply_half(dir, inv, with, WPointer, return out;)
+#define closing_loop_no_return_radix_half(dir, inv)			_closing_loop_radix_half(dir, inv, no, void, )
+#define closing_loop_with_return_radix_half(dir, inv)			_closing_loop_radix_half(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -420,6 +496,31 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 
 */
 
+#define _closing_loop_assign_multiply(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, no, void, )
+#define closing_loop_with_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _closing_loop_assign_multiply_half(dir, inv, label, rtn, stmt)
+
+#define closing_loop_no_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, no, void, )
+#define closing_loop_with_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, with, WPointer, return out;)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _closing_loop_assign_divide(dir, inv, label, rtn, stmt)
 
 #define closing_loop_no_return_assign_divide(dir, inv)			_closing_loop_assign_divide(dir, inv, no, void, )
@@ -469,10 +570,10 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 
 */
 
-#define _closing_loop_assign_multiply(dir, inv, label, rtn, stmt)
+#define _closing_loop_assign_radix(dir, inv, label, rtn, stmt)
 
-#define closing_loop_no_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, no, void, )
-#define closing_loop_with_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, with, WPointer, return out;)
+#define closing_loop_no_return_assign_radix(dir, inv)			_closing_loop_assign_radix(dir, inv, no, void, )
+#define closing_loop_with_return_assign_radix(dir, inv)			_closing_loop_assign_radix(dir, inv, with, WPointer, return out;)
 
 /************************************************************************************************************************/
 
@@ -481,8 +582,8 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 
 */
 
-#define _closing_loop_assign_multiply_half(dir, inv, label, rtn, stmt)
+#define _closing_loop_assign_radix_half(dir, inv, label, rtn, stmt)
 
-#define closing_loop_no_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, no, void, )
-#define closing_loop_with_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, with, WPointer, return out;)
+#define closing_loop_no_return_assign_radix_half(dir, inv)		_closing_loop_assign_radix_half(dir, inv, no, void, )
+#define closing_loop_with_return_assign_radix_half(dir, inv)		_closing_loop_assign_radix_half(dir, inv, with, WPointer, return out;)
 

@@ -58,46 +58,46 @@
 	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
 
-struct zip
+struct map
 {
 	#define SGN +
 	#define INV -
 
-	#include"../../macro/define/zip/loop_count.cpp"
+	#include"../../macro/define/map/loop.cpp"
 
 	template<size_type N, size_type M=0, size_type L=0>
 	struct unroll
 	{
-		#include"../../macro/define/zip/unroll.cpp"
+//		#include"../../macro/define/map/unroll.cpp"
 	};
 
 	template<size_type M, size_type L>
 	struct unroll<0, M, L>
 	{
-		#include"../../macro/define/zip/initial.cpp"
+//		#include"../../macro/define/map/initial.cpp"
 	};
 
 	#undef INV
 	#undef SGN
 };
 
-#include"../../macro/undef/zip/open/initial.cpp"
-#include"../../macro/undef/zip/open/unroll.cpp"
-#include"../../macro/undef/zip/open/count.cpp"
-#include"../../macro/undef/zip/open/loop.cpp"
+#include"../../macro/undef/map/open/initial.cpp"
+#include"../../macro/undef/map/open/unroll.cpp"
+#include"../../macro/undef/map/open/count.cpp"
+#include"../../macro/undef/map/open/loop.cpp"
 
-#include"../../macro/undef/zip/opening/initial.cpp"
-#include"../../macro/undef/zip/opening/unroll.cpp"
-#include"../../macro/undef/zip/opening/count.cpp"
-#include"../../macro/undef/zip/opening/loop.cpp"
+#include"../../macro/undef/map/opening/initial.cpp"
+#include"../../macro/undef/map/opening/unroll.cpp"
+#include"../../macro/undef/map/opening/count.cpp"
+#include"../../macro/undef/map/opening/loop.cpp"
 
-#include"../../macro/undef/zip/closing/initial.cpp"
-#include"../../macro/undef/zip/closing/unroll.cpp"
-#include"../../macro/undef/zip/closing/count.cpp"
-#include"../../macro/undef/zip/closing/loop.cpp"
+#include"../../macro/undef/map/closing/initial.cpp"
+#include"../../macro/undef/map/closing/unroll.cpp"
+#include"../../macro/undef/map/closing/count.cpp"
+#include"../../macro/undef/map/closing/loop.cpp"
 
-#include"../../macro/undef/zip/closed/initial.cpp"
-#include"../../macro/undef/zip/closed/unroll.cpp"
-#include"../../macro/undef/zip/closed/count.cpp"
-#include"../../macro/undef/zip/closed/loop.cpp"
+#include"../../macro/undef/map/closed/initial.cpp"
+#include"../../macro/undef/map/closed/unroll.cpp"
+#include"../../macro/undef/map/closed/count.cpp"
+#include"../../macro/undef/map/closed/loop.cpp"
 

@@ -331,6 +331,41 @@ struct scale
 	#undef scale_interval
 };
 
+struct multiply
+{
+	#define multiply_interval(name) \
+	struct name \
+	{ \
+		name##_loop_no_return_multiply(SGN, INV) \
+		name##_loop_with_return_multiply(SGN, INV) \
+ \
+		struct half \
+		{ \
+			name##_loop_no_return_multiply_half(SGN, INV) \
+			name##_loop_with_return_multiply_half(SGN, INV) \
+		}; \
+ \
+		struct count \
+		{ \
+			name##_count_no_return_multiply(SGN, INV) \
+			name##_count_with_return_multiply(SGN, INV) \
+ \
+			struct half \
+			{ \
+				name##_count_no_return_multiply_half(SGN, INV) \
+				name##_count_with_return_multiply_half(SGN, INV) \
+			}; \
+		}; \
+	};
+
+	multiply_interval(closing)
+	multiply_interval(closed)
+	multiply_interval(opening)
+	multiply_interval(open)
+
+	#undef multiply_interval
+};
+
 struct divide
 {
 	#define divide_interval(name) \
@@ -390,39 +425,39 @@ struct divide
 	#undef divide_interval
 };
 
-struct multiply
+struct radix
 {
-	#define multiply_interval(name) \
+	#define radix_interval(name) \
 	struct name \
 	{ \
-		name##_loop_no_return_multiply(SGN, INV) \
-		name##_loop_with_return_multiply(SGN, INV) \
+		name##_loop_no_return_radix(SGN, INV) \
+		name##_loop_with_return_radix(SGN, INV) \
  \
 		struct half \
 		{ \
-			name##_loop_no_return_multiply_half(SGN, INV) \
-			name##_loop_with_return_multiply_half(SGN, INV) \
+			name##_loop_no_return_radix_half(SGN, INV) \
+			name##_loop_with_return_radix_half(SGN, INV) \
 		}; \
  \
 		struct count \
 		{ \
-			name##_count_no_return_multiply(SGN, INV) \
-			name##_count_with_return_multiply(SGN, INV) \
+			name##_count_no_return_radix(SGN, INV) \
+			name##_count_with_return_radix(SGN, INV) \
  \
 			struct half \
 			{ \
-				name##_count_no_return_multiply_half(SGN, INV) \
-				name##_count_with_return_multiply_half(SGN, INV) \
+				name##_count_no_return_radix_half(SGN, INV) \
+				name##_count_with_return_radix_half(SGN, INV) \
 			}; \
 		}; \
 	};
 
-	multiply_interval(closing)
-	multiply_interval(closed)
-	multiply_interval(opening)
-	multiply_interval(open)
+	radix_interval(closing)
+	radix_interval(closed)
+	radix_interval(opening)
+	radix_interval(open)
 
-	#undef multiply_interval
+	#undef radix_interval
 };
 
 struct assign
@@ -532,6 +567,41 @@ struct assign
 		#undef assign_scale_interval
 	};
 
+	struct multiply
+	{
+		#define assign_multiply_interval(name) \
+		struct name \
+		{ \
+			name##_loop_no_return_assign_multiply(SGN, INV) \
+			name##_loop_with_return_assign_multiply(SGN, INV) \
+ \
+			struct half \
+			{ \
+				name##_loop_no_return_assign_multiply_half(SGN, INV) \
+				name##_loop_with_return_assign_multiply_half(SGN, INV) \
+			}; \
+ \
+			struct count \
+			{ \
+				name##_count_no_return_assign_multiply(SGN, INV) \
+				name##_count_with_return_assign_multiply(SGN, INV) \
+ \
+				struct half \
+				{ \
+					name##_count_no_return_assign_multiply_half(SGN, INV) \
+					name##_count_with_return_assign_multiply_half(SGN, INV) \
+				}; \
+			}; \
+		};
+
+		assign_multiply_interval(closing)
+		assign_multiply_interval(closed)
+		assign_multiply_interval(opening)
+		assign_multiply_interval(open)
+
+		#undef assign_multiply_interval
+	};
+
 	struct divide
 	{
 		#define assign_divide_interval(name) \
@@ -591,39 +661,39 @@ struct assign
 		#undef assign_divide_interval
 	};
 
-	struct multiply
+	struct radix
 	{
-		#define assign_multiply_interval(name) \
+		#define assign_radix_interval(name) \
 		struct name \
 		{ \
-			name##_loop_no_return_assign_multiply(SGN, INV) \
-			name##_loop_with_return_assign_multiply(SGN, INV) \
+			name##_loop_no_return_assign_radix(SGN, INV) \
+			name##_loop_with_return_assign_radix(SGN, INV) \
  \
 			struct half \
 			{ \
-				name##_loop_no_return_assign_multiply_half(SGN, INV) \
-				name##_loop_with_return_assign_multiply_half(SGN, INV) \
+				name##_loop_no_return_assign_radix_half(SGN, INV) \
+				name##_loop_with_return_assign_radix_half(SGN, INV) \
 			}; \
  \
 			struct count \
 			{ \
-				name##_count_no_return_assign_multiply(SGN, INV) \
-				name##_count_with_return_assign_multiply(SGN, INV) \
+				name##_count_no_return_assign_radix(SGN, INV) \
+				name##_count_with_return_assign_radix(SGN, INV) \
  \
 				struct half \
 				{ \
-					name##_count_no_return_assign_multiply_half(SGN, INV) \
-					name##_count_with_return_assign_multiply_half(SGN, INV) \
+					name##_count_no_return_assign_radix_half(SGN, INV) \
+					name##_count_with_return_assign_radix_half(SGN, INV) \
 				}; \
 			}; \
 		};
 
-		assign_multiply_interval(closing)
-		assign_multiply_interval(closed)
-		assign_multiply_interval(opening)
-		assign_multiply_interval(open)
+		assign_radix_interval(closing)
+		assign_radix_interval(closed)
+		assign_radix_interval(opening)
+		assign_radix_interval(open)
 
-		#undef assign_multiply_interval
+		#undef assign_radix_interval
 	};
 };
 

@@ -242,6 +242,31 @@
 
 */
 
+#define _open_unroll_multiply(dir, inv, label, rtn, stmt)
+
+#define open_unroll_no_return_multiply(dir, inv)			_open_unroll_multiply(dir, inv, no, void, )
+#define open_unroll_with_return_multiply(dir, inv)			_open_unroll_multiply(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_unroll_multiply_half(dir, inv, label, rtn, stmt)
+
+#define open_unroll_no_return_multiply_half(dir, inv)			_open_unroll_multiply_half(dir, inv, no, void, )
+#define open_unroll_with_return_multiply_half(dir, inv)			_open_unroll_multiply_half(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _open_unroll_divide(dir, inv, label, rtn, stmt)
 
 #define open_unroll_no_return_divide(dir, inv)				_open_unroll_divide(dir, inv, no, void, )
@@ -291,10 +316,10 @@
 
 */
 
-#define _open_unroll_multiply(dir, inv, label, rtn, stmt)
+#define _open_unroll_radix(dir, inv, label, rtn, stmt)
 
-#define open_unroll_no_return_multiply(dir, inv)			_open_unroll_multiply(dir, inv, no, void, )
-#define open_unroll_with_return_multiply(dir, inv)			_open_unroll_multiply(dir, inv, with, WPointer, return)
+#define open_unroll_no_return_radix(dir, inv)			_open_unroll_radix(dir, inv, no, void, )
+#define open_unroll_with_return_radix(dir, inv)			_open_unroll_radix(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
@@ -303,10 +328,10 @@
 
 */
 
-#define _open_unroll_multiply_half(dir, inv, label, rtn, stmt)
+#define _open_unroll_radix_half(dir, inv, label, rtn, stmt)
 
-#define open_unroll_no_return_multiply_half(dir, inv)			_open_unroll_multiply_half(dir, inv, no, void, )
-#define open_unroll_with_return_multiply_half(dir, inv)			_open_unroll_multiply_half(dir, inv, with, WPointer, return)
+#define open_unroll_no_return_radix_half(dir, inv)			_open_unroll_radix_half(dir, inv, no, void, )
+#define open_unroll_with_return_radix_half(dir, inv)			_open_unroll_radix_half(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -392,6 +417,31 @@
 
 */
 
+#define _open_unroll_assign_multiply(dir, inv, label, rtn, stmt)
+
+#define open_unroll_no_return_assign_multiply(dir, inv)			_open_unroll_assign_multiply(dir, inv, no, void, )
+#define open_unroll_with_return_assign_multiply(dir, inv)		_open_unroll_assign_multiply(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
+#define _open_unroll_assign_multiply_half(dir, inv, label, rtn, stmt)
+
+#define open_unroll_no_return_assign_multiply_half(dir, inv)		_open_unroll_assign_multiply_half(dir, inv, no, void, )
+#define open_unroll_with_return_assign_multiply_half(dir, inv)		_open_unroll_assign_multiply_half(dir, inv, with, WPointer, return)
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	Constraints:
+
+*/
+
 #define _open_unroll_assign_divide(dir, inv, label, rtn, stmt)
 
 #define open_unroll_no_return_assign_divide(dir, inv)			_open_unroll_assign_divide(dir, inv, no, void, )
@@ -441,10 +491,10 @@
 
 */
 
-#define _open_unroll_assign_multiply(dir, inv, label, rtn, stmt)
+#define _open_unroll_assign_radix(dir, inv, label, rtn, stmt)
 
-#define open_unroll_no_return_assign_multiply(dir, inv)			_open_unroll_assign_multiply(dir, inv, no, void, )
-#define open_unroll_with_return_assign_multiply(dir, inv)		_open_unroll_assign_multiply(dir, inv, with, WPointer, return)
+#define open_unroll_no_return_assign_radix(dir, inv)			_open_unroll_assign_radix(dir, inv, no, void, )
+#define open_unroll_with_return_assign_radix(dir, inv)		_open_unroll_assign_radix(dir, inv, with, WPointer, return)
 
 /************************************************************************************************************************/
 
@@ -453,8 +503,8 @@
 
 */
 
-#define _open_unroll_assign_multiply_half(dir, inv, label, rtn, stmt)
+#define _open_unroll_assign_radix_half(dir, inv, label, rtn, stmt)
 
-#define open_unroll_no_return_assign_multiply_half(dir, inv)		_open_unroll_assign_multiply_half(dir, inv, no, void, )
-#define open_unroll_with_return_assign_multiply_half(dir, inv)		_open_unroll_assign_multiply_half(dir, inv, with, WPointer, return)
+#define open_unroll_no_return_assign_radix_half(dir, inv)		_open_unroll_assign_radix_half(dir, inv, no, void, )
+#define open_unroll_with_return_assign_radix_half(dir, inv)		_open_unroll_assign_radix_half(dir, inv, with, WPointer, return)
 

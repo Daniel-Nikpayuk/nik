@@ -67,12 +67,12 @@ struct uint
 
 	const uint & operator = (size_type u)
 	{
-		subint.initial=iphs_policy::identity::clear::closing::with_return(initial, terminal);
+//		subint.initial=iphs_policy::identity::clear::closing::with_return(initial, terminal);
 		*subint.initial=u;
 
 		return *this;
 	}
 
-	bool		zero() const		{ return !degree && !*subint.initial; }
+//	bool		zero() const		{ return !degree && !*subint.initial; }
 };
 
