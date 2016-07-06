@@ -21,7 +21,7 @@
 
 #include"numeric/address/iterator/structural/traits.h"
 
-#include"numeric/address/list/structural/traits.h"
+//#include"numeric/address/list/structural/traits.h"
 
 namespace nik
 {
@@ -41,7 +41,7 @@ namespace nik
 
 		typedef numeric::address::iterator::structural::semiotic<size_type> naiss;
 
-		typedef numeric::address::list::structural::semiotic<size_type> nalss;
+//		typedef numeric::address::list::structural::semiotic<size_type> nalss;
 	};
 }
 

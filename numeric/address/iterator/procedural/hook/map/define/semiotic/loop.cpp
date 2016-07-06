@@ -43,6 +43,420 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
+/////// unary
+
+
+#define function_type_no_count_unary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer> \
+	static rtn label##_return(WPointer out, size_type n) \
+
+
+		#define function_type_no_return_no_count_unary()		function_type_no_count_unary(void, no)
+		#define function_type_with_return_no_count_unary()		function_type_no_count_unary(WPointer, with)
+
+
+#define function_type_with_count_unary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer> \
+	static rtn label##_return(size_type & count, WPointer out, size_type n) \
+
+
+		#define function_type_no_return_with_count_unary()		function_type_with_count_unary(void, no)
+		#define function_type_with_return_with_count_unary()		function_type_with_count_unary(WPointer, with)
+
+
+/////// unary_constant
+
+
+#define function_type_no_count_unary_constant(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename ValueType> \
+	static rtn label##_return(WPointer out, size_type n, ValueType in) \
+
+
+		#define function_type_no_return_no_count_unary_constant()	function_type_no_count_unary_constant(void, no)
+		#define function_type_with_return_no_count_unary_constant()	function_type_no_count_unary_constant(WPointer, with)
+
+
+#define function_type_with_count_unary_constant(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename ValueType> \
+	static rtn label##_return(size_type & count, WPointer out, size_type n, ValueType in) \
+
+
+		#define function_type_no_return_with_count_unary_constant()	function_type_with_count_unary_constant(void, no)
+		#define function_type_with_return_with_count_unary_constant()	function_type_with_count_unary_constant(WPointer, with)
+
+
+/////// unary_new
+
+
+#define function_type_no_count_unary_new(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer> \
+	static rtn label##_return(WPointer out, size_type n) \
+
+
+		#define function_type_no_return_no_count_unary_new()		function_type_no_count_unary_new(void, no)
+		#define function_type_with_return_no_count_unary_new()		function_type_no_count_unary_new(WPointer, with)
+
+
+#define function_type_with_count_unary_new(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer> \
+	static rtn label##_return(size_type & count, WPointer out, size_type n) \
+
+
+		#define function_type_no_return_with_count_unary_new()		function_type_with_count_unary_new(void, no)
+		#define function_type_with_return_with_count_unary_new()	function_type_with_count_unary_new(WPointer, with)
+
+
+/////// unary_new_brackets
+
+
+#define function_type_no_count_unary_new_brackets(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer> \
+	static rtn label##_return(WPointer out, size_type n, size_type in) \
+
+
+		#define function_type_no_return_no_count_unary_new_brackets()	function_type_no_count_unary_new_brackets(void, no)
+		#define function_type_with_return_no_count_unary_new_brackets()	function_type_no_count_unary_new_brackets(WPointer, with)
+
+
+#define function_type_with_count_unary_new_brackets(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer> \
+	static rtn label##_return(size_type & count, WPointer out, size_type n, size_type in) \
+
+
+		#define function_type_no_return_with_count_unary_new_brackets()	function_type_with_count_unary_new_brackets(void, no)
+		#define function_type_with_return_with_count_unary_new_brackets()function_type_with_count_unary_new_brackets(WPointer, with)
+
+
+/////// unary_delete, unary_delete_brackets
+
+
+#define function_type_no_count_unary_delete(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename EWPointer> \
+	static rtn label##_return(WPointer out, EWPointer end) \
+
+
+		#define function_type_no_return_no_count_unary_delete()		function_type_no_count_unary_delete(void, no)
+		#define function_type_with_return_no_count_unary_delete()	function_type_no_count_unary_delete(WPointer, with)
+
+		#define function_type_no_return_no_count_unary_delete_brackets()function_type_no_count_unary_delete(void, no)
+		#define function_type_with_return_no_count_unary_delete_brackets()function_type_no_count_unary_delete(WPointer, with)
+
+
+#define function_type_with_count_unary_delete(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename EWPointer> \
+	static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+
+
+		#define function_type_no_return_with_count_unary_delete()	function_type_with_count_unary_delete(void, no)
+		#define function_type_with_return_with_count_unary_delete()	function_type_with_count_unary_delete(WPointer, with)
+
+		#define function_type_no_return_with_count_unary_delete_brackets()function_type_with_count_unary_delete(void, no)
+		#define function_type_with_return_with_count_unary_delete_brackets()function_type_with_count_unary_delete(WPointer, with)
+
+
+/////// binary
+
+
+#define function_type_no_count_binary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+	static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+
+
+		#define function_type_no_return_no_count_binary()		function_type_no_count_binary(void, no)
+		#define function_type_with_return_no_count_binary()		function_type_no_count_binary(WPointer, with)
+
+
+#define function_type_with_count_binary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
+	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+
+
+		#define function_type_no_return_with_count_binary()		function_type_with_count_binary(void, no)
+		#define function_type_with_return_with_count_binary()		function_type_with_count_binary(WPointer, with)
+
+
+/////// binary_new
+
+
+#define function_type_no_count_binary_new(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+	static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+
+
+		#define function_type_no_return_no_count_binary_new()		function_type_no_count_binary_new(void, no)
+		#define function_type_with_return_no_count_binary_new()		function_type_no_count_binary_new(WPointer, with)
+
+
+#define function_type_with_count_binary_new(rtn, label) \
+ \
+	template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
+	static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+
+
+		#define function_type_no_return_with_count_binary_new()		function_type_with_count_binary_new(void, no)
+		#define function_type_with_return_with_count_binary_new()	function_type_with_count_binary_new(WPointer, with)
+
+
+/////// trinary, trinary_brackets
+
+
+#define function_type_no_count_trinary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+	static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+
+
+		#define function_type_no_return_no_count_trinary()		function_type_no_count_trinary(void, no)
+		#define function_type_with_return_no_count_trinary()		function_type_no_count_trinary(WPointer, with)
+
+		#define function_type_no_return_no_count_trinary_brackets()	function_type_no_count_trinary(void, no)
+		#define function_type_with_return_no_count_trinary_brackets()	function_type_no_count_trinary(WPointer, with)
+
+
+#define function_type_with_count_trinary(rtn, label) \
+ \
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
+	static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+
+
+		#define function_type_no_return_with_count_trinary()		function_type_with_count_trinary(void, no)
+		#define function_type_with_return_with_count_trinary()		function_type_with_count_trinary(WPointer, with)
+
+		#define function_type_no_return_with_count_trinary_brackets()	function_type_with_count_trinary(void, no)
+		#define function_type_with_return_with_count_trinary_brackets()	function_type_with_count_trinary(WPointer, with)
+
+
+/************************************************************************************************************************/
+
+/*
+	function_type:
+
+*/
+
+
+#define function_type(return_type, count_type, operator_type) \
+	function_type_##return_type##_##count_type##_##operator_type() \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	operator_type:
+
+		unary
+		unary_constant
+		unary_new
+		unary_new_brackets
+		unary_delete
+		unary_delete_brackets
+		binary
+		binary_new
+		trinary
+		trinary_brackets
+*/
+
+
+#define unary(opm, opl, opr)							opl(*out)opr; \
+
+
+#define unary_constant(opm, opl, opr)						(*out)opm(in); \
+
+
+#define unary_new(opm, opl, opr)						*out=new Node(); \
+
+
+#define unary_new_brackets(opm, opl, opr)					*out=new Node[in]; \
+
+
+#define unary_delete(opm, opl, opr)						delete *current; \
+										delete current; \
+
+#define unary_delete_brackets(opm, opl, opr)					delete [] *current; \
+										delete current; \
+
+#define binary(opm, opl, opr)							opl(*out)opm(*in)opr; \
+
+
+#define binary_new(opm, opl, opr)						*out=new Node[*in]; \
+
+
+#define trinary(opm, opl, opr)							*out=(*in1)opm(*in2); \
+
+
+#define trinary_brackets(opm, opl, opr)						*out=(*in1)opm[*in2]; \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	out_direction:
+
+		out_as_forward
+		out_as_backward
+*/
+
+
+#define out_direction(dir)							out=dir(out)=new WNode; \
+
+
+	#define out_as_forward()						out_direction(+) \
+
+
+	#define out_as_backward()						WPointer current=out; \
+										out=new WNode; \
+										+out=current; \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+#define in_direction_binary(dir)						dir##dir(in); \
+
+
+	#define in_as_forward_binary()						in_direction_binary(+)
+	#define in_as_forward_binary_new()					in_direction_binary(+)
+
+	#define in_as_backward_binary()						in_direction_binary(-)
+	#define in_as_backward_binary_new()					in_direction_binary(-)
+
+
+#define in_direction_trinary(dir)						dir##dir(in1); \
+										dir##dir(in2); \
+
+
+	#define in_as_forward_trinary()						in_direction_trinary(+)
+	#define in_as_forward_trinary_brackets()				in_direction_trinary(+)
+
+	#define in_as_backward_trinary()					in_direction_trinary(-)
+	#define in_as_backward_trinary_brackets()				in_direction_trinary(-)
+
+/************************************************************************************************************************/
+
+/*
+	in_direction:
+
+		in_as_forward
+		in_as_backward
+*/
+
+
+#define in_as_forward(operator_type) \
+	in_as_forward_##operator_type() \
+
+#define in_as_backward(operator_type) \
+	in_as_backward_##operator_type() \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+#define peek_type_binary(dir)							dir##in != end \
+
+
+	#define no_peek_in_as_forward_binary()					peek_type_binary( )
+	#define no_peek_in_as_backward_binary()					peek_type_binary( )
+
+	#define no_peek_in_as_forward_binary_new()				peek_type_binary( )
+	#define no_peek_in_as_backward_binary_new()				peek_type_binary( )
+
+	#define with_peek_in_as_forward_binary()				peek_type_binary(+)
+	#define with_peek_in_as_backward_binary()				peek_type_binary(-)
+
+	#define with_peek_in_as_forward_binary_new()				peek_type_binary(+)
+	#define with_peek_in_as_backward_binary_new()				peek_type_binary(-)
+
+
+#define peek_type_trinary(dir)							dir##in2 != end2 \
+
+
+	#define no_peek_in_as_forward_trinary()					peek_type_trinary( )
+	#define no_peek_in_as_backward_trinary()				peek_type_trinary( )
+
+	#define no_peek_in_as_forward_trinary_brackets()			peek_type_trinary( )
+	#define no_peek_in_as_backward_trinary_brackets()			peek_type_trinary( )
+
+	#define with_peek_in_as_forward_trinary()				peek_type_trinary(+)
+	#define with_peek_in_as_backward_trinary()				peek_type_trinary(-)
+
+	#define with_peek_in_as_forward_trinary_brackets()			peek_type_trinary(+)
+	#define with_peek_in_as_backward_trinary_brackets()			peek_type_trinary(-)
+
+/************************************************************************************************************************/
+
+/*
+	peek_type:
+
+		no_peek
+		with_peek
+*/
+
+
+#define no_peek(in_direction, operator_type) \
+	no_peek_##in_direction##_##operator_type() \
+
+#define with_peek(in_direction, operator_type) \
+	with_peek_##in_direction##_##operator_type() \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	count_type:
+
+		no_count
+		with_count
+*/
+
+
+#define no_count()
+
+
+#define with_count()								++count; \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+	return_type:
+
+		no_return
+		with_return
+*/
+
+
+#define no_return()
+
+
+#define _with_return()								return out; \
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 /*
 	Constraints:
 
@@ -52,83 +466,288 @@
 	open:		[0, n) --> (out, out + n+1)
 */
 
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
+
+#define loop_map_out_as_closing_in_as_closing_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	_##return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_closed_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	--n; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_opening_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_open_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	out_direction() \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
+
+#define loop_map_out_as_closed_in_as_closing_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	++n; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_closed_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_opening_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	++n; \
+ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_open_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	++n; \
+ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	out_direction() \
+ \
+	return_type() \
+}
+
+
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
+
+#define loop_map_out_as_opening_in_as_closing_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_closed_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	--n; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_opening_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_open_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	out_direction() \
+ \
+	return_type() \
+}
+
+
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
+
+#define loop_map_out_as_open_in_as_closing_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	--n; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_closed_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	n-=2; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_opening_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	--n; \
+ \
+	while (n) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_open_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	out_direction() \
+	--n; \
+ \
+	while (n) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+		--n; \
+	} \
+ \
+	return_type() \
+}
+
 /************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[0, n) --> [out, out + n-1], n > 0
-	closing:	[0, n) --> [out, out + n)
-	open:		[0, n) --> (out, out + n+1)
-	opening:	[0, n) --> (out, out + n]
-*/
-
 /************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[0, n) --> [out, out + n-1], n > 0
-	closing:	[0, n) --> [out, out + n)
-	open:		[0, n) --> (out, out + n+1)
-	opening:	[0, n) --> (out, out + n]
-*/
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[0, n) --> [out, out + n-1], n > 0
-	closing:	[0, n) --> [out, out + n)
-	open:		[0, n) --> (out, out + n+1)
-	opening:	[0, n) --> (out, out + n]
-*/
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[in, end) --> [out, out + (end-in)-1], end-in > 0
-	closing:	[in, end) --> [out, out + (end-in))
-	open:		[in, end) --> (out, out + (end-in)+1)
-	opening:	[in, end) --> (out, out + (end-in)]
-*/
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[in, end) --> [out, out + (end-in)-1], end-in > 0
-	closing:	[in, end) --> [out, out + (end-in))
-	open:		[in, end) --> (out, out + (end-in)+1)
-	opening:	[in, end) --> (out, out + (end-in)]
-*/
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[in2, end2) --> [out, out + (end2-in2)-1], end2-in2 > 0
-	closing:	[in2, end2) --> [out, out + (end2-in2))
-	open:		[in2, end2) --> (out, out + (end2-in2)+1)
-	opening:	[in2, end2) --> (out, out + (end2-in2)]
-*/
-
-/************************************************************************************************************************/
-
-/*
-	Constraints:
-
-	closed:		[in2, end2) --> [out, out + (end2-in2)-1], end2-in2 > 0
-	closing:	[in2, end2) --> [out, out + (end2-in2))
-	open:		[in2, end2) --> (out, out + (end2-in2)+1)
-	opening:	[in2, end2) --> (out, out + (end2-in2)]
-*/
-
 /************************************************************************************************************************/
 
 /*
@@ -137,1537 +756,410 @@
 	closing:	[out, end) --> [out, end)
 */
 
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
+
+
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
+
+
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
+
+
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
-/************************************************************************************************************************/
-
-#define operate_on_out_unary(op, lp, rp)						lp(*out)rp; \
-
-
-#define operate_on_out_unary_constant(op, lp, rp)					(*out)op(in); \
-
-
-#define operate_on_out_unary_new(op, lp, rp)						*out=new Node(); \
-
-
-#define operate_on_out_unary_new_brackets(op, lp, rp)					*out=new Node[in]; \
-
-
-#define operate_on_out_unary_delete(op, lp, rp)						delete *current; \
-											delete current; \
-
-#define operate_on_out_unary_delete_brackets(op, lp, rp)				delete [] *current; \
-											delete current; \
-
-#define operate_on_out_binary(op, lp, rp)						lp(*out)op(*in)rp; \
-
-
-#define operate_on_out_binary_new(op, lp, rp)						*out=new Node[*in]; \
-
-
-#define operate_on_out_trinary(op, lp, rp)						*out=(*in1)op(*in2); \
-
-
-#define operate_on_out_trinary_brackets(op, lp, rp)					*out=(*in1)op[*in2]; \
-
 /************************************************************************************************************************/
 
 /*
-	operator_type:
+	Constraints:
 
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
+	closing:	[in, end) --> [out, out + (end-in))
+	closed:		[in, end) --> [out, out + (end-in)-1], end-in > 0
+	opening:	[in, end) --> (out, out + (end-in)]
+	open:		[in, end) --> (out, out + (end-in)+1)
 */
 
-#define operate_on_out(operator_type, op, lp, rp) \
-	operate_on_out_##operator_type(op, lp, rp) \
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
 
-/************************************************************************************************************************/
+
+#define loop_map_out_as_closing_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
 
 /*
-#undef operate_on_out_unary
-#undef operate_on_out_unary_constant
-#undef operate_on_out_unary_new
-#undef operate_on_out_unary_new_brackets
-#undef operate_on_out_unary_delete
-#undef operate_on_out_unary_delete_brackets
-#undef operate_on_out_binary
-#undef operate_on_out_binary_new
-#undef operate_on_out_trinary
-#undef operate_on_out_trinary_brackets
+
+#define loop_map_out_as_closing_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	out_direction() \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		in_direction(operator_type) \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	in_direction(operator_type) \
+ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closing_in_as_closing_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closing_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closing_in_as_closed_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closing_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closing_in_as_opening_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closing_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closing_in_as_open_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closing_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
 */
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
 
-#define direct_out_as(dir, inv)								out=dir(out)=new WNode; \
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
 
-	#define direct_out_out_as_forward()						direct_out_as(+, -)
-
-//
-
-	#define direct_out_out_as_backward()						WPointer current=out; \
-											out=new WNode; \
-											+out=current; \
-
-/************************************************************************************************************************/
 
 /*
-	out_direction:
+#define loop_map_out_as_closed_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (with_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
 
-		out_as_forward
-		out_as_backward
+#define loop_map_out_as_closed_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	in_direction(operator_type) \
+ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	in_direction(operator_type) \
+ \
+	while (with_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_closed_in_as_closing_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closed_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closed_in_as_closed_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closed_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closed_in_as_opening_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closed_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_closed_in_as_open_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_closed_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
 */
 
-#define direct_out(out_direction) \
-	direct_out_##out_direction() \
 
-/************************************************************************************************************************/
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
+
 
 /*
-#undef direct_out_as
 
-	#undef direct_out_out_as_forward
-	#undef direct_out_out_as_backward
+#define loop_map_out_as_opening_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	out_direction() \
+	operator_type(opm, opl, opr) \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		in_direction(operator_type) \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (with_peek(in_direction, operator_type)) \
+	{ \
+		in_direction(operator_type) \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_opening_in_as_closing_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_opening_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_opening_in_as_closed_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_opening_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_opening_in_as_opening_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_opening_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_opening_in_as_open_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_opening_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
 */
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
 
-#define direct_in_unary(dir, inv)							--n; \
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
 
-
-	#define direct_in_unary_in_as_forward()						direct_in_unary(+, -)
-	#define direct_in_unary_constant_in_as_forward()				direct_in_unary(+, -)
-	#define direct_in_unary_new_in_as_forward()					direct_in_unary(+, -)
-	#define direct_in_unary_new_brackets_in_as_forward()				direct_in_unary(+, -)
-
-//
-
-	#define direct_in_unary_in_as_backward()					direct_in_unary(-, +)
-	#define direct_in_unary_constant_in_as_backward()				direct_in_unary(-, +)
-	#define direct_in_unary_new_in_as_backward()					direct_in_unary(-, +)
-	#define direct_in_unary_new_brackets_in_as_backward()				direct_in_unary(-, +)
-
-
-#define direct_in_delete(dir, inv)							WPointer current=out; \
-											dir##dir(out); \
-
-
-	#define direct_in_unary_delete_in_as_forward()					direct_in_delete(+, -)
-	#define direct_in_unary_delete_brackets_in_as_forward()				direct_in_delete(+, -)
-
-//
-
-	#define direct_in_unary_delete_in_as_backward()					direct_in_delete(-, +)
-	#define direct_in_unary_delete_brackets_in_as_backward()			direct_in_delete(-, +)
-
-
-#define direct_in_binary(dir, inv)							dir##dir(in); \
-
-
-	#define direct_in_binary_in_as_forward()					direct_in_binary(+, -)
-	#define direct_in_binary_new_in_as_forward()					direct_in_binary(+, -)
-
-//
-
-	#define direct_in_binary_in_as_backward()					direct_in_binary(-, +)
-	#define direct_in_binary_new_in_as_backward()					direct_in_binary(-, +)
-
-
-#define direct_in_trinary(dir, inv)							dir##dir(in1); \
-											dir##dir(in2); \
-
-
-	#define direct_in_trinary_in_as_forward()					direct_in_trinary(+, -)
-	#define direct_in_trinary_brackets_in_as_forward()				direct_in_trinary(+, -)
-
-//
-
-	#define direct_in_trinary_in_as_backward()					direct_in_trinary(-, +)
-	#define direct_in_trinary_brackets_in_as_backward()				direct_in_trinary(-, +)
-
-/************************************************************************************************************************/
 
 /*
-	operator_type:
+#define loop_map_out_as_open_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	out_direction() \
+ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	out_direction() \
+	operator_type(opm, opl, opr) \
+	out_direction() \
+	count_type() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		in_direction(operator_type) \
+		out_direction() \
+		operator_type(opm, opl, opr) \
+		count_type() \
+	} \
+ \
+	out_direction() \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+function_type(return_type, count_type, operator_type) \
+{ \
+	in_direction(operator_type) \
+	out_direction() \
+ \
+	while (no_peek(in_direction, operator_type)) \
+	{ \
+		operator_type(opm, opl, opr) \
+		out_direction() \
+		in_direction(operator_type) \
+		count_type() \
+	} \
+ \
+	return_type() \
+}
+
+#define loop_map_out_as_open_in_as_closing_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_open_in_as_closing_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_open_in_as_closed_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_open_in_as_closed_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_open_in_as_opening_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_open_in_as_opening_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+
+#define loop_map_out_as_open_in_as_open_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
+	loop_map_out_as_open_in_as_open_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
 
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
-*/
-
-#define direct_in(operator_type, in_direction) \
-	direct_in_##operator_type##_##in_direction() \
-
-/************************************************************************************************************************/
-
-/*
-#undef direct_in_unary
-
-	#undef direct_in_unary_in_as_forward
-	#undef direct_in_unary_constant_in_as_forward
-	#undef direct_in_unary_new_in_as_forward
-	#undef direct_in_unary_new_brackets_in_as_forward
-
-	#undef direct_in_unary_in_as_backward
-	#undef direct_in_unary_constant_in_as_backward
-	#undef direct_in_unary_new_in_as_backward
-	#undef direct_in_unary_new_brackets_in_as_backward
-
-#undef direct_in_delete
-
-	#undef direct_in_unary_delete_in_as_forward
-	#undef direct_in_unary_delete_brackets_in_as_forward
-
-	#undef direct_in_unary_delete_in_as_backward
-	#undef direct_in_unary_delete_brackets_in_as_backward
-
-#undef direct_in_binary
-
-	#undef direct_in_binary_in_as_forward
-	#undef direct_in_binary_new_in_as_forward
-
-	#undef direct_in_binary_in_as_backward
-	#undef direct_in_binary_new_in_as_backward
-
-#undef direct_in_trinary
-
-	#undef direct_in_trinary_in_as_forward
-	#undef direct_in_trinary_brackets_in_as_forward
-
-	#undef direct_in_trinary_in_as_backward
-	#undef direct_in_trinary_brackets_in_as_backward
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/////// unary
-
-
-#define function_identifier_no_count_unary(rtn, type)			template<typename WNode, typename WPointer> \
-									static rtn type##_return(WPointer out, size_type n) \
-
-	#define function_identifier_no_return_no_count_unary()			function_identifier_no_count_unary(void, no)
-	#define function_identifier_with_return_no_count_unary()		function_identifier_no_count_unary(WPointer, with)
-
-#define function_identifier_with_count_unary(rtn, type)			template<typename WNode, typename WPointer> \
-									static rtn type##_return(size_type & count, WPointer out, size_type n)\
-
-	#define function_identifier_no_return_with_count_unary()		function_identifier_with_count_unary(void, no)
-	#define function_identifier_with_return_with_count_unary()		function_identifier_with_count_unary(WPointer, with)
-
-
-/////// unary_constant
-
-
-#define function_identifier_no_count_unary_constant(rtn, type)		template<typename WNode, typename WPointer, typename ValueType> \
-									static rtn type##_return(WPointer out, size_type n, ValueType in) \
-
-	#define function_identifier_no_return_no_count_unary_constant()		function_identifier_no_count_unary_constant(void, no)
-	#define function_identifier_with_return_no_count_unary_constant()	function_identifier_no_count_unary_constant(WPointer, with)
-
-#define function_identifier_with_count_unary_constant(rtn, type)	template<typename WNode, typename WPointer, typename ValueType> \
-									static rtn type##_return(size_type & count, \
-											WPointer out, size_type n, ValueType in) \
-
-	#define function_identifier_no_return_with_count_unary_constant()	function_identifier_with_count_unary_constant(void, no)
-	#define function_identifier_with_return_with_count_unary_constant()	function_identifier_with_count_unary_constant(WPointer, with)
-
-
-/////// unary_new
-
-
-#define function_identifier_no_count_unary_new(rtn, type)		template<typename Node, typename WNode, typename WPointer> \
-									static rtn type##_return(WPointer out, size_type n) \
-
-	#define function_identifier_no_return_no_count_unary_new()		function_identifier_no_count_unary_new(void, no)
-	#define function_identifier_with_return_no_count_unary_new()		function_identifier_no_count_unary_new(WPointer, with)
-
-#define function_identifier_with_count_unary_new(rtn, type)		template<typename Node, typename WNode, typename WPointer> \
-									static rtn type##_return(size_type & count, WPointer out, size_type n)\
-
-	#define function_identifier_no_return_with_count_unary_new()		function_identifier_with_count_unary_new(void, no)
-	#define function_identifier_with_return_with_count_unary_new()		function_identifier_with_count_unary_new(WPointer, with)
-
-
-/////// unary_new_brackets
-
-
-#define function_identifier_no_count_unary_new_brackets(rtn, type)	template<typename Node, typename WNode, typename WPointer> \
-									static rtn type##_return(WPointer out, size_type n, size_type in) \
-
-	#define function_identifier_no_return_no_count_unary_new_brackets()	function_identifier_no_count_unary_new_brackets(void, no)
-	#define function_identifier_with_return_no_count_unary_new_brackets()	function_identifier_no_count_unary_new_brackets(WPointer, with)
-
-#define function_identifier_with_count_unary_new_brackets(rtn, type)	template<typename Node, typename WNode, typename WPointer> \
-									static rtn type##_return(size_type & count, \
-											WPointer out, size_type n, size_type in) \
-
-	#define function_identifier_no_return_with_count_unary_new_brackets()	function_identifier_with_count_unary_new_brackets(void, no)
-	#define function_identifier_with_return_with_count_unary_new_brackets()	function_identifier_with_count_unary_new_brackets(WPointer, with)
-
-
-/////// unary_delete, unary_delete_brackets
-
-
-#define function_identifier_no_count_unary_delete(rtn, type)		template<typename WNode, typename WPointer, typename EWPointer> \
-									static rtn type##_return(WPointer out, EWPointer end) \
-
-	#define function_identifier_no_return_no_count_unary_delete()		function_identifier_no_count_unary_delete(void, no)
-	#define function_identifier_with_return_no_count_unary_delete()		function_identifier_no_count_unary_delete(WPointer, with)
-
-	#define function_identifier_no_return_no_count_unary_delete_brackets()	function_identifier_no_count_unary_delete(void, no)
-	#define function_identifier_with_return_no_count_unary_delete_brackets()function_identifier_no_count_unary_delete(WPointer, with)
-
-#define function_identifier_with_count_unary_delete(rtn, type)		template<typename WNode, typename WPointer, typename EWPointer> \
-									static rtn type##_return(size_type & count, \
-											WPointer out, EWPointer end) \
-
-	#define function_identifier_no_return_with_count_unary_delete()		function_identifier_with_count_unary_delete(void, no)
-	#define function_identifier_with_return_with_count_unary_delete()	function_identifier_with_count_unary_delete(WPointer, with)
-
-	#define function_identifier_no_return_with_count_unary_delete_brackets()function_identifier_with_count_unary_delete(void, no)
-	#define function_identifier_with_return_with_count_unary_delete_brackets()function_identifier_with_count_unary_delete(WPointer, with)
-
-
-/////// binary
-
-
-#define function_identifier_no_count_binary(rtn, type)			template<typename WNode, typename WPointer, \
-										typename RIterator, typename ERIterator> \
-									static rtn type##_return(WPointer out, RIterator in, ERIterator end) \
-
-	#define function_identifier_no_return_no_count_binary()			function_identifier_no_count_binary(void, no)
-	#define function_identifier_with_return_no_count_binary()		function_identifier_no_count_binary(WPointer, with)
-
-#define function_identifier_with_count_binary(rtn, type)		template<typename WNode, typename WPointer, \
-										typename RIterator, typename ERIterator> \
-									static rtn type##_return(size_type & count, \
-											WPointer out, RIterator in, ERIterator end) \
-
-	#define function_identifier_no_return_with_count_binary()		function_identifier_with_count_binary(void, no)
-	#define function_identifier_with_return_with_count_binary()		function_identifier_with_count_binary(WPointer, with)
-
-
-/////// binary_new
-
-
-#define function_identifier_no_count_binary_new(rtn, type)		template<typename Node, typename WNode, \
-										typename WPointer, typename RPointer, typename ERPointer> \
-									static rtn type##_return(WPointer out, RPointer in, ERPointer end) \
-
-	#define function_identifier_no_return_no_count_binary_new()		function_identifier_no_count_binary_new(void, no)
-	#define function_identifier_with_return_no_count_binary_new()		function_identifier_no_count_binary_new(WPointer, with)
-
-#define function_identifier_with_count_binary_new(rtn, type)		template<typename Node, typename WNode, \
-										typename WPointer, typename RPointer, typename ERPointer> \
-									static rtn type##_return(size_type & count, \
-											WPointer out, RPointer in, ERPointer end) \
-
-	#define function_identifier_no_return_with_count_binary_new()		function_identifier_with_count_binary_new(void, no)
-	#define function_identifier_with_return_with_count_binary_new()		function_identifier_with_count_binary_new(WPointer, with)
-
-
-/////// trinary, trinary_brackets
-
-
-#define function_identifier_no_count_trinary(rtn, type)			template<typename WNode, typename WPointer, \
-										typename RIterator1, typename RIterator2, typename ERIterator>\
-									static rtn type##_return(WPointer out, \
-											RIterator1 in1, RIterator2 in2, ERIterator end2) \
-
-	#define function_identifier_no_return_no_count_trinary()		function_identifier_no_count_trinary(void, no)
-	#define function_identifier_with_return_no_count_trinary()		function_identifier_no_count_trinary(WPointer, with)
-
-	#define function_identifier_no_return_no_count_trinary_brackets()	function_identifier_no_count_trinary(void, no)
-	#define function_identifier_with_return_no_count_trinary_brackets()	function_identifier_no_count_trinary(WPointer, with)
-
-#define function_identifier_with_count_trinary(rtn, type)		template<typename WNode, typename WPointer, \
-										typename RIterator1, typename RIterator2, typename ERIterator>\
-									static rtn type##_return(size_type & count, WPointer out, \
-											RIterator1 in1, RIterator2 in2, ERIterator end2) \
-
-	#define function_identifier_no_return_with_count_trinary()		function_identifier_with_count_trinary(void, no)
-	#define function_identifier_with_return_with_count_trinary()		function_identifier_with_count_trinary(WPointer, with)
-
-	#define function_identifier_no_return_with_count_trinary_brackets()	function_identifier_with_count_trinary(void, no)
-	#define function_identifier_with_return_with_count_trinary_brackets()	function_identifier_with_count_trinary(WPointer, with)
-
-/************************************************************************************************************************/
-
-/*
-	return_type:
-
-		no_return
-		with_return
-
-	count_type:
-
-		no_count
-		with_count
-
-	operator_type:
-
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
-*/
-
-#define function_identifier(return_type, count_type, operator_type) \
-	function_identifier_##return_type##_##count_type##_##operator_type() \
-
-/************************************************************************************************************************/
-
-/*
-#undef function_identifier_no_count_unary
-
-	#undef function_identifier_no_return_no_count_unary
-	#undef function_identifier_with_return_no_count_unary
-
-#undef function_identifier_with_count_unary
-
-	#undef function_identifier_no_return_with_count_unary
-	#undef function_identifier_with_return_with_count_unary
-
-//
-
-#undef function_identifier_no_count_unary_constant
-
-	#undef function_identifier_no_return_no_count_unary_constant
-	#undef function_identifier_with_return_no_count_unary_constant
-
-#undef function_identifier_with_count_unary_constant
-
-	#undef function_identifier_no_return_with_count_unary_constant
-	#undef function_identifier_with_return_with_count_unary_constant
-
-//
-
-#undef function_identifier_no_count_unary_new
-
-	#undef function_identifier_no_return_no_count_unary_new
-	#undef function_identifier_with_return_no_count_unary_new
-
-#undef function_identifier_with_count_unary_new
-
-	#undef function_identifier_no_return_with_count_unary_new
-	#undef function_identifier_with_return_with_count_unary_new
-
-//
-
-#undef function_identifier_no_count_unary_new_brackets
-
-	#undef function_identifier_no_return_no_count_unary_new_brackets
-	#undef function_identifier_with_return_no_count_unary_new_brackets
-
-#undef function_identifier_with_count_unary_new_brackets
-
-	#undef function_identifier_no_return_with_count_unary_new_brackets
-	#undef function_identifier_with_return_with_count_unary_new_brackets
-
-//
-
-#undef function_identifier_no_count_unary_delete
-
-	#undef function_identifier_no_return_no_count_unary_delete
-	#undef function_identifier_with_return_no_count_unary_delete
-	#undef function_identifier_no_return_no_count_unary_delete_brackets
-	#undef function_identifier_with_return_no_count_unary_delete_brackets
-
-#undef function_identifier_with_count_unary_delete
-
-	#undef function_identifier_no_return_with_count_unary_delete
-	#undef function_identifier_with_return_with_count_unary_delete
-	#undef function_identifier_no_return_with_count_unary_delete_brackets
-	#undef function_identifier_with_return_with_count_unary_delete_brackets
-
-//
-
-#undef function_identifier_no_count_binary
-
-	#undef function_identifier_no_return_no_count_binary
-	#undef function_identifier_with_return_no_count_binary
-
-#undef function_identifier_with_count_binary
-
-	#undef function_identifier_no_return_with_count_binary
-	#undef function_identifier_with_return_with_count_binary
-
-//
-
-#undef function_identifier_no_count_binary_new
-
-	#undef function_identifier_no_return_no_count_binary_new
-	#undef function_identifier_with_return_no_count_binary_new
-
-#undef function_identifier_with_count_binary_new
-
-	#undef function_identifier_no_return_with_count_binary_new
-	#undef function_identifier_with_return_with_count_binary_new
-
-//
-
-#undef function_identifier_no_count_trinary
-
-	#undef function_identifier_no_return_no_count_trinary
-	#undef function_identifier_with_return_no_count_trinary
-	#undef function_identifier_no_return_no_count_trinary_brackets
-	#undef function_identifier_with_return_no_count_trinary_brackets
-
-#undef function_identifier_with_count_trinary
-
-	#undef function_identifier_no_return_with_count_trinary
-	#undef function_identifier_with_return_with_count_trinary
-	#undef function_identifier_no_return_with_count_trinary_brackets
-	#undef function_identifier_with_return_with_count_trinary_brackets
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-#define before_loop_out_as_closed_in_as_closed(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_closed_in_as_closing(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_closed_in_as_open(out_direction, operator_type, in_direction)	direct_in(operator_type, in_direction) \
-
-#define before_loop_out_as_closed_in_as_opening(out_direction, operator_type, in_direction)	direct_in(operator_type, in_direction) \
-
-//
-
-#define before_loop_out_as_closing_in_as_closed(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_closing_in_as_closing(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_closing_in_as_open(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_closing_in_as_opening(out_direction, operator_type, in_direction)	direct_in(operator_type, in_direction) \
-
-//
-
-#define before_loop_out_as_open_in_as_closed(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_open_in_as_closing(out_direction, operator_type, in_direction)	direct_out(out_direction) \
-
-#define before_loop_out_as_open_in_as_open(out_direction, operator_type, in_direction)		direct_out(out_direction) \
-												direct_in(operator_type, in_direction) \
-
-#define before_loop_out_as_open_in_as_opening(out_direction, operator_type, in_direction) \
-
-//
-
-#define before_loop_out_as_opening_in_as_closed(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_opening_in_as_closing(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_opening_in_as_open(out_direction, operator_type, in_direction) \
-
-#define before_loop_out_as_opening_in_as_opening(out_direction, operator_type, in_direction) \
-
-/************************************************************************************************************************/
-
-/*
-	operator_type:
-
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
-*/
-
-#define before_loop(out_type, out_direction, operator_type, in_type, in_direction) \
-	before_loop_##out_type##_##in_type(out_direction, operator_type, in_direction) \
-
-/************************************************************************************************************************/
-
-/*
-#undef before_loop_out_as_closed_in_as_closed
-#undef before_loop_out_as_closed_in_as_closing
-#undef before_loop_out_as_closed_in_as_open
-#undef before_loop_out_as_closed_in_as_opening
-
-#undef before_loop_out_as_closing_in_as_closed
-#undef before_loop_out_as_closing_in_as_closing
-#undef before_loop_out_as_closing_in_as_open
-#undef before_loop_out_as_closing_in_as_opening
-
-#undef before_loop_out_as_open_in_as_closed
-#undef before_loop_out_as_open_in_as_closing
-#undef before_loop_out_as_open_in_as_open
-#undef before_loop_out_as_open_in_as_opening
-
-#undef before_loop_out_as_opening_in_as_closed
-#undef before_loop_out_as_opening_in_as_closing
-#undef before_loop_out_as_opening_in_as_open
-#undef before_loop_out_as_opening_in_as_opening
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-#define loop_predicate_unary()									n
-
-	#define loop_predicate_unary_in_as_forward_no_peek()					loop_predicate_unary()
-	#define loop_predicate_unary_in_as_forward_with_peek()
-	#define loop_predicate_unary_in_as_backward_no_peek()					loop_predicate_unary()
-	#define loop_predicate_unary_in_as_backward_with_peek()
-
-	#define loop_predicate_unary_constant_in_as_forward_no_peek()				loop_predicate_unary()
-	#define loop_predicate_unary_constant_in_as_forward_with_peek()
-	#define loop_predicate_unary_constant_in_as_backward_no_peek()				loop_predicate_unary()
-	#define loop_predicate_unary_constant_in_as_backward_with_peek()
-
-	#define loop_predicate_unary_new_in_as_forward_no_peek()				loop_predicate_unary()
-	#define loop_predicate_unary_new_in_as_forward_with_peek()
-	#define loop_predicate_unary_new_in_as_backward_no_peek()				loop_predicate_unary()
-	#define loop_predicate_unary_new_in_as_backward_with_peek()
-
-	#define loop_predicate_unary_new_brackets_in_as_forward_no_peek()			loop_predicate_unary()
-	#define loop_predicate_unary_new_brackets_in_as_forward_with_peek()
-	#define loop_predicate_unary_new_brackets_in_as_backward_no_peek()			loop_predicate_unary()
-	#define loop_predicate_unary_new_brackets_in_as_backward_with_peek()
-
-#define loop_predicate_delete()									out != end
-
-	#define loop_predicate_unary_delete_in_as_forward_no_peek()				loop_predicate_delete()
-	#define loop_predicate_unary_delete_in_as_forward_with_peek()
-	#define loop_predicate_unary_delete_in_as_backward_no_peek()				loop_predicate_delete()
-	#define loop_predicate_unary_delete_in_as_backward_with_peek()
-
-	#define loop_predicate_unary_delete_brackets_in_as_forward_no_peek()			loop_predicate_delete()
-	#define loop_predicate_unary_delete_brackets_in_as_forward_with_peek()
-	#define loop_predicate_unary_delete_brackets_in_as_backward_no_peek()			loop_predicate_delete()
-	#define loop_predicate_unary_delete_brackets_in_as_backward_with_peek()
-
-#define loop_predicate_binary(dir, inv)								dir##in != end
-
-	#define loop_predicate_binary_in_as_forward_no_peek()					loop_predicate_unary( ,  )
-	#define loop_predicate_binary_in_as_forward_with_peek()					loop_predicate_unary(+, -)
-	#define loop_predicate_binary_in_as_backward_no_peek()					loop_predicate_unary( ,  )
-	#define loop_predicate_binary_in_as_backward_with_peek()				loop_predicate_unary(-, +)
-
-	#define loop_predicate_binary_new_in_as_forward_no_peek()				loop_predicate_unary( ,  )
-	#define loop_predicate_binary_new_in_as_forward_with_peek()				loop_predicate_unary(+, -)
-	#define loop_predicate_binary_new_in_as_backward_no_peek()				loop_predicate_unary( ,  )
-	#define loop_predicate_binary_new_in_as_backward_with_peek()				loop_predicate_unary(-, +)
-
-#define loop_predicate_trinary(dir, inv)							dir##in2 != end2
-
-	#define loop_predicate_trinary_in_as_forward_no_peek()					loop_predicate_unary( ,  )
-	#define loop_predicate_trinary_in_as_forward_with_peek()				loop_predicate_unary(+, -)
-	#define loop_predicate_trinary_in_as_backward_no_peek()					loop_predicate_unary( ,  )
-	#define loop_predicate_trinary_in_as_backward_with_peek()				loop_predicate_unary(-, +)
-
-	#define loop_predicate_trinary_brackets_in_as_forward_no_peek()				loop_predicate_unary( ,  )
-	#define loop_predicate_trinary_brackets_in_as_forward_with_peek()			loop_predicate_unary(+, -)
-	#define loop_predicate_trinary_brackets_in_as_backward_no_peek()			loop_predicate_unary( ,  )
-	#define loop_predicate_trinary_brackets_in_as_backward_with_peek()			loop_predicate_unary(-, +)
-
-/************************************************************************************************************************/
-
-#define loop_predicate(operator_type, in_direction, peek_type) \
-	loop_predicate_##operator_type##_##in_direction##_##peek_type() \
-
-/************************************************************************************************************************/
-
-/*
-#undef loop_predicate_unary
-
-	#undef loop_predicate_unary_in_as_forward_no_peek
-	#undef loop_predicate_unary_in_as_forward_with_peek
-	#undef loop_predicate_unary_in_as_backward_no_peek
-	#undef loop_predicate_unary_in_as_backward_with_peek
-
-	#undef loop_predicate_unary_constant_in_as_forward_no_peek
-	#undef loop_predicate_unary_constant_in_as_forward_with_peek
-	#undef loop_predicate_unary_constant_in_as_backward_no_peek
-	#undef loop_predicate_unary_constant_in_as_backward_with_peek
-
-	#undef loop_predicate_unary_new_in_as_forward_no_peek
-	#undef loop_predicate_unary_new_in_as_forward_with_peek
-	#undef loop_predicate_unary_new_in_as_backward_no_peek
-	#undef loop_predicate_unary_new_in_as_backward_with_peek
-
-	#undef loop_predicate_unary_new_brackets_in_as_forward_no_peek
-	#undef loop_predicate_unary_new_brackets_in_as_forward_with_peek
-	#undef loop_predicate_unary_new_brackets_in_as_backward_no_peek
-	#undef loop_predicate_unary_new_brackets_in_as_backward_with_peek
-
-#undef loop_predicate_delete
-
-	#undef loop_predicate_unary_delete_in_as_forward_no_peek
-	#undef loop_predicate_unary_delete_in_as_forward_with_peek
-	#undef loop_predicate_unary_delete_in_as_backward_no_peek
-	#undef loop_predicate_unary_delete_in_as_backward_with_peek
-
-	#undef loop_predicate_unary_delete_brackets_in_as_forward_no_peek
-	#undef loop_predicate_unary_delete_brackets_in_as_forward_with_peek
-	#undef loop_predicate_unary_delete_brackets_in_as_backward_no_peek
-	#undef loop_predicate_unary_delete_brackets_in_as_backward_with_peek
-
-#undef loop_predicate_binary
-
-	#undef loop_predicate_binary_in_as_forward_no_peek
-	#undef loop_predicate_binary_in_as_forward_with_peek
-	#undef loop_predicate_binary_in_as_backward_no_peek
-	#undef loop_predicate_binary_in_as_backward_with_peek
-
-	#undef loop_predicate_binary_new_in_as_forward_no_peek
-	#undef loop_predicate_binary_new_in_as_forward_with_peek
-	#undef loop_predicate_binary_new_in_as_backward_no_peek
-	#undef loop_predicate_binary_new_in_as_backward_with_peek
-
-#undef loop_predicate_trinary
-
-	#undef loop_predicate_trinary_in_as_forward_no_peek
-	#undef loop_predicate_trinary_in_as_forward_with_peek
-	#undef loop_predicate_trinary_in_as_backward_no_peek
-	#undef loop_predicate_trinary_in_as_backward_with_peek
-
-	#undef loop_predicate_trinary_brackets_in_as_forward_no_peek
-	#undef loop_predicate_trinary_brackets_in_as_forward_with_peek
-	#undef loop_predicate_trinary_brackets_in_as_backward_no_peek
-	#undef loop_predicate_trinary_brackets_in_as_backward_with_peek
 */
 
 /************************************************************************************************************************/
 
-#define loop_condition_out_as_closed_in_as_closed(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_closed_in_as_closing(operator_type, in_direction)		loop_predicate(operator_type, in_direction, with_peek)
-#define loop_condition_out_as_closed_in_as_open(operator_type, in_direction)		loop_predicate(operator_type, in_direction, with_peek)
-#define loop_condition_out_as_closed_in_as_opening(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-
-#define loop_condition_out_as_closing_in_as_closed(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_closing_in_as_closing(operator_type, in_direction)	loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_closing_in_as_open(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_closing_in_as_opening(operator_type, in_direction)	loop_predicate(operator_type, in_direction, no_peek)
-
-#define loop_condition_out_as_open_in_as_closed(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_open_in_as_closing(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_open_in_as_open(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_open_in_as_opening(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-
-#define loop_condition_out_as_opening_in_as_closed(operator_type, in_direction)		loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_opening_in_as_closing(operator_type, in_direction)	loop_predicate(operator_type, in_direction, no_peek)
-#define loop_condition_out_as_opening_in_as_open(operator_type, in_direction)		loop_predicate(operator_type, in_direction, with_peek)
-#define loop_condition_out_as_opening_in_as_opening(operator_type, in_direction)	loop_predicate(operator_type, in_direction, no_peek)
-
-/************************************************************************************************************************/
-
 /*
-	operator_type:
-
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
-*/
-
-#define loop_condition(out_type, operator_type, in_type, in_direction) \
-	loop_condition_##out_type##_##in_type(operator_type, in_direction) \
-
-/************************************************************************************************************************/
-
-/*
-#undef loop_condition_out_as_closed_in_as_closed
-#undef loop_condition_out_as_closed_in_as_closing
-#undef loop_condition_out_as_closed_in_as_open
-#undef loop_condition_out_as_closed_in_as_opening
-
-#undef loop_condition_out_as_closing_in_as_closed
-#undef loop_condition_out_as_closing_in_as_closing
-#undef loop_condition_out_as_closing_in_as_open
-#undef loop_condition_out_as_closing_in_as_opening
-
-#undef loop_condition_out_as_open_in_as_closed
-#undef loop_condition_out_as_open_in_as_closing
-#undef loop_condition_out_as_open_in_as_open
-#undef loop_condition_out_as_open_in_as_opening
-
-#undef loop_condition_out_as_opening_in_as_closed
-#undef loop_condition_out_as_opening_in_as_closing
-#undef loop_condition_out_as_opening_in_as_open
-#undef loop_condition_out_as_opening_in_as_opening
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/////// out_as_closed, in_as_closed
-
-
-#define during_loop_out_as_closed_in_as_closed(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closed, in_as_closing
-
-
-#define during_loop_out_as_closed_in_as_closing(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closed, in_as_open
-
-
-#define during_loop_out_as_closed_in_as_open(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closed, in_as_opening
-
-
-#define during_loop_out_as_closed_in_as_opening(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-//
-
-
-/////// out_as_closing, in_as_closed
-
-
-#define during_loop_out_as_closing_in_as_closed(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closing, in_as_closing
-
-
-#define during_loop_out_as_closing_in_as_closing(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closing, in_as_open
-
-
-#define during_loop_out_as_closing_in_as_open(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_closing, in_as_opening
-
-
-#define during_loop_out_as_closing_in_as_opening(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_in(operator_type, in_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-
-
-//
-
-
-/////// out_as_open, in_as_closed
-
-
-#define during_loop_out_as_open_in_as_closed(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_open, in_as_closing
-
-
-#define during_loop_out_as_open_in_as_closing(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_open, in_as_open
-
-
-#define during_loop_out_as_open_in_as_open(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_open, in_as_opening
-
-
-#define during_loop_out_as_open_in_as_opening(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_in(operator_type, in_direction) \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-
-
-//
-
-
-/////// out_as_opening, in_as_closed
-
-
-#define during_loop_out_as_opening_in_as_closed(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_opening, in_as_closing
-
-
-#define during_loop_out_as_opening_in_as_closing(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_in(operator_type, in_direction) \
-
-
-/////// out_as_opening, in_as_open
-
-
-#define during_loop_out_as_opening_in_as_open(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_in(operator_type, in_direction) \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-
-
-/////// out_as_opening, in_as_opening
-
-
-#define during_loop_out_as_opening_in_as_opening(out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_in(operator_type, in_direction) \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/////// no_count
-
-#define during_loop_no_count() \
-
-/////// with_count
-
-#define during_loop_with_count()							++count; \
-
-/************************************************************************************************************************/
-
-/*
-	in_type:
-
-		in_as_closed
-		in_as_closing
-		in_as_open
-		in_as_opening
-*/
-
-#define during_loop(count_type, out_type, out_direction, operator_type, op, lp, rp, in_type, in_direction) \
-	during_loop_##out_type##_##in_type(out_direction, operator_type, op, lp, rp, in_direction) \
-	during_loop_##count_type() \
-
-/************************************************************************************************************************/
-
-/*
-#undef during_loop_out_as_closed_in_as_closed
-#undef during_loop_out_as_closed_in_as_closing
-#undef during_loop_out_as_closed_in_as_open
-#undef during_loop_out_as_closed_in_as_opening
-
-#undef during_loop_out_as_closing_in_as_closed
-#undef during_loop_out_as_closing_in_as_closing
-#undef during_loop_out_as_closing_in_as_open
-#undef during_loop_out_as_closing_in_as_opening
-
-#undef during_loop_out_as_open_in_as_closed
-#undef during_loop_out_as_open_in_as_closing
-#undef during_loop_out_as_open_in_as_open
-#undef during_loop_out_as_open_in_as_opening
-
-#undef during_loop_out_as_opening_in_as_closed
-#undef during_loop_out_as_opening_in_as_closing
-#undef during_loop_out_as_opening_in_as_open
-#undef during_loop_out_as_opening_in_as_opening
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-#undef during_loop_no_count
-#undef during_loop_with_count
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/////// no_count
-
-#define after_loop_no_count() \
-
-/////// with_count
-
-#define after_loop_with_count()								++count; \
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-#define after_loop_out_as_closed_in_as_closed(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_closed_in_as_closing(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_closed_in_as_open(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_closed_in_as_opening(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	after_loop_##count_type() \
-
-//
-
-#define after_loop_out_as_closing_in_as_closed(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_closing_in_as_closing(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_closing_in_as_open(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_closing_in_as_opening(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-//
-
-#define after_loop_out_as_open_in_as_closed(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	direct_out(out_direction) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_open_in_as_closing(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_open_in_as_open(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_open_in_as_opening(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-	direct_out(out_direction) \
-
-//
-
-#define after_loop_out_as_opening_in_as_closed(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
- \
-	direct_out(out_direction) \
-	operate_on_out(operator_type, op, lp, rp) \
-	after_loop_##count_type() \
-
-#define after_loop_out_as_opening_in_as_closing(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_opening_in_as_open(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-#define after_loop_out_as_opening_in_as_opening(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/////// no_return
-
-#define after_loop_no_return() \
-
-/////// with_return
-
-#define after_loop_with_return()							return out; \
-
-/************************************************************************************************************************/
-
-/*
-	operator_type:
-
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
-*/
-
-#define after_loop(return_type, count_type, out_type, out_direction, operator_type, op, lp, rp, in_type, in_direction) \
-	after_loop_##out_type##_##in_type(count_type, out_direction, operator_type, op, lp, rp, in_direction) \
-	after_loop_##return_type() \
-
-/************************************************************************************************************************/
-
-/*
-#undef after_loop_no_count
-#undef after_loop_with_count
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-#undef after_loop_out_as_closed_in_as_closed
-#undef after_loop_out_as_closed_in_as_closing
-#undef after_loop_out_as_closed_in_as_open
-#undef after_loop_out_as_closed_in_as_opening
-
-#undef after_loop_out_as_closing_in_as_closed
-#undef after_loop_out_as_closing_in_as_closing
-#undef after_loop_out_as_closing_in_as_open
-#undef after_loop_out_as_closing_in_as_opening
-
-#undef after_loop_out_as_open_in_as_closed
-#undef after_loop_out_as_open_in_as_closing
-#undef after_loop_out_as_open_in_as_open
-#undef after_loop_out_as_open_in_as_opening
-
-#undef after_loop_out_as_opening_in_as_closed
-#undef after_loop_out_as_opening_in_as_closing
-#undef after_loop_out_as_opening_in_as_open
-#undef after_loop_out_as_opening_in_as_opening
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-#undef after_loop_no_return
-#undef after_loop_with_return
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-	return_type:
-
-		no_return
-		with_return
-
-	count_type:
-
-		no_count
-		with_count
-
 	out_type:
 
-		out_as_closed
 		out_as_closing
-		out_as_open
+		out_as_closed
 		out_as_opening
-
-	out_direction:
-
-		out_as_forward
-		out_as_backward
-
-	operator_type:
-
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
+		out_as_open
 
 	in_type:
 
-		in_as_closed
 		in_as_closing
-		in_as_open
+		in_as_closed
 		in_as_opening
-
-	in_direction:
-
-		in_as_forward
-		in_as_backward
+		in_as_open
 */
 
-#define loop_map(return_type, count_type, out_type, out_direction, operator_type, op, lp, rp, in_type, in_direction) \
-	function_identifier(return_type, count_type, operator_type) \
-	{ \
-		before_loop(out_type, out_direction, operator_type, in_type, in_direction) \
-	 \
-		while (loop_condition(out_type, operator_type, in_type, in_direction)) \
-		{ \
-			during_loop(count_type, out_type, out_direction, operator_type, op, lp, rp, in_type, in_direction) \
-		} \
-	 \
-		after_loop(return_type, count_type, out_type, out_direction, operator_type, op, lp, rp, in_type, in_direction) \
-	} \
 
-/************************************************************************************************************************/
+#define loop_map_unary(return_type, count_type, out_type, out_direction, in_type, in_direction, operator_type, opm, opl, opr) \
+	loop_map_##out_type##_##in_type##_unary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
 
-/*
-#undef function_identifier
-#undef before_loop
-#undef loop_condition
-#undef during_loop
-#undef after_loop
-*/
+#define loop_map_binary(return_type, count_type, out_type, out_direction, in_type, in_direction, operator_type, opm, opl, opr) \
+	loop_map_##out_type##_##in_type##_binary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
 
-/************************************************************************************************************************/
-
-/*
-
-// closed
-
-#define _closed_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	lp(*out)op(*in)rp; \
- \
-	stmt \
-}
-
-
-#define _closing_loop_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (dir(in) != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	lp(*out)op(*in)rp; \
- \
-	stmt \
-}
-
-
-#define _open_loop_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	dir##dir(in); \
- \
-	while (dir(in) != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	lp(*out)op(*in)rp; \
- \
-	stmt \
-}
-
-
-#define _opening_loop_lr_as_closed_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	dir##dir(in); \
- \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	lp(*out)op(*in)rp; \
- \
-	stmt \
-}
-
-// closing
-
-
-#define _closed_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	lp(*out)op(*in)rp; \
-	out=dir(out)=new WNode; \
- \
-	stmt \
-}
-
-
-#define _closing_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-
-#define _open_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	dir##dir(in); \
- \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-
-#define _opening_loop_lr_as_closing_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		dir##dir(in); \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-	} \
- \
-	stmt \
-}
-
-// open
-
-
-#define _closed_loop_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-		dir##dir(in); \
-	} \
- \
-	out=dir(out)=new WNode; \
-	lp(*out)op(*in)rp; \
-	out=dir(out)=new WNode; \
- \
-	stmt \
-}
-
-
-#define _closing_loop_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	out=dir(out)=new WNode; \
- \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-
-#define _open_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	dir##dir(in); \
-	out=dir(out)=new WNode; \
- \
-	while (in != end) \
-	{ \
-		lp(*out)op(*in)rp; \
-		out=dir(out)=new WNode; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-
-#define _opening_loop_lr_as_open_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		dir##dir(in); \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-	} \
- \
-	out=dir(out)=new WNode; \
- \
-	stmt \
-}
-
-// opening
-
-
-#define _closed_loop_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-		dir##dir(in); \
-	} \
- \
-	out=dir(out)=new WNode; \
-	lp(*out)op(*in)rp; \
- \
-	stmt \
-}
-
-
-#define _closing_loop_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-		dir##dir(in); \
-	} \
- \
-	stmt \
-}
-
-
-#define _open_loop_lr_as_opening_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (dir(in) != end) \
-	{ \
-		dir##dir(in); \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-	} \
- \
-	stmt \
-}
-
-
-#define _opening_loop_lr_1(dir, inv, op, label, rtn, stmt, lp, rp) \
-template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
-{ \
-	while (in != end) \
-	{ \
-		dir##dir(in); \
-		out=dir(out)=new WNode; \
-		lp(*out)op(*in)rp; \
-	} \
- \
-	stmt \
-}
-*/
+#define loop_map_trinary(return_type, count_type, out_type, out_direction, in_type, in_direction, operator_type, opm, opl, opr) \
+	loop_map_##out_type##_##in_type##_trinary(return_type, count_type, out_direction, in_direction, operator_type, opm, opl, opr) \
 

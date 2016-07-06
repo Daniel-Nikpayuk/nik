@@ -16,8 +16,8 @@
 *************************************************************************************************************************/
 
 #include"define/semiotic/loop.cpp"
-#include"define/semiotic/unroll.cpp"
-#include"define/semiotic/initial.cpp"
+//#include"define/semiotic/unroll.cpp"
+//#include"define/semiotic/initial.cpp"
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
