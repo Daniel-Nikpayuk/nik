@@ -31,6 +31,7 @@
 
 struct plus
 {
+/*
 	#define plus_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =+) \
 	name##_loop_with_return##label##_1(SGN, INV, =+) \
@@ -77,6 +78,7 @@ struct plus
 
 	#undef plus_interval
 	#undef plus_as_interval
+*/
 };
 
 /*
@@ -87,6 +89,7 @@ struct plus
 
 struct minus
 {
+/*
 	#define minus_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =-) \
 	name##_loop_with_return##label##_1(SGN, INV, =-) \
@@ -133,6 +136,7 @@ struct minus
 
 	#undef minus_interval
 	#undef minus_as_interval
+*/
 };
 
 /*
@@ -143,6 +147,7 @@ struct minus
 
 struct asterisk
 {
+/*
 	#define asterisk_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =*) \
 	name##_loop_with_return##label##_1(SGN, INV, =*) \
@@ -189,6 +194,7 @@ struct asterisk
 
 	#undef asterisk_interval
 	#undef asterisk_as_interval
+*/
 };
 
 /*
@@ -197,6 +203,7 @@ struct asterisk
 
 struct slash
 {
+/*
 	#define slash_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, /) \
 	name##_loop_with_return##label##_2(SGN, INV, /) \
@@ -234,6 +241,7 @@ struct slash
 
 	#undef slash_interval
 	#undef slash_as_interval
+*/
 };
 
 /*
@@ -242,6 +250,7 @@ struct slash
 
 struct percent
 {
+/*
 	#define percent_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, %) \
 	name##_loop_with_return##label##_2(SGN, INV, %) \
@@ -279,6 +288,7 @@ struct percent
 
 	#undef percent_interval
 	#undef percent_as_interval
+*/
 };
 
 /*
@@ -287,6 +297,7 @@ struct percent
 
 struct caret
 {
+/*
 	#define caret_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, ^) \
 	name##_loop_with_return##label##_2(SGN, INV, ^) \
@@ -324,6 +335,7 @@ struct caret
 
 	#undef caret_interval
 	#undef caret_as_interval
+*/
 };
 
 /*
@@ -334,6 +346,7 @@ struct caret
 
 struct ampersand
 {
+/*
 	#define ampersand_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =&) \
 	name##_loop_with_return##label##_1(SGN, INV, =&) \
@@ -380,6 +393,7 @@ struct ampersand
 
 	#undef ampersand_interval
 	#undef ampersand_as_interval
+*/
 };
 
 /*
@@ -388,6 +402,7 @@ struct ampersand
 
 struct bar
 {
+/*
 	#define bar_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, |) \
 	name##_loop_with_return##label##_2(SGN, INV, |) \
@@ -425,6 +440,7 @@ struct bar
 
 	#undef bar_interval
 	#undef bar_as_interval
+*/
 };
 
 /*
@@ -435,6 +451,7 @@ struct bar
 
 struct tilde
 {
+/*
 	#define tilde_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =~) \
 	name##_loop_with_return##label##_1(SGN, INV, =~) \
@@ -472,6 +489,7 @@ struct tilde
 
 	#undef tilde_interval
 	#undef tilde_as_interval
+*/
 };
 
 /*
@@ -482,6 +500,7 @@ struct tilde
 
 struct exclamation
 {
+/*
 	#define exclamation_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =!) \
 	name##_loop_with_return##label##_1(SGN, INV, =!) \
@@ -519,6 +538,7 @@ struct exclamation
 
 	#undef exclamation_interval
 	#undef exclamation_as_interval
+*/
 };
 
 /*
@@ -527,6 +547,7 @@ struct exclamation
 
 struct less_than
 {
+/*
 	#define less_than_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, <) \
 	name##_loop_with_return##label##_2(SGN, INV, <) \
@@ -564,6 +585,7 @@ struct less_than
 
 	#undef less_than_interval
 	#undef less_than_as_interval
+*/
 };
 
 /*
@@ -572,6 +594,7 @@ struct less_than
 
 struct greater_than
 {
+/*
 	#define greater_than_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, >) \
 	name##_loop_with_return##label##_2(SGN, INV, >) \
@@ -609,6 +632,7 @@ struct greater_than
 
 	#undef greater_than_interval
 	#undef greater_than_as_interval
+*/
 };
 
 /*
@@ -617,6 +641,7 @@ struct greater_than
 
 struct left_shift
 {
+/*
 	#define left_shift_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, <<) \
 	name##_loop_with_return##label##_2(SGN, INV, <<) \
@@ -654,6 +679,7 @@ struct left_shift
 
 	#undef left_shift_interval
 	#undef left_shift_as_interval
+*/
 };
 
 /*
@@ -662,6 +688,7 @@ struct left_shift
 
 struct right_shift
 {
+/*
 	#define right_shift_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, >>) \
 	name##_loop_with_return##label##_2(SGN, INV, >>) \
@@ -699,6 +726,7 @@ struct right_shift
 
 	#undef right_shift_interval
 	#undef right_shift_as_interval
+*/
 };
 
 /*
@@ -707,6 +735,7 @@ struct right_shift
 
 struct equals
 {
+/*
 	#define equals_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, ==) \
 	name##_loop_with_return##label##_2(SGN, INV, ==) \
@@ -744,6 +773,7 @@ struct equals
 
 	#undef equals_interval
 	#undef equals_as_interval
+*/
 };
 
 /*
@@ -752,6 +782,7 @@ struct equals
 
 struct not_equals
 {
+/*
 	#define not_equals_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, !=) \
 	name##_loop_with_return##label##_2(SGN, INV, !=) \
@@ -789,6 +820,7 @@ struct not_equals
 
 	#undef not_equals_interval
 	#undef not_equals_as_interval
+*/
 };
 
 /*
@@ -797,6 +829,7 @@ struct not_equals
 
 struct less_than_or_equal
 {
+/*
 	#define less_than_or_equal_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, <=) \
 	name##_loop_with_return##label##_2(SGN, INV, <=) \
@@ -834,6 +867,7 @@ struct less_than_or_equal
 
 	#undef less_than_or_equal_interval
 	#undef less_than_or_equal_as_interval
+*/
 };
 
 /*
@@ -842,6 +876,7 @@ struct less_than_or_equal
 
 struct greater_than_or_equal
 {
+/*
 	#define greater_than_or_equal_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, >=) \
 	name##_loop_with_return##label##_2(SGN, INV, >=) \
@@ -879,6 +914,7 @@ struct greater_than_or_equal
 
 	#undef greater_than_or_equal_interval
 	#undef greater_than_or_equal_as_interval
+*/
 };
 
 /*
@@ -887,6 +923,7 @@ struct greater_than_or_equal
 
 struct logical_and
 {
+/*
 	#define logical_and_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, &&) \
 	name##_loop_with_return##label##_2(SGN, INV, &&) \
@@ -924,6 +961,7 @@ struct logical_and
 
 	#undef logical_and_interval
 	#undef logical_and_as_interval
+*/
 };
 
 /*
@@ -932,6 +970,7 @@ struct logical_and
 
 struct logical_or
 {
+/*
 	#define logical_or_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, ||) \
 	name##_loop_with_return##label##_2(SGN, INV, ||) \
@@ -969,6 +1008,7 @@ struct logical_or
 
 	#undef logical_or_interval
 	#undef logical_or_as_interval
+*/
 };
 
 /*
@@ -977,6 +1017,7 @@ struct logical_or
 
 struct left_increment
 {
+/*
 	#define left_increment_as_interval(name, label) \
 	name##_loop_no_return_left##label##_0(SGN, INV, ++) \
  \
@@ -1011,10 +1052,12 @@ struct left_increment
 
 	#undef left_increment_interval
 	#undef left_increment_as_interval
+*/
 };
 
 struct right_increment
 {
+/*
 	#define right_increment_as_interval(name, label) \
 	name##_loop_no_return_right##label##_0(SGN, INV, ++) \
  \
@@ -1049,6 +1092,7 @@ struct right_increment
 
 	#undef right_increment_interval
 	#undef right_increment_as_interval
+*/
 };
 
 /*
@@ -1057,6 +1101,7 @@ struct right_increment
 
 struct left_decrement
 {
+/*
 	#define left_decrement_as_interval(name, label) \
 	name##_loop_no_return_left##label##_0(SGN, INV, --) \
  \
@@ -1091,10 +1136,12 @@ struct left_decrement
 
 	#undef left_decrement_interval
 	#undef left_decrement_as_interval
+*/
 };
 
 struct right_decrement
 {
+/*
 	#define right_decrement_as_interval(name, label) \
 	name##_loop_no_return_right##label##_0(SGN, INV, --) \
  \
@@ -1129,6 +1176,7 @@ struct right_decrement
 
 	#undef right_decrement_interval
 	#undef right_decrement_as_interval
+*/
 };
 
 /*
@@ -1137,6 +1185,7 @@ struct right_decrement
 
 struct comma
 {
+/*
 	#define comma_as_interval(name, label) \
 	struct count \
 	{ \
@@ -1167,6 +1216,7 @@ struct comma
 
 	#undef comma_interval
 	#undef comma_as_interval
+*/
 };
 
 /*
@@ -1175,6 +1225,7 @@ struct comma
 
 struct point_asterisk
 {
+/*
 	#define point_asterisk_as_interval(name, label) \
 	name##_loop_no_return##label##_2(SGN, INV, ->*) \
 	name##_loop_with_return##label##_2(SGN, INV, ->*) \
@@ -1212,6 +1263,7 @@ struct point_asterisk
 
 	#undef point_asterisk_interval
 	#undef point_asterisk_as_interval
+*/
 };
 
 /*
@@ -1220,6 +1272,7 @@ struct point_asterisk
 
 struct point
 {
+/*
 	#define point_as_interval(name, label) \
 	name##_loop_with_return##label##_2(SGN, INV, .operator->) \
  \
@@ -1254,6 +1307,7 @@ struct point
 
 	#undef point_interval
 	#undef point_as_interval
+*/
 };
 
 /*
@@ -1264,6 +1318,7 @@ struct point
 
 struct parentheses
 {
+/*
 	#define parentheses_as_interval(name, label) \
 	name##_loop_no_return_right##label##_0(SGN, INV, ()) \
  \
@@ -1316,6 +1371,7 @@ struct parentheses
 
 	#undef parentheses_interval
 	#undef parentheses_as_interval
+*/
 };
 
 /*
@@ -1324,6 +1380,7 @@ struct parentheses
 
 struct brackets
 {
+/*
 	#define brackets_as_interval(name, label) \
 	name##_loop_no_return_brackets##label##_2(SGN, INV, ) \
 	name##_loop_with_return_brackets##label##_2(SGN, INV, ) \
@@ -1361,6 +1418,7 @@ struct brackets
 
 	#undef brackets_interval
 	#undef brackets_as_interval
+*/
 };
 
 /*
@@ -1369,6 +1427,8 @@ struct brackets
 
 struct repeat
 {
+	loop_map(with_return, no_count, out_as_closing, out_as_forward, unary_constant, =, , , in_as_closing, in_as_forward)
+/*
 	#define repeat_as_interval(name, label) \
 	name##_loop_no_return##label##_0(SGN, INV, =) \
 	name##_loop_with_return##label##_0(SGN, INV, =) \
@@ -1406,11 +1466,13 @@ struct repeat
 
 	#undef repeat_interval
 	#undef repeat_as_interval
+*/
 /*
 	+=:
 */
 	struct plus
 	{
+/*
 		#define repeat_plus_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, +=) \
  \
@@ -1445,12 +1507,14 @@ struct repeat
 
 		#undef repeat_plus_interval
 		#undef repeat_plus_as_interval
+*/
 	};
 /*
 	-=:
 */
 	struct minus
 	{
+/*
 		#define repeat_minus_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, -=) \
  \
@@ -1485,12 +1549,14 @@ struct repeat
 
 		#undef repeat_minus_interval
 		#undef repeat_minus_as_interval
+*/
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
+/*
 		#define repeat_asterisk_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, *=) \
  \
@@ -1525,12 +1591,14 @@ struct repeat
 
 		#undef repeat_asterisk_interval
 		#undef repeat_asterisk_as_interval
+*/
 	};
 /*
 	/=:
 */
 	struct slash
 	{
+/*
 		#define repeat_slash_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, /=) \
  \
@@ -1565,12 +1633,14 @@ struct repeat
 
 		#undef repeat_slash_interval
 		#undef repeat_slash_as_interval
+*/
 	};
 /*
 	%=:
 */
 	struct percent
 	{
+/*
 		#define repeat_percent_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, %=) \
  \
@@ -1605,12 +1675,14 @@ struct repeat
 
 		#undef repeat_percent_interval
 		#undef repeat_percent_as_interval
+*/
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
+/*
 		#define repeat_caret_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, ^=) \
  \
@@ -1645,12 +1717,14 @@ struct repeat
 
 		#undef repeat_caret_interval
 		#undef repeat_caret_as_interval
+*/
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
+/*
 		#define repeat_ampersand_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, &=) \
  \
@@ -1685,12 +1759,14 @@ struct repeat
 
 		#undef repeat_ampersand_interval
 		#undef repeat_ampersand_as_interval
+*/
 	};
 /*
 	|=:
 */
 	struct bar
 	{
+/*
 		#define repeat_bar_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, |=) \
  \
@@ -1725,12 +1801,14 @@ struct repeat
 
 		#undef repeat_bar_interval
 		#undef repeat_bar_as_interval
+*/
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
+/*
 		#define repeat_right_shift_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, >>=) \
  \
@@ -1765,12 +1843,14 @@ struct repeat
 
 		#undef repeat_right_shift_interval
 		#undef repeat_right_shift_as_interval
+*/
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
+/*
 		#define repeat_left_shift_as_interval(name, label) \
 		name##_loop_no_return##label##_0(SGN, INV, <<=) \
  \
@@ -1805,6 +1885,7 @@ struct repeat
 
 		#undef repeat_left_shift_interval
 		#undef repeat_left_shift_as_interval
+*/
 	};
 };
 
@@ -1814,6 +1895,7 @@ struct repeat
 
 struct assign
 {
+/*
 	#define assign_as_interval(name, label) \
 	name##_loop_no_return##label##_1(SGN, INV, =) \
 	name##_loop_with_return##label##_1(SGN, INV, =) \
@@ -1851,11 +1933,13 @@ struct assign
 
 	#undef assign_interval
 	#undef assign_as_interval
+*/
 /*
 	+=:
 */
 	struct plus
 	{
+/*
 		#define assign_plus_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, +=) \
 		name##_loop_with_return##label##_1(SGN, INV, +=) \
@@ -1893,12 +1977,14 @@ struct assign
 
 		#undef assign_plus_interval
 		#undef assign_plus_as_interval
+*/
 	};
 /*
 	-=:
 */
 	struct minus
 	{
+/*
 		#define assign_minus_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, -=) \
 		name##_loop_with_return##label##_1(SGN, INV, -=) \
@@ -1936,12 +2022,14 @@ struct assign
 
 		#undef assign_minus_interval
 		#undef assign_minus_as_interval
+*/
 	};
 /*
 	*=:
 */
 	struct asterisk
 	{
+/*
 		#define assign_asterisk_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, *=) \
 		name##_loop_with_return##label##_1(SGN, INV, *=) \
@@ -1979,12 +2067,14 @@ struct assign
 
 		#undef assign_asterisk_interval
 		#undef assign_asterisk_as_interval
+*/
 	};
 /*
 	/=:
 */
 	struct slash
 	{
+/*
 		#define assign_slash_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, /=) \
 		name##_loop_with_return##label##_1(SGN, INV, /=) \
@@ -2022,12 +2112,14 @@ struct assign
 
 		#undef assign_slash_interval
 		#undef assign_slash_as_interval
+*/
 	};
 /*
 	%=:
 */
 	struct percent
 	{
+/*
 		#define assign_percent_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, %=) \
 		name##_loop_with_return##label##_1(SGN, INV, %=) \
@@ -2065,12 +2157,14 @@ struct assign
 
 		#undef assign_percent_interval
 		#undef assign_percent_as_interval
+*/
 	};
 /*
 	ˆ=:
 */
 	struct caret
 	{
+/*
 		#define assign_caret_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, ^=) \
 		name##_loop_with_return##label##_1(SGN, INV, ^=) \
@@ -2108,12 +2202,14 @@ struct assign
 
 		#undef assign_caret_interval
 		#undef assign_caret_as_interval
+*/
 	};
 /*
 	&=:
 */
 	struct ampersand
 	{
+/*
 		#define assign_ampersand_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, &=) \
 		name##_loop_with_return##label##_1(SGN, INV, &=) \
@@ -2151,12 +2247,14 @@ struct assign
 
 		#undef assign_ampersand_interval
 		#undef assign_ampersand_as_interval
+*/
 	};
 /*
 	|=:
 */
 	struct bar
 	{
+/*
 		#define assign_bar_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, |=) \
 		name##_loop_with_return##label##_1(SGN, INV, |=) \
@@ -2194,12 +2292,14 @@ struct assign
 
 		#undef assign_bar_interval
 		#undef assign_bar_as_interval
+*/
 	};
 /*
 	>>=:
 */
 	struct right_shift
 	{
+/*
 		#define assign_right_shift_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, >>=) \
 		name##_loop_with_return##label##_1(SGN, INV, >>=) \
@@ -2237,12 +2337,14 @@ struct assign
 
 		#undef assign_right_shift_interval
 		#undef assign_right_shift_as_interval
+*/
 	};
 /*
 	<<=:
 */
 	struct left_shift
 	{
+/*
 		#define assign_left_shift_as_interval(name, label) \
 		name##_loop_no_return##label##_1(SGN, INV, <<=) \
 		name##_loop_with_return##label##_1(SGN, INV, <<=) \
@@ -2280,11 +2382,13 @@ struct assign
 
 		#undef assign_left_shift_interval
 		#undef assign_left_shift_as_interval
+*/
 	};
 };
 
 struct allocate
 {
+/*
 	#define allocate_as_interval(name, label) \
 	name##_loop_no_return_new##label##_0(SGN, INV) \
 	name##_loop_with_return_new##label##_0(SGN, INV) \
@@ -2349,10 +2453,12 @@ struct allocate
 
 	#undef allocate_interval
 	#undef allocate_as_interval
+*/
 };
 
 struct deallocate
 {
+/*
 	#define deallocate_as_interval(name, label) \
 	name##_loop_no_return_delete##label##_0(SGN, INV) \
 	name##_loop_with_return_delete##label##_0(SGN, INV) \
@@ -2408,5 +2514,6 @@ struct deallocate
 
 	#undef deallocate_interval
 	#undef deallocate_as_interval
+*/
 };
 

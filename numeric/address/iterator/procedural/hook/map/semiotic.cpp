@@ -15,25 +15,9 @@
 **
 *************************************************************************************************************************/
 
-#include"define/semiotic/closed/loop.cpp"
-#include"define/semiotic/closed/count.cpp"
-#include"define/semiotic/closed/unroll.cpp"
-#include"define/semiotic/closed/initial.cpp"
-
-#include"define/semiotic/closing/loop.cpp"
-#include"define/semiotic/closing/count.cpp"
-#include"define/semiotic/closing/unroll.cpp"
-#include"define/semiotic/closing/initial.cpp"
-
-#include"define/semiotic/opening/loop.cpp"
-#include"define/semiotic/opening/count.cpp"
-#include"define/semiotic/opening/unroll.cpp"
-#include"define/semiotic/opening/initial.cpp"
-
-#include"define/semiotic/open/loop.cpp"
-#include"define/semiotic/open/count.cpp"
-#include"define/semiotic/open/unroll.cpp"
-#include"define/semiotic/open/initial.cpp"
+#include"define/semiotic/loop.cpp"
+#include"define/semiotic/unroll.cpp"
+#include"define/semiotic/initial.cpp"
 
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
@@ -60,9 +44,6 @@
 
 struct map
 {
-	#define SGN +
-	#define INV -
-
 	#include"../../macro/define/map/loop.cpp"
 
 	template<size_type N, size_type M=0, size_type L=0>
@@ -76,28 +57,7 @@ struct map
 	{
 //		#include"../../macro/define/map/initial.cpp"
 	};
-
-	#undef INV
-	#undef SGN
 };
 
-#include"../../macro/undef/map/open/initial.cpp"
-#include"../../macro/undef/map/open/unroll.cpp"
-#include"../../macro/undef/map/open/count.cpp"
-#include"../../macro/undef/map/open/loop.cpp"
-
-#include"../../macro/undef/map/opening/initial.cpp"
-#include"../../macro/undef/map/opening/unroll.cpp"
-#include"../../macro/undef/map/opening/count.cpp"
-#include"../../macro/undef/map/opening/loop.cpp"
-
-#include"../../macro/undef/map/closing/initial.cpp"
-#include"../../macro/undef/map/closing/unroll.cpp"
-#include"../../macro/undef/map/closing/count.cpp"
-#include"../../macro/undef/map/closing/loop.cpp"
-
-#include"../../macro/undef/map/closed/initial.cpp"
-#include"../../macro/undef/map/closed/unroll.cpp"
-#include"../../macro/undef/map/closed/count.cpp"
-#include"../../macro/undef/map/closed/loop.cpp"
+#undef loop_map
 
