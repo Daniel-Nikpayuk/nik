@@ -1427,7 +1427,7 @@ struct brackets
 
 struct repeat
 {
-	loop_map_unary(with_return, no_count, out_as_closing, out_as_forward, in_as_closing, in_as_forward, unary_constant, =, , )
+	loop_map(with_return, no_count, out_as_closing, out_as_forward, in_as_closing, in_as_forward, unary, constant, =, , )
 /*
 	#define repeat_as_interval(name, label) \
 	name##_loop_no_return##label##_0(SGN, INV, =) \
