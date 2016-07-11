@@ -24,6 +24,19 @@
 */
 
 /*
+#define unary(opm, opl, opr)							opl(*out)opr; \
+#define unary_constant(opm, opl, opr)						(*out)opm(in); \
+#define unary_new(opm, opl, opr)						*out=new Node(); \
+#define unary_new_brackets(opm, opl, opr)					*out=new Node[in]; \
+#define unary_delete(opm, opl, opr)						delete *current; \
+#define unary_delete_brackets(opm, opl, opr)					delete [] *current; \
+#define binary(opm, opl, opr)							opl(*out)opm(*in)opr; \
+#define binary_new(opm, opl, opr)						*out=new Node[*in]; \
+#define trinary(opm, opl, opr)							*out=(*in1)opm(*in2); \
+#define trinary_brackets(opm, opl, opr)						*out=(*in1)opm[*in2]; \
+*/
+
+/*
 	+:
 
 	"=+" might appear as a typo, but as a single inputiterator operator, it makes sense.
@@ -1427,7 +1440,12 @@ struct brackets
 
 struct repeat
 {
-	loop_map(with_return, no_count, out_as_closing, out_as_forward, in_as_closing, in_as_forward, unary, constant, =, , )
+	loop_map(
+			with_return, no_count, no_delete,
+			parentheses, =, , ,
+			out_as_unary, out_as_closing, out_as_forward,
+			in_as_nullary, in_as_closing, in_as_forward
+		)
 /*
 	#define repeat_as_interval(name, label) \
 	name##_loop_no_return##label##_0(SGN, INV, =) \

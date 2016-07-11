@@ -43,216 +43,226 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-/////// unary
 
-/*
-template<typename WNode, typename WPointer, typename EWPointer> \
-static rtn label##_return(WPointer in, EWPointer end) \
-{ \
-	while (in != end) \
-	{ \
-		delete op *in; \
-		delete (in)dir##dir; \
-		count_type() \
-	} \
- \
-	_##return_type() \
-}
-*/
+/////// out_as_nullary, in_as_unary
 
 
+// parentheses
 
-#define function_type_no_count_unary(rtn, label) \
- \
-	template<typename WNode, typename WPointer> \
-	static rtn label##_return(WPointer out, size_type n) \
 
+#define function_type_no_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
+															\
+	template<typename WPointer, typename EWPointer>									\
+	static rtn label##_return(WPointer in, EWPointer end)
 
-		#define function_type_no_return_no_count_unary()		function_type_no_count_unary(void, no)
-		#define function_type_with_return_no_count_unary()		function_type_no_count_unary(WPointer, with)
 
+		#define function_type_no_return_no_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_no_count_out_as_nullary_in_as_unary_parentheses(void, no)
 
-#define function_type_with_count_unary(rtn, label) \
- \
-	template<typename WNode, typename WPointer> \
-	static rtn label##_return(size_type & count, WPointer out, size_type n) \
+		#define function_type_with_return_no_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_no_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
 
+#define function_type_with_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
+															\
+	template<typename WPointer, typename EWPointer>									\
+	static rtn label##_return(size_type & count, WPointer in, EWPointer end)
 
-		#define function_type_no_return_with_count_unary()		function_type_with_count_unary(void, no)
-		#define function_type_with_return_with_count_unary()		function_type_with_count_unary(WPointer, with)
 
+		#define function_type_no_return_with_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_with_count_out_as_nullary_in_as_unary_parentheses(void, no)
 
-/////// unary_constant
+		#define function_type_with_return_with_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_with_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
 
 
-#define function_type_no_count_unary_constant(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename ValueType> \
-	static rtn label##_return(WPointer out, size_type n, ValueType in) \
+/////// out_as_unary, in_as_nullary
 
 
-		#define function_type_no_return_no_count_unary_constant()	function_type_no_count_unary_constant(void, no)
-		#define function_type_with_return_no_count_unary_constant()	function_type_no_count_unary_constant(WPointer, with)
+// parentheses
 
 
-#define function_type_with_count_unary_constant(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename ValueType> \
-	static rtn label##_return(size_type & count, WPointer out, size_type n, ValueType in) \
+#define function_type_no_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
+															\
+	template<typename WNode, typename WPointer, typename ValueType>							\
+	static rtn label##_return(WPointer out, size_type n, ValueType value)
 
 
-		#define function_type_no_return_with_count_unary_constant()	function_type_with_count_unary_constant(void, no)
-		#define function_type_with_return_with_count_unary_constant()	function_type_with_count_unary_constant(WPointer, with)
+		#define function_type_no_return_no_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_nullary_parentheses(void, no)
 
+		#define function_type_with_return_no_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
 
-/////// unary_new
+#define function_type_with_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
+															\
+	template<typename WNode, typename WPointer, typename ValueType>							\
+	static rtn label##_return(size_type & count, WPointer out, size_type n, ValueType value)
 
 
-#define function_type_no_count_unary_new(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer> \
-	static rtn label##_return(WPointer out, size_type n) \
+		#define function_type_no_return_with_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_nullary_parentheses(void, no)
 
+		#define function_type_with_return_with_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
 
-		#define function_type_no_return_no_count_unary_new()		function_type_no_count_unary_new(void, no)
-		#define function_type_with_return_no_count_unary_new()		function_type_no_count_unary_new(WPointer, with)
 
+// parentheses_new
 
-#define function_type_with_count_unary_new(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer> \
-	static rtn label##_return(size_type & count, WPointer out, size_type n) \
 
+#define function_type_no_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer>							\
+	static rtn label##_return(WPointer out, size_type n)
 
-		#define function_type_no_return_with_count_unary_new()		function_type_with_count_unary_new(void, no)
-		#define function_type_with_return_with_count_unary_new()	function_type_with_count_unary_new(WPointer, with)
 
+		#define function_type_no_return_no_count_out_as_unary_in_as_nullary_parentheses_new()			\
+			function_type_no_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
 
-/////// unary_new_brackets
+		#define function_type_with_return_no_count_out_as_unary_in_as_nullary_parentheses_new()			\
+			function_type_no_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
 
+#define function_type_with_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer>							\
+	static rtn label##_return(size_type & count, WPointer out, size_type n)
 
-#define function_type_no_count_unary_new_brackets(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer> \
-	static rtn label##_return(WPointer out, size_type n, size_type in) \
 
+		#define function_type_no_return_with_count_out_as_unary_in_as_nullary_parentheses_new()			\
+			function_type_with_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
 
-		#define function_type_no_return_no_count_unary_new_brackets()	function_type_no_count_unary_new_brackets(void, no)
-		#define function_type_with_return_no_count_unary_new_brackets()	function_type_no_count_unary_new_brackets(WPointer, with)
+		#define function_type_with_return_with_count_out_as_unary_in_as_nullary_parentheses_new()			\
+			function_type_with_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
 
 
-#define function_type_with_count_unary_new_brackets(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer> \
-	static rtn label##_return(size_type & count, WPointer out, size_type n, size_type in) \
+// brackets_new
 
 
-		#define function_type_no_return_with_count_unary_new_brackets()	function_type_with_count_unary_new_brackets(void, no)
-		#define function_type_with_return_with_count_unary_new_brackets()function_type_with_count_unary_new_brackets(WPointer, with)
+#define function_type_no_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer>							\
+	static rtn label##_return(WPointer out, size_type n, size_type in)
 
 
-/////// unary_delete, unary_delete_brackets
+		#define function_type_no_return_no_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_no_count_out_as_unary_in_as_nullary_brackets_new(void, no)
 
+		#define function_type_with_return_no_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_no_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
 
-#define function_type_no_count_unary_delete(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename EWPointer> \
-	static rtn label##_return(WPointer out, EWPointer end) \
+#define function_type_with_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer>							\
+	static rtn label##_return(size_type & count, WPointer out, size_type n, size_type in)
 
 
-		#define function_type_no_return_no_count_unary_delete()		function_type_no_count_unary_delete(void, no)
-		#define function_type_with_return_no_count_unary_delete()	function_type_no_count_unary_delete(WPointer, with)
+		#define function_type_no_return_with_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_with_count_out_as_unary_in_as_nullary_brackets_new(void, no)
 
-		#define function_type_no_return_no_count_unary_delete_brackets()function_type_no_count_unary_delete(void, no)
-		#define function_type_with_return_no_count_unary_delete_brackets()function_type_no_count_unary_delete(WPointer, with)
+		#define function_type_with_return_with_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_with_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
 
 
-#define function_type_with_count_unary_delete(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename EWPointer> \
-	static rtn label##_return(size_type & count, WPointer out, EWPointer end) \
+/////// out_as_unary, in_as_unary
 
 
-		#define function_type_no_return_with_count_unary_delete()	function_type_with_count_unary_delete(void, no)
-		#define function_type_with_return_with_count_unary_delete()	function_type_with_count_unary_delete(WPointer, with)
+// parentheses
 
-		#define function_type_no_return_with_count_unary_delete_brackets()function_type_with_count_unary_delete(void, no)
-		#define function_type_with_return_with_count_unary_delete_brackets()function_type_with_count_unary_delete(WPointer, with)
 
+#define function_type_no_count_out_as_unary_in_as_unary_parentheses(rtn, label)						\
+															\
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
+	static rtn label##_return(WPointer out, RIterator in, ERIterator end)
 
-/////// binary
 
+		#define function_type_no_return_no_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_unary_parentheses(void, no)
 
-#define function_type_no_count_binary(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-	static rtn label##_return(WPointer out, RIterator in, ERIterator end) \
+		#define function_type_with_return_no_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
 
+#define function_type_with_count_out_as_unary_in_as_unary_parentheses(rtn, label)						\
+															\
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
+	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 
-		#define function_type_no_return_no_count_binary()		function_type_no_count_binary(void, no)
-		#define function_type_with_return_no_count_binary()		function_type_no_count_binary(WPointer, with)
 
+		#define function_type_no_return_with_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_unary_parentheses(void, no)
 
-#define function_type_with_count_binary(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator> \
-	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end) \
+		#define function_type_with_return_with_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
 
 
-		#define function_type_no_return_with_count_binary()		function_type_with_count_binary(void, no)
-		#define function_type_with_return_with_count_binary()		function_type_with_count_binary(WPointer, with)
+// brackets_new
 
 
-/////// binary_new
+#define function_type_no_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
+	static rtn label##_return(WPointer out, RIterator in, ERIterator end)
 
 
-#define function_type_no_count_binary_new(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
-	static rtn label##_return(WPointer out, RPointer in, ERPointer end) \
+		#define function_type_no_return_no_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_no_count_out_as_unary_in_as_unary_brackets_new(void, no)
 
+		#define function_type_with_return_no_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_no_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
 
-		#define function_type_no_return_no_count_binary_new()		function_type_no_count_binary_new(void, no)
-		#define function_type_with_return_no_count_binary_new()		function_type_no_count_binary_new(WPointer, with)
+#define function_type_with_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
+															\
+	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
+	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 
 
-#define function_type_with_count_binary_new(rtn, label) \
- \
-	template<typename Node, typename WNode, typename WPointer, typename RPointer, typename ERPointer> \
-	static rtn label##_return(size_type & count, WPointer out, RPointer in, ERPointer end) \
+		#define function_type_no_return_with_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_with_count_out_as_unary_in_as_unary_brackets_new(void, no)
 
+		#define function_type_with_return_with_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_with_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
 
-		#define function_type_no_return_with_count_binary_new()		function_type_with_count_binary_new(void, no)
-		#define function_type_with_return_with_count_binary_new()	function_type_with_count_binary_new(WPointer, with)
 
+/////// out_as_unary, in_as_binary
 
-/////// trinary, trinary_brackets
 
+// parentheses
 
-#define function_type_no_count_trinary(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-	static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
 
+#define function_type_no_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
+															\
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+	static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
-		#define function_type_no_return_no_count_trinary()		function_type_no_count_trinary(void, no)
-		#define function_type_with_return_no_count_trinary()		function_type_no_count_trinary(WPointer, with)
 
-		#define function_type_no_return_no_count_trinary_brackets()	function_type_no_count_trinary(void, no)
-		#define function_type_with_return_no_count_trinary_brackets()	function_type_no_count_trinary(WPointer, with)
+		#define function_type_no_return_no_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_binary_parentheses(void, no)
 
+		#define function_type_with_return_no_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_no_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
-#define function_type_with_count_trinary(rtn, label) \
- \
-	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator> \
-	static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2) \
+		#define function_type_no_return_no_count_out_as_unary_in_as_binary_brackets()				\
+			function_type_no_count_out_as_unary_in_as_binary_parentheses(void, no)
 
+		#define function_type_with_return_no_count_out_as_unary_in_as_binary_brackets()				\
+			function_type_no_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
-		#define function_type_no_return_with_count_trinary()		function_type_with_count_trinary(void, no)
-		#define function_type_with_return_with_count_trinary()		function_type_with_count_trinary(WPointer, with)
+#define function_type_with_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
+															\
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+	static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
-		#define function_type_no_return_with_count_trinary_brackets()	function_type_with_count_trinary(void, no)
-		#define function_type_with_return_with_count_trinary_brackets()	function_type_with_count_trinary(WPointer, with)
+
+		#define function_type_no_return_with_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_binary_parentheses(void, no)
+
+		#define function_type_with_return_with_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_with_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+
+		#define function_type_no_return_with_count_out_as_unary_in_as_binary_brackets()				\
+			function_type_with_count_out_as_unary_in_as_binary_parentheses(void, no)
+
+		#define function_type_with_return_with_count_out_as_unary_in_as_binary_brackets()			\
+			function_type_with_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+
 
 
 /************************************************************************************************************************/
@@ -263,63 +273,69 @@ static rtn label##_return(WPointer in, EWPointer end) \
 */
 
 
-#define function_type(return_type, count_type, operator_type) \
-	function_type_##return_type##_##count_type##_##operator_type() \
+#define function_type(return_policy, count_policy, operator_policy) \
+	function_type_##return_policy##_##count_policy##_##operator_policy()
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
-	operator_type:
+	operator_policy:
 
-		unary
-		unary_constant
-		unary_new
-		unary_new_brackets
-		unary_delete
-		unary_delete_brackets
-		binary
-		binary_new
-		trinary
-		trinary_brackets
+		out_as_nullary_in_as_unary_parentheses
+
+		out_as_unary_in_as_nullary_parentheses
+		out_as_unary_in_as_nullary_parentheses_new
+		out_as_unary_in_as_nullary_brackets_new
+
+		out_as_unary_in_as_unary_parentheses
+		out_as_unary_in_as_unary_brackets_new
+
+		out_as_unary_in_as_binary_parentheses
+		out_as_unary_in_as_binary_brackets
 */
 
 
-#define unary(opm, opl, opr)							opl(*out)opr; \
+#define out_as_nullary_in_as_unary_parentheses(op_a, op_l, op_r)		op_a op_l (*in) op_r;
 
 
-#define unary_constant(opm, opl, opr)						(*out)opm(in); \
+//
 
 
-#define unary_new(opm, opl, opr)						*out=new Node(); \
+#define out_as_unary_in_as_nullary_parentheses(op_a, op_l, op_r)		(*out) op_a op_l (value) op_r;
 
 
-#define unary_new_brackets(opm, opl, opr)					*out=new Node[in]; \
+#define out_as_unary_in_as_nullary_parentheses_new(op_a, op_l, op_r)		(*out) op_a op_l () op_r;
 
 
-#define unary_delete(opm, opl, opr)						delete *current; \
-										delete current; \
-
-#define unary_delete_brackets(opm, opl, opr)					delete [] *current; \
-										delete current; \
-
-#define binary(opm, opl, opr)							opl(*out)opm(*in)opr; \
+#define out_as_unary_in_as_nullary_brackets_new(op_a, op_l, op_r)		(*out) op_a op_l [value] op_r;
 
 
-#define binary_new(opm, opl, opr)						*out=new Node[*in]; \
+//
 
 
-#define trinary(opm, opl, opr)							*out=(*in1)opm(*in2); \
+#define out_as_unary_in_as_unary_parentheses(op_a, op_l, op_r)			(*out) op_a op_l (*in) op_r;
 
 
-#define trinary_brackets(opm, opl, opr)						*out=(*in1)opm[*in2]; \
+#define out_as_unary_in_as_unary_brackets_new(op_a, op_l, op_r)			(*out) op_a op_l [*in] op_r;
+
+
+//
+
+
+#define out_as_unary_in_as_binary_parentheses(op_a, op_l, op_r)			(*out) op_a (*in1) op_l (*in2) op_r;
+
+
+#define out_as_Unary_in_as_binary_brackets(op_a, op_l, op_r)			(*out) op_a (*in1) op_l [*in2] op_r;
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
 	out_direction:
@@ -329,42 +345,54 @@ static rtn label##_return(WPointer in, EWPointer end) \
 */
 
 
-#define out_direction(dir)							out=dir(out)=new WNode; \
+#define out_direction(dir)							out=dir(out)=new WNode;
 
 
-	#define out_as_forward()						out_direction(+) \
+	#define out_as_forward()						out_direction(+)
 
 
 	#define out_as_backward()						WPointer current=out; \
 										out=new WNode; \
-										+out=current; \
+										+out=current;
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-#define in_direction_binary(dir)						dir##dir(in); \
+
+#define in_direction_no_delete_binary(dir)					dir##dir(in);
 
 
-	#define in_as_forward_binary()						in_direction_binary(+)
-	#define in_as_forward_binary_new()					in_direction_binary(+)
-
-	#define in_as_backward_binary()						in_direction_binary(-)
-	#define in_as_backward_binary_new()					in_direction_binary(-)
+	#define in_as_forward_no_delete_binary()				in_direction_no_delete_binary(+)
+	#define in_as_backward_no_delete_binary()				in_direction_no_delete_binary(-)
 
 
-#define in_direction_trinary(dir)						dir##dir(in1); \
-										dir##dir(in2); \
+#define in_direction_with_delete_binary(dir)					delete (in)dir##dir;
 
 
-	#define in_as_forward_trinary()						in_direction_trinary(+)
-	#define in_as_forward_trinary_brackets()				in_direction_trinary(+)
+	#define in_as_forward_with_delete_binary()				in_direction_with_delete_binary(+)
+	#define in_as_backward_with_delete_binary()				in_direction_with_delete_binary(-)
 
-	#define in_as_backward_trinary()					in_direction_trinary(-)
-	#define in_as_backward_trinary_brackets()				in_direction_trinary(-)
+
+#define in_direction_no_delete_trinary(dir)					dir##dir(in1); \
+										dir##dir(in2);
+
+
+	#define in_as_forward_no_delete_trinary()				in_direction_no_delete_trinary(+)
+	#define in_as_backward_no_delete_trinary()				in_direction_no_delete_trinary(-)
+
+
+#define in_direction_with_delete_trinary(dir)					delete (in1)dir##dir; \
+										delete (in2)dir##dir;
+
+
+	#define in_as_forward_with_delete_trinary()				in_direction_with_delete_trinary(+)
+	#define in_as_backward_with_delete_trinary()				in_direction_with_delete_trinary(-)
+
 
 /************************************************************************************************************************/
+
 
 /*
 	in_direction:
@@ -374,47 +402,37 @@ static rtn label##_return(WPointer in, EWPointer end) \
 */
 
 
-#define in_as_forward(operator_type) \
-	in_as_forward_##operator_type() \
+#define in_as_forward(delete_policy, in_arity) \
+	in_as_forward_##delete_policy##_##in_arity()
 
-#define in_as_backward(operator_type) \
-	in_as_backward_##operator_type() \
+#define in_as_backward(delete_policy, in_arity) \
+	in_as_backward_##delete_policy##_##in_arity()
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-#define peek_type_binary(dir)							dir##in != end \
+
+#define peek_type_binary(dir)							dir##in != end
 
 
-	#define no_peek_in_as_forward_binary()					peek_type_binary( )
-	#define no_peek_in_as_backward_binary()					peek_type_binary( )
+	#define no_peek_binary_in_as_forward()					peek_type_binary( )
+	#define no_peek_binary_in_as_backward()					peek_type_binary( )
 
-	#define no_peek_in_as_forward_binary_new()				peek_type_binary( )
-	#define no_peek_in_as_backward_binary_new()				peek_type_binary( )
-
-	#define with_peek_in_as_forward_binary()				peek_type_binary(+)
-	#define with_peek_in_as_backward_binary()				peek_type_binary(-)
-
-	#define with_peek_in_as_forward_binary_new()				peek_type_binary(+)
-	#define with_peek_in_as_backward_binary_new()				peek_type_binary(-)
+	#define with_peek_binary_in_as_forward()				peek_type_binary(+)
+	#define with_peek_binary_in_as_backward()				peek_type_binary(-)
 
 
-#define peek_type_trinary(dir)							dir##in2 != end2 \
+#define peek_type_trinary(dir)							dir##in2 != end2
 
 
-	#define no_peek_in_as_forward_trinary()					peek_type_trinary( )
-	#define no_peek_in_as_backward_trinary()				peek_type_trinary( )
+	#define no_peek_trinary_in_as_forward()					peek_type_trinary( )
+	#define no_peek_trinary_in_as_backward()				peek_type_trinary( )
 
-	#define no_peek_in_as_forward_trinary_brackets()			peek_type_trinary( )
-	#define no_peek_in_as_backward_trinary_brackets()			peek_type_trinary( )
+	#define with_peek_trinary_in_as_forward()				peek_type_trinary(+)
+	#define with_peek_trinary_in_as_backward()				peek_type_trinary(-)
 
-	#define with_peek_in_as_forward_trinary()				peek_type_trinary(+)
-	#define with_peek_in_as_backward_trinary()				peek_type_trinary(-)
-
-	#define with_peek_in_as_forward_trinary_brackets()			peek_type_trinary(+)
-	#define with_peek_in_as_backward_trinary_brackets()			peek_type_trinary(-)
 
 /************************************************************************************************************************/
 
@@ -426,19 +444,20 @@ static rtn label##_return(WPointer in, EWPointer end) \
 */
 
 
-#define no_peek(in_direction, operator_type) \
-	no_peek_##in_direction##_##operator_type() \
+#define no_peek(in_arity, in_direction) \
+	no_peek_##in_arity##_##in_direction()
 
-#define with_peek(in_direction, operator_type) \
-	with_peek_##in_direction##_##operator_type() \
+#define with_peek(in_arity, in_direction) \
+	with_peek_##in_arity##_##in_direction()
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
-	count_type:
+	count_policy:
 
 		no_count
 		with_count
@@ -448,15 +467,16 @@ static rtn label##_return(WPointer in, EWPointer end) \
 #define no_count()
 
 
-#define with_count()								++count; \
+#define with_count()								++count;
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
-	return_type:
+	return_policy:
 
 		no_return
 		with_return
@@ -466,12 +486,13 @@ static rtn label##_return(WPointer in, EWPointer end) \
 #define no_return()
 
 
-#define _with_return()								return out; \
+#define _with_return()								return out;
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
 	out as nullary, in as _ary
@@ -489,17 +510,17 @@ static rtn label##_return(WPointer in, EWPointer end) \
 */
 
 #define loop_map_out_as_nullary_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -515,21 +536,21 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_nullary_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	delete_type(in_arity) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -545,19 +566,19 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_nullary_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	in_direction(no_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(delete_type, in_arity) \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -573,25 +594,26 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_nullary_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	in_direction(no_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 /*
 	out as unary, in as nullary
@@ -609,18 +631,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -634,20 +656,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	++n; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -661,18 +683,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -686,20 +708,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	--n; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -715,23 +737,23 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	--n; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -745,21 +767,21 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -773,23 +795,23 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	--n; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -803,23 +825,23 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	n-=2; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -835,18 +857,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -860,20 +882,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	++n; \
  \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -887,18 +909,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -912,20 +934,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	--n; \
  \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -941,20 +963,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	out_direction() \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -968,22 +990,22 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	++n; \
  \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
 	out_direction() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -997,20 +1019,20 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (n) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 		--n; \
 	} \
  \
 	out_direction() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1024,21 +1046,21 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	out_direction() \
 	--n; \
  \
 	while (n) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 		--n; \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1064,18 +1086,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_out_as_closing_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1089,23 +1111,23 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_out_as_closing_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
+	operator_policy(op_a, op_l, op_r) \
 	out_direction() \
-	delete_type(in_arity) \
-	count_type() \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1119,18 +1141,18 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_no_delete_out_as_unary_out_as_closing_in_as_opening( \
-	return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		in_direction(no_delete, in_arity) \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		count_type() \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 /*
@@ -1140,31 +1162,31 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_with_delete_out_as_unary_out_as_closing_in_as_opening( \
-	return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	in_direction(no_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
 		in_direction(with_delete, in_arity) \
-		count_type() \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
+	operator_policy(op_a, op_l, op_r) \
 	out_direction() \
 	with_delete(in_arity) \
-	count_type() \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 #define loop_map_out_as_unary_out_as_closing_in_as_opening( \
-		return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-	loop_map_##delete_type##_out_as_unary_out_as_closing_in_as_opening( \
-		return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction)
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_closing_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction)
 
 
 /************************************************************************************************************************/
@@ -1176,50 +1198,22 @@ function_type(return_type, count_type, operator_type) \
 	(in, end) --> [out, out + end-in-1), end-in > 0
 */
 
-#define loop_map_no_delete_out_as_unary_out_as_closing_in_as_open( \
-	return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
-{ \
-	in_direction(no_delete, in_arity) \
- \
-	while (no_peek(in_arity, in_direction)) \
-	{ \
-		operator_type(opm, opl, opr) \
-		out_direction() \
-		in_direction(no_delete, in_arity) \
-		count_type() \
-	} \
- \
-	_##return_type() \
-}
-
-/*
-	Constraints:
-
-	(in, end) --> [out, out + end-in-1), end-in > 0
-*/
-
-#define loop_map_with_delete_out_as_unary_out_as_closing_in_as_open( \
-	return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
-{ \
-	in_direction(no_delete, in_arity) \
- \
-	while (no_peek(in_arity, in_direction)) \
-	{ \
-		operator_type(opm, opl, opr) \
-		out_direction() \
-		in_direction(with_delete, in_arity) \
-		count_type() \
-	} \
- \
-	_##return_type() \
-}
-
 #define loop_map_out_as_unary_out_as_closing_in_as_open( \
-		return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-	loop_map_##delete_type##_out_as_unary_out_as_closing_in_as_open( \
-		return_type, count_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction)
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(no_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	_##return_policy() \
+}
 
 
 /*************************************************************************************************************************
@@ -1234,22 +1228,22 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_out_as_closed_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
-	while (with_peek(in_direction, operator_type)) \
+	while (with_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	in_direction(delete_type, in_arity) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	in_direction(delete_policy, in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1263,68 +1257,84 @@ function_type(return_type, count_type, operator_type) \
 */
 
 #define loop_map_out_as_unary_out_as_closed_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	delete_type(in_arity) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> [out, out + end-in-1] > end-in > 0
+*/
 
 #define loop_map_out_as_unary_out_as_closed_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
-	in_direction(delete_type, in_arity) \
+	in_direction(no_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
 
+
+/*
+	Constraints:
+
+	(in, end) --> [out, out + end-in-2] > end-in > 1
+*/
+
 #define loop_map_out_as_unary_out_as_closed_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
-	in_direction(delete_type, in_arity) \
+	in_direction(no_delete, in_arity) \
  \
-	while (with_peek(in_direction, operator_type)) \
+	while (with_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	in_direction(delete_policy, in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1333,78 +1343,169 @@ function_type(return_type, count_type, operator_type) \
 *************************************************************************************************************************/
 
 
+/*
+	Constraints:
+
+	[in, end) --> (out, out + end-in]
+*/
+
 #define loop_map_out_as_unary_out_as_opening_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
 
+
+/*
+	Constraints:
+
+	[in, end] --> (out, out + end-in+1]
+*/
+
 #define loop_map_out_as_unary_out_as_opening_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
 	out_direction() \
-	operator_type(opm, opl, opr) \
-	count_type() \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
 
-#define loop_map_out_as_unary_out_as_opening_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in]
+*/
+
+#define loop_map_no_delete_out_as_unary_out_as_opening_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(delete_type, in_arity) \
+		in_direction(no_delete, in_arity) \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in], end-in > 0
+*/
+
+#define loop_map_with_delete_out_as_unary_out_as_opening_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(no_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(with_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	with_delete(in_arity) \
+	count_policy() \
+ \
+	_##return_policy() \
+}
+
+#define loop_map_out_as_unary_out_as_opening_in_as_opening( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_opening_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 
 
 /************************************************************************************************************************/
 
-#define loop_map_out_as_unary_out_as_opening_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+
+/*
+	Constraints:
+
+	(in, end) --> (out, out + end-in-1], end-in > 0
+*/
+
+#define loop_map_no_delete_out_as_unary_out_as_opening_in_as_open( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
-	while (with_peek(in_direction, operator_type)) \
+	while (with_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(delete_type, in_arity) \
+		in_direction(no_delete, in_arity) \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	in_direction(no_delete, in_arity) \
+ \
+	_##return_policy() \
 }
+
+/*
+	Constraints:
+
+	(in, end) --> (out, out + end-in-1], end-in > 1
+*/
+
+#define loop_map_with_delete_out_as_unary_out_as_opening_in_as_open( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(no_delete, in_arity) \
+ \
+	while (with_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(with_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	_##return_policy() \
+}
+
+#define loop_map_out_as_unary_out_as_opening_in_as_open( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_opening_in_as_open( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 
 
 /*************************************************************************************************************************
@@ -1412,85 +1513,147 @@ function_type(return_type, count_type, operator_type) \
 *************************************************************************************************************************/
 
 
+/*
+	Constraints:
+
+	[in, end) --> (out, out + end-in+1)
+*/
+
 #define loop_map_out_as_unary_out_as_open_in_as_closing( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	out_direction() \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end] --> (out, out + end-in+2)
+*/
 
 #define loop_map_out_as_unary_out_as_open_in_as_closed( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
-		operator_type(opm, opl, opr) \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
 	out_direction() \
-	operator_type(opm, opl, opr) \
+	operator_policy(op_a, op_l, op_r) \
 	out_direction() \
-	count_type() \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
 /************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1)
+*/
+
+#define loop_map_no_delete_out_as_unary_out_as_open_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		in_direction(no_delete, in_arity) \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+ \
+	_##return_policy() \
+}
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1), end-in > 0
+*/
+
+#define loop_map__delete_out_as_unary_out_as_open_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(no_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(with_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	out_direction() \
+	with_delete(in_arity) \
+	count_policy() \
+ \
+	_##return_policy() \
+}
 
 #define loop_map_out_as_unary_out_as_open_in_as_opening( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
-{ \
-	while (no_peek(in_arity, in_direction)) \
-	{ \
-		in_direction(delete_type, in_arity) \
-		out_direction() \
-		operator_type(opm, opl, opr) \
-		count_type() \
-	} \
- \
-	out_direction() \
- \
-	_##return_type() \
-}
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_open_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 
 
 /************************************************************************************************************************/
 
+
+/*
+	Constraints:
+
+	(in, end) --> (out, out + end-in), end-in > 0
+*/
+
 #define loop_map_out_as_unary_out_as_open_in_as_open( \
-	return_type, count_type, delete_type, operator_type, opm, opl, opr, out_direction, in_arity, in_direction) \
-function_type(return_type, count_type, operator_type) \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
 { \
-	in_direction(delete_type, in_arity) \
+	in_direction(no_delete, in_arity) \
 	out_direction() \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		operator_type(opm, opl, opr) \
+		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(delete_type, in_arity) \
-		count_type() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
 	} \
  \
-	_##return_type() \
+	_##return_policy() \
 }
 
 
@@ -1500,14 +1663,14 @@ function_type(return_type, count_type, operator_type) \
 
 
 /*
-	out_type:
+	out_interval:
 
 		out_as_closing
 		out_as_closed
 		out_as_opening
 		out_as_open
 
-	in_type:
+	in_interval:
 
 		in_as_closing
 		in_as_closed
@@ -1518,69 +1681,69 @@ function_type(return_type, count_type, operator_type) \
 // out as nullary
 
 
-#define loop_map_out_as_nullary_in_as_unary(				\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_type, out_direction,				\
-		in_type, in_direction)					\
-									\
-	loop_map_out_as_nullary_##out_type##_##in_type(			\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
+#define loop_map_out_as_nullary_in_as_unary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_nullary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_nullary_in_as_unary_##operator_policy, op_a, op_l, op_r,		\
 		in_as_unary, in_direction)
 
 
 // out as unary
 
 
-#define loop_map_out_as_unary_in_as_nullary(				\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_type, out_direction,				\
-		in_type, in_direction)					\
-									\
-	loop_map_out_as_unary_in_as_nullary_##out_type##_##in_type(	\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_direction)						\
+#define loop_map_out_as_unary_in_as_nullary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_in_as_nullary_##out_interval##_##in_interval(		\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_nullary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction)								\
 
-#define loop_map_out_as_unary_in_as_unary(				\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_type, out_direction,				\
-		in_type, in_direction)					\
-									\
-	loop_map_out_as_unary_##out_type##_##in_type(			\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_direction,						\
+#define loop_map_out_as_unary_in_as_unary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_unary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction,								\
 		in_as_unary, in_direction)
 
-#define loop_map_out_as_unary_in_as_binary(				\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_type, out_direction,				\
-		in_type, in_direction)					\
-									\
-	loop_map_out_as_unary_##out_type##_##in_type(			\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_direction,						\
+#define loop_map_out_as_unary_in_as_binary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_binary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction,								\
 		in_as_binary, in_direction)
 
 
 
 /************************************************************************************************************************/
 
-#define loop_map(							\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_arity, out_type, out_direction,			\
-		in_arity, in_type, in_direction)			\
-									\
-	loop_map_##out_arity##_##in_arity(				\
-		return_type, count_type, delete_type,			\
-		operator_type, opm, opl, opr,				\
-		out_type, out_direction,				\
-		in_type, in_direction)
+#define loop_map(									\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_arity, out_interval, out_direction,					\
+		in_arity, in_interval, in_direction)					\
+											\
+	loop_map_##out_arity##_##in_arity(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)
 
