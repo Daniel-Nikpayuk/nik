@@ -19,6 +19,8 @@
 //#include"define/semiotic/unroll.cpp"
 //#include"define/semiotic/initial.cpp"
 
+#include"../../macro/define/map/loop.cpp"
+
 /*
 	Overload operators are similar enough to factorize and pass the specific operator
 	as a method, but it is more cpu efficient to NOT---especially given there are few practical
@@ -44,20 +46,20 @@
 
 struct map
 {
-	#include"../../macro/define/map/loop.cpp"
+	#include"../../macro/define/map/loop.h"
 
 	template<size_type N, size_type M=0, size_type L=0>
 	struct unroll
 	{
-//		#include"../../macro/define/map/unroll.cpp"
+//		#include"../../macro/define/map/unroll.h"
 	};
 
 	template<size_type M, size_type L>
 	struct unroll<0, M, L>
 	{
-//		#include"../../macro/define/map/initial.cpp"
+//		#include"../../macro/define/map/initial.h"
 	};
 };
 
-#undef loop_map
+//#include"../../macro/undef/map/loop.cpp"
 

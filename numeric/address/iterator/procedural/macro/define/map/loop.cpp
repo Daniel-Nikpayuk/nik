@@ -18,2520 +18,1335 @@
 /*
 	This code is not intended to be used standalone.
 	It needs to be equipped with a context to be interpreted by the compiler.
-	It is meant to be bootstrapped with a given macro interpretation.
-
-	overload: 40 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
 */
 
 /*
-#define unary(opm, opl, opr)							opl(*out)opr; \
-#define unary_constant(opm, opl, opr)						(*out)opm(in); \
-#define unary_new(opm, opl, opr)						*out=new Node(); \
-#define unary_new_brackets(opm, opl, opr)					*out=new Node[in]; \
-#define unary_delete(opm, opl, opr)						delete *current; \
-#define unary_delete_brackets(opm, opl, opr)					delete [] *current; \
-#define binary(opm, opl, opr)							opl(*out)opm(*in)opr; \
-#define binary_new(opm, opl, opr)						*out=new Node[*in]; \
-#define trinary(opm, opl, opr)							*out=(*in1)opm(*in2); \
-#define trinary_brackets(opm, opl, opr)						*out=(*in1)opm[*in2]; \
+	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
+
+	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
+	in the special case where the data is only accessible through iterators.
+
+	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
+	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
 /*
-	+:
+	The main design point when it comes to conversions is that the context is preserved/modified, and only
+	the filler end points are gained or lost:
 
-	"=+" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	[x, y) --> [x, y-1]
+	[x, y) --> (x-1, y-1]
+	[x, y) --> (x-1, y)
 */
 
-struct plus
-{
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
 /*
-	#define plus_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =+) \
-	name##_loop_with_return##label##_1(SGN, INV, =+) \
- \
-	name##_loop_no_return##label##_2(SGN, INV, +) \
-	name##_loop_with_return##label##_2(SGN, INV, +) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_1(SGN, INV, =+) \
-		name##_count_with_return##label##_1(SGN, INV, =+) \
- \
-		name##_count_no_return##label##_2(SGN, INV, +) \
-		name##_count_with_return##label##_2(SGN, INV, +) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =+) \
-		name##_reverse_with_return##label##_1(SGN, INV, =+) \
- \
-		name##_reverse_no_return##label##_2(SGN, INV, +) \
-		name##_reverse_with_return##label##_2(SGN, INV, +) \
-	};
-
-	#define plus_interval(name) \
-	struct name \
-	{ \
-		plus_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ plus_as_interval(name, _as_closing)	}; \
-			struct closed	{ plus_as_interval(name, _as_closed)	}; \
-			struct opening	{ plus_as_interval(name, _as_opening)	}; \
-			struct open	{ plus_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	plus_interval(closing)
-	plus_interval(closed)
-	plus_interval(opening)
-	plus_interval(open)
-
-	#undef plus_interval
-	#undef plus_as_interval
+	out as nullary, in as _ary
 */
-};
+
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
 
+
 /*
-	-:
+	Constraints:
 
-	"=-" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	[out, end)
 */
 
-struct minus
-{
-/*
-	#define minus_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =-) \
-	name##_loop_with_return##label##_1(SGN, INV, =-) \
- \
-	name##_loop_no_return##label##_2(SGN, INV, -) \
-	name##_loop_with_return##label##_2(SGN, INV, -) \
- \
-	struct count \
+#define loop_map_out_as_nullary_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return##label##_1(SGN, INV, =-) \
-		name##_count_with_return##label##_1(SGN, INV, =-) \
- \
-		name##_count_no_return##label##_2(SGN, INV, -) \
-		name##_count_with_return##label##_2(SGN, INV, -) \
-	}; \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =-) \
-		name##_reverse_with_return##label##_1(SGN, INV, =-) \
- \
-		name##_reverse_no_return##label##_2(SGN, INV, -) \
-		name##_reverse_with_return##label##_2(SGN, INV, -) \
-	};
-
-	#define minus_interval(name) \
-	struct name \
-	{ \
-		minus_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ minus_as_interval(name, _as_closing)	}; \
-			struct closed	{ minus_as_interval(name, _as_closed)	}; \
-			struct opening	{ minus_as_interval(name, _as_opening)	}; \
-			struct open	{ minus_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	minus_interval(closing)
-	minus_interval(closed)
-	minus_interval(opening)
-	minus_interval(open)
-
-	#undef minus_interval
-	#undef minus_as_interval
-*/
-};
+	return_policy() \
+}
+
 
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
+
+
 /*
-	*:
+	Constraints:
 
-	"=*" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	[out, end]
 */
 
-struct asterisk
-{
-/*
-	#define asterisk_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =*) \
-	name##_loop_with_return##label##_1(SGN, INV, =*) \
- \
-	name##_loop_no_return##label##_2(SGN, INV, *) \
-	name##_loop_with_return##label##_2(SGN, INV, *) \
- \
-	struct count \
+#define loop_map_out_as_nullary_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return##label##_1(SGN, INV, =*) \
-		name##_count_with_return##label##_1(SGN, INV, =*) \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-		name##_count_no_return##label##_2(SGN, INV, *) \
-		name##_count_with_return##label##_2(SGN, INV, *) \
-	}; \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =*) \
-		name##_reverse_with_return##label##_1(SGN, INV, =*) \
- \
-		name##_reverse_no_return##label##_2(SGN, INV, *) \
-		name##_reverse_with_return##label##_2(SGN, INV, *) \
-	};
-
-	#define asterisk_interval(name) \
-	struct name \
-	{ \
-		asterisk_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ asterisk_as_interval(name, _as_closing)	}; \
-			struct closed	{ asterisk_as_interval(name, _as_closed)	}; \
-			struct opening	{ asterisk_as_interval(name, _as_opening)	}; \
-			struct open	{ asterisk_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	asterisk_interval(closing)
-	asterisk_interval(closed)
-	asterisk_interval(opening)
-	asterisk_interval(open)
-
-	#undef asterisk_interval
-	#undef asterisk_as_interval
-*/
-};
+	return_policy() \
+}
 
+
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
+
+
 /*
-	/:
+	Constraints:
+
+	(out, end]
 */
 
-struct slash
-{
-/*
-	#define slash_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, /) \
-	name##_loop_with_return##label##_2(SGN, INV, /) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, /) \
-		name##_count_with_return##label##_2(SGN, INV, /) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, /) \
-		name##_reverse_with_return##label##_2(SGN, INV, /) \
-	};
-
-	#define slash_interval(name) \
-	struct name \
+#define loop_map_out_as_nullary_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		slash_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ slash_as_interval(name, _as_closing)	}; \
-			struct closed	{ slash_as_interval(name, _as_closed)	}; \
-			struct opening	{ slash_as_interval(name, _as_opening)	}; \
-			struct open	{ slash_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	slash_interval(closing)
-	slash_interval(closed)
-	slash_interval(opening)
-	slash_interval(open)
-
-	#undef slash_interval
-	#undef slash_as_interval
-*/
-};
+		in_direction(delete_policy, in_arity) \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
 
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
+
+
 /*
-	%:
+	Constraints:
+
+	(out, end)
 */
 
-struct percent
-{
-/*
-	#define percent_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, %) \
-	name##_loop_with_return##label##_2(SGN, INV, %) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, %) \
-		name##_count_with_return##label##_2(SGN, INV, %) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, %) \
-		name##_reverse_with_return##label##_2(SGN, INV, %) \
-	};
-
-	#define percent_interval(name) \
-	struct name \
+#define loop_map_out_as_nullary_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		percent_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ percent_as_interval(name, _as_closing)	}; \
-			struct closed	{ percent_as_interval(name, _as_closed)		}; \
-			struct opening	{ percent_as_interval(name, _as_opening)	}; \
-			struct open	{ percent_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	percent_interval(closing)
-	percent_interval(closed)
-	percent_interval(opening)
-	percent_interval(open)
-
-	#undef percent_interval
-	#undef percent_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
 
-/*
-	ˆ:
-*/
 
-struct caret
-{
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
 /*
-	#define caret_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, ^) \
-	name##_loop_with_return##label##_2(SGN, INV, ^) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, ^) \
-		name##_count_with_return##label##_2(SGN, INV, ^) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, ^) \
-		name##_reverse_with_return##label##_2(SGN, INV, ^) \
-	};
-
-	#define caret_interval(name) \
-	struct name \
-	{ \
-		caret_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ caret_as_interval(name, _as_closing)	}; \
-			struct closed	{ caret_as_interval(name, _as_closed)	}; \
-			struct opening	{ caret_as_interval(name, _as_opening)	}; \
-			struct open	{ caret_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	caret_interval(closing)
-	caret_interval(closed)
-	caret_interval(opening)
-	caret_interval(open)
-
-	#undef caret_interval
-	#undef caret_as_interval
+	out as unary, in as nullary
 */
-};
+
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
 
+
 /*
-	&:
+	Constraints:
 
-	"=&" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	[0, n) --> [out, out + n)
 */
 
-struct ampersand
-{
-/*
-	#define ampersand_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =&) \
-	name##_loop_with_return##label##_1(SGN, INV, =&) \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	name##_loop_no_return##label##_2(SGN, INV, &) \
-	name##_loop_with_return##label##_2(SGN, INV, &) \
- \
-	struct count \
+	while (n) \
 	{ \
-		name##_count_no_return##label##_1(SGN, INV, =&) \
-		name##_count_with_return##label##_1(SGN, INV, =&) \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
  \
-		name##_count_no_return##label##_2(SGN, INV, &) \
-		name##_count_with_return##label##_2(SGN, INV, &) \
-	}; \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[0, n] --> [out, out + n+1)
+*/
+
+#define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	++n; \
  \
-	struct reverse \
+	while (n) \
 	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =&) \
-		name##_reverse_with_return##label##_1(SGN, INV, =&) \
- \
-		name##_reverse_no_return##label##_2(SGN, INV, &) \
-		name##_reverse_with_return##label##_2(SGN, INV, &) \
-	};
-
-	#define ampersand_interval(name) \
-	struct name \
-	{ \
-		ampersand_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ ampersand_as_interval(name, _as_closing)	}; \
-			struct closed	{ ampersand_as_interval(name, _as_closed)	}; \
-			struct opening	{ ampersand_as_interval(name, _as_opening)	}; \
-			struct open	{ ampersand_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	ampersand_interval(closing)
-	ampersand_interval(closed)
-	ampersand_interval(opening)
-	ampersand_interval(open)
-
-	#undef ampersand_interval
-	#undef ampersand_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
 
 /*
-	|:
+	Constraints:
+
+	(0, n] --> [out, out + n)
 */
 
-struct bar
-{
-/*
-	#define bar_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, |) \
-	name##_loop_with_return##label##_2(SGN, INV, |) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, |) \
-		name##_count_with_return##label##_2(SGN, INV, |) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, |) \
-		name##_reverse_with_return##label##_2(SGN, INV, |) \
-	};
-
-	#define bar_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (n) \
 	{ \
-		bar_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ bar_as_interval(name, _as_closing)	}; \
-			struct closed	{ bar_as_interval(name, _as_closed)	}; \
-			struct opening	{ bar_as_interval(name, _as_opening)	}; \
-			struct open	{ bar_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	bar_interval(closing)
-	bar_interval(closed)
-	bar_interval(opening)
-	bar_interval(open)
-
-	#undef bar_interval
-	#undef bar_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
 
+
+/************************************************************************************************************************/
+
+
 /*
-	~:
+	Constraints:
 
-	"=~" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	(0, n) --> [out, out + n-1), n > 0
 */
 
-struct tilde
-{
-/*
-	#define tilde_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =~) \
-	name##_loop_with_return##label##_1(SGN, INV, =~) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_1(SGN, INV, =~) \
-		name##_count_with_return##label##_1(SGN, INV, =~) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =~) \
-		name##_reverse_with_return##label##_1(SGN, INV, =~) \
-	};
-
-	#define tilde_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closing_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		tilde_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ tilde_as_interval(name, _as_closing)	}; \
-			struct closed	{ tilde_as_interval(name, _as_closed)	}; \
-			struct opening	{ tilde_as_interval(name, _as_opening)	}; \
-			struct open	{ tilde_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	tilde_interval(closing)
-	tilde_interval(closed)
-	tilde_interval(opening)
-	tilde_interval(open)
-
-	#undef tilde_interval
-	#undef tilde_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
+
+
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
 
+
 /*
-	!:
+	Constraints:
 
-	"=!" might appear as a typo, but as a single inputiterator operator, it makes sense.
+	[0, n) --> [out, out + n-1], n > 0
 */
 
-struct exclamation
-{
-/*
-	#define exclamation_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =!) \
-	name##_loop_with_return##label##_1(SGN, INV, =!) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_1(SGN, INV, =!) \
-		name##_count_with_return##label##_1(SGN, INV, =!) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =!) \
-		name##_reverse_with_return##label##_1(SGN, INV, =!) \
-	};
-
-	#define exclamation_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		exclamation_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ exclamation_as_interval(name, _as_closing)	}; \
-			struct closed	{ exclamation_as_interval(name, _as_closed)	}; \
-			struct opening	{ exclamation_as_interval(name, _as_opening)	}; \
-			struct open	{ exclamation_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	exclamation_interval(closing)
-	exclamation_interval(closed)
-	exclamation_interval(opening)
-	exclamation_interval(open)
-
-	#undef exclamation_interval
-	#undef exclamation_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
+ \
+	return_policy() \
+}
 
+
+/************************************************************************************************************************/
+
+
 /*
-	<:
+	Constraints:
+
+	[0, n] --> [out, out + n]
 */
 
-struct less_than
-{
-/*
-	#define less_than_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, <) \
-	name##_loop_with_return##label##_2(SGN, INV, <) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, <) \
-		name##_count_with_return##label##_2(SGN, INV, <) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, <) \
-		name##_reverse_with_return##label##_2(SGN, INV, <) \
-	};
-
-	#define less_than_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (n) \
 	{ \
-		less_than_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ less_than_as_interval(name, _as_closing)	}; \
-			struct closed	{ less_than_as_interval(name, _as_closed)	}; \
-			struct opening	{ less_than_as_interval(name, _as_opening)	}; \
-			struct open	{ less_than_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	less_than_interval(closing)
-	less_than_interval(closed)
-	less_than_interval(opening)
-	less_than_interval(open)
-
-	#undef less_than_interval
-	#undef less_than_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
 
+/************************************************************************************************************************/
+
+
 /*
-	>:
+	Constraints:
+
+	(0, n] --> [out, out + n-1], n > 0
 */
 
-struct greater_than
-{
-/*
-	#define greater_than_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, >) \
-	name##_loop_with_return##label##_2(SGN, INV, >) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, >) \
-		name##_count_with_return##label##_2(SGN, INV, >) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, >) \
-		name##_reverse_with_return##label##_2(SGN, INV, >) \
-	};
-
-	#define greater_than_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		greater_than_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ greater_than_as_interval(name, _as_closing)	}; \
-			struct closed	{ greater_than_as_interval(name, _as_closed)	}; \
-			struct opening	{ greater_than_as_interval(name, _as_opening)	}; \
-			struct open	{ greater_than_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	greater_than_interval(closing)
-	greater_than_interval(closed)
-	greater_than_interval(opening)
-	greater_than_interval(open)
-
-	#undef greater_than_interval
-	#undef greater_than_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
 
+/************************************************************************************************************************/
+
+
 /*
-	<<:
+	Constraints:
+
+	(0, n) --> [out, out + n-2], n > 1
 */
 
-struct left_shift
-{
-/*
-	#define left_shift_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, <<) \
-	name##_loop_with_return##label##_2(SGN, INV, <<) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, <<) \
-		name##_count_with_return##label##_2(SGN, INV, <<) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, <<) \
-		name##_reverse_with_return##label##_2(SGN, INV, <<) \
-	};
-
-	#define left_shift_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_closed_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	n-=2; \
+ \
+	while (n) \
 	{ \
-		left_shift_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ left_shift_as_interval(name, _as_closing)	}; \
-			struct closed	{ left_shift_as_interval(name, _as_closed)	}; \
-			struct opening	{ left_shift_as_interval(name, _as_opening)	}; \
-			struct open	{ left_shift_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	left_shift_interval(closing)
-	left_shift_interval(closed)
-	left_shift_interval(opening)
-	left_shift_interval(open)
-
-	#undef left_shift_interval
-	#undef left_shift_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
 
+
 /*
-	>>:
+	Constraints:
+
+	[0, n) --> (out, out + n]
 */
 
-struct right_shift
-{
-/*
-	#define right_shift_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, >>) \
-	name##_loop_with_return##label##_2(SGN, INV, >>) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, >>) \
-		name##_count_with_return##label##_2(SGN, INV, >>) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, >>) \
-		name##_reverse_with_return##label##_2(SGN, INV, >>) \
-	};
-
-	#define right_shift_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (n) \
 	{ \
-		right_shift_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ right_shift_as_interval(name, _as_closing)	}; \
-			struct closed	{ right_shift_as_interval(name, _as_closed)	}; \
-			struct opening	{ right_shift_as_interval(name, _as_opening)	}; \
-			struct open	{ right_shift_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	right_shift_interval(closing)
-	right_shift_interval(closed)
-	right_shift_interval(opening)
-	right_shift_interval(open)
-
-	#undef right_shift_interval
-	#undef right_shift_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
 
 /*
-	==:
+	Constraints:
+
+	[0, n] --> (out, out + n+1]
 */
 
-struct equals
-{
-/*
-	#define equals_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, ==) \
-	name##_loop_with_return##label##_2(SGN, INV, ==) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, ==) \
-		name##_count_with_return##label##_2(SGN, INV, ==) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, ==) \
-		name##_reverse_with_return##label##_2(SGN, INV, ==) \
-	};
-
-	#define equals_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	++n; \
+ \
+	while (n) \
 	{ \
-		equals_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ equals_as_interval(name, _as_closing)	}; \
-			struct closed	{ equals_as_interval(name, _as_closed)	}; \
-			struct opening	{ equals_as_interval(name, _as_opening)	}; \
-			struct open	{ equals_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	equals_interval(closing)
-	equals_interval(closed)
-	equals_interval(opening)
-	equals_interval(open)
-
-	#undef equals_interval
-	#undef equals_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
 
+
+/************************************************************************************************************************/
+
+
 /*
-	!=:
+	Constraints:
+
+	(0, n] --> (out, out + n]
 */
 
-struct not_equals
-{
-/*
-	#define not_equals_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, !=) \
-	name##_loop_with_return##label##_2(SGN, INV, !=) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, !=) \
-		name##_count_with_return##label##_2(SGN, INV, !=) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, !=) \
-		name##_reverse_with_return##label##_2(SGN, INV, !=) \
-	};
-
-	#define not_equals_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (n) \
 	{ \
-		not_equals_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ not_equals_as_interval(name, _as_closing)	}; \
-			struct closed	{ not_equals_as_interval(name, _as_closed)	}; \
-			struct opening	{ not_equals_as_interval(name, _as_opening)	}; \
-			struct open	{ not_equals_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	not_equals_interval(closing)
-	not_equals_interval(closed)
-	not_equals_interval(opening)
-	not_equals_interval(open)
-
-	#undef not_equals_interval
-	#undef not_equals_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
 
+
 /*
-	<=:
+	Constraints:
+
+	(0, n) --> (out, out + n-1], n > 0
 */
 
-struct less_than_or_equal
-{
-/*
-	#define less_than_or_equal_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, <=) \
-	name##_loop_with_return##label##_2(SGN, INV, <=) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, <=) \
-		name##_count_with_return##label##_2(SGN, INV, <=) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, <=) \
-		name##_reverse_with_return##label##_2(SGN, INV, <=) \
-	};
-
-	#define less_than_or_equal_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_opening_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	--n; \
+ \
+	while (n) \
 	{ \
-		less_than_or_equal_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ less_than_or_equal_as_interval(name, _as_closing)	}; \
-			struct closed	{ less_than_or_equal_as_interval(name, _as_closed)	}; \
-			struct opening	{ less_than_or_equal_as_interval(name, _as_opening)	}; \
-			struct open	{ less_than_or_equal_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	less_than_or_equal_interval(closing)
-	less_than_or_equal_interval(closed)
-	less_than_or_equal_interval(opening)
-	less_than_or_equal_interval(open)
-
-	#undef less_than_or_equal_interval
-	#undef less_than_or_equal_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
 
+
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
+
+
 /*
-	>=:
+	Constraints:
+
+	[0, n) --> (out, out + n+1)
 */
 
-struct greater_than_or_equal
-{
-/*
-	#define greater_than_or_equal_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, >=) \
-	name##_loop_with_return##label##_2(SGN, INV, >=) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, >=) \
-		name##_count_with_return##label##_2(SGN, INV, >=) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, >=) \
-		name##_reverse_with_return##label##_2(SGN, INV, >=) \
-	};
-
-	#define greater_than_or_equal_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	out_direction() \
+ \
+	while (n) \
 	{ \
-		greater_than_or_equal_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ greater_than_or_equal_as_interval(name, _as_closing)	}; \
-			struct closed	{ greater_than_or_equal_as_interval(name, _as_closed)	}; \
-			struct opening	{ greater_than_or_equal_as_interval(name, _as_opening)	}; \
-			struct open	{ greater_than_or_equal_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	greater_than_or_equal_interval(closing)
-	greater_than_or_equal_interval(closed)
-	greater_than_or_equal_interval(opening)
-	greater_than_or_equal_interval(open)
-
-	#undef greater_than_or_equal_interval
-	#undef greater_than_or_equal_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
+ \
+	return_policy() \
+}
+
 
+/************************************************************************************************************************/
+
+
 /*
-	&&:
+	Constraints:
+
+	[0, n] --> (out, out + n+2)
 */
 
-struct logical_and
-{
-/*
-	#define logical_and_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, &&) \
-	name##_loop_with_return##label##_2(SGN, INV, &&) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, &&) \
-		name##_count_with_return##label##_2(SGN, INV, &&) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, &&) \
-		name##_reverse_with_return##label##_2(SGN, INV, &&) \
-	};
-
-	#define logical_and_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	++n; \
+ \
+	while (n) \
 	{ \
-		logical_and_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ logical_and_as_interval(name, _as_closing)	}; \
-			struct closed	{ logical_and_as_interval(name, _as_closed)	}; \
-			struct opening	{ logical_and_as_interval(name, _as_opening)	}; \
-			struct open	{ logical_and_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	logical_and_interval(closing)
-	logical_and_interval(closed)
-	logical_and_interval(opening)
-	logical_and_interval(open)
-
-	#undef logical_and_interval
-	#undef logical_and_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	out_direction() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
 
+
 /*
-	||:
+	Constraints:
+
+	(0, n] --> (out, out + n+1)
 */
 
-struct logical_or
-{
-/*
-	#define logical_or_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, ||) \
-	name##_loop_with_return##label##_2(SGN, INV, ||) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, ||) \
-		name##_count_with_return##label##_2(SGN, INV, ||) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, ||) \
-		name##_reverse_with_return##label##_2(SGN, INV, ||) \
-	};
-
-	#define logical_or_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (n) \
 	{ \
-		logical_or_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ logical_or_as_interval(name, _as_closing)	}; \
-			struct closed	{ logical_or_as_interval(name, _as_closed)	}; \
-			struct opening	{ logical_or_as_interval(name, _as_opening)	}; \
-			struct open	{ logical_or_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	logical_or_interval(closing)
-	logical_or_interval(closed)
-	logical_or_interval(opening)
-	logical_or_interval(open)
-
-	#undef logical_or_interval
-	#undef logical_or_as_interval
-*/
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+		--n; \
+	} \
+ \
+	out_direction() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
 
+
 /*
-	++:
+	Constraints:
+
+	(0, n) --> (out, out + n), n > 0
 */
 
-struct left_increment
-{
-/*
-	#define left_increment_as_interval(name, label) \
-	name##_loop_no_return_left##label##_0(SGN, INV, ++) \
+#define loop_map_out_as_unary_in_as_nullary_out_as_open_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	out_direction() \
+	--n; \
  \
-	struct count \
+	while (n) \
 	{ \
-		name##_count_no_return_left##label##_0(SGN, INV, ++) \
-	}; \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+		--n; \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_left##label##_0(SGN, INV, ++) \
-	};
-
-	#define left_increment_interval(name) \
-	struct name \
-	{ \
-		left_increment_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ left_increment_as_interval(name, _as_closing)	}; \
-			struct closed	{ left_increment_as_interval(name, _as_closed)	}; \
-			struct opening	{ left_increment_as_interval(name, _as_opening)	}; \
-			struct open	{ left_increment_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	left_increment_interval(closing)
-	left_increment_interval(closed)
-	left_increment_interval(opening)
-	left_increment_interval(open)
-
-	#undef left_increment_interval
-	#undef left_increment_as_interval
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+/*
+	out as unary, in as _ary
 */
-};
+
 
-struct right_increment
-{
+/*************************************************************************************************************************
+							closing
+*************************************************************************************************************************/
+
+
 /*
-	#define right_increment_as_interval(name, label) \
-	name##_loop_no_return_right##label##_0(SGN, INV, ++) \
+	Constraints:
+
+	[in, end) --> [out, out + end-in)
+*/
+
+#define loop_map_out_as_unary_out_as_closing_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	struct count \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return_right##label##_0(SGN, INV, ++) \
-	}; \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_right##label##_0(SGN, INV, ++) \
-	};
-
-	#define right_increment_interval(name) \
-	struct name \
-	{ \
-		right_increment_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ right_increment_as_interval(name, _as_closing)	}; \
-			struct closed	{ right_increment_as_interval(name, _as_closed)		}; \
-			struct opening	{ right_increment_as_interval(name, _as_opening)	}; \
-			struct open	{ right_increment_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	right_increment_interval(closing)
-	right_increment_interval(closed)
-	right_increment_interval(opening)
-	right_increment_interval(open)
-
-	#undef right_increment_interval
-	#undef right_increment_as_interval
-*/
-};
+	return_policy() \
+}
 
+
+/************************************************************************************************************************/
+
+
 /*
-	--:
+	Constraints:
+
+	[in, end] --> [out, out + end-in+1)
 */
 
-struct left_decrement
-{
-/*
-	#define left_decrement_as_interval(name, label) \
-	name##_loop_no_return_left##label##_0(SGN, INV, --) \
+#define loop_map_out_as_unary_out_as_closing_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	struct count \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return_left##label##_0(SGN, INV, --) \
-	}; \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_left##label##_0(SGN, INV, --) \
-	};
-
-	#define left_decrement_interval(name) \
-	struct name \
-	{ \
-		left_decrement_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ left_decrement_as_interval(name, _as_closing)	}; \
-			struct closed	{ left_decrement_as_interval(name, _as_closed)	}; \
-			struct opening	{ left_decrement_as_interval(name, _as_opening)	}; \
-			struct open	{ left_decrement_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	left_decrement_interval(closing)
-	left_decrement_interval(closed)
-	left_decrement_interval(opening)
-	left_decrement_interval(open)
-
-	#undef left_decrement_interval
-	#undef left_decrement_as_interval
-*/
-};
+	operator_policy(op_a, op_l, op_r) \
+	out_direction() \
+	delete_policy(in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
 
-struct right_decrement
-{
 /*
-	#define right_decrement_as_interval(name, label) \
-	name##_loop_no_return_right##label##_0(SGN, INV, --) \
+	Constraints:
+
+	(in, end] --> [out, out + end-in)
+*/
+
+#define loop_map_deny_delete_out_as_unary_out_as_closing_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	struct count \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return_right##label##_0(SGN, INV, --) \
-	}; \
+		in_direction(deny_delete, in_arity) \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		count_policy() \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_right##label##_0(SGN, INV, --) \
-	};
-
-	#define right_decrement_interval(name) \
-	struct name \
-	{ \
-		right_decrement_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ right_decrement_as_interval(name, _as_closing)	}; \
-			struct closed	{ right_decrement_as_interval(name, _as_closed)		}; \
-			struct opening	{ right_decrement_as_interval(name, _as_opening)	}; \
-			struct open	{ right_decrement_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	right_decrement_interval(closing)
-	right_decrement_interval(closed)
-	right_decrement_interval(opening)
-	right_decrement_interval(open)
-
-	#undef right_decrement_interval
-	#undef right_decrement_as_interval
-*/
-};
+	return_policy() \
+}
 
 /*
-	,:
+	Constraints:
+
+	(in, end] --> [out, out + end-in), end-in > 0
 */
 
-struct comma
-{
-/*
-	#define comma_as_interval(name, label) \
-	struct count \
-	{ \
-	}; \
+#define loop_map_allow_delete_out_as_unary_out_as_closing_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
  \
-	struct reverse \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-	};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(allow_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	out_direction() \
+	allow_delete(in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
 
-	#define comma_interval(name) \
-	struct name \
-	{ \
-		comma_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ comma_as_interval(name, _as_closing)	}; \
-			struct closed	{ comma_as_interval(name, _as_closed)	}; \
-			struct opening	{ comma_as_interval(name, _as_opening)	}; \
-			struct open	{ comma_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	comma_interval(closing)
-	comma_interval(closed)
-	comma_interval(opening)
-	comma_interval(open)
-
-	#undef comma_interval
-	#undef comma_as_interval
-*/
-};
+#define loop_map_out_as_unary_out_as_closing_in_as_opening( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_closing_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction)
+
+
+/************************************************************************************************************************/
 
+
 /*
-	->*:
+	Constraints:
+
+	(in, end) --> [out, out + end-in-1), end-in > 0
 */
 
-struct point_asterisk
-{
-/*
-	#define point_asterisk_as_interval(name, label) \
-	name##_loop_no_return##label##_2(SGN, INV, ->*) \
-	name##_loop_with_return##label##_2(SGN, INV, ->*) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_2(SGN, INV, ->*) \
-		name##_count_with_return##label##_2(SGN, INV, ->*) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_2(SGN, INV, ->*) \
-		name##_reverse_with_return##label##_2(SGN, INV, ->*) \
-	};
-
-	#define point_asterisk_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_out_as_closing_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		point_asterisk_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ point_asterisk_as_interval(name, _as_closing)	}; \
-			struct closed	{ point_asterisk_as_interval(name, _as_closed)	}; \
-			struct opening	{ point_asterisk_as_interval(name, _as_opening)	}; \
-			struct open	{ point_asterisk_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	point_asterisk_interval(closing)
-	point_asterisk_interval(closed)
-	point_asterisk_interval(opening)
-	point_asterisk_interval(open)
-
-	#undef point_asterisk_interval
-	#undef point_asterisk_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
+
+/*************************************************************************************************************************
+							closed
+*************************************************************************************************************************/
+
 
 /*
-	->:
+	Constraints:
+
+	[in, end) --> [out, out + end-in-1], end-in > 0
 */
 
-struct point
-{
-/*
-	#define point_as_interval(name, label) \
-	name##_loop_with_return##label##_2(SGN, INV, .operator->) \
+#define loop_map_out_as_unary_out_as_closed_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	struct count \
+	while (with_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_with_return##label##_2(SGN, INV, .operator->) \
-	}; \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-	struct reverse \
-	{ \
-		name##_reverse_with_return##label##_2(SGN, INV, .operator->) \
-	};
-
-	#define point_interval(name) \
-	struct name \
-	{ \
-		point_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ point_as_interval(name, _as_closing)	}; \
-			struct closed	{ point_as_interval(name, _as_closed)	}; \
-			struct opening	{ point_as_interval(name, _as_opening)	}; \
-			struct open	{ point_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	point_interval(closing)
-	point_interval(closed)
-	point_interval(opening)
-	point_interval(open)
-
-	#undef point_interval
-	#undef point_as_interval
-*/
-};
+	operator_policy(op_a, op_l, op_r) \
+	in_direction(delete_policy, in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
 
+
 /*
-	():
+	Constraints:
 
-	if this doesn't work, you might be able to include parentheses in the macro itself and leave the macro argument "op" blank.
+	[in, end] --> [out, out + end-in]
 */
 
-struct parentheses
-{
-/*
-	#define parentheses_as_interval(name, label) \
-	name##_loop_no_return_right##label##_0(SGN, INV, ()) \
- \
-	name##_loop_no_return_right##label##_1(SGN, INV, =, ()) \
-	name##_loop_with_return_right##label##_1(SGN, INV, =, ()) \
+#define loop_map_out_as_unary_out_as_closed_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
  \
-	name##_loop_no_return##label##_2(SGN, INV, ) \
-	name##_loop_with_return##label##_2(SGN, INV, ) \
- \
-	struct count \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_count_no_return_right##label##_0(SGN, INV, ()) \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-		name##_count_no_return_right##label##_1(SGN, INV, =, ()) \
-		name##_count_with_return_right##label##_1(SGN, INV, =, ()) \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-		name##_count_no_return##label##_2(SGN, INV, ) \
-		name##_count_with_return##label##_2(SGN, INV, ) \
-	}; \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> [out, out + end-in-1] > end-in > 0
+*/
+
+#define loop_map_out_as_unary_out_as_closed_in_as_opening( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
  \
-	struct reverse \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_reverse_no_return_right##label##_0(SGN, INV, ()) \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
  \
-		name##_reverse_no_return_right##label##_1(SGN, INV, =, ()) \
-		name##_reverse_with_return_right##label##_1(SGN, INV, =, ()) \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
  \
-		name##_reverse_no_return##label##_2(SGN, INV, ) \
-		name##_reverse_with_return##label##_2(SGN, INV, ) \
-	};
+	return_policy() \
+}
 
-	#define parentheses_interval(name) \
-	struct name \
-	{ \
-		parentheses_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ parentheses_as_interval(name, _as_closing)	}; \
-			struct closed	{ parentheses_as_interval(name, _as_closed)	}; \
-			struct opening	{ parentheses_as_interval(name, _as_opening)	}; \
-			struct open	{ parentheses_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	parentheses_interval(closing)
-	parentheses_interval(closed)
-	parentheses_interval(opening)
-	parentheses_interval(open)
-
-	#undef parentheses_interval
-	#undef parentheses_as_interval
-*/
-};
+
+/************************************************************************************************************************/
 
+
 /*
-	[]:
+	Constraints:
+
+	(in, end) --> [out, out + end-in-2] > end-in > 1
 */
 
-struct brackets
-{
-/*
-	#define brackets_as_interval(name, label) \
-	name##_loop_no_return_brackets##label##_2(SGN, INV, ) \
-	name##_loop_with_return_brackets##label##_2(SGN, INV, ) \
- \
-	struct count \
-	{ \
-		name##_count_no_return_brackets##label##_2(SGN, INV, ) \
-		name##_count_with_return_brackets##label##_2(SGN, INV, ) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_brackets##label##_2(SGN, INV, ) \
-		name##_reverse_with_return_brackets##label##_2(SGN, INV, ) \
-	};
-
-	#define brackets_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_out_as_closed_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (with_peek(in_arity, in_direction)) \
 	{ \
-		brackets_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ brackets_as_interval(name, _as_closing)	}; \
-			struct closed	{ brackets_as_interval(name, _as_closed)	}; \
-			struct opening	{ brackets_as_interval(name, _as_opening)	}; \
-			struct open	{ brackets_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	brackets_interval(closing)
-	brackets_interval(closed)
-	brackets_interval(opening)
-	brackets_interval(open)
-
-	#undef brackets_interval
-	#undef brackets_as_interval
-*/
-};
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	operator_policy(op_a, op_l, op_r) \
+	in_direction(delete_policy, in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/*************************************************************************************************************************
+							opening
+*************************************************************************************************************************/
+
 
 /*
-	=:
+	Constraints:
+
+	[in, end) --> (out, out + end-in]
 */
 
-struct repeat
-{
-	loop_map(
-			with_return, no_count, no_delete,
-			parentheses, =, , ,
-			out_as_unary, out_as_closing, out_as_forward,
-			in_as_nullary, in_as_closing, in_as_forward
-		)
-/*
-	#define repeat_as_interval(name, label) \
-	name##_loop_no_return##label##_0(SGN, INV, =) \
-	name##_loop_with_return##label##_0(SGN, INV, =) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_0(SGN, INV, =) \
-		name##_count_with_return##label##_0(SGN, INV, =) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_0(SGN, INV, =) \
-		name##_reverse_with_return##label##_0(SGN, INV, =) \
-	};
-
-	#define repeat_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_out_as_opening_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		repeat_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ repeat_as_interval(name, _as_closing)	}; \
-			struct closed	{ repeat_as_interval(name, _as_closed)	}; \
-			struct opening	{ repeat_as_interval(name, _as_opening)	}; \
-			struct open	{ repeat_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	repeat_interval(closing)
-	repeat_interval(closed)
-	repeat_interval(opening)
-	repeat_interval(open)
-
-	#undef repeat_interval
-	#undef repeat_as_interval
-*/
-/*
-	+=:
-*/
-	struct plus
-	{
-/*
-		#define repeat_plus_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, +=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, +=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, +=) \
-		};
-
-		#define repeat_plus_interval(name) \
-		struct name \
-		{ \
-			repeat_plus_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_plus_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_plus_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_plus_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_plus_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_plus_interval(closing)
-		repeat_plus_interval(closed)
-		repeat_plus_interval(opening)
-		repeat_plus_interval(open)
-
-		#undef repeat_plus_interval
-		#undef repeat_plus_as_interval
-*/
-	};
-/*
-	-=:
-*/
-	struct minus
-	{
-/*
-		#define repeat_minus_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, -=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, -=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, -=) \
-		};
-
-		#define repeat_minus_interval(name) \
-		struct name \
-		{ \
-			repeat_minus_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_minus_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_minus_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_minus_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_minus_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_minus_interval(closing)
-		repeat_minus_interval(closed)
-		repeat_minus_interval(opening)
-		repeat_minus_interval(open)
-
-		#undef repeat_minus_interval
-		#undef repeat_minus_as_interval
-*/
-	};
-/*
-	*=:
-*/
-	struct asterisk
-	{
-/*
-		#define repeat_asterisk_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, *=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, *=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, *=) \
-		};
-
-		#define repeat_asterisk_interval(name) \
-		struct name \
-		{ \
-			repeat_asterisk_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_asterisk_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_asterisk_as_interval(name, _as_closed)		}; \
-				struct opening	{ repeat_asterisk_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_asterisk_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		repeat_asterisk_interval(closing)
-		repeat_asterisk_interval(closed)
-		repeat_asterisk_interval(opening)
-		repeat_asterisk_interval(open)
-
-		#undef repeat_asterisk_interval
-		#undef repeat_asterisk_as_interval
-*/
-	};
-/*
-	/=:
-*/
-	struct slash
-	{
-/*
-		#define repeat_slash_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, /=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, /=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, /=) \
-		};
-
-		#define repeat_slash_interval(name) \
-		struct name \
-		{ \
-			repeat_slash_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_slash_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_slash_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_slash_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_slash_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_slash_interval(closing)
-		repeat_slash_interval(closed)
-		repeat_slash_interval(opening)
-		repeat_slash_interval(open)
-
-		#undef repeat_slash_interval
-		#undef repeat_slash_as_interval
-*/
-	};
-/*
-	%=:
-*/
-	struct percent
-	{
-/*
-		#define repeat_percent_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, %=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, %=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, %=) \
-		};
-
-		#define repeat_percent_interval(name) \
-		struct name \
-		{ \
-			repeat_percent_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_percent_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_percent_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_percent_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_percent_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_percent_interval(closing)
-		repeat_percent_interval(closed)
-		repeat_percent_interval(opening)
-		repeat_percent_interval(open)
-
-		#undef repeat_percent_interval
-		#undef repeat_percent_as_interval
-*/
-	};
-/*
-	ˆ=:
-*/
-	struct caret
-	{
-/*
-		#define repeat_caret_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, ^=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, ^=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, ^=) \
-		};
-
-		#define repeat_caret_interval(name) \
-		struct name \
-		{ \
-			repeat_caret_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_caret_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_caret_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_caret_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_caret_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_caret_interval(closing)
-		repeat_caret_interval(closed)
-		repeat_caret_interval(opening)
-		repeat_caret_interval(open)
-
-		#undef repeat_caret_interval
-		#undef repeat_caret_as_interval
-*/
-	};
-/*
-	&=:
-*/
-	struct ampersand
-	{
-/*
-		#define repeat_ampersand_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, &=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, &=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, &=) \
-		};
-
-		#define repeat_ampersand_interval(name) \
-		struct name \
-		{ \
-			repeat_ampersand_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_ampersand_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_ampersand_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_ampersand_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_ampersand_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		repeat_ampersand_interval(closing)
-		repeat_ampersand_interval(closed)
-		repeat_ampersand_interval(opening)
-		repeat_ampersand_interval(open)
-
-		#undef repeat_ampersand_interval
-		#undef repeat_ampersand_as_interval
-*/
-	};
-/*
-	|=:
-*/
-	struct bar
-	{
-/*
-		#define repeat_bar_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, |=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, |=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, |=) \
-		};
-
-		#define repeat_bar_interval(name) \
-		struct name \
-		{ \
-			repeat_bar_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_bar_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_bar_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_bar_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_bar_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_bar_interval(closing)
-		repeat_bar_interval(closed)
-		repeat_bar_interval(opening)
-		repeat_bar_interval(open)
-
-		#undef repeat_bar_interval
-		#undef repeat_bar_as_interval
-*/
-	};
-/*
-	>>=:
-*/
-	struct right_shift
-	{
-/*
-		#define repeat_right_shift_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, >>=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, >>=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, >>=) \
-		};
-
-		#define repeat_right_shift_interval(name) \
-		struct name \
-		{ \
-			repeat_right_shift_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_right_shift_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_right_shift_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_right_shift_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_right_shift_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		repeat_right_shift_interval(closing)
-		repeat_right_shift_interval(closed)
-		repeat_right_shift_interval(opening)
-		repeat_right_shift_interval(open)
-
-		#undef repeat_right_shift_interval
-		#undef repeat_right_shift_as_interval
-*/
-	};
-/*
-	<<=:
-*/
-	struct left_shift
-	{
-/*
-		#define repeat_left_shift_as_interval(name, label) \
-		name##_loop_no_return##label##_0(SGN, INV, <<=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_0(SGN, INV, <<=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_0(SGN, INV, <<=) \
-		};
-
-		#define repeat_left_shift_interval(name) \
-		struct name \
-		{ \
-			repeat_left_shift_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ repeat_left_shift_as_interval(name, _as_closing)	}; \
-				struct closed	{ repeat_left_shift_as_interval(name, _as_closed)	}; \
-				struct opening	{ repeat_left_shift_as_interval(name, _as_opening)	}; \
-				struct open	{ repeat_left_shift_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		repeat_left_shift_interval(closing)
-		repeat_left_shift_interval(closed)
-		repeat_left_shift_interval(opening)
-		repeat_left_shift_interval(open)
-
-		#undef repeat_left_shift_interval
-		#undef repeat_left_shift_as_interval
-*/
-	};
-};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
 
+
 /*
-	=:
+	Constraints:
+
+	[in, end] --> (out, out + end-in+1]
 */
 
-struct assign
-{
-/*
-	#define assign_as_interval(name, label) \
-	name##_loop_no_return##label##_1(SGN, INV, =) \
-	name##_loop_with_return##label##_1(SGN, INV, =) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_1(SGN, INV, =) \
-		name##_count_with_return##label##_1(SGN, INV, =) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_1(SGN, INV, =) \
-		name##_reverse_with_return##label##_1(SGN, INV, =) \
-	};
-
-	#define assign_interval(name) \
-	struct name \
+#define loop_map_out_as_unary_out_as_opening_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		assign_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ assign_as_interval(name, _as_closing)	}; \
-			struct closed	{ assign_as_interval(name, _as_closed)	}; \
-			struct opening	{ assign_as_interval(name, _as_opening)	}; \
-			struct open	{ assign_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	assign_interval(closing)
-	assign_interval(closed)
-	assign_interval(opening)
-	assign_interval(open)
-
-	#undef assign_interval
-	#undef assign_as_interval
-*/
-/*
-	+=:
-*/
-	struct plus
-	{
-/*
-		#define assign_plus_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, +=) \
-		name##_loop_with_return##label##_1(SGN, INV, +=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, +=) \
-			name##_count_with_return##label##_1(SGN, INV, +=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, +=) \
-			name##_reverse_with_return##label##_1(SGN, INV, +=) \
-		};
-
-		#define assign_plus_interval(name) \
-		struct name \
-		{ \
-			assign_plus_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_plus_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_plus_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_plus_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_plus_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_plus_interval(closing)
-		assign_plus_interval(closed)
-		assign_plus_interval(opening)
-		assign_plus_interval(open)
-
-		#undef assign_plus_interval
-		#undef assign_plus_as_interval
-*/
-	};
-/*
-	-=:
-*/
-	struct minus
-	{
-/*
-		#define assign_minus_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, -=) \
-		name##_loop_with_return##label##_1(SGN, INV, -=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, -=) \
-			name##_count_with_return##label##_1(SGN, INV, -=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, -=) \
-			name##_reverse_with_return##label##_1(SGN, INV, -=) \
-		};
-
-		#define assign_minus_interval(name) \
-		struct name \
-		{ \
-			assign_minus_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_minus_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_minus_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_minus_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_minus_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_minus_interval(closing)
-		assign_minus_interval(closed)
-		assign_minus_interval(opening)
-		assign_minus_interval(open)
-
-		#undef assign_minus_interval
-		#undef assign_minus_as_interval
-*/
-	};
-/*
-	*=:
-*/
-	struct asterisk
-	{
-/*
-		#define assign_asterisk_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, *=) \
-		name##_loop_with_return##label##_1(SGN, INV, *=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, *=) \
-			name##_count_with_return##label##_1(SGN, INV, *=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, *=) \
-			name##_reverse_with_return##label##_1(SGN, INV, *=) \
-		};
-
-		#define assign_asterisk_interval(name) \
-		struct name \
-		{ \
-			assign_asterisk_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_asterisk_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_asterisk_as_interval(name, _as_closed)		}; \
-				struct opening	{ assign_asterisk_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_asterisk_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		assign_asterisk_interval(closing)
-		assign_asterisk_interval(closed)
-		assign_asterisk_interval(opening)
-		assign_asterisk_interval(open)
-
-		#undef assign_asterisk_interval
-		#undef assign_asterisk_as_interval
-*/
-	};
-/*
-	/=:
-*/
-	struct slash
-	{
-/*
-		#define assign_slash_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, /=) \
-		name##_loop_with_return##label##_1(SGN, INV, /=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, /=) \
-			name##_count_with_return##label##_1(SGN, INV, /=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, /=) \
-			name##_reverse_with_return##label##_1(SGN, INV, /=) \
-		};
-
-		#define assign_slash_interval(name) \
-		struct name \
-		{ \
-			assign_slash_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_slash_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_slash_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_slash_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_slash_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_slash_interval(closing)
-		assign_slash_interval(closed)
-		assign_slash_interval(opening)
-		assign_slash_interval(open)
-
-		#undef assign_slash_interval
-		#undef assign_slash_as_interval
-*/
-	};
-/*
-	%=:
-*/
-	struct percent
-	{
-/*
-		#define assign_percent_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, %=) \
-		name##_loop_with_return##label##_1(SGN, INV, %=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, %=) \
-			name##_count_with_return##label##_1(SGN, INV, %=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, %=) \
-			name##_reverse_with_return##label##_1(SGN, INV, %=) \
-		};
-
-		#define assign_percent_interval(name) \
-		struct name \
-		{ \
-			assign_percent_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_percent_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_percent_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_percent_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_percent_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_percent_interval(closing)
-		assign_percent_interval(closed)
-		assign_percent_interval(opening)
-		assign_percent_interval(open)
-
-		#undef assign_percent_interval
-		#undef assign_percent_as_interval
-*/
-	};
-/*
-	ˆ=:
-*/
-	struct caret
-	{
-/*
-		#define assign_caret_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, ^=) \
-		name##_loop_with_return##label##_1(SGN, INV, ^=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, ^=) \
-			name##_count_with_return##label##_1(SGN, INV, ^=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, ^=) \
-			name##_reverse_with_return##label##_1(SGN, INV, ^=) \
-		};
-
-		#define assign_caret_interval(name) \
-		struct name \
-		{ \
-			assign_caret_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_caret_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_caret_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_caret_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_caret_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_caret_interval(closing)
-		assign_caret_interval(closed)
-		assign_caret_interval(opening)
-		assign_caret_interval(open)
-
-		#undef assign_caret_interval
-		#undef assign_caret_as_interval
-*/
-	};
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	delete_policy(in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
+
 /*
-	&=:
+	Constraints:
+
+	(in, end] --> (out, out + end-in]
 */
-	struct ampersand
-	{
+
+#define loop_map_deny_delete_out_as_unary_out_as_opening_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		in_direction(deny_delete, in_arity) \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
 /*
-		#define assign_ampersand_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, &=) \
-		name##_loop_with_return##label##_1(SGN, INV, &=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, &=) \
-			name##_count_with_return##label##_1(SGN, INV, &=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, &=) \
-			name##_reverse_with_return##label##_1(SGN, INV, &=) \
-		};
-
-		#define assign_ampersand_interval(name) \
-		struct name \
-		{ \
-			assign_ampersand_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_ampersand_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_ampersand_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_ampersand_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_ampersand_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		assign_ampersand_interval(closing)
-		assign_ampersand_interval(closed)
-		assign_ampersand_interval(opening)
-		assign_ampersand_interval(open)
-
-		#undef assign_ampersand_interval
-		#undef assign_ampersand_as_interval
+	Constraints:
+
+	(in, end] --> (out, out + end-in], end-in > 0
 */
-	};
+
+#define loop_map_allow_delete_out_as_unary_out_as_opening_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(allow_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	allow_delete(in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+#define loop_map_out_as_unary_out_as_opening_in_as_opening( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_opening_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+
+
+/************************************************************************************************************************/
+
+
 /*
-	|=:
+	Constraints:
+
+	(in, end) --> (out, out + end-in-1], end-in > 0
 */
-	struct bar
-	{
+
+#define loop_map_deny_delete_out_as_unary_out_as_opening_in_as_open( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (with_peek(in_arity, in_direction)) \
+	{ \
+		in_direction(deny_delete, in_arity) \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+	} \
+ \
+	in_direction(deny_delete, in_arity) \
+ \
+	return_policy() \
+}
+
 /*
-		#define assign_bar_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, |=) \
-		name##_loop_with_return##label##_1(SGN, INV, |=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, |=) \
-			name##_count_with_return##label##_1(SGN, INV, |=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, |=) \
-			name##_reverse_with_return##label##_1(SGN, INV, |=) \
-		};
-
-		#define assign_bar_interval(name) \
-		struct name \
-		{ \
-			assign_bar_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_bar_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_bar_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_bar_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_bar_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_bar_interval(closing)
-		assign_bar_interval(closed)
-		assign_bar_interval(opening)
-		assign_bar_interval(open)
-
-		#undef assign_bar_interval
-		#undef assign_bar_as_interval
+	Constraints:
+
+	(in, end) --> (out, out + end-in-1], end-in > 1
 */
-	};
+
+#define loop_map_allow_delete_out_as_unary_out_as_opening_in_as_open( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (with_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(allow_delete, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
+#define loop_map_out_as_unary_out_as_opening_in_as_open( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_opening_in_as_open( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+
+
+/*************************************************************************************************************************
+							open
+*************************************************************************************************************************/
+
+
 /*
-	>>=:
+	Constraints:
+
+	[in, end) --> (out, out + end-in+1)
 */
-	struct right_shift
-	{
+
+#define loop_map_out_as_unary_out_as_open_in_as_closing( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	out_direction() \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
+
 /*
-		#define assign_right_shift_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, >>=) \
-		name##_loop_with_return##label##_1(SGN, INV, >>=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, >>=) \
-			name##_count_with_return##label##_1(SGN, INV, >>=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, >>=) \
-			name##_reverse_with_return##label##_1(SGN, INV, >>=) \
-		};
-
-		#define assign_right_shift_interval(name) \
-		struct name \
-		{ \
-			assign_right_shift_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_right_shift_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_right_shift_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_right_shift_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_right_shift_as_interval(name, _as_open)	}; \
-			}; \
-		};
-
-		assign_right_shift_interval(closing)
-		assign_right_shift_interval(closed)
-		assign_right_shift_interval(opening)
-		assign_right_shift_interval(open)
-
-		#undef assign_right_shift_interval
-		#undef assign_right_shift_as_interval
+	Constraints:
+
+	[in, end] --> (out, out + end-in+2)
 */
-	};
+
+#define loop_map_out_as_unary_out_as_open_in_as_closed( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	out_direction() \
+	delete_policy(in_arity) \
+	count_policy() \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+
+
 /*
-	<<=:
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1)
 */
-	struct left_shift
-	{
+
+#define loop_map_deny_delete_out_as_unary_out_as_open_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+ \
+	while (no_peek(in_arity, in_direction)) \
+	{ \
+		in_direction(deny_delete, in_arity) \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		count_policy() \
+	} \
+ \
+	out_direction() \
+ \
+	return_policy() \
+}
+
 /*
-		#define assign_left_shift_as_interval(name, label) \
-		name##_loop_no_return##label##_1(SGN, INV, <<=) \
-		name##_loop_with_return##label##_1(SGN, INV, <<=) \
- \
-		struct count \
-		{ \
-			name##_count_no_return##label##_1(SGN, INV, <<=) \
-			name##_count_with_return##label##_1(SGN, INV, <<=) \
-		}; \
- \
-		struct reverse \
-		{ \
-			name##_reverse_no_return##label##_1(SGN, INV, <<=) \
-			name##_reverse_with_return##label##_1(SGN, INV, <<=) \
-		};
-
-		#define assign_left_shift_interval(name) \
-		struct name \
-		{ \
-			assign_left_shift_as_interval(name, ) \
- \
-			struct as \
-			{ \
-				struct closing	{ assign_left_shift_as_interval(name, _as_closing)	}; \
-				struct closed	{ assign_left_shift_as_interval(name, _as_closed)	}; \
-				struct opening	{ assign_left_shift_as_interval(name, _as_opening)	}; \
-				struct open	{ assign_left_shift_as_interval(name, _as_open)		}; \
-			}; \
-		};
-
-		assign_left_shift_interval(closing)
-		assign_left_shift_interval(closed)
-		assign_left_shift_interval(opening)
-		assign_left_shift_interval(open)
-
-		#undef assign_left_shift_interval
-		#undef assign_left_shift_as_interval
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1), end-in > 0
 */
-	};
-};
-
-struct allocate
-{
-/*
-	#define allocate_as_interval(name, label) \
-	name##_loop_no_return_new##label##_0(SGN, INV) \
-	name##_loop_with_return_new##label##_0(SGN, INV) \
- \
-	struct brackets \
+
+#define loop_map_allow_delete_out_as_unary_out_as_open_in_as_opening( \
+	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		name##_loop_no_return_new_brackets##label##_0(SGN, INV) \
-		name##_loop_with_return_new_brackets##label##_0(SGN, INV) \
+		out_direction() \
+		operator_policy(op_a, op_l, op_r) \
+		in_direction(allow_delete, in_arity) \
+		count_policy() \
+	} \
  \
-		name##_loop_no_return_new_brackets##label##_1(SGN, INV) \
-		name##_loop_with_return_new_brackets##label##_1(SGN, INV) \
-	}; \
+	out_direction() \
+	operator_policy(op_a, op_l, op_r) \
+	out_direction() \
+	allow_delete(in_arity) \
+	count_policy() \
  \
-	struct count \
-	{ \
-		name##_count_no_return_new##label##_0(SGN, INV) \
-		name##_count_with_return_new##label##_0(SGN, INV) \
- \
-		struct brackets \
-		{ \
-			name##_count_no_return_new_brackets##label##_0(SGN, INV) \
-			name##_count_with_return_new_brackets##label##_0(SGN, INV) \
- \
-			name##_count_no_return_new_brackets##label##_1(SGN, INV) \
-			name##_count_with_return_new_brackets##label##_1(SGN, INV) \
-		}; \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_new##label##_0(SGN, INV) \
-		name##_reverse_with_return_new##label##_0(SGN, INV) \
- \
-		struct brackets \
-		{ \
-			name##_reverse_no_return_new_brackets##label##_0(SGN, INV) \
-			name##_reverse_with_return_new_brackets##label##_0(SGN, INV) \
- \
-			name##_reverse_no_return_new_brackets##label##_1(SGN, INV) \
-			name##_reverse_with_return_new_brackets##label##_1(SGN, INV) \
-		}; \
-	};
-
-	#define allocate_interval(name) \
-	struct name \
-	{ \
-		allocate_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ allocate_as_interval(name, _as_closing)	}; \
-			struct closed	{ allocate_as_interval(name, _as_closed)	}; \
-			struct opening	{ allocate_as_interval(name, _as_opening)	}; \
-			struct open	{ allocate_as_interval(name, _as_open)		}; \
-		}; \
-	};
-
-	allocate_interval(closing)
-	allocate_interval(closed)
-	allocate_interval(opening)
-	allocate_interval(open)
-
-	#undef allocate_interval
-	#undef allocate_as_interval
-*/
-};
+	return_policy() \
+}
+
+#define loop_map_out_as_unary_out_as_open_in_as_opening( \
+		return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+	loop_map_##delete_policy##_out_as_unary_out_as_open_in_as_opening( \
+		return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+
 
-struct deallocate
-{
+/************************************************************************************************************************/
+
+
 /*
-	#define deallocate_as_interval(name, label) \
-	name##_loop_no_return_delete##label##_0(SGN, INV) \
-	name##_loop_with_return_delete##label##_0(SGN, INV) \
- \
-	struct brackets \
-	{ \
-		name##_loop_no_return_delete_brackets##label##_0(SGN, INV) \
-		name##_loop_with_return_delete_brackets##label##_0(SGN, INV) \
-	}; \
- \
-	struct count \
-	{ \
-		name##_count_no_return_delete##label##_0(SGN, INV) \
-		name##_count_with_return_delete##label##_0(SGN, INV) \
- \
-		struct brackets \
-		{ \
-			name##_count_no_return_delete_brackets##label##_0(SGN, INV) \
-			name##_count_with_return_delete_brackets##label##_0(SGN, INV) \
-		}; \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return_delete##label##_0(SGN, INV) \
-		name##_reverse_with_return_delete##label##_0(SGN, INV) \
- \
-		struct brackets \
-		{ \
-			name##_reverse_no_return_delete_brackets##label##_0(SGN, INV) \
-			name##_reverse_with_return_delete_brackets##label##_0(SGN, INV) \
-		}; \
-	};
-
-	#define deallocate_interval(name) \
-	struct name \
+	Constraints:
+
+	(in, end) --> (out, out + end-in), end-in > 0
+*/
+
+#define loop_map_out_as_unary_out_as_open_in_as_open( \
+	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
+function_type(return_policy, count_policy, operator_policy) \
+{ \
+	declare_variables(out_direction) \
+	in_direction(deny_delete, in_arity) \
+	out_direction() \
+ \
+	while (no_peek(in_arity, in_direction)) \
 	{ \
-		deallocate_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ deallocate_as_interval(name, _as_closing)	}; \
-			struct closed	{ deallocate_as_interval(name, _as_closed)	}; \
-			struct opening	{ deallocate_as_interval(name, _as_opening)	}; \
-			struct open	{ deallocate_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	deallocate_interval(closing)
-	deallocate_interval(closed)
-	deallocate_interval(opening)
-	deallocate_interval(open)
-
-	#undef deallocate_interval
-	#undef deallocate_as_interval
+		operator_policy(op_a, op_l, op_r) \
+		out_direction() \
+		in_direction(delete_policy, in_arity) \
+		count_policy() \
+	} \
+ \
+	return_policy() \
+}
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+/*
+	out_interval:
+
+		out_as_closing
+		out_as_closed
+		out_as_opening
+		out_as_open
+
+	in_interval:
+
+		in_as_closing
+		in_as_closed
+		in_as_opening
+		in_as_open
 */
-};
+
+// out as nullary
+
+
+#define loop_map_out_as_nullary_in_as_unary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_nullary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_nullary_in_as_unary_##operator_policy, op_a, op_l, op_r,		\
+		in_as_unary, in_direction)
+
+
+// out as unary
+
+
+#define loop_map_out_as_unary_in_as_nullary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_in_as_nullary_##out_interval##_##in_interval(		\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_nullary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction)								\
+
+#define loop_map_out_as_unary_in_as_unary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_unary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction,								\
+		in_as_unary, in_direction)
+
+#define loop_map_out_as_unary_in_as_binary(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)						\
+											\
+	loop_map_out_as_unary_##out_interval##_##in_interval(				\
+		return_policy, count_policy, delete_policy,				\
+		out_as_unary_in_as_binary_##operator_policy, op_a, op_l, op_r,		\
+		out_direction,								\
+		in_as_binary, in_direction)
+
+
+
+/************************************************************************************************************************/
+
+#define loop_map(									\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_arity, out_interval, out_direction,					\
+		in_arity, in_interval, in_direction)					\
+											\
+	loop_map_##out_arity##_##in_arity(						\
+		return_policy, count_policy, delete_policy,				\
+		operator_policy, op_a, op_l, op_r,					\
+		out_interval, out_direction,						\
+		in_interval, in_direction)
 
