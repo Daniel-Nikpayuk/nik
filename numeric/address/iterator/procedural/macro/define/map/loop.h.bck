@@ -27,32 +27,318 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
+#define arity_operator(in_arity, in_interval, out_interval,										\
+		in_direction, delete_policy, out_direction, count_policy,								\
+		op_a, op_l, op_r)													\
+	loop_map(															\
+			deny_return, count_policy, delete_policy,									\
+			parentheses, =, op_a, op_l, op_r,										\
+			out_as_unary, out_interval, out_direction,									\
+			in_arity, in_interval, in_direction										\
+		)															\
+	loop_map(															\
+			allow_return, count_policy, delete_policy,									\
+			parentheses, =, op_a, op_l, op_r,										\
+			out_as_unary, out_interval, out_direction,									\
+			in_arity, in_interval, in_direction										\
+		)
+
+/************************************************************************************************************************/
+
+#define empty(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy, op_a, op_l, op_r)
+
+#define nullary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy, op_a, op_l, op_r)			\
+#define arity_operator(in_as_nullary, in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,		\
+			op_a, op_l, op_r)
+
+#define unary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy, op_a, op_l, op_r)			\
+#define arity_operator(in_as_unary, in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,		\
+			op_a, op_l, op_r)
+
+#define binary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,					\
+				operator_policy, op_a, op_l, op_r)									\
+#define arity_operator(in_as_binary, in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,		\
+			op_a, op_l, op_r)
+
+/************************************************************************************************************************/
+
+#define operator_policy(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,				\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+	nullary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,					\
+				nullary_policy, op0_a, op0_l, op0_r)									\
+																	\
+	unary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,					\
+				unary_policy, op1_a, op1_l, op1_r)									\
+																	\
+	binary(in_interval, out_interval, in_direction, delete_policy, out_direction, count_policy,					\
+				binary_policy, op2_a, op2_l, op2_r)
+
+/************************************************************************************************************************/
+
+#define count(in_interval, out_interval, in_direction, delete_policy, out_direction,							\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct count															\
+	{																\
+		operator_policy(in_interval, out_interval, in_direction, delete_policy, out_direction, deny_count,			\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+
+#define reverse(in_interval, out_interval, in_direction, delete_policy,									\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct reverse															\
+	{																\
+		operator_policy(in_interval, out_interval, in_direction, delete_policy, out_as_backward, deny_count,			\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		count(in_interval, out_interval, in_direction, delete_policy, out_as_backward,						\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+
+#define consume(in_interval, out_interval, in_direction,										\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct consume															\
+	{																\
+		operator_policy(in_interval, out_interval, in_direction, allow_delete, out_as_forward, deny_count,			\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		reverse(in_interval, out_interval, in_direction, allow_delete,								\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+
+#define backward(in_interval, out_interval,												\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct backward															\
+	{																\
+		operator_policy(in_interval, out_interval, in_as_backward, deny_delete, out_as_forward, deny_count,			\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		consume(in_interval, out_interval, in_as_backward,									\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+
+#define as_interval(in_interval, out_interval,												\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct out_interval														\
+	{																\
+		operator_policy(in_interval, out_interval, in_as_forward, deny_delete, out_as_forward, deny_count,			\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		backward(in_as_##in_interval, out_as_##out_interval,									\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		consume(in_as_##in_interval, out_as_##out_interval, in_as_forward,							\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		reverse(in_as_##in_interval, out_as_##out_interval, in_as_forward, deny_delete,						\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		count(in_as_##in_interval, out_as_##out_interval, in_as_forward, deny_delete, out_as_forward,				\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+
+#define interval(in_interval,														\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct in_interval														\
+	{																\
+		struct as														\
+		{															\
+			as_interval(in_interval, closing,										\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+			as_interval(in_interval, closed,										\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+			as_interval(in_interval, opening,										\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+			as_interval(in_interval, open,											\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+		};															\
+	};
+
+/************************************************************************************************************************/
+
+#define declare_map(name,														\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	struct name															\
+	{																\
+		interval(closing,													\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		interval(closed,													\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		interval(opening,													\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+																	\
+		interval(open,														\
+				nullary_policy, op0_a, op0_l, op0_r,									\
+				unary_policy, op1_a, op1_l, op1_r,									\
+				binary_policy, op2_a, op2_l, op2_r)									\
+	};
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+struct DefaultPolicies
+{
+	typedef DefaultPolicy1 P1;
+	typedef DefaultPolicy2 P2;
+	typedef DefaultPolicy3 P3;
+	typedef DefaultPolicy4 P4;
+};
+
+/************************************************************************************************************************/
+
+template<typename Policy>
+struct Policy1_is : virtual public DefaultPolicies
+{
+	typedef Policy P1;
+};
+
+template<typename Policy>
+struct Policy2_is : virtual public DefaultPolicies
+{
+	typedef Policy P2;
+};
+
+template<typename Policy>
+struct Policy3_is : virtual public DefaultPolicies
+{
+	typedef Policy P3;
+};
+
+template<typename Policy>
+struct Policy4_is : virtual public DefaultPolicies
+{
+	typedef Policy P4;
+};
+
+/************************************************************************************************************************/
+
+struct DefaultPolicyArgs : virtual public DefaultPolicies
+	{ };
+
+/************************************************************************************************************************/
+
+template<typename Base, int D>
+struct Discriminator : public Base
+	{ };
+
+/************************************************************************************************************************/
+
+template<typename Setter1, typename Setter2, typename Setter3, typename Setter4>
+struct PolicySelector :
+		public Discriminator<Setter1, 1>,
+		public Discriminator<Setter2, 2>,
+		public Discriminator<Setter3, 3>,
+		public Discriminator<Setter4, 4>
+	{ };
+
+/************************************************************************************************************************/
+
+template<
+	typename PolicySetter1 = DefaultPolicyArgs,
+	typename PolicySetter2 = DefaultPolicyArgs,
+	typename PolicySetter3 = DefaultPolicyArgs,
+	typename PolicySetter4 = DefaultPolicyArgs
+	>
+struct plus
+{
+	typedef PolicySelector<PolicySetter1, PolicySetter2, PolicySetter3, PolicySetter4> Policies;
+
+	typename Policies::P1;
+};
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 //	+:
+
+declare_map
+(
+	plus	,
+	empty	,	parentheses	,		,		,		,
+	unary	,	parentheses	,	=	,	+	,		,
+	binary	,	parentheses	,	=	,	+	,		)
 
 enum : size_type
 {
-	omit_policy,
-	apply_policy,
-
-	omit_backward,
-	apply_backward,
-
-	omit_consume,
-	apply_consume,
-
-	omit_reverse,
-	apply_reverse,
-
-	omit_count,
-	apply_count
+	backward,
+	consume,
+	reverse,
+	count
 };
 
-template<typename T, T... args>
-struct parameter_sort { };
-
-struct plus
-{
-};
+template<size_type policy_0, size_type policy_1, size_type policy_2>
+struct plus { };
 
 //	-:
 
