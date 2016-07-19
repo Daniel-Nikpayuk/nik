@@ -15,35 +15,23 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-#define NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-
-namespace nik		{
-namespace grammaric	{
-namespace functional	{
-
-	template<typename SizeType>
-	struct semiotic
+template<size_type test>
+struct lessThanOrEqual
+{
+	template<size_type current>
+	struct keep
 	{
-		typedef SizeType size_type;
-
-		#include"control_flow/semiotic.cpp"
-		#include"length/semiotic.cpp"
-		#include"car/semiotic.cpp"
+		static constexpr bool rtn = (current <= test);
 	};
+};
 
-	template<typename SizeType>
-	struct media
+template<size_type test>
+struct greaterThanOrEqual
+{
+	template<size_type current>
+	struct keep
 	{
-		typedef SizeType size_type;
-
-		typedef functional::semiotic<size_type> semiotic;
-
-		#include"control_flow/media.cpp"
-		#include"length/media.cpp"
-		#include"car/media.cpp"
+		static constexpr bool rtn = (current >= test);
 	};
+};
 
-}}}
-
-#endif

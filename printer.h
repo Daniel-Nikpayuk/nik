@@ -54,6 +54,38 @@ namespace nik
 
 	} builtin;
 
+	struct parameter_printer
+	{
+		template<typename size_type, size_type... params>
+		struct unroll { };
+
+		template<typename size_type, size_type current, size_type... params>
+		struct unroll<size_type, current, params...>
+		{
+			static void print()
+			{
+				builtin_printer::print(current);
+				builtin_printer::print(' ');
+				unroll<size_type, params...>::print();
+			}
+		};
+
+		template<typename size_type>
+		struct unroll<size_type>
+		{
+			static void print()
+			{
+				builtin_printer::print('\n');
+			}
+		};
+
+		template<typename size_type, size_type... params>
+		static void print()
+		{
+			unroll<size_type, params...>::print();
+		}
+	};
+
 	struct verbatim_printer : public builtin_printer
 	{
 		using builtin_printer::print;

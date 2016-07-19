@@ -15,35 +15,24 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-#define NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-
-namespace nik		{
-namespace grammaric	{
-namespace functional	{
-
-	template<typename SizeType>
-	struct semiotic
+template<size_type... params>
+struct list
+{
+	static void print()
 	{
-		typedef SizeType size_type;
+		parameter_printer::template unroll<size_type, params...>::print();
+	}
 
-		#include"control_flow/semiotic.cpp"
-		#include"length/semiotic.cpp"
-		#include"car/semiotic.cpp"
-	};
-
-	template<typename SizeType>
-	struct media
+	static size_type length()
 	{
-		typedef SizeType size_type;
+		return rfs_policy::template length<size_type, 0, params...>::rtn;
+	}
 
-		typedef functional::semiotic<size_type> semiotic;
+	static size_type car()
+	{
+		return rfs_policy::template car<size_type, params...>::rtn;
+	}
+};
 
-		#include"control_flow/media.cpp"
-		#include"length/media.cpp"
-		#include"car/media.cpp"
-	};
+typedef list<> null_list;
 
-}}}
-
-#endif

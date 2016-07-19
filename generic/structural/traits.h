@@ -15,21 +15,24 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-#define NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
+#ifndef NIK_GENERIC_STRUCTURAL_TRAITS_H
+#define NIK_GENERIC_STRUCTURAL_TRAITS_H
+
+#include"../../grammaric/functional/policy.h"
 
 namespace nik		{
-namespace grammaric	{
-namespace functional	{
+namespace generic	{
+namespace structural	{
 
 	template<typename SizeType>
 	struct semiotic
 	{
 		typedef SizeType size_type;
 
-		#include"control_flow/semiotic.cpp"
-		#include"length/semiotic.cpp"
-		#include"car/semiotic.cpp"
+		typedef grammaric::functional::semiotic<size_type> rfs_policy;
+
+		#include"list/semiotic.cpp"
+		#include"array/semiotic.cpp"
 	};
 
 	template<typename SizeType>
@@ -37,11 +40,10 @@ namespace functional	{
 	{
 		typedef SizeType size_type;
 
-		typedef functional::semiotic<size_type> semiotic;
+		typedef grammaric::functional::semiotic<size_type> rfs_policy;
 
-		#include"control_flow/media.cpp"
-		#include"length/media.cpp"
-		#include"car/media.cpp"
+		#include"list/media.cpp"
+		#include"array/media.cpp"
 	};
 
 }}}
