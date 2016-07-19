@@ -15,23 +15,27 @@
 **
 *************************************************************************************************************************/
 
-template<size_type test>
+template<size_type t>
 struct lessThanOrEqual
 {
-	template<size_type current>
-	struct keep
+	static constexpr bool test(size_type current)
 	{
-		static constexpr bool rtn = (current <= test);
-	};
+		return (current <= t);
+	}
 };
 
-template<size_type test>
+template<size_type t>
 struct greaterThanOrEqual
 {
-	template<size_type current>
-	struct keep
+	static constexpr bool test(size_type current)
 	{
-		static constexpr bool rtn = (current >= test);
-	};
+		return (current >= t);
+	}
+};
+
+template<typename predicate, typename in>
+struct filter
+{
+	using rtn = typename semiotic::template filter<predicate, typename in::null, in>::rtn;
 };
 

@@ -18,5 +18,22 @@
 namespace nik
 {
 	enum Interval { closed=0, closing, open, opening };
+
+	enum MapPolicy
+	{
+		default_policy=0,
+
+		omit_backward,
+		apply_backward,
+
+		omit_consume,
+		apply_consume,
+
+		omit_reverse,
+		apply_reverse,
+
+		omit_count,
+		apply_count
+	};
 }
 

@@ -15,48 +15,24 @@
 **
 *************************************************************************************************************************/
 
-template<typename test, typename filtered, typename unfiltered>
-struct filter { };
-
-//
-
-template<typename test, typename filtered, size_type current, size_type... params>
-struct filter<test, filtered, slist<current, params...> >
+template<typename predicate, typename out, typename in, typename Null = typename in::null>
+struct filter
 {
-	using new_filtered = typename gfm_policy::template if_then_else
-		<
-			test::template keep<current>::rtn,
-			typename append<current, filtered>::rtn,
-			filtered
-		>::return_type;
+	using new_out = typename gfm_policy::template
+			if_then_else
+			<
+				predicate::test(in::car),
+				typename out::template append<in::car>,
+				out
 
-	using rtn = typename filter<test, new_filtered, slist<params...> >::rtn;
+			>::return_type;
+
+	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
 };
 
-template<typename test, typename filtered>
-struct filter<test, filtered, null_slist>
+template<typename predicate, typename out, typename Null>
+struct filter<predicate, out, Null, Null>
 {
-	using rtn = filtered;
-};
-
-//
-
-template<typename test, typename filtered, size_type current, size_type... params>
-struct filter<test, filtered, mlist<current, params...> >
-{
-	using new_filtered = typename gfm_policy::template if_then_else
-		<
-			test::template keep<current>::rtn,
-			typename append<current, filtered>::rtn,
-			filtered
-		>::return_type;
-
-	using rtn = typename filter<test, new_filtered, mlist<params...> >::rtn;
-};
-
-template<typename test, typename filtered>
-struct filter<test, filtered, null_mlist>
-{
-	using rtn = filtered;
+	using rtn = out;
 };
 

@@ -29,30 +29,14 @@
 
 //	+:
 
-enum : size_type
-{
-	omit_policy,
-	apply_policy,
+template
+<
+	size_type policy0 = default_policy,
+	size_type policy1 = default_policy,
+	size_type policy2 = default_policy,
+	size_type policy3 = default_policy
 
-	omit_backward,
-	apply_backward,
-
-	omit_consume,
-	apply_consume,
-
-	omit_reverse,
-	apply_reverse,
-
-	omit_count,
-	apply_count
-};
-
-template<typename T, T... args>
-struct parameter_sort { };
-
-struct plus
-{
-};
+> struct plus { };
 
 //	-:
 

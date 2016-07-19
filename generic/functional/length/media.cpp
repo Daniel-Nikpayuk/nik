@@ -15,12 +15,9 @@
 **
 *************************************************************************************************************************/
 
-template<typename T, T... params>
-struct car { };
-
-template<typename T, T current, T... params>
-struct car<T, current, params...>
+template<typename L>
+struct length
 {
-	static constexpr T rtn = current;
+	static constexpr size_type value() { return semiotic::template length<0, L>::rtn; }
 };
 

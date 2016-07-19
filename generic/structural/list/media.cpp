@@ -15,24 +15,53 @@
 **
 *************************************************************************************************************************/
 
+// empty:
+
 template<size_type... params>
 struct list
 {
-	static void print()
-	{
-		parameter_printer::template unroll<size_type, params...>::print();
-	}
+	using null = list<>;
 
-	static size_type length()
-	{
-		return rfs_policy::template length<size_type, 0, params...>::rtn;
-	}
+	template<size_type current>
+	using prepend = list<current>;
 
-	static size_type car()
-	{
-		return rfs_policy::template car<size_type, params...>::rtn;
-	}
+	template<size_type current>
+	using append = list<current>;
 };
 
-typedef list<> null_list;
+template<size_type first, size_type... params>
+struct list<first, params...>
+{
+	using null = list<>;
+
+	static constexpr size_type car = first;
+
+	using cdr = list<params...>;
+
+	template<size_type current>
+	using prepend = list<current, first, params...>;
+
+	template<size_type current>
+	using append = list<first, params..., current>;
+
+	static void print() { parameter_printer::template unroll<size_type, first, params...>::print(); }
+};
+
+template<size_type first>
+struct list<first>
+{
+	using null = list<>;
+
+	static constexpr size_type car = first;
+
+	using cdr = null;
+
+	template<size_type current>
+	using prepend = list<current, first>;
+
+	template<size_type current>
+	using append = list<first, current>;
+
+	static void print() { parameter_printer::template unroll<size_type, first>::print(); }
+};
 

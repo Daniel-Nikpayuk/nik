@@ -15,8 +15,49 @@
 **
 *************************************************************************************************************************/
 
-template<size_type... params>
-struct list { };
+// empty:
 
-typedef list<> null_list;
+template<size_type... params>
+struct list
+{
+	using null = list<>;
+
+	template<size_type current>
+	using prepend = list<current>;
+
+	template<size_type current>
+	using append = list<current>;
+};
+
+template<size_type first, size_type... params>
+struct list<first, params...>
+{
+	using null = list<>;
+
+	static constexpr size_type car = first;
+
+	using cdr = list<params...>;
+
+	template<size_type current>
+	using prepend = list<current, first, params...>;
+
+	template<size_type current>
+	using append = list<first, params..., current>;
+};
+
+template<size_type first>
+struct list<first>
+{
+	using null = list<>;
+
+	static constexpr size_type car = first;
+
+	using cdr = null;
+
+	template<size_type current>
+	using prepend = list<current, first>;
+
+	template<size_type current>
+	using append = list<first, current>;
+};
 

@@ -15,18 +15,25 @@
 **
 *************************************************************************************************************************/
 
-template<typename L>
-struct cdr { };
+template<typename indexer, typename dispatcher, typename out, typename in>
+struct fill { };
 
-template<size_type current, size_type... params>
-struct cdr<slist<current, params...> >
+//
+
+template<typename indexer, typename dispatcher, typename out, size_type current, size_type... params>
+struct fill<indexer, dispatcher, out, mlist<current, params...> >
 {
-	using rtn = slist<params...>;
+	static constexpr size_type index = indexer<out>::rtn;
+	static constexpr size_type dispatch = dispatcher<current>::rtn;
+
+	using appended = typename append<mapped, out>::rtn;
+
+	using rtn = typename fill<dispatch, appended, mlist<params...> >::rtn;
 };
 
-template<size_type current, size_type... params>
-struct cdr<mlist<current, params...> >
+template<size_type index>
+struct fill<index, null_mlist>
 {
-	using rtn = mlist<params...>;
+	using rtn = null_mlist;
 };
 

@@ -28,8 +28,6 @@ namespace functional	{
 		typedef SizeType size_type;
 
 		#include"control_flow/semiotic.cpp"
-		#include"length/semiotic.cpp"
-		#include"car/semiotic.cpp"
 	};
 
 	template<typename SizeType>
@@ -40,8 +38,6 @@ namespace functional	{
 		typedef functional::semiotic<size_type> semiotic;
 
 		#include"control_flow/media.cpp"
-		#include"length/media.cpp"
-		#include"car/media.cpp"
 	};
 
 }}}

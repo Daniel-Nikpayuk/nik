@@ -15,56 +15,23 @@
 **
 *************************************************************************************************************************/
 
-template<typename L, typename FillerType = void>
-struct quickSort { };
-
-//
-
-template<size_type current, typename FillerType, size_type... params>
-struct quickSort<slist<current, params...>, FillerType>
+template<typename L, typename Null = typename L::null>
+struct quickSort
 {
-	using cdr = slist<params...>;
+	using ltoe		= typename media::template lessThanOrEqual<L::car>;
+	using leftFiltered	= typename media::template filter<ltoe, typename L::cdr>::rtn;
+	using leftSorted	= typename quickSort<leftFiltered>::rtn;
 
-	using ltoe = typename media::template lessThanOrEqual<current>;
-	using leftFiltered = typename filter<ltoe, null_slist, cdr>::rtn;
-	using leftSorted = typename quickSort<leftFiltered>::rtn;
+	using gtoe		= typename media::template greaterThanOrEqual<L::car>;
+	using rightFiltered	= typename media::template filter<gtoe, typename L::cdr>::rtn;
+	using rightSorted	= typename quickSort<rightFiltered>::rtn;
 
-	using gtoe = typename media::template greaterThanOrEqual<current>;
-	using rightFiltered = typename filter<gtoe, null_slist, cdr>::rtn;
-	using rightSorted = typename quickSort<rightFiltered>::rtn;
-
-	using currentRight = typename cons<current, rightSorted>::rtn;
-	using rtn = typename catenate<leftSorted, currentRight>::rtn;
+	using rtn = typename catenate<leftSorted, typename rightSorted::template prepend<L::car> >::rtn;
 };
 
-template<typename FillerType>
-struct quickSort<slist<>, FillerType>
+template<typename Null>
+struct quickSort<Null, Null>
 {
-	typedef slist<> rtn;
-};
-
-//
-
-template<size_type current, typename FillerType, size_type... params>
-struct quickSort<mlist<current, params...>, FillerType>
-{
-	using cdr = mlist<params...>;
-
-	using ltoe = typename media::template lessThanOrEqual<current>;
-	using leftFiltered = typename filter<ltoe, null_mlist, cdr>::rtn;
-	using leftSorted = typename quickSort<leftFiltered>::rtn;
-
-	using gtoe = typename media::template greaterThanOrEqual<current>;
-	using rightFiltered = typename filter<gtoe, null_mlist, cdr>::rtn;
-	using rightSorted = typename quickSort<rightFiltered>::rtn;
-
-	using currentRight = typename cons<current, rightSorted>::rtn;
-	using rtn = typename catenate<leftSorted, currentRight>::rtn;
-};
-
-template<typename FillerType>
-struct quickSort<mlist<>, FillerType>
-{
-	typedef mlist<> rtn;
+	using rtn = Null;
 };
 

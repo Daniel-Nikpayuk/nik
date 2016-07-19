@@ -15,18 +15,15 @@
 **
 *************************************************************************************************************************/
 
-template<size_type current, typename L>
-struct cons { };
-
-template<size_type current, size_type... params>
-struct cons<current, slist<params...> >
+template<size_type count, typename L, typename Null = typename L::null>
+struct length
 {
-	using rtn = slist<current, params...>;
+	static constexpr size_type rtn = length<count+1, typename L::cdr>::rtn;
 };
 
-template<size_type current, size_type... params>
-struct cons<current, mlist<params...> >
+template<size_type count, typename Null>
+struct length<count, Null, Null>
 {
-	using rtn = mlist<current, params...>;
+	static constexpr size_type rtn = count;
 };
 

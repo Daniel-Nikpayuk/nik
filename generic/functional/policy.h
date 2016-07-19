@@ -33,17 +33,7 @@ namespace functional	{
 
 		typedef grammaric::functional::media<size_type> gfm_policy;
 
-		template<size_type... params>
-		using slist = typename structural::semiotic<size_type>::template list<params...>;
-		using null_slist = typename structural::semiotic<size_type>::null_list;
-
-		template<size_type... params>
-		using mlist = typename structural::media<size_type>::template list<params...>;
-		using null_mlist = typename structural::media<size_type>::null_list;
-
-		#include"cons/semiotic.cpp"
-		#include"cdr/semiotic.cpp"
-		#include"append/semiotic.cpp"
+		#include"length/semiotic.cpp"
 		#include"catenate/semiotic.cpp"
 		#include"filter/semiotic.cpp"
 		#include"sort/semiotic.cpp"
@@ -58,17 +48,7 @@ namespace functional	{
 
 		typedef grammaric::functional::media<size_type> gfm_policy;
 
-		template<size_type... params>
-		using slist = typename structural::semiotic<size_type>::template list<params...>;
-		using null_slist = typename structural::semiotic<size_type>::null_list;
-
-		template<size_type... params>
-		using mlist = typename structural::media<size_type>::template list<params...>;
-		using null_mlist = typename structural::media<size_type>::null_list;
-
-		#include"cons/media.cpp"
-		#include"cdr/media.cpp"
-		#include"append/media.cpp"
+		#include"length/media.cpp"
 		#include"catenate/media.cpp"
 		#include"filter/media.cpp"
 		#include"sort/media.cpp"

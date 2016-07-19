@@ -15,18 +15,15 @@
 **
 *************************************************************************************************************************/
 
-template<typename L1, typename L2>
-struct catenate { };
-
-template<size_type... params1, size_type... params2>
-struct catenate<slist<params1...>, slist<params2...> >
+template<typename L1, typename L2, typename Null = typename L2::null>
+struct catenate
 {
-	using rtn = slist<params1..., params2...>;
+	using rtn = typename catenate<typename L1::template append<L2::car>, typename L2::cdr>::rtn;
 };
 
-template<size_type... params1, size_type... params2>
-struct catenate<mlist<params1...>, mlist<params2...> >
+template<typename L, typename Null>
+struct catenate<L, Null, Null>
 {
-	using rtn = mlist<params1..., params2...>;
+	using rtn = L;
 };
 
