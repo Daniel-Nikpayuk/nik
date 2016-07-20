@@ -15,37 +15,45 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GENERIC_STRUCTURAL_TRAITS_H
-#define NIK_GENERIC_STRUCTURAL_TRAITS_H
+template<size_type k, size_type n, typename intervals, typename out, typename in>
+struct fill
+{
+	static constexpr size_type b = intervals::template initial<k>::value;
+	static constexpr size_type e = intervals::template terminal<k>::value;
 
-#include"../../grammaric/functional/policy.h"
+	using new_out = typename media::template
+			if_then_else
+			<
+				(b <= in::car && in::car <= e),
+				typename out::template append<in::car>,
+				typename out::template append<b>
 
-namespace nik		{
-namespace generic	{
-namespace structural	{
+			>::return_type;
 
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
+	using cdr_in = typename media::template
+			if_then_else
+			<
+				isNull<typename in::cdr>::rtn,
+				in,
+				typename in::cdr
 
-		typedef grammaric::functional::semiotic<size_type> rfs_policy;
+			>::return_type;
 
-		#include"list/semiotic.cpp"
-		#include"array/semiotic.cpp"
-	};
+	using new_in = typename media::template
+			if_then_else
+			<
+				(b <= in::car && in::car <= e),
+				cdr_in,
+				in
 
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
+			>::return_type;
 
-		typedef grammaric::functional::semiotic<size_type> rfs_policy;
+	using rtn = typename fill<k+1, n, intervals, new_out, new_in>::rtn;
+};
 
-		#include"list/media.cpp"
-		#include"array/media.cpp"
-	};
+template<size_type n, typename intervals, typename out, typename in>
+struct fill<n, n, intervals, out, in>
+{
+	using rtn = out;
+};
 
-}}}
-
-#endif

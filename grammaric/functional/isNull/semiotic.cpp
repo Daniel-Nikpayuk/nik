@@ -15,25 +15,15 @@
 **
 *************************************************************************************************************************/
 
-template<typename indexer, typename dispatcher, typename out, typename in>
-struct fill { };
-
-//
-
-template<typename indexer, typename dispatcher, typename out, size_type current, size_type... params>
-struct fill<indexer, dispatcher, out, mlist<current, params...> >
+template<typename L, typename Null = typename L::null>
+struct isNull
 {
-	static constexpr size_type index = indexer<out>::rtn;
-	static constexpr size_type dispatch = dispatcher<current>::rtn;
-
-	using appended = typename append<mapped, out>::rtn;
-
-	using rtn = typename fill<dispatch, appended, mlist<params...> >::rtn;
+	static constexpr bool rtn = false;
 };
 
-template<size_type index>
-struct fill<index, null_mlist>
+template<typename Null>
+struct isNull<Null, Null>
 {
-	using rtn = null_mlist;
+	static constexpr bool rtn = true;
 };
 

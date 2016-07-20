@@ -119,7 +119,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
@@ -147,7 +147,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	return_policy, count_policy, delete_policy, operator_policy, op_a, op_l, op_r, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
@@ -716,7 +716,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> [out, out + end-in)
 */
 
-#define loop_map_deny_delete_out_as_unary_out_as_closing_in_as_opening( \
+#define loop_map_omit_delete_out_as_unary_out_as_closing_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
@@ -724,7 +724,7 @@ function_type(return_policy, count_policy, operator_policy) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(deny_delete, in_arity) \
+		in_direction(omit_delete, in_arity) \
 		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
 		count_policy() \
@@ -739,24 +739,24 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> [out, out + end-in), end-in > 0
 */
 
-#define loop_map_allow_delete_out_as_unary_out_as_closing_in_as_opening( \
+#define loop_map_apply_delete_out_as_unary_out_as_closing_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		operator_policy(op_a, op_l, op_r) \
 		out_direction() \
-		in_direction(allow_delete, in_arity) \
+		in_direction(apply_delete, in_arity) \
 		count_policy() \
 	} \
  \
 	operator_policy(op_a, op_l, op_r) \
 	out_direction() \
-	allow_delete(in_arity) \
+	apply_delete(in_arity) \
 	count_policy() \
  \
 	return_policy() \
@@ -782,7 +782,7 @@ function_type(return_policy, count_policy, operator_policy) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
@@ -874,7 +874,7 @@ function_type(return_policy, count_policy, operator_policy) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
@@ -906,7 +906,7 @@ function_type(return_policy, count_policy, operator_policy) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (with_peek(in_arity, in_direction)) \
 	{ \
@@ -994,7 +994,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> (out, out + end-in]
 */
 
-#define loop_map_deny_delete_out_as_unary_out_as_opening_in_as_opening( \
+#define loop_map_omit_delete_out_as_unary_out_as_opening_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
@@ -1002,7 +1002,7 @@ function_type(return_policy, count_policy, operator_policy) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(deny_delete, in_arity) \
+		in_direction(omit_delete, in_arity) \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
 		count_policy() \
@@ -1017,24 +1017,24 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> (out, out + end-in], end-in > 0
 */
 
-#define loop_map_allow_delete_out_as_unary_out_as_opening_in_as_opening( \
+#define loop_map_apply_delete_out_as_unary_out_as_opening_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
-		in_direction(allow_delete, in_arity) \
+		in_direction(apply_delete, in_arity) \
 		count_policy() \
 	} \
  \
 	out_direction() \
 	operator_policy(op_a, op_l, op_r) \
-	allow_delete(in_arity) \
+	apply_delete(in_arity) \
 	count_policy() \
  \
 	return_policy() \
@@ -1055,7 +1055,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end) --> (out, out + end-in-1], end-in > 0
 */
 
-#define loop_map_deny_delete_out_as_unary_out_as_opening_in_as_open( \
+#define loop_map_omit_delete_out_as_unary_out_as_opening_in_as_open( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
@@ -1063,13 +1063,13 @@ function_type(return_policy, count_policy, operator_policy) \
  \
 	while (with_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(deny_delete, in_arity) \
+		in_direction(omit_delete, in_arity) \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
 		count_policy() \
 	} \
  \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	return_policy() \
 }
@@ -1080,18 +1080,18 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end) --> (out, out + end-in-1], end-in > 1
 */
 
-#define loop_map_allow_delete_out_as_unary_out_as_opening_in_as_open( \
+#define loop_map_apply_delete_out_as_unary_out_as_opening_in_as_open( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (with_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
-		in_direction(allow_delete, in_arity) \
+		in_direction(apply_delete, in_arity) \
 		count_policy() \
 	} \
  \
@@ -1176,7 +1176,7 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> (out, out + end-in+1)
 */
 
-#define loop_map_deny_delete_out_as_unary_out_as_open_in_as_opening( \
+#define loop_map_omit_delete_out_as_unary_out_as_open_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
@@ -1184,7 +1184,7 @@ function_type(return_policy, count_policy, operator_policy) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
-		in_direction(deny_delete, in_arity) \
+		in_direction(omit_delete, in_arity) \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
 		count_policy() \
@@ -1201,25 +1201,25 @@ function_type(return_policy, count_policy, operator_policy) \
 	(in, end] --> (out, out + end-in+1), end-in > 0
 */
 
-#define loop_map_allow_delete_out_as_unary_out_as_open_in_as_opening( \
+#define loop_map_apply_delete_out_as_unary_out_as_open_in_as_opening( \
 	return_policy, count_policy, operator_policy, op_a, op_l, op_r, out_direction, in_arity, in_direction) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
  \
 	while (no_peek(in_arity, in_direction)) \
 	{ \
 		out_direction() \
 		operator_policy(op_a, op_l, op_r) \
-		in_direction(allow_delete, in_arity) \
+		in_direction(apply_delete, in_arity) \
 		count_policy() \
 	} \
  \
 	out_direction() \
 	operator_policy(op_a, op_l, op_r) \
 	out_direction() \
-	allow_delete(in_arity) \
+	apply_delete(in_arity) \
 	count_policy() \
  \
 	return_policy() \
@@ -1245,7 +1245,7 @@ function_type(return_policy, count_policy, operator_policy) \
 function_type(return_policy, count_policy, operator_policy) \
 { \
 	declare_variables(out_direction) \
-	in_direction(deny_delete, in_arity) \
+	in_direction(omit_delete, in_arity) \
 	out_direction() \
  \
 	while (no_peek(in_arity, in_direction)) \

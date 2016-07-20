@@ -46,6 +46,60 @@
 
 struct map
 {
+	#define map_interval(index, begin, end)							\
+												\
+		template<typename Filler>							\
+		struct initial<index, Filler> { static constexpr size_type value = begin; };	\
+												\
+		template<typename Filler>							\
+		struct terminal<index, Filler> { static constexpr size_type value = end; };
+
+	struct MapIntervals
+	{
+		static constexpr size_type length = 6;
+
+		template<size_type k, typename Filler = void>
+		struct initial { };
+
+		template<size_type k, typename Filler = void>
+		struct terminal { };
+
+		map_interval(0,	0, 3)
+		map_interval(1,	4, 5)
+		map_interval(2,	6, 9)
+		map_interval(3,	10, 11)
+		map_interval(4,	12, 13)
+		map_interval(5,	14, 15)
+	};
+
+	#undef map_interval
+
+	template<size_type... params>
+	using list = typename gss_traits::template list<params...>; // short-term solution.
+
+	template<size_type... params>
+	struct sorted
+	{
+		using rtn = typename gfm_policy::template if_then_else // short-term solution.
+			<
+				gfs_policy::template isNull<list<params...> >::rtn,
+				list<0>,
+				typename gfs_policy::template quickSort<list<params...> >::rtn
+
+			>::return_type;
+	};
+
+	template<size_type... params>
+	using config = typename gfs_policy::template fill
+	<
+		0,
+		MapIntervals::length,
+		MapIntervals,
+		list<>,
+		typename sorted<params...>::rtn
+
+	>::rtn;
+
 	#include"../../macro/define/map/loop.h"
 
 	template<size_type N, size_type M=0, size_type L=0>

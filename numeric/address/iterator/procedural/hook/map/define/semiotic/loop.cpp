@@ -50,29 +50,29 @@
 // parentheses
 
 
-#define function_type_deny_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
+#define function_type_omit_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
 															\
 	template<typename WPointer, typename EWPointer>									\
 	static rtn label##_return(WPointer in, EWPointer end)
 
 
-		#define function_type_deny_return_deny_count_out_as_nullary_in_as_unary_parentheses()			\
-			function_type_deny_count_out_as_nullary_in_as_unary_parentheses(void, no)
+		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_nullary_in_as_unary_parentheses()			\
-			function_type_deny_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
 
-#define function_type_allow_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
+#define function_type_apply_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
 															\
 	template<typename WPointer, typename EWPointer>									\
 	static rtn label##_return(size_type & count, WPointer in, EWPointer end)
 
 
-		#define function_type_deny_return_allow_count_out_as_nullary_in_as_unary_parentheses()			\
-			function_type_allow_count_out_as_nullary_in_as_unary_parentheses(void, no)
+		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_nullary_in_as_unary_parentheses()			\
-			function_type_allow_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_parentheses()			\
+			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(WPointer, with)
 
 
 /////// out_as_unary, in_as_nullary
@@ -81,85 +81,85 @@
 // parentheses
 
 
-#define function_type_deny_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename ValueType>							\
 	static rtn label##_return(WPointer out, size_type n, ValueType value)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_nullary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_nullary_parentheses(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_nullary_parentheses(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_nullary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
+#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename ValueType>							\
 	static rtn label##_return(size_type & count, WPointer out, size_type n, ValueType value)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_nullary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_nullary_parentheses(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_nullary_parentheses(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_nullary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_nullary_parentheses(WPointer, with)
 
 
 // parentheses_new
 
 
-#define function_type_deny_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)					\
 															\
 	template<typename Node, typename WNode, typename WPointer>							\
 	static rtn label##_return(WPointer out, size_type n)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_nullary_parentheses_new()		\
-			function_type_deny_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses_new()		\
+			function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_nullary_parentheses_new()		\
-			function_type_deny_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses_new()		\
+			function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)				\
+#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)				\
 															\
 	template<typename Node, typename WNode, typename WPointer>							\
 	static rtn label##_return(size_type & count, WPointer out, size_type n)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_nullary_parentheses_new()		\
-			function_type_allow_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses_new()		\
+			function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_nullary_parentheses_new()		\
-			function_type_allow_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses_new()		\
+			function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, with)
 
 
 // brackets_new
 
 
-#define function_type_deny_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
 															\
 	template<typename Node, typename WNode, typename WPointer>							\
 	static rtn label##_return(WPointer out, size_type n, size_type in)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_nullary_brackets_new()			\
-			function_type_deny_count_out_as_unary_in_as_nullary_brackets_new(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_nullary_brackets_new()			\
-			function_type_deny_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
+#define function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
 															\
 	template<typename Node, typename WNode, typename WPointer>							\
 	static rtn label##_return(size_type & count, WPointer out, size_type n, size_type in)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_nullary_brackets_new()			\
-			function_type_allow_count_out_as_unary_in_as_nullary_brackets_new(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_brackets_new()			\
+			function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_nullary_brackets_new()		\
-			function_type_allow_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_brackets_new()		\
+			function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(WPointer, with)
 
 
 /////// out_as_unary, in_as_unary
@@ -168,57 +168,57 @@
 // parentheses
 
 
-#define function_type_deny_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
 	static rtn label##_return(WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_unary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_unary_parentheses(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_unary_parentheses(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_unary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
+#define function_type_apply_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
 	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_unary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_unary_parentheses(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_unary_parentheses(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_unary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_unary_parentheses(WPointer, with)
 
 
 // brackets_new
 
 
-#define function_type_deny_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
 															\
 	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
 	static rtn label##_return(WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_unary_brackets_new()			\
-			function_type_deny_count_out_as_unary_in_as_unary_brackets_new(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_omit_count_out_as_unary_in_as_unary_brackets_new(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_unary_brackets_new()			\
-			function_type_deny_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_omit_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
+#define function_type_apply_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
 															\
 	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
 	static rtn label##_return(size_type & count, WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_unary_brackets_new()			\
-			function_type_allow_count_out_as_unary_in_as_unary_brackets_new(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_apply_count_out_as_unary_in_as_unary_brackets_new(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_unary_brackets_new()			\
-			function_type_allow_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_brackets_new()			\
+			function_type_apply_count_out_as_unary_in_as_unary_brackets_new(WPointer, with)
 
 
 /////// out_as_unary, in_as_binary
@@ -227,41 +227,41 @@
 // parentheses
 
 
-#define function_type_deny_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
+#define function_type_omit_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
 	static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_binary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_binary_parentheses(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_binary_parentheses(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_binary_parentheses()			\
-			function_type_deny_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_omit_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
-		#define function_type_deny_return_deny_count_out_as_unary_in_as_binary_brackets()			\
-			function_type_deny_count_out_as_unary_in_as_binary_parentheses(void, no)
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_brackets()			\
+			function_type_omit_count_out_as_unary_in_as_binary_parentheses(void, no)
 
-		#define function_type_allow_return_deny_count_out_as_unary_in_as_binary_brackets()			\
-			function_type_deny_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_brackets()			\
+			function_type_omit_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
-#define function_type_allow_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
+#define function_type_apply_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
 															\
 	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
 	static rtn label##_return(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_binary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_binary_parentheses(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_binary_parentheses(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_binary_parentheses()			\
-			function_type_allow_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_parentheses()			\
+			function_type_apply_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
-		#define function_type_deny_return_allow_count_out_as_unary_in_as_binary_brackets()			\
-			function_type_allow_count_out_as_unary_in_as_binary_parentheses(void, no)
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_brackets()			\
+			function_type_apply_count_out_as_unary_in_as_binary_parentheses(void, no)
 
-		#define function_type_allow_return_allow_count_out_as_unary_in_as_binary_brackets()			\
-			function_type_allow_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_brackets()			\
+			function_type_apply_count_out_as_unary_in_as_binary_parentheses(WPointer, with)
 
 
 
@@ -387,34 +387,34 @@
 /************************************************************************************************************************/
 
 
-#define in_direction_deny_delete_in_as_unary(dir)				dir##dir(in);
+#define in_direction_omit_delete_in_as_unary(dir)				dir##dir(in);
 
 
-	#define in_as_forward_deny_delete_in_as_unary()				in_direction_deny_delete_in_as_unary(+)
-	#define in_as_backward_deny_delete_in_as_unary()			in_direction_deny_delete_in_as_unary(-)
+	#define in_as_forward_omit_delete_in_as_unary()				in_direction_omit_delete_in_as_unary(+)
+	#define in_as_backward_omit_delete_in_as_unary()			in_direction_omit_delete_in_as_unary(-)
 
 
-#define in_direction_allow_delete_in_as_unary(dir)				delete (in)dir##dir;
+#define in_direction_apply_delete_in_as_unary(dir)				delete (in)dir##dir;
 
 
-	#define in_as_forward_allow_delete_in_as_unary()			in_direction_allow_delete_in_as_unary(+)
-	#define in_as_backward_allow_delete_in_as_unary()			in_direction_allow_delete_in_as_unary(-)
+	#define in_as_forward_apply_delete_in_as_unary()			in_direction_apply_delete_in_as_unary(+)
+	#define in_as_backward_apply_delete_in_as_unary()			in_direction_apply_delete_in_as_unary(-)
 
 
-#define in_direction_deny_delete_in_as_binary(dir)				dir##dir(in1); \
+#define in_direction_omit_delete_in_as_binary(dir)				dir##dir(in1); \
 										dir##dir(in2);
 
 
-	#define in_as_forward_deny_delete_in_as_binary()			in_direction_deny_delete_in_as_binary(+)
-	#define in_as_backward_deny_delete_in_as_binary()			in_direction_deny_delete_in_as_binary(-)
+	#define in_as_forward_omit_delete_in_as_binary()			in_direction_omit_delete_in_as_binary(+)
+	#define in_as_backward_omit_delete_in_as_binary()			in_direction_omit_delete_in_as_binary(-)
 
 
-#define in_direction_allow_delete_in_as_binary(dir)				delete (in1)dir##dir; \
+#define in_direction_apply_delete_in_as_binary(dir)				delete (in1)dir##dir; \
 										delete (in2)dir##dir;
 
 
-	#define in_as_forward_allow_delete_in_as_binary()			in_direction_allow_delete_in_as_binary(+)
-	#define in_as_backward_allow_delete_in_as_binary()			in_direction_allow_delete_in_as_binary(-)
+	#define in_as_forward_apply_delete_in_as_binary()			in_direction_apply_delete_in_as_binary(+)
+	#define in_as_backward_apply_delete_in_as_binary()			in_direction_apply_delete_in_as_binary(-)
 
 
 /************************************************************************************************************************/
@@ -482,16 +482,16 @@
 /************************************************************************************************************************/
 
 
-#define deny_delete_in_as_unary()
+#define omit_delete_in_as_unary()
 
 
-#define allow_delete_in_as_unary()						delete in;
+#define apply_delete_in_as_unary()						delete in;
 
 
-#define deny_delete_in_as_binary()
+#define omit_delete_in_as_binary()
 
 
-#define allow_delete_in_as_binary()						delete in1; \
+#define apply_delete_in_as_binary()						delete in1; \
 										delete in2;
 
 
@@ -501,16 +501,16 @@
 /*
 	delete_policy:
 
-		deny_delete
-		allow_delete
+		omit_delete
+		apply_delete
 */
 
 
-#define deny_delete(in_arity) \
-	deny_delete_##in_arity()
+#define omit_delete(in_arity) \
+	omit_delete_##in_arity()
 
-#define allow_delete(in_arity) \
-	allow_delete_##in_arity()
+#define apply_delete(in_arity) \
+	apply_delete_##in_arity()
 
 
 /************************************************************************************************************************/
@@ -521,15 +521,15 @@
 /*
 	count_policy:
 
-		deny_count
-		allow_count
+		omit_count
+		apply_count
 */
 
 
-#define deny_count()
+#define omit_count()
 
 
-#define allow_count()								++count;
+#define apply_count()								++count;
 
 
 /************************************************************************************************************************/
@@ -540,13 +540,13 @@
 /*
 	return_policy:
 
-		deny_return
-		allow_return
+		omit_return
+		apply_return
 */
 
 
-#define deny_return()
+#define omit_return()
 
 
-#define allow_return()								return out;
+#define apply_return()								return out;
 

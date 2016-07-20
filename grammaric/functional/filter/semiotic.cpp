@@ -15,27 +15,24 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GENERIC_PROCEDURAL_POLICY_H
-#define NIK_GENERIC_PROCEDURAL_POLICY_H
+template<typename predicate, typename out, typename in, typename Null = typename in::null>
+struct filter
+{
+	using new_out = typename media::template
+			if_then_else
+			<
+				predicate::test(in::car),
+				typename out::template append<in::car>,
+				out
 
-namespace nik		{
-namespace generic	{
-namespace procedural	{
+			>::return_type;
 
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
+	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
+};
 
-	};
+template<typename predicate, typename out, typename Null>
+struct filter<predicate, out, Null, Null>
+{
+	using rtn = out;
+};
 
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-	};
-
-}}}
-
-#endif

@@ -27,16 +27,74 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
+#define declare_map(name,											\
+		return_policy, delete_policy, count_policy,							\
+		out_arity, out_interval, out_direction,								\
+		in_arity, in_interval, in_direction,								\
+		operator_policy, op_a, op_l, op_r)								\
+														\
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 //	+:
 
-template
-<
-	size_type policy0 = default_policy,
-	size_type policy1 = default_policy,
-	size_type policy2 = default_policy,
-	size_type policy3 = default_policy
+template<typename L, typename Filler = void>
+struct plus
+{
+	static_assert(true, "This method has not yet been declared.");
+};
 
-> struct plus { };
+template<typename Filler>
+struct plus
+<
+	typename gss_traits::template list
+	<
+		out_as_closing, out_as_forward,
+		in_as_closing, in_as_forward,
+		omit_delete, omit_count
+	>,
+
+	Filler
+>
+{
+	loop_map(
+			apply_return, omit_count, omit_delete,
+			parentheses, =, +,  ,
+			out_as_unary, out_as_closing, out_as_forward,
+			in_as_binary, in_as_closing, in_as_forward
+		)
+};
+
+/*
+template<typename L>
+struct plus : public _plus<typename gfm_policy::template paramFill<MapIntervals, L>::rtn>
+{
+	static void print()
+	{
+		using rtn = typename gfm_policy::template paramFill<MapIntervals, L>::rtn;
+		rtn::print();
+
+		using spc = typename gss_traits::template list
+		<
+			out_as_closing, out_as_forward,
+			in_as_closing, in_as_forward,
+			omit_delete, omit_count
+		>;
+
+		spc::print();
+	}
+};
+*/
+
+/*
+declare_map(plus,
+	apply_return, omit_delete, omit_count,
+	out_as_unary, out_as_closing, out_as_forward,
+	in_as_binary, in_as_closing, in_as_forward,
+	parentheses, =, +,  )
+*/
 
 //	-:
 
@@ -149,8 +207,8 @@ struct comma { };
 struct repeat
 {
 	loop_map(
-			allow_return, deny_count, deny_delete,
-			parentheses, =, , ,
+			apply_return, omit_count, omit_delete,
+			parentheses, =,  ,  ,
 			out_as_unary, out_as_closing, out_as_forward,
 			in_as_nullary, in_as_closing, in_as_forward
 		)

@@ -15,45 +15,17 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GENERIC_FUNCTIONAL_POLICY_H
-#define NIK_GENERIC_FUNCTIONAL_POLICY_H
+template<typename intervals, typename L>
+struct paramFill
+{
+	using sorted = typename if_then_else // short-term solution.
+			<
+				semiotic::template isNull<L>::rtn,
+				typename ss_traits::template list<0>,
+				typename semiotic::template quickSort<L>::rtn
 
-namespace nik		{
-namespace generic	{
-namespace functional	{
+			>::return_type;
 
-	template<typename SizeType> struct media;
+	using rtn = typename semiotic::template fill<0, intervals::length, intervals, typename L::null, sorted>::rtn;
+};
 
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
-
-		typedef functional::media<size_type> media;
-
-		typedef grammaric::functional::media<size_type> gfm_policy;
-
-		#include"length/semiotic.cpp"
-		#include"catenate/semiotic.cpp"
-		#include"filter/semiotic.cpp"
-		#include"sort/semiotic.cpp"
-	};
-
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-		typedef functional::semiotic<size_type> semiotic;
-
-		typedef grammaric::functional::media<size_type> gfm_policy;
-
-		#include"length/media.cpp"
-		#include"catenate/media.cpp"
-		#include"filter/media.cpp"
-		#include"sort/media.cpp"
-	};
-
-}}}
-
-#endif

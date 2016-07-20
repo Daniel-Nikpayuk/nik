@@ -16,7 +16,6 @@
 *************************************************************************************************************************/
 
 #include"grammaric/structural/traits.h"
-#include"generic/structural/traits.h"
 
 #include"numeric/word/boolean/structural/traits.h"
 #include"numeric/word/uint/structural/traits.h"
@@ -33,11 +32,8 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::structural::semiotic<size_type> rss;
-		typedef grammaric::structural::media<size_type> rsm;
-
-		typedef generic::structural::semiotic<size_type> gss;
-		typedef generic::structural::media<size_type> gsm;
+		typedef grammaric::structural::semiotic<size_type> gss;
+		typedef grammaric::structural::media<size_type> gsm;
 
 		typedef numeric::word::boolean::structural::semiotic<size_type> nwbss;
 		typedef numeric::word::boolean::structural::media<size_type> nwbsm;

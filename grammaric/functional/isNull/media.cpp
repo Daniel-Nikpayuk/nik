@@ -15,24 +15,9 @@
 **
 *************************************************************************************************************************/
 
-template<typename predicate, typename out, typename in, typename Null = typename in::null>
-struct filter
+template<typename L>
+struct isNull
 {
-	using new_out = typename gfm_policy::template
-			if_then_else
-			<
-				predicate::test(in::car),
-				typename out::template append<in::car>,
-				out
-
-			>::return_type;
-
-	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
-};
-
-template<typename predicate, typename out, typename Null>
-struct filter<predicate, out, Null, Null>
-{
-	using rtn = out;
+	static constexpr bool value() { return semiotic::template isNull<L>::rtn; }
 };
 

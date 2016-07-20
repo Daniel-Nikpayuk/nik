@@ -22,11 +22,11 @@ struct list
 {
 	using null = list<>;
 
-	template<size_type current>
-	using prepend = list<current>;
+	template<size_type... args>
+	using prepend = list<args...>;
 
-	template<size_type current>
-	using append = list<current>;
+	template<size_type... args>
+	using append = list<args...>;
 };
 
 template<size_type first, size_type... params>
@@ -38,11 +38,11 @@ struct list<first, params...>
 
 	using cdr = list<params...>;
 
-	template<size_type current>
-	using prepend = list<current, first, params...>;
+	template<size_type... args>
+	using prepend = list<args..., first, params...>;
 
-	template<size_type current>
-	using append = list<first, params..., current>;
+	template<size_type... args>
+	using append = list<first, params..., args...>;
 
 	static void print() { parameter_printer::template unroll<size_type, first, params...>::print(); }
 };
@@ -56,11 +56,11 @@ struct list<first>
 
 	using cdr = null;
 
-	template<size_type current>
-	using prepend = list<current, first>;
+	template<size_type... args>
+	using prepend = list<args..., first>;
 
-	template<size_type current>
-	using append = list<first, current>;
+	template<size_type... args>
+	using append = list<first, args...>;
 
 	static void print() { parameter_printer::template unroll<size_type, first>::print(); }
 };

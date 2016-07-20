@@ -21,19 +21,57 @@ namespace nik
 
 	enum MapPolicy
 	{
-		default_policy=0,
+		out_as_closing,
+		out_as_closed,
+		out_as_opening,
+		out_as_open,
 
-		omit_backward,
-		apply_backward,
+		out_as_forward,
+		out_as_backward,
 
-		omit_consume,
-		apply_consume,
+		in_as_closing,
+		in_as_closed,
+		in_as_opening,
+		in_as_open,
 
-		omit_reverse,
-		apply_reverse,
+		in_as_forward,
+		in_as_backward,
+
+		omit_delete,
+		apply_delete,
 
 		omit_count,
 		apply_count
 	};
+
+/*
+	enum MapPolicy
+	{
+		omit_return,
+		apply_return,
+
+		omit_consume,
+		apply_consume,
+
+		omit_count,
+		apply_count,
+
+		out_as_closing,
+		out_as_closed,
+		out_as_opening,
+		out_as_open,
+
+		omit_reverse,
+		apply_reverse,
+
+		in_as_closing,
+		in_as_closed,
+		in_as_opening,
+		in_as_open,
+
+		omit_backward,
+		apply_backward
+	};
+*/
 }
 

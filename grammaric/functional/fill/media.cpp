@@ -15,33 +15,9 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_STRUCTURAL_TRAITS_H
-#define NIK_GRAMMARIC_STRUCTURAL_TRAITS_H
+template<typename intervals, typename in>
+struct fill
+{
+	using rtn = typename semiotic::template fill<0, intervals::length, intervals, typename in::null, in>::rtn;
+};
 
-namespace nik		{
-namespace grammaric	{
-namespace structural	{
-
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
-
-		#include"container/semiotic.cpp"
-		#include"list/semiotic.cpp"
-		#include"array/semiotic.cpp"
-	};
-
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-		#include"container/media.cpp"
-		#include"list/media.cpp"
-		#include"array/media.cpp"
-	};
-
-}}}
-
-#endif

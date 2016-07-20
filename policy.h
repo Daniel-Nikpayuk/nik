@@ -18,9 +18,6 @@
 #include"grammaric/functional/policy.h"
 #include"grammaric/procedural/policy.h"
 
-#include"generic/functional/policy.h"
-#include"generic/procedural/policy.h"
-
 #include"numeric/word/uint/functional/policy.h"
 #include"numeric/word/uint/procedural/policy.h"
 
@@ -38,14 +35,11 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::semiotic<size_type> rfs;
-		typedef grammaric::functional::media<size_type> rfm;
+		typedef grammaric::functional::semiotic<size_type> gfs;
+		typedef grammaric::functional::media<size_type> gfm;
 
-		typedef grammaric::procedural::semiotic<size_type> rps;
-		typedef grammaric::procedural::media<size_type> rpm;
-
-		typedef generic::functional::semiotic<size_type> gfs;
-		typedef generic::functional::media<size_type> gfm;
+		typedef grammaric::procedural::semiotic<size_type> gps;
+		typedef grammaric::procedural::media<size_type> gpm;
 
 		typedef numeric::word::uint::functional::semiotic<size_type> nwufs;
 		typedef numeric::word::uint::functional::media<size_type> nwufm;

@@ -15,11 +15,8 @@
 **
 *************************************************************************************************************************/
 
-template<size_type N, typename L>
-struct array { };
-
 template<size_type N, size_type... params>
-struct array<N, list<params...> >
+struct array
 {
 	static constexpr size_type size = N;
 	static constexpr size_type names[size] { params... };
