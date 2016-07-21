@@ -15,17 +15,9 @@
 **
 *************************************************************************************************************************/
 
-template<typename intervals, typename L>
-struct paramFill
+template<typename intervals, typename in>
+struct fill
 {
-	using sorted = typename if_then_else // short-term solution.
-			<
-				semiotic::template isNull<L>::rtn,
-				typename ss_traits::template list<0>,
-				typename semiotic::template quickSort<L>::rtn
-
-			>::return_type;
-
-	using rtn = typename semiotic::template fill<0, intervals::length, intervals, typename L::null, sorted>::rtn;
+	using rtn = typename semiotic::template fill<intervals, typename in::null, in, 0, intervals::length>::rtn;
 };
 

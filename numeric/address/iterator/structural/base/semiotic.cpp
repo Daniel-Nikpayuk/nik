@@ -27,7 +27,7 @@ struct base
 template<typename T>
 struct base<T, 1>
 {
-	typedef typename gsm_traits::template container<base, T> attributes;
+	typedef typename gism_traits::template container<base, T> attributes;
 
 	typedef typename attributes::value_type value_type;
 	typedef typename attributes::reference reference;

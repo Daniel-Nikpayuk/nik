@@ -46,7 +46,7 @@
 
 struct map
 {
-	#define map_interval(index, begin, end)							\
+		#define map_interval(index, begin, end)						\
 												\
 		template<typename Filler>							\
 		struct initial<index, Filler> { static constexpr size_type value = begin; };	\
@@ -54,9 +54,9 @@ struct map
 		template<typename Filler>							\
 		struct terminal<index, Filler> { static constexpr size_type value = end; };
 
-	struct MapIntervals
+	struct intervals
 	{
-		static constexpr size_type length = 6;
+		static constexpr size_type length = 7;
 
 		template<size_type k, typename Filler = void>
 		struct initial { };
@@ -70,49 +70,17 @@ struct map
 		map_interval(3,	10, 11)
 		map_interval(4,	12, 13)
 		map_interval(5,	14, 15)
+		map_interval(6,	16, 17)
 	};
 
-	#undef map_interval
+		#undef map_interval
 
 	template<size_type... params>
-	using list = typename gss_traits::template list<params...>; // short-term solution.
-
-	template<size_type... params>
-	struct sorted
-	{
-		using rtn = typename gfm_policy::template if_then_else // short-term solution.
-			<
-				gfs_policy::template isNull<list<params...> >::rtn,
-				list<0>,
-				typename gfs_policy::template quickSort<list<params...> >::rtn
-
-			>::return_type;
-	};
-
-	template<size_type... params>
-	using config = typename gfs_policy::template fill
-	<
-		0,
-		MapIntervals::length,
-		MapIntervals,
-		list<>,
-		typename sorted<params...>::rtn
-
-	>::rtn;
+	using configuration = typename gvfm_policy::template sortFill<intervals, params...>::rtn;
 
 	#include"../../macro/define/map/loop.h"
-
-	template<size_type N, size_type M=0, size_type L=0>
-	struct unroll
-	{
-//		#include"../../macro/define/map/unroll.h"
-	};
-
-	template<size_type M, size_type L>
-	struct unroll<0, M, L>
-	{
-//		#include"../../macro/define/map/initial.h"
-	};
+//	#include"../../macro/define/map/unroll.h"
+//	#include"../../macro/define/map/initial.h"
 };
 
 //#include"../../macro/undef/map/loop.cpp"

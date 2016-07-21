@@ -15,29 +15,32 @@
 **
 *************************************************************************************************************************/
 
-struct meta
-{
-	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
-	class midpoint
-	{
-		static constexpr size_type mid = (left + right) >> 1;
+#ifndef NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_POLICY_H
+#define NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_POLICY_H
 
-		public: enum : size_type
-		{
-			value = gcfm_policy::template
-			if_then_else
-			<
-				guess_and_check::template test<mid>::value,
-				midpoint<guess_and_check, mid, right>,
-				midpoint<guess_and_check, left, mid>
-			>::return_type::value
-		};
+namespace nik		{
+namespace grammaric	{
+namespace control_flow	{
+namespace functional	{
+
+	template<typename SizeType> struct media;
+
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
+
+		#include"if_then_else/semiotic.cpp"
 	};
 
-	template<typename guess_and_check, size_type left, size_type right>
-	class midpoint<guess_and_check, left, right, 1>
+	template<typename SizeType>
+	struct media
 	{
-		public: enum : size_type { value = left };
-	};
-};
+		typedef SizeType size_type;
 
+		#include"if_then_else/media.cpp"
+	};
+
+}}}}
+
+#endif

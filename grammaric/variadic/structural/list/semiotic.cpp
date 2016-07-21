@@ -27,6 +27,8 @@ struct list
 
 	template<size_type... args>
 	using append = list<args...>;
+
+	static void print() { }
 };
 
 template<size_type first, size_type... params>

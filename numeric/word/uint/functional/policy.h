@@ -23,7 +23,7 @@
 #include<cfloat>
 #include<math.h>
 
-#include"../../../../grammaric/functional/policy.h"
+#include"../../../../grammaric/control_flow/functional/policy.h"
 
 namespace nik		{
 namespace numeric	{
@@ -40,7 +40,7 @@ namespace functional	{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::media<size_type> gfm_policy;
+		typedef grammaric::control_flow::functional::media<size_type> gcfm_policy;
 		typedef functional::limits<size_type> limits;
 
 		typedef functional::media<size_type> media;
@@ -60,7 +60,7 @@ namespace functional	{
 
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::media<size_type> gfm_policy;
+		typedef grammaric::control_flow::functional::media<size_type> gcfm_policy;
 		typedef functional::limits<size_type> limits;
 
 		typedef functional::semiotic<size_type> semiotic;

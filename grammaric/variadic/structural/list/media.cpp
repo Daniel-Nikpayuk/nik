@@ -15,9 +15,3 @@
 **
 *************************************************************************************************************************/
 
-template<typename intervals, typename in>
-struct fill
-{
-	using rtn = typename semiotic::template fill<0, intervals::length, intervals, typename in::null, in>::rtn;
-};
-

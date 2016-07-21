@@ -15,8 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#include"grammaric/functional/policy.h"
-#include"grammaric/procedural/policy.h"
+#include"grammaric/control_flow/functional/policy.h"
+
+#include"grammaric/identifier/procedural/policy.h"
+
+#include"grammaric/variadic/functional/policy.h"
 
 #include"numeric/word/uint/functional/policy.h"
 #include"numeric/word/uint/procedural/policy.h"
@@ -35,11 +38,14 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::semiotic<size_type> gfs;
-		typedef grammaric::functional::media<size_type> gfm;
+		typedef grammaric::control_flow::functional::semiotic<size_type> gcfs;
+		typedef grammaric::control_flow::functional::media<size_type> gcfm;
 
-		typedef grammaric::procedural::semiotic<size_type> gps;
-		typedef grammaric::procedural::media<size_type> gpm;
+		typedef grammaric::identifier::procedural::semiotic<size_type> gips;
+		typedef grammaric::identifier::procedural::media<size_type> gipm;
+
+		typedef grammaric::variadic::functional::semiotic<size_type> gvfs;
+		typedef grammaric::variadic::functional::media<size_type> gvfm;
 
 		typedef numeric::word::uint::functional::semiotic<size_type> nwufs;
 		typedef numeric::word::uint::functional::media<size_type> nwufm;

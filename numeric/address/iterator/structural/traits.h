@@ -18,7 +18,7 @@
 #ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
 #define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_TRAITS_H
 
-#include"../../../../grammaric/structural/traits.h"
+#include"../../../../grammaric/identifier/structural/traits.h"
 
 namespace nik		{
 namespace numeric	{
@@ -31,7 +31,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
+		typedef grammaric::identifier::structural::media<size_type> gism_traits;
 
 //		#include"base/semiotic.cpp"
 //		#include"bit/semiotic.cpp"
@@ -46,7 +46,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
+		typedef grammaric::identifier::structural::media<size_type> gism_traits;
 
 //		#include"base/media.cpp"
 //		#include"bit/media.cpp"

@@ -27,59 +27,61 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-#define declare(name)									\
-											\
-template<typename L, typename Filler = void>						\
-struct name										\
-{											\
-	static_assert(true, "This method has not yet been declared.");			\
-};
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-#define declare_map(name,								\
-		out_interval, out_direction,						\
-		in_interval, in_direction,						\
-		delete_policy, count_policy)						\
+#define declare_loop(									\
+			out_interval, out_direction,					\
+			in_interval, in_direction,					\
+			delete_policy, count_policy, return_policy)			\
 											\
 template<typename Filler>								\
-struct name										\
+struct loop										\
 <											\
-	typename gss_traits::template list						\
+	typename gvss_traits::template list						\
 	<										\
 		out_interval, out_direction,						\
 		in_interval, in_direction,						\
-		delete_policy, count_policy						\
+		delete_policy, count_policy, return_policy				\
 	>,										\
 											\
 	Filler										\
->
+>											\
+{											\
+	loop_map									\
+	(										\
+		plus,									\
+		parentheses, =, +,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		repeat,									\
+		parentheses, =,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_nullary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+};
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-//	+:
+template<typename config_list, typename Filler = void>
+struct loop
+{
+	static_assert(true, "This method has not yet been declared.");
+};
 
-declare(plus)
-
-declare_map
+declare_loop
 (
-	plus,
 	out_as_closing, out_as_forward,
 	in_as_closing, in_as_forward,
-	omit_delete, omit_count
+	omit_delete, omit_count, apply_return
 )
-{
-	loop_map
-	(
-		parentheses, =, +,  ,
-		out_as_unary, out_as_closing, out_as_forward,
-		in_as_binary, in_as_closing, in_as_forward,
-		omit_delete, omit_count, apply_return
-	)
-};
+
+//	+:
 
 //	-:
 
@@ -189,56 +191,8 @@ struct comma { };
 
 //	=:
 
-struct repeat
-{
-	loop_map(
-			parentheses, =,  ,  ,
-			out_as_unary, out_as_closing, out_as_forward,
-			in_as_nullary, in_as_closing, in_as_forward,
-			omit_delete, omit_count, apply_return
-		)
-/*
-	#define repeat_as_interval(name, label) \
-	name##_loop_no_return##label##_0(SGN, INV, =) \
-	name##_loop_with_return##label##_0(SGN, INV, =) \
- \
-	struct count \
-	{ \
-		name##_count_no_return##label##_0(SGN, INV, =) \
-		name##_count_with_return##label##_0(SGN, INV, =) \
-	}; \
- \
-	struct reverse \
-	{ \
-		name##_reverse_no_return##label##_0(SGN, INV, =) \
-		name##_reverse_with_return##label##_0(SGN, INV, =) \
-	};
+//	+=:
 
-	#define repeat_interval(name) \
-	struct name \
-	{ \
-		repeat_as_interval(name, ) \
- \
-		struct as \
-		{ \
-			struct closing	{ repeat_as_interval(name, _as_closing)	}; \
-			struct closed	{ repeat_as_interval(name, _as_closed)	}; \
-			struct opening	{ repeat_as_interval(name, _as_opening)	}; \
-			struct open	{ repeat_as_interval(name, _as_open)	}; \
-		}; \
-	};
-
-	repeat_interval(closing)
-	repeat_interval(closed)
-	repeat_interval(opening)
-	repeat_interval(open)
-
-	#undef repeat_interval
-	#undef repeat_as_interval
-*/
-/*
-	+=:
-*/
 	struct plus
 	{
 /*
@@ -278,9 +232,9 @@ struct repeat
 		#undef repeat_plus_as_interval
 */
 	};
-/*
-	-=:
-*/
+
+//	-=:
+
 	struct minus
 	{
 /*
@@ -404,9 +358,9 @@ struct repeat
 		#undef repeat_slash_as_interval
 */
 	};
-/*
-	%=:
-*/
+
+//	%=:
+
 	struct percent
 	{
 /*
@@ -446,9 +400,9 @@ struct repeat
 		#undef repeat_percent_as_interval
 */
 	};
-/*
-	ˆ=:
-*/
+
+//	ˆ=:
+
 	struct caret
 	{
 /*
@@ -488,9 +442,9 @@ struct repeat
 		#undef repeat_caret_as_interval
 */
 	};
-/*
-	&=:
-*/
+
+//	&=:
+
 	struct ampersand
 	{
 /*
@@ -530,9 +484,9 @@ struct repeat
 		#undef repeat_ampersand_as_interval
 */
 	};
-/*
-	|=:
-*/
+
+//	|=:
+
 	struct bar
 	{
 /*
@@ -572,9 +526,9 @@ struct repeat
 		#undef repeat_bar_as_interval
 */
 	};
-/*
-	>>=:
-*/
+
+//	>>=:
+
 	struct right_shift
 	{
 /*
@@ -614,9 +568,9 @@ struct repeat
 		#undef repeat_right_shift_as_interval
 */
 	};
-/*
-	<<=:
-*/
+
+//	<<=:
+
 	struct left_shift
 	{
 /*
@@ -656,11 +610,8 @@ struct repeat
 		#undef repeat_left_shift_as_interval
 */
 	};
-};
 
-/*
-	=:
-*/
+//	=:
 
 struct assign
 {
@@ -703,9 +654,9 @@ struct assign
 	#undef assign_interval
 	#undef assign_as_interval
 */
-/*
-	+=:
-*/
+
+//	+=:
+
 	struct plus
 	{
 /*
@@ -748,9 +699,9 @@ struct assign
 		#undef assign_plus_as_interval
 */
 	};
-/*
-	-=:
-*/
+
+//	-=:
+
 	struct minus
 	{
 /*
@@ -793,9 +744,9 @@ struct assign
 		#undef assign_minus_as_interval
 */
 	};
-/*
-	*=:
-*/
+
+//	*=:
+
 	struct asterisk
 	{
 /*
@@ -838,9 +789,9 @@ struct assign
 		#undef assign_asterisk_as_interval
 */
 	};
-/*
-	/=:
-*/
+
+//	/=:
+
 	struct slash
 	{
 /*
@@ -883,9 +834,9 @@ struct assign
 		#undef assign_slash_as_interval
 */
 	};
-/*
-	%=:
-*/
+
+//	%=:
+
 	struct percent
 	{
 /*
@@ -928,9 +879,9 @@ struct assign
 		#undef assign_percent_as_interval
 */
 	};
-/*
-	ˆ=:
-*/
+
+//	ˆ=:
+
 	struct caret
 	{
 /*
@@ -973,9 +924,9 @@ struct assign
 		#undef assign_caret_as_interval
 */
 	};
-/*
-	&=:
-*/
+
+//	&=:
+
 	struct ampersand
 	{
 /*
@@ -1018,9 +969,9 @@ struct assign
 		#undef assign_ampersand_as_interval
 */
 	};
-/*
-	|=:
-*/
+
+//	|=:
+
 	struct bar
 	{
 /*
@@ -1063,9 +1014,9 @@ struct assign
 		#undef assign_bar_as_interval
 */
 	};
-/*
-	>>=:
-*/
+
+//	>>=:
+
 	struct right_shift
 	{
 /*
@@ -1108,9 +1059,9 @@ struct assign
 		#undef assign_right_shift_as_interval
 */
 	};
-/*
-	<<=:
-*/
+
+//	<<=:
+
 	struct left_shift
 	{
 /*

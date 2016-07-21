@@ -18,8 +18,8 @@
 #ifndef NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_HOOK_POLICY_H
 #define NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_HOOK_POLICY_H
 
-#include"../../../../../grammaric/structural/traits.h"
-#include"../../../../../grammaric/functional/policy.h"
+#include"../../../../../grammaric/variadic/structural/traits.h"
+#include"../../../../../grammaric/variadic/functional/policy.h"
 
 #include"../../../../word/uint/functional/policy.h"
 
@@ -37,9 +37,10 @@ namespace hook		{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::structural::semiotic<size_type> gss_traits;
-		typedef grammaric::functional::semiotic<size_type> gfs_policy;
-		typedef grammaric::functional::media<size_type> gfm_policy;
+		typedef grammaric::variadic::structural::semiotic<size_type> gvss_traits;
+
+		typedef grammaric::variadic::functional::semiotic<size_type> gvfs_policy;
+		typedef grammaric::variadic::functional::media<size_type> gvfm_policy;
 
 		typedef word::uint::functional::semiotic<size_type> wufs_policy;
 

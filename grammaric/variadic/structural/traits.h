@@ -15,45 +15,32 @@
 **
 *************************************************************************************************************************/
 
-template<size_type k, size_type n, typename intervals, typename out, typename in>
-struct fill
-{
-	static constexpr size_type b = intervals::template initial<k>::value;
-	static constexpr size_type e = intervals::template terminal<k>::value;
+#ifndef NIK_GRAMMARIC_VARIADIC_STRUCTURAL_TRAITS_H
+#define NIK_GRAMMARIC_VARIADIC_STRUCTURAL_TRAITS_H
 
-	using new_out = typename media::template
-			if_then_else
-			<
-				(b <= in::car && in::car <= e),
-				typename out::template append<in::car>,
-				typename out::template append<b>
+namespace nik		{
+namespace grammaric	{
+namespace variadic	{
+namespace structural	{
 
-			>::return_type;
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
 
-	using cdr_in = typename media::template
-			if_then_else
-			<
-				isNull<typename in::cdr>::rtn,
-				in,
-				typename in::cdr
+		#include"list/semiotic.cpp"
+		#include"array/semiotic.cpp"
+	};
 
-			>::return_type;
+	template<typename SizeType>
+	struct media
+	{
+		typedef SizeType size_type;
 
-	using new_in = typename media::template
-			if_then_else
-			<
-				(b <= in::car && in::car <= e),
-				cdr_in,
-				in
+		#include"list/media.cpp"
+		#include"array/media.cpp"
+	};
 
-			>::return_type;
+}}}}
 
-	using rtn = typename fill<k+1, n, intervals, new_out, new_in>::rtn;
-};
-
-template<size_type n, typename intervals, typename out, typename in>
-struct fill<n, n, intervals, out, in>
-{
-	using rtn = out;
-};
-
+#endif

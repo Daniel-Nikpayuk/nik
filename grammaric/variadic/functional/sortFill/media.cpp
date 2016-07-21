@@ -15,33 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_STRUCTURAL_TRAITS_H
-#define NIK_GRAMMARIC_STRUCTURAL_TRAITS_H
+template<typename intervals, size_type... params>
+struct sortFill
+{
+	using in = typename ss_traits::template list<params...>;
 
-namespace nik		{
-namespace grammaric	{
-namespace structural	{
+	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
+	using rtn = typename fill<intervals, sorted>::rtn;
+};
 
-		#include"container/semiotic.cpp"
-		#include"list/semiotic.cpp"
-		#include"array/semiotic.cpp"
-	};
-
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-		#include"container/media.cpp"
-		#include"list/media.cpp"
-		#include"array/media.cpp"
-	};
-
-}}}
-
-#endif

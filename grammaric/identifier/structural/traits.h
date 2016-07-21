@@ -15,29 +15,30 @@
 **
 *************************************************************************************************************************/
 
-struct meta
-{
-	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
-	class midpoint
-	{
-		static constexpr size_type mid = (left + right) >> 1;
+#ifndef NIK_GRAMMARIC_IDENTIFIER_STRUCTURAL_TRAITS_H
+#define NIK_GRAMMARIC_IDENTIFIER_STRUCTURAL_TRAITS_H
 
-		public: enum : size_type
-		{
-			value = gcfm_policy::template
-			if_then_else
-			<
-				guess_and_check::template test<mid>::value,
-				midpoint<guess_and_check, mid, right>,
-				midpoint<guess_and_check, left, mid>
-			>::return_type::value
-		};
+namespace nik		{
+namespace grammaric	{
+namespace identifier	{
+namespace structural	{
+
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
+
+		#include"container/semiotic.cpp"
 	};
 
-	template<typename guess_and_check, size_type left, size_type right>
-	class midpoint<guess_and_check, left, right, 1>
+	template<typename SizeType>
+	struct media
 	{
-		public: enum : size_type { value = left };
-	};
-};
+		typedef SizeType size_type;
 
+		#include"container/media.cpp"
+	};
+
+}}}}
+
+#endif

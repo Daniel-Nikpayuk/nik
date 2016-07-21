@@ -17,8 +17,6 @@
 
 namespace nik
 {
-	enum Interval { closed=0, closing, open, opening };
-
 	enum MapPolicy
 	{
 		out_as_closing,
@@ -41,37 +39,10 @@ namespace nik
 		apply_delete,
 
 		omit_count,
-		apply_count
-	};
-
-/*
-	enum MapPolicy
-	{
-		omit_return,
-		apply_return,
-
-		omit_consume,
-		apply_consume,
-
-		omit_count,
 		apply_count,
 
-		out_as_closing,
-		out_as_closed,
-		out_as_opening,
-		out_as_open,
-
-		omit_reverse,
-		apply_reverse,
-
-		in_as_closing,
-		in_as_closed,
-		in_as_opening,
-		in_as_open,
-
-		omit_backward,
-		apply_backward
+		apply_return,
+		omit_return
 	};
-*/
 }
 

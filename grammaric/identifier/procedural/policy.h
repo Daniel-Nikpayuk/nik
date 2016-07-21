@@ -15,31 +15,20 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
-#define NIK_GRAMMARIC_FUNCTIONAL_POLICY_H
+#ifndef NIK_GRAMMARIC_IDENTIFIER_PROCEDURAL_POLICY_H
+#define NIK_GRAMMARIC_IDENTIFIER_PROCEDURAL_POLICY_H
 
 namespace nik		{
 namespace grammaric	{
-namespace functional	{
-
-	template<typename SizeType> struct media;
+namespace identifier	{
+namespace procedural	{
 
 	template<typename SizeType>
 	struct semiotic
 	{
 		typedef SizeType size_type;
 
-		typedef functional::media<size_type> media;
-
-		#include"control_flow/semiotic.cpp"
-
-		#include"isNull/semiotic.cpp"
-		#include"length/semiotic.cpp"
-		#include"catenate/semiotic.cpp"
-		#include"filter/semiotic.cpp"
-		#include"sort/semiotic.cpp"
-		#include"fill/semiotic.cpp"
-		#include"paramFill/semiotic.cpp"
+		#include"cast/semiotic.cpp"
 	};
 
 	template<typename SizeType>
@@ -47,21 +36,9 @@ namespace functional	{
 	{
 		typedef SizeType size_type;
 
-		typedef structural::semiotic<size_type> ss_traits;
-
-		typedef functional::semiotic<size_type> semiotic;
-
-		#include"control_flow/media.cpp"
-
-		#include"isNull/media.cpp"
-		#include"length/media.cpp"
-		#include"catenate/media.cpp"
-		#include"filter/media.cpp"
-		#include"sort/media.cpp"
-		#include"fill/media.cpp"
-		#include"paramFill/media.cpp"
+		#include"cast/media.cpp"
 	};
 
-}}}
+}}}}
 
 #endif

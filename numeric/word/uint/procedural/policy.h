@@ -18,7 +18,7 @@
 #ifndef NIK_NUMERIC_WORD_UINT_PROCEDURAL_POLICY_H
 #define NIK_NUMERIC_WORD_UINT_PROCEDURAL_POLICY_H
 
-#include"../../../../grammaric/functional/policy.h"
+#include"../../../../grammaric/control_flow/functional/policy.h"
 #include"../functional/policy.h"
 
 namespace nik		{
@@ -34,7 +34,7 @@ namespace procedural	{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::media<size_type> gfm_policy;
+		typedef grammaric::control_flow::functional::media<size_type> gcfm_policy;
 		typedef functional::semiotic<size_type> fs_policy;
 
 		typedef functional::media<size_type> media;
@@ -52,7 +52,7 @@ namespace procedural	{
 
 		typedef SizeType size_type;
 
-		typedef grammaric::functional::media<size_type> gfm_policy;
+		typedef grammaric::control_flow::functional::media<size_type> gcfm_policy;
 		typedef functional::semiotic<size_type> fs_policy;
 
 		typedef functional::semiotic<size_type> semiotic;
