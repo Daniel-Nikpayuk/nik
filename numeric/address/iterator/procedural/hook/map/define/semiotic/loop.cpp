@@ -56,6 +56,12 @@
 	static rtn label(WPointer in, EWPointer end)
 
 
+		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)		\
+			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(void, label)
+
+		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)		\
+			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
+
 		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_parentheses(label)		\
 			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(void, label)
 
@@ -67,6 +73,12 @@
 	template<typename WPointer, typename EWPointer>									\
 	static rtn label(size_type & count, WPointer in, EWPointer end)
 
+
+		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)		\
+			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(void, label)
+
+		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)		\
+			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
 
 		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_parentheses(label)		\
 			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(void, label)
@@ -285,6 +297,7 @@
 /*
 	operator_policy:
 
+		out_as_nullary_in_as_unary_emptiness
 		out_as_nullary_in_as_unary_parentheses
 
 		out_as_unary_in_as_nullary_parentheses
@@ -297,6 +310,9 @@
 		out_as_unary_in_as_binary_parentheses
 		out_as_unary_in_as_binary_brackets
 */
+
+
+#define out_as_nullary_in_as_unary_emptiness(op_a, op_l, op_r)
 
 
 #define out_as_nullary_in_as_unary_parentheses(op_a, op_l, op_r)		op_a op_l (*in) op_r;
@@ -329,7 +345,7 @@
 #define out_as_unary_in_as_binary_parentheses(op_a, op_l, op_r)			(*out) op_a (*in1) op_l (*in2) op_r;
 
 
-#define out_as_Unary_in_as_binary_brackets(op_a, op_l, op_r)			(*out) op_a (*in1) op_l [*in2] op_r;
+#define out_as_unary_in_as_binary_brackets(op_a, op_l, op_r)			(*out) op_a (*in1) op_l [*in2] op_r;
 
 
 /************************************************************************************************************************/
@@ -537,16 +553,46 @@
 /************************************************************************************************************************/
 
 
-/*
-	return_policy:
+#define omit_return_out_as_nullary()
 
-		omit_return
-		apply_return
+
+#define omit_return_out_as_unary()
+
+
+/************************************************************************************************************************/
+
+/*
+	out_arity:
+
+		out_as_nullary
+		out_as_unary
 */
 
 
-#define omit_return()
+#define omit_return(out_arity)												\
+	omit_return_##out_arity()
 
 
-#define apply_return()								return out;
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define apply_return_out_as_nullary()						return in;
+
+
+#define apply_return_out_as_unary()						return out;
+
+
+/************************************************************************************************************************/
+
+/*
+	out_arity:
+
+		out_as_nullary
+		out_as_unary
+*/
+
+
+#define apply_return(out_arity)											\
+	apply_return_##out_arity()
 

@@ -45,7 +45,7 @@
 
 
 /*
-	out as nullary, in as _ary
+	out as nullary, in as unary
 */
 
 /*************************************************************************************************************************
@@ -59,7 +59,7 @@
 	[out, end)
 */
 
-#define loop_map_out_as_nullary_in_as_closing(											\
+#define loop_map_out_as_nullary_in_as_unary_in_as_closing(									\
 	label, operator_policy, op_a, op_l, op_r, in_arity, in_direction, delete_policy, count_policy, return_policy)		\
 function_type(label, return_policy, count_policy, operator_policy)								\
 {																\
@@ -70,7 +70,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		count_policy()													\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_nullary)												\
 }
 
 
@@ -85,7 +85,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	[out, end]
 */
 
-#define loop_map_out_as_nullary_in_as_closed(											\
+#define loop_map_out_as_nullary_in_as_unary_in_as_closed(									\
 	label, operator_policy, op_a, op_l, op_r, in_arity, in_direction, delete_policy, count_policy, return_policy)		\
 function_type(label, return_policy, count_policy, operator_policy)								\
 {																\
@@ -100,7 +100,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	delete_policy(in_arity)													\
 	count_policy()														\
 																\
-	return_policy()														\
+	return_policy(out_as_nullary)												\
 }
 
 
@@ -115,7 +115,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	(out, end]
 */
 
-#define loop_map_out_as_nullary_in_as_opening(											\
+#define loop_map_out_as_nullary_in_as_unary_in_as_opening(									\
 	label, operator_policy, op_a, op_l, op_r, in_arity, in_direction, delete_policy, count_policy, return_policy)		\
 function_type(label, return_policy, count_policy, operator_policy)								\
 {																\
@@ -128,7 +128,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		count_policy()													\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_nullary)												\
 }
 
 
@@ -143,7 +143,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	(out, end)
 */
 
-#define loop_map_out_as_nullary_in_as_open(											\
+#define loop_map_out_as_nullary_in_as_unary_in_as_open(										\
 	label, operator_policy, op_a, op_l, op_r, in_arity, in_direction, delete_policy, count_policy, return_policy)		\
 function_type(label, return_policy, count_policy, operator_policy)								\
 {																\
@@ -156,7 +156,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		count_policy()													\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_nullary)												\
 }
 
 
@@ -194,7 +194,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -222,7 +222,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -249,7 +249,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -277,7 +277,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -310,7 +310,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	operator_policy(op_a, op_l, op_r)											\
 	count_policy()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -340,7 +340,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	operator_policy(op_a, op_l, op_r)											\
 	count_policy()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -371,7 +371,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	operator_policy(op_a, op_l, op_r)											\
 	count_policy()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -402,7 +402,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 	operator_policy(op_a, op_l, op_r)											\
 	count_policy()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -431,7 +431,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -459,7 +459,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -486,7 +486,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -514,7 +514,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -544,7 +544,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -574,7 +574,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 																\
 	out_direction()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -603,7 +603,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 																\
 	out_direction()														\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -632,7 +632,7 @@ function_type(label, return_policy, count_policy, operator_policy)								\
 		--n;														\
 	}															\
 																\
-	return_policy()														\
+	return_policy(out_as_unary)												\
 }
 
 
@@ -671,7 +671,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -703,7 +703,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	delete_policy(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -730,7 +730,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 /*
@@ -759,7 +759,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	apply_delete(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 #define loop_map_out_as_unary_out_as_closing_in_as_opening(										\
@@ -792,7 +792,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -825,7 +825,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	in_direction(delete_policy, in_arity)												\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -856,7 +856,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	delete_policy(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -888,7 +888,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	delete_policy(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -920,7 +920,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	in_direction(delete_policy, in_arity)												\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -949,7 +949,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -981,7 +981,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	delete_policy(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -1008,7 +1008,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 /*
@@ -1037,7 +1037,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	apply_delete(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 #define loop_map_out_as_unary_out_as_opening_in_as_opening(										\
@@ -1071,7 +1071,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 																	\
 	in_direction(omit_delete, in_arity)												\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 /*
@@ -1095,7 +1095,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 #define loop_map_out_as_unary_out_as_opening_in_as_open(										\
@@ -1130,7 +1130,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -1163,7 +1163,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	delete_policy(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -1192,7 +1192,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 																	\
 	out_direction()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 /*
@@ -1222,7 +1222,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 	apply_delete(in_arity)														\
 	count_policy()															\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 #define loop_map_out_as_unary_out_as_open_in_as_opening(										\
@@ -1256,7 +1256,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		count_policy()														\
 	}																\
 																	\
-	return_policy()															\
+	return_policy(out_as_unary)													\
 }
 
 
@@ -1291,7 +1291,7 @@ function_type(label, return_policy, count_policy, operator_policy)									\
 		in_interval, in_direction,						\
 		delete_policy, count_policy, return_policy)				\
 											\
-	loop_map_out_as_nullary_##out_interval##_##in_interval(				\
+	loop_map_out_as_nullary_in_as_unary_##in_interval(				\
 		label,									\
 		out_as_nullary_in_as_unary_##operator_policy, op_a, op_l, op_r,		\
 		in_as_unary, in_direction,						\

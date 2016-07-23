@@ -23,9 +23,358 @@
 	overload: 40 operators referenced from: http://en.cppreference.com/w/cpp/language/operators
 */
 
+
+//	+:
+
+//	-:
+
+//	*:
+
+//	/:
+
+//	%:
+
+//	ˆ:
+
+//	&:
+
+//	|:
+
+//	~:
+
+//	!:
+
+//	<:
+
+//	>:
+
+//	<<:
+
+//	>>:
+
+//	==:
+
+//	!=:
+
+//	<=:
+
+//	>=:
+
+//	&&:
+
+//	||:
+
+//	++:
+
+//	--:
+
+//	,:
+
+struct comma { };
+
+//	->*:
+
+//	->:
+
+//	():
+
+//	[]:
+
+/*
+	loop_map									\
+	(										\
+		plus,									\
+		parentheses, =, +,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		plus,									\
+		parentheses, =, +,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		minus,									\
+		parentheses, =, -,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		minus,									\
+		parentheses, =, -,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		asterisk,								\
+		parentheses, =, *,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		asterisk,								\
+		parentheses, =, *,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		slash,									\
+		parentheses, =, /,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		percent,								\
+		parentheses, =, %,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		caret,									\
+		parentheses, =, ^,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		ampersand,								\
+		parentheses, =, &,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		ampersand,								\
+		parentheses, =, &,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		bar,									\
+		parentheses, =, |,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		tilde,									\
+		parentheses, =, ~,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		exclamation,								\
+		parentheses, =, !,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		less_than,								\
+		parentheses, =, <,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		greater_than,								\
+		parentheses, =, >,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_shift,								\
+		parentheses, =, <<,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_shift,								\
+		parentheses, =, >>,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		equals,									\
+		parentheses, =, ==,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		not_equals,								\
+		parentheses, =, !=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		less_than_or_equal,							\
+		parentheses, =, <=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		greater_than_or_equal,							\
+		parentheses, =, >=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		logical_and,								\
+		parentheses, =, &&,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		logical_or,								\
+		parentheses, =, ||,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_increment,								\
+		emptiness,  , ++,  ,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_increment,							\
+		emptiness,  ,  , ++,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_decrement,								\
+		emptiness,  , --,  ,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_decrement,							\
+		emptiness,  ,  , --,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		point_asterisk,								\
+		parentheses, =, ->*,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		point,									\
+		parentheses, =, .operator->,  ,						\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		parentheses,								\
+		parentheses_new, =,  new Node,  ,					\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_nullary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		brackets,								\
+		brackets_new, =, new Node,  ,						\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+*/
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 #define declare_loop(									\
 			out_interval, out_direction,					\
@@ -50,7 +399,286 @@ struct loop										\
 		plus,									\
 		parentheses, =, +,  ,							\
 		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		plus,									\
+		parentheses, =, +,  ,							\
+		out_as_unary, out_interval, out_direction,				\
 		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		minus,									\
+		parentheses, =, -,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		minus,									\
+		parentheses, =, -,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		asterisk,								\
+		parentheses, =, *,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		asterisk,								\
+		parentheses, =, *,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		slash,									\
+		parentheses, =, /,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		percent,								\
+		parentheses, =, %,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		caret,									\
+		parentheses, =, ^,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		ampersand,								\
+		parentheses, =, &,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		ampersand,								\
+		parentheses, =, &,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		bar,									\
+		parentheses, =, |,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		tilde,									\
+		parentheses, =, ~,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		exclamation,								\
+		parentheses, =, !,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		less_than,								\
+		parentheses, =, <,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		greater_than,								\
+		parentheses, =, >,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_shift,								\
+		parentheses, =, <<,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_shift,								\
+		parentheses, =, >>,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		equals,									\
+		parentheses, =, ==,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		not_equals,								\
+		parentheses, =, !=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		less_than_or_equal,							\
+		parentheses, =, <=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		greater_than_or_equal,							\
+		parentheses, =, >=,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		logical_and,								\
+		parentheses, =, &&,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		logical_or,								\
+		parentheses, =, ||,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_increment,								\
+		emptiness,  , ++,  ,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_increment,							\
+		emptiness,  ,  , ++,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		left_decrement,								\
+		emptiness,  , --,  ,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		right_decrement,							\
+		emptiness,  ,  , --,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		point_asterisk,								\
+		parentheses, =, ->*,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		point,									\
+		parentheses, =, .operator->,  ,						\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		parentheses,								\
+		parentheses_new, =,  new Node,  ,					\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_nullary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		brackets,								\
+		brackets_new, =, new Node,  ,						\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
 		delete_policy, count_policy, return_policy				\
 	)										\
 											\
@@ -62,11 +690,44 @@ struct loop										\
 		in_as_nullary, in_interval, in_direction,				\
 		delete_policy, count_policy, return_policy				\
 	)										\
+											\
+	loop_map									\
+	(										\
+		assign,									\
+		parentheses, =,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		empty,									\
+		emptiness,  ,  ,  ,							\
+		out_as_nullary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	template<typename WNode, typename F, typename WPointer>				\
+	static WPointer generic(F f, WPointer out, size_type n)				\
+	{										\
+		while (n)								\
+		{									\
+			f(out, n);							\
+			out=+(out)=new WNode;						\
+			--n;								\
+		}									\
+											\
+		return out;								\
+	}										\
 };
+
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
 
 template<typename config_list, typename Filler = void>
 struct loop
@@ -74,120 +735,189 @@ struct loop
 	static_assert(true, "This method has not yet been declared.");
 };
 
-declare_loop
-(
-	out_as_closing, out_as_forward,
-	in_as_closing, in_as_forward,
-	omit_delete, omit_count, apply_return
-)
 
-//	+:
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	-:
 
-//	declare_1_2(minus, =, -, )
+#define declare_loop_return(										\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy, count_policy)							\
+													\
+	declare_loop											\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy, count_policy, apply_return					\
+	)												\
+													\
+	declare_loop											\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy, count_policy, omit_return					\
+	)
 
-//	*:
 
-//	declare_1_2(asterisk, =, *, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	/:
 
-//	declare_2(slash, =, /, )
+#define declare_loop_count_return(									\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy)									\
+													\
+	declare_loop_return										\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy, omit_count 							\
+	)												\
+													\
+	declare_loop_return										\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			delete_policy, apply_count							\
+	)
 
-//	%:
 
-//	declare_2(percent, =, %, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	ˆ:
 
-//	declare_2(caret, =, ^, )
+#define declare_loop_delete_count_return(								\
+			out_interval, out_direction,							\
+			in_interval, in_direction)							\
+													\
+	declare_loop_count_return									\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			omit_delete									\
+	)												\
+													\
+	declare_loop_count_return									\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_direction,							\
+			apply_delete									\
+	)
 
-//	&:
 
-//	declare_1_2(ampersand, =, &, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	|:
 
-//	declare_2(bar, =, |, )
+#define declare_loop_in_direction_delete_count_return(							\
+			out_interval, out_direction,							\
+			in_interval)									\
+													\
+	declare_loop_delete_count_return								\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_as_forward							\
+	)												\
+													\
+	declare_loop_delete_count_return								\
+	(												\
+			out_interval, out_direction,							\
+			in_interval, in_as_backward							\
+	)
 
-//	~:
 
-//	declare_1(tilde, =, ~, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	!:
 
-//	declare_1(exclamation, =, !, )
+#define declare_loop_in_interval_in_direction_delete_count_return(					\
+			out_interval, out_direction)							\
+													\
+	declare_loop_in_direction_delete_count_return							\
+	(												\
+			out_interval, out_direction,							\
+			in_as_closing									\
+	)												\
+													\
+	declare_loop_in_direction_delete_count_return							\
+	(												\
+			out_interval, out_direction,							\
+			in_as_closed									\
+	)												\
+													\
+	declare_loop_in_direction_delete_count_return							\
+	(												\
+			out_interval, out_direction,							\
+			in_as_opening									\
+	)												\
+													\
+	declare_loop_in_direction_delete_count_return							\
+	(												\
+			out_interval, out_direction,							\
+			in_as_open									\
+	)
 
-//	<:
 
-//	declare_2(less_than, =, <, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	>:
 
-//	declare_2(greater_than, =, <, )
+#define declare_loop_out_direction_in_interval_in_direction_delete_count_return(			\
+			out_interval)									\
+													\
+	declare_loop_in_interval_in_direction_delete_count_return					\
+	(												\
+			out_interval, out_as_forward							\
+	)												\
+													\
+	declare_loop_in_interval_in_direction_delete_count_return					\
+	(												\
+			out_interval, out_as_backward							\
+	)
 
-//	<<:
 
-//	declare_2(left_shift, =, <<, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	>>:
 
-//	declare_2(right_shift, =, >>, )
+#define declare_loop_out_interval_out_direction_in_interval_in_direction_delete_count_return()		\
+													\
+	declare_loop_out_direction_in_interval_in_direction_delete_count_return				\
+	(												\
+			out_as_closing									\
+	)												\
+													\
+	declare_loop_out_direction_in_interval_in_direction_delete_count_return				\
+	(												\
+			out_as_closed									\
+	)												\
+													\
+	declare_loop_out_direction_in_interval_in_direction_delete_count_return				\
+	(												\
+			out_as_opening									\
+	)												\
+													\
+	declare_loop_out_direction_in_interval_in_direction_delete_count_return				\
+	(												\
+			out_as_open									\
+	)
 
-//	==:
 
-//	declare_2(equals, =, ==, )
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
-//	!=:
 
-//	declare_2(not_equals, =, !=, )
-
-//	<=:
-
-//	declare_2(less_than_or_equal, =, <=, )
-
-//	>=:
-
-//	declare_2(greater_than_or_equal, =, >=, )
-
-//	&&:
-
-//	declare_2(logical_and, =, &&, )
-
-//	||:
-
-//	declare_2(logical_or, =, ||, )
-
-//	++:
-
-//	declare_0(left_increment,  , ++, )
-//	declare_0(right_increment,  , , ++)
-
-//	--:
-
-//	declare_0(left_decrement,  , --, )
-//	declare_0(right_decrement,  , , --)
-
-//	,:
-
-struct comma { };
-
-//	->*:
-
-//	declare_2(point_asterisk, =, ->*, )
-
-//	->:
-
-//	declare_2(point, =, .operator->, )
-
-//	():
-
-//	declare_0_1_2(parentheses, parentheses_new, =, new Node, )
-
-//	[]:
-
-//	declare_2(brackets, brackets, =, , )
+declare_loop_out_interval_out_direction_in_interval_in_direction_delete_count_return()
 
 //	=:
 
