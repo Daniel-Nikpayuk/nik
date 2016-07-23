@@ -46,8 +46,7 @@ namespace hook		{
 
 		typedef hook::media<size_type> media;
 
-		#include"map/preprocessed.cpp"
-//		#include"map/semiotic.cpp"
+		#include"map/semiotic.cpp"
 
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using map_unroll=typename map::template unroll<N, M, L>;
