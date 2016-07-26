@@ -130,12 +130,12 @@ struct math
 
 	struct divide
 	{
-		static constexpr size_type length = f_policy::unit::semiotic::length;
-		static constexpr size_type max = f_policy::unit::semiotic::max;
-		static constexpr size_type head = f_policy::unit::semiotic::head;
+		static constexpr size_type length = f_semiotic::unit::semiotic::length;
+		static constexpr size_type max = f_semiotic::unit::max;
+		static constexpr size_type head = f_semiotic::unit::head;
 
-		static constexpr size_type half_length = f_policy::unit::semiotic::half::length;
-		static constexpr size_type half_max = f_policy::unit::semiotic::half::max;
+		static constexpr size_type half_length = f_semiotic::unit::half::length;
+		static constexpr size_type half_max = f_semiotic::unit::half::max;
 	/*
 		The case where d == 2 implies in1 == 1:
 	*/

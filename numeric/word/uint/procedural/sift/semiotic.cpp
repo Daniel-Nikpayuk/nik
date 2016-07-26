@@ -24,13 +24,13 @@ struct sift
 	struct low_pass
 	{
 		static size_type with_return(size_type t)
-			{ return fs_policy::unit::max >> (fs_policy::unit::length - t); }
+			{ return f_semiotic::unit::max >> (f_semiotic::unit::length - t); }
 	};
 
 	struct high_pass
 	{
 		static size_type with_return(size_type s)
-			{ return fs_policy::unit::max & ~low_pass::with_return(s); }
+			{ return f_semiotic::unit::max & ~low_pass::with_return(s); }
 	};
 
 	/*
@@ -40,7 +40,7 @@ struct sift
 	struct band_pass
 	{
 		static size_type with_return(size_type s, size_type t)
-			{ return (fs_policy::unit::max >> (fs_policy::unit::length-t+s)) << s; }
+			{ return (f_semiotic::unit::max >> (f_semiotic::unit::length-t+s)) << s; }
 	};
 
 	struct low
@@ -51,7 +51,7 @@ struct sift
 		struct half
 		{
 			static size_type with_return(size_type x)
-				{ return (fs_policy::unit::filter::low_pass & x); }
+				{ return (f_semiotic::unit::filter::low_pass & x); }
 		};
 	};
 
@@ -63,7 +63,7 @@ struct sift
 		struct half
 		{
 			static size_type high(size_type x)
-				{ return x >> fs_policy::unit::half::length; }
+				{ return x >> f_semiotic::unit::half::length; }
 		};
 	};
 

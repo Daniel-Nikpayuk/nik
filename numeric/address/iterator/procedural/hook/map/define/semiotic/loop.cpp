@@ -50,41 +50,69 @@
 // parentheses
 
 
-#define function_type_omit_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
-															\
-	template<typename WPointer, typename EWPointer>									\
+#define function_type_omit_count_out_as_nullary_in_as_unary_parentheses(rtn, label)							\
+																	\
+	template<typename WPointer, typename EWPointer>											\
 	static rtn label(WPointer in, EWPointer end)
 
 
-		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)		\
+		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)				\
 			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)		\
+		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_emptiness(label)				\
 			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
 
-		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_parentheses(label)		\
+		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_parentheses(label)				\
 			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_parentheses(label)		\
+		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_parentheses(label)				\
 			function_type_omit_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
 
-#define function_type_apply_count_out_as_nullary_in_as_unary_parentheses(rtn, label)					\
-															\
-	template<typename WPointer, typename EWPointer>									\
+#define function_type_apply_count_out_as_nullary_in_as_unary_parentheses(rtn, label)							\
+																	\
+	template<typename WPointer, typename EWPointer>											\
 	static rtn label(size_type & count, WPointer in, EWPointer end)
 
 
-		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)		\
+		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)				\
 			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)		\
+		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_emptiness(label)				\
 			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
 
-		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_parentheses(label)		\
+		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_parentheses(label)				\
 			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_parentheses(label)		\
+		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_parentheses(label)				\
 			function_type_apply_count_out_as_nullary_in_as_unary_parentheses(WPointer, label)
+
+
+// genericity
+
+
+#define function_type_omit_count_out_as_nullary_in_as_unary_genericity(rtn, label)							\
+																	\
+	template<typename Functor, typename WPointer, typename EWPointer>								\
+	static rtn label(Functor functor, WPointer in, EWPointer end)
+
+
+		#define function_type_omit_return_omit_count_out_as_nullary_in_as_unary_genericity(label)				\
+			function_type_omit_count_out_as_nullary_in_as_unary_genericity(void, label)
+
+		#define function_type_apply_return_omit_count_out_as_nullary_in_as_unary_genericity(label)				\
+			function_type_omit_count_out_as_nullary_in_as_unary_genericity(WPointer, label)
+
+#define function_type_apply_count_out_as_nullary_in_as_unary_genericity(rtn, label)							\
+																	\
+	template<typename Functor, typename WPointer, typename EWPointer>								\
+	static rtn label(size_type & count, Functor functor, WPointer in, EWPointer end)
+
+
+		#define function_type_omit_return_apply_count_out_as_nullary_in_as_unary_genericity(label)				\
+			function_type_apply_count_out_as_nullary_in_as_unary_genericity(void, label)
+
+		#define function_type_apply_return_apply_count_out_as_nullary_in_as_unary_genericity(label)				\
+			function_type_apply_count_out_as_nullary_in_as_unary_genericity(WPointer, label)
 
 
 /////// out_as_unary, in_as_nullary
@@ -93,85 +121,113 @@
 // parentheses
 
 
-#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename ValueType>							\
-	static rtn label(WPointer out, size_type n, ValueType value)
+#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename ValueType>									\
+	static rtn label(WPointer out, size_type m, size_type n, ValueType value)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_parentheses(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename ValueType>							\
-	static rtn label(size_type & count, WPointer out, size_type n, ValueType value)
+#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename ValueType>									\
+	static rtn label(size_type & count, WPointer out, size_type m, size_type n, ValueType value)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_nullary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_nullary_parentheses(WPointer, label)
 
 
 // parentheses_new
 
 
-#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)					\
-															\
-	template<typename Node, typename WNode, typename WPointer>							\
-	static rtn label(WPointer out, size_type n)
+#define function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)							\
+																	\
+	template<typename Node, typename WNode, typename WPointer>									\
+	static rtn label(WPointer out, size_type m, size_type n)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses_new(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_parentheses_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses_new(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_parentheses_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)				\
-															\
-	template<typename Node, typename WNode, typename WPointer>							\
-	static rtn label(size_type & count, WPointer out, size_type n)
+#define function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(rtn, label)						\
+																	\
+	template<typename Node, typename WNode, typename WPointer>									\
+	static rtn label(size_type & count, WPointer out, size_type m, size_type n)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses_new(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_parentheses_new(label)				\
 			function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses_new(label)	\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_parentheses_new(label)			\
 			function_type_apply_count_out_as_unary_in_as_nullary_parentheses_new(WPointer, label)
 
 
 // brackets_new
 
 
-#define function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
-															\
-	template<typename Node, typename WNode, typename WPointer>							\
-	static rtn label(WPointer out, size_type n, size_type in)
+#define function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)							\
+																	\
+	template<typename Node, typename WNode, typename WPointer>									\
+	static rtn label(WPointer out, size_type m, size_type n, size_type in)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_brackets_new(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_brackets_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_brackets_new(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_brackets_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_nullary_brackets_new(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)					\
-															\
-	template<typename Node, typename WNode, typename WPointer>							\
-	static rtn label(size_type & count, WPointer out, size_type n, size_type in)
+#define function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(rtn, label)							\
+																	\
+	template<typename Node, typename WNode, typename WPointer>									\
+	static rtn label(size_type & count, WPointer out, size_type m, size_type n, size_type in)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_brackets_new(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_brackets_new(label)				\
 			function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_brackets_new(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_brackets_new(label)				\
 			function_type_apply_count_out_as_unary_in_as_nullary_brackets_new(WPointer, label)
+
+
+// genericity
+
+
+#define function_type_omit_count_out_as_unary_in_as_nullary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer>									\
+	static rtn label(Functor functor, WPointer out, size_type m, size_type n)
+
+
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_nullary_genericity(label)				\
+			function_type_omit_count_out_as_unary_in_as_nullary_genericity(void, label)
+
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_nullary_genericity(label)				\
+			function_type_omit_count_out_as_unary_in_as_nullary_genericity(WPointer, label)
+
+#define function_type_apply_count_out_as_unary_in_as_nullary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer>									\
+	static rtn label(size_type & count, Functor functor, WPointer out, size_type m, size_type n)
+
+
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_nullary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_nullary_genericity(void, label)
+
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_nullary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_nullary_genericity(WPointer, label)
 
 
 /////// out_as_unary, in_as_unary
@@ -180,57 +236,85 @@
 // parentheses
 
 
-#define function_type_omit_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
+#define function_type_omit_count_out_as_unary_in_as_unary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>						\
 	static rtn label(WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_parentheses(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_parentheses(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_unary_parentheses(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_unary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>				\
+#define function_type_apply_count_out_as_unary_in_as_unary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename RIterator, typename ERIterator>						\
 	static rtn label(size_type & count, WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_parentheses(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_unary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_parentheses(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_unary_parentheses(WPointer, label)
 
 
 // brackets_new
 
 
-#define function_type_omit_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
-															\
-	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
+#define function_type_omit_count_out_as_unary_in_as_unary_brackets_new(rtn, label)							\
+																	\
+	template<typename WNode, typename Node, typename WPointer, typename RIterator, typename ERIterator>				\
 	static rtn label(WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_brackets_new(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_brackets_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_unary_brackets_new(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_brackets_new(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_brackets_new(label)				\
 			function_type_omit_count_out_as_unary_in_as_unary_brackets_new(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_unary_brackets_new(rtn, label)					\
-															\
-	template<typename Node, typename WNode, typename WPointer, typename RIterator, typename ERIterator>		\
+#define function_type_apply_count_out_as_unary_in_as_unary_brackets_new(rtn, label)							\
+																	\
+	template<typename WNode, typename Node, typename WPointer, typename RIterator, typename ERIterator>				\
 	static rtn label(size_type & count, WPointer out, RIterator in, ERIterator end)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_brackets_new(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_brackets_new(label)				\
 			function_type_apply_count_out_as_unary_in_as_unary_brackets_new(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_brackets_new(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_brackets_new(label)				\
 			function_type_apply_count_out_as_unary_in_as_unary_brackets_new(WPointer, label)
+
+
+// genericity
+
+
+#define function_type_omit_count_out_as_unary_in_as_unary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer, typename RIterator, typename ERIterator>				\
+	static rtn label(Functor functor, WPointer out, RIterator in, ERIterator end)
+
+
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_unary_genericity(label)					\
+			function_type_omit_count_out_as_unary_in_as_unary_genericity(void, label)
+
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_unary_genericity(label)				\
+			function_type_omit_count_out_as_unary_in_as_unary_genericity(WPointer, label)
+
+#define function_type_apply_count_out_as_unary_in_as_unary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer, typename RIterator, typename ERIterator>				\
+	static rtn label(Functor functor, size_type & count, WPointer out, RIterator in, ERIterator end)
+
+
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_unary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_unary_genericity(void, label)
+
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_unary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_unary_genericity(WPointer, label)
 
 
 /////// out_as_unary, in_as_binary
@@ -239,42 +323,69 @@
 // parentheses
 
 
-#define function_type_omit_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+#define function_type_omit_count_out_as_unary_in_as_binary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>			\
 	static rtn label(WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_parentheses(label)		\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_binary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_parentheses(label)		\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_parentheses(label)				\
 			function_type_omit_count_out_as_unary_in_as_binary_parentheses(WPointer, label)
 
-		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_brackets(label)			\
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_brackets(label)					\
 			function_type_omit_count_out_as_unary_in_as_binary_parentheses(void, label)
 
-		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_brackets(label)			\
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_brackets(label)					\
 			function_type_omit_count_out_as_unary_in_as_binary_parentheses(WPointer, label)
 
-#define function_type_apply_count_out_as_unary_in_as_binary_parentheses(rtn, label)					\
-															\
-	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+#define function_type_apply_count_out_as_unary_in_as_binary_parentheses(rtn, label)							\
+																	\
+	template<typename WNode, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>			\
 	static rtn label(size_type & count, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
 
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_parentheses(label)		\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_binary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_parentheses(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_parentheses(label)				\
 			function_type_apply_count_out_as_unary_in_as_binary_parentheses(WPointer, label)
 
-		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_brackets(label)			\
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_brackets(label)					\
 			function_type_apply_count_out_as_unary_in_as_binary_parentheses(void, label)
 
-		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_brackets(label)		\
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_brackets(label)				\
 			function_type_apply_count_out_as_unary_in_as_binary_parentheses(WPointer, label)
 
+
+// genericity
+
+
+#define function_type_omit_count_out_as_unary_in_as_binary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+	static rtn label(Functor functor, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
+
+
+		#define function_type_omit_return_omit_count_out_as_unary_in_as_binary_genericity(label)				\
+			function_type_omit_count_out_as_unary_in_as_binary_genericity(void, label)
+
+		#define function_type_apply_return_omit_count_out_as_unary_in_as_binary_genericity(label)				\
+			function_type_omit_count_out_as_unary_in_as_binary_genericity(WPointer, label)
+
+#define function_type_apply_count_out_as_unary_in_as_binary_genericity(rtn, label)							\
+																	\
+	template<typename WNode, typename Functor, typename WPointer, typename RIterator1, typename RIterator2, typename ERIterator>	\
+	static rtn label(size_type & count, Functor functor, WPointer out, RIterator1 in1, RIterator2 in2, ERIterator end2)
+
+
+		#define function_type_omit_return_apply_count_out_as_unary_in_as_binary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_binary_genericity(void, label)
+
+		#define function_type_apply_return_apply_count_out_as_unary_in_as_binary_genericity(label)				\
+			function_type_apply_count_out_as_unary_in_as_binary_genericity(WPointer, label)
 
 
 /************************************************************************************************************************/
@@ -318,6 +429,9 @@
 #define out_as_nullary_in_as_unary_parentheses(op_a, op_l, op_r)		op_a op_l (*in) op_r;
 
 
+#define out_as_nullary_in_as_unary_genericity(op_a, op_l, op_r)			functor(in);
+
+
 //
 
 
@@ -330,6 +444,9 @@
 #define out_as_unary_in_as_nullary_brackets_new(op_a, op_l, op_r)		(*out) op_a op_l [value] op_r;
 
 
+#define out_as_unary_in_as_nullary_genericity(op_a, op_l, op_r)			functor(out, m);
+
+
 //
 
 
@@ -339,6 +456,9 @@
 #define out_as_unary_in_as_unary_brackets_new(op_a, op_l, op_r)			(*out) op_a op_l [*in] op_r;
 
 
+#define out_as_unary_in_as_unary_genericity(op_a, op_l, op_r)			functor(out, in);
+
+
 //
 
 
@@ -346,6 +466,9 @@
 
 
 #define out_as_unary_in_as_binary_brackets(op_a, op_l, op_r)			(*out) op_a (*in1) op_l [*in2] op_r;
+
+
+#define out_as_unary_in_as_binary_genericity(op_a, op_l, op_r)			functor(out, in1, in2);
 
 
 /************************************************************************************************************************/
@@ -403,6 +526,20 @@
 /************************************************************************************************************************/
 
 
+#define in_direction_omit_delete_in_as_nullary(dir)				dir##dir(m);
+
+
+	#define in_as_forward_omit_delete_in_as_nullary()			in_direction_omit_delete_in_as_nullary(+)
+	#define in_as_backward_omit_delete_in_as_nullary()			in_direction_omit_delete_in_as_nullary(-)
+
+
+#define in_direction_apply_delete_in_as_nullary(dir)				dir##dir(m);
+
+
+	#define in_as_forward_apply_delete_in_as_nullary()			in_direction_apply_delete_in_as_nullary(+)
+	#define in_as_backward_apply_delete_in_as_nullary()			in_direction_apply_delete_in_as_nullary(-)
+
+
 #define in_direction_omit_delete_in_as_unary(dir)				dir##dir(in);
 
 
@@ -456,6 +593,16 @@
 /************************************************************************************************************************/
 
 
+#define peek_type_nullary(dir)							(m)dir != n
+
+
+	#define no_peek_in_as_nullary_in_as_forward()				peek_type_nullary( )
+	#define no_peek_in_as_nullary_in_as_backward()				peek_type_nullary( )
+
+	#define with_peek_in_as_nullary_in_as_forward()				peek_type_nullary(+1)
+	#define with_peek_in_as_nullary_in_as_backward()			peek_type_nullary(-1)
+
+
 #define peek_type_unary(dir)							dir(in) != end
 
 
@@ -496,6 +643,12 @@
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
+
+
+#define omit_delete_in_as_nullary()
+
+
+#define apply_delete_in_as_nullary()
 
 
 #define omit_delete_in_as_unary()

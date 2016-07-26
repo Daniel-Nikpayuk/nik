@@ -24,7 +24,7 @@ struct meta
 
 		public: enum : size_type
 		{
-			value = gcfm_policy::template
+			value = gcf_media::template
 			if_then_else
 			<
 				guess_and_check::template test<mid>::value,

@@ -24,9 +24,9 @@
 
 #include"namespace.h"
 
-#include"traits.h"
+#include"semiotic.h"
 
-#include"policy.h"
+#include"media.h"
 
 #include"user.h"
 

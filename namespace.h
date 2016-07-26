@@ -17,32 +17,88 @@
 
 namespace nik
 {
-	enum MapPolicy
+	namespace rank
 	{
-		out_as_closing,
-		out_as_closed,
-		out_as_opening,
-		out_as_open,
+		enum configuration
+		{
+			dual,
+			out,
+			in
+		};
+	}
 
-		out_as_forward,
-		out_as_backward,
+	namespace dual
+	{
+		enum configuration
+		{
+			out_as_closing,
+			out_as_closed,
+			out_as_opening,
+			out_as_open,
 
-		in_as_closing,
-		in_as_closed,
-		in_as_opening,
-		in_as_open,
+			out_as_forward,
+			out_as_backward,
 
-		in_as_forward,
-		in_as_backward,
+			in_as_closing,
+			in_as_closed,
+			in_as_opening,
+			in_as_open,
 
-		omit_delete,
-		apply_delete,
+			in_as_forward,
+			in_as_backward,
 
-		omit_count,
-		apply_count,
+			omit_delete,
+			apply_delete,
 
-		apply_return,
-		omit_return
-	};
+			omit_count,
+			apply_count,
+
+			apply_return,
+			omit_return
+		};
+	}
+
+	namespace out
+	{
+		enum configuration
+		{
+			as_closing,
+			as_closed,
+			as_opening,
+			as_open,
+
+			as_forward,
+			as_backward,
+
+			omit_count,
+			apply_count,
+
+			apply_return,
+			omit_return
+		};
+	}
+
+	namespace in
+	{
+		enum configuration
+		{
+			as_closing,
+			as_closed,
+			as_opening,
+			as_open,
+
+			as_forward,
+			as_backward,
+
+			omit_delete,
+			apply_delete,
+
+			omit_count,
+			apply_count,
+
+			apply_return,
+			omit_return
+		};
+	}
 }
 

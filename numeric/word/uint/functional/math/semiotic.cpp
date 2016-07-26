@@ -33,7 +33,7 @@ struct math
 
 		public: enum : size_type
 		{
-			value = gcfm_policy::template
+			value = gcf_media::template
 			if_then_else
 			<
 				(1 & n),

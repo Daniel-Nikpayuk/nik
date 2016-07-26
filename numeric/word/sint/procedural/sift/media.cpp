@@ -40,10 +40,10 @@ struct sift
 	{
 		static size_type with_return(size_type t)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			if (0 < t && t < length)	return semiotic::low_pass::with_return(t);
-			else if (t >= length)		return fs_policy::unit::max;
+			else if (t >= length)		return f_semiotic::unit::max;
 			else				return 0;
 		}
 	};
@@ -71,10 +71,10 @@ struct sift
 	{
 		static size_type with_return(size_type s)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			if (0 < s && s < length)	return semiotic::high_pass::with_return(s);
-			else if (s >= length)		return fs_policy::unit::max;
+			else if (s >= length)		return f_semiotic::unit::max;
 			else				return 0;
 		}
 	};
@@ -107,7 +107,7 @@ struct sift
 	{
 		static size_type with_return(size_type s, size_type t)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			size_type lower = (s > t) ? t : s;
 			size_type upper = (s > t) ? s : t;
@@ -116,7 +116,7 @@ struct sift
 			if (0 < lower && upper < length)				return semiotic::band_pass::with_return(lower, upper);
 			else if (0 < lower && lower < length && upper >= length)	return semiotic::high_pass::with_return(lower);
 			else if (lower >= length && 0 < upper && upper < length)	return semiotic::low_pass::with_return(upper);
-			else if (lower <= 0 && upper >= length)				return fs_policy::unit::max;
+			else if (lower <= 0 && upper >= length)				return f_semiotic::unit::max;
 			else								return 0;
 		}
 	};
@@ -144,7 +144,7 @@ struct sift
 	{
 		static size_type with_return(size_type x, size_type t)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			if (0 < t && t < length && x)	return semiotic::low::with_return(x, t);
 			else if (t >= length && x)	return x;
@@ -184,7 +184,7 @@ struct sift
 	{
 		static size_type with_return(size_type x, size_type s)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			if (0 < s && s < length && x)	return semiotic::high::with_return(x, s);
 			else if (s <= 0 && x)		return x;
@@ -228,7 +228,7 @@ struct sift
 	{
 		static size_type with_return(size_type x, size_type s, size_type t)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			size_type lower = (s > t) ? t : s;
 			size_type upper = (s > t) ? s : t;
@@ -266,9 +266,9 @@ struct sift
 	{
 		static size_type with_return(size_type x)
 		{
-			static constexpr size_type min = fs_policy::unit::min;
-			static constexpr size_type length = fs_policy::unit::length;
-			static constexpr bool is_unsigned = fs_policy::unit::is_unsigned;
+			static constexpr size_type min = f_semiotic::unit::min;
+			static constexpr size_type length = f_semiotic::unit::length;
+			static constexpr bool is_unsigned = f_semiotic::unit::is_unsigned;
 
 			if (is_unsigned && x > 0)		return semiotic::template unroll<length>::degree::unsigned_return(0, x);
 			else if (!is_unsigned &&

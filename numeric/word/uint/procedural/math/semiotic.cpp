@@ -123,14 +123,14 @@ struct math
 	struct divide
 	{
 /*
-		static constexpr size_type length = fs_policy::unit::length;
-		static constexpr size_type max = fs_policy::unit::max;
-		static constexpr size_type head = fs_policy::unit::head;
+		static constexpr size_type length = f_semiotic::unit::length;
+		static constexpr size_type max = f_semiotic::unit::max;
+		static constexpr size_type head = f_semiotic::unit::head;
 
-		static constexpr size_type half_length = fs_policy::unit::half::length;
-		static constexpr size_type half_max = fs_policy::unit::half::max;
+		static constexpr size_type half_length = f_semiotic::unit::half::length;
+		static constexpr size_type half_max = f_semiotic::unit::half::max;
 
-		static constexpr size_type low_pass = fs_policy::unit::filter::low_pass;
+		static constexpr size_type low_pass = f_semiotic::unit::filter::low_pass;
 */
 	/*
 		The case where d == 2 implies in1 == 1:
@@ -156,20 +156,20 @@ struct math
 	*/
 			static size_type with_return(size_type & out, size_type in1, size_type in2, size_type d)
 			{
-				size_type	little_in2	= (fs_policy::unit::filter::low_pass & in2),
-						big_in2		= (in2 >> fs_policy::unit::half::length);
+				size_type	little_in2	= (f_semiotic::unit::filter::low_pass & in2),
+						big_in2		= (in2 >> f_semiotic::unit::half::length);
 
 				// in2 is now free.
-				in2 = (in1 << fs_policy::unit::half::length) + big_in2;
+				in2 = (in1 << f_semiotic::unit::half::length) + big_in2;
 				// in1, big_in2 are now free.
 				in1 = in2/d; big_in2 = in2%d;
 
-				(big_in2 <<= fs_policy::unit::half::length) += little_in2;
+				(big_in2 <<= f_semiotic::unit::half::length) += little_in2;
 				// little_in2 is now free.
 
 				little_in2 = big_in2/d; out = big_in2%d;
 
-				return (in1 <<= fs_policy::unit::half::length) + little_in2;
+				return (in1 <<= f_semiotic::unit::half::length) + little_in2;
 			}
 		};
 

@@ -38,7 +38,7 @@ struct discrete
 	{
 		static size_type with_return(size_type x, size_type n)
 		{
-			static constexpr size_type length = fs_policy::unit::length;
+			static constexpr size_type length = f_semiotic::unit::length;
 
 			if (0 < n && n < length && x)		return semiotic::over::left_shift::with_return(x, n);
 			else if (0 > n && n > -length && x)	return semiotic::over::right_shift::with_return(x, -n);

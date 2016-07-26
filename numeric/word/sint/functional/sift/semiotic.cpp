@@ -121,7 +121,7 @@ struct sift
 
 		public: enum : size_type
 		{
-			value = gcfm_policy::template
+			value = gcf_media::template
 			if_then_else
 			<
 				band<secondary, m, n>::value,

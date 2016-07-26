@@ -23,7 +23,7 @@ struct overload
 
 		struct half
 		{
-			static size_type with_return(size_type x) { return x << fs_policy::unit::half::length; }
+			static size_type with_return(size_type x) { return x << f_semiotic::unit::half::length; }
 		};
 	};
 
@@ -39,8 +39,8 @@ struct overload
 		{
 			static size_type with_return(size_type x)
 			{
-				if (x >= 0)	return x >> fs_policy::unit::half::length;
-				else		return -(-x >> fs_policy::unit::half::length);
+				if (x >= 0)	return x >> f_semiotic::unit::half::length;
+				else		return -(-x >> f_semiotic::unit::half::length);
 			}
 		};
 	};

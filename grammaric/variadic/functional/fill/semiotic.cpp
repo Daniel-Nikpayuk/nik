@@ -26,7 +26,7 @@ struct fill
 	template<typename in1, typename Filler = void>
 	struct new_out_helper
 	{
-		using rtn = typename cfm_policy::template
+		using rtn = typename cf_media::template
 			if_then_else
 			<
 				(b <= in1::car && in1::car <= e),
@@ -49,7 +49,7 @@ struct fill
 	template<typename in1, typename Filler = void>
 	struct new_in_helper
 	{
-		using rtn = typename cfm_policy::template
+		using rtn = typename cf_media::template
 			if_then_else
 			<
 				(b <= in1::car && in1::car <= e),

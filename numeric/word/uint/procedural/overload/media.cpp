@@ -37,7 +37,7 @@ struct overload
 	{
 		static size_type with_return(size_type x, size_type n)
 		{
-			if (0 < n && n < fs_policy::unit::length && x)		return x << n;
+			if (0 < n && n < f_semiotic::unit::length && x)		return x << n;
 			else if (n <= 0)					return x;
 			else							return 0;
 		}
@@ -46,7 +46,7 @@ struct overload
 		{
 			static size_type with_return(size_type x)
 			{
-				if (x)	return x << fs_policy::unit::half::length;
+				if (x)	return x << f_semiotic::unit::half::length;
 				else	return 0;
 			}
 		};
@@ -72,7 +72,7 @@ struct overload
 	{
 		static size_type with_return(size_type x, size_type n)
 		{
-			if (0 < n && n < fs_policy::unit::length && x)		return semiotic::right_shift::with_return(x, n);
+			if (0 < n && n < f_semiotic::unit::length && x)		return semiotic::right_shift::with_return(x, n);
 			else if (n <= 0)					return x;
 			else							return 0;
 		}
@@ -81,7 +81,7 @@ struct overload
 		{
 			static size_type with_return(size_type x)
 			{
-				if (x)	return semiotic::right_shift::half::with_return(x, fs_policy::unit::half::length);
+				if (x)	return semiotic::right_shift::half::with_return(x, f_semiotic::unit::half::length);
 				else	return 0;
 			}
 		};
