@@ -15,17 +15,7 @@
 **
 *************************************************************************************************************************/
 
-#include"define/semiotic/loop.cpp"
-//#include"define/semiotic/unroll.cpp"
-//#include"define/semiotic/initial.cpp"
-
-#include"../../macro/define/map/loop.cpp"
-
 /*
-	Overload operators are similar enough to factorize and pass the specific operator
-	as a method, but it is more cpu efficient to NOT---especially given there are few practical
-	contexts in which many different such operators will all be used together.
-
 	"Side effects" at the general coder level is bad policy,
 	but at this intended low level where safety is minimal it is more memory efficient.
 
@@ -39,49 +29,5 @@
 
 	If there is no "with_return" variant of a given method, it means it has and "end"
 	parameter which is already equivalent to such a returned value. Would be redundant.
-
-	The struct "repeat" though by name does not associate with an operator overload, is in fact
-	a special case of the proper assignment operator overload. The name change is a semantic convenience.
 */
-
-struct map
-{
-		#define map_interval(index, begin, end)						\
-												\
-		template<typename Filler>							\
-		struct initial<index, Filler> { static constexpr size_type value = begin; };	\
-												\
-		template<typename Filler>							\
-		struct terminal<index, Filler> { static constexpr size_type value = end; };
-
-	struct intervals
-	{
-		static constexpr size_type length = 7;
-
-		template<size_type k, typename Filler = void>
-		struct initial { };
-
-		template<size_type k, typename Filler = void>
-		struct terminal { };
-
-		map_interval(0,	0, 3)
-		map_interval(1,	4, 5)
-		map_interval(2,	6, 9)
-		map_interval(3,	10, 11)
-		map_interval(4,	12, 13)
-		map_interval(5,	14, 15)
-		map_interval(6,	16, 17)
-	};
-
-		#undef map_interval
-
-	template<size_type... params>
-	using configuration = typename gvfm_policy::template sortFill<intervals, params...>::rtn;
-
-	#include"../../macro/define/map/loop.h"
-//	#include"../../macro/define/map/unroll.h"
-//	#include"../../macro/define/map/initial.h"
-};
-
-//#include"../../macro/undef/map/loop.cpp"
 

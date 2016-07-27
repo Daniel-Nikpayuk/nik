@@ -56,78 +56,90 @@
 /************************************************************************************************************************/
 
 
-template<size_type rank_type = rank::out, size_type... params>
-struct repeat
+template<size_type rank_type = rank::out>
+class repeat
 {
-	static_assert(true, "This functor has not yet been declared.");
+	private:
+		template<size_type rank, size_type... params>
+		struct configuration
+		{
+			static_assert(true, "This functor has not yet been declared.");
+		};
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+		#include"define/semiotic/out/loop.cpp"
+		#include"../../macro/define/rank/out/loop.cpp"
+
+
+		template<size_type... params>
+		struct configuration<rank::out, params...>
+		{
+			struct intervals
+			{
+				declare_interval(4)
+
+				define_interval(0, 0, 3)
+				define_interval(1, 4, 5)
+				define_interval(2, 6, 7)
+				define_interval(3, 8, 9)
+			};
+
+			#include"../../macro/define/rank/out/loop.h"
+
+			using loop = out_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
+
+			#include"../../macro/undef/rank/out/loop.h"
+		};
+
+
+		#include"../../macro/undef/rank/out/loop.cpp"
+		#include"undef/semiotic/out/loop.cpp"
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+		#include"define/semiotic/in/loop.cpp"
+		#include"../../macro/define/rank/in/loop.cpp"
+
+
+		template<size_type... params>
+		struct configuration<rank::in, params...>
+		{
+			struct intervals
+			{
+				declare_interval(5)
+
+				define_interval(0, 0, 3)
+				define_interval(1, 4, 5)
+				define_interval(2, 6, 7)
+				define_interval(3, 8, 9)
+				define_interval(4, 10, 11)
+			};
+
+			#include"../../macro/define/rank/in/loop.h"
+
+			using loop = in_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
+
+			#include"../../macro/undef/rank/out/loop.h"
+		};
+
+
+		#include"../../macro/undef/rank/out/loop.cpp"
+		#include"undef/semiotic/in/loop.cpp"
+	public:
+		template<size_type... params>
+		using attributes = configuration<rank_type, params...>;
+
+		using loop = typename attributes<>::loop;
 };
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-#include"define/semiotic/out/loop.cpp"
-#include"../../macro/define/rank/out/loop.cpp"
-
-
-template<size_type... params>
-struct repeat<rank::out, params...>
-{
-	struct intervals
-	{
-		declare_interval(4)
-
-		define_interval(0, 0, 3)
-		define_interval(1, 4, 5)
-		define_interval(2, 6, 7)
-		define_interval(3, 8, 9)
-	};
-
-	#include"../../macro/define/rank/out/loop.h"
-
-	using loop = out_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
-};
-
-
-#include"../../macro/undef/rank/out/loop.h"
-#include"../../macro/undef/rank/out/loop.cpp"
-#include"undef/semiotic/out/loop.cpp"
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-#include"define/semiotic/in/loop.cpp"
-#include"../../macro/define/rank/in/loop.cpp"
-
-
-template<size_type... params>
-struct repeat<rank::in, params...>
-{
-	struct intervals
-	{
-		declare_interval(5)
-
-		define_interval(0, 0, 3)
-		define_interval(1, 4, 5)
-		define_interval(2, 6, 7)
-		define_interval(3, 8, 9)
-		define_interval(4, 10, 11)
-	};
-
-	#include"../../macro/define/rank/in/loop.h"
-
-	using loop = in_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
-};
-
-
-#include"../../macro/undef/rank/out/loop.h"
-#include"../../macro/undef/rank/out/loop.cpp"
-#include"undef/semiotic/in/loop.cpp"
 
 
 /************************************************************************************************************************/
