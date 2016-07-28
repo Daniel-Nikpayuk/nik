@@ -15,9 +15,11 @@
 **
 *************************************************************************************************************************/
 
-#undef declare_loop
-#undef declare_loop_return
-#undef declare_loop_count_return
-#undef declare_loop_direction_count_return
-#undef declare_loop_interval_direction_count_return
+
+#undef loop_closing
+#undef loop_closed
+#undef loop_opening
+#undef loop_open
+#undef loop
+
 

@@ -27,57 +27,6 @@
 /************************************************************************************************************************/
 
 
-#define declare_loop(											\
-			interval_policy, direction_policy,						\
-			count_policy, return_policy)							\
-													\
-template<typename Filler>										\
-struct out_loop												\
-<													\
-	typename gvs_semiotic::template list								\
-	<												\
-		out::interval_policy, out::direction_policy,						\
-		out::count_policy, out::return_policy							\
-	>,												\
-													\
-	Filler												\
->													\
-{													\
-	loop												\
-	(												\
-		assign,											\
-		constant, =,  ,  ,									\
-		interval_policy, direction_policy,							\
-		count_policy, return_policy								\
-	)												\
-													\
-	loop												\
-	(												\
-		generic,										\
-		genericity,  ,  ,  ,									\
-		interval_policy, direction_policy,							\
-		count_policy, return_policy								\
-	)												\
-};
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-template<typename configuration, typename Filler = void>
-struct out_loop
-{
-	static_assert(true, "This method has not yet been declared.");
-};
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
 #define declare_loop_return(										\
 			interval_policy, direction_policy,						\
 			count_policy)									\
@@ -126,12 +75,12 @@ struct out_loop
 													\
 	declare_loop_count_return									\
 	(												\
-		interval_policy, as_forward								\
+		interval_policy, forward								\
 	)												\
 													\
 	declare_loop_count_return									\
 	(												\
-		interval_policy, as_backward								\
+		interval_policy, backward								\
 	)
 
 
@@ -144,22 +93,22 @@ struct out_loop
 													\
 	declare_loop_direction_count_return								\
 	(												\
-		as_closing										\
+		closing											\
 	)												\
 													\
 	declare_loop_direction_count_return								\
 	(												\
-		as_closed										\
+		closed											\
 	)												\
 													\
 	declare_loop_direction_count_return								\
 	(												\
-		as_opening										\
+		opening											\
 	)												\
 													\
 	declare_loop_direction_count_return								\
 	(												\
-		as_open											\
+		open											\
 	)
 
 

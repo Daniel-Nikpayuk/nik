@@ -146,34 +146,34 @@
 #define direction_policy_omit_delete(dir)						dir##dir(in);
 
 
-	#define as_forward_omit_delete()					direction_policy_omit_delete(+)
-	#define as_backward_omit_delete()					direction_policy_omit_delete(-)
+	#define forward_omit_delete()						direction_policy_omit_delete(+)
+	#define backward_omit_delete()						direction_policy_omit_delete(-)
 
 
 #define direction_policy_apply_delete(dir)						delete (in)dir##dir;
 
 
-	#define as_forward_apply_delete()					direction_policy_apply_delete(+)
-	#define as_backward_apply_delete()					direction_policy_apply_delete(-)
+	#define forward_apply_delete()						direction_policy_apply_delete(+)
+	#define backward_apply_delete()						direction_policy_apply_delete(-)
 
 
 /************************************************************************************************************************/
 
 
 /*
-	in_direction:
+	direction_policy:
 
-		as_forward
-		as_backward
+		forward
+		backward
 */
 
 
-#define as_forward(delete_policy)											\
-	as_forward_##delete_policy()
+#define forward(delete_policy)												\
+	forward_##delete_policy()
 
 
-#define as_backward(delete_policy)											\
-	as_backward_##delete_policy()
+#define backward(delete_policy)												\
+	backward_##delete_policy()
 
 
 /************************************************************************************************************************/

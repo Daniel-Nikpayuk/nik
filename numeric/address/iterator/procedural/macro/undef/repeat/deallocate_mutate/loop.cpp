@@ -15,11 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#undef loop_as_closing
-#undef loop_as_closed
-#undef loop_as_opening_omit_delete
-#undef loop_as_opening_apply_delete
-#undef loop_as_opening
-#undef loop_as_open
+
+#undef loop_closing
+#undef loop_closed
+#undef loop_opening_omit_delete
+#undef loop_opening_apply_delete
+#undef loop_opening
+#undef loop_open
 #undef loop
+
 

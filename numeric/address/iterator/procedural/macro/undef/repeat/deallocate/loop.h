@@ -15,29 +15,7 @@
 **
 *************************************************************************************************************************/
 
-#undef function_type_constant_omit_count
-		#undef function_type_constant_omit_count_omit_return
-		#undef function_type_constant_omit_count_apply_return
-#undef function_type_constant_apply_count
-		#undef function_type_constant_apply_count_omit_return
-		#undef function_type_constant_apply_count_apply_return
-#undef function_type_genericity_omit_count
-		#undef function_type_genericity_omit_count_omit_return
-		#undef function_type_genericity_omit_count_apply_return
-#undef function_type_genericity_apply_count
-		#undef function_type_genericity_apply_count_omit_return
-		#undef function_type_genericity_apply_count_apply_return
-#undef function_type
-#undef constant
-#undef genericity
-#undef declare_variables_as_forward
-#undef declare_variables_as_backward
-#undef declare_variables
-#undef out_direction
-	#undef as_forward
-	#undef as_backward
-#undef omit_count
-#undef apply_count
-#undef apply_return
-#undef omit_return
+
+#include"../allocate/loop.h"
+
 

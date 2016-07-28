@@ -18,28 +18,9 @@
 struct hook
 {
 	#include"repeat/semiotic.cpp"
-
-//		template<size_type N, size_type M=0, size_type L=0>
-//		using repeat_unroll=typename repeat::template unroll<N, M, L>;
-
 //	#include"map/semiotic.cpp"
-
-//		template<size_type N, size_type M=0, size_type L=0>
-//		using map_unroll=typename map::template unroll<N, M, L>;
-
 //	#include"search/semiotic.cpp"
-
-//		template<size_type N, size_type M=0, size_type L=0>
-//		using search_unroll=typename search::template unroll<N, M, L>;
-
 //	#include"identity/semiotic.cpp"
-
-//		template<size_type N, size_type M=0, size_type L=0>
-//		using identity_unroll=typename identity::template unroll<N, M, L>;
-
 //	#include"arithmetic/semiotic.cpp"
-
-//		template<size_type N, size_type M=0, size_type L=0>
-//		using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 };
 

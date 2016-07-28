@@ -15,12 +15,13 @@
 **
 *************************************************************************************************************************/
 
-#undef function_type_emptiness_omit_count
-		#undef function_type_emptiness_omit_count_omit_return
-		#undef function_type_emptiness_omit_count_apply_return
-#undef function_type_emptiness_apply_count
-		#undef function_type_emptiness_apply_count_omit_return
-		#undef function_type_emptiness_apply_count_apply_return
+
+#undef function_type_constant_omit_count
+		#undef function_type_constant_omit_count_omit_return
+		#undef function_type_constant_omit_count_apply_return
+#undef function_type_constant_apply_count
+		#undef function_type_constant_apply_count_omit_return
+		#undef function_type_constant_apply_count_apply_return
 #undef function_type_genericity_omit_count
 		#undef function_type_genericity_omit_count_omit_return
 		#undef function_type_genericity_omit_count_apply_return
@@ -28,20 +29,17 @@
 		#undef function_type_genericity_apply_count_omit_return
 		#undef function_type_genericity_apply_count_apply_return
 #undef function_type
-#undef emptiness
+#undef constant
 #undef genericity
-#undef direction_policy_omit_delete
-	#undef as_forward_omit_delete
-	#undef as_backward_omit_delete
-#undef direction_policy_apply_delete
-	#undef as_forward_apply_delete
-	#undef as_backward_apply_delete
-#undef as_forward
-#undef as_backward
-#undef omit_delete
-#undef apply_delete
+#undef declare_variables_forward
+#undef declare_variables_backward
+#undef declare_variables
+#undef direction_policy
+	#undef forward
+	#undef backward
 #undef omit_count
 #undef apply_count
 #undef apply_return
 #undef omit_return
+
 

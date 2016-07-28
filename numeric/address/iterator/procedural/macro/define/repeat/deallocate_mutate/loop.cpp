@@ -15,7 +15,6 @@
 **
 *************************************************************************************************************************/
 
-
 /*
 	This code is not intended to be used standalone.
 	It needs to be equipped with a context to be interpreted by the compiler.
@@ -35,22 +34,20 @@
 /*
 	Constraints:
 
-	[out, out + n)
+	[in, end)
 */
 
 
-#define loop_as_closing(													\
-	label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)				\
+#define loop_closing(														\
+	label, operator_policy, op_a, op_l, op_r, direction_policy, delete_policy, count_policy, return_policy)			\
 function_type(label, operator_policy, count_policy, return_policy)								\
 {																\
-	declare_variables(direction_policy)											\
-																\
-	while (n)														\
+	while (in != end)													\
 	{															\
 		operator_policy(op_a, op_l, op_r)										\
-		direction_policy()												\
 		count_policy()													\
-		--n;														\
+																\
+		direction_policy(delete_policy)											\
 	}															\
 																\
 	return_policy()														\
@@ -65,26 +62,26 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 /*
 	Constraints:
 
-	[out, out + n]
+	[in, end]
 */
 
 
-#define loop_as_closed(														\
-	label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)				\
+#define loop_closed(														\
+	label, operator_policy, op_a, op_l, op_r, direction_policy, delete_policy, count_policy, return_policy)			\
 function_type(label, operator_policy, count_policy, return_policy)								\
 {																\
-	declare_variables(direction_policy)											\
-																\
-	while (n)														\
+	while (in != end)													\
 	{															\
 		operator_policy(op_a, op_l, op_r)										\
-		direction_policy()												\
 		count_policy()													\
-		--n;														\
+																\
+		direction_policy(delete_policy)											\
 	}															\
 																\
 	operator_policy(op_a, op_l, op_r)											\
 	count_policy()														\
+																\
+	delete_policy()														\
 																\
 	return_policy()														\
 }
@@ -98,26 +95,60 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 /*
 	Constraints:
 
-	(out, out + n]
+	(in, end]
 */
 
 
-#define loop_as_opening(													\
+#define loop_opening_omit_delete(												\
 	label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)				\
 function_type(label, operator_policy, count_policy, return_policy)								\
 {																\
-	declare_variables(direction_policy)											\
-																\
-	while (n)														\
+	while (in != end)													\
 	{															\
-		direction_policy()												\
+		direction_policy(omit_delete)											\
+																\
 		operator_policy(op_a, op_l, op_r)										\
 		count_policy()													\
-		--n;														\
 	}															\
 																\
 	return_policy()														\
 }
+
+
+/*
+	Constraints:
+
+	(in, end], end-in > 0
+*/
+
+
+#define loop_opening_apply_delete(												\
+	label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)				\
+function_type(label, operator_policy, count_policy, return_policy)								\
+{																\
+	direction_policy(omit_delete)												\
+																\
+	while (in != end)													\
+	{															\
+		operator_policy(op_a, op_l, op_r)										\
+		count_policy()													\
+																\
+		direction_policy(apply_delete)											\
+	}															\
+																\
+	operator_policy(op_a, op_l, op_r)											\
+	count_policy()														\
+																\
+	apply_delete()														\
+																\
+	return_policy()														\
+}
+
+
+#define loop_opening(														\
+		label, operator_policy, op_a, op_l, op_r, direction_policy, delete_policy, count_policy, return_policy)		\
+	loop_opening_##delete_policy(												\
+		label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)
 
 
 /*************************************************************************************************************************
@@ -128,24 +159,22 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 /*
 	Constraints:
 
-	(out, out + n), n > 0
+	(in, end), end-in > 0
 */
 
 
-#define loop_as_open(														\
-	label, operator_policy, op_a, op_l, op_r, direction_policy, count_policy, return_policy)				\
+#define loop_open(														\
+	label, operator_policy, op_a, op_l, op_r, direction_policy, delete_policy, count_policy, return_policy)			\
 function_type(label, operator_policy, count_policy, return_policy)								\
 {																\
-	declare_variables(direction_policy)											\
-	direction_policy()													\
-	--n;															\
+	direction_policy(omit_delete)												\
 																\
-	while (n)														\
+	while (in != end)													\
 	{															\
 		operator_policy(op_a, op_l, op_r)										\
-		direction_policy()												\
 		count_policy()													\
-		--n;														\
+																\
+		direction_policy(delete_policy)											\
 	}															\
 																\
 	return_policy()														\
@@ -160,10 +189,10 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 /*
 	interval_policy:
 
-		as_closing
-		as_closed
-		as_opening
-		as_open
+		closing
+		closed
+		opening
+		open
 */
 
 
@@ -171,12 +200,12 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 		label,									\
 		operator_policy, op_a, op_l, op_r,					\
 		interval_policy, direction_policy,					\
-		count_policy, return_policy)						\
+		delete_policy, count_policy, return_policy)				\
 											\
 	loop_##interval_policy(								\
 		label,									\
 		operator_policy, op_a, op_l, op_r,					\
 		direction_policy,							\
-		count_policy, return_policy)
+		delete_policy, count_policy, return_policy)
 
 

@@ -15,47 +15,7 @@
 **
 *************************************************************************************************************************/
 
-namespace nik
-{
-	namespace arg
-	{
-		namespace interval
-		{
-			enum Configuration
-			{
-				closing,
-				closed,
-				opening,
-				open,
 
-				forward,
-				backward
-			};
-		}
+#include"../allocate/loop.h"
 
-		namespace list
-		{
-			enum Configuration
-			{
-				allocate,
-				deallocate,
-				mutate,
-
-				closing,
-				closed,
-				opening,
-				open,
-
-				forward,
-				backward,
-
-				omit_count,
-				apply_count,
-
-				apply_return,
-				omit_return
-			};
-		}
-	}
-}
 
