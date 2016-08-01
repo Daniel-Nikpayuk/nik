@@ -66,7 +66,7 @@ namespace nik
 			pointer,
 			list,
 			tracer,
-			morphism
+			verse
 		};
 
 		struct iterator
@@ -138,7 +138,7 @@ namespace nik
 			define_bounds(tracer, 12, 13)
 		};
 
-		struct morphism : public tracer
+		struct verse : public tracer
 		{
 			subclass_bounds(tracer)
 
@@ -148,7 +148,7 @@ namespace nik
 				omit_return
 			};
 
-			define_bounds(morphism, 14, 15)
+			define_bounds(verse, 14, 15)
 		};
 	};
 }

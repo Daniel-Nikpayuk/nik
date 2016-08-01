@@ -38,61 +38,75 @@
 
 class map
 {
+		typedef nik::arg<size_type>::arg arg;
+		typedef typename arg::verse verse;
 	private:
 
-		template<typename listParams, size_type car = listParams::car>
-		struct listArguments { };
+		template
+		<
+			typename paramList,
+			size_type value = typename gvf_media::template at<paramList, arg::pointer>::rtn
+		>
+		struct identity { };
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
-
-			#include"define/semiotic/allocate/loop.cpp"
-			#include"../../macro/define/map/allocate/loop.cpp"
 
 	private:
 
-		template<typename listParams>
-		struct listArguments<listParams, arg::list::allocate>
+		template<typename paramList>
+		struct identity<paramList, verse::allocate>
 		{
-			struct intervalArgs
+			struct interval
 			{
-				#include"../../macro/define/map/allocate/loop.h"
+				#include"macro/define/interval/semiotic/loop.cpp"
+				#include"macro/define/extension/semiotic/loop.cpp"
+				#include"macro/define/interval/semiotic/loop.h"
 
-				using loop = allocate_loop<typename listParams::cdr>;
+				using loop = allocate_loop<typename paramList::cdr>;
 
-				#include"../../macro/undef/map/allocate/loop.h"
+				#include"macro/undef/interval/semiotic/loop.cpp"
+				#include"macro/undef/extension/semiotic/loop.cpp"
+				#include"macro/undef/interval/semiotic/loop.h"
 			};
-		};
 
-			#include"../../macro/undef/map/allocate/loop.cpp"
-			#include"undef/semiotic/allocate/loop.cpp"
+/*
+			template<typename paramList1>
+			struct verse
+			{
+				#include"macro/define/verse/semiotic/loop.cpp"
+				#include"macro/define/extension/semiotic/loop.cpp"
+				#include"macro/define/verse/semiotic/loop.h"
+
+				using loop = allocate_loop<typename paramList::cdr>;
+
+				#include"macro/undef/verse/semiotic/loop.cpp"
+				#include"macro/undef/extension/semiotic/loop.cpp"
+				#include"macro/undef/verse/semiotic/loop.h"
+			};
+*/
+		};
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
 /*
-			#include"define/semiotic/deallocate/loop.cpp"
-			#include"../../macro/define/map/deallocate/loop.cpp"
-
 	private:
 
-		template<typename listParams>
-		struct listArguments<listParams, arg::list::deallocate>
+		template<typename paramList>
+		struct identity<paramList, verse::deallocate>
 		{
 			struct emptyArgs
 			{
 				#include"../../macro/define/map/deallocate/loop.h"
 
-				using loop = deallocate_loop<typename listParams::cdr>;
+				using loop = deallocate_loop<typename paramList::cdr>;
 
 				#include"../../macro/undef/map/deallocate/loop.h"
 			};
 		};
-
-			#include"../../macro/undef/map/deallocate/loop.cpp"
-			#include"undef/semiotic/deallocate/loop.cpp"
 */
 
 /************************************************************************************************************************/
@@ -100,26 +114,20 @@ class map
 /************************************************************************************************************************/
 
 /*
-			#include"define/semiotic/mutate/loop.cpp"
-			#include"../../macro/define/map/mutate/loop.cpp"
-
 	private:
 
-		template<typename listParams>
-		struct listArguments<listParams, arg::list::mutate>
+		template<typename paramList>
+		struct identity<paramList, verse::mutate>
 		{
 			struct emptyArgs
 			{
 				#include"../../macro/define/map/mutate/loop.h"
 
-				using loop = mutate_loop<typename listParams::cdr>;
+				using loop = mutate_loop<typename paramList::cdr>;
 
 				#include"../../macro/undef/map/mutate/loop.h"
 			};
 		};
-
-			#include"../../macro/undef/map/mutate/loop.cpp"
-			#include"undef/semiotic/mutate/loop.cpp"
 */
 
 /************************************************************************************************************************/
@@ -129,7 +137,7 @@ class map
 	public:
 
 		template<size_type... params>
-		using mapArgs = mapArguments<typename gvf_media::template sortFill<arg::map::bounds, params...>::rtn>;
+		using id = identity<typename gvf_media::template sortFill<verse::bounds, params...>::rtn>;
 };
 
 
