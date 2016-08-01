@@ -48,7 +48,7 @@ struct deallocate_loop											\
 		empty,											\
 		emptiness, =,  ,  ,									\
 		interval_policy, direction_policy,							\
-		apply_delete, count_policy, return_policy						\
+		count_policy, return_policy								\
 	)												\
 													\
 	loop												\
@@ -56,7 +56,7 @@ struct deallocate_loop											\
 		generic,										\
 		genericity,  ,  ,  ,									\
 		interval_policy, direction_policy,							\
-		apply_delete, count_policy, return_policy						\
+		count_policy, return_policy								\
 	)												\
 };
 
@@ -71,5 +71,13 @@ struct deallocate_loop
 {
 	static_assert(true, "This method has not yet been declared.");
 };
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#include"../share/loop.h"
 
 

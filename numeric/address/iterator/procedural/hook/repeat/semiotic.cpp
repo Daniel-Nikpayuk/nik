@@ -23,33 +23,7 @@
 	parameter which is already equivalent to such a returned value. Would be redundant.
 */
 
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-#define declare_interval(num)										\
-													\
-													\
-	static constexpr size_type length = num;							\
-													\
-	template<size_type k, typename intervalFiller = void>						\
-	struct initial { };										\
-													\
-	template<size_type k, typename intervalFiller = void>						\
-	struct terminal { };
-
-
-#define define_interval(index, begin, end)								\
-													\
-													\
-	template<typename intervalFiller>								\
-	struct initial<index, intervalFiller> { static constexpr size_type value = begin; };		\
-													\
-	template<typename intervalFiller>								\
-	struct terminal<index, intervalFiller> { static constexpr size_type value = end; };
-
+#include"../../macro/define/interval/interval.cpp"
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -78,11 +52,9 @@ class repeat
 			struct constantArgs
 			{
 				#include"../../macro/define/repeat/allocate/loop.h"
-				#include"../../macro/define/repeat/produce/loop.h"
 
 				using loop = allocate_loop<typename listParams::cdr>;
 
-				#include"../../macro/undef/repeat/produce/loop.h"
 				#include"../../macro/undef/repeat/allocate/loop.h"
 			};
 		};
@@ -94,8 +66,8 @@ class repeat
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-			#include"define/semiotic/deallocate_mutate/loop.cpp"
-			#include"../../macro/define/repeat/deallocate_mutate/loop.cpp"
+			#include"define/semiotic/deallocate/loop.cpp"
+			#include"../../macro/define/repeat/deallocate/loop.cpp"
 
 	private:
 
@@ -105,14 +77,22 @@ class repeat
 			struct emptyArgs
 			{
 				#include"../../macro/define/repeat/deallocate/loop.h"
-				#include"../../macro/define/repeat/produce/loop.h"
 
 				using loop = deallocate_loop<typename listParams::cdr>;
 
-				#include"../../macro/undef/repeat/produce/loop.h"
 				#include"../../macro/undef/repeat/deallocate/loop.h"
 			};
 		};
+
+			#include"../../macro/undef/repeat/deallocate/loop.cpp"
+			#include"undef/semiotic/deallocate/loop.cpp"
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+			#include"define/semiotic/mutate/loop.cpp"
+			#include"../../macro/define/repeat/mutate/loop.cpp"
 
 	private:
 
@@ -122,17 +102,15 @@ class repeat
 			struct emptyArgs
 			{
 				#include"../../macro/define/repeat/mutate/loop.h"
-				#include"../../macro/define/repeat/produce/loop.h"
 
 				using loop = mutate_loop<typename listParams::cdr>;
 
-				#include"../../macro/undef/repeat/produce/loop.h"
 				#include"../../macro/undef/repeat/mutate/loop.h"
 			};
 		};
 
-			#include"../../macro/undef/repeat/deallocate_mutate/loop.cpp"
-			#include"undef/semiotic/deallocate_mutate/loop.cpp"
+			#include"../../macro/undef/repeat/mutate/loop.cpp"
+			#include"undef/semiotic/mutate/loop.cpp"
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -157,7 +135,10 @@ class repeat
 		using listArgs = listArguments<typename gvf_media::template sortFill<intervals, params...>::rtn>;
 };
 
-#undef define_interval
-#undef declare_interval
 
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+#include"../../macro/undef/interval/interval.cpp"
 

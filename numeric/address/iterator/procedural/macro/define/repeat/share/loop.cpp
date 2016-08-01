@@ -196,7 +196,7 @@ function_type(label, operator_policy, count_policy, return_policy)								\
 */
 
 
-#define loop(										\
+#define shared_loop(									\
 		label,									\
 		operator_policy, op_a, op_l, op_r,					\
 		interval_policy, direction_policy,					\

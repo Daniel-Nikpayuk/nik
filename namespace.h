@@ -15,47 +15,153 @@
 **
 *************************************************************************************************************************/
 
+
+#define declare_bounds()										\
+													\
+	static constexpr size_type length = 1;								\
+													\
+	template<size_type index, typename Filler = void>						\
+	struct bounds { };
+
+
+#define subclass_bounds(subclass)									\
+													\
+	static constexpr size_type length = subclass::length + 1;					\
+													\
+	template<size_type index, typename Filler = void>						\
+	struct bounds : public subclass::template bounds<index, Filler> { };
+
+
+#define define_bounds(index, begin, end)								\
+													\
+	template<typename Filler>									\
+	struct bounds<arg_type::index, Filler>								\
+	{												\
+		static constexpr size_type initial = begin;						\
+		static constexpr size_type terminal = end;						\
+	};
+
+
+#define initialize_enum(index)										\
+													\
+	index::template bounds<arg_type::index>::terminal + 1
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
 namespace nik
 {
-	namespace arg
+	template<typename SizeType>
+	struct arg
 	{
-		namespace interval
-		{
-			enum Configuration
-			{
-				closing,
-				closed,
-				opening,
-				open,
+		typedef SizeType size_type;
 
+		enum arg_type
+		{
+			iterator,
+			interval,
+			pointer,
+			list,
+			tracer,
+			morphism
+		};
+
+		struct iterator
+		{
+			declare_bounds()
+
+			enum : size_type
+			{
 				forward,
 				backward
 			};
-		}
 
-		namespace list
+			define_bounds(iterator, 0, 1)
+		};
+
+		struct interval : public iterator
 		{
-			enum Configuration
-			{
-				allocate,
-				deallocate,
-				mutate,
+			subclass_bounds(iterator)
 
-				closing,
+			enum : size_type
+			{
+				closing = initialize_enum(iterator),
 				closed,
 				opening,
-				open,
+				open
+			};
 
-				forward,
-				backward,
+			define_bounds(interval, 2, 5)
+		};
 
-				omit_count,
-				apply_count,
+		struct pointer : public interval
+		{
+			subclass_bounds(interval)
 
-				apply_return,
+			enum : size_type
+			{
+				hook = initialize_enum(interval),
+				link,
+				segment
+			};
+
+			define_bounds(pointer, 6, 8)
+		};
+
+		struct list : public pointer
+		{
+			subclass_bounds(pointer)
+
+			enum : size_type
+			{
+				allocate = initialize_enum(pointer),
+				deallocate,
+				mutate
+			};
+
+			define_bounds(list, 9, 11)
+		};
+
+		struct tracer : public list
+		{
+			subclass_bounds(list)
+
+			enum : size_type
+			{
+				omit_count = initialize_enum(list),
+				apply_count
+			};
+
+			define_bounds(tracer, 12, 13)
+		};
+
+		struct morphism : public tracer
+		{
+			subclass_bounds(tracer)
+
+			enum : size_type
+			{
+				apply_return = initialize_enum(tracer),
 				omit_return
 			};
-		}
-	}
+
+			define_bounds(morphism, 14, 15)
+		};
+	};
 }
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#undef declare_bounds
+#undef subclass_bounds
+#undef define_bounds
+#undef initialize_enum
+
 

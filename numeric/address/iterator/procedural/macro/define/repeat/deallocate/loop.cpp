@@ -15,9 +15,40 @@
 **
 *************************************************************************************************************************/
 
+/*
+	This code is not intended to be used standalone.
+	It needs to be equipped with a context to be interpreted by the compiler.
+*/
 
-#undef declare_loop
 
-#include"../share/loop.h"
+#include"../share/loop.cpp"
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+/*
+	interval_policy:
+
+		closing
+		closed
+		opening
+		open
+*/
+
+
+#define loop(										\
+		label,									\
+		operator_policy, op_a, op_l, op_r,					\
+		interval_policy, direction_policy,					\
+		count_policy, return_policy)						\
+											\
+	shared_loop(									\
+		label,									\
+		operator_policy, op_a, op_l, op_r,					\
+		interval_policy, direction_policy,					\
+		apply_delete, count_policy, return_policy)
 
 

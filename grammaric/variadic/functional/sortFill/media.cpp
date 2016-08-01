@@ -15,13 +15,13 @@
 **
 *************************************************************************************************************************/
 
-template<typename intervals, size_type... params>
+template<typename arg_type, size_type... params>
 struct sortFill
 {
 	using in = typename s_semiotic::template list<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	using rtn = typename fill<intervals, sorted>::rtn;
+	using rtn = typename fill<arg_type, sorted>::rtn;
 };
 

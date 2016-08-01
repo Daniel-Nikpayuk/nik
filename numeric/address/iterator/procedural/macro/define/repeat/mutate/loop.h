@@ -48,7 +48,7 @@ struct mutate_loop											\
 		empty,											\
 		emptiness, =,  ,  ,									\
 		interval_policy, direction_policy,							\
-		omit_delete, count_policy, return_policy						\
+		count_policy, return_policy								\
 	)												\
 													\
 	loop												\
@@ -56,7 +56,7 @@ struct mutate_loop											\
 		generic,										\
 		genericity,  ,  ,  ,									\
 		interval_policy, direction_policy,							\
-		omit_delete, count_policy, return_policy						\
+		count_policy, return_policy								\
 	)												\
 };
 
@@ -71,5 +71,13 @@ struct mutate_loop
 {
 	static_assert(true, "This method has not yet been declared.");
 };
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#include"../share/loop.h"
 
 

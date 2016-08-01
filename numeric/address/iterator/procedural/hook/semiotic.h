@@ -17,7 +17,7 @@
 
 struct hook
 {
-	#include"repeat/semiotic.cpp"
+//	#include"repeat/semiotic.cpp"
 //	#include"map/semiotic.cpp"
 //	#include"search/semiotic.cpp"
 //	#include"identity/semiotic.cpp"

@@ -31,135 +31,109 @@
 	parameter which is already equivalent to such a returned value. Would be redundant.
 */
 
-
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
 
-#define declare_interval(num)										\
-													\
-													\
-	static constexpr size_type length = num;							\
-													\
-	template<size_type k, typename intervalFiller = void>						\
-	struct initial { };										\
-													\
-	template<size_type k, typename intervalFiller = void>						\
-	struct terminal { };
-
-
-#define define_interval(index, begin, end)								\
-													\
-													\
-	template<typename intervalFiller>								\
-	struct initial<index, intervalFiller> { static constexpr size_type value = begin; };		\
-													\
-	template<typename intervalFiller>								\
-	struct terminal<index, intervalFiller> { static constexpr size_type value = end; };
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-template<size_type rank_type = rank::out>
 class map
 {
 	private:
-		template<size_type rank, size_type... params>
-		struct configuration
+
+		template<typename listParams, size_type car = listParams::car>
+		struct listArguments { };
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+			#include"define/semiotic/allocate/loop.cpp"
+			#include"../../macro/define/map/allocate/loop.cpp"
+
+	private:
+
+		template<typename listParams>
+		struct listArguments<listParams, arg::list::allocate>
 		{
-			static_assert(true, "This functor has not yet been declared.");
-		};
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-		#include"define/semiotic/out/loop.cpp"
-		#include"../../macro/define/rank/out/loop.cpp"
-
-
-		template<size_type... params>
-		struct configuration<rank::out, params...>
-		{
-			struct intervals
+			struct intervalArgs
 			{
-				declare_interval(4)
+				#include"../../macro/define/map/allocate/loop.h"
 
-				define_interval(0, 0, 3)
-				define_interval(1, 4, 5)
-				define_interval(2, 6, 7)
-				define_interval(3, 8, 9)
+				using loop = allocate_loop<typename listParams::cdr>;
+
+				#include"../../macro/undef/map/allocate/loop.h"
 			};
-
-			#include"../../macro/define/map/out/loop.h"
-			#include"../../macro/define/rank/out/loop.h"
-
-			using loop = out_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
-
-			#include"../../macro/undef/rank/out/loop.h"
-			#include"../../macro/undef/map/out/loop.h"
 		};
 
-
-		#include"../../macro/undef/rank/out/loop.cpp"
-		#include"undef/semiotic/out/loop.cpp"
-
+			#include"../../macro/undef/map/allocate/loop.cpp"
+			#include"undef/semiotic/allocate/loop.cpp"
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
+/*
+			#include"define/semiotic/deallocate/loop.cpp"
+			#include"../../macro/define/map/deallocate/loop.cpp"
 
-		#include"define/semiotic/in/loop.cpp"
-		#include"../../macro/define/rank/in/loop.cpp"
+	private:
 
-
-		template<size_type... params>
-		struct configuration<rank::in, params...>
+		template<typename listParams>
+		struct listArguments<listParams, arg::list::deallocate>
 		{
-			struct intervals
+			struct emptyArgs
 			{
-				declare_interval(5)
+				#include"../../macro/define/map/deallocate/loop.h"
 
-				define_interval(0, 0, 3)
-				define_interval(1, 4, 5)
-				define_interval(2, 6, 7)
-				define_interval(3, 8, 9)
-				define_interval(4, 10, 11)
+				using loop = deallocate_loop<typename listParams::cdr>;
+
+				#include"../../macro/undef/map/deallocate/loop.h"
 			};
-
-			#include"../../macro/define/map/in/loop.h"
-			#include"../../macro/define/rank/in/loop.h"
-
-			using loop = in_loop<typename gvf_media::template sortFill<intervals, params...>::rtn>;
-
-			#include"../../macro/undef/rank/out/loop.h"
-			#include"../../macro/undef/map/out/loop.h"
 		};
 
+			#include"../../macro/undef/map/deallocate/loop.cpp"
+			#include"undef/semiotic/deallocate/loop.cpp"
+*/
 
-		#include"../../macro/undef/rank/out/loop.cpp"
-		#include"undef/semiotic/in/loop.cpp"
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+/*
+			#include"define/semiotic/mutate/loop.cpp"
+			#include"../../macro/define/map/mutate/loop.cpp"
+
+	private:
+
+		template<typename listParams>
+		struct listArguments<listParams, arg::list::mutate>
+		{
+			struct emptyArgs
+			{
+				#include"../../macro/define/map/mutate/loop.h"
+
+				using loop = mutate_loop<typename listParams::cdr>;
+
+				#include"../../macro/undef/map/mutate/loop.h"
+			};
+		};
+
+			#include"../../macro/undef/map/mutate/loop.cpp"
+			#include"undef/semiotic/mutate/loop.cpp"
+*/
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
 	public:
-		template<size_type... params>
-		using attributes = configuration<rank_type, params...>;
 
-		using loop = typename attributes<>::loop;
+		template<size_type... params>
+		using mapArgs = mapArguments<typename gvf_media::template sortFill<arg::map::bounds, params...>::rtn>;
 };
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
-
-
-#undef define_interval
-#undef declare_interval
-
 

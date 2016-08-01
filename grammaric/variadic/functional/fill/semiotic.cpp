@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-template<typename intervals, typename out, typename in, size_type k, size_type n>
+template<typename arg_type, typename out, typename in, size_type k, size_type n>
 struct fill
 {
-	static constexpr size_type b = intervals::template initial<k>::value;
-	static constexpr size_type e = intervals::template terminal<k>::value;
+	static constexpr size_type b = arg_type::template bounds<k>::initial;
+	static constexpr size_type e = arg_type::template bounds<k>::terminal;
 
 	//
 
@@ -69,11 +69,11 @@ struct fill
 
 	//
 
-	using rtn = typename fill<intervals, new_out, new_in, k+1, n>::rtn;
+	using rtn = typename fill<arg_type, new_out, new_in, k+1, n>::rtn;
 };
 
-template<typename intervals, typename out, typename in, size_type n>
-struct fill<intervals, out, in, n, n>
+template<typename arg_type, typename out, typename in, size_type n>
+struct fill<arg_type, out, in, n, n>
 {
 	using rtn = out;
 };

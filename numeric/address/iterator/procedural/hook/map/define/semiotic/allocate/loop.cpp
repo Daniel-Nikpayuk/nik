@@ -44,66 +44,66 @@
 /************************************************************************************************************************/
 
 
-// emptiness
+// interval
 
 
-#define function_type_emptiness_omit_count(rtn, label)											\
+#define function_type_interval_omit_count(rtn, label)											\
 																	\
 																	\
-	template<typename WPointer, typename EWPointer>											\
-	static rtn label(WPointer in, EWPointer end)
+	template<typename WNode, typename WPointer>											\
+	static rtn label(WPointer out, size_type m, size_type n)
 
 
-		#define function_type_emptiness_omit_count_omit_return(label)								\
-			function_type_emptiness_omit_count(void, label)
-                                                          
-		#define function_type_emptiness_omit_count_apply_return(label)								\
-			function_type_emptiness_omit_count(WPointer, label)
+		#define function_type_interval_omit_count_omit_return(label)								\
+			function_type_interval_omit_count(void, label)
+
+		#define function_type_interval_omit_count_apply_return(label)								\
+			function_type_interval_omit_count(WPointer, label)
 
 
-#define function_type_emptiness_apply_count(rtn, label)											\
+#define function_type_interval_apply_count(rtn, label)											\
 																	\
 																	\
-	template<typename WPointer, typename EWPointer>											\
-	static rtn label(size_type & count, WPointer in, EWPointer end)
+	template<typename WNode, typename WPointer>											\
+	static rtn label(size_type & count, WPointer out, size_type m, size_type n)
 
 
-		#define function_type_emptiness_apply_count_omit_return(label)								\
-			function_type_emptiness_apply_count(void, label)
-                                                           
-		#define function_type_emptiness_apply_count_apply_return(label)								\
-			function_type_emptiness_apply_count(WPointer, label)
+		#define function_type_interval_apply_count_omit_return(label)								\
+			function_type_interval_apply_count(void, label)
+
+		#define function_type_interval_apply_count_apply_return(label)								\
+			function_type_interval_apply_count(WPointer, label)
 
 
-// genericity
+// generic interval
 
 
-#define function_type_genericity_omit_count(rtn, label)											\
+#define function_type_generic_interval_omit_count(rtn, label)										\
 																	\
 																	\
-	template<typename Functor, typename WPointer, typename EWPointer>								\
-	static rtn label(Functor functor, WPointer in, EWPointer end)
+	template<typename WNode, typename Functor, typename WPointer>									\
+	static rtn label(Functor functor, WPointer out, size_type m, size_type n)
 
 
-		#define function_type_genericity_omit_count_omit_return(label)								\
-			function_type_genericity_omit_count(void, label)
-                                                           
-		#define function_type_genericity_omit_count_apply_return(label)								\
-			function_type_genericity_omit_count(WPointer, label)
+		#define function_type_generic_interval_omit_count_omit_return(label)							\
+			function_type_generic_interval_omit_count(void, label)
+
+		#define function_type_generic_interval_omit_count_apply_return(label)							\
+			function_type_generic_interval_omit_count(WPointer, label)
 
 
-#define function_type_genericity_apply_count(rtn, label)										\
+#define function_type_generic_interval_apply_count(rtn, label)										\
 																	\
 																	\
-	template<typename Functor, typename WPointer, typename EWPointer>								\
-	static rtn label(size_type & count, Functor functor, WPointer in, EWPointer end)
+	template<typename WNode, typename Functor, typename WPointer>									\
+	static rtn label(size_type & count, Functor functor, WPointer out, size_type m, size_type n)
 
 
-		#define function_type_genericity_apply_count_omit_return(label)								\
-			function_type_genericity_apply_count(void, label)
-                                                            
-		#define function_type_genericity_apply_count_apply_return(label)							\
-			function_type_genericity_apply_count(WPointer, label)
+		#define function_type_generic_interval_apply_count_omit_return(label)							\
+			function_type_generic_interval_apply_count(void, label)
+
+		#define function_type_generic_interval_apply_count_apply_return(label)							\
+			function_type_generic_interval_apply_count(WPointer, label)
 
 
 /************************************************************************************************************************/
@@ -127,15 +127,15 @@
 /*
 	operator_policy:
 
-		emptiness
+		interval
 		genericity
 */
 
 
-#define emptiness(op_a, op_l, op_r)
+#define interval(op_a)									*out op_a m;
 
 
-#define genericity(op_a, op_l, op_r)							functor(in);
+#define genericity(op_a)								functor(out, m);
 
 
 /************************************************************************************************************************/
@@ -143,18 +143,10 @@
 /************************************************************************************************************************/
 
 
-#define direction_policy_omit_delete(dir)						dir##dir(in);
+#define declare_variables_as_forward()
 
 
-	#define forward_omit_delete()						direction_policy_omit_delete(+)
-	#define backward_omit_delete()						direction_policy_omit_delete(-)
-
-
-#define direction_policy_apply_delete(dir)						delete (in)dir##dir;
-
-
-	#define forward_apply_delete()						direction_policy_apply_delete(+)
-	#define backward_apply_delete()						direction_policy_apply_delete(-)
+#define declare_variables_as_backward()							WPointer current;
 
 
 /************************************************************************************************************************/
@@ -163,17 +155,13 @@
 /*
 	direction_policy:
 
-		forward
-		backward
+		as_forward
+		as_backward
 */
 
 
-#define forward(delete_policy)												\
-	forward_##delete_policy()
-
-
-#define backward(delete_policy)												\
-	backward_##delete_policy()
+#define declare_variables(out_direction)									\
+	declare_variables_##out_direction()
 
 
 /************************************************************************************************************************/
@@ -182,17 +170,22 @@
 
 
 /*
-	delete_policy:
+	direction_policy:
 
-		omit_delete
-		apply_delete
+		as_forward
+		as_backward
 */
 
 
-#define omit_delete()
+#define out_direction(dir)								out=dir(out)=new WNode;
 
 
-#define apply_delete()									delete in;
+	#define as_forward()								out_direction(+)
+
+
+	#define as_backward()								current=out;			\
+											out=new WNode;			\
+											+out=current;
 
 
 /************************************************************************************************************************/
@@ -227,7 +220,7 @@
 */
 
 
-#define apply_return()									return in;
+#define apply_return()									return out;
 
 
 #define omit_return()

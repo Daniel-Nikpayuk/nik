@@ -27,37 +27,68 @@
 /************************************************************************************************************************/
 
 
-#define declare_loop(											\
-			interval_policy, direction_policy,						\
-			count_policy, return_policy)							\
-													\
-template<typename Filler>										\
-struct allocate_loop											\
-<													\
-	typename gvs_semiotic::template list								\
-	<												\
-		arg::list::interval_policy, arg::list::direction_policy,				\
-		arg::list::count_policy, arg::list::return_policy					\
-	>,												\
-													\
-	Filler												\
->													\
-{													\
-	loop												\
-	(												\
-		assign,											\
-		constant, =,  ,  ,									\
-		interval_policy, direction_policy,							\
-		count_policy, return_policy								\
-	)												\
-													\
-	loop												\
-	(												\
-		generic,										\
-		genericity,  ,  ,  ,									\
-		interval_policy, direction_policy,							\
-		count_policy, return_policy								\
-	)												\
+#define declare_loop(									\
+			out_interval, out_direction,					\
+			in_interval, in_direction,					\
+			count_policy, return_policy)					\
+											\
+template<typename Filler>								\
+struct allocate_loop									\
+<											\
+	typename gvs_semiotic::template list						\
+	<										\
+		arg::list::out_interval, arg::list::out_direction,			\
+		arg::list::in_interval, arg::list::in_direction,			\
+		arg::list::count_policy, arg::list::return_policy			\
+	>,										\
+											\
+	Filler										\
+>											\
+{											\
+	loop										\
+	(										\
+		assign, no_delete,							\
+		constant,  ,  ,  ,							\
+		out_interval, out_direction,						\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		assign,									\
+		parentheses, =,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		generic,								\
+		genericity,  ,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_nullary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		generic,								\
+		genericity,  ,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_unary, in_interval, in_direction,					\
+		delete_policy, count_policy, return_policy				\
+	)										\
+											\
+	loop_map									\
+	(										\
+		generic,								\
+		genericity,  ,  ,  ,							\
+		out_as_unary, out_interval, out_direction,				\
+		in_as_binary, in_interval, in_direction,				\
+		delete_policy, count_policy, return_policy				\
+	)										\
 };
 
 
@@ -71,13 +102,5 @@ struct allocate_loop
 {
 	static_assert(true, "This method has not yet been declared.");
 };
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-#include"../share/loop.h"
 
 
