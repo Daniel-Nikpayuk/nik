@@ -36,6 +36,7 @@ namespace functional	{
 
 		#include"isNull/semiotic.cpp"
 		#include"length/semiotic.cpp"
+		#include"at/semiotic.cpp"
 		#include"catenate/semiotic.cpp"
 		#include"filter/semiotic.cpp"
 		#include"sort/semiotic.cpp"

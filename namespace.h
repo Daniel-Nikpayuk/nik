@@ -59,6 +59,10 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
+		struct empty { };
+
+		struct definitive { };
+
 		enum arg_type
 		{
 			iterator,

@@ -15,32 +15,3 @@
 **
 *************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_SEMIOTIC_H
-#define NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_SEMIOTIC_H
-
-namespace nik		{
-namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace procedural	{
-
-	template<typename SizeType> struct media;
-
-	template<typename SizeType>
-	struct semiotic
-	{
-		typedef SizeType size_type;
-
-		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
-
-		typedef grammaric::variadic::functional::media<size_type> gvf_media;
-
-		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
-
-		#include"pointer/semiotic.h"
-	};
-
-}}}}}
-
-#endif

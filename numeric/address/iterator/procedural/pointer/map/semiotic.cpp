@@ -38,16 +38,11 @@
 
 class map
 {
-		typedef nik::arg<size_type>::arg arg;
-		typedef typename arg::verse verse;
 	private:
+		typedef nik::arg<size_type>::arg arg;
 
-		template
-		<
-			typename paramList,
-			size_type value = typename gvf_media::template at<paramList, arg::pointer>::rtn
-		>
-		struct identity { };
+		typedef typename arg::list list;
+		typedef typename arg::verse verse;
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -56,15 +51,20 @@ class map
 	private:
 
 		template<typename paramList>
-		struct identity<paramList, verse::allocate>
+		struct verse
 		{
+			template<size_type... params>
 			struct interval
 			{
 				#include"macro/define/interval/semiotic/loop.cpp"
 				#include"macro/define/extension/semiotic/loop.cpp"
 				#include"macro/define/interval/semiotic/loop.h"
 
-				using loop = allocate_loop<typename paramList::cdr>;
+				using loop = verse_interval_loop
+				<
+					paramList,
+					typename gvf_media::template sortFill<interval::bounds, params...>::rtn
+				>;
 
 				#include"macro/undef/interval/semiotic/loop.cpp"
 				#include"macro/undef/extension/semiotic/loop.cpp"
@@ -72,63 +72,25 @@ class map
 			};
 
 /*
-			template<typename paramList1>
-			struct verse
+			template<size_type... params>
+			struct list
 			{
-				#include"macro/define/verse/semiotic/loop.cpp"
+				#include"macro/define/list/semiotic/loop.cpp"
 				#include"macro/define/extension/semiotic/loop.cpp"
-				#include"macro/define/verse/semiotic/loop.h"
+				#include"macro/define/list/semiotic/loop.h"
 
-				using loop = allocate_loop<typename paramList::cdr>;
+				using loop = verse_list_loop
+				<
+					paramList,
+					typename gvf_media::template sortFill<list::bounds, params...>::rtn
+				>;
 
-				#include"macro/undef/verse/semiotic/loop.cpp"
+				#include"macro/undef/list/semiotic/loop.cpp"
 				#include"macro/undef/extension/semiotic/loop.cpp"
-				#include"macro/undef/verse/semiotic/loop.h"
+				#include"macro/undef/list/semiotic/loop.h"
 			};
 */
 		};
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-	private:
-
-		template<typename paramList>
-		struct identity<paramList, verse::deallocate>
-		{
-			struct emptyArgs
-			{
-				#include"../../macro/define/map/deallocate/loop.h"
-
-				using loop = deallocate_loop<typename paramList::cdr>;
-
-				#include"../../macro/undef/map/deallocate/loop.h"
-			};
-		};
-*/
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-/*
-	private:
-
-		template<typename paramList>
-		struct identity<paramList, verse::mutate>
-		{
-			struct emptyArgs
-			{
-				#include"../../macro/define/map/mutate/loop.h"
-
-				using loop = mutate_loop<typename paramList::cdr>;
-
-				#include"../../macro/undef/map/mutate/loop.h"
-			};
-		};
-*/
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -137,7 +99,7 @@ class map
 	public:
 
 		template<size_type... params>
-		using id = identity<typename gvf_media::template sortFill<verse::bounds, params...>::rtn>;
+		using id = verse<typename gvf_media::template sortFill<verse::bounds, params...>::rtn>;
 };
 
 
