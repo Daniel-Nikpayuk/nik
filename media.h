@@ -17,24 +17,24 @@
 
 #include"grammaric/control_flow/functional/media.h"
 
-#include"grammaric/identifier/procedural/media.h"
 #include"grammaric/identifier/structural/media.h"
+#include"grammaric/identifier/procedural/media.h"
 
-#include"grammaric/variadic/functional/media.h"
 #include"grammaric/variadic/structural/media.h"
+#include"grammaric/variadic/functional/media.h"
 
 #include"numeric/word/boolean/structural/media.h"
 
+#include"numeric/word/uint/structural/media.h"
 #include"numeric/word/uint/functional/media.h"
 #include"numeric/word/uint/procedural/media.h"
-#include"numeric/word/uint/structural/media.h"
 
+#include"numeric/word/sint/structural/media.h"
 #include"numeric/word/sint/functional/media.h"
 #include"numeric/word/sint/procedural/media.h"
-#include"numeric/word/sint/structural/media.h"
 
-#include"numeric/address/iterator/procedural/media.h"
 #include"numeric/address/iterator/structural/media.h"
+#include"numeric/address/iterator/procedural/media.h"
 
 //#include"numeric/address/list/structural/media.h"
 
@@ -47,24 +47,24 @@ namespace nik
 
 		typedef grammaric::control_flow::functional::media<size_type> gcf;
 
-		typedef grammaric::identifier::procedural::media<size_type> gip;
 		typedef grammaric::identifier::structural::media<size_type> gis;
+		typedef grammaric::identifier::procedural::media<size_type> gip;
 
-		typedef grammaric::variadic::functional::media<size_type> gvf;
 		typedef grammaric::variadic::structural::media<size_type> gvs;
+		typedef grammaric::variadic::functional::media<size_type> gvf;
 
 		typedef numeric::word::boolean::structural::media<size_type> nwbs;
 
+		typedef numeric::word::uint::structural::media<size_type> nwus;
 		typedef numeric::word::uint::functional::media<size_type> nwuf;
 		typedef numeric::word::uint::procedural::media<size_type> nwup;
-		typedef numeric::word::uint::structural::media<size_type> nwus;
 
+		typedef numeric::word::sint::structural::media<size_type> nwss;
 		typedef numeric::word::sint::functional::media<size_type> nwsf;
 		typedef numeric::word::sint::procedural::media<size_type> nwsp;
-		typedef numeric::word::sint::structural::media<size_type> nwss;
 
-		typedef numeric::address::iterator::procedural::media<size_type> naip;
 		typedef numeric::address::iterator::structural::media<size_type> nais;
+		typedef numeric::address::iterator::procedural::media<size_type> naip;
 
 //		typedef numeric::address::list::structural::media<size_type> nals;
 	};

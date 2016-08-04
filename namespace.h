@@ -61,7 +61,7 @@ namespace nik
 
 		struct empty { };
 
-		struct definitive { };
+		struct definite { };
 
 		enum arg_type
 		{

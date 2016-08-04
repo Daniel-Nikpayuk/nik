@@ -15,10 +15,15 @@
 **
 *************************************************************************************************************************/
 
+template<typename T>
 struct pointer
 {
+	typedef typename structural::semiotic<size_type>::template hook<T> hook;
+	typedef typename structural::semiotic<size_type>::template link<T> link;
+	typedef typename structural::semiotic<size_type>::template segment<T> segment;
+
 //	#include"repeat/semiotic.cpp"
-//	#include"map/semiotic.cpp"
+	#include"map/semiotic.cpp"
 //	#include"search/semiotic.cpp"
 //	#include"identity/semiotic.cpp"
 //	#include"arithmetic/semiotic.cpp"

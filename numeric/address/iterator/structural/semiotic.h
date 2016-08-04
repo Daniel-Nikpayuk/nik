@@ -36,7 +36,7 @@ namespace structural	{
 		#include"segment/semiotic.cpp"
 		#include"node/semiotic.cpp"
 		#include"hook/semiotic.cpp"
-//		#include"link/semiotic.cpp"
+		#include"link/semiotic.cpp"
 	};
 
 }}}}}

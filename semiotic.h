@@ -17,24 +17,24 @@
 
 #include"grammaric/control_flow/functional/semiotic.h"
 
-#include"grammaric/identifier/procedural/semiotic.h"
 #include"grammaric/identifier/structural/semiotic.h"
+#include"grammaric/identifier/procedural/semiotic.h"
 
-#include"grammaric/variadic/functional/semiotic.h"
 #include"grammaric/variadic/structural/semiotic.h"
+#include"grammaric/variadic/functional/semiotic.h"
 
 #include"numeric/word/boolean/structural/semiotic.h"
 
+#include"numeric/word/uint/structural/semiotic.h"
 #include"numeric/word/uint/functional/semiotic.h"
 #include"numeric/word/uint/procedural/semiotic.h"
-#include"numeric/word/uint/structural/semiotic.h"
 
+#include"numeric/word/sint/structural/semiotic.h"
 #include"numeric/word/sint/functional/semiotic.h"
 #include"numeric/word/sint/procedural/semiotic.h"
-#include"numeric/word/sint/structural/semiotic.h"
 
-#include"numeric/address/iterator/procedural/semiotic.h"
 #include"numeric/address/iterator/structural/semiotic.h"
+#include"numeric/address/iterator/procedural/semiotic.h"
 
 //#include"numeric/address/list/structural/semiotic.h"
 
@@ -47,24 +47,24 @@ namespace nik
 
 		typedef grammaric::control_flow::functional::semiotic<size_type> gcf;
 
-		typedef grammaric::identifier::procedural::semiotic<size_type> gip;
 		typedef grammaric::identifier::structural::semiotic<size_type> gis;
+		typedef grammaric::identifier::procedural::semiotic<size_type> gip;
 
-		typedef grammaric::variadic::functional::semiotic<size_type> gvf;
 		typedef grammaric::variadic::structural::semiotic<size_type> gvs;
+		typedef grammaric::variadic::functional::semiotic<size_type> gvf;
 
 		typedef numeric::word::boolean::structural::semiotic<size_type> nwbs;
 
+		typedef numeric::word::uint::structural::semiotic<size_type> nwus;
 		typedef numeric::word::uint::functional::semiotic<size_type> nwuf;
 		typedef numeric::word::uint::procedural::semiotic<size_type> nwup;
-		typedef numeric::word::uint::structural::semiotic<size_type> nwus;
 
+		typedef numeric::word::sint::structural::semiotic<size_type> nwss;
 		typedef numeric::word::sint::functional::semiotic<size_type> nwsf;
 		typedef numeric::word::sint::procedural::semiotic<size_type> nwsp;
-		typedef numeric::word::sint::structural::semiotic<size_type> nwss;
 
-		typedef numeric::address::iterator::procedural::semiotic<size_type> naip;
 		typedef numeric::address::iterator::structural::semiotic<size_type> nais;
+		typedef numeric::address::iterator::procedural::semiotic<size_type> naip;
 
 //		typedef numeric::address::list::structural::semiotic<size_type> nals;
 	};

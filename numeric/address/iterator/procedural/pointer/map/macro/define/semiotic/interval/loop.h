@@ -27,68 +27,45 @@
 /************************************************************************************************************************/
 
 
-#define declare_loop(									\
-			out_interval, out_direction,					\
-			in_interval, in_direction,					\
-			count_policy, return_policy)					\
-											\
-template<typename Filler>								\
-struct allocate_loop									\
-<											\
-	typename gvs_semiotic::template list						\
-	<										\
-		arg::list::out_interval, arg::list::out_direction,			\
-		arg::list::in_interval, arg::list::in_direction,			\
-		arg::list::count_policy, arg::list::return_policy			\
-	>,										\
-											\
-	Filler										\
->											\
-{											\
-	loop										\
-	(										\
-		assign, no_delete,							\
-		constant,  ,  ,  ,							\
-		out_interval, out_direction,						\
-		in_as_unary, in_interval, in_direction,					\
-		delete_policy, count_policy, return_policy				\
-	)										\
-											\
-	loop_map									\
-	(										\
-		assign,									\
-		parentheses, =,  ,  ,							\
-		out_as_unary, out_interval, out_direction,				\
-		in_as_unary, in_interval, in_direction,					\
-		delete_policy, count_policy, return_policy				\
-	)										\
-											\
-	loop_map									\
-	(										\
-		generic,								\
-		genericity,  ,  ,  ,							\
-		out_as_unary, out_interval, out_direction,				\
-		in_as_nullary, in_interval, in_direction,				\
-		delete_policy, count_policy, return_policy				\
-	)										\
-											\
-	loop_map									\
-	(										\
-		generic,								\
-		genericity,  ,  ,  ,							\
-		out_as_unary, out_interval, out_direction,				\
-		in_as_unary, in_interval, in_direction,					\
-		delete_policy, count_policy, return_policy				\
-	)										\
-											\
-	loop_map									\
-	(										\
-		generic,								\
-		genericity,  ,  ,  ,							\
-		out_as_unary, out_interval, out_direction,				\
-		in_as_binary, in_interval, in_direction,				\
-		delete_policy, count_policy, return_policy				\
-	)										\
+#define declare_loop(													\
+			out_direction, out_interval, out_pointer,							\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval)									\
+															\
+template<typename Filler>												\
+struct verse_interval_loop												\
+<															\
+	typename gvs_semiotic::template list										\
+	<														\
+			Verse::out_direction, Verse::out_interval, Verse::out_pointer,					\
+			Verse::out_memory, Verse::count_policy, Verse::return_policy					\
+	>,														\
+															\
+	typename gvs_semiotic::template list										\
+	<														\
+			Interval::in_direction, Interval::in_interval							\
+	>,														\
+															\
+	Filler														\
+>															\
+{															\
+	loop														\
+	(														\
+			assign, interval, =,										\
+			out_direction, out_interval, out_pointer,							\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval, segment,								\
+			mutate, unary											\
+	)														\
+															\
+	loop														\
+	(														\
+			assign, functor_interval, =,									\
+			out_direction, out_interval, out_pointer,							\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval, segment,								\
+			mutate, unary											\
+	)														\
 };
 
 
@@ -97,10 +74,233 @@ struct allocate_loop									\
 /************************************************************************************************************************/
 
 
-template<typename configuration, typename Filler = void>
-struct allocate_loop
+template<typename verseList, typename intervalList, typename Filler = void>
+struct verse_interval_loop
 {
 	static_assert(true, "This method has not yet been declared.");
 };
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_1(													\
+			out_interval, out_pointer,									\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval)									\
+															\
+	declare_loop													\
+	(														\
+			forward, out_interval, out_pointer,								\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop													\
+	(														\
+			backward, out_interval, out_pointer,								\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_2(													\
+			out_pointer,											\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval)									\
+															\
+	declare_loop_1													\
+	(														\
+			closing, out_pointer,										\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_1													\
+	(														\
+			closed, out_pointer,										\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_1													\
+	(														\
+			opening, out_pointer,										\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_1													\
+	(														\
+			open, out_pointer,										\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_3(													\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval)									\
+															\
+	declare_loop_2													\
+	(														\
+			hook,												\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_2													\
+	(														\
+			link,												\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_2													\
+	(														\
+			segment,											\
+			out_memory, count_policy, return_policy,							\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_4(													\
+			count_policy, return_policy,									\
+			in_direction, in_interval)									\
+															\
+	declare_loop_3													\
+	(														\
+			allocate, count_policy, return_policy,								\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_3													\
+	(														\
+			mutate, count_policy, return_policy,								\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_5(													\
+			return_policy,											\
+			in_direction, in_interval)									\
+															\
+	declare_loop_4													\
+	(														\
+			omit_count, return_policy,									\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_4													\
+	(														\
+			apply_count, return_policy,									\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_6(													\
+			in_direction, in_interval)									\
+															\
+	declare_loop_5													\
+	(														\
+			apply_return,											\
+			in_direction, in_interval									\
+	)														\
+															\
+	declare_loop_5													\
+	(														\
+			omit_return,											\
+			in_direction, in_interval									\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_7(													\
+			in_interval)											\
+															\
+	declare_loop_6													\
+	(														\
+			forward, in_interval										\
+	)														\
+															\
+	declare_loop_6													\
+	(														\
+			backward, in_interval										\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_loop_8()												\
+															\
+	declare_loop_7													\
+	(														\
+			closing												\
+	)														\
+															\
+	declare_loop_7													\
+	(														\
+			closed												\
+	)														\
+															\
+	declare_loop_7													\
+	(														\
+			opening												\
+	)														\
+															\
+	declare_loop_7													\
+	(														\
+			open												\
+	)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+//declare_loop_8()
+
+
+declare_loop
+(
+	forward, closing, hook,
+	allocate, omit_count, apply_return,
+	forward, closing
+)
 
 

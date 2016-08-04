@@ -39,6 +39,7 @@
 	[x, y) --> (x-1, y)
 */
 
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -47,63 +48,63 @@
 // interval
 
 
-#define function_type_interval_omit_count(rtn, label)											\
-																	\
-																	\
-	template<typename WPointer, typename EWPointer>											\
-	static rtn label(WPointer in, EWPointer end, size_type m, size_type n)
+#define function_type_interval_omit_count_unary(rtn, label)								\
+															\
+															\
+	template<typename WPointer>											\
+	static rtn label(WPointer out, size_type m, size_type n)
 
 
-		#define function_type_interval_omit_count_omit_return(label)								\
-			function_type_interval_omit_count(void, label)
+		#define function_type_interval_omit_count_omit_return_unary(label)					\
+			function_type_interval_omit_count_unary(void, label)
                                                           
-		#define function_type_interval_omit_count_apply_return(label)								\
-			function_type_interval_omit_count(WPointer, label)
+		#define function_type_interval_omit_count_apply_return_unary(label)					\
+			function_type_interval_omit_count_unary(WPointer, label)
 
 
-#define function_type_interval_apply_count(rtn, label)											\
-																	\
-																	\
-	template<typename WPointer, typename EWPointer>											\
-	static rtn label(size_type & count, WPointer in, EWPointer end, size_type m, size_type n)
+#define function_type_interval_apply_count_unary(rtn, label)								\
+															\
+															\
+	template<typename WPointer>											\
+	static rtn label(size_type & count, WPointer out, size_type m, size_type n)
 
 
-		#define function_type_interval_apply_count_omit_return(label)								\
-			function_type_interval_apply_count(void, label)
+		#define function_type_interval_apply_count_omit_return_unary(label)					\
+			function_type_interval_apply_count_unary(void, label)
                                                            
-		#define function_type_interval_apply_count_apply_return(label)								\
-			function_type_interval_apply_count(WPointer, label)
+		#define function_type_interval_apply_count_apply_return_unary(label)					\
+			function_type_interval_apply_count_unary(WPointer, label)
 
 
-// genericity
+// functor_interval
 
 
-#define function_type_genericity_omit_count(rtn, label)											\
-																	\
-																	\
-	template<typename Functor, typename WPointer, typename EWPointer>								\
-	static rtn label(Functor functor, WPointer in, EWPointer end, size_type m, size_type n)
+#define function_type_functor_interval_omit_count_unary(rtn, label)							\
+															\
+															\
+	template<typename WPointer, typename Functor>									\
+	static rtn label(WPointer out, Functor functor, size_type m, size_type n)
 
 
-		#define function_type_genericity_omit_count_omit_return(label)								\
-			function_type_genericity_omit_count(void, label)
+		#define function_type_functor_interval_omit_count_omit_return_unary(label)				\
+			function_type_functor_interval_omit_count_unary(void, label)
                                                            
-		#define function_type_genericity_omit_count_apply_return(label)								\
-			function_type_genericity_omit_count(WPointer, label)
+		#define function_type_functor_interval_omit_count_apply_return_unary(label)				\
+			function_type_functor_interval_omit_count_unary(WPointer, label)
 
 
-#define function_type_genericity_apply_count(rtn, label)										\
-																	\
-																	\
-	template<typename Functor, typename WPointer, typename EWPointer>								\
-	static rtn label(size_type & count, Functor functor, WPointer in, EWPointer end, size_type m, size_type n)
+#define function_type_functor_interval_apply_count_unary(rtn, label)							\
+															\
+															\
+	template<typename WPointer, typename Functor>									\
+	static rtn label(size_type & count, WPointer out, Functor functor, size_type m, size_type n)
 
 
-		#define function_type_genericity_apply_count_omit_return(label)								\
-			function_type_genericity_apply_count(void, label)
+		#define function_type_functor_interval_apply_count_omit_return_unary(label)				\
+			function_type_functor_interval_apply_count_unary(void, label)
                                                             
-		#define function_type_genericity_apply_count_apply_return(label)							\
-			function_type_genericity_apply_count(WPointer, label)
+		#define function_type_functor_interval_apply_count_apply_return_unary(label)				\
+			function_type_functor_interval_apply_count_unary(WPointer, label)
 
 
 /************************************************************************************************************************/
@@ -115,8 +116,8 @@
 */
 
 
-#define function_type(label, operator_policy, count_policy, return_policy)						\
-	function_type_##operator_policy##_##count_policy##_##return_policy(label)
+#define function_type(label, operator_policy, count_policy, return_policy, in_arity)					\
+	function_type_##operator_policy##_##count_policy##_##return_policy##_##in_arity(label)
 
 
 /************************************************************************************************************************/
@@ -124,18 +125,55 @@
 /************************************************************************************************************************/
 
 
-/*
-	operator_policy:
-
-		interval
-		genericity
-*/
+	#define declare_variables_out_as_forward_hook_allocate()
 
 
-#define interval(op_a, op_l, op_r)							(*in) op_a op_l (m) op_r;
+	#define declare_variables_out_as_backward_hook_allocate()			WPointer current;
 
 
-#define genericity(op_a, op_l, op_r)							functor(in);
+#define declare_variables_hook_allocate(out_direction)									\
+	declare_variables_##out_direction##_hook_allocate()
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define declare_variables_link_allocate(out_direction)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+// policy hasn't stabilized, so this code is currently filler!
+
+
+	#define declare_variables_out_as_forward_segment_allocate()			out = new segment;
+
+
+	#define declare_variables_out_as_backward_segment_allocate()			out = new segment;
+
+
+#define declare_variables_segment_allocate(out_direction)								\
+	declare_variables_##out_direction##_segment_allocate()
+
+
+/************************************************************************************************************************/
+
+
+#define declare_variables_mutate(out_direction, out_pointer)
+
+
+#define declare_variables_allocate(out_direction, out_pointer)								\
+	declare_variables_##out_pointer##_##allocate(out_direction)
+
+
+/************************************************************************************************************************/
+
+
+#define declare_variables(out_direction, out_pointer, out_memory)							\
+	declare_variables_##out_memory(out_direction, out_pointer)
 
 
 /************************************************************************************************************************/
@@ -143,37 +181,14 @@
 /************************************************************************************************************************/
 
 
-#define direction_policy_omit_delete(dir)						dir##dir(in);
-
-
-	#define as_forward_omit_delete()					direction_policy_omit_delete(+)
-	#define as_backward_omit_delete()					direction_policy_omit_delete(-)
-
-
-#define direction_policy_apply_delete(dir)						delete (in)dir##dir;
-
-
-	#define as_forward_apply_delete()					direction_policy_apply_delete(+)
-	#define as_backward_apply_delete()					direction_policy_apply_delete(-)
+#define omit_peek_unary()							m != n
 
 
 /************************************************************************************************************************/
 
 
-/*
-	in_direction:
-
-		as_forward
-		as_backward
-*/
-
-
-#define as_forward(delete_policy)											\
-	as_forward_##delete_policy()
-
-
-#define as_backward(delete_policy)											\
-	as_backward_##delete_policy()
+#define omit_peek(in_arity)												\
+	omit_peek_##in_arity()
 
 
 /************************************************************************************************************************/
@@ -181,18 +196,18 @@
 /************************************************************************************************************************/
 
 
-/*
-	delete_policy:
-
-		omit_delete
-		apply_delete
-*/
+#define apply_peek_unary(dir)							(m)dir != n
 
 
-#define omit_delete()
+	#define apply_peek_in_as_forward_unary()					apply_peek_unary(+1)
+	#define apply_peek_in_as_backward_unary()					apply_peek_unary(-1)
 
 
-#define apply_delete()									delete in;
+/************************************************************************************************************************/
+
+
+#define apply_peek(in_direction, in_arity)										\
+	apply_peek_##in_arity()
 
 
 /************************************************************************************************************************/
@@ -200,18 +215,148 @@
 /************************************************************************************************************************/
 
 
-/*
-	count_policy:
+#define interval_unary(op_a)								(*out) op_a (m);
 
-		omit_count
-		apply_count
-*/
+
+/************************************************************************************************************************/
+
+
+#define interval(op_a, in_arity)											\
+	interval_##in_arity(op_a)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define functor_interval_unary(op_a)							functor(out, m);
+
+
+/************************************************************************************************************************/
+
+
+#define functor_interval(op_a, in_arity)										\
+	functor_interval_##in_arity(op_a)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 
 
 #define omit_count()
 
 
 #define apply_count()									++count;
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define out_mutate(dir)									dir##dir(out);
+
+
+	#define iterate_out_as_forward_mutate(out_pointer)					out_mutate(+)
+	#define iterate_out_as_backward_mutate(out_pointer)					out_mutate(-)
+
+
+#define iterate_out_mutate(out_direction, out_pointer)									\
+	iterate_##out_direction##_mutate(out_pointer)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define iterate_out_as_forward_hook_allocate()						out = +(out) = new hook;
+
+
+#define iterate_out_as_backward_hook_allocate()						current = out;			\
+											out = new hook;			\
+											+(out) = current;
+
+
+/************************************************************************************************************************/
+
+
+#define iterate_out_link_allocate(dir, inv)						dir(out) = new link;		\
+											inv(dir(out)) = out;		\
+											dir##dir(out);
+
+
+	#define iterate_out_as_forward_link_allocate()						iterate_out_link_allocate(+, -)
+	#define iterate_out_as_backward_link_allocate()						iterate_out_link_allocate(-, +)
+
+
+/************************************************************************************************************************/
+
+
+#define iterate_out_as_forward_segment_allocate()
+
+
+#define iterate_out_as_backward_segment_allocate()
+
+
+/************************************************************************************************************************/
+
+
+#define iterate_out_allocate(out_direction, out_pointer)								\
+	iterate_##out_direction##_##out_pointer##_allocate()
+
+
+/************************************************************************************************************************/
+
+
+#define iterate_out(out_direction, out_pointer, out_memory)								\
+	iterate_out_##out_memory(out_direction, out_pointer)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define in_mutate_unary(dir)								dir##dir(m);
+
+
+	#define in_as_forward_mutate_unary(in_pointer)						in_mutate_unary(+)
+	#define in_as_backward_mutate_unary(in_pointer)						in_mutate_unary(-)
+
+
+/************************************************************************************************************************/
+
+
+#define in_as_mutate(in_direction, in_pointer, in_arity)								\
+	in_as_##in_direction##_mutate_##in_arity(in_pointer)
+
+
+#define in_as_forward(in_pointer, in_memory, in_arity)									\
+	in_as_##in_memory(forward, in_pointer, in_arity)
+
+
+#define in_as_backward(in_pointer, in_memory, in_arity)									\
+	in_as_##in_memory(backward, in_pointer, in_arity)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define mutate(in_pointer, in_arity)
+
+
+#define deallocate(in_pointer, in_arity)
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+#define undeclare_variables(in_direction, in_pointer, in_memory)
 
 
 /************************************************************************************************************************/
@@ -227,7 +372,7 @@
 */
 
 
-#define apply_return()									return in;
+#define apply_return()									return out;
 
 
 #define omit_return()

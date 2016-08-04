@@ -39,6 +39,12 @@
 	[x, y) --> (x-1, y)
 */
 
+/*
+	out_memory != deallocate,
+	in_memory != allocate
+*/
+
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -58,20 +64,20 @@
 
 #define loop_closing_closing(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -89,26 +95,26 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_closing_closed(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	out_direction()															\
-	memory_policy(out_pointer, in_arity)												\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+	in_memory(in_pointer, in_arity)													\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -125,8 +131,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_closing_opening_mutate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
@@ -134,13 +140,13 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 	{																\
 		in_direction(in_pointer, mutate, in_arity)										\
 																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction()														\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -154,8 +160,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_closing_opening_deallocate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
@@ -163,20 +169,20 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, deallocate)											\
-		in_direction(in_pointer, in_memory, in_arity)										\
+		iterate_out(out_direction, out_pointer, out_memory)									\
+		in_direction(in_pointer, deallocate, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	out_direction()															\
-	deallocate(in_arity)														\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+	deallocate(in_pointer, in_arity)												\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -184,8 +190,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_closing_opening(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-	loop_closing_opening_##memory_policy(label, operator_policy, op_a,								\
-		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)
+	loop_closing_opening_##in_memory(label, operator_policy, op_a,									\
+		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)
 
 
 /************************************************************************************************************************/
@@ -200,7 +206,7 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_closing_open(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
@@ -208,14 +214,14 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -235,25 +241,25 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_closed_closing(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
-	while (apply_peek(in_arity, in_direction))											\
+	while (apply_peek(in_direction, in_arity))											\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
 	in_direction(in_pointer, in_memory, in_arity)											\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -271,25 +277,25 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_closed_closed(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	memory_policy(out_pointer, in_arity)												\
+	in_memory(in_pointer, in_arity)													\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -301,13 +307,13 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 /*
 	Constraints:
 
-	(in, end] --> [out, out + end-in-1] > end-in > 0
+	(in, end] --> [out, out + end-in-1], end-in > 0
 */
 
 
 #define loop_closed_opening(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
@@ -315,19 +321,19 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	memory_policy(out_pointer, in_arity)												\
+	in_memory(in_pointer, in_arity)													\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -339,33 +345,33 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 /*
 	Constraints:
 
-	(in, end) --> [out, out + end-in-2] > end-in > 1
+	(in, end) --> [out, out + end-in-2], end-in > 1
 */
 
 
 #define loop_closed_open(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	in_direction(in_pointer, mutate, in_arity)											\
 																	\
-	while (apply_peek(in_arity, in_direction))											\
+	while (apply_peek(in_direction, in_arity))											\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
 	in_direction(in_pointer, in_memory, in_arity)											\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -385,21 +391,21 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_opening_closing(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		out_direction()														\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -417,28 +423,27 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_opening_closed(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	out_direction()															\
-																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	memory_policy(out_pointer, in_arity)												\
+	in_memory(in_pointer, in_arity)													\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -455,21 +460,21 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_opening_opening_mutate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
 		in_direction(in_pointer, mutate, in_arity)										\
-		out_direction()														\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -483,31 +488,29 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_opening_opening_deallocate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	in_direction(in_pointer, mutate, in_arity)											\
+	iterate_out(out_direction, out_pointer, out_memory)										\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, deallocate, in_arity)										\
 	}																\
 																	\
-	out_direction()															\
-																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	deallocate(in_arity)														\
+	deallocate(in_pointer, in_arity)												\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -515,8 +518,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_opening_opening(label, operator_policy, op_a,										\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-	loop_opening_opening_##memory_policy(label, operator_policy, op_a,								\
-		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)
+	loop_opening_opening_##in_memory(label, operator_policy, op_a,									\
+		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)
 
 
 /************************************************************************************************************************/
@@ -529,64 +532,28 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 */
 
 
-#define loop_opening_open_mutate(label, operator_policy, op_a,										\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
-{																	\
-	declare_variables(out_direction, out_pointer, out_memory)									\
-																	\
-	while (apply_peek(in_arity, in_direction))											\
-	{																\
-		in_direction(in_pointer, mutate, in_arity)										\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
-		count_policy()														\
-	}																\
-																	\
-	in_direction(in_pointer, mutate, in_arity)											\
-																	\
-	undeclare_variables(in_pointer, in_memory)											\
-																	\
-	return_policy()															\
-}
-
-
-/*
-	Constraints:
-
-	(in, end) --> (out, out + end-in-1], end-in > 1
-*/
-
-
-#define loop_opening_open_deallocate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
-{																	\
-	declare_variables(out_direction, out_pointer, out_memory)									\
-																	\
-	in_direction(in_pointer, mutate, in_arity)											\
-																	\
-	while (apply_peek(in_arity, in_direction))											\
-	{																\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
-		count_policy()														\
-																	\
-		in_direction(in_pointer, deallocate, in_arity)										\
-	}																\
-																	\
-	undeclare_variables(in_pointer, in_memory)											\
-																	\
-	return_policy()															\
-}
-
-
 #define loop_opening_open(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-	loop_opening_open_##memory_policy(label, operator_policy, op_a,									\
-		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
+{																	\
+	declare_variables(out_direction, out_pointer, out_memory)									\
+																	\
+	in_direction(in_pointer, mutate, in_arity)											\
+																	\
+	while (omit_peek(in_arity))													\
+	{																\
+		iterate_out(out_direction, out_pointer, mutate)									\
+																	\
+		operator_policy(op_a, in_arity)												\
+		count_policy()														\
+																	\
+		in_direction(in_pointer, in_memory, in_arity)										\
+	}																\
+																	\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
+																	\
+	return_policy()															\
+}
 
 
 /*************************************************************************************************************************
@@ -603,22 +570,22 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_open_closing(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
-	out_direction()															\
+	iterate_out(out_direction, out_pointer, out_memory)										\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -636,29 +603,28 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_open_closed(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	out_direction()															\
-																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	out_direction()															\
-	memory_policy(out_pointer, in_arity)												\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+	in_memory(in_pointer, in_arity)													\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -675,23 +641,23 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_open_opening_mutate(label, operator_policy, op_a,										\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
 		in_direction(in_pointer, mutate, in_arity)										\
-		out_direction()														\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 	}																\
 																	\
-	out_direction()															\
+	iterate_out(out_direction, out_pointer, out_memory)										\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -705,32 +671,30 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 
 #define loop_open_opening_deallocate(label, operator_policy, op_a,									\
-	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)			\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	in_direction(in_pointer, mutate, in_arity)											\
+	iterate_out(out_direction, out_pointer, out_memory)										\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		out_direction()														\
-																	\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, deallocate, in_arity)										\
 	}																\
 																	\
-	out_direction()															\
-																	\
-	operator_policy(op_a)														\
+	operator_policy(op_a, in_arity)													\
 	count_policy()															\
 																	\
-	out_direction()															\
-	deallocate(in_arity)														\
+	iterate_out(out_direction, out_pointer, out_memory)										\
+	deallocate(in_pointer, in_arity)												\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -738,8 +702,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_open_opening(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-	loop_open_opening_##memory_policy(label, operator_policy, op_a,									\
-		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)
+	loop_open_opening_##in_memory(label, operator_policy, op_a,									\
+		out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_arity)
 
 
 /************************************************************************************************************************/
@@ -754,23 +718,23 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 
 #define loop_open_open(label, operator_policy, op_a,											\
 	out_direction, out_pointer, out_memory, count_policy, return_policy, in_direction, in_pointer, in_memory, in_arity)		\
-function_type(label, operator_policy, count_policy, return_policy)									\
+function_type(label, operator_policy, count_policy, return_policy, in_arity)								\
 {																	\
 	declare_variables(out_direction, out_pointer, out_memory)									\
 																	\
 	in_direction(in_pointer, mutate, in_arity)											\
-	out_direction()															\
+	iterate_out(out_direction, out_pointer, out_memory)										\
 																	\
 	while (omit_peek(in_arity))													\
 	{																\
-		operator_policy(op_a)													\
+		operator_policy(op_a, in_arity)												\
 		count_policy()														\
 																	\
-		out_direction(out_pointer, out_memory)											\
+		iterate_out(out_direction, out_pointer, out_memory)									\
 		in_direction(in_pointer, in_memory, in_arity)										\
 	}																\
 																	\
-	undeclare_variables(in_pointer, in_memory)											\
+	undeclare_variables(in_direction, in_pointer, in_memory)									\
 																	\
 	return_policy()															\
 }
@@ -796,8 +760,8 @@ function_type(label, operator_policy, count_policy, return_policy)									\
 											\
 	loop_##out_interval##_##in_interval(						\
 		label, operator_policy, op_a,						\
-		out_direction, out_pointer,						\
+		out_as_##out_direction, out_pointer,					\
 		out_memory, count_policy, return_policy,				\
-		in_direction, in_pointer,						\
+		in_as_##in_direction, in_pointer,					\
 		in_memory, in_arity)
 

@@ -39,10 +39,11 @@
 class map
 {
 	private:
-		typedef nik::arg<size_type>::arg arg;
+		typedef nik::arg<size_type> Arg;
 
-		typedef typename arg::list list;
-		typedef typename arg::verse verse;
+		typedef typename Arg::interval Interval;
+		typedef typename Arg::list List;
+		typedef typename Arg::verse Verse;
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -56,19 +57,19 @@ class map
 			template<size_type... params>
 			struct interval
 			{
-				#include"macro/define/interval/semiotic/loop.cpp"
-				#include"macro/define/extension/semiotic/loop.cpp"
-				#include"macro/define/interval/semiotic/loop.h"
+				#include"macro/define/semiotic/interval/loop.cpp"
+				#include"macro/define/semiotic/basis/loop.cpp"
+				#include"macro/define/semiotic/interval/loop.h"
 
 				using loop = verse_interval_loop
 				<
 					paramList,
-					typename gvf_media::template sortFill<interval::bounds, params...>::rtn
+					typename gvf_media::template sortFill<Interval, params...>::rtn
 				>;
 
-				#include"macro/undef/interval/semiotic/loop.cpp"
-				#include"macro/undef/extension/semiotic/loop.cpp"
-				#include"macro/undef/interval/semiotic/loop.h"
+//				#include"macro/undef/semiotic/interval/loop.h"
+//				#include"macro/undef/semiotic/basis/loop.cpp"
+//				#include"macro/undef/semiotic/interval/loop.cpp"
 			};
 
 /*
@@ -82,7 +83,7 @@ class map
 				using loop = verse_list_loop
 				<
 					paramList,
-					typename gvf_media::template sortFill<list::bounds, params...>::rtn
+					typename gvf_media::template sortFill<List, params...>::rtn
 				>;
 
 				#include"macro/undef/list/semiotic/loop.cpp"
@@ -99,7 +100,9 @@ class map
 	public:
 
 		template<size_type... params>
-		using id = verse<typename gvf_media::template sortFill<verse::bounds, params...>::rtn>;
+		using id = verse<
+					typename gvf_media::template sortFill<Verse, params...>::rtn
+				>;
 };
 
 
