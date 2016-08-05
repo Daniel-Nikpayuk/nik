@@ -29,7 +29,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		#include"identity/semiotic.cpp"
+		#include"identity/semiotic.hpp"
 	};
 
 }}}}}

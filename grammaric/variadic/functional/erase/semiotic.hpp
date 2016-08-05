@@ -15,9 +15,24 @@
 **
 *************************************************************************************************************************/
 
+template<size_type current, size_type index, typename L1, typename L2, typename Null = typename L2::null>
+struct erase
+{
+	using new_L1 = typename cf_media::template
+		if_then_else
+		<
+			(current == index),
+			L1,
+			typename L1::template append<L2::car>
 
-#undef declare_loop
+		>::return_type;
 
-#include"../share/loop.h"
+	using rtn = typename erase<current+1, index, new_L1, typename L2::cdr>::rtn;
+};
 
+template<size_type current, size_type index, typename L, typename Null>
+struct erase<current, index, L, Null, Null>
+{
+	using rtn = L;
+};
 

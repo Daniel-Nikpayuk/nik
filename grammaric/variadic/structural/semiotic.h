@@ -28,8 +28,8 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		#include"list/semiotic.cpp"
-		#include"array/semiotic.cpp"
+		#include"list/semiotic.hpp"
+		#include"array/semiotic.hpp"
 	};
 
 }}}}

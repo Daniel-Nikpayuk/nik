@@ -151,48 +151,20 @@ struct verse_interval_loop
 
 
 #define declare_loop_3(													\
-			out_memory, count_policy, return_policy,							\
-			in_direction, in_interval)									\
-															\
-	declare_loop_2													\
-	(														\
-			hook,												\
-			out_memory, count_policy, return_policy,							\
-			in_direction, in_interval									\
-	)														\
-															\
-	declare_loop_2													\
-	(														\
-			link,												\
-			out_memory, count_policy, return_policy,							\
-			in_direction, in_interval									\
-	)														\
-															\
-	declare_loop_2													\
-	(														\
-			segment,											\
-			out_memory, count_policy, return_policy,							\
-			in_direction, in_interval									\
-	)
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-#define declare_loop_4(													\
+			out_pointer,											\
 			count_policy, return_policy,									\
 			in_direction, in_interval)									\
 															\
-	declare_loop_3													\
+	declare_loop_2													\
 	(														\
+			out_pointer,											\
 			allocate, count_policy, return_policy,								\
 			in_direction, in_interval									\
 	)														\
 															\
-	declare_loop_3													\
+	declare_loop_2													\
 	(														\
+			out_pointer,											\
 			mutate, count_policy, return_policy,								\
 			in_direction, in_interval									\
 	)
@@ -203,18 +175,21 @@ struct verse_interval_loop
 /************************************************************************************************************************/
 
 
-#define declare_loop_5(													\
+#define declare_loop_4(													\
+			out_pointer,											\
 			return_policy,											\
 			in_direction, in_interval)									\
 															\
-	declare_loop_4													\
+	declare_loop_3													\
 	(														\
+			out_pointer,											\
 			omit_count, return_policy,									\
 			in_direction, in_interval									\
 	)														\
 															\
-	declare_loop_4													\
+	declare_loop_3													\
 	(														\
+			out_pointer,											\
 			apply_count, return_policy,									\
 			in_direction, in_interval									\
 	)
@@ -225,17 +200,20 @@ struct verse_interval_loop
 /************************************************************************************************************************/
 
 
-#define declare_loop_6(													\
+#define declare_loop_5(													\
+			out_pointer,											\
 			in_direction, in_interval)									\
 															\
-	declare_loop_5													\
+	declare_loop_4													\
 	(														\
+			out_pointer,											\
 			apply_return,											\
 			in_direction, in_interval									\
 	)														\
 															\
-	declare_loop_5													\
+	declare_loop_4													\
 	(														\
+			out_pointer,											\
 			omit_return,											\
 			in_direction, in_interval									\
 	)
@@ -246,16 +224,19 @@ struct verse_interval_loop
 /************************************************************************************************************************/
 
 
-#define declare_loop_7(													\
+#define declare_loop_6(													\
+			out_pointer,											\
 			in_interval)											\
 															\
-	declare_loop_6													\
+	declare_loop_5													\
 	(														\
+			out_pointer,											\
 			forward, in_interval										\
 	)														\
 															\
-	declare_loop_6													\
+	declare_loop_5													\
 	(														\
+			out_pointer,											\
 			backward, in_interval										\
 	)
 
@@ -265,25 +246,30 @@ struct verse_interval_loop
 /************************************************************************************************************************/
 
 
-#define declare_loop_8()												\
+#define declare_loop_7(													\
+			out_pointer)											\
 															\
-	declare_loop_7													\
+	declare_loop_6													\
 	(														\
+			out_pointer,											\
 			closing												\
 	)														\
 															\
-	declare_loop_7													\
+	declare_loop_6													\
 	(														\
+			out_pointer,											\
 			closed												\
 	)														\
 															\
-	declare_loop_7													\
+	declare_loop_6													\
 	(														\
+			out_pointer,											\
 			opening												\
 	)														\
 															\
-	declare_loop_7													\
+	declare_loop_6													\
 	(														\
+			out_pointer,											\
 			open												\
 	)
 
@@ -291,16 +277,5 @@ struct verse_interval_loop
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
-
-
-//declare_loop_8()
-
-
-declare_loop
-(
-	forward, closing, hook,
-	allocate, omit_count, apply_return,
-	forward, closing
-)
 
 

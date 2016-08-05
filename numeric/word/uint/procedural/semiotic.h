@@ -36,10 +36,10 @@ namespace procedural	{
 
 		typedef functional::media<size_type> media;
 
-		#include"overload/semiotic.cpp"
-		#include"discrete/semiotic.cpp"
-//		#include"math/semiotic.cpp"
-		#include"sift/semiotic.cpp"
+		#include"overload/semiotic.hpp"
+		#include"discrete/semiotic.hpp"
+//		#include"math/semiotic.hpp"
+		#include"sift/semiotic.hpp"
 	};
 
 }}}}}

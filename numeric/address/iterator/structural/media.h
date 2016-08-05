@@ -31,12 +31,12 @@ namespace structural	{
 
 		typedef grammaric::identifier::structural::media<size_type> gis_media;
 
-//		#include"base/media.cpp"
-//		#include"bit/media.cpp"
-//		#include"segment/media.cpp"
-//		#include"node/media.cpp"
-//		#include"hook/media.cpp"
-//		#include"link/media.cpp"
+//		#include"base/media.hpp"
+//		#include"bit/media.hpp"
+//		#include"segment/media.hpp"
+//		#include"node/media.hpp"
+//		#include"hook/media.hpp"
+//		#include"link/media.hpp"
 	};
 
 }}}}}

@@ -54,31 +54,37 @@ class map
 		template<typename paramList>
 		struct verse
 		{
+			static constexpr size_type pointer_param = gvf_semiotic::template at<paramList, Arg::pointer>::rtn;
+			using paramList1 = typename gvf_media::template erase<paramList, Arg::pointer>::rtn;
+
 			template<size_type... params>
 			struct interval
 			{
-				#include"macro/define/semiotic/interval/loop.cpp"
-				#include"macro/define/semiotic/basis/loop.cpp"
-				#include"macro/define/semiotic/interval/loop.h"
+				#include"../../macro/map/define/semiotic/interval/loop.hpp"
+				#include"../../macro/map/define/semiotic/basis/loop.hpp"
+				#include"../../macro/map/define/semiotic/interval/loop.hh"
 
 				using loop = verse_interval_loop
 				<
-					paramList,
+					pointer_param,
+					paramList1,
 					typename gvf_media::template sortFill<Interval, params...>::rtn
 				>;
 
-//				#include"macro/undef/semiotic/interval/loop.h"
-//				#include"macro/undef/semiotic/basis/loop.cpp"
-//				#include"macro/undef/semiotic/interval/loop.cpp"
+				declare_loop_7(hook)
+
+//				#include"macro/undef/semiotic/interval/loop.hh"
+//				#include"macro/undef/semiotic/basis/loop.hpp"
+//				#include"macro/undef/semiotic/interval/loop.hpp"
 			};
 
 /*
 			template<size_type... params>
 			struct list
 			{
-				#include"macro/define/list/semiotic/loop.cpp"
-				#include"macro/define/extension/semiotic/loop.cpp"
-				#include"macro/define/list/semiotic/loop.h"
+				#include"macro/define/list/semiotic/loop.hpp"
+				#include"macro/define/extension/semiotic/loop.hpp"
+				#include"macro/define/list/semiotic/loop.hh"
 
 				using loop = verse_list_loop
 				<
@@ -86,9 +92,9 @@ class map
 					typename gvf_media::template sortFill<List, params...>::rtn
 				>;
 
-				#include"macro/undef/list/semiotic/loop.cpp"
-				#include"macro/undef/extension/semiotic/loop.cpp"
-				#include"macro/undef/list/semiotic/loop.h"
+				#include"macro/undef/list/semiotic/loop.hpp"
+				#include"macro/undef/extension/semiotic/loop.hpp"
+				#include"macro/undef/list/semiotic/loop.hh"
 			};
 */
 		};
@@ -100,9 +106,7 @@ class map
 	public:
 
 		template<size_type... params>
-		using id = verse<
-					typename gvf_media::template sortFill<Verse, params...>::rtn
-				>;
+		using id = verse<typename gvf_media::template sortFill<Verse, params...>::rtn>;
 };
 
 

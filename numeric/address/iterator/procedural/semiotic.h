@@ -38,7 +38,7 @@ namespace procedural	{
 
 		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
 
-		#include"pointer/semiotic.h"
+		#include"pointer/semiotic.hh"
 	};
 
 }}}}}

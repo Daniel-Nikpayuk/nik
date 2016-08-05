@@ -28,7 +28,7 @@ namespace functional	{
 	{
 		typedef SizeType size_type;
 
-		#include"if_then_else/media.cpp"
+		#include"if_then_else/media.hpp"
 	};
 
 }}}}

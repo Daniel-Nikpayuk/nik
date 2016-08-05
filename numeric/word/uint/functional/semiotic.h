@@ -29,7 +29,7 @@ namespace word		{
 namespace uint		{
 namespace functional	{
 
-	#include"limits.h"
+	#include"limits.hpp"
 
 	template<typename SizeType> struct media;
 
@@ -43,12 +43,12 @@ namespace functional	{
 
 		typedef functional::media<size_type> media;
 
-		#include"meta/semiotic.cpp"
-		#include"unit/semiotic.cpp"
-		#include"overload/semiotic.cpp"
-		#include"discrete/semiotic.cpp"
-		#include"math/semiotic.cpp"
-		#include"sift/semiotic.cpp"
+		#include"meta/semiotic.hpp"
+		#include"unit/semiotic.hpp"
+		#include"overload/semiotic.hpp"
+		#include"discrete/semiotic.hpp"
+		#include"math/semiotic.hpp"
+		#include"sift/semiotic.hpp"
 	};
 
 }}}}}

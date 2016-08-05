@@ -116,6 +116,8 @@
 */
 
 
+//#define function_type(label, operator_policy, out_memory, count_policy, return_policy, in_memory, in_arity)		\
+
 #define function_type(label, operator_policy, count_policy, return_policy, in_arity)					\
 	function_type_##operator_policy##_##count_policy##_##return_policy##_##in_arity(label)
 

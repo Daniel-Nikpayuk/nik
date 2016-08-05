@@ -15,9 +15,26 @@
 **
 *************************************************************************************************************************/
 
+struct pointer
+{
+//	#include"map/media.hpp"
 
-#undef declare_loop
+//		template<size_type N, size_type M=0, size_type L=0>
+//		using map_unroll=map::template unroll<N, M, L>;
 
-#include"../share/loop.h"
+//	#include"search/media.hpp"
 
+//		template<size_type N, size_type M=0, size_type L=0>
+//		using search_unroll=typename search::template unroll<N, M, L>;
+
+//	#include"identity/media.hpp"
+
+//		template<size_type N, size_type M=0, size_type L=0>
+//		using identity_unroll=typename identity::template unroll<N, M, L>;
+
+//	#include"arithmetic/media.hpp"
+
+//		template<size_type N, size_type M=0, size_type L=0>
+//		using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
+};
 

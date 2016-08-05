@@ -15,13 +15,17 @@
 **
 *************************************************************************************************************************/
 
+template<typename T>
+struct pointer
+{
+	typedef typename structural::semiotic<size_type>::template hook<T> hook;
+	typedef typename structural::semiotic<size_type>::template link<T> link;
+	typedef typename structural::semiotic<size_type>::template segment<T> segment;
 
-#undef loop_closing
-#undef loop_closed
-#undef loop_opening_omit_delete
-#undef loop_opening_apply_delete
-#undef loop_opening
-#undef loop_open
-#undef loop
-
+//	#include"repeat/semiotic.hpp"
+	#include"map/semiotic.hpp"
+//	#include"search/semiotic.hpp"
+//	#include"identity/semiotic.hpp"
+//	#include"arithmetic/semiotic.hpp"
+};
 

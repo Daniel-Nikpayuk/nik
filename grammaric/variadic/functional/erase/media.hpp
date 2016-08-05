@@ -15,9 +15,9 @@
 **
 *************************************************************************************************************************/
 
-
-#undef declare_loop
-
-#include"../share/loop.h"
-
+template<typename L, size_type index>
+struct erase
+{
+	using rtn = typename semiotic::template erase<0, index, typename L::null, L>::rtn;
+};
 

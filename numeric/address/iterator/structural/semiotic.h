@@ -31,12 +31,12 @@ namespace structural	{
 
 		typedef grammaric::identifier::structural::media<size_type> gis_media;
 
-//		#include"base/semiotic.cpp"
-//		#include"bit/semiotic.cpp"
-		#include"segment/semiotic.cpp"
-		#include"node/semiotic.cpp"
-		#include"hook/semiotic.cpp"
-		#include"link/semiotic.cpp"
+//		#include"base/semiotic.hpp"
+//		#include"bit/semiotic.hpp"
+		#include"segment/semiotic.hpp"
+		#include"node/semiotic.hpp"
+		#include"hook/semiotic.hpp"
+		#include"link/semiotic.hpp"
 	};
 
 }}}}}

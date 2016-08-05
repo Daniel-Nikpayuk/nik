@@ -34,14 +34,15 @@ namespace functional	{
 
 		typedef functional::semiotic<size_type> semiotic;
 
-		#include"isNull/media.cpp"
-		#include"length/media.cpp"
-		#include"at/media.cpp"
-		#include"catenate/media.cpp"
-		#include"filter/media.cpp"
-		#include"sort/media.cpp"
-		#include"fill/media.cpp"
-		#include"sortFill/media.cpp"
+		#include"isNull/media.hpp"
+		#include"length/media.hpp"
+		#include"at/media.hpp"
+		#include"erase/media.hpp"
+		#include"catenate/media.hpp"
+		#include"filter/media.hpp"
+		#include"sort/media.hpp"
+		#include"fill/media.hpp"
+		#include"sortFill/media.hpp"
 	};
 
 }}}}

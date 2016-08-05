@@ -28,7 +28,7 @@ namespace procedural	{
 	{
 		typedef SizeType size_type;
 
-		#include"cast/semiotic.cpp"
+		#include"cast/semiotic.hpp"
 	};
 
 }}}}

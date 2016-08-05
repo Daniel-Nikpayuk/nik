@@ -28,7 +28,7 @@ namespace procedural	{
 	{
 		typedef SizeType size_type;
 
-		#include"cast/media.cpp"
+		#include"cast/media.hpp"
 	};
 
 }}}}

@@ -29,7 +29,7 @@ namespace procedural	{
 	{
 		typedef SizeType size_type;
 
-		#include"pointer/media.h"
+		#include"pointer/media.hh"
 	};
 
 }}}}}

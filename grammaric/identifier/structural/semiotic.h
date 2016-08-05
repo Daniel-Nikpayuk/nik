@@ -30,7 +30,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		#include"container/semiotic.cpp"
+		#include"container/semiotic.hpp"
 	};
 
 }}}}

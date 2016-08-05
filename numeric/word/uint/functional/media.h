@@ -36,12 +36,12 @@ namespace functional	{
 
 		typedef functional::semiotic<size_type> semiotic;
 
-		#include"meta/media.cpp"
-		#include"unit/media.cpp"
-		#include"overload/media.cpp"
-		#include"discrete/media.cpp"
-		#include"math/media.cpp"
-		#include"sift/media.cpp"
+		#include"meta/media.hpp"
+		#include"unit/media.hpp"
+		#include"overload/media.hpp"
+		#include"discrete/media.hpp"
+		#include"math/media.hpp"
+		#include"sift/media.hpp"
 	};
 
 }}}}}

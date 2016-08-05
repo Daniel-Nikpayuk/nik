@@ -28,8 +28,8 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		#include"list/media.cpp"
-		#include"array/media.cpp"
+		#include"list/media.hpp"
+		#include"array/media.hpp"
 	};
 
 }}}}

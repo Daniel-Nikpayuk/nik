@@ -30,7 +30,7 @@ namespace functional	{
 	{
 		typedef SizeType size_type;
 
-		#include"if_then_else/semiotic.cpp"
+		#include"if_then_else/semiotic.hpp"
 	};
 
 }}}}

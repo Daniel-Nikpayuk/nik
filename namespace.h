@@ -61,19 +61,23 @@ namespace nik
 
 		struct empty { };
 
-		struct definite { };
+		struct definite : public empty { };
 
-		enum arg_type
+		enum object_type
 		{
 			iterator,
 			interval,
 			pointer,
-			list,
-			tracer,
-			verse
+			list
 		};
 
-		struct iterator
+		enum verb_type
+		{
+			verse,
+			tracer
+		};
+
+		struct iterator : public definite
 		{
 			declare_bounds()
 
@@ -107,9 +111,9 @@ namespace nik
 
 			enum : size_type
 			{
-				hook = initialize_enum(interval),
-				link,
-				segment
+				segment = initialize_enum(interval),
+				hook,
+				link
 			};
 
 			define_bounds(pointer, 6, 8)
@@ -121,38 +125,38 @@ namespace nik
 
 			enum : size_type
 			{
-				allocate = initialize_enum(pointer),
-				deallocate,
-				mutate
+				mutate = initialize_enum(pointer),
+				allocate,
+				deallocate
 			};
 
 			define_bounds(list, 9, 11)
 		};
 
-		struct tracer : public list
+		struct verse : public definite
 		{
-			subclass_bounds(list)
+			declare_bounds()
 
 			enum : size_type
 			{
-				omit_count = initialize_enum(list),
-				apply_count
-			};
-
-			define_bounds(tracer, 12, 13)
-		};
-
-		struct verse : public tracer
-		{
-			subclass_bounds(tracer)
-
-			enum : size_type
-			{
-				apply_return = initialize_enum(tracer),
+				apply_return,
 				omit_return
 			};
 
-			define_bounds(verse, 14, 15)
+			define_bounds(verse, 0, 1)
+		};
+
+		struct tracer : public verse
+		{
+			subclass_bounds(verse)
+
+			enum : size_type
+			{
+				omit_count = initialize_enum(verse),
+				apply_count
+			};
+
+			define_bounds(tracer, 2, 3)
 		};
 	};
 }
