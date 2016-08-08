@@ -63,74 +63,74 @@ namespace nik
 
 		struct definite : public empty { };
 
-		enum object_type
+		enum adjective
 		{
-			iterator,
 			interval,
-			pointer,
-			list
+			iterator,
+			memrator,
+			pointer
 		};
 
-		enum verb_type
+		enum adverb
 		{
 			verse,
 			tracer
 		};
 
-		struct iterator : public definite
+		struct interval : public definite
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				forward,
-				backward
-			};
-
-			define_bounds(iterator, 0, 1)
-		};
-
-		struct interval : public iterator
-		{
-			subclass_bounds(iterator)
-
-			enum : size_type
-			{
-				closing = initialize_enum(iterator),
+				closing,
 				closed,
 				opening,
 				open
 			};
 
-			define_bounds(interval, 2, 5)
+			define_bounds(interval, 0, 3)
 		};
 
-		struct pointer : public interval
+		struct iterator : public interval
 		{
 			subclass_bounds(interval)
 
 			enum : size_type
 			{
-				segment = initialize_enum(interval),
-				hook,
-				link
+				forward = initialize_enum(interval),
+				backward
 			};
 
-			define_bounds(pointer, 6, 8)
+			define_bounds(iterator, 4, 5)
 		};
 
-		struct list : public pointer
+		struct memrator : public iterator
 		{
-			subclass_bounds(pointer)
+			subclass_bounds(iterator)
 
 			enum : size_type
 			{
-				mutate = initialize_enum(pointer),
+				mutate = initialize_enum(iterator),
 				allocate,
 				deallocate
 			};
 
-			define_bounds(list, 9, 11)
+			define_bounds(memrator, 6, 8)
+		};
+
+		struct pointer : public memrator
+		{
+			subclass_bounds(memrator)
+
+			enum : size_type
+			{
+				segment = initialize_enum(memrator),
+				hook,
+				link
+			};
+
+			define_bounds(pointer, 9, 11)
 		};
 
 		struct verse : public definite
