@@ -25,7 +25,7 @@ struct filter
 				typename out::template append<in::car>,
 				out
 
-			>::return_type;
+			>::rtn;
 
 	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
 };

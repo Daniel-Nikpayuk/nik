@@ -33,8 +33,8 @@
 #include"numeric/word/sint/functional/semiotic.h"
 #include"numeric/word/sint/procedural/semiotic.h"
 
-#include"numeric/address/iterator/structural/semiotic.h"
-#include"numeric/address/iterator/procedural/semiotic.h"
+#include"numeric/address/interval/type/structural/semiotic.h"
+#include"numeric/address/interval/type/procedural/semiotic.h"
 
 //#include"numeric/address/list/structural/semiotic.h"
 
@@ -45,28 +45,31 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::control_flow::functional::semiotic<size_type> gcf;
+		using gcf = grammaric::control_flow::functional::semiotic<size_type>;
 
-		typedef grammaric::identifier::structural::semiotic<size_type> gis;
-		typedef grammaric::identifier::procedural::semiotic<size_type> gip;
+		using gis = grammaric::identifier::structural::semiotic<size_type>;
+		using gip = grammaric::identifier::procedural::semiotic<size_type>;
 
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs;
-		typedef grammaric::variadic::functional::semiotic<size_type> gvf;
+		using gvs = grammaric::variadic::structural::semiotic<size_type>;
+		using gvf = grammaric::variadic::functional::semiotic<size_type>;
 
-		typedef numeric::word::boolean::structural::semiotic<size_type> nwbs;
+		using nwbs = numeric::word::boolean::structural::semiotic<size_type>;
 
-		typedef numeric::word::uint::structural::semiotic<size_type> nwus;
-		typedef numeric::word::uint::functional::semiotic<size_type> nwuf;
-		typedef numeric::word::uint::procedural::semiotic<size_type> nwup;
+		using nwus = numeric::word::uint::structural::semiotic<size_type>;
+		using nwuf = numeric::word::uint::functional::semiotic<size_type>;
+		using nwup = numeric::word::uint::procedural::semiotic<size_type>;
 
-		typedef numeric::word::sint::structural::semiotic<size_type> nwss;
-		typedef numeric::word::sint::functional::semiotic<size_type> nwsf;
-		typedef numeric::word::sint::procedural::semiotic<size_type> nwsp;
+		using nwss = numeric::word::sint::structural::semiotic<size_type>;
+		using nwsf = numeric::word::sint::functional::semiotic<size_type>;
+		using nwsp = numeric::word::sint::procedural::semiotic<size_type>;
 
-		typedef numeric::address::iterator::structural::semiotic<size_type> nais;
-		typedef numeric::address::iterator::procedural::semiotic<size_type> naip;
+		template<typename T>
+		using naits = numeric::address::interval::type::structural::semiotic<size_type, T>;
 
-//		typedef numeric::address::list::structural::semiotic<size_type> nals;
+		template<typename T>
+		using naitp = numeric::address::interval::type::procedural::semiotic<size_type, T>;
+
+//		using nals = numeric::address::list::structural::semiotic<size_type>;
 	};
 }
 

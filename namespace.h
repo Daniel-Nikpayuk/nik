@@ -32,19 +32,19 @@
 	struct bounds : public subclass::template bounds<index, Filler> { };
 
 
-#define define_bounds(index, begin, end)								\
+#define define_bounds(modifier, index, begin, end)							\
 													\
 	template<typename Filler>									\
-	struct bounds<arg_type::index, Filler>								\
+	struct bounds<modifier::index, Filler>								\
 	{												\
 		static constexpr size_type initial = begin;						\
 		static constexpr size_type terminal = end;						\
 	};
 
 
-#define initialize_enum(index)										\
+#define initialize_enum(modifier, index)								\
 													\
-	index::template bounds<arg_type::index>::terminal + 1
+	index::template bounds<modifier::index>::terminal + 1
 
 
 /************************************************************************************************************************/
@@ -89,7 +89,7 @@ namespace nik
 				open
 			};
 
-			define_bounds(interval, 0, 3)
+			define_bounds(adjective, interval, 0, 3)
 		};
 
 		struct iterator : public interval
@@ -98,11 +98,11 @@ namespace nik
 
 			enum : size_type
 			{
-				forward = initialize_enum(interval),
+				forward = initialize_enum(adjective, interval),
 				backward
 			};
 
-			define_bounds(iterator, 4, 5)
+			define_bounds(adjective, iterator, 4, 5)
 		};
 
 		struct memrator : public iterator
@@ -111,12 +111,12 @@ namespace nik
 
 			enum : size_type
 			{
-				mutate = initialize_enum(iterator),
+				mutate = initialize_enum(adjective, iterator),
 				allocate,
 				deallocate
 			};
 
-			define_bounds(memrator, 6, 8)
+			define_bounds(adjective, memrator, 6, 8)
 		};
 
 		struct pointer : public memrator
@@ -125,12 +125,12 @@ namespace nik
 
 			enum : size_type
 			{
-				segment = initialize_enum(memrator),
+				segment = initialize_enum(adjective, memrator),
 				hook,
 				link
 			};
 
-			define_bounds(pointer, 9, 11)
+			define_bounds(adjective, pointer, 9, 11)
 		};
 
 		struct verse : public definite
@@ -143,7 +143,7 @@ namespace nik
 				omit_return
 			};
 
-			define_bounds(verse, 0, 1)
+			define_bounds(adverb, verse, 0, 1)
 		};
 
 		struct tracer : public verse
@@ -152,11 +152,11 @@ namespace nik
 
 			enum : size_type
 			{
-				omit_count = initialize_enum(verse),
+				omit_count = initialize_enum(adverb, verse),
 				apply_count
 			};
 
-			define_bounds(tracer, 2, 3)
+			define_bounds(adverb, tracer, 2, 3)
 		};
 	};
 }

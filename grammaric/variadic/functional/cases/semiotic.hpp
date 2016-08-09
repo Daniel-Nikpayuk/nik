@@ -15,13 +15,15 @@
 **
 *************************************************************************************************************************/
 
-template<typename modifier, size_type... params>
-struct sortFill
+template<typename T, size_type index>
+struct cases
 {
-	using in = typename s_semiotic::template list<params...>;
+	using rtn = typename cases<typename T::cdr, index-1>::rtn;
+};
 
-	using sorted = typename semiotic::template quickSort<in>::rtn;
-
-	using rtn = typename fill<modifier, sorted>::rtn;
+template<typename T>
+struct cases<T, 0>
+{
+	using rtn = typename T::car;
 };
 

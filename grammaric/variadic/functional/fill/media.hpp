@@ -15,9 +15,9 @@
 **
 *************************************************************************************************************************/
 
-template<typename arg_type, typename in>
+template<typename modifier, typename in>
 struct fill
 {
-	using rtn = typename semiotic::template fill<arg_type, typename in::null, in, 0, arg_type::length>::rtn;
+	using rtn = typename semiotic::template fill<modifier, typename in::null, in, 0, modifier::length>::rtn;
 };
 

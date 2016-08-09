@@ -32,7 +32,11 @@ namespace functional	{
 
 		typedef control_flow::functional::media<size_type> cf_media;
 
+		typedef structural::semiotic<size_type> s_semiotic;
+
 		typedef functional::media<size_type> media;
+
+		#include"cases/semiotic.hpp"
 
 		#include"isNull/semiotic.hpp"
 		#include"length/semiotic.hpp"

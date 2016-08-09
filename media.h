@@ -33,8 +33,8 @@
 #include"numeric/word/sint/functional/media.h"
 #include"numeric/word/sint/procedural/media.h"
 
-#include"numeric/address/iterator/structural/media.h"
-#include"numeric/address/iterator/procedural/media.h"
+#include"numeric/address/interval/type/structural/media.h"
+#include"numeric/address/interval/type/procedural/media.h"
 
 //#include"numeric/address/list/structural/media.h"
 
@@ -45,28 +45,31 @@ namespace nik
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::control_flow::functional::media<size_type> gcf;
+		using gcf = grammaric::control_flow::functional::media<size_type>;
 
-		typedef grammaric::identifier::structural::media<size_type> gis;
-		typedef grammaric::identifier::procedural::media<size_type> gip;
+		using gis = grammaric::identifier::structural::media<size_type>;
+		using gip = grammaric::identifier::procedural::media<size_type>;
 
-		typedef grammaric::variadic::structural::media<size_type> gvs;
-		typedef grammaric::variadic::functional::media<size_type> gvf;
+		using gvs = grammaric::variadic::structural::media<size_type>;
+		using gvf = grammaric::variadic::functional::media<size_type>;
 
-		typedef numeric::word::boolean::structural::media<size_type> nwbs;
+		using nwbs = numeric::word::boolean::structural::media<size_type>;
 
-		typedef numeric::word::uint::structural::media<size_type> nwus;
-		typedef numeric::word::uint::functional::media<size_type> nwuf;
-		typedef numeric::word::uint::procedural::media<size_type> nwup;
+		using nwus = numeric::word::uint::structural::media<size_type>;
+		using nwuf = numeric::word::uint::functional::media<size_type>;
+		using nwup = numeric::word::uint::procedural::media<size_type>;
 
-		typedef numeric::word::sint::structural::media<size_type> nwss;
-		typedef numeric::word::sint::functional::media<size_type> nwsf;
-		typedef numeric::word::sint::procedural::media<size_type> nwsp;
+		using nwss = numeric::word::sint::structural::media<size_type>;
+		using nwsf = numeric::word::sint::functional::media<size_type>;
+		using nwsp = numeric::word::sint::procedural::media<size_type>;
 
-		typedef numeric::address::iterator::structural::media<size_type> nais;
-		typedef numeric::address::iterator::procedural::media<size_type> naip;
+		template<typename T>
+		using naits = numeric::address::interval::type::structural::media<size_type, T>;
 
-//		typedef numeric::address::list::structural::media<size_type> nals;
+		template<typename T>
+		using naitp = numeric::address::interval::type::procedural::media<size_type, T>;
+
+//		using nals = numeric::address::list::structural::media<size_type>;
 	};
 }
 

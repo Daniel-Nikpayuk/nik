@@ -15,11 +15,11 @@
 **
 *************************************************************************************************************************/
 
-template<typename arg_type, typename out, typename in, size_type k, size_type n>
+template<typename modifier, typename out, typename in, size_type k, size_type n>
 struct fill
 {
-	static constexpr size_type b = arg_type::template bounds<k>::initial;
-	static constexpr size_type e = arg_type::template bounds<k>::terminal;
+	static constexpr size_type b = modifier::template bounds<k>::initial;
+	static constexpr size_type e = modifier::template bounds<k>::terminal;
 
 	//
 
@@ -33,7 +33,7 @@ struct fill
 				typename out::template append<in1::car>,
 				typename out::template append<b>
 
-			>::return_type;
+			>::rtn;
 	};
 
 	template<typename Filler>
@@ -56,7 +56,7 @@ struct fill
 				typename in1::cdr,
 				in1
 
-			>::return_type;
+			>::rtn;
 	};
 
 	template<typename Filler>
@@ -69,11 +69,11 @@ struct fill
 
 	//
 
-	using rtn = typename fill<arg_type, new_out, new_in, k+1, n>::rtn;
+	using rtn = typename fill<modifier, new_out, new_in, k+1, n>::rtn;
 };
 
-template<typename arg_type, typename out, typename in, size_type n>
-struct fill<arg_type, out, in, n, n>
+template<typename modifier, typename out, typename in, size_type n>
+struct fill<modifier, out, in, n, n>
 {
 	using rtn = out;
 };

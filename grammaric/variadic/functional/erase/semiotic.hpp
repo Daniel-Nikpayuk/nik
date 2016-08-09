@@ -25,7 +25,7 @@ struct erase
 			L1,
 			typename L1::template append<L2::car>
 
-		>::return_type;
+		>::rtn;
 
 	using rtn = typename erase<current+1, index, new_L1, typename L2::cdr>::rtn;
 };

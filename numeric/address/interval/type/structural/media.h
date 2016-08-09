@@ -21,7 +21,8 @@
 namespace nik		{
 namespace numeric	{
 namespace address	{
-namespace iterator	{
+namespace interval	{
+namespace type		{
 namespace structural	{
 
 	template<typename SizeType, typename T>
@@ -40,6 +41,6 @@ namespace structural	{
 //		#include"link/media.hpp"
 	};
 
-}}}}}
+}}}}}}
 
 #endif

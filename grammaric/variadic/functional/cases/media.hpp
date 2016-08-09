@@ -15,13 +15,23 @@
 **
 *************************************************************************************************************************/
 
-template<typename modifier, size_type... params>
-struct sortFill
+template<size_type index, typename if_zero, typename if_one, typename... params>
+struct cases
 {
-	using in = typename s_semiotic::template list<params...>;
+	using in = typename s_semiotic::template tuple<params...>;
 
-	using sorted = typename semiotic::template quickSort<in>::rtn;
+	using rtn = typename semiotic::template cases<in, index-2>::rtn;
+};
 
-	using rtn = typename fill<modifier, sorted>::rtn;
+template<typename if_zero, typename if_one, typename... params>
+struct cases<0, if_zero, if_one, params...>
+{
+	using rtn = if_zero;
+};
+
+template<typename if_zero, typename if_one, typename... params>
+struct cases<1, if_zero, if_one, params...>
+{
+	using rtn = if_one;
 };
 

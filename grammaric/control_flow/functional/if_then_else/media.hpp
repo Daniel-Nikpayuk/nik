@@ -16,8 +16,14 @@
 *************************************************************************************************************************/
 
 template<bool conditional, typename if_true, typename if_false>
-struct if_then_else { typedef if_true return_type; };
+struct if_then_else
+{
+	using rtn = if_true;
+};
 
 template<typename if_true, typename if_false>
-struct if_then_else<false, if_true, if_false> { typedef if_false return_type; };
+struct if_then_else<false, if_true, if_false>
+{
+	using rtn = if_false;
+};
 

@@ -15,13 +15,49 @@
 **
 *************************************************************************************************************************/
 
-template<typename modifier, size_type... params>
-struct sortFill
+// empty:
+
+template<typename... params>
+struct tuple
 {
-	using in = typename s_semiotic::template list<params...>;
+	using null = tuple<>;
 
-	using sorted = typename semiotic::template quickSort<in>::rtn;
+	template<typename... args>
+	using prepend = tuple<args...>;
 
-	using rtn = typename fill<modifier, sorted>::rtn;
+	template<typename... args>
+	using append = tuple<args...>;
+};
+
+template<typename first, typename... params>
+struct tuple<first, params...>
+{
+	using null = tuple<>;
+
+	using car = first;
+
+	using cdr = tuple<params...>;
+
+	template<typename... args>
+	using prepend = tuple<args..., first, params...>;
+
+	template<typename... args>
+	using append = tuple<first, params..., args...>;
+};
+
+template<typename first>
+struct tuple<first>
+{
+	using null = tuple<>;
+
+	using car = first;
+
+	using cdr = null;
+
+	template<typename... args>
+	using prepend = tuple<args..., first>;
+
+	template<typename... args>
+	using append = tuple<first, args...>;
 };
 

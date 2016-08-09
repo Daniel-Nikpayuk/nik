@@ -21,7 +21,8 @@
 namespace nik		{
 namespace numeric	{
 namespace address	{
-namespace iterator	{
+namespace interval	{
+namespace type		{
 namespace procedural	{
 
 	template<typename SizeType, typename T> struct media;
@@ -30,10 +31,11 @@ namespace procedural	{
 	struct semiotic
 	{
 		typedef SizeType size_type;
+		typedef T value_type;
 
-		typedef typename structural::semiotic<size_type, T>::hook hook;
-		typedef typename structural::semiotic<size_type, T>::link link;
-		typedef typename structural::semiotic<size_type, T>::segment segment;
+		typedef typename structural::semiotic<size_type, value_type>::hook hook;
+		typedef typename structural::semiotic<size_type, value_type>::link link;
+		typedef typename structural::semiotic<size_type, value_type>::segment segment;
 
 		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
 		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
@@ -42,53 +44,67 @@ namespace procedural	{
 
 		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
 
-
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
+		typedef nik::arg<size_type> Arg;
+		typedef typename Arg::pointer ArgPointer;
+		typedef typename Arg::tracer ArgTracer;
 
-		template<typename paramList>
-		struct _memrator
+		static constexpr size_type pointer_offset = ArgPointer::template bounds<Arg::pointer>::initial;
+
+		template<size_type index, typename... params>
+		using cases = typename gvf_media::template cases<index, params...>::rtn;
+
+		template<typename L, size_type pos>
+		using at = typename gvf_semiotic::template at<L, pos>;
+
+		template<typename modifier, size_type... params>
+		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
+
+		template<typename subjectList>
+		struct _subject
 		{
-			#include"map/memrator/define/semiotic/basis/loop.hpp"
-			#include"map/memrator/define/semiotic/basis/loop.hh"
 
-			template<size_type... params>
-			struct interval
+			static constexpr size_type out_interval = at<subjectList, Arg::interval>::rtn;
+			static constexpr size_type out_direction = at<subjectList, Arg::iterator>::rtn;
+			static constexpr size_type out_memory = at<subjectList, Arg::memrator>::rtn;
+			static constexpr size_type out_pointer = at<subjectList, Arg::pointer>::rtn;
+
+			using out_type = cases<(out_pointer - pointer_offset), segment, hook, link>;
+
+			template<typename objectList>
+			struct _object
 			{
-				#include"map/memrator/define/semiotic/interval/loop.hh"
+				static constexpr size_type in_interval = at<objectList, Arg::interval>::rtn;
+				static constexpr size_type in_direction = at<objectList, Arg::iterator>::rtn;
+				static constexpr size_type in_memory = at<objectList, Arg::memrator>::rtn;
+				static constexpr size_type in_pointer = at<objectList, Arg::pointer>::rtn;
 
-				template<size_type... verb_params>
-				struct tracer
+				using in_type = cases<(in_pointer - pointer_offset), segment, hook, link>;
+
+				template<typename verbList>
+				struct _verb
 				{
-					using loop = _loop
-					<
-						paramList,
-						typename gvf_media::template sortFill<Interval, params...>::rtn,
-						typename gvf_media::template sortFill<Tracer, verb_params...>::rtn
-					>;
+					static constexpr size_type return_policy = at<verbList, Arg::verse>::rtn;
+					static constexpr size_type count_policy = at<verbList, Arg::tracer>::rtn;
 
-					specialize_loop()
+					#include"map/semiotic.hh"
 				};
 
-//				#include"map/memrator/undef/semiotic/interval/loop.hh"
+				template<size_type... params>
+				using verb = _verb< sortFill<ArgTracer, params...> >;
 			};
 
-//			#include"map/memrator/undef/semiotic/basis/loop.hh"
-//			#include"map/memrator/undef/semiotic/basis/loop.hpp"
+			template<size_type... params>
+			using object = _object< sortFill<ArgPointer, params...> >;
 		};
 
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
 		template<size_type... params>
-		using memrator = _memrator<typename gvf_media::template sortFill<Memrator, params...>::rtn>;
+		using subject = _subject< sortFill<ArgPointer, params...> >;
 	};
 
-}}}}}
+}}}}}}
 
 #endif

@@ -21,39 +21,41 @@
 namespace nik		{
 namespace numeric	{
 namespace address	{
-namespace iterator	{
+namespace interval	{
+namespace type		{
 namespace procedural	{
 
 	template<typename SizeType, typename T>
 	struct media
 	{
 		typedef SizeType size_type;
+		typedef T value_type;
 
-		typedef typename structural::semiotic<size_type, T>::hook hook;
-		typedef typename structural::semiotic<size_type, T>::link link;
-		typedef typename structural::semiotic<size_type, T>::segment segment;
+		typedef typename structural::semiotic<size_type, value_type>::hook hook;
+		typedef typename structural::semiotic<size_type, value_type>::link link;
+		typedef typename structural::semiotic<size_type, value_type>::segment segment;
 
-//		#include"map/media.hpp"
+//		#include"map/media.hh"
 
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using map_unroll=map::template unroll<N, M, L>;
 
-//		#include"search/media.hpp"
+//		#include"search/media.hh"
 
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using search_unroll=typename search::template unroll<N, M, L>;
 
-//		#include"identity/media.hpp"
+//		#include"identity/media.hh"
 
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using identity_unroll=typename identity::template unroll<N, M, L>;
 
-//		#include"arithmetic/media.hpp"
+//		#include"arithmetic/media.hh"
 
 //			template<size_type N, size_type M=0, size_type L=0>
 //			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 	};
 
-}}}}}
+}}}}}}
 
 #endif

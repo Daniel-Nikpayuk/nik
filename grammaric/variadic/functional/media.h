@@ -34,6 +34,8 @@ namespace functional	{
 
 		typedef functional::semiotic<size_type> semiotic;
 
+		#include"cases/media.hpp"
+
 		#include"isNull/media.hpp"
 		#include"length/media.hpp"
 		#include"at/media.hpp"

@@ -28,6 +28,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
+		#include"tuple/media.hpp"
 		#include"list/media.hpp"
 		#include"array/media.hpp"
 	};
