@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,10 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
-
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_LIMITS_H
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_LIMITS_H
+************************************************************************************************************************/
 
 /*
 	limits: (taken from: http://en.cppreference.com/w/cpp/types/limits)
@@ -90,4 +87,3 @@ struct limits<unsigned long long, Filler>
 	static constexpr int_type max=ULLONG_MAX;
 };
 
-#endif

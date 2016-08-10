@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 #ifndef NIK_NUMERIC_WORD_SINT_FUNCTIONAL_SEMIOTIC_H
 #define NIK_NUMERIC_WORD_SINT_FUNCTIONAL_SEMIOTIC_H
@@ -29,7 +29,7 @@ namespace word		{
 namespace sint		{
 namespace functional	{
 
-	#include"limits.hpp"
+	#include"limits.hh"
 
 	template<typename SizeType> struct media;
 

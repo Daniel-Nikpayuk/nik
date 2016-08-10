@@ -15,22 +15,54 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_MEDIA_H
-#define NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_MEDIA_H
 
-namespace nik		{
-namespace grammaric	{
-namespace control_flow	{
-namespace functional	{
+template
+<
+	size_type _out_memory, size_type _out_pointer,
+	size_type _in_memory, size_type _in_pointer,
+	size_type _count_policy, typename SubFiller = void
+>
+struct _unary_arguments
+{
+	typename out_type::pointer out;
 
-	template<typename SizeType>
-	struct media
+	_unary_arguments(typename out_type::pointer o)
 	{
-		typedef SizeType size_type;
+		out=o;
+	}
 
-		#include"if_then_else/media.hpp"
-	};
+	_unary_arguments(const _unary_arguments & ua)
+	{
+		out=ua.out;
+	}
+};
 
-}}}}
 
-#endif
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type _out_memory, size_type _out_pointer,
+	size_type _in_memory, size_type _in_pointer,
+	typename SubFiller
+>
+struct _unary_arguments<_out_memory, _out_pointer, _in_memory, _in_pointer, ArgTracer::apply_count, SubFiller>
+{
+	size_type count;
+	typename out_type::pointer out;
+
+	_unary_arguments(size_type c, typename out_type::pointer o)
+	{
+		count=c;
+		out=o;
+	}
+
+	_unary_arguments(const _unary_arguments & ua)
+	{
+		count=ua.count;
+		out=ua.out;
+	}
+};
+
+

@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 /*
 	This code is not intended to be used standalone.
@@ -29,7 +29,7 @@
 	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -49,7 +49,7 @@ static rtn label##_return(WPointer out, ERPointer end) \
 #define open_loop_no_return_clear(dir, inv)				_open_loop_clear(dir, inv, no, void, )
 #define open_loop_with_return_clear(dir, inv)				_open_loop_clear(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -68,7 +68,7 @@ static rtn label##_return(WPointer out) \
 #define open_loop_no_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, no, void, )
 #define open_loop_with_return_close_left(dir, inv)			_open_loop_close_left(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -88,7 +88,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define open_loop_no_return_close_right(dir, inv)			_open_loop_close_right(dir, inv, no, void, )
 #define open_loop_with_return_close_right(dir, inv)			_open_loop_close_right(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -100,7 +100,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define open_loop_no_return_open_left(dir, inv)				_open_loop_open_left(dir, inv, no, void, )
 #define open_loop_with_return_open_left(dir, inv)			_open_loop_open_left(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -112,7 +112,7 @@ static rtn label##_return(WPointer out, EWPointer end) \
 #define open_loop_no_return_open_right(dir, inv)			_open_loop_open_right(dir, inv, no, void, )
 #define open_loop_with_return_open_right(dir, inv)			_open_loop_open_right(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -134,7 +134,7 @@ static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
 #define open_loop_no_return_catenate(dir, inv)				_open_loop_catenate(dir, inv, no, void, )
 #define open_loop_with_return_catenate(dir, inv)			_open_loop_catenate(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -155,7 +155,7 @@ static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
 #define open_loop_no_return_with_closing_catenate(dir, inv)		_open_loop_with_closing_catenate(dir, inv, no, void, )
 #define open_loop_with_return_with_closing_catenate(dir, inv)		_open_loop_with_closing_catenate(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -176,7 +176,7 @@ static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
 #define open_loop_no_return_with_closed_catenate(dir, inv)		_open_loop_with_closed_catenate(dir, inv, no, void, )
 #define open_loop_with_return_with_closed_catenate(dir, inv)		_open_loop_with_closed_catenate(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -198,7 +198,7 @@ static rtn label##_return(WPointer out, EWPointer end, RPointer in) \
 #define open_loop_no_return_with_opening_catenate(dir, inv)		_open_loop_with_opening_catenate(dir, inv, no, void, )
 #define open_loop_with_return_with_opening_catenate(dir, inv)		_open_loop_with_opening_catenate(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 #define _open_loop_with_open_catenate(dir, inv, label, rtn, stmt)
 

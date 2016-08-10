@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 ////////////////////////////// Set up but not yet analyzed or coded!!!!!
 
@@ -31,7 +31,7 @@
 	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -50,7 +50,7 @@ static rtn label##_return(WPointer out) \
 #define opening_unroll_no_return_find_index_before_last(dir, inv)	_opening_unroll_find_index_before_last(dir, inv, no, void, )
 #define opening_unroll_with_return_find_index_before_last(dir, inv)	_opening_unroll_find_index_before_last(dir, inv, with, WPointer, return)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:

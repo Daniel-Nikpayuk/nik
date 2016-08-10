@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 /*
 	This code is not intended to be used standalone.
@@ -29,7 +29,7 @@
 	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -41,7 +41,7 @@
 #define closing_initial_no_return_clear(dir, inv)			_closing_initial_clear(dir, inv, no, void, )
 #define closing_initial_with_return_clear(dir, inv)			_closing_initial_clear(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -53,7 +53,7 @@
 #define closing_initial_no_return_close_left(dir, inv)			_closing_initial_close_left(dir, inv, no, void, )
 #define closing_initial_with_return_close_left(dir, inv)		_closing_initial_close_left(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -65,7 +65,7 @@
 #define closing_initial_no_return_close_right(dir, inv)			_closing_initial_close_right(dir, inv, no, void, )
 #define closing_initial_with_return_close_right(dir, inv)		_closing_initial_close_right(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -77,7 +77,7 @@
 #define closing_initial_no_return_open_left(dir, inv)			_closing_initial_open_left(dir, inv, no, void, )
 #define closing_initial_with_return_open_left(dir, inv)			_closing_initial_open_left(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -89,7 +89,7 @@
 #define closing_initial_no_return_open_right(dir, inv)			_closing_initial_open_right(dir, inv, no, void, )
 #define closing_initial_with_return_open_right(dir, inv)		_closing_initial_open_right(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -101,7 +101,7 @@
 #define closing_initial_no_return_catenate_with_closing(dir, inv)	_closing_initial_catenate_with_closing(dir, inv, no, void, )
 #define closing_initial_with_return_catenate_with_closing(dir, inv)	_closing_initial_catenate_with_closing(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -113,7 +113,7 @@
 #define closing_initial_no_return_catenate_with_closed(dir, inv)	_closing_initial_catenate_with_closed(dir, inv, no, void, )
 #define closing_initial_with_return_catenate_with_closed(dir, inv)	_closing_initial_catenate_with_closed(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -125,7 +125,7 @@
 #define closing_initial_no_return_catenate_with_opening(dir, inv)	_closing_initial_catenate_with_opening(dir, inv, no, void, )
 #define closing_initial_with_return_catenate_with_opening(dir, inv)	_closing_initial_catenate_with_opening(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:

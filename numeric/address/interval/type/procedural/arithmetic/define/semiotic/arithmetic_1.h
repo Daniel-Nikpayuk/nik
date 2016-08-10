@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 #ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_1_H
 #define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_1_H

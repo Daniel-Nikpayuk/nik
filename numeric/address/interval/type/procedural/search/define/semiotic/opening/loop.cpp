@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 /*
 	This code is not intended to be used standalone.
@@ -29,7 +29,7 @@
 	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -51,7 +51,7 @@ static rtn label##_return(WPointer out, ERPointer end) \
 #define opening_loop_no_return_find_index_before_last(dir, inv)		_opening_loop_find_index_before_last(dir, inv, no, void, )
 #define opening_loop_with_return_find_index_before_last(dir, inv)	_opening_loop_find_index_before_last(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:

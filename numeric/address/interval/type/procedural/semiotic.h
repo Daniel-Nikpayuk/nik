@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 #ifndef NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_SEMIOTIC_H
 #define NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_SEMIOTIC_H
@@ -44,9 +44,7 @@ namespace procedural	{
 
 		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 		typedef nik::arg<size_type> Arg;
 		typedef typename Arg::pointer ArgPointer;
@@ -63,10 +61,11 @@ namespace procedural	{
 		template<typename modifier, size_type... params>
 		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
 
-		template<typename subjectList>
-		struct _subject
-		{
+/***********************************************************************************************************************/
 
+		template<typename subjectList>
+		struct Subject
+		{
 			static constexpr size_type out_interval = at<subjectList, Arg::interval>::rtn;
 			static constexpr size_type out_direction = at<subjectList, Arg::iterator>::rtn;
 			static constexpr size_type out_memory = at<subjectList, Arg::memrator>::rtn;
@@ -75,7 +74,7 @@ namespace procedural	{
 			using out_type = cases<(out_pointer - pointer_offset), segment, hook, link>;
 
 			template<typename objectList>
-			struct _object
+			struct Object
 			{
 				static constexpr size_type in_interval = at<objectList, Arg::interval>::rtn;
 				static constexpr size_type in_direction = at<objectList, Arg::iterator>::rtn;
@@ -85,7 +84,7 @@ namespace procedural	{
 				using in_type = cases<(in_pointer - pointer_offset), segment, hook, link>;
 
 				template<typename verbList>
-				struct _verb
+				struct Verb
 				{
 					static constexpr size_type return_policy = at<verbList, Arg::verse>::rtn;
 					static constexpr size_type count_policy = at<verbList, Arg::tracer>::rtn;
@@ -94,15 +93,15 @@ namespace procedural	{
 				};
 
 				template<size_type... params>
-				using verb = _verb< sortFill<ArgTracer, params...> >;
+				using verb = Verb< sortFill<ArgTracer, params...> >;
 			};
 
 			template<size_type... params>
-			using object = _object< sortFill<ArgPointer, params...> >;
+			using object = Object< sortFill<ArgPointer, params...> >;
 		};
 
 		template<size_type... params>
-		using subject = _subject< sortFill<ArgPointer, params...> >;
+		using subject = Subject< sortFill<ArgPointer, params...> >;
 	};
 
 }}}}}}

@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 /*
 	This code is not intended to be used standalone.
@@ -30,7 +30,7 @@
 	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -46,7 +46,7 @@ static rtn label##_return(WPointer out, ValueType in) \
 #define closing_initial_no_return_0(dir, inv, op)			_closing_initial_0(dir, inv, op, no, void, )
 #define closing_initial_with_return_0(dir, inv, op)			_closing_initial_0(dir, inv, op, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -65,7 +65,7 @@ static rtn label##_return(WPointer out) \
 #define closing_initial_no_return_right_0(dir, inv, op)			_closing_initial_lr_0(dir, inv, no, void, , , op)
 #define closing_initial_with_return_right_0(dir, inv, op)		_closing_initial_lr_0(dir, inv, with, WPointer, return out;, , op)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -81,7 +81,7 @@ static rtn label##_return(WPointer out) \
 #define closing_initial_no_return_new_0(dir, inv)			_closing_initial_new_0(dir, inv, no, void, )
 #define closing_initial_with_return_new_0(dir, inv)			_closing_initial_new_0(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -97,7 +97,7 @@ static rtn label##_return(WPointer out, size_type in) \
 #define closing_initial_no_return_new_brackets_0(dir, inv)		_closing_initial_new_brackets_0(dir, inv, no, void, )
 #define closing_initial_with_return_new_brackets_0(dir, inv)		_closing_initial_new_brackets_0(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -116,7 +116,7 @@ static rtn label##_return(WPointer out) \
 #define closing_initial_no_return_delete_brackets_0(dir, inv)		_closing_initial_delete_0(dir, inv, [], no, void, )
 #define closing_initial_with_return_delete_brackets_0(dir, inv)		_closing_initial_delete_0(dir, inv, [], with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -135,7 +135,7 @@ static rtn label##_return(WPointer out, RIterator in) \
 #define closing_initial_no_return_right_1(dir, inv, op, r)		_closing_initial_lr_1(dir, inv, op, no, void, , , r)
 #define closing_initial_with_return_right_1(dir, inv, op, r)		_closing_initial_lr_1(dir, inv, op, with, WPointer, return out;, , r)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -151,7 +151,7 @@ static rtn label##_return(WPointer out, RPointer in) \
 #define closing_initial_no_return_new_brackets_1(dir, inv)		_closing_initial_new_brackets_1(dir, inv, no, void, )
 #define closing_initial_with_return_new_brackets_1(dir, inv)		_closing_initial_new_brackets_1(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -167,7 +167,7 @@ static rtn label##_return(WPointer out, RIterator1 in1, RIterator2 in2) \
 #define closing_initial_no_return_2(dir, inv, op)			_closing_initial_2(dir, inv, op, no, void, )
 #define closing_initial_with_return_2(dir, inv, op)			_closing_initial_2(dir, inv, op, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:

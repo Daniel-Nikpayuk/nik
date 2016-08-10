@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 #ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_DEBUG_H
 #define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_ITERATOR_EXTENSIONWISE_STRUCTURAL_HOOK_DEBUG_H

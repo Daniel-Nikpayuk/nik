@@ -1,4 +1,4 @@
-/*************************************************************************************************************************
+/************************************************************************************************************************
 **
 ** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
@@ -13,7 +13,7 @@
 ** You should have received a copy of the GNU General Public License along with nik. If not, see
 ** <http://www.gnu.org/licenses/>.
 **
-*************************************************************************************************************************/
+************************************************************************************************************************/
 
 /*
 	This code is not intended to be used standalone.
@@ -29,7 +29,7 @@
 	As "out" is assign shifted when its "dir(out)" is allocated, there is no need to increment seperately.
 */
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -41,7 +41,7 @@
 #define closing_loop_no_break_zero(dir, inv)				_closing_loop_zero(dir, inv, no, void, )
 #define closing_loop_with_break_zero(dir, inv)				_closing_loop_zero(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -76,8 +76,8 @@ static bool with_break(RIterator in, EIterator end) \
 	return true; \
 } \
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -89,7 +89,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_break_equal(dir, inv)				_closing_loop_equal(dir, inv, no, void, )
 #define closing_loop_with_break_equal(dir, inv)				_closing_loop_equal(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -101,8 +101,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_break_equal_fast(dir, inv)			_closing_loop_equal_fast(dir, inv, no, void, )
 #define closing_loop_with_break_equal_fast(dir, inv)			_closing_loop_equal_fast(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -114,7 +114,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_break_not_equal(dir, inv)			_closing_loop_not_equal(dir, inv, no, void, )
 #define closing_loop_with_break_not_equal(dir, inv)			_closing_loop_not_equal(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -126,8 +126,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_break_not_equal_fast(dir, inv)			_closing_loop_not_equal_fast(dir, inv, no, void, )
 #define closing_loop_with_break_not_equal_fast(dir, inv)		_closing_loop_not_equal_fast(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -140,8 +140,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_with_return_less_than(dir, inv)			_closing_loop_less_than(dir, inv, with, WPointer, return out;)
 #define closing_loop_fast_return_less_than(dir, inv)			_closing_loop_less_than(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -154,8 +154,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_with_return_less_than_or_equal(dir, inv)		_closing_loop_less_than_or_equal(dir, inv, with, WPointer, return out;)
 #define closing_loop_fast_return_less_than_or_equal(dir, inv)		_closing_loop_less_than_or_equal(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -168,8 +168,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_with_return_greater_than(dir, inv)			_closing_loop_greater_than(dir, inv, with, WPointer, return out;)
 #define closing_loop_fast_return_greater_than(dir, inv)			_closing_loop_greater_than(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -182,8 +182,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_with_return_greater_than_or_equal(dir, inv)	_closing_loop_greater_than_or_equal(dir, inv, with, WPointer, return out;)
 #define closing_loop_fast_return_greater_than_or_equal(dir, inv)	_closing_loop_greater_than_or_equal(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -195,7 +195,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_plus(dir, inv)				_closing_loop_plus(dir, inv, no, void, )
 #define closing_loop_with_return_plus(dir, inv)				_closing_loop_plus(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -207,8 +207,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_plus_half(dir, inv)			_closing_loop_plus_half(dir, inv, no, void, )
 #define closing_loop_with_return_plus_half(dir, inv)			_closing_loop_plus_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -220,7 +220,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_minus(dir, inv)				_closing_loop_minus(dir, inv, no, void, )
 #define closing_loop_with_return_minus(dir, inv)			_closing_loop_minus(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -232,8 +232,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_minus_half(dir, inv)			_closing_loop_minus_half(dir, inv, no, void, )
 #define closing_loop_with_return_minus_half(dir, inv)			_closing_loop_minus_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -245,7 +245,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_scale(dir, inv)				_closing_loop_scale(dir, inv, no, void, )
 #define closing_loop_with_return_scale(dir, inv)			_closing_loop_scale(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -257,8 +257,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_scale_half(dir, inv)			_closing_loop_scale_half(dir, inv, no, void, )
 #define closing_loop_with_return_scale_half(dir, inv)			_closing_loop_scale_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -270,7 +270,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, no, void, )
 #define closing_loop_with_return_multiply(dir, inv)			_closing_loop_multiply(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -282,8 +282,8 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_multiply_half(dir, inv)			_closing_loop_multiply_half(dir, inv, no, void, )
 #define closing_loop_with_return_multiply_half(dir, inv)		_closing_loop_multiply_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -295,7 +295,7 @@ static bool with_break(RIterator in, EIterator end) \
 #define closing_loop_no_return_divide(dir, inv)				_closing_loop_divide(dir, inv, no, void, )
 #define closing_loop_with_return_divide(dir, inv)			_closing_loop_divide(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	r is the carry value, which is also semantically meaningful as the remainder.
@@ -335,7 +335,7 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 #define closing_loop_no_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, no, void, )
 #define closing_loop_with_return_divide_half_digit(dir, inv)		_closing_loop_divide_half_digit(dir, inv, with, WPointer, return q;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -347,7 +347,7 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 #define closing_loop_no_return_divide_single_digit(dir, inv)		_closing_loop_divide_single_digit(dir, inv, no, void, )
 #define closing_loop_with_return_divide_single_digit(dir, inv)		_closing_loop_divide_single_digit(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -359,8 +359,8 @@ static rtn label##_return(WValueType1 r, WValueType2 rc, WPointer q, RIterator n
 #define closing_loop_no_return_divide_single_digit_half(dir, inv)	_closing_loop_divide_single_digit_half(dir, inv, no, void, )
 #define closing_loop_with_return_divide_single_digit_half(dir, inv)	_closing_loop_divide_single_digit_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -400,7 +400,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_radix(dir, inv)				_closing_loop_radix(dir, inv, no, void, )
 #define closing_loop_with_return_radix(dir, inv)			_closing_loop_radix(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -412,9 +412,9 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_radix_half(dir, inv)			_closing_loop_radix_half(dir, inv, no, void, )
 #define closing_loop_with_return_radix_half(dir, inv)			_closing_loop_radix_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -426,7 +426,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_plus(dir, inv)			_closing_loop_assign_plus(dir, inv, no, void, )
 #define closing_loop_with_return_assign_plus(dir, inv)			_closing_loop_assign_plus(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -438,8 +438,8 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_plus_half(dir, inv)		_closing_loop_assign_plus_half(dir, inv, no, void, )
 #define closing_loop_with_return_assign_plus_half(dir, inv)		_closing_loop_assign_plus_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -451,7 +451,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_minus(dir, inv)			_closing_loop_assign_minus(dir, inv, no, void, )
 #define closing_loop_with_return_assign_minus(dir, inv)			_closing_loop_assign_minus(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -463,8 +463,8 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_minus_half(dir, inv)		_closing_loop_assign_minus_half(dir, inv, no, void, )
 #define closing_loop_with_return_assign_minus_half(dir, inv)		_closing_loop_assign_minus_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -476,7 +476,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_scale(dir, inv)			_closing_loop_assign_scale(dir, inv, no, void, )
 #define closing_loop_with_return_assign_scale(dir, inv)			_closing_loop_assign_scale(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -488,8 +488,8 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_scale_half(dir, inv)		_closing_loop_assign_scale_half(dir, inv, no, void, )
 #define closing_loop_with_return_assign_scale_half(dir, inv)		_closing_loop_assign_scale_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -501,7 +501,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, no, void, )
 #define closing_loop_with_return_assign_multiply(dir, inv)		_closing_loop_assign_multiply(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -513,8 +513,8 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, no, void, )
 #define closing_loop_with_return_assign_multiply_half(dir, inv)		_closing_loop_assign_multiply_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -526,7 +526,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_divide(dir, inv)			_closing_loop_assign_divide(dir, inv, no, void, )
 #define closing_loop_with_return_assign_divide(dir, inv)		_closing_loop_assign_divide(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -538,7 +538,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_divide_half_digit(dir, inv)	_closing_loop_assign_divide_half_digit(dir, inv, no, void, )
 #define closing_loop_with_return_assign_divide_half_digit(dir, inv)	_closing_loop_assign_divide_half_digit(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -550,7 +550,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_divide_single_digit(dir, inv)	_closing_loop_assign_divide_single_digit(dir, inv, no, void, )
 #define closing_loop_with_return_assign_divide_single_digit(dir, inv)	_closing_loop_assign_divide_single_digit(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -562,8 +562,8 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_divide_single_digit_half(dir, inv)	_closing_loop_assign_divide_single_digit_half(dir, inv, no, void, )
 #define closing_loop_with_return_assign_divide_single_digit_half(dir, inv)	_closing_loop_assign_divide_single_digit_half(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
@@ -575,7 +575,7 @@ static rtn label##_return(WPointer out, WPointer in, EWPointer end, ValueType ba
 #define closing_loop_no_return_assign_radix(dir, inv)			_closing_loop_assign_radix(dir, inv, no, void, )
 #define closing_loop_with_return_assign_radix(dir, inv)			_closing_loop_assign_radix(dir, inv, with, WPointer, return out;)
 
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
 
 /*
 	Constraints:
