@@ -17,13 +17,17 @@
 
 #define POINTER_SIZE 2
 
-using hook_pointer = node_pointer<POINTER_SIZE>;
+template<typename T>
+using hook_pointer = node_pointer<T, POINTER_SIZE>;
 
-using hook = node<hook_pointer>;
+template<typename T>
+using hook = node< hook_pointer<T> >;
 
-using const_hook_pointer = const_node_pointer<POINTER_SIZE>;
+template<typename T>
+using const_hook_pointer = const_node_pointer<T, POINTER_SIZE>;
 
-using const_hook = node<const_hook_pointer>;
+template<typename T>
+using const_hook = node< const_hook_pointer<T> >;
 
 #undef POINTER_SIZE
 

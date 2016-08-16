@@ -25,11 +25,10 @@ namespace interval	{
 namespace type		{
 namespace structural	{
 
-	template<typename SizeType, typename T>
+	template<typename SizeType>
 	struct media
 	{
 		typedef SizeType size_type;
-		typedef T value_type;
 
 		typedef grammaric::identifier::structural::media<size_type> gis_media;
 

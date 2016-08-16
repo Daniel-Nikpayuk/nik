@@ -17,13 +17,17 @@
 
 #define POINTER_SIZE 3
 
-using link_pointer = node_pointer<POINTER_SIZE>;
+template<typename T>
+using link_pointer = node_pointer<T, POINTER_SIZE>;
 
-using link = node<link_pointer>;
+template<typename T>
+using link = node< link_pointer<T> >;
 
-using const_link_pointer = const_node_pointer<POINTER_SIZE>;
+template<typename T>
+using const_link_pointer = const_node_pointer<T, POINTER_SIZE>;
 
-using const_link = node<const_link_pointer>;
+template<typename T>
+using const_link = node< const_link_pointer<T> >;
 
 #undef POINTER_SIZE
 

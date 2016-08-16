@@ -63,11 +63,9 @@ namespace nik
 		using nwsf = numeric::word::sint::functional::media<size_type>;
 		using nwsp = numeric::word::sint::procedural::media<size_type>;
 
-		template<typename T>
-		using naits = numeric::address::interval::type::structural::media<size_type, T>;
+		using naits = numeric::address::interval::type::structural::media<size_type>;
 
-		template<typename T>
-		using naitp = numeric::address::interval::type::procedural::media<size_type, T>;
+		using naitp = numeric::address::interval::type::procedural::media<size_type>;
 
 //		using nals = numeric::address::list::structural::media<size_type>;
 	};

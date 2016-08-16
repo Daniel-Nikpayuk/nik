@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<typename T, size_type index>
+template<size_type index, typename T>
 struct cases
 {
-	using rtn = typename cases<typename T::cdr, index-1>::rtn;
+	using rtn = typename cases<index-1, typename T::cdr>::rtn;
 };
 
 template<typename T>
-struct cases<T, 0>
+struct cases<0, T>
 {
 	using rtn = typename T::car;
 };

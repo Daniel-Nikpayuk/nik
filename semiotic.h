@@ -63,11 +63,9 @@ namespace nik
 		using nwsf = numeric::word::sint::functional::semiotic<size_type>;
 		using nwsp = numeric::word::sint::procedural::semiotic<size_type>;
 
-		template<typename T>
-		using naits = numeric::address::interval::type::structural::semiotic<size_type, T>;
+		using naits = numeric::address::interval::type::structural::semiotic<size_type>;
 
-		template<typename T>
-		using naitp = numeric::address::interval::type::procedural::semiotic<size_type, T>;
+		using naitp = numeric::address::interval::type::procedural::semiotic<size_type>;
 
 //		using nals = numeric::address::list::structural::semiotic<size_type>;
 	};

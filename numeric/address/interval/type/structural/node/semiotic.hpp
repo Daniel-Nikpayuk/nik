@@ -82,15 +82,15 @@ class node
 			{ return new void_ptr[pointer::dimension]; }
 };
 
-template<size_type N> class const_node_pointer;
+template<typename T, size_type N> class const_node_pointer;
 
-template<size_type N>
+template<typename T, size_type N>
 class node_pointer
 {
-		friend class const_node_pointer<N>;
+		friend class const_node_pointer<T, N>;
 	public:
 		typedef semiotic::size_type size_type;
-		typedef semiotic::value_type value_type;
+		typedef T value_type;
 
 		enum : size_type { dimension=N };
 	protected:
@@ -234,12 +234,12 @@ class node_pointer
 	const version:
 */
 
-template<size_type N>
+template<typename T, size_type N>
 class const_node_pointer
 {
 	public:
 		typedef semiotic::size_type size_type;
-		typedef semiotic::value_type const value_type;
+		typedef T const value_type;
 
 		enum : size_type { dimension=N };
 	protected:
@@ -260,7 +260,7 @@ class const_node_pointer
 	public:
 		const_node_pointer() { }
 		const_node_pointer(const_node_ptr p) { current=(void_ptr_ptr) p; }
-		const_node_pointer(const node_pointer<N> & p) { current=p.current; }
+		const_node_pointer(const node_pointer<T, N> & p) { current=p.current; }
 		const_node_pointer(const const_node_pointer & p) { current=p.current; }
 		~const_node_pointer() { }
 /*

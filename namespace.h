@@ -63,7 +63,7 @@ namespace nik
 
 		struct definite : public empty { };
 
-		enum adjective
+		enum adjective : size_type
 		{
 			interval,
 			iterator,
@@ -71,7 +71,7 @@ namespace nik
 			pointer
 		};
 
-		enum adverb
+		enum adverb : size_type
 		{
 			verse,
 			tracer

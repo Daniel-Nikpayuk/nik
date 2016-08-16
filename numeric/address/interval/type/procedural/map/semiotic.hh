@@ -16,7 +16,70 @@
 ************************************************************************************************************************/
 
 
-#include"arguments.hpp"
-#include"loop.hpp"
+template<typename T>
+struct map
+{
+	typedef T value_type;
+
+	typedef typename structural::semiotic<size_type>::template segment<value_type> segment;
+	typedef typename structural::semiotic<size_type>::template hook<value_type> hook;
+	typedef typename structural::semiotic<size_type>::template link<value_type> link;
+
+	using pointerList = typename gvs_semiotic::template tuple<segment, hook, link>; 
+
+	template<typename subjectList>
+	struct Subject
+	{
+		static constexpr size_type out_interval = at<subjectList, Arg::interval>::rtn;
+		static constexpr size_type out_direction = at<subjectList, Arg::iterator>::rtn;
+		static constexpr size_type out_memory = at<subjectList, Arg::memrator>::rtn;
+		static constexpr size_type out_pointer = at<subjectList, Arg::pointer>::rtn;
+
+		using out_type = cases<(out_pointer - pointer_offset), pointerList>;
+
+		template<typename objectList>
+		struct Object
+		{
+			static constexpr size_type in_interval = at<objectList, Arg::interval>::rtn;
+			static constexpr size_type in_direction = at<objectList, Arg::iterator>::rtn;
+			static constexpr size_type in_memory = at<objectList, Arg::memrator>::rtn;
+			static constexpr size_type in_pointer = at<objectList, Arg::pointer>::rtn;
+
+			using in_type = cases<(in_pointer - pointer_offset), pointerList>;
+
+			template<typename verbList>
+			struct Verb
+			{
+				static constexpr size_type return_policy = at<verbList, Arg::verse>::rtn;
+				static constexpr size_type count_policy = at<verbList, Arg::tracer>::rtn;
+
+				#include"macro/define/semiotic/loop/loop.hpp"
+				#include"macro/define/semiotic/loop/loop.hh"
+				#include"macro/define/semiotic/loop/loop.h"
+
+				template<typename subjectParams, typename objectParams, typename verbParams, typename Filler = void>
+				struct Loop { };
+
+				declareLoop(segment)
+				declareLoop(hook)
+
+				using loop = Loop<subjectList, objectList, verbList>;
+
+//				#include"macro/undef/semiotic/loop/loop.h"
+//				#include"macro/undef/semiotic/loop/loop.hh"
+//				#include"macro/undef/semiotic/loop/loop.hpp"
+			};
+
+			template<size_type... params>
+			using verb = Verb< sortFill<ArgTracer, params...> >;
+		};
+
+		template<size_type... params>
+		using object = Object< sortFill<ArgPointer, params...> >;
+	};
+
+	template<size_type... params>
+	using subject = Subject< sortFill<ArgPointer, params...> >;
+};
 
 

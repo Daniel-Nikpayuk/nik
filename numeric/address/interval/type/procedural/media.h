@@ -25,15 +25,10 @@ namespace interval	{
 namespace type		{
 namespace procedural	{
 
-	template<typename SizeType, typename T>
+	template<typename SizeType>
 	struct media
 	{
 		typedef SizeType size_type;
-		typedef T value_type;
-
-		typedef typename structural::semiotic<size_type, value_type>::hook hook;
-		typedef typename structural::semiotic<size_type, value_type>::link link;
-		typedef typename structural::semiotic<size_type, value_type>::segment segment;
 
 //		#include"map/media.hh"
 

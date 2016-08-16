@@ -20,8 +20,8 @@ class array
 {
 	public:
 		typedef Pointer pointer;
+		typedef typename pointer::value_type value_type;
 		typedef semiotic::size_type size_type;
-		typedef semiotic::value_type value_type;
 	protected:
 		typedef void* void_ptr;
 	public:
@@ -32,11 +32,32 @@ class array
 			{ return new value_type; }
 };
 
-using segment_pointer = semiotic::value_type*;
+template<typename ValueType>
+class array<ValueType*>
+{
+	public:
+		typedef ValueType* pointer;
+		typedef ValueType value_type;
+		typedef semiotic::size_type size_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		operator pointer () const
+			{ return (pointer) this; }
 
-using const_segment_pointer = semiotic::value_type const *;
+		static void_ptr operator new (size_t n)
+			{ return new value_type; }
+};
 
-using segment = array<segment_pointer>;
+template<typename T>
+using segment_pointer = T*;
 
-using const_segment = array<const_segment_pointer>;
+template<typename T>
+using segment = array< segment_pointer<T> >;
+
+template<typename T>
+using const_segment_pointer = T const *;
+
+template<typename T>
+using const_segment = array< const_segment_pointer<T> >;
 
