@@ -15,46 +15,14 @@
 **
 ************************************************************************************************************************/
 
-// defaults to bit base:
 
-template<typename T, size_type Index=0>
-struct base
+template<typename subject, typename object>//, typename verb>
+static typename subject::traits::return_type map(const subject & s, object & o)//, verb & v = verb())
 {
-};
+	typedef typename subject::traits traits;
+	typename traits::return_type out;//=(traits::image_enum == ModIterator::mutate) ? s, ;
 
-// segment base
+	return out;
+}
 
-template<typename T>
-struct base<T, 1>
-{
-	typedef typename gism_traits::template container<base, T> attributes;
-
-	typedef typename attributes::value_type value_type;
-	typedef typename attributes::reference reference;
-	typedef typename attributes::const_reference const_reference;
-	typedef typename attributes::pointer pointer;
-	typedef typename attributes::const_pointer const_pointer;
-	typedef typename attributes::size_type size_type;
-
-	pointer initial;
-
-	void initialize(pointer p)
-	{
-		initial=p;
-	}
-
-	void copy_initialize(const base & i)
-	{
-		initial=i.initial;
-	}
-
-	void terminalize() { delete initial; }
-
-	base() { }
-	base(const base & i) { }
-	~base() { }
-
-	const base & operator = (const base & i)
-		{ return *this; }
-};
 

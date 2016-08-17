@@ -15,14 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_STRUCTURAL_MEDIA_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_STRUCTURAL_MEDIA_H
+#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_MEDIA_H
+#define NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_MEDIA_H
 
 namespace nik		{
 namespace numeric	{
 namespace address	{
 namespace interval	{
-namespace type		{
 namespace structural	{
 
 	template<typename SizeType>
@@ -30,7 +29,7 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::identifier::structural::media<size_type> gis_media;
+		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
 //		#include"base/media.hpp"
 //		#include"bit/media.hpp"
@@ -40,6 +39,6 @@ namespace structural	{
 //		#include"link/media.hpp"
 	};
 
-}}}}}}
+}}}}}
 
 #endif

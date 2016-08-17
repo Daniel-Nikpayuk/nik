@@ -15,40 +15,41 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_SEMIOTIC_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_SEMIOTIC_H
+#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_SEMIOTIC_H
+#define NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_SEMIOTIC_H
 
 namespace nik		{
 namespace numeric	{
 namespace address	{
 namespace interval	{
-namespace type		{
-namespace procedural	{
-
-	template<typename SizeType> struct media;
+namespace structural	{
 
 	template<typename SizeType>
 	struct semiotic
 	{
 		typedef SizeType size_type;
 
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+
 		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
 		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
 		typedef grammaric::variadic::functional::media<size_type> gvf_media;
 
-		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
-
 /***********************************************************************************************************************/
 
-		typedef nik::arg<size_type> Arg;
-		typedef typename Arg::pointer ArgPointer;
-		typedef typename Arg::tracer ArgTracer;
+		typedef nik::modifier<size_type> Mod;
+		typedef typename Mod::iterator ModIterator;
+		typedef typename Mod::tracer ModTracer;
 
-		static constexpr size_type pointer_offset = ArgPointer::template bounds<Arg::pointer>::initial;
+		template<size_type... params>
+		using list = typename gvs_semiotic::template list<params...>;
 
-		template<size_type index, typename L>
-		using cases = typename gvf_semiotic::template cases<index, L>::rtn;
+		template<bool conditional, typename if_true, typename if_false>
+		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
+
+		template<size_type pos, typename L>
+		using cases = typename gvf_semiotic::template cases<pos, L>::rtn;
 
 		template<typename L, size_type pos>
 		using at = typename gvf_semiotic::template at<L, pos>;
@@ -58,21 +59,13 @@ namespace procedural	{
 
 /***********************************************************************************************************************/
 
-		template<size_type... subjectParams>
-		struct subject
-		{
-			template<size_type... objectParams>
-			struct object
-			{
-				template<size_type... verbParams>
-				struct verb
-				{
-					#include"map/semiotic.hh"
-				};
-			};
-		};
+		#include"segment/semiotic.hpp"
+		#include"node/semiotic.hpp"
+		#include"hook/semiotic.hpp"
+		#include"link/semiotic.hpp"
+		#include"type/semiotic.hpp"
 	};
 
-}}}}}}
+}}}}}
 
 #endif

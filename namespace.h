@@ -16,34 +16,34 @@
 ************************************************************************************************************************/
 
 
-#define declare_bounds()										\
-													\
-	static constexpr size_type length = 1;								\
-													\
-	template<size_type index, typename Filler = void>						\
+#define declare_bounds()												\
+															\
+	static constexpr size_type length = 1;										\
+															\
+	template<size_type index, typename Filler = void>								\
 	struct bounds { };
 
 
-#define subclass_bounds(subclass)									\
-													\
-	static constexpr size_type length = subclass::length + 1;					\
-													\
-	template<size_type index, typename Filler = void>						\
+#define subclass_bounds(subclass)											\
+															\
+	static constexpr size_type length = subclass::length + 1;							\
+															\
+	template<size_type index, typename Filler = void>								\
 	struct bounds : public subclass::template bounds<index, Filler> { };
 
 
-#define define_bounds(modifier, index, begin, end)							\
-													\
-	template<typename Filler>									\
-	struct bounds<modifier::index, Filler>								\
-	{												\
-		static constexpr size_type initial = begin;						\
-		static constexpr size_type terminal = end;						\
+#define define_bounds(modifier, index, begin, end)									\
+															\
+	template<typename Filler>											\
+	struct bounds<modifier::index, Filler>										\
+	{														\
+		static constexpr size_type initial = begin;								\
+		static constexpr size_type terminal = end;								\
 	};
 
 
-#define initialize_enum(modifier, index)								\
-													\
+#define initialize_enum(modifier, index)										\
+															\
 	index::template bounds<modifier::index>::terminal + 1
 
 
@@ -55,28 +55,19 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct arg
+	struct modifier
 	{
 		typedef SizeType size_type;
-
-		struct empty { };
-
-		struct definite : public empty { };
 
 		enum adjective : size_type
 		{
 			interval,
-			iterator,
-			memrator,
-			pointer
+			range,
+			image,
+			iterator
 		};
 
-		enum adverb : size_type
-		{
-			tracer
-		};
-
-		struct interval : public definite
+		struct interval
 		{
 			declare_bounds()
 
@@ -91,7 +82,7 @@ namespace nik
 			define_bounds(adjective, interval, 0, 3)
 		};
 
-		struct iterator : public interval
+		struct range : public interval
 		{
 			subclass_bounds(interval)
 
@@ -101,38 +92,48 @@ namespace nik
 				backward
 			};
 
-			define_bounds(adjective, iterator, 4, 5)
+			define_bounds(adjective, range, 4, 5)
 		};
 
-		struct memrator : public iterator
+		struct image : public range
 		{
-			subclass_bounds(iterator)
+			subclass_bounds(range)
 
 			enum : size_type
 			{
-				mutate = initialize_enum(adjective, iterator),
+				mutate = initialize_enum(adjective, range),
 				allocate,
 				deallocate
 			};
 
-			define_bounds(adjective, memrator, 6, 8)
+			define_bounds(adjective, image, 6, 8)
 		};
 
-		struct pointer : public memrator
+		struct iterator : public image
 		{
-			subclass_bounds(memrator)
+			subclass_bounds(image)
 
 			enum : size_type
 			{
-				segment = initialize_enum(adjective, memrator),
+				segment = initialize_enum(adjective, image),
 				hook,
 				link
 			};
 
-			define_bounds(adjective, pointer, 9, 11)
+			define_bounds(adjective, iterator, 9, 11)
 		};
 
-		struct tracer : public definite
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+		enum adverb : size_type
+		{
+			tracer
+		};
+
+		struct tracer
 		{
 			declare_bounds()
 

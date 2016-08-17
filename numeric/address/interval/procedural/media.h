@@ -15,14 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_MEDIA_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_PROCEDURAL_MEDIA_H
+#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_MEDIA_H
+#define NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_MEDIA_H
 
 namespace nik		{
 namespace numeric	{
 namespace address	{
 namespace interval	{
-namespace type		{
 namespace procedural	{
 
 	template<typename SizeType>
@@ -51,6 +50,6 @@ namespace procedural	{
 //			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
 	};
 
-}}}}}}
+}}}}}
 
 #endif

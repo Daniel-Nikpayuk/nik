@@ -15,31 +15,49 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_STRUCTURAL_SEMIOTIC_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_TYPE_STRUCTURAL_SEMIOTIC_H
+#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_SEMIOTIC_H
+#define NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_SEMIOTIC_H
 
 namespace nik		{
 namespace numeric	{
 namespace address	{
 namespace interval	{
-namespace type		{
-namespace structural	{
+namespace procedural	{
+
+	template<typename SizeType> struct media;
 
 	template<typename SizeType>
 	struct semiotic
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::identifier::structural::media<size_type> gis_media;
+		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
+		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
-//		#include"base/semiotic.hpp"
-//		#include"bit/semiotic.hpp"
-		#include"segment/semiotic.hpp"
-		#include"node/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
+		typedef grammaric::variadic::functional::media<size_type> gvf_media;
+
+		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
+
+		typedef structural::semiotic<size_type> s_semiotic;
+
+/***********************************************************************************************************************/
+
+		typedef nik::modifier<size_type> Mod;
+		typedef typename Mod::range ModRange;
+		typedef typename Mod::iterator ModIterator;
+		typedef typename Mod::tracer ModTracer;
+
+/***********************************************************************************************************************/
+
+		template<typename ValueType>
+		struct type
+		{
+			typedef ValueType value_type;
+
+			#include"map/semiotic.hh"
+		};
 	};
 
-}}}}}}
+}}}}}
 
 #endif

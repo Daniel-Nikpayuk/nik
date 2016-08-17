@@ -33,8 +33,8 @@
 #include"numeric/word/sint/functional/media.h"
 #include"numeric/word/sint/procedural/media.h"
 
-#include"numeric/address/interval/type/structural/media.h"
-#include"numeric/address/interval/type/procedural/media.h"
+#include"numeric/address/interval/structural/media.h"
+#include"numeric/address/interval/procedural/media.h"
 
 //#include"numeric/address/list/structural/media.h"
 
@@ -63,9 +63,9 @@ namespace nik
 		using nwsf = numeric::word::sint::functional::media<size_type>;
 		using nwsp = numeric::word::sint::procedural::media<size_type>;
 
-		using naits = numeric::address::interval::type::structural::media<size_type>;
+		using naits = numeric::address::interval::structural::media<size_type>;
 
-		using naitp = numeric::address::interval::type::procedural::media<size_type>;
+		using naitp = numeric::address::interval::procedural::media<size_type>;
 
 //		using nals = numeric::address::list::structural::media<size_type>;
 	};
