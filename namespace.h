@@ -73,7 +73,6 @@ namespace nik
 
 		enum adverb : size_type
 		{
-			verse,
 			tracer
 		};
 
@@ -133,30 +132,17 @@ namespace nik
 			define_bounds(adjective, pointer, 9, 11)
 		};
 
-		struct verse : public definite
+		struct tracer : public definite
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				apply_return,
-				omit_return
-			};
-
-			define_bounds(adverb, verse, 0, 1)
-		};
-
-		struct tracer : public verse
-		{
-			subclass_bounds(verse)
-
-			enum : size_type
-			{
-				omit_count = initialize_enum(adverb, verse),
+				omit_count,
 				apply_count
 			};
 
-			define_bounds(adverb, tracer, 2, 3)
+			define_bounds(adverb, tracer, 0, 1)
 		};
 	};
 }

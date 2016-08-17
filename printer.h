@@ -19,6 +19,8 @@
 
 namespace nik
 {
+	constexpr void *null_ptr=0;
+
 	constexpr char endl='\n';
 
 	template<typename S, typename T>

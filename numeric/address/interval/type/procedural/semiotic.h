@@ -58,7 +58,19 @@ namespace procedural	{
 
 /***********************************************************************************************************************/
 
-		#include"map/semiotic.hh"
+		template<size_type... subjectParams>
+		struct subject
+		{
+			template<size_type... objectParams>
+			struct object
+			{
+				template<size_type... verbParams>
+				struct verb
+				{
+					#include"map/semiotic.hh"
+				};
+			};
+		};
 	};
 
 }}}}}}

@@ -17,69 +17,139 @@
 
 
 template<typename T>
-struct map
+struct mapTraits
 {
 	typedef T value_type;
 
-	typedef typename structural::semiotic<size_type>::template segment<value_type> segment;
-	typedef typename structural::semiotic<size_type>::template hook<value_type> hook;
-	typedef typename structural::semiotic<size_type>::template link<value_type> link;
+	using subjectList = sortFill<ArgPointer, subjectParams...>;
 
-	using pointerList = typename gvs_semiotic::template tuple<segment, hook, link>; 
+	static constexpr size_type out_interval = at<subjectList, Arg::interval>::rtn;
+	static constexpr size_type out_direction = at<subjectList, Arg::iterator>::rtn;
+	static constexpr size_type out_memory = at<subjectList, Arg::memrator>::rtn;
+	static constexpr size_type out_pointer = at<subjectList, Arg::pointer>::rtn;
 
-	template<typename subjectList>
-	struct Subject
-	{
-		static constexpr size_type out_interval = at<subjectList, Arg::interval>::rtn;
-		static constexpr size_type out_direction = at<subjectList, Arg::iterator>::rtn;
-		static constexpr size_type out_memory = at<subjectList, Arg::memrator>::rtn;
-		static constexpr size_type out_pointer = at<subjectList, Arg::pointer>::rtn;
+	using objectList = sortFill<ArgPointer, objectParams...>;
 
-		using out_type = cases<(out_pointer - pointer_offset), pointerList>;
+	static constexpr size_type in_interval = at<objectList, Arg::interval>::rtn;
+	static constexpr size_type in_direction = at<objectList, Arg::iterator>::rtn;
+	static constexpr size_type in_memory = at<objectList, Arg::memrator>::rtn;
+	static constexpr size_type in_pointer = at<objectList, Arg::pointer>::rtn;
 
-		template<typename objectList>
-		struct Object
-		{
-			static constexpr size_type in_interval = at<objectList, Arg::interval>::rtn;
-			static constexpr size_type in_direction = at<objectList, Arg::iterator>::rtn;
-			static constexpr size_type in_memory = at<objectList, Arg::memrator>::rtn;
-			static constexpr size_type in_pointer = at<objectList, Arg::pointer>::rtn;
+	using verbList = sortFill<ArgTracer, verbParams...>;
 
-			using in_type = cases<(in_pointer - pointer_offset), pointerList>;
+	static constexpr size_type count_policy = at<verbList, Arg::tracer>::rtn;
 
-			template<typename verbList>
-			struct Verb
-			{
-				static constexpr size_type return_policy = at<verbList, Arg::verse>::rtn;
-				static constexpr size_type count_policy = at<verbList, Arg::tracer>::rtn;
+	using pointerList = typename gvs_semiotic::template tuple
+	<
+		typename structural::semiotic<size_type>::template segment<value_type>,
+		typename structural::semiotic<size_type>::template hook<value_type>,
+		typename structural::semiotic<size_type>::template link<value_type>
+	>;
 
-				#include"macro/define/semiotic/loop/loop.hpp"
-				#include"macro/define/semiotic/loop/loop.hh"
-				#include"macro/define/semiotic/loop/loop.h"
-
-				template<typename subjectParams, typename objectParams, typename verbParams, typename Filler = void>
-				struct Loop { };
-
-				declareLoop(segment)
-				declareLoop(hook)
-
-				using loop = Loop<subjectList, objectList, verbList>;
-
-//				#include"macro/undef/semiotic/loop/loop.h"
-//				#include"macro/undef/semiotic/loop/loop.hh"
-//				#include"macro/undef/semiotic/loop/loop.hpp"
-			};
-
-			template<size_type... params>
-			using verb = Verb< sortFill<ArgTracer, params...> >;
-		};
-
-		template<size_type... params>
-		using object = Object< sortFill<ArgPointer, params...> >;
-	};
-
-	template<size_type... params>
-	using subject = Subject< sortFill<ArgPointer, params...> >;
+	using out_type = typename cases<(out_pointer - pointer_offset), pointerList>::pointer;
+	using in_type = typename cases<(in_pointer - pointer_offset), pointerList>::pointer;
 };
+
+
+/***********************************************************************************************************************/
+
+
+#include"subjectArgs.hpp"
+#include"objectArgs.hpp"
+#include"verbArgs.hpp"
+
+#include"declareVariables.hpp"
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename traits,
+
+	size_type outInterval = traits::out_interval,
+	size_type inInterval = traits::in_interval,
+
+	typename subject_args = subjectArgs<traits>,
+	typename object_args = objectArgs<traits>,
+	typename verb_args = verbArgs<traits>,
+
+	typename declare_variables = declareVariables<traits>
+
+> struct Map { };
+
+
+/***********************************************************************************************************************/
+
+/*
+	while (omit_peek())												\
+	{														\
+		main_action(template_policy, arity_policy)								\
+		count_action(count_policy)										\
+															\
+		iterate_out(out_direction, out_memory, out_pointer)							\
+		iterate_in(in_direction, in_memory, in_pointer, arity_policy)						\
+	}														\
+															\
+	undeclare_variables(in_memory, in_pointer, arity_policy)							\
+*/
+
+
+template
+<
+	typename traits,
+	typename subject_args,
+	typename object_args,
+	typename verb_args,
+	typename declare_variables
+>
+struct Map
+<
+	traits,
+	ArgPointer::closing,
+	ArgPointer::closing,
+	subject_args,
+	object_args,
+	verb_args,
+	declare_variables
+>
+{
+	typedef subject_args sargs;
+	typedef object_args oargs;
+	typedef verb_args vargs;
+
+	sargs subject;
+	oargs object;
+	vargs verb;
+
+	void compute()
+	{
+		while (object.inr != object.endr)
+		{
+			*subject.out = *object.inr;
+			++subject.out;
+			++object.inr;
+		}
+	}
+
+	Map()
+	{
+		compute();
+	}
+
+	Map(const sargs & s, const oargs & o, const vargs & v = vargs())
+		: subject(s), object(o), verb(v)
+	{
+		compute();
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+template<typename T>
+using map = Map< mapTraits<T> >;
 
 

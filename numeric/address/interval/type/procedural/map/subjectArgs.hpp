@@ -18,51 +18,49 @@
 
 template
 <
-	size_type _out_memory, size_type _out_pointer,
-	size_type _in_memory, size_type _in_pointer,
-	size_type _count_policy, typename SubFiller = void
->
-struct _unary_arguments
+	typename traits,
+	size_type outMemory = traits::out_memory,
+	size_type outPointer = traits::out_pointer
+
+> struct subjectArgs { };
+
+
+/***********************************************************************************************************************/
+
+
+template<typename traits, size_type outPointer>
+struct subjectArgs<traits, ArgPointer::mutate, outPointer>
 {
-	typename out_type::pointer out;
+	typedef typename traits::out_type out_type;
 
-	_unary_arguments(typename out_type::pointer o)
-	{
-		out=o;
-	}
+	out_type origin;
+	out_type out;
 
-	_unary_arguments(const _unary_arguments & ua)
-	{
-		out=ua.out;
-	}
+	subjectArgs(out_type o) : origin(o), out(o) { }
+
+	subjectArgs(const subjectArgs & args) : origin(args.origin), out(args.out) { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template
-<
-	size_type _out_memory, size_type _out_pointer,
-	size_type _in_memory, size_type _in_pointer,
-	typename SubFiller
->
-struct _unary_arguments<_out_memory, _out_pointer, _in_memory, _in_pointer, ArgTracer::apply_count, SubFiller>
+template<typename traits>
+struct subjectArgs<traits, ArgPointer::allocate, ArgPointer::segment>
 {
-	size_type count;
-	typename out_type::pointer out;
+	typedef typename traits::value_type value_type;
+	typedef typename traits::out_type out_type;
 
-	_unary_arguments(size_type c, typename out_type::pointer o)
+	out_type origin;
+	out_type out;
+
+	subjectArgs(size_type length, size_type offset)
 	{
-		count=c;
-		out=o;
+		origin = new value_type[length];
+		out = origin + offset;
 	}
 
-	_unary_arguments(const _unary_arguments & ua)
-	{
-		count=ua.count;
-		out=ua.out;
-	}
+	subjectArgs(const subjectArgs & args) : origin(args.origin), out(args.out) { }
 };
 
 
