@@ -33,8 +33,8 @@
 #include"numeric/word/sint/functional/semiotic.h"
 #include"numeric/word/sint/procedural/semiotic.h"
 
-#include"numeric/address/interval/structural/semiotic.h"
-#include"numeric/address/interval/procedural/semiotic.h"
+#include"numeric/address/iterator/structural/semiotic.h"
+#include"numeric/address/iterator/procedural/semiotic.h"
 
 //#include"numeric/address/list/structural/semiotic.h"
 
@@ -63,9 +63,9 @@ namespace nik
 		using nwsf = numeric::word::sint::functional::semiotic<size_type>;
 		using nwsp = numeric::word::sint::procedural::semiotic<size_type>;
 
-		using naits = numeric::address::interval::structural::semiotic<size_type>;
+		using naits = numeric::address::iterator::structural::semiotic<size_type>;
 
-		using naitp = numeric::address::interval::procedural::semiotic<size_type>;
+		using naitp = numeric::address::iterator::procedural::semiotic<size_type>;
 
 //		using nals = numeric::address::list::structural::semiotic<size_type>;
 	};

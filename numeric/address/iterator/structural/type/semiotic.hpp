@@ -23,11 +23,16 @@ struct type
 
 	template<typename L> struct Iterator;
 
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 	template<typename L>
 	struct Traits
 	{
-		static constexpr size_type interval_enum = at<L, Mod::interval>::rtn;
 		static constexpr size_type range_enum = at<L, Mod::range>::rtn;
+		static constexpr size_type interval_enum = at<L, Mod::interval>::rtn;
 		static constexpr size_type image_enum = at<L, Mod::image>::rtn;
 		static constexpr size_type iterator_enum = at<L, Mod::iterator>::rtn;
 
@@ -49,7 +54,7 @@ struct type
 			typename iterator_type::pointer
 		>;
 
-		using return_type = Iterator< list<interval_enum, range_enum, ModIterator::mutate, iterator_enum> >;
+		using return_type = Iterator< list<range_enum, interval_enum, ModIterator::mutate, iterator_enum> >;
 	};
 
 
@@ -58,20 +63,20 @@ struct type
 
 
 	template<typename L>
-	struct Range
+	struct Interval
 	{
 		typedef Traits<L> traits;
 
 		value_type initial;
 		value_type terminal;
 
-		Range() { }
-		Range(value_type i, value_type t) : initial(i), terminal(t) { }
-		Range(const Range & r) : initial(r.initial), terminal(r.terminal) { }
+		Interval() { }
+		Interval(value_type i, value_type t) : initial(i), terminal(t) { }
+		Interval(const Interval & r) : initial(r.initial), terminal(r.terminal) { }
 	};
 
 	template<size_type... params>
-	using range = Range< sortFill<ModIterator, params...> >;
+	using interval = Interval< sortFill<ModIterator, params...> >;
 
 
 /***********************************************************************************************************************/
@@ -99,21 +104,43 @@ struct type
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 	template<typename L>
-	struct Tracer
+	struct Policy
 	{
 		static constexpr size_type count_enum = at<L, Mod::tracer>::rtn;
+		static constexpr size_type fast_enum = at<L, Mod::optimizer>::rtn;
+	};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+	template<typename L>
+	struct Optimizer
+	{
+		typedef Policy<L> policy;
+
+		Optimizer() { }
+		Optimizer(const Optimizer & o) { }
+	};
+
+	template<size_type optimizerEnum>
+	struct Optimizer< list<ModOptimizer::apply_count, optimizerEnum> >
+	{
+		typedef Policy< list<ModOptimizer::apply_count, optimizerEnum> > policy;
 
 		size_type count;
 
-		Tracer(size_type c = 0) : count(c) { }
-		Tracer(const Tracer & t) : count(t.count) { }
+		Optimizer(size_type c = 0) : count(c) { }
+		Optimizer(const Optimizer & o) : count(o.count) { }
 	};
 
 	template<size_type... params>
-	using tracer = Tracer< sortFill<ModTracer, params...> >;
+	using optimizer = Optimizer< sortFill<ModOptimizer, params...> >;
 };
 
 

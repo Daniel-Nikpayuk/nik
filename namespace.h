@@ -61,47 +61,47 @@ namespace nik
 
 		enum adjective : size_type
 		{
-			interval,
 			range,
+			interval,
 			image,
 			iterator
 		};
 
-		struct interval
+		struct range
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				closing,
-				closed,
-				opening,
-				open
-			};
-
-			define_bounds(adjective, interval, 0, 3)
-		};
-
-		struct range : public interval
-		{
-			subclass_bounds(interval)
-
-			enum : size_type
-			{
-				forward = initialize_enum(adjective, interval),
+				forward,
 				backward
 			};
 
-			define_bounds(adjective, range, 4, 5)
+			define_bounds(adjective, range, 0, 1)
 		};
 
-		struct image : public range
+		struct interval : public range
 		{
 			subclass_bounds(range)
 
 			enum : size_type
 			{
-				mutate = initialize_enum(adjective, range),
+				closing = initialize_enum(adjective, range),
+				closed,
+				opening,
+				open
+			};
+
+			define_bounds(adjective, interval, 2, 5)
+		};
+
+		struct image : public interval
+		{
+			subclass_bounds(interval)
+
+			enum : size_type
+			{
+				mutate = initialize_enum(adjective, interval),
 				allocate,
 				deallocate
 			};
@@ -130,20 +130,63 @@ namespace nik
 
 		enum adverb : size_type
 		{
-			tracer
+			arity,
+			functor,
+			tracer,
+			optimizer
 		};
 
-		struct tracer
+		struct arity
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				omit_count,
+				nullary,
+				unary,
+				binary
+			};
+
+			define_bounds(adverb, arity, 0, 2)
+		};
+
+		struct functor : public arity
+		{
+			subclass_bounds(arity)
+
+			enum : size_type
+			{
+				apply_functor = initialize_enum(adverb, arity),
+				omit_functor
+			};
+
+			define_bounds(adverb, functor, 3, 4)
+		};
+
+		struct tracer : public functor
+		{
+			subclass_bounds(functor)
+
+			enum : size_type
+			{
+				omit_count = initialize_enum(adverb, functor),
 				apply_count
 			};
 
-			define_bounds(adverb, tracer, 0, 1)
+			define_bounds(adverb, tracer, 5, 6)
+		};
+
+		struct optimizer : public tracer
+		{
+			subclass_bounds(tracer)
+
+			enum : size_type
+			{
+				prototype = initialize_enum(adverb, tracer),
+				specialize
+			};
+
+			define_bounds(adverb, optimizer, 7, 8)
 		};
 	};
 }

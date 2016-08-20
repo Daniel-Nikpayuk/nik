@@ -19,26 +19,24 @@
 template
 <
 	typename traits,
-	size_type outMemory = traits::out_memory,
-	size_type outPointer = traits::out_pointer
+	size_type rangeEnum = traits::range_enum,
+	size_type imageEnum = traits::image_enum,
+	size_type iteratorEnum = traits::iterator_enum
 
-> struct subjectArgs { };
+> struct declare_variables { };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename traits, size_type outPointer>
-struct subjectArgs<traits, ArgPointer::mutate, outPointer>
+template<typename traits, size_type rangeEnum, size_type iteratorEnum>
+struct declare_variables<traits, rangeEnum, ModIterator::mutate, iteratorEnum>
 {
-	typedef typename traits::out_type out_type;
-
-	out_type origin;
-	out_type out;
-
-	subjectArgs(out_type o) : origin(o), out(o) { }
-
-	subjectArgs(const subjectArgs & args) : origin(args.origin), out(args.out) { }
+	template<typename subject, typename const_subject>
+	declare_variables(subject & s, const const_subject & const_s)
+	{
+		s.initial = const_s.initial;
+	}
 };
 
 
@@ -46,21 +44,14 @@ struct subjectArgs<traits, ArgPointer::mutate, outPointer>
 
 
 template<typename traits>
-struct subjectArgs<traits, ArgPointer::allocate, ArgPointer::segment>
+struct declare_variables<traits, ModIterator::forward, ModIterator::allocate, ModIterator::segment>
 {
-	typedef typename traits::value_type value_type;
-	typedef typename traits::out_type out_type;
-
-	out_type origin;
-	out_type out;
-
-	subjectArgs(size_type length, size_type offset)
+	template<typename subject, typename const_subject>
+	declare_variables(subject & s, const const_subject & const_s)
 	{
-		origin = new value_type[length];
-		out = origin + offset;
+		s.initial = new value_type[const_s.initial];
+		s.terminal = s.initial + const_s.terminal;
 	}
-
-	subjectArgs(const subjectArgs & args) : origin(args.origin), out(args.out) { }
 };
 
 

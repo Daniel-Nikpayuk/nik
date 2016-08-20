@@ -15,38 +15,9 @@
 **
 ************************************************************************************************************************/
 
-
-template
-<
-	typename traits,
-	size_type countPolicy = traits::count_policy
-
-> struct verbArgs { };
-
-
-/***********************************************************************************************************************/
-
-
-template<typename traits>
-struct verbArgs<traits, ArgTracer::omit_count>
+template<typename subject, typename object, typename verb>
+struct specialize
 {
-	verbArgs() { }
-
-	verbArgs(const verbArgs & args) { }
+	static typename subject::traits::return_type map(const subject &, object &, verb &);
 };
-
-
-/***********************************************************************************************************************/
-
-
-template<typename traits>
-struct verbArgs<traits, ArgTracer::apply_count>
-{
-	size_type count;
-
-	verbArgs(size_type c = 0) : count(c) { }
-
-	verbArgs(const verbArgs & args) : count(args.count) { }
-};
-
 

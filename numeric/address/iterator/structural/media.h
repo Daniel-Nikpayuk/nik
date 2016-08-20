@@ -15,14 +15,30 @@
 **
 ************************************************************************************************************************/
 
+#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_MEDIA_H
+#define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_MEDIA_H
 
-template<typename subject, typename object>//, typename verb>
-static typename subject::traits::return_type map(const subject & s, object & o)//, verb & v = verb())
-{
-	typedef typename subject::traits traits;
-	typename traits::return_type out;//=(traits::image_enum == ModIterator::mutate) ? s, ;
+namespace nik		{
+namespace numeric	{
+namespace address	{
+namespace iterator	{
+namespace structural	{
 
-	return out;
-}
+	template<typename SizeType>
+	struct media
+	{
+		typedef SizeType size_type;
 
+		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
+//		#include"base/media.hpp"
+//		#include"bit/media.hpp"
+//		#include"segment/media.hpp"
+//		#include"node/media.hpp"
+//		#include"hook/media.hpp"
+//		#include"link/media.hpp"
+	};
+
+}}}}}
+
+#endif

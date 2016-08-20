@@ -15,47 +15,55 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_SEMIOTIC_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_PROCEDURAL_SEMIOTIC_H
+#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_SEMIOTIC_H
+#define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_SEMIOTIC_H
 
 namespace nik		{
 namespace numeric	{
 namespace address	{
-namespace interval	{
-namespace procedural	{
-
-	template<typename SizeType> struct media;
+namespace iterator	{
+namespace structural	{
 
 	template<typename SizeType>
 	struct semiotic
 	{
 		typedef SizeType size_type;
 
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+
 		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
 		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
 		typedef grammaric::variadic::functional::media<size_type> gvf_media;
 
-		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
-
-		typedef structural::semiotic<size_type> s_semiotic;
-
 /***********************************************************************************************************************/
 
 		typedef nik::modifier<size_type> Mod;
-		typedef typename Mod::range ModRange;
 		typedef typename Mod::iterator ModIterator;
-		typedef typename Mod::tracer ModTracer;
+		typedef typename Mod::optimizer ModOptimizer;
+
+		template<size_type... params>
+		using list = typename gvs_semiotic::template list<params...>;
+
+		template<bool conditional, typename if_true, typename if_false>
+		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
+
+		template<size_type pos, typename L>
+		using cases = typename gvf_semiotic::template cases<pos, L>::rtn;
+
+		template<typename L, size_type pos>
+		using at = typename gvf_semiotic::template at<L, pos>;
+
+		template<typename modifier, size_type... params>
+		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
 
 /***********************************************************************************************************************/
 
-		template<typename ValueType>
-		struct type
-		{
-			typedef ValueType value_type;
-
-			#include"map/semiotic.hh"
-		};
+		#include"segment/semiotic.hpp"
+		#include"node/semiotic.hpp"
+		#include"hook/semiotic.hpp"
+		#include"link/semiotic.hpp"
+		#include"type/semiotic.hpp"
 	};
 
 }}}}}

@@ -15,30 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_MEDIA_H
-#define NIK_NUMERIC_ADDRESS_INTERVAL_STRUCTURAL_MEDIA_H
+#include"prototype.hh"
+#include"specialize.hh"
 
-namespace nik		{
-namespace numeric	{
-namespace address	{
-namespace interval	{
-namespace structural	{
+template<typename subject, typename object, typename verb>
+static typename subject::traits::return_type map(const subject & s, object & o, verb & v)
+{
+	using optimizer_type = if_then_else
+	<
+		(verb::policy::fast_enum == ModOptimizer::prototype),
+		prototype<subject, object, verb>,
+		specialize<subject, object, verb>
 
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
+	>;
 
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
+	return optimizer_type::map(s, o, v);
+}
 
-//		#include"base/media.hpp"
-//		#include"bit/media.hpp"
-//		#include"segment/media.hpp"
-//		#include"node/media.hpp"
-//		#include"hook/media.hpp"
-//		#include"link/media.hpp"
-	};
-
-}}}}}
-
-#endif
