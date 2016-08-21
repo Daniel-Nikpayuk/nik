@@ -15,20 +15,17 @@
 **
 ************************************************************************************************************************/
 
-
 #include"body/declare_variables.hpp"
-
 
 template
 <
-	typename subject,
-	typename object,
-	typename verb,
-	size_type outInterval = subject::traits::interval_enum,
-	size_type inInterval = object::traits::interval_enum
+	typename sAdjective,
+	typename oAdjective,
+	typename AdAdverb,
+	size_type sInterval = sAdjective::traits::interval_enum,
+	size_type oInterval = oAdjective::traits::interval_enum
 >
 struct prototype { };
-
 
 
 /************************************************************************************************************************
@@ -43,35 +40,35 @@ struct prototype { };
 */
 
 
-template<typename subject, typename object, typename verb>
-struct prototype<subject, object, verb, ModIterator::closing, ModIterator::closing>
+template<typename sAdjective, typename oAdjective, typename Adverb>
+struct prototype<sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::closing>
 {
-	typedef typename subject::traits s_traits;
-	typedef typename object::traits o_traits;
-	typedef typename verb::policy v_policy;
+	typedef typename sAdjective::traits s_traits;
+	typedef typename oAdjective::traits o_traits;
+	typedef typename Adverb::policy policy;
 
 	typedef typename s_traits::return_type return_type;
 
-	static return_type map(const subject & const_s, object & o, verb & v)
+	static return_type map(const sAdjective & const_subject, oAdjective & object, Adverb & verb)
 	{
-		return_type s;
+		return_type subject;
 
-		declare_variables<s_traits>(s, const_s);
+		declare_variables<s_traits>(subject, const_subject);
 
 /*
-		while (omit_peek(o))
+		while (omit_peek(object))
 		{
-			main_action<template_policy, arity_policy>(s, o);
-			count_action<count_policy>(v);
+			main_action<template_policy, arity_policy>(subject, object);
+			count_action<count_policy>(verb);
 
-			iterate_out<out_direction, out_memory, out_pointer>(s);
-			iterate_in<in_direction, in_memory, in_pointer, arity_policy>(o);
+			iterate_out<out_direction, out_memory, out_pointer>(subject);
+			iterate_in<in_direction, in_memory, in_pointer, arity_policy>(object);
 		}
 
-		undeclare_variables<in_memory, in_pointer, arity_policy>(o);
+		undeclare_variables<in_memory, in_pointer, arity_policy>(object);
 */
 
-		return s;
+		return subject;
 	}
 };
 

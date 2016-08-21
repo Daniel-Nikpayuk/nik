@@ -19,7 +19,7 @@
 template
 <
 	typename traits,
-	size_type rangeEnum = traits::range_enum,
+	size_type directionEnum = traits::direction_enum,
 	size_type imageEnum = traits::image_enum,
 	size_type iteratorEnum = traits::iterator_enum
 
@@ -29,13 +29,13 @@ template
 /***********************************************************************************************************************/
 
 
-template<typename traits, size_type rangeEnum, size_type iteratorEnum>
-struct declare_variables<traits, rangeEnum, ModIterator::mutate, iteratorEnum>
+template<typename traits, size_type directionEnum, size_type iteratorEnum>
+struct declare_variables<traits, directionEnum, ModIterator::mutate, iteratorEnum>
 {
-	template<typename subject, typename const_subject>
-	declare_variables(subject & s, const const_subject & const_s)
+	template<typename sAdjective, typename const_sAdjective>
+	declare_variables(sAdjective & subject, const const_sAdjective & const_subject)
 	{
-		s.initial = const_s.initial;
+		subject.initial = const_subject.initial;
 	}
 };
 
@@ -46,11 +46,11 @@ struct declare_variables<traits, rangeEnum, ModIterator::mutate, iteratorEnum>
 template<typename traits>
 struct declare_variables<traits, ModIterator::forward, ModIterator::allocate, ModIterator::segment>
 {
-	template<typename subject, typename const_subject>
-	declare_variables(subject & s, const const_subject & const_s)
+	template<typename sAdjective, typename const_sAdjective>
+	declare_variables(sAdjective & subject, const const_sAdjective & const_subject)
 	{
-		s.initial = new value_type[const_s.initial];
-		s.terminal = s.initial + const_s.terminal;
+		subject.initial = new value_type[const_subject.initial];
+		subject.terminal = subject.initial + const_subject.terminal;
 	}
 };
 

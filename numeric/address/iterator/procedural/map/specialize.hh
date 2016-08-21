@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename subject, typename object, typename verb>
+template<typename sAdjective, typename oAdjective, typename Adverb>
 struct specialize
 {
-	static typename subject::traits::return_type map(const subject &, object &, verb &);
+	static typename sAdjective::traits::return_type map(const sAdjective &, oAdjective &, Adverb &);
 };
 

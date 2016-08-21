@@ -61,38 +61,52 @@ namespace nik
 
 		enum adjective : size_type
 		{
-			range,
+			arity,
+			direction,
 			interval,
 			image,
 			iterator
 		};
 
-		struct range
+		struct arity
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				forward,
-				backward
+				unary,
+				binary
 			};
 
-			define_bounds(adjective, range, 0, 1)
+			define_bounds(adjective, arity, 0, 1)
 		};
 
-		struct interval : public range
+		struct direction : public arity
 		{
-			subclass_bounds(range)
+			subclass_bounds(arity)
 
 			enum : size_type
 			{
-				closing = initialize_enum(adjective, range),
+				forward = initialize_enum(adjective, arity),
+				backward
+			};
+
+			define_bounds(adjective, direction, 2, 3)
+		};
+
+		struct interval : public direction
+		{
+			subclass_bounds(direction)
+
+			enum : size_type
+			{
+				closing = initialize_enum(adjective, direction),
 				closed,
 				opening,
 				open
 			};
 
-			define_bounds(adjective, interval, 2, 5)
+			define_bounds(adjective, interval, 4, 7)
 		};
 
 		struct image : public interval
@@ -106,7 +120,7 @@ namespace nik
 				deallocate
 			};
 
-			define_bounds(adjective, image, 6, 8)
+			define_bounds(adjective, image, 8, 10)
 		};
 
 		struct iterator : public image
@@ -120,7 +134,7 @@ namespace nik
 				link
 			};
 
-			define_bounds(adjective, iterator, 9, 11)
+			define_bounds(adjective, iterator, 11, 13)
 		};
 
 
@@ -130,37 +144,22 @@ namespace nik
 
 		enum adverb : size_type
 		{
-			arity,
 			functor,
 			tracer,
 			optimizer
 		};
 
-		struct arity
+		struct functor
 		{
 			declare_bounds()
 
 			enum : size_type
 			{
-				nullary,
-				unary,
-				binary
-			};
-
-			define_bounds(adverb, arity, 0, 2)
-		};
-
-		struct functor : public arity
-		{
-			subclass_bounds(arity)
-
-			enum : size_type
-			{
-				apply_functor = initialize_enum(adverb, arity),
+				apply_functor,
 				omit_functor
 			};
 
-			define_bounds(adverb, functor, 3, 4)
+			define_bounds(adverb, functor, 0, 1)
 		};
 
 		struct tracer : public functor
@@ -173,7 +172,7 @@ namespace nik
 				apply_count
 			};
 
-			define_bounds(adverb, tracer, 5, 6)
+			define_bounds(adverb, tracer, 2, 3)
 		};
 
 		struct optimizer : public tracer
@@ -186,7 +185,7 @@ namespace nik
 				specialize
 			};
 
-			define_bounds(adverb, optimizer, 7, 8)
+			define_bounds(adverb, optimizer, 4, 5)
 		};
 	};
 }

@@ -18,17 +18,16 @@
 #include"prototype.hh"
 #include"specialize.hh"
 
-template<typename subject, typename object, typename verb>
-static typename subject::traits::return_type map(const subject & s, object & o, verb & v)
+template<typename sAdjective, typename oAdjective, typename Adverb>
+static typename sAdjective::traits::return_type map(const sAdjective & subject, oAdjective & object, Adverb & verb)
 {
 	using optimizer_type = if_then_else
 	<
-		(verb::policy::fast_enum == ModOptimizer::prototype),
-		prototype<subject, object, verb>,
-		specialize<subject, object, verb>
-
+		(Adverb::policy::optimizer_enum == ModOptimizer::prototype),
+		prototype<sAdjective, oAdjective, Adverb>,
+		specialize<sAdjective, oAdjective, Adverb>
 	>;
 
-	return optimizer_type::map(s, o, v);
+	return optimizer_type::map(subject, object, verb);
 }
 

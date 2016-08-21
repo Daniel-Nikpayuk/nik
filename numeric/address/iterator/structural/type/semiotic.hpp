@@ -31,10 +31,13 @@ struct type
 	template<typename L>
 	struct Traits
 	{
-		static constexpr size_type range_enum = at<L, Mod::range>::rtn;
+		static constexpr size_type arity_enum = at<L, Mod::arity>::rtn;
+		static constexpr size_type direction_enum = at<L, Mod::direction>::rtn;
 		static constexpr size_type interval_enum = at<L, Mod::interval>::rtn;
 		static constexpr size_type image_enum = at<L, Mod::image>::rtn;
 		static constexpr size_type iterator_enum = at<L, Mod::iterator>::rtn;
+
+		static constexpr size_type iterator_offset = ModIterator::template bounds<Mod::iterator>::initial;
 
 		using iteratorTypes = typename gvs_semiotic::template tuple
 		<
@@ -43,18 +46,15 @@ struct type
 			link<value_type>
 		>;
 
-		static constexpr size_type iterator_offset = ModIterator::template bounds<Mod::iterator>::initial;
-
 		using iterator_type = cases<(iterator_enum - iterator_offset), iteratorTypes>;
 
 		using pointer_type = if_then_else
 		<
 			(image_enum == ModIterator::allocate && iterator_enum == ModIterator::segment),
-			size_type,
-			typename iterator_type::pointer
+			size_type, typename iterator_type::pointer
 		>;
 
-		using return_type = Iterator< list<range_enum, interval_enum, ModIterator::mutate, iterator_enum> >;
+		using return_type = Iterator< list<arity_enum, direction_enum, interval_enum, ModIterator::mutate, iterator_enum> >;
 	};
 
 
@@ -72,7 +72,7 @@ struct type
 
 		Interval() { }
 		Interval(value_type i, value_type t) : initial(i), terminal(t) { }
-		Interval(const Interval & r) : initial(r.initial), terminal(r.terminal) { }
+		Interval(const Interval & i) : initial(i.initial), terminal(i.terminal) { }
 	};
 
 	template<size_type... params>
@@ -110,8 +110,9 @@ struct type
 	template<typename L>
 	struct Policy
 	{
-		static constexpr size_type count_enum = at<L, Mod::tracer>::rtn;
-		static constexpr size_type fast_enum = at<L, Mod::optimizer>::rtn;
+		static constexpr size_type functor_enum = at<L, Mod::tracer>::rtn;
+		static constexpr size_type tracer_enum = at<L, Mod::tracer>::rtn;
+		static constexpr size_type optimizer_enum = at<L, Mod::optimizer>::rtn;
 	};
 
 
@@ -140,7 +141,7 @@ struct type
 	};
 
 	template<size_type... params>
-	using optimizer = Optimizer< sortFill<ModOptimizer, params...> >;
+	using optimizer = Optimizer<sortFill<ModOptimizer, params...> >;
 };
 
 
