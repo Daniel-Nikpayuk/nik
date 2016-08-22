@@ -16,13 +16,20 @@
 ************************************************************************************************************************/
 
 #include"body/declare_variables.hpp"
+#include"body/peek_action.hpp"
+#include"body/main_action.hpp"
+#include"body/count_action.hpp"
+#include"body/iterate_out.hpp"
+#include"body/iterate_in.hpp"
+#include"body/undeclare_variables.hpp"
 
 template
 <
-	typename sAdjective,
+	typename const_sAdjective,
 	typename oAdjective,
 	typename AdAdverb,
-	size_type sInterval = sAdjective::traits::interval_enum,
+
+	size_type sInterval = const_sAdjective::traits::interval_enum,
 	size_type oInterval = oAdjective::traits::interval_enum
 >
 struct prototype { };
@@ -40,33 +47,27 @@ struct prototype { };
 */
 
 
-template<typename sAdjective, typename oAdjective, typename Adverb>
-struct prototype<sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::closing>
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::closing>
 {
-	typedef typename sAdjective::traits s_traits;
-	typedef typename oAdjective::traits o_traits;
-	typedef typename Adverb::policy policy;
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
 
-	typedef typename s_traits::return_type return_type;
-
-	static return_type map(const sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
 	{
-		return_type subject;
+		sAdjective subject = const_subject;
 
-		declare_variables<s_traits>(subject, const_subject);
+		declare_variables<oAdjective> variables(object);
 
-/*
-		while (omit_peek(object))
+		while (omit_peek<oAdjective>::test(variables, object))
 		{
-			main_action<template_policy, arity_policy>(subject, object);
-			count_action<count_policy>(verb);
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
 
-			iterate_out<out_direction, out_memory, out_pointer>(subject);
-			iterate_in<in_direction, in_memory, in_pointer, arity_policy>(object);
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
 		}
 
-		undeclare_variables<in_memory, in_pointer, arity_policy>(object);
-*/
+		undeclare_variables<oAdjective>::apply(variables);
 
 		return subject;
 	}

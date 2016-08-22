@@ -19,7 +19,7 @@
 #include"specialize.hh"
 
 template<typename sAdjective, typename oAdjective, typename Adverb>
-static typename sAdjective::traits::return_type map(const sAdjective & subject, oAdjective & object, Adverb & verb)
+static typename sAdjective::traits::mutate_type map(const sAdjective & subject, oAdjective & object, Adverb & verb)
 {
 	using optimizer_type = if_then_else
 	<

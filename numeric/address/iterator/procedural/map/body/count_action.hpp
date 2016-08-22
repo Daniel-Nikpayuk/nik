@@ -18,29 +18,26 @@
 
 template
 <
-	typename oAdjective,
+	typename Adverb,
 
-	size_type oArityEnum = oAdjective::traits::arity_enum
+	size_type tracerEnum = Adverb::policy::tracer_enum
 >
-struct declare_variables
+struct count_action
 {
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : in(object.initial) { }
+	static void apply(const Adverb & verb) { }
 };
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-template<typename oAdjective>
-struct declare_variables<oAdjective, ModIterator::binary>
+template<typename Adverb>
+struct count_action<Adverb, ModOptimizer::apply_count>
 {
-	typename oAdjective::traits::pointer_type fin;
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : fin(object.first), in(object.initial) { }
+	static void apply(const Adverb & verb)
+	{
+		++verb.count;
+	}
 };
 
 

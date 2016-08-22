@@ -20,27 +20,43 @@ template
 <
 	typename oAdjective,
 
-	size_type oArityEnum = oAdjective::traits::arity_enum
+	size_type arityEnum = oAdjective::traits::arity_enum,
+	size_type imageEnum = oAdjective::traits::image_enum,
+	size_type iteratorEnum = oAdjective::traits::iterator_enum
 >
-struct declare_variables
+struct undeclare_variables
 {
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : in(object.initial) { }
+	template<typename Variables>
+	static void apply(Variables & var) { }
 };
 
 
 /***********************************************************************************************************************/
+
+
+template<typename oAdjective>
+struct undeclare_variables<oAdjective, ModIterator::unary, ModIterator::deallocate, ModIterator::segment>
+{
+	template<typename Variables>
+	static void apply(Variables & variables)
+	{
+		delete [] variables.in;
+	}
+};
+
+
 /***********************************************************************************************************************/
 
 
 template<typename oAdjective>
-struct declare_variables<oAdjective, ModIterator::binary>
+struct undeclare_variables<oAdjective, ModIterator::binary, ModIterator::deallocate, ModIterator::segment>
 {
-	typename oAdjective::traits::pointer_type fin;
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : fin(object.first), in(object.initial) { }
+	template<typename Variables>
+	static void apply(Variables & variables)
+	{
+		delete [] variables.fin;
+		delete [] variables.in;
+	}
 };
 
 

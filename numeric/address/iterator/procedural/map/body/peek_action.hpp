@@ -16,31 +16,47 @@
 ************************************************************************************************************************/
 
 
-template
-<
-	typename oAdjective,
-
-	size_type oArityEnum = oAdjective::traits::arity_enum
->
-struct declare_variables
+template<typename Adjective>
+struct omit_peek
 {
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : in(object.initial) { }
+	template<typename Variables>
+	static bool test(const Variables & variables, const Adjective & object)
+	{
+		return (variables.in != object.terminal);
+	}
 };
 
 
 /***********************************************************************************************************************/
+
+
+template
+<
+	typename Adjective,
+
+	size_type iteratorEnum = Adjective::traits::iterator_enum
+>
+struct apply_peek
+{
+	template<typename Variables>
+	static bool test(const Variables & variables, const Adjective & object)
+	{
+		return (+variables.in != object.terminal);
+	}
+};
+
+
 /***********************************************************************************************************************/
 
 
-template<typename oAdjective>
-struct declare_variables<oAdjective, ModIterator::binary>
+template<typename Adjective>
+struct apply_peek<Adjective, ModIterator::segment>
 {
-	typename oAdjective::traits::pointer_type fin;
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : fin(object.first), in(object.initial) { }
+	template<typename Variables>
+	static bool test(const Variables & variables, const Adjective & object)
+	{
+		return (variables.in < object.terminal);
+	}
 };
 
 

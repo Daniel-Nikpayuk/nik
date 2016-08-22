@@ -18,29 +18,42 @@
 
 template
 <
+	typename sAdjective,
 	typename oAdjective,
 
-	size_type oArityEnum = oAdjective::traits::arity_enum
+	size_type arityEnum = oAdjective::traits::arity_enum
 >
-struct declare_variables
+struct main_action
 {
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : in(object.initial) { }
+	template<typename Variables>
+	static void apply(sAdjective & subject, const Variables & variables) { }
 };
 
 
 /***********************************************************************************************************************/
+
+
+template<typename sAdjective, typename oAdjective>
+struct main_action<sAdjective, oAdjective, ModIterator::unary>
+{
+	template<typename Variables>
+	static void apply(sAdjective & subject, const Variables & variables)
+	{
+		subject.terminal = variables.in;
+	}
+};
+
+
 /***********************************************************************************************************************/
 
 
-template<typename oAdjective>
-struct declare_variables<oAdjective, ModIterator::binary>
+template<typename sAdjective, typename oAdjective>
+struct main_action<sAdjective, oAdjective, ModIterator::binary>
 {
-	typename oAdjective::traits::pointer_type fin;
-	typename oAdjective::traits::pointer_type in;
-
-	declare_variables(const oAdjective & object) : fin(object.first), in(object.initial) { }
+	template<typename Variables>
+	static void apply(sAdjective & subject, const Variables & variables)
+	{
+	}
 };
 
 
