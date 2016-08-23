@@ -21,16 +21,21 @@
 #include"body/count_action.hpp"
 #include"body/iterate_out.hpp"
 #include"body/iterate_in.hpp"
+#include"body/memory_action_in.hpp"
 #include"body/undeclare_variables.hpp"
+
+/***********************************************************************************************************************/
+
 
 template
 <
 	typename const_sAdjective,
 	typename oAdjective,
-	typename AdAdverb,
+	typename Adverb,
 
-	size_type sInterval = const_sAdjective::traits::interval_enum,
-	size_type oInterval = oAdjective::traits::interval_enum
+	size_type sIntervalEnum = const_sAdjective::traits::interval_enum,
+	size_type oIntervalEnum = oAdjective::traits::interval_enum,
+	size_type oImageEnum = oAdjective::traits::image_enum
 >
 struct prototype { };
 
@@ -57,6 +62,753 @@ struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, Mod
 		sAdjective subject = const_subject;
 
 		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end] --> [out, out + end-in+1)
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::closed>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_out<sAdjective>::apply(subject);
+		memory_action_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> [out, out + end-in)
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::opening, ModIterator::mutate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+		}
+
+		undeclare_variables<oAdjective, ModIterator::mutate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/*
+	Constraints:
+
+	(in, end] --> [out, out + end-in), end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::opening, ModIterator::deallocate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective, ModIterator::deallocate>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_out<sAdjective>::apply(subject);
+		memory_action_in<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		undeclare_variables<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end) --> [out, out + end-in-1), end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closing, ModIterator::open>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/************************************************************************************************************************
+							closed
+************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end) --> [out, out + end-in-1], end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closed, ModIterator::closing>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (apply_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end] --> [out, out + end-in]
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closed, ModIterator::closed>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		memory_action_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> [out, out + end-in-1], end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closed, ModIterator::opening>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		memory_action_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end) --> [out, out + end-in-2], end-in > 1
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::closed, ModIterator::open>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+		while (apply_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/************************************************************************************************************************
+							opening
+************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end) --> (out, out + end-in]
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::opening, ModIterator::closing>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			iterate_out<sAdjective>::apply(subject);
+
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end] --> (out, out + end-in+1]
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::opening, ModIterator::closed>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_out<sAdjective>::apply(subject);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		memory_action_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in]
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::opening, ModIterator::opening, ModIterator::mutate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+			iterate_out<sAdjective>::apply(subject);
+
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+		}
+
+		undeclare_variables<oAdjective, ModIterator::mutate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in], end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::opening, ModIterator::opening, ModIterator::deallocate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+		iterate_out<sAdjective>::apply(subject);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective, ModIterator::deallocate>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		memory_action_in<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		undeclare_variables<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end) --> (out, out + end-in-1], end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::opening, ModIterator::open>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			iterate_out<sAdjective>::apply(subject);
+
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/************************************************************************************************************************
+							open
+************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end) --> (out, out + end-in+1)
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::open, ModIterator::closing>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_out<sAdjective>::apply(subject);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[in, end] --> (out, out + end-in+2)
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::open, ModIterator::closed>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_out<sAdjective>::apply(subject);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_out<sAdjective>::apply(subject);
+		memory_action_in<oAdjective>::apply(variables);
+
+		undeclare_variables<oAdjective>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1)
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::open, ModIterator::opening, ModIterator::mutate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+			iterate_out<sAdjective>::apply(subject);
+
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+		}
+
+		iterate_out<sAdjective>::apply(subject);
+
+		undeclare_variables<oAdjective, ModIterator::mutate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/*
+	Constraints:
+
+	(in, end] --> (out, out + end-in+1), end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::open, ModIterator::opening, ModIterator::deallocate>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+		iterate_out<sAdjective>::apply(subject);
+
+		while (omit_peek<oAdjective>::test(variables, object))
+		{
+			main_action<sAdjective, oAdjective>::apply(subject, variables);
+			count_action<Adverb>::apply(verb);
+
+			iterate_out<sAdjective>::apply(subject);
+			iterate_in<oAdjective, ModIterator::deallocate>::apply(variables);
+		}
+
+		main_action<sAdjective, oAdjective>::apply(subject, variables);
+		count_action<Adverb>::apply(verb);
+
+		iterate_out<sAdjective>::apply(subject);
+		memory_action_in<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		undeclare_variables<oAdjective, ModIterator::deallocate>::apply(variables);
+
+		return subject;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(in, end) --> (out, out + end-in), end-in > 0
+*/
+
+
+template<typename const_sAdjective, typename oAdjective, typename Adverb>
+struct prototype<const_sAdjective, oAdjective, Adverb, ModIterator::open, ModIterator::open>
+{
+	typedef typename const_sAdjective::traits::mutate_type sAdjective;
+
+	static sAdjective map(const const_sAdjective & const_subject, oAdjective & object, Adverb & verb)
+	{
+		sAdjective subject = const_subject;
+
+		declare_variables<oAdjective> variables(object);
+
+		iterate_in<oAdjective, ModIterator::mutate>::apply(variables);
+		iterate_out<sAdjective>::apply(subject);
 
 		while (omit_peek<oAdjective>::test(variables, object))
 		{

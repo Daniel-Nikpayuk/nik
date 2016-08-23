@@ -20,10 +20,11 @@ template
 <
 	typename Adjective,
 
-	size_type arityEnum = Adjective::traits::arity_enum,
-	size_type directionEnum = Adjective::traits::direction_enum,
+		// permutated order of parameters is for convenience of type deduction.
 	size_type imageEnum = Adjective::traits::image_enum,
-	size_type iteratorEnum = Adjective::traits::iterator_enum
+	size_type directionEnum = Adjective::traits::direction_enum,
+	size_type iteratorEnum = Adjective::traits::iterator_enum,
+	size_type arityEnum = Adjective::traits::arity_enum
 >
 struct iterate_in { };
 
@@ -33,7 +34,7 @@ struct iterate_in { };
 
 
 template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterator::mutate, iteratorEnum>
+struct iterate_in<Adjective, ModIterator::mutate, ModIterator::forward, iteratorEnum, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -47,7 +48,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterat
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterator::deallocate, ModIterator::segment>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::segment, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -58,7 +59,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterat
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterator::deallocate, ModIterator::hook>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::hook, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -69,7 +70,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterat
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterator::deallocate, ModIterator::link>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::link, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -85,7 +86,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::forward, ModIterat
 
 
 template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModIterator::mutate, iteratorEnum>
+struct iterate_in<Adjective, ModIterator::mutate, ModIterator::backward, iteratorEnum, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -99,7 +100,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModIterator::deallocate, ModIterator::segment>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::segment, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -110,7 +111,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModIterator::deallocate, ModIterator::hook>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::hook, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -121,7 +122,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModIterator::deallocate, ModIterator::link>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::link, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -137,7 +138,7 @@ struct iterate_in<Adjective, ModIterator::unary, ModIterator::backward, ModItera
 
 
 template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModIterator::mutate, iteratorEnum>
+struct iterate_in<Adjective, ModIterator::mutate, ModIterator::forward, iteratorEnum, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -152,7 +153,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModIterator::deallocate, ModIterator::segment>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::segment, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -164,7 +165,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModIterator::deallocate, ModIterator::hook>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::hook, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -176,7 +177,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModItera
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModIterator::deallocate, ModIterator::link>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::link, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -195,7 +196,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::forward, ModItera
 
 
 template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIterator::mutate, iteratorEnum>
+struct iterate_in<Adjective, ModIterator::mutate, ModIterator::backward, iteratorEnum, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -210,7 +211,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIter
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIterator::deallocate, ModIterator::segment>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::segment, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -222,7 +223,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIter
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIterator::deallocate, ModIterator::hook>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::hook, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -234,7 +235,7 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIter
 
 
 template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIterator::deallocate, ModIterator::link>
+struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::link, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
@@ -246,9 +247,5 @@ struct iterate_in<Adjective, ModIterator::binary, ModIterator::backward, ModIter
 		delete +variables.in;
 	}
 };
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 

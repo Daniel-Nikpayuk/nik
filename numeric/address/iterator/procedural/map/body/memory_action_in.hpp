@@ -18,45 +18,70 @@
 
 template
 <
-	typename oAdjective,
+	typename Adjective,
 
 		// permutated order of parameters is for convenience of type deduction.
-	size_type imageEnum = oAdjective::traits::image_enum,
-	size_type iteratorEnum = oAdjective::traits::iterator_enum,
-	size_type arityEnum = oAdjective::traits::arity_enum
+	size_type imageEnum = Adjective::traits::image_enum,
+	size_type iteratorEnum = Adjective::traits::iterator_enum,
+	size_type arityEnum = Adjective::traits::arity_enum
 >
-struct undeclare_variables
+struct memory_action_in
 {
 	template<typename Variables>
-	static void apply(Variables & var) { }
+	static void apply(Variables & variables) { }
 };
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
-template<typename oAdjective>
-struct undeclare_variables<oAdjective, ModIterator::deallocate, ModIterator::segment, ModIterator::unary>
+template<typename Adjective>
+struct memory_action_in<Adjective, ModIterator::deallocate, ModIterator::hook, ModIterator::unary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
 	{
-		delete [] variables.in;
+		delete variables.in;
+	}
+};
+
+
+template<typename Adjective>
+struct memory_action_in<Adjective, ModIterator::deallocate, ModIterator::link, ModIterator::unary>
+{
+	template<typename Variables>
+	static void apply(Variables & variables)
+	{
+		delete variables.in;
 	}
 };
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
-template<typename oAdjective>
-struct undeclare_variables<oAdjective, ModIterator::deallocate, ModIterator::segment, ModIterator::binary>
+template<typename Adjective>
+struct memory_action_in<Adjective, ModIterator::deallocate, ModIterator::hook, ModIterator::binary>
 {
 	template<typename Variables>
 	static void apply(Variables & variables)
 	{
-		delete [] variables.fin;
-		delete [] variables.in;
+		delete variables.fin;
+		delete variables.in;
+	}
+};
+
+
+template<typename Adjective>
+struct memory_action_in<Adjective, ModIterator::deallocate, ModIterator::link, ModIterator::binary>
+{
+	template<typename Variables>
+	static void apply(Variables & variables)
+	{
+		delete variables.fin;
+		delete variables.in;
 	}
 };
 
