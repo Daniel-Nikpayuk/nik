@@ -15,16 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_LIST_STRUCTURAL_TRAITS_H
-#define NIK_NUMERIC_ADDRESS_LIST_STRUCTURAL_TRAITS_H
-
-#include"../../../../grammaric/structural/traits.h"
-#include"../../iterator/structural/traits.h"
-
-#include"../../../word/uint/functional/policy.h"
-#include"../../../word/sint/functional/policy.h"
-#include"../../iterator/procedural/hook/policy.h"
-
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -62,4 +52,3 @@ namespace structural	{
 
 }}}}}
 
-#endif

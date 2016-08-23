@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_SEMIOTIC_H
-#define NIK_GRAMMARIC_CONTROL_FLOW_FUNCTIONAL_SEMIOTIC_H
-
 namespace nik		{
 namespace grammaric	{
 namespace control_flow	{
@@ -35,4 +32,3 @@ namespace functional	{
 
 }}}}
 
-#endif

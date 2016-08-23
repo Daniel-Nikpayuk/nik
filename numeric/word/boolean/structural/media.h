@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_MEDIA_H
-#define NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_MEDIA_H
-
 namespace nik		{
 namespace numeric	{
 namespace word		{
@@ -34,4 +31,3 @@ namespace structural	{
 
 }}}}}
 
-#endif

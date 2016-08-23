@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_IDENTIFIER_PROCEDURAL_MEDIA_H
-#define NIK_GRAMMARIC_IDENTIFIER_PROCEDURAL_MEDIA_H
-
 namespace nik		{
 namespace grammaric	{
 namespace identifier	{
@@ -33,4 +30,3 @@ namespace procedural	{
 
 }}}}
 
-#endif

@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_UINT_FUNCTIONAL_MEDIA_H
-#define NIK_NUMERIC_WORD_UINT_FUNCTIONAL_MEDIA_H
-
 namespace nik		{
 namespace numeric	{
 namespace word		{
@@ -46,4 +43,3 @@ namespace functional	{
 
 }}}}}
 
-#endif

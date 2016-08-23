@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_SINT_FUNCTIONAL_SEMIOTIC_H
-#define NIK_NUMERIC_WORD_SINT_FUNCTIONAL_SEMIOTIC_H
-
 #include<stdint.h>
 #include<climits>
 #include<cfloat>
@@ -53,4 +50,3 @@ namespace functional	{
 
 }}}}}
 
-#endif

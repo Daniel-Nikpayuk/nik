@@ -15,28 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#include"grammaric/control_flow/functional/semiotic.h"
+#ifndef MODULE__H
+#define MODULE__H
 
-#include"grammaric/identifier/structural/semiotic.h"
-#include"grammaric/identifier/procedural/semiotic.h"
+#include"../numeric/word/boolean/structural/semiotic.h"
 
-#include"grammaric/variadic/structural/semiotic.h"
-#include"grammaric/variadic/functional/semiotic.h"
+#include"../numeric/word/uint/structural/semiotic.h"
+#include"../numeric/word/uint/functional/semiotic.h"
+#include"../numeric/word/uint/procedural/semiotic.h"
 
-#include"numeric/word/boolean/structural/semiotic.h"
+#include"../numeric/word/sint/structural/semiotic.h"
+#include"../numeric/word/sint/functional/semiotic.h"
+#include"../numeric/word/sint/procedural/semiotic.h"
 
-#include"numeric/word/uint/structural/semiotic.h"
-#include"numeric/word/uint/functional/semiotic.h"
-#include"numeric/word/uint/procedural/semiotic.h"
+#include"../numeric/address/iterator/structural/semiotic.h"
+#include"../numeric/address/iterator/procedural/semiotic.h"
 
-#include"numeric/word/sint/structural/semiotic.h"
-#include"numeric/word/sint/functional/semiotic.h"
-#include"numeric/word/sint/procedural/semiotic.h"
-
-#include"numeric/address/iterator/structural/semiotic.h"
-#include"numeric/address/iterator/procedural/semiotic.h"
-
-//#include"numeric/address/list/structural/semiotic.h"
+//#include"../numeric/address/list/structural/semiotic.h"
 
 namespace nik
 {
@@ -44,14 +39,6 @@ namespace nik
 	struct semiotic
 	{
 		typedef SizeType size_type;
-
-		using gcf = grammaric::control_flow::functional::semiotic<size_type>;
-
-		using gis = grammaric::identifier::structural::semiotic<size_type>;
-		using gip = grammaric::identifier::procedural::semiotic<size_type>;
-
-		using gvs = grammaric::variadic::structural::semiotic<size_type>;
-		using gvf = grammaric::variadic::functional::semiotic<size_type>;
 
 		using nwbs = numeric::word::boolean::structural::semiotic<size_type>;
 
@@ -71,3 +58,4 @@ namespace nik
 	};
 }
 
+#endif

@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
-#define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
-
-#include"../../../iterator/expansionwise/functional/policy/policy.h"
-
 namespace nik
 {
  namespace semiotic
@@ -111,4 +106,3 @@ namespace nik
  }
 }
 
-#endif

@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_SEMIOTIC_H
-#define NIK_NUMERIC_ADDRESS_ITERATOR_PROCEDURAL_SEMIOTIC_H
-
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -64,4 +61,3 @@ namespace procedural	{
 
 }}}}}
 
-#endif

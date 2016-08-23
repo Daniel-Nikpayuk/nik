@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
-#define NIK_SEMIOTIC_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
-
-#include"../../../iterator/componentwise/functional/policy/policy.h"
-
 namespace nik
 {
  namespace semiotic
@@ -222,4 +217,3 @@ namespace nik
  }
 }
 
-#endif

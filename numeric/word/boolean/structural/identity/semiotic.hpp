@@ -15,11 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
-#define NIK_NUMERIC_WORD_BOOLEAN_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
-
 struct base { };
 
 typedef bool identity;
 
-#endif

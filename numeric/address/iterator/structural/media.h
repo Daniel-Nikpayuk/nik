@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_MEDIA_H
-#define NIK_NUMERIC_ADDRESS_ITERATOR_STRUCTURAL_MEDIA_H
-
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -41,4 +38,3 @@ namespace structural	{
 
 }}}}}
 
-#endif

@@ -15,11 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_SINT_STRUCTURAL_IDENTITY_MEDIA_CPP
-#define NIK_NUMERIC_WORD_SINT_STRUCTURAL_IDENTITY_MEDIA_CPP
-
 /*
 	Test against self-assignment!
 */
 
-#endif

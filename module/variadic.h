@@ -15,19 +15,36 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-namespace word		{
-namespace uint		{
-namespace structural	{
+#ifndef MODULE_VARIADIC_H
+#define MODULE_VARIADIC_H
 
+#include"control_flow.h"
+
+#include"../grammaric/variadic/structural/semiotic.h"
+#include"../grammaric/variadic/functional/semiotic.h"
+
+#include"../grammaric/variadic/structural/media.h"
+#include"../grammaric/variadic/functional/media.h"
+
+namespace nik
+{
 	template<typename SizeType>
-	struct media
+	struct semiotic<SizeType, module::variadic> : public semiotic<SizeType, module::control_flow>
 	{
 		typedef SizeType size_type;
 
-		#include"identity/media.hpp"
+		using gvs = grammaric::variadic::structural::semiotic<size_type>;
+		using gvf = grammaric::variadic::functional::semiotic<size_type>;
 	};
 
-}}}}}
+	template<typename SizeType>
+	struct media<SizeType, module::variadic> : public media<SizeType, module::control_flow>
+	{
+		typedef SizeType size_type;
 
+		using gvs = grammaric::variadic::structural::media<size_type>;
+		using gvf = grammaric::variadic::functional::media<size_type>;
+	};
+}
+
+#endif

@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_0_H
-#define NIK_CONTEXT_SEMIOTIC_ITERATOR_COMPONENTWISE_ARITHMETIC_0_H
-
 // overhead dependencies:
 
 #include"../../../../context/policy/policy.h"
@@ -2682,6 +2679,4 @@ namespace nik
   }
  }
 }
-
-#endif
 

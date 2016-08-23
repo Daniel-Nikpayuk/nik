@@ -15,28 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#include"grammaric/control_flow/functional/media.h"
+#ifndef MODULE__H
+#define MODULE__H
 
-#include"grammaric/identifier/structural/media.h"
-#include"grammaric/identifier/procedural/media.h"
+#include"../numeric/word/boolean/structural/media.h"
 
-#include"grammaric/variadic/structural/media.h"
-#include"grammaric/variadic/functional/media.h"
+#include"../numeric/word/uint/structural/media.h"
+#include"../numeric/word/uint/functional/media.h"
+#include"../numeric/word/uint/procedural/media.h"
 
-#include"numeric/word/boolean/structural/media.h"
+#include"../numeric/word/sint/structural/media.h"
+#include"../numeric/word/sint/functional/media.h"
+#include"../numeric/word/sint/procedural/media.h"
 
-#include"numeric/word/uint/structural/media.h"
-#include"numeric/word/uint/functional/media.h"
-#include"numeric/word/uint/procedural/media.h"
+#include"../numeric/address/iterator/structural/media.h"
+#include"../numeric/address/iterator/procedural/media.h"
 
-#include"numeric/word/sint/structural/media.h"
-#include"numeric/word/sint/functional/media.h"
-#include"numeric/word/sint/procedural/media.h"
-
-#include"numeric/address/iterator/structural/media.h"
-#include"numeric/address/iterator/procedural/media.h"
-
-//#include"numeric/address/list/structural/media.h"
+//#include"../numeric/address/list/structural/media.h"
 
 namespace nik
 {
@@ -44,14 +39,6 @@ namespace nik
 	struct media
 	{
 		typedef SizeType size_type;
-
-		using gcf = grammaric::control_flow::functional::media<size_type>;
-
-		using gis = grammaric::identifier::structural::media<size_type>;
-		using gip = grammaric::identifier::procedural::media<size_type>;
-
-		using gvs = grammaric::variadic::structural::media<size_type>;
-		using gvf = grammaric::variadic::functional::media<size_type>;
 
 		using nwbs = numeric::word::boolean::structural::media<size_type>;
 
@@ -71,3 +58,4 @@ namespace nik
 	};
 }
 
+#endif

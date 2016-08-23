@@ -15,19 +15,29 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-namespace word		{
-namespace uint		{
-namespace structural	{
+#ifndef MODULE_CONTROL_FLOW_H
+#define MODULE_CONTROL_FLOW_H
 
+#include"../grammaric/control_flow/functional/semiotic.h"
+#include"../grammaric/control_flow/functional/media.h"
+
+namespace nik
+{
 	template<typename SizeType>
-	struct media
+	struct semiotic<SizeType, module::control_flow>
 	{
 		typedef SizeType size_type;
 
-		#include"identity/media.hpp"
+		using gcf = grammaric::control_flow::functional::semiotic<size_type>;
 	};
 
-}}}}}
+	template<typename SizeType>
+	struct media<SizeType, module::control_flow>
+	{
+		typedef SizeType size_type;
 
+		using gcf = grammaric::control_flow::functional::media<size_type>;
+	};
+}
+
+#endif

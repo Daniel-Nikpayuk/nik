@@ -15,12 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_STRUCTURAL_BASE_DEBUG_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_STRUCTURAL_BASE_DEBUG_H
-
-#include"../base.h"
-#include"../../../../../../../debug.h"
-
 /*
 	Make sure to consider composition of grammar as part of testing.
 */
@@ -181,4 +175,3 @@ namespace nik
  }
 }
 
-#endif

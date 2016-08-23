@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_CHAIN_STRUCTURAL_TRAITS_H
-#define NIK_NUMERIC_ADDRESS_CHAIN_STRUCTURAL_TRAITS_H
-
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -44,4 +41,3 @@ namespace structural	{
 
 }}}}}
 
-#endif

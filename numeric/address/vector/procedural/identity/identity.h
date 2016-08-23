@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_VECTOR_FUNCTIONAL_IDENTITY_H
-
-#include"../../../../../../semiotic/policy/policy.h"
-
 /*
 	There is higher entropy in letting the compiler type-deduce things like "ValueType" even though
 	they may be determined by the given Vector type itself. It is assumed during compile-time these
@@ -112,4 +107,3 @@ namespace nik
  }
 }
 
-#endif

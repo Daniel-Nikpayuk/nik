@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
-#define NIK_MEDIA_NUMERIC_RANDOM_ACCESS_CHAIN_FUNCTIONAL_IDENTITY_H
-
-#include"../../../../../../semiotic/policy/policy.h"
-
 namespace nik
 {
  namespace media
@@ -296,4 +291,3 @@ namespace nik
  }
 }
 
-#endif

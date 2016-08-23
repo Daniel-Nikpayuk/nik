@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_VARIADIC_STRUCTURAL_SEMIOTIC_H
-#define NIK_GRAMMARIC_VARIADIC_STRUCTURAL_SEMIOTIC_H
-
 namespace nik		{
 namespace grammaric	{
 namespace variadic	{
@@ -35,4 +32,3 @@ namespace structural	{
 
 }}}}
 
-#endif

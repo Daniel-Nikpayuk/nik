@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_RANDOM_ACCESS_SEPARATOR_TOPOS_H
-#define NIK_NUMERIC_RANDOM_ACCESS_SEPARATOR_TOPOS_H
-
 /*
 	Ideally define the pointer before the structure, and define the memory structure in terms of the pointer,
 	but given the constraints of C++ grammar it seems it must be done this way.
@@ -54,4 +51,3 @@ namespace nik
  }
 }
 
-#endif

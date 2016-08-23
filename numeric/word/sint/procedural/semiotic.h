@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_SINT_PROCEDURAL_SEMIOTIC_H
-#define NIK_NUMERIC_WORD_SINT_PROCEDURAL_SEMIOTIC_H
-
 namespace nik		{
 namespace numeric	{
 namespace word		{
@@ -44,4 +41,3 @@ namespace procedural	{
 
 }}}}}
 
-#endif

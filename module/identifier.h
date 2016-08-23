@@ -15,19 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-namespace word		{
-namespace uint		{
-namespace structural	{
+#ifndef MODULE_IDENTIFIER_H
+#define MODULE_IDENTIFIER_H
 
+#include"../grammaric/identifier/structural/semiotic.h"
+#include"../grammaric/identifier/procedural/semiotic.h"
+
+#include"../grammaric/identifier/structural/media.h"
+#include"../grammaric/identifier/procedural/media.h"
+
+namespace nik
+{
 	template<typename SizeType>
-	struct media
+	struct semiotic<SizeType, module::identifier>
 	{
 		typedef SizeType size_type;
 
-		#include"identity/media.hpp"
+		using gis = grammaric::identifier::structural::semiotic<size_type>;
+		using gip = grammaric::identifier::procedural::semiotic<size_type>;
 	};
 
-}}}}}
+	template<typename SizeType>
+	struct media<SizeType, module::identifier>
+	{
+		typedef SizeType size_type;
 
+		using gis = grammaric::identifier::structural::media<size_type>;
+		using gip = grammaric::identifier::procedural::media<size_type>;
+	};
+}
+
+#endif

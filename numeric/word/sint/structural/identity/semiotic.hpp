@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_WORD_SINT_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
-#define NIK_NUMERIC_WORD_SINT_STRUCTURAL_IDENTITY_SEMIOTIC_CPP
-
 struct base { };
 
 template<typename T, unsigned char size>
@@ -33,4 +30,3 @@ typedef typename size_assert<signed short	, 2>::return_type identity16;
 typedef typename size_assert<signed int		, 4>::return_type identity32;
 typedef typename size_assert<signed long	, 8>::return_type identity64;
 
-#endif

@@ -15,44 +15,43 @@
 **
 ************************************************************************************************************************/
 
-#include"macro/macro.hpp"
-#include"macro/macro.hh"
 
 #define declare_loop(													\
 			out_interval, out_direction, out_memory, out_pointer,						\
-			in_interval, in_direction, in_memory, in_pointer,						\
-			fast_policy, count_policy)									\
+			in_arity, in_interval, in_direction, in_memory, in_pointer,					\
+			functor_policy, count_policy)									\
 															\
 template<>														\
 typename s_semiotic::template type<value_type>::template iterator							\
 <															\
-	ModIterator::out_interval, ModIterator::out_direction,								\
-	ModIterator::out_memory, ModIterator::out_pointer								\
+	ModIterator::unary, ModIterator::out_interval,									\
+	ModIterator::out_direction, ModIterator::mutate, ModIterator::out_pointer					\
 															\
 >::traits::return_type specialize											\
 <															\
 	typename s_semiotic::template type<value_type>::template iterator						\
 	<														\
-		ModIterator::out_interval, ModIterator::out_direction,							\
-		ModIterator::out_memory, ModIterator::out_pointer							\
+		ModIterator::unary, ModIterator::out_interval,								\
+		ModIterator::out_direction, ModIterator::out_memory, ModIterator::out_pointer				\
 	>,														\
 															\
 	typename s_semiotic::template type<value_type>::template iterator						\
 	<														\
-		ModIterator::in_interval, ModIterator::in_direction,							\
-		ModIterator::in_memory, ModIterator::in_pointer								\
+		ModIterator::in_arity, ModIterator::in_interval,							\
+		ModIterator::in_direction, ModIterator::in_memory, ModIterator::in_pointer				\
 	>,														\
 															\
 	typename s_semiotic::template type<value_type>::template optimizer						\
 	<														\
-		ModOptimizer::fast_policy, ModOptimizer::count_policy							\
+		ModOptimizer::functor_policy, ModOptimizer::count_policy						\
 	>														\
+															\
 >::loop															\
 (															\
-	arg,														\
+	map,														\
 	out_interval, out_direction, out_memory, out_pointer,								\
-	in_interval, in_direction, in_memory, in_pointer,								\
-	omit_functor, unary, return_policy, count_policy								\
+	in_arity, in_interval, in_direction, in_memory, in_pointer,							\
+	functor_policy, count_policy											\
 )															\
 
 

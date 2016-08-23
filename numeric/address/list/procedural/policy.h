@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_LIST_PROCEDURAL_POLICY_H
-#define NIK_NUMERIC_ADDRESS_LIST_PROCEDURAL_POLICY_H
-
 namespace nik		{
 namespace numeric	{
 namespace address	{
@@ -58,4 +55,3 @@ namespace procedural	{
 
 }}}}}
 
-#endif

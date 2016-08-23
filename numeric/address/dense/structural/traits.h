@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_NUMERIC_ADDRESS_DENSE_STRUCTURAL_TRAITS_H
-#define NIK_NUMERIC_ADDRESS_DENSE_STRUCTURAL_TRAITS_H
-
 namespace nik		{
 
 	struct verbatim_printer;
@@ -45,4 +42,3 @@ namespace structural	{
 
 }}}}}
 
-#endif

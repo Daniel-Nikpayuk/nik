@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_GRAMMARIC_IDENTIFIER_STRUCTURAL_SEMIOTIC_H
-#define NIK_GRAMMARIC_IDENTIFIER_STRUCTURAL_SEMIOTIC_H
-
 namespace nik		{
 namespace grammaric	{
 namespace identifier	{
@@ -35,4 +32,3 @@ namespace structural	{
 
 }}}}
 
-#endif
