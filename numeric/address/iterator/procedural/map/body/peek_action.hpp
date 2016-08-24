@@ -16,32 +16,17 @@
 ************************************************************************************************************************/
 
 
-template<typename Adjective>
-struct omit_peek
-{
-	template<typename Variables>
-	static bool test(const Variables & variables, const Adjective & object)
-	{
-		return (variables.in != object.terminal);
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
 template
 <
-	typename Adjective,
+	typename object,
 
-	size_type iteratorEnum = Adjective::traits::iterator_enum
+	size_type iteratorEnum = object::iterator_enum
 >
-struct apply_peek
+struct peek_action
 {
-	template<typename Variables>
-	static bool test(const Variables & variables, const Adjective & object)
+	static bool test(typename object::pointer in, typename object::pointer end)
 	{
-		return (+variables.in != object.terminal);
+		return (+in != end);
 	}
 };
 
@@ -49,13 +34,12 @@ struct apply_peek
 /***********************************************************************************************************************/
 
 
-template<typename Adjective>
-struct apply_peek<Adjective, ModIterator::segment>
+template<typename object>
+struct peek_action<object, Adjective::segment>
 {
-	template<typename Variables>
-	static bool test(const Variables & variables, const Adjective & object)
+	static bool test(typename object::pointer in, typename object::pointer end)
 	{
-		return (variables.in < object.terminal);
+		return (in < end);
 	}
 };
 

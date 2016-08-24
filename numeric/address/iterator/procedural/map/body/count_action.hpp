@@ -18,25 +18,25 @@
 
 template
 <
-	typename Adverb,
+	typename verb,
 
-	size_type tracerEnum = Adverb::policy::tracer_enum
+	size_type tracerEnum = verb::tracer_enum
 >
 struct count_action
 {
-	static void apply(const Adverb & verb) { }
+	static void apply(size_type & count) { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename Adverb>
-struct count_action<Adverb, ModOptimizer::apply_count>
+template<typename verb>
+struct count_action<verb, Adverb::apply_count>
 {
-	static void apply(const Adverb & verb)
+	static void apply(size_type & count)
 	{
-		++verb.count;
+		++count;
 	}
 };
 

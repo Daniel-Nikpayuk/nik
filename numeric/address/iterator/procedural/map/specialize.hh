@@ -15,11 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename const_sAdjective, typename oAdjective, typename Adverb>
+template<typename subject, typename object>
 struct specialize
 {
-	typedef typename const_sAdjective::traits::mutate_type sAdjective;
-
-	static sAdjective map(const const_sAdjective &, oAdjective &, Adverb &);
+	static typename subject::pointer map(typename subject::pointer, typename object::pointer);
+	static typename subject::pointer map(typename subject::pointer &, size_type, size_type, typename object::pointer);
 };
 

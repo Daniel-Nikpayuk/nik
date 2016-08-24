@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-struct base { };
+struct base;
 
 template<typename T, unsigned char size>
 struct size_assert

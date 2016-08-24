@@ -18,80 +18,26 @@
 
 template
 <
-	typename Adjective,
+	typename object,
 
 		// permutated order of parameters is for convenience of type deduction.
-	size_type imageEnum = Adjective::traits::image_enum,
-	size_type directionEnum = Adjective::traits::direction_enum,
-	size_type iteratorEnum = Adjective::traits::iterator_enum,
-	size_type arityEnum = Adjective::traits::arity_enum
+	size_type imageEnum = object::image_enum,
+	size_type directionEnum = object::direction_enum,
+	size_type iteratorEnum = object::iterator_enum
 >
-struct iterate_in { };
+struct iterate_in;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::mutate, ModIterator::forward, iteratorEnum, ModIterator::unary>
+template<typename object, size_type iteratorEnum>
+struct iterate_in<object, Adjective::mutate, Adjective::forward, iteratorEnum>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		++variables.in;
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::segment, ModIterator::unary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		++variables.in;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::hook, ModIterator::unary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		delete variables.in++;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::link, ModIterator::unary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		++variables.in;
-		delete -variables.in;
-	}
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::mutate, ModIterator::backward, iteratorEnum, ModIterator::unary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		--variables.in;
+		++in;
 	}
 };
 
@@ -99,36 +45,33 @@ struct iterate_in<Adjective, ModIterator::mutate, ModIterator::backward, iterato
 /***********************************************************************************************************************/
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::segment, ModIterator::unary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::segment>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		--variables.in;
+		++in;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::hook, ModIterator::unary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::hook>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		delete variables.in--;
+		delete in++;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::link, ModIterator::unary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::link>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		--variables.in;
-		delete +variables.in;
+		++in;
+		delete -in;
 	}
 };
 
@@ -137,14 +80,12 @@ struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, Mod
 /***********************************************************************************************************************/
 
 
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::mutate, ModIterator::forward, iteratorEnum, ModIterator::binary>
+template<typename object, size_type iteratorEnum>
+struct iterate_in<object, Adjective::mutate, Adjective::backward, iteratorEnum>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		++variables.fin;
-		++variables.in;
+		--in;
 	}
 };
 
@@ -152,99 +93,33 @@ struct iterate_in<Adjective, ModIterator::mutate, ModIterator::forward, iterator
 /***********************************************************************************************************************/
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::segment, ModIterator::binary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::segment>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		++variables.fin;
-		++variables.in;
+		--in;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::hook, ModIterator::binary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::hook>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		delete variables.fin++;
-		delete variables.in++;
+		delete in--;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::forward, ModIterator::link, ModIterator::binary>
+template<typename object>
+struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::link>
 {
-	template<typename Variables>
-	static void apply(Variables & variables)
+	static void apply(typename object::pointer & in)
 	{
-		++variables.fin;
-		++variables.in;
-
-		delete -variables.fin;
-		delete -variables.in;
-	}
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_in<Adjective, ModIterator::mutate, ModIterator::backward, iteratorEnum, ModIterator::binary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		--variables.fin;
-		--variables.in;
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::segment, ModIterator::binary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		--variables.fin;
-		--variables.in;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::hook, ModIterator::binary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		delete variables.fin--;
-		delete variables.in--;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_in<Adjective, ModIterator::deallocate, ModIterator::backward, ModIterator::link, ModIterator::binary>
-{
-	template<typename Variables>
-	static void apply(Variables & variables)
-	{
-		--variables.fin;
-		--variables.in;
-
-		delete +variables.fin;
-		delete +variables.in;
+		--in;
+		delete +in;
 	}
 };
 

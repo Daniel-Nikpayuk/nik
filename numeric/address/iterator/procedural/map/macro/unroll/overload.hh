@@ -70,7 +70,7 @@
 
 //	,:
 
-struct comma { };
+struct comma;
 
 //	->*:
 

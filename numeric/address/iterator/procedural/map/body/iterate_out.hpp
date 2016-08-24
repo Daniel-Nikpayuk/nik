@@ -18,74 +18,25 @@
 
 template
 <
-	typename Adjective,
+	typename subject,
 
-	size_type directionEnum = Adjective::traits::direction_enum,
-	size_type imageEnum = Adjective::traits::image_enum,
-	size_type iteratorEnum = Adjective::traits::iterator_enum
+	size_type directionEnum = subject::direction_enum,
+	size_type imageEnum = subject::image_enum,
+	size_type iteratorEnum = subject::iterator_enum
 >
-struct iterate_out { };
+struct iterate_out;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_out<Adjective, ModIterator::forward, ModIterator::mutate, iteratorEnum>
+template<typename subject, size_type iteratorEnum>
+struct iterate_out<subject, Adjective::forward, Adjective::mutate, iteratorEnum>
 {
-	static void apply(Adjective & subject)
+	static void apply(typename subject::pointer & out)
 	{
-		++subject.terminal;
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::forward, ModIterator::allocate, ModIterator::segment>
-{
-	static void apply(Adjective & subject)
-	{
-		++subject.terminal;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::forward, ModIterator::allocate, ModIterator::hook>
-{
-	static void apply(Adjective & subject)
-	{
-		subject.terminal = +subject.terminal = new typename Adjective::traits::iterator_type;
-	}
-};
-
-
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::forward, ModIterator::allocate, ModIterator::link>
-{
-	static void apply(Adjective & subject)
-	{
-		+subject.terminal = new typename Adjective::traits::iterator_type;
-		-+subject.terminal = subject.terminal;
-		++subject.terminal;
-	}
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename Adjective, size_type iteratorEnum>
-struct iterate_out<Adjective, ModIterator::backward, ModIterator::mutate, iteratorEnum>
-{
-	static void apply(Adjective & subject)
-	{
-		--subject.terminal;
+		++out;
 	}
 };
 
@@ -93,36 +44,85 @@ struct iterate_out<Adjective, ModIterator::backward, ModIterator::mutate, iterat
 /***********************************************************************************************************************/
 
 
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::backward, ModIterator::allocate, ModIterator::segment>
+template<typename subject>
+struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::segment>
 {
-	static void apply(Adjective & subject)
+	static void apply(typename subject::pointer & out)
 	{
-		--subject.terminal;
+		++out;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::backward, ModIterator::allocate, ModIterator::hook>
+template<typename subject>
+struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::hook>
 {
-	static void apply(Adjective & subject)
+	static void apply(typename subject::pointer & out)
 	{
-		typename Adjective::traits::pointer_type out = subject.terminal;
-		subject.terminal = new typename Adjective::traits::iterator_type;
-		+subject.terminal = out;
+		out = +out = new subject;
 	}
 };
 
 
-template<typename Adjective>
-struct iterate_out<Adjective, ModIterator::backward, ModIterator::allocate, ModIterator::link>
+template<typename subject>
+struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::link>
 {
-	static void apply(Adjective & subject)
+	static void apply(typename subject::pointer & out)
 	{
-		-subject.terminal = new typename Adjective::traits::iterator_type;
-		+-subject.terminal = subject.terminal;
-		--subject.terminal;
+		+out = new subject;
+		-+out = out;
+		++out;
+	}
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename subject, size_type iteratorEnum>
+struct iterate_out<subject, Adjective::backward, Adjective::mutate, iteratorEnum>
+{
+	static void apply(typename subject::pointer & out)
+	{
+		--out;
+	}
+};
+
+
+/***********************************************************************************************************************/
+
+
+template<typename subject>
+struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::segment>
+{
+	static void apply(typename subject::pointer & out)
+	{
+		--out;
+	}
+};
+
+
+template<typename subject>
+struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::hook>
+{
+	static void apply(typename subject::pointer & out)
+	{
+		typename subject::pointer current = out;
+		out = new subject;
+		+out = current;
+	}
+};
+
+
+template<typename subject>
+struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::link>
+{
+	static void apply(typename subject::pointer & out)
+	{
+		-out = new subject;
+		+-out = out;
+		--out;
 	}
 };
 

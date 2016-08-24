@@ -18,16 +18,32 @@
 #include"prototype.hh"
 #include"specialize.hh"
 
-template<typename sAdjective, typename oAdjective, typename Adverb>
-static typename sAdjective::traits::mutate_type map(const sAdjective & subject, oAdjective & object, Adverb & verb)
+template<typename subject, typename object>
+static typename subject::pointer map(typename subject::pointer out, typename object::pointer in, typename object::pointer end)
 {
-	using optimizer_type = IF_THEN_ELSE
+	using optimizer_type = CASES
 	<
-		(Adverb::policy::optimizer_enum == ModOptimizer::prototype),
-		prototype<sAdjective, oAdjective, Adverb>,
-		specialize<sAdjective, oAdjective, Adverb>
-	>;
+		(optimizer_enum - optimizer_offset),
+		prototype<subject, object>,
+		specialize<subject, object>
 
-	return optimizer_type::map(subject, object, verb);
+	>::rtn;
+
+	return optimizer_type::map(out, in, end);
+}
+
+template<typename subject, typename object>
+static typename subject::pointer map(typename subject::pointer & out,
+	size_type length, size_type offset, typename object::pointer in, typename object::pointer end)
+{
+	using optimizer_type = CASES
+	<
+		(optimizer_enum - optimizer_offset),
+		prototype<subject, object>,
+		specialize<subject, object>
+
+	>::rtn;
+
+	return optimizer_type::map(out, length, offset, in, end);
 }
 

@@ -34,8 +34,7 @@ class repeat
 {
 	private:
 
-		template<typename listParams, size_type car = listParams::car>
-		struct listArguments { };
+		template<typename listParams, size_type car = listParams::car> struct listArguments;
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/

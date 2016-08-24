@@ -58,8 +58,7 @@ namespace nik
 
 	struct parameter_printer
 	{
-		template<typename size_type, size_type... params>
-		struct unroll { };
+		template<typename size_type, size_type... params> struct unroll;
 
 		template<typename size_type, size_type current, size_type... params>
 		struct unroll<size_type, current, params...>

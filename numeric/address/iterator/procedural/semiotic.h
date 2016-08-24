@@ -37,7 +37,23 @@ namespace numeric	{
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-		#include"type/semiotic.hh"
+		template<typename ValueType, typename L>
+		class Type
+		{
+			public:
+				static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
+				static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
+				static constexpr size_type optimizer_enum = AT<L, Modifier::optimizer>::rtn;
+			protected:
+				static constexpr size_type optimizer_offset = Adverb::template bounds<Modifier::optimizer>::initial;
+			public:
+				typedef ValueType value_type;
+			public:
+				#include"map/semiotic.hh"
+		};
+
+		template<typename T, size_type... params>
+		using type = Type<T, SORTFILL<Adverb, params...>::rtn>;
 
 		#undef AT
 		#undef CASES
