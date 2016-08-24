@@ -15,44 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
+namespace nik		{
+namespace numeric	{
+
 	template<typename SizeType>
-	struct module<nik::variadic, nik::functional, nik::semiotic, SizeType>
+	struct module<nik::iterator, nik::structural, nik::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
 		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = module<nik::variadic, orientation_enum, interface_enum, SizeType>;
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-/***********************************************************************************************************************/
+		typedef nik::Iterator Modifier;
+		typedef typename Modifier::Adjective Adjective;
 
-		typedef nik::modifier<size_type> Mod;
-		typedef typename Mod::iterator ModIterator;
-		typedef typename Mod::optimizer ModOptimizer;
-
-		template<size_type... params>
-		using list = typename gvs_semiotic::template list<params...>;
-
-		template<bool conditional, typename if_true, typename if_false>
-		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
-
-		template<size_type pos, typename... params>
-		using cases = typename gvf_media::template cases<pos, params...>::rtn;
-
-		template<typename L, size_type pos>
-		using at = typename gvf_semiotic::template at<L, pos>;
-
-		template<typename modifier, size_type... params>
-		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
-
-/***********************************************************************************************************************/
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
 		#include"segment/semiotic.hpp"
 		#include"node/semiotic.hpp"
 		#include"hook/semiotic.hpp"
 		#include"link/semiotic.hpp"
 		#include"type/semiotic.hpp"
+
+		#undef AT
+		#undef CASES
+		#undef SORTFILl
 	};
-}
+
+}}
 

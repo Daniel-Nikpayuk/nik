@@ -15,8 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
+namespace nik		{
+namespace grammaric	{
+
 	template<typename SizeType>
 	struct module<nik::variadic, nik::structural, nik::media, SizeType>
 	{
@@ -26,5 +27,6 @@ namespace nik
 		#include"list/media.hpp"
 		#include"array/media.hpp"
 	};
-}
+
+}}
 

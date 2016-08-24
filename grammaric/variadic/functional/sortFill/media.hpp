@@ -15,13 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename modifier, size_type... params>
+template<typename ModuleType, size_type... params>
 struct sortFill
 {
 	using in = typename structural<nik::semiotic>::template list<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	using rtn = typename fill<modifier, sorted>::rtn;
+	using rtn = typename fill<ModuleType, sorted>::rtn;
 };
 

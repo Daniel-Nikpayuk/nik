@@ -72,7 +72,6 @@ class node
 	public:
 		typedef Pointer pointer;
 		typedef typename pointer::value_type value_type;
-		typedef typename pointer::size_type size_type;
 	protected:
 		typedef void* void_ptr;
 	public:
@@ -87,7 +86,6 @@ class node_pointer
 {
 		friend class const_node_pointer<T, N>;
 	public:
-		typedef semiotic::size_type size_type;
 		typedef T value_type;
 
 		enum : size_type { dimension=N };
@@ -236,7 +234,6 @@ template<typename T, size_type N>
 class const_node_pointer
 {
 	public:
-		typedef semiotic::size_type size_type;
 		typedef T const value_type;
 
 		enum : size_type { dimension=N };

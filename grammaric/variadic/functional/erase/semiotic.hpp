@@ -18,8 +18,7 @@
 template<size_type current, size_type index, typename L1, typename L2, typename Null = typename L2::null>
 struct erase
 {
-	using new_L1 = typename cf_media::template
-	if_then_else
+	using new_L1 = IF_THEN_ELSE
 	<
 		(current == index),
 		L1,

@@ -21,7 +21,6 @@ class array
 	public:
 		typedef Pointer pointer;
 		typedef typename pointer::value_type value_type;
-		typedef semiotic::size_type size_type;
 	protected:
 		typedef void* void_ptr;
 	public:
@@ -38,7 +37,6 @@ class array<ValueType*>
 	public:
 		typedef ValueType* pointer;
 		typedef ValueType value_type;
-		typedef semiotic::size_type size_type;
 	protected:
 		typedef void* void_ptr;
 	public:

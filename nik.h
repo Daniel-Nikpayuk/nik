@@ -23,41 +23,6 @@
 /***********************************************************************************************************************/
 
 
-#define declare_bounds()												\
-															\
-	static constexpr size_type length = 1;										\
-															\
-	template<size_type index, typename Filler = void>								\
-	struct bounds { };
-
-
-#define subclass_bounds(subclass)											\
-															\
-	static constexpr size_type length = subclass::length + 1;							\
-															\
-	template<size_type index, typename Filler = void>								\
-	struct bounds : public subclass::template bounds<index, Filler> { };
-
-
-#define define_bounds(modifier, index, begin, end)									\
-															\
-	template<typename Filler>											\
-	struct bounds<modifier::index, Filler>										\
-	{														\
-		static constexpr size_type initial = begin;								\
-		static constexpr size_type terminal = end;								\
-	};
-
-
-#define initialize_enum(modifier, index)										\
-															\
-	index::template bounds<modifier::index>::terminal + 1
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 #include"namespace.h"
 
 //#include"error.h"
@@ -75,15 +40,29 @@
 	#string
 
 
-/***********************************************************************************************************************/
-
-
 #define build(name, path)												\
 	stringify(path/nik/module/name.cpp)
 
 
-#define nik(name, path)													\
+#define lazy_nik(name, path)												\
 	stringify(path/nik/module/name.h)
+
+
+#define nik(name)													\
+	stringify(module/name.h)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#ifndef LAZY
+
+
+#include nik(iterator)
+
+
+#endif
 
 
 /***********************************************************************************************************************/

@@ -20,9 +20,9 @@ template<typename ValueType, typename L>
 class Type
 {
 	public:
-		static constexpr size_type functor_enum = at<L, Mod::functor>::rtn;
-		static constexpr size_type tracer_enum = at<L, Mod::tracer>::rtn;
-		static constexpr size_type optimizer_enum = at<L, Mod::optimizer>::rtn;
+		static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
+		static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
+		static constexpr size_type optimizer_enum = AT<L, Modifier::optimizer>::rtn;
 	public:
 		typedef ValueType value_type;
 };
@@ -32,6 +32,6 @@ class Type
 
 
 template<typename T, size_type... params>
-using type = Type<T, sortFill<ModOptimizer, params...> >;
+using type = Type<T, SORTFILL<Adverb, params...>::rtn>;
 
 

@@ -17,23 +17,32 @@
 
 namespace nik		{
 namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace structural	{
 
 	template<typename SizeType>
-	struct media
+	struct module<nik::iterator, nik::structural, nik::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-//		#include"segment/media.hpp"
-//		#include"node/media.hpp"
-//		#include"hook/media.hpp"
-//		#include"link/media.hpp"
-//		#include"type/media.hpp"
+		typedef nik::Iterator Modifier;
+		typedef typename Modifier::Adjective Adjective;
+
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+
+		#include"segment/media.hpp"
+		#include"node/media.hpp"
+		#include"hook/media.hpp"
+		#include"link/media.hpp"
+		#include"type/media.hpp"
+
+		#undef AT
+		#undef CASES
+		#undef SORTFILl
 	};
 
-}}}}}
+}}
 

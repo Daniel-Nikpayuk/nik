@@ -15,22 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
+namespace nik		{
+namespace grammaric	{
+
 	template<typename SizeType>
 	struct module<nik::variadic, nik::functional, nik::media, SizeType>
 	{
 		typedef SizeType size_type;
 
 		template<size_type orientation_enum, size_type interface_enum>
-		using control_flow = module<nik::control_flow, orientation_enum, interface_enum, SizeType>;
+		using control_flow = module<nik::control_flow, orientation_enum, interface_enum, size_type>;
 
 		template<size_type interface_enum>
-		using structural = module<nik::variadic, nik::structural, interface_enum, SizeType>;
+		using structural = module<nik::variadic, nik::structural, interface_enum, size_type>;
 
-		using semiotic = module<nik::variadic, nik::functional, nik::semiotic, SizeType>;
+		using semiotic = module<nik::variadic, nik::functional, nik::semiotic, size_type>;
 
-		#define cf_media control_flow<nik::functional, nik::media>
+		#define IF_THEN_ELSE typename control_flow<nik::functional, nik::media>::template if_then_else
 
 		#include"cases/media.hpp"
 
@@ -44,7 +45,8 @@ namespace nik
 		#include"fill/media.hpp"
 		#include"sortFill/media.hpp"
 
-		#undef cf_media
+		#undef IF_THEN_ELSE
 	};
-}
+
+}}
 

@@ -15,8 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
+namespace nik		{
+namespace grammaric	{
+
 	template<typename SizeType>
 	struct module<nik::identifier, nik::structural, nik::semiotic, SizeType>
 	{
@@ -24,5 +25,6 @@ namespace nik
 
 		#include"container/semiotic.hpp"
 	};
-}
+
+}}
 

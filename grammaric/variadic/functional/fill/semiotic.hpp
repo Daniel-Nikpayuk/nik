@@ -15,19 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename modifier, typename out, typename in, size_type k, size_type n>
+template<typename ModuleType, typename out, typename in, size_type k, size_type n>
 struct fill
 {
-	static constexpr size_type b = modifier::template bounds<k>::initial;
-	static constexpr size_type e = modifier::template bounds<k>::terminal;
+	static constexpr size_type b = ModuleType::template bounds<k>::initial;
+	static constexpr size_type e = ModuleType::template bounds<k>::terminal;
 
 	//
 
 	template<typename in1, typename Filler = void>
 	struct new_out_helper
 	{
-		using rtn = typename cf_media::template
-		if_then_else
+		using rtn = IF_THEN_ELSE
 		<
 			(b <= in1::car && in1::car <= e),
 			typename out::template append<in1::car>,
@@ -49,8 +48,7 @@ struct fill
 	template<typename in1, typename Filler = void>
 	struct new_in_helper
 	{
-		using rtn = typename cf_media::template
-		if_then_else
+		using rtn = IF_THEN_ELSE
 		<
 			(b <= in1::car && in1::car <= e),
 			typename in1::cdr,
@@ -69,11 +67,11 @@ struct fill
 
 	//
 
-	using rtn = typename fill<modifier, new_out, new_in, k+1, n>::rtn;
+	using rtn = typename fill<ModuleType, new_out, new_in, k+1, n>::rtn;
 };
 
-template<typename modifier, typename out, typename in, size_type n>
-struct fill<modifier, out, in, n, n>
+template<typename ModuleType, typename out, typename in, size_type n>
+struct fill<ModuleType, out, in, n, n>
 {
 	using rtn = out;
 };

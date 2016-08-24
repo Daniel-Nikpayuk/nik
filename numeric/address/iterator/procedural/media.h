@@ -17,35 +17,32 @@
 
 namespace nik		{
 namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace procedural	{
 
 	template<typename SizeType>
-	struct media
+	struct module<nik::iterator, nik::procedural, nik::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-//		#include"map/media.hh"
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-//			template<size_type N, size_type M=0, size_type L=0>
-//			using map_unroll=map::template unroll<N, M, L>;
+		template<size_type interface_enum>
+		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
-//		#include"search/media.hh"
+		typedef nik::Iterator Modifier;
+		typedef typename Modifier::Adjective Adjective;
+		typedef typename Modifier::Adverb Adverb;
 
-//			template<size_type N, size_type M=0, size_type L=0>
-//			using search_unroll=typename search::template unroll<N, M, L>;
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-//		#include"identity/media.hh"
+//		#include"type/media.hh"
 
-//			template<size_type N, size_type M=0, size_type L=0>
-//			using identity_unroll=typename identity::template unroll<N, M, L>;
-
-//		#include"arithmetic/media.hh"
-
-//			template<size_type N, size_type M=0, size_type L=0>
-//			using arithmetic_unroll=typename arithmetic::template unroll<N, M, L>;
+		#undef AT
+		#undef CASES
+		#undef SORTFILL
 	};
 
-}}}}}
+}}
 

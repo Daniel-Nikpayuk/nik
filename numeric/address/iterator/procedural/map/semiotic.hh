@@ -21,7 +21,7 @@
 template<typename sAdjective, typename oAdjective, typename Adverb>
 static typename sAdjective::traits::mutate_type map(const sAdjective & subject, oAdjective & object, Adverb & verb)
 {
-	using optimizer_type = if_then_else
+	using optimizer_type = IF_THEN_ELSE
 	<
 		(Adverb::policy::optimizer_enum == ModOptimizer::prototype),
 		prototype<sAdjective, oAdjective, Adverb>,

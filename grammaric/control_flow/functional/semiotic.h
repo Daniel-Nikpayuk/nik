@@ -15,8 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
+namespace nik		{
+namespace grammaric	{
+
 	template<typename SizeType>
 	struct module<nik::control_flow, nik::functional, nik::semiotic, SizeType>
 	{
@@ -24,5 +25,6 @@ namespace nik
 
 		#include"if_then_else/semiotic.hpp"
 	};
-}
+
+}}
 

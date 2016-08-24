@@ -15,18 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+#ifndef LAZY_H
+#define LAZY_H
 
-	template<typename SizeType>
-	struct module<nik::variadic, nik::structural, nik::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+#define LAZY
 
-		#include"tuple/semiotic.hpp"
-		#include"list/semiotic.hpp"
-		#include"array/semiotic.hpp"
-	};
-
-}}
-
+#endif

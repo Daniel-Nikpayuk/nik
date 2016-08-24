@@ -17,45 +17,32 @@
 
 namespace nik		{
 namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace procedural	{
-
-	template<typename SizeType> struct media;
 
 	template<typename SizeType>
-	struct semiotic
+	struct module<nik::iterator, nik::procedural, nik::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
+		template<size_type interface_enum>
+		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
-		typedef grammaric::variadic::functional::media<size_type> gvf_media;
+		typedef nik::Iterator Modifier;
+		typedef typename Modifier::Adjective Adjective;
+		typedef typename Modifier::Adverb Adverb;
 
-		typedef structural::semiotic<size_type> s_semiotic;
-
-/***********************************************************************************************************************/
-
-		typedef nik::modifier<size_type> Mod;
-		typedef typename Mod::iterator ModIterator;
-		typedef typename Mod::optimizer ModOptimizer;
-
-		template<bool conditional, typename if_true, typename if_false>
-		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
-
-		template<typename L, size_type pos>
-		using at = typename gvf_semiotic::template at<L, pos>;
-
-		template<typename modifier, size_type... params>
-		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
-
-/***********************************************************************************************************************/
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
 		#include"type/semiotic.hh"
+
+		#undef AT
+		#undef CASES
+		#undef SORTFILL
 	};
 
-}}}}}
+}}
 

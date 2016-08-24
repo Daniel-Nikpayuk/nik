@@ -20,22 +20,23 @@ template<typename ValueType, typename L>
 class Type
 {
 	public:
-		static constexpr size_type direction_enum = at<L, Mod::direction>::rtn;
-		static constexpr size_type interval_enum = at<L, Mod::interval>::rtn;
-		static constexpr size_type image_enum = at<L, Mod::image>::rtn;
-		static constexpr size_type iterator_enum = at<L, Mod::iterator>::rtn;
+		static constexpr size_type direction_enum = AT<L, Modifier::direction>::rtn;
+		static constexpr size_type interval_enum = AT<L, Modifier::interval>::rtn;
+		static constexpr size_type image_enum = AT<L, Modifier::image>::rtn;
+		static constexpr size_type iterator_enum = AT<L, Modifier::iterator>::rtn;
 	protected:
-		static constexpr size_type iterator_offset = ModIterator::template bounds<Mod::iterator>::initial;
+		static constexpr size_type iterator_offset = Adjective::template bounds<Modifier::iterator>::initial;
 	public:
-		using pointer = cases
+		using pointer = CASES
 		<
 			(iterator_enum - iterator_offset),
 			segment_pointer<ValueType>,
 			hook_pointer<ValueType>,
 			link_pointer<ValueType>
-		>;
 
-		typedef typename pointer::value_type value_type;
+		>::rtn;
+
+		typedef ValueType value_type;
 	protected:
 		typedef void* void_ptr;
 	public:
@@ -48,6 +49,6 @@ class Type
 
 
 template<typename T, size_type... params>
-using type = Type<T, sortFill<ModIterator, params...> >;
+using type = Type<T, SORTFILL<Adjective, params...>::rtn>;
 
 

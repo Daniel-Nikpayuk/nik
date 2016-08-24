@@ -20,152 +20,129 @@
 
 #include"variadic.h"
 
+namespace nik
+{
+	struct Iterator
+	{
+		enum AdjectiveType : global_size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+			adjective // filler
+		};
+
+		struct Adjective
+		{
+			static constexpr global_size_type length = AdjectiveType::adjective;
+
+			template<global_size_type adjective_type, typename Filler = void> struct bounds;
+
+			enum : global_size_type
+			{
+				forward,
+				backward,
+
+				closing,
+				closed,
+				opening,
+				open,
+
+				mutate,
+				allocate,
+				deallocate,
+
+				segment,
+				hook,
+				link
+			};
+
+			template<typename Filler>
+			struct bounds<AdjectiveType::direction, Filler>
+			{
+				static constexpr global_size_type initial = forward;
+				static constexpr global_size_type terminal = backward;
+			};
+
+			template<typename Filler>
+			struct bounds<AdjectiveType::interval, Filler>
+			{
+				static constexpr global_size_type initial = closing;
+				static constexpr global_size_type terminal = open;
+			};
+
+			template<typename Filler>
+			struct bounds<AdjectiveType::image, Filler>
+			{
+				static constexpr global_size_type initial = mutate;
+				static constexpr global_size_type terminal = deallocate;
+			};
+
+			template<typename Filler>
+			struct bounds<AdjectiveType::iterator, Filler>
+			{
+				static constexpr global_size_type initial = segment;
+				static constexpr global_size_type terminal = link;
+			};
+		};
+
+/***********************************************************************************************************************/
+
+		enum AdverbType : global_size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+			adverb // filler
+		};
+
+		struct Adverb
+		{
+			static constexpr global_size_type length = AdverbType::adverb;
+
+			template<global_size_type adverb_type, typename Filler = void> struct bounds;
+
+			enum : global_size_type
+			{
+				apply_functor,
+				omit_functor,
+
+				omit_count,
+				apply_count,
+
+				prototype,
+				specialize
+			};
+
+			template<typename Filler>
+			struct bounds<AdverbType::functor, Filler>
+			{
+				static constexpr global_size_type initial = apply_functor;
+				static constexpr global_size_type terminal = omit_functor;
+			};
+
+			template<typename Filler>
+			struct bounds<AdverbType::tracer, Filler>
+			{
+				static constexpr global_size_type initial = omit_count;
+				static constexpr global_size_type terminal = apply_count;
+			};
+
+			template<typename Filler>
+			struct bounds<AdverbType::optimizer, Filler>
+			{
+				static constexpr global_size_type initial = prototype;
+				static constexpr global_size_type terminal = specialize;
+			};
+		};
+	};
+}
+
 #include"../numeric/address/iterator/structural/semiotic.h"
 #include"../numeric/address/iterator/procedural/semiotic.h"
 
 #include"../numeric/address/iterator/structural/media.h"
 #include"../numeric/address/iterator/procedural/media.h"
-
-namespace nik
-{
-	template<typename SizeType>
-	struct modifier
-	{
-		typedef SizeType size_type;
-
-		enum adjective : size_type
-		{
-			direction,
-			interval,
-			image,
-			iterator
-		};
-
-		struct direction
-		{
-			declare_bounds()
-
-			enum : size_type
-			{
-				forward,
-				backward
-			};
-
-			define_bounds(adjective, direction, 0, 1)
-		};
-
-		struct interval : public direction
-		{
-			subclass_bounds(direction)
-
-			enum : size_type
-			{
-				closing = initialize_enum(adjective, direction),
-				closed,
-				opening,
-				open
-			};
-
-			define_bounds(adjective, interval, 2, 5)
-		};
-
-		struct image : public interval
-		{
-			subclass_bounds(interval)
-
-			enum : size_type
-			{
-				mutate = initialize_enum(adjective, interval),
-				allocate,
-				deallocate
-			};
-
-			define_bounds(adjective, image, 6, 8)
-		};
-
-		struct iterator : public image
-		{
-			subclass_bounds(image)
-
-			enum : size_type
-			{
-				segment = initialize_enum(adjective, image),
-				hook,
-				link
-			};
-
-			define_bounds(adjective, iterator, 9, 11)
-		};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-		enum adverb : size_type
-		{
-			functor,
-			tracer,
-			optimizer
-		};
-
-		struct functor
-		{
-			declare_bounds()
-
-			enum : size_type
-			{
-				apply_functor,
-				omit_functor
-			};
-
-			define_bounds(adverb, functor, 0, 1)
-		};
-
-		struct tracer : public functor
-		{
-			subclass_bounds(functor)
-
-			enum : size_type
-			{
-				omit_count = initialize_enum(adverb, functor),
-				apply_count
-			};
-
-			define_bounds(adverb, tracer, 2, 3)
-		};
-
-		struct optimizer : public tracer
-		{
-			subclass_bounds(tracer)
-
-			enum : size_type
-			{
-				prototype = initialize_enum(adverb, tracer),
-				specialize
-			};
-
-			define_bounds(adverb, optimizer, 4, 5)
-		};
-	};
-
-	template<typename SizeType>
-	struct semiotic<SizeType, module::iterator> : public semiotic<SizeType, module::variadic>
-	{
-		typedef SizeType size_type;
-
-		using naits = numeric::address::iterator::structural::semiotic<size_type>;
-		using naitp = numeric::address::iterator::procedural::semiotic<size_type>;
-	};
-
-	template<typename SizeType>
-	struct media<SizeType, module::iterator> : public media<SizeType, module::variadic>
-	{
-		typedef SizeType size_type;
-
-		using naits = numeric::address::iterator::structural::media<size_type>;
-		using naitp = numeric::address::iterator::procedural::media<size_type>;
-	};
-}
 
 #endif

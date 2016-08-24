@@ -18,8 +18,7 @@
 template<typename predicate, typename out, typename in, typename Null = typename in::null>
 struct filter
 {
-	using new_out = typename cf_media::template
-	if_then_else
+	using new_out = IF_THEN_ELSE
 	<
 		predicate::test(in::car),
 		typename out::template append<in::car>,
