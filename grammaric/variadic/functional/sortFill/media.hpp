@@ -18,7 +18,7 @@
 template<typename modifier, size_type... params>
 struct sortFill
 {
-	using in = typename s_semiotic::template list<params...>;
+	using in = typename structural<nik::semiotic>::template list<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 

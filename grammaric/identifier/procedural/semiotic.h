@@ -15,18 +15,14 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-namespace identifier	{
-namespace procedural	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct semiotic
+	struct module<nik::identifier, nik::procedural, nik::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
 		#include"cast/semiotic.hpp"
 	};
-
-}}}}
+}
 

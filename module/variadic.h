@@ -26,25 +26,4 @@
 #include"../grammaric/variadic/structural/media.h"
 #include"../grammaric/variadic/functional/media.h"
 
-namespace nik
-{
-	template<typename SizeType>
-	struct semiotic<SizeType, module::variadic> : public semiotic<SizeType, module::control_flow>
-	{
-		typedef SizeType size_type;
-
-		using gvs = grammaric::variadic::structural::semiotic<size_type>;
-		using gvf = grammaric::variadic::functional::semiotic<size_type>;
-	};
-
-	template<typename SizeType>
-	struct media<SizeType, module::variadic> : public media<SizeType, module::control_flow>
-	{
-		typedef SizeType size_type;
-
-		using gvs = grammaric::variadic::structural::media<size_type>;
-		using gvf = grammaric::variadic::functional::media<size_type>;
-	};
-}
-
 #endif

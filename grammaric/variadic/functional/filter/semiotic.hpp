@@ -19,13 +19,13 @@ template<typename predicate, typename out, typename in, typename Null = typename
 struct filter
 {
 	using new_out = typename cf_media::template
-			if_then_else
-			<
-				predicate::test(in::car),
-				typename out::template append<in::car>,
-				out
+	if_then_else
+	<
+		predicate::test(in::car),
+		typename out::template append<in::car>,
+		out
 
-			>::rtn;
+	>::rtn;
 
 	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
 };

@@ -27,13 +27,13 @@ struct fill
 	struct new_out_helper
 	{
 		using rtn = typename cf_media::template
-			if_then_else
-			<
-				(b <= in1::car && in1::car <= e),
-				typename out::template append<in1::car>,
-				typename out::template append<b>
+		if_then_else
+		<
+			(b <= in1::car && in1::car <= e),
+			typename out::template append<in1::car>,
+			typename out::template append<b>
 
-			>::rtn;
+		>::rtn;
 	};
 
 	template<typename Filler>
@@ -50,13 +50,13 @@ struct fill
 	struct new_in_helper
 	{
 		using rtn = typename cf_media::template
-			if_then_else
-			<
-				(b <= in1::car && in1::car <= e),
-				typename in1::cdr,
-				in1
+		if_then_else
+		<
+			(b <= in1::car && in1::car <= e),
+			typename in1::cdr,
+			in1
 
-			>::rtn;
+		>::rtn;
 	};
 
 	template<typename Filler>

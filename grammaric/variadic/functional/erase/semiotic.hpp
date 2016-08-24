@@ -19,13 +19,13 @@ template<size_type current, size_type index, typename L1, typename L2, typename 
 struct erase
 {
 	using new_L1 = typename cf_media::template
-		if_then_else
-		<
-			(current == index),
-			L1,
-			typename L1::template append<L2::car>
+	if_then_else
+	<
+		(current == index),
+		L1,
+		typename L1::template append<L2::car>
 
-		>::rtn;
+	>::rtn;
 
 	using rtn = typename erase<current+1, index, new_L1, typename L2::cdr>::rtn;
 };

@@ -15,23 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-namespace address	{
-namespace iterator	{
-namespace structural	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct semiotic
+	struct module<nik::variadic, nik::functional, nik::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
-
-		typedef grammaric::variadic::functional::semiotic<size_type> gvf_semiotic;
-		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
-
-		typedef grammaric::variadic::functional::media<size_type> gvf_media;
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = module<nik::variadic, orientation_enum, interface_enum, SizeType>;
 
 /***********************************************************************************************************************/
 
@@ -45,8 +37,8 @@ namespace structural	{
 		template<bool conditional, typename if_true, typename if_false>
 		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
 
-		template<size_type pos, typename L>
-		using cases = typename gvf_semiotic::template cases<pos, L>::rtn;
+		template<size_type pos, typename... params>
+		using cases = typename gvf_media::template cases<pos, params...>::rtn;
 
 		template<typename L, size_type pos>
 		using at = typename gvf_semiotic::template at<L, pos>;
@@ -62,6 +54,5 @@ namespace structural	{
 		#include"link/semiotic.hpp"
 		#include"type/semiotic.hpp"
 	};
-
-}}}}}
+}
 

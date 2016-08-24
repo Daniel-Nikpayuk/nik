@@ -15,46 +15,37 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE__H
-#define MODULE__H
+#ifndef MODULE_SINT_H
+#define MODULE_SINT_H
 
-#include"../numeric/word/boolean/structural/media.h"
-
-#include"../numeric/word/uint/structural/media.h"
-#include"../numeric/word/uint/functional/media.h"
-#include"../numeric/word/uint/procedural/media.h"
+#include"../numeric/word/sint/structural/semiotic.h"
+#include"../numeric/word/sint/functional/semiotic.h"
+#include"../numeric/word/sint/procedural/semiotic.h"
 
 #include"../numeric/word/sint/structural/media.h"
 #include"../numeric/word/sint/functional/media.h"
 #include"../numeric/word/sint/procedural/media.h"
 
-#include"../numeric/address/iterator/structural/media.h"
-#include"../numeric/address/iterator/procedural/media.h"
-
-//#include"../numeric/address/list/structural/media.h"
-
 namespace nik
 {
 	template<typename SizeType>
-	struct media
+	struct semiotic<SizeType, module::sint>
 	{
 		typedef SizeType size_type;
 
-		using nwbs = numeric::word::boolean::structural::media<size_type>;
+		using nwss = numeric::word::sint::structural::semiotic<size_type>;
+		using nwsf = numeric::word::sint::functional::semiotic<size_type>;
+		using nwsp = numeric::word::sint::procedural::semiotic<size_type>;
+	};
 
-		using nwus = numeric::word::uint::structural::media<size_type>;
-		using nwuf = numeric::word::uint::functional::media<size_type>;
-		using nwup = numeric::word::uint::procedural::media<size_type>;
+	template<typename SizeType>
+	struct media<SizeType, module::sint>
+	{
+		typedef SizeType size_type;
 
 		using nwss = numeric::word::sint::structural::media<size_type>;
 		using nwsf = numeric::word::sint::functional::media<size_type>;
 		using nwsp = numeric::word::sint::procedural::media<size_type>;
-
-		using naits = numeric::address::iterator::structural::media<size_type>;
-
-		using naitp = numeric::address::iterator::procedural::media<size_type>;
-
-//		using nals = numeric::address::list::structural::media<size_type>;
 	};
 }
 

@@ -35,8 +35,6 @@ namespace procedural	{
 
 		typedef grammaric::variadic::functional::media<size_type> gvf_media;
 
-		typedef word::uint::functional::semiotic<size_type> wuf_semiotic;
-
 		typedef structural::semiotic<size_type> s_semiotic;
 
 /***********************************************************************************************************************/
@@ -48,15 +46,15 @@ namespace procedural	{
 		template<bool conditional, typename if_true, typename if_false>
 		using if_then_else = typename gcf_media::template if_then_else<conditional, if_true, if_false>::rtn;
 
+		template<typename L, size_type pos>
+		using at = typename gvf_semiotic::template at<L, pos>;
+
+		template<typename modifier, size_type... params>
+		using sortFill = typename gvf_media::template sortFill<modifier, params...>::rtn;
+
 /***********************************************************************************************************************/
 
-		template<typename ValueType>
-		struct type
-		{
-			typedef ValueType value_type;
-
-			#include"map/semiotic.hh"
-		};
+		#include"type/semiotic.hh"
 	};
 
 }}}}}

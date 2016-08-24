@@ -15,11 +15,30 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_CONTROL_FLOW_H
-#define MODULE_CONTROL_FLOW_H
+#ifndef MODULE_BOOLEAN_H
+#define MODULE_BOOLEAN_H
 
-#include"../grammaric/control_flow/functional/semiotic.h"
+#include"../numeric/word/boolean/structural/semiotic.h"
 
-#include"../grammaric/control_flow/functional/media.h"
+#include"../numeric/word/boolean/structural/media.h"
+
+namespace nik
+{
+	template<typename SizeType>
+	struct semiotic<SizeType, module::boolean>
+	{
+		typedef SizeType size_type;
+
+		using nwbs = numeric::word::boolean::structural::semiotic<size_type>;
+	};
+
+	template<typename SizeType>
+	struct media<SizeType, module::boolean>
+	{
+		typedef SizeType size_type;
+
+		using nwbs = numeric::word::boolean::structural::media<size_type>;
+	};
+}
 
 #endif

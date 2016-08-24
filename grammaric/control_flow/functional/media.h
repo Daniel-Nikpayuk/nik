@@ -15,18 +15,14 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-namespace control_flow	{
-namespace functional	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct media
+	struct module<nik::control_flow, nik::functional, nik::media, SizeType>
 	{
 		typedef SizeType size_type;
 
 		#include"if_then_else/media.hpp"
 	};
-
-}}}}
+}
 

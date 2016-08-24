@@ -15,11 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_CONTROL_FLOW_H
-#define MODULE_CONTROL_FLOW_H
 
-#include"../grammaric/control_flow/functional/semiotic.h"
+template<typename ValueType, typename L>
+class Type
+{
+	public:
+		static constexpr size_type functor_enum = at<L, Mod::functor>::rtn;
+		static constexpr size_type tracer_enum = at<L, Mod::tracer>::rtn;
+		static constexpr size_type optimizer_enum = at<L, Mod::optimizer>::rtn;
+	public:
+		typedef ValueType value_type;
+};
 
-#include"../grammaric/control_flow/functional/media.h"
 
-#endif
+/***********************************************************************************************************************/
+
+
+template<typename T, size_type... params>
+using type = Type<T, sortFill<ModOptimizer, params...> >;
+
+

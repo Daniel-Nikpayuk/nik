@@ -15,13 +15,10 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-namespace variadic	{
-namespace structural	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct semiotic
+	struct module<nik::variadic, nik::structural, nik::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
@@ -29,6 +26,5 @@ namespace structural	{
 		#include"list/semiotic.hpp"
 		#include"array/semiotic.hpp"
 	};
-
-}}}}
+}
 

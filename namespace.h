@@ -15,224 +15,47 @@
 **
 ************************************************************************************************************************/
 
+#include<stddef.h>
+
 namespace nik
 {
+	enum Module : size_t
+	{
+		control_flow,
+		identifier,
+		variadic,
+
+		boolean,
+		uint,
+		sint,
+
+		iterator
+	};
+
+	enum Orientation : size_t
+	{
+		structural,
+		functional,
+		procedural
+	};
+
+	enum Interface : size_t
+	{
+		semiotic,
+		media
+	};
+
+	template<size_t module_enum, size_t orientation_enum, size_t interface_enum, typename SizeType = size_t>
 	struct module
 	{
-		typedef unsigned char size_type;
+		static_assert
+		(
+			module_enum != control_flow		||
+			module_enum != variadic			||
+			module_enum != iterator			,
 
-		enum : size_type
-		{
-			control_flow,
-			identifier,
-			variadic,
-
-			iterator
-		};
+			"This module is not yet implemented!"
+		);
 	};
 }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define declare_bounds()												\
-															\
-	static constexpr size_type length = 1;										\
-															\
-	template<size_type index, typename Filler = void>								\
-	struct bounds { };
-
-
-#define subclass_bounds(subclass)											\
-															\
-	static constexpr size_type length = subclass::length + 1;							\
-															\
-	template<size_type index, typename Filler = void>								\
-	struct bounds : public subclass::template bounds<index, Filler> { };
-
-
-#define define_bounds(modifier, index, begin, end)									\
-															\
-	template<typename Filler>											\
-	struct bounds<modifier::index, Filler>										\
-	{														\
-		static constexpr size_type initial = begin;								\
-		static constexpr size_type terminal = end;								\
-	};
-
-
-#define initialize_enum(modifier, index)										\
-															\
-	index::template bounds<modifier::index>::terminal + 1
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-namespace nik
-{
-	template<typename SizeType>
-	struct modifier
-	{
-		typedef SizeType size_type;
-
-		enum adjective : size_type
-		{
-			arity,
-			direction,
-			interval,
-			image,
-			iterator
-		};
-
-		struct arity
-		{
-			declare_bounds()
-
-			enum : size_type
-			{
-				unary,
-				binary
-			};
-
-			define_bounds(adjective, arity, 0, 1)
-		};
-
-		struct direction : public arity
-		{
-			subclass_bounds(arity)
-
-			enum : size_type
-			{
-				forward = initialize_enum(adjective, arity),
-				backward
-			};
-
-			define_bounds(adjective, direction, 2, 3)
-		};
-
-		struct interval : public direction
-		{
-			subclass_bounds(direction)
-
-			enum : size_type
-			{
-				closing = initialize_enum(adjective, direction),
-				closed,
-				opening,
-				open
-			};
-
-			define_bounds(adjective, interval, 4, 7)
-		};
-
-		struct image : public interval
-		{
-			subclass_bounds(interval)
-
-			enum : size_type
-			{
-				mutate = initialize_enum(adjective, interval),
-				allocate,
-				deallocate
-			};
-
-			define_bounds(adjective, image, 8, 10)
-		};
-
-		struct iterator : public image
-		{
-			subclass_bounds(image)
-
-			enum : size_type
-			{
-				segment = initialize_enum(adjective, image),
-				hook,
-				link
-			};
-
-			define_bounds(adjective, iterator, 11, 13)
-		};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-		enum adverb : size_type
-		{
-			functor,
-			tracer,
-			optimizer
-		};
-
-		struct functor
-		{
-			declare_bounds()
-
-			enum : size_type
-			{
-				apply_functor,
-				omit_functor
-			};
-
-			define_bounds(adverb, functor, 0, 1)
-		};
-
-		struct tracer : public functor
-		{
-			subclass_bounds(functor)
-
-			enum : size_type
-			{
-				omit_count = initialize_enum(adverb, functor),
-				apply_count
-			};
-
-			define_bounds(adverb, tracer, 2, 3)
-		};
-
-		struct optimizer : public tracer
-		{
-			subclass_bounds(tracer)
-
-			enum : size_type
-			{
-				prototype = initialize_enum(adverb, tracer),
-				specialize
-			};
-
-			define_bounds(adverb, optimizer, 4, 5)
-		};
-	};
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef declare_bounds
-#undef subclass_bounds
-#undef define_bounds
-#undef initialize_enum
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-namespace nik
-{
-	template<typename SizeType, module::size_type> struct semiotic;
-	template<typename SizeType, module::size_type> struct media;
-}
-
 

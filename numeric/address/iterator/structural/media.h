@@ -28,12 +28,11 @@ namespace structural	{
 
 		typedef grammaric::variadic::structural::semiotic<size_type> gvs_semiotic;
 
-//		#include"base/media.hpp"
-//		#include"bit/media.hpp"
 //		#include"segment/media.hpp"
 //		#include"node/media.hpp"
 //		#include"hook/media.hpp"
 //		#include"link/media.hpp"
+//		#include"type/media.hpp"
 	};
 
 }}}}}
