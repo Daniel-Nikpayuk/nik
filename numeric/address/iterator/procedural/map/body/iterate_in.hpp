@@ -18,12 +18,11 @@
 
 template
 <
-	typename object,
+	typename ob_adjective,
 
-		// permutated order of parameters is for convenience of type deduction.
-	size_type imageEnum = object::image_enum,
-	size_type directionEnum = object::direction_enum,
-	size_type iteratorEnum = object::iterator_enum
+	size_type ob_directionEnum = ob_adjective::direction_enum,
+	size_type ob_imageEnum = ob_adjective::image_enum,
+	size_type ob_iteratorEnum = ob_adjective::iterator_enum
 >
 struct iterate_in;
 
@@ -32,10 +31,10 @@ struct iterate_in;
 /***********************************************************************************************************************/
 
 
-template<typename object, size_type iteratorEnum>
-struct iterate_in<object, Adjective::mutate, Adjective::forward, iteratorEnum>
+template<typename ob_adjective, size_type ob_iteratorEnum>
+struct iterate_in<ob_adjective, Adjective::mutate, Adjective::forward, ob_iteratorEnum>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
 		++in;
 	}
@@ -45,33 +44,32 @@ struct iterate_in<object, Adjective::mutate, Adjective::forward, iteratorEnum>
 /***********************************************************************************************************************/
 
 
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::segment>
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::segment>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
 		++in;
 	}
 };
 
 
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::hook>
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::hook>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
 		delete in++;
 	}
 };
 
 
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::link>
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::link>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
-		++in;
-		delete -in;
+		delete -++in;
 	}
 };
 
@@ -80,46 +78,45 @@ struct iterate_in<object, Adjective::deallocate, Adjective::forward, Adjective::
 /***********************************************************************************************************************/
 
 
-template<typename object, size_type iteratorEnum>
-struct iterate_in<object, Adjective::mutate, Adjective::backward, iteratorEnum>
+template<typename ob_adjective, size_type ob_iteratorEnum>
+struct iterate_in<ob_adjective, Adjective::mutate, Adjective::backward, ob_iteratorEnum>
 {
-	static void apply(typename object::pointer & in)
-	{
-		--in;
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::segment>
-{
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
 		--in;
 	}
 };
 
 
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::hook>
+/***********************************************************************************************************************/
+
+
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::segment>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
+	{
+		--in;
+	}
+};
+
+
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::hook>
+{
+	static void apply(ob_pointer & in)
 	{
 		delete in--;
 	}
 };
 
 
-template<typename object>
-struct iterate_in<object, Adjective::deallocate, Adjective::backward, Adjective::link>
+template<typename ob_adjective>
+struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::link>
 {
-	static void apply(typename object::pointer & in)
+	static void apply(ob_pointer & in)
 	{
-		--in;
-		delete +in;
+		delete +--in;
 	}
 };
 

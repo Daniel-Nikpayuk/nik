@@ -16,41 +16,45 @@
 ************************************************************************************************************************/
 
 
-template<typename ValueType, typename L>
-class Type
+template
+<
+	typename sub_adjective,
+
+	size_type sub_directionEnum = sub_adjective::direction_enum,
+	size_type sub_imageEnum = sub_adjective::image_enum,
+	size_type sub_iteratorEnum = sub_adjective::iterator_enum
+>
+struct initialize_variables
 {
-	public:
-		typedef L parameter_list;
-
-		static constexpr size_type direction_enum = AT<L, Modifier::direction>::rtn;
-		static constexpr size_type interval_enum = AT<L, Modifier::interval>::rtn;
-		static constexpr size_type image_enum = AT<L, Modifier::image>::rtn;
-		static constexpr size_type iterator_enum = AT<L, Modifier::iterator>::rtn;
-	protected:
-		static constexpr size_type iterator_offset = Adjective::template bounds<Modifier::iterator>::initial;
-	public:
-		using pointer = CASES
-		<
-			(iterator_enum - iterator_offset),
-			segment_pointer<ValueType>,
-			hook_pointer<ValueType>,
-			link_pointer<ValueType>
-
-		>::rtn;
-
-		typedef ValueType value_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		static void_ptr operator new (size_t n)
-			{ return new void_ptr[pointer::dimension]; }
+	template<typename adverb>
+	static void apply(sub_pointer & out, adverb & side) { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename T, size_type... params>
-using type = Type<T, SORTFILL<Adjective, params...>::rtn>;
+template<typename sub_adjective>
+struct initialize_variables<sub_adjective, Adjective::forward, Adjective::allocate, Adjective::segment>
+{
+	template<typename adverb>
+	static void apply(sub_pointer & out, adverb & side)
+	{
+		side.current = new typename sub_adjective::value_type[side.length];
+		out = side.current + side.offset;
+	}
+};
+
+
+template<typename sub_adjective>
+struct initialize_variables<sub_adjective, Adjective::backward, Adjective::allocate, Adjective::segment>
+{
+	template<typename adverb>
+	static void apply(sub_pointer & out, adverb & side)
+	{
+		side.current = new typename sub_adjective::value_type[side.length];
+		out = side.current + (side.length - 1 - side.offset);
+	}
+};
 
 

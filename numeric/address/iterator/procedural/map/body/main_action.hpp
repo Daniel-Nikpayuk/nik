@@ -16,41 +16,33 @@
 ************************************************************************************************************************/
 
 
-template<typename ValueType, typename L>
-class Type
+template
+<
+	typename adverb,
+
+	size_type functorEnum = adverb::functor_enum
+>
+struct main_action
 {
-	public:
-		typedef L parameter_list;
-
-		static constexpr size_type direction_enum = AT<L, Modifier::direction>::rtn;
-		static constexpr size_type interval_enum = AT<L, Modifier::interval>::rtn;
-		static constexpr size_type image_enum = AT<L, Modifier::image>::rtn;
-		static constexpr size_type iterator_enum = AT<L, Modifier::iterator>::rtn;
-	protected:
-		static constexpr size_type iterator_offset = Adjective::template bounds<Modifier::iterator>::initial;
-	public:
-		using pointer = CASES
-		<
-			(iterator_enum - iterator_offset),
-			segment_pointer<ValueType>,
-			hook_pointer<ValueType>,
-			link_pointer<ValueType>
-
-		>::rtn;
-
-		typedef ValueType value_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		static void_ptr operator new (size_t n)
-			{ return new void_ptr[pointer::dimension]; }
+	template<typename SubPointer, typename ObPointer>
+	static void apply(SubPointer & out, ObPointer in, adverb & side)
+	{
+		side.functor(out, in);
+	}
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename T, size_type... params>
-using type = Type<T, SORTFILL<Adjective, params...>::rtn>;
+template<typename adverb>
+struct main_action<adverb, Adverb::omit_functor>
+{
+	template<typename SubPointer, typename ObPointer>
+	static void apply(SubPointer & out, ObPointer in, adverb & side)
+	{
+		*out = *in;
+	}
+};
 
 

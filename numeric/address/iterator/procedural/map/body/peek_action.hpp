@@ -18,13 +18,13 @@
 
 template
 <
-	typename object,
+	typename ob_adjective,
 
-	size_type iteratorEnum = object::iterator_enum
+	size_type ob_iteratorEnum = ob_adjective::iterator_enum
 >
 struct peek_action
 {
-	static bool test(typename object::pointer in, typename object::pointer end)
+	static bool test(ob_pointer in, ob_pointer end)
 	{
 		return (+in != end);
 	}
@@ -34,10 +34,10 @@ struct peek_action
 /***********************************************************************************************************************/
 
 
-template<typename object>
-struct peek_action<object, Adjective::segment>
+template<typename ob_adjective>
+struct peek_action<ob_adjective, Adjective::segment>
 {
-	static bool test(typename object::pointer in, typename object::pointer end)
+	static bool test(ob_pointer in, ob_pointer end)
 	{
 		return (in < end);
 	}

@@ -15,23 +15,27 @@
 **
 ************************************************************************************************************************/
 
+#include"body/initialize_variables.hpp"
 #include"body/peek_action.hpp"
+#include"body/main_action.hpp"
 #include"body/count_action.hpp"
 #include"body/iterate_out.hpp"
 #include"body/iterate_in.hpp"
 //#include"body/memory_action_in.hpp"
+#include"body/deinitialize_variables.hpp"
 
 /***********************************************************************************************************************/
 
 
 template
 <
-	typename subject,
-	typename object,
+	typename sub_adjective,
+	typename ob_adjective,
+	typename adverb,
 
-	size_type sIntervalEnum = subject::interval_enum,
-	size_type oIntervalEnum = object::interval_enum,
-	size_type oImageEnum = object::image_enum
+	size_type sub_intervalEnum = sub_adjective::interval_enum,
+	size_type ob_intervalEnum = ob_adjective::interval_enum,
+	size_type ob_imageEnum = ob_adjective::image_enum
 >
 struct prototype;
 
@@ -48,38 +52,25 @@ struct prototype;
 */
 
 
-template<typename subject, typename object, size_type oImageEnum>
-struct prototype<subject, object, Adjective::closing, Adjective::closing, oImageEnum>
+template<typename sub_adjective, typename ob_adjective, typename adverb, size_type oImageEnum>
+struct prototype<sub_adjective, ob_adjective, adverb, Adjective::closing, Adjective::closing, oImageEnum>
 {
-	template<typename Functor>
-	static typename subject::pointer map(size_type & count, typename subject::pointer out,
-		Functor functor, typename object::pointer in, typename object::pointer end)
+	static sub_pointer map(sub_pointer out, ob_pointer in, ob_pointer end, adverb & side)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			functor(out, in);
-			count_action<Type>::apply(count);
+			main_action<adverb>::apply(out, in, side);
+			count_action<adverb>::apply(side);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(in);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(in);
 		}
 
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
+
 		return out;
-	}
-
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in, typename object::pointer end)
-	{
-		size_type count;
-
-		return map(count, out, [](typename subject::pointer & o, typename object::pointer i) { *o = *i; }, in, end);
-	}
-
-	static typename subject::pointer map(typename subject::pointer & out,
-		size_type length, size_type offset, typename object::pointer in, typename object::pointer end)
-	{
-		out=new value_type[length];
-
-		return map(out + offset, in, end);
 	}
 };
 
@@ -95,25 +86,29 @@ struct prototype<subject, object, Adjective::closing, Adjective::closing, oImage
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closing, Adjective::closed>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closing, Adjective::closed>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		iterate_out<subject>::apply(out);
-		memory_action_in<object>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
+		memory_action_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -132,20 +127,24 @@ struct prototype<subject, object, Adjective::closing, Adjective::closed>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closing, Adjective::opening, Adjective::mutate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closing, Adjective::opening, Adjective::mutate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			iterate_in<object, Adjective::mutate>::apply(variables);
+			iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
 
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
+			iterate_out<sub_adjective>::apply(out);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -161,27 +160,31 @@ struct prototype<subject, object, Adjective::closing, Adjective::opening, Adject
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closing, Adjective::opening, Adjective::deallocate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closing, Adjective::opening, Adjective::deallocate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object, Adjective::deallocate>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective, Adjective::deallocate>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+		main_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
-		iterate_out<subject>::apply(out);
-		memory_action_in<object, Adjective::deallocate>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
+		memory_action_in<ob_adjective, Adjective::deallocate>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -200,21 +203,25 @@ struct prototype<subject, object, Adjective::closing, Adjective::opening, Adject
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closing, Adjective::open>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closing, Adjective::open>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -235,24 +242,28 @@ struct prototype<subject, object, Adjective::closing, Adjective::open>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closed, Adjective::closing>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closed, Adjective::closing>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		while (peek_action<object>::test(in, end))
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		while (peek_action<ob_adjective>::test(in, end))
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		iterate_in<object>::apply(variables);
+		iterate_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -271,24 +282,28 @@ struct prototype<subject, object, Adjective::closed, Adjective::closing>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closed, Adjective::closed>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closed, Adjective::closed>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		memory_action_in<object>::apply(variables);
+		memory_action_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -307,26 +322,30 @@ struct prototype<subject, object, Adjective::closed, Adjective::closed>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closed, Adjective::opening>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closed, Adjective::opening>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		memory_action_in<object>::apply(variables);
+		memory_action_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -345,26 +364,30 @@ struct prototype<subject, object, Adjective::closed, Adjective::opening>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::closed, Adjective::open>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::closed, Adjective::open>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
+		initialize_variables<sub_adjective>::apply(out, side);
 
-		while (peek_action<object>::test(in, end))
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+
+		while (peek_action<ob_adjective>::test(in, end))
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		iterate_in<object>::apply(variables);
+		iterate_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -385,20 +408,24 @@ struct prototype<subject, object, Adjective::closed, Adjective::open>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::opening, Adjective::closing>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::opening, Adjective::closing>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			iterate_out<subject>::apply(out);
+			iterate_out<sub_adjective>::apply(out);
 
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_in<object>::apply(variables);
+			iterate_in<ob_adjective>::apply(variables);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -417,26 +444,30 @@ struct prototype<subject, object, Adjective::opening, Adjective::closing>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::opening, Adjective::closed>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::opening, Adjective::closed>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+		main_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
-		memory_action_in<object>::apply(variables);
+		memory_action_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -455,19 +486,23 @@ struct prototype<subject, object, Adjective::opening, Adjective::closed>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::opening, Adjective::opening, Adjective::mutate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::opening, Adjective::opening, Adjective::mutate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			iterate_in<object, Adjective::mutate>::apply(variables);
-			iterate_out<subject>::apply(out);
+			iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
 
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -483,27 +518,31 @@ struct prototype<subject, object, Adjective::opening, Adjective::opening, Adject
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::opening, Adjective::opening, Adjective::deallocate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::opening, Adjective::opening, Adjective::deallocate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object, Adjective::deallocate>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective, Adjective::deallocate>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+		main_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
-		memory_action_in<object, Adjective::deallocate>::apply(variables);
+		memory_action_in<ob_adjective, Adjective::deallocate>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -522,22 +561,26 @@ struct prototype<subject, object, Adjective::opening, Adjective::opening, Adject
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::opening, Adjective::open>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::opening, Adjective::open>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
 
 		while (in != end)
 		{
-			iterate_out<subject>::apply(out);
+			iterate_out<sub_adjective>::apply(out);
 
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_in<object>::apply(variables);
+			iterate_in<ob_adjective>::apply(variables);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -558,21 +601,25 @@ struct prototype<subject, object, Adjective::opening, Adjective::open>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::open, Adjective::closing>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::open, Adjective::closing>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -591,27 +638,31 @@ struct prototype<subject, object, Adjective::open, Adjective::closing>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::open, Adjective::closed>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::open, Adjective::closed>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+		main_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
-		iterate_out<subject>::apply(out);
-		memory_action_in<object>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
+		memory_action_in<ob_adjective>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -630,21 +681,25 @@ struct prototype<subject, object, Adjective::open, Adjective::closed>
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::open, Adjective::opening, Adjective::mutate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::open, Adjective::opening, Adjective::mutate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
+		initialize_variables<sub_adjective>::apply(out, side);
+
 		while (in != end)
 		{
-			iterate_in<object, Adjective::mutate>::apply(variables);
-			iterate_out<subject>::apply(out);
+			iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
 
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 		}
 
-		iterate_out<subject>::apply(out);
+		iterate_out<sub_adjective>::apply(out);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -660,28 +715,32 @@ struct prototype<subject, object, Adjective::open, Adjective::opening, Adjective
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::open, Adjective::opening, Adjective::deallocate>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::open, Adjective::opening, Adjective::deallocate>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object, Adjective::deallocate>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective, Adjective::deallocate>::apply(variables);
 		}
 
-		main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
-		iterate_out<subject>::apply(out);
-		memory_action_in<object, Adjective::deallocate>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
+		memory_action_in<ob_adjective, Adjective::deallocate>::apply(variables);
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}
@@ -700,22 +759,26 @@ struct prototype<subject, object, Adjective::open, Adjective::opening, Adjective
 
 
 /*
-template<typename subject, typename object>
-struct prototype<subject, object, Adjective::open, Adjective::open>
+template<typename sub_adjective, typename ob_adjective>
+struct prototype<sub_adjective, ob_adjective, Adjective::open, Adjective::open>
 {
-	static typename subject::pointer map(typename subject::pointer out, typename object::pointer in)
+	static sub_pointer map(sub_pointer out, ob_pointer in)
 	{
-		iterate_in<object, Adjective::mutate>::apply(variables);
-		iterate_out<subject>::apply(out);
+		initialize_variables<sub_adjective>::apply(out, side);
+
+		iterate_in<ob_adjective, Adjective::mutate>::apply(variables);
+		iterate_out<sub_adjective>::apply(out);
 
 		while (in != end)
 		{
-			main_action<subject, object>::apply(out, variables);
+			main_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
-			iterate_out<subject>::apply(out);
-			iterate_in<object>::apply(variables);
+			iterate_out<sub_adjective>::apply(out);
+			iterate_in<ob_adjective>::apply(variables);
 		}
+
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
 
 		return out;
 	}

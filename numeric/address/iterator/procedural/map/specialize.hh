@@ -15,10 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename subject, typename object>
+template<typename sub_adjective, typename ob_adjective, typename adverb>
 struct specialize
 {
-	static typename subject::pointer map(typename subject::pointer, typename object::pointer);
-	static typename subject::pointer map(typename subject::pointer &, size_type, size_type, typename object::pointer);
+	static sub_pointer map(sub_pointer, ob_pointer, ob_pointer, adverb);
 };
 

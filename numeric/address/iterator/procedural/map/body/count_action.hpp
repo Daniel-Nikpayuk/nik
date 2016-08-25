@@ -18,25 +18,25 @@
 
 template
 <
-	typename verb,
+	typename adverb,
 
-	size_type tracerEnum = verb::tracer_enum
+	size_type tracerEnum = adverb::tracer_enum
 >
 struct count_action
 {
-	static void apply(size_type & count) { }
+	static void apply(adverb & side) { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename verb>
-struct count_action<verb, Adverb::apply_count>
+template<typename adverb>
+struct count_action<adverb, Adverb::apply_count>
 {
-	static void apply(size_type & count)
+	static void apply(adverb & side)
 	{
-		++count;
+		++side.count;
 	}
 };
 

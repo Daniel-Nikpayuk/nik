@@ -15,35 +15,42 @@
 **
 ************************************************************************************************************************/
 
+#define sub_pointer typename sub_adjective::pointer
+#define ob_pointer typename ob_adjective::pointer
+
 #include"prototype.hh"
 #include"specialize.hh"
 
-template<typename subject, typename object>
-static typename subject::pointer map(typename subject::pointer out, typename object::pointer in, typename object::pointer end)
+/*
+template<typename sub_adjective, typename ob_adjective, typename adverb>
+static void map(sub_pointer & out, ob_pointer in, ob_pointer end, adverb & side)
 {
 	using optimizer_type = CASES
 	<
-		(optimizer_enum - optimizer_offset),
-		prototype<subject, object>,
-		specialize<subject, object>
+		(adverb::optimizer_enum - adverb::optimizer_offset),
+		prototype<sub_adjective, ob_adjective, adverb>,
+		specialize<sub_adjective, ob_adjective, adverb>
 
 	>::rtn;
 
-	return optimizer_type::map(out, in, end);
+	(void) optimizer_type::map(out, in, end, side);
 }
+*/
 
-template<typename subject, typename object>
-static typename subject::pointer map(typename subject::pointer & out,
-	size_type length, size_type offset, typename object::pointer in, typename object::pointer end)
+template<typename sub_adjective, typename ob_adjective, typename adverb>
+static sub_pointer map(sub_pointer out, ob_pointer in, ob_pointer end, adverb & side)
 {
 	using optimizer_type = CASES
 	<
-		(optimizer_enum - optimizer_offset),
-		prototype<subject, object>,
-		specialize<subject, object>
+		(adverb::optimizer_enum - adverb::optimizer_offset),
+		prototype<sub_adjective, ob_adjective, adverb>,
+		specialize<sub_adjective, ob_adjective, adverb>
 
 	>::rtn;
 
-	return optimizer_type::map(out, length, offset, in, end);
+	return optimizer_type::map(out, in, end, side);
 }
+
+#undef sub_pointer
+#undef ob_pointer
 

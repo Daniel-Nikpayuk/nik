@@ -33,28 +33,16 @@ namespace numeric	{
 		typedef typename Modifier::Adjective Adjective;
 		typedef typename Modifier::Adverb Adverb;
 
+		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-		template<typename ValueType, typename L>
-		class Type
-		{
-			public:
-				static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
-				static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
-				static constexpr size_type optimizer_enum = AT<L, Modifier::optimizer>::rtn;
-			protected:
-				static constexpr size_type optimizer_offset = Adverb::template bounds<Modifier::optimizer>::initial;
-			public:
-				typedef ValueType value_type;
-			public:
-				#include"map/semiotic.hh"
-		};
+		#include"type/semiotic.hpp"
 
-		template<typename T, size_type... params>
-		using type = Type<T, SORTFILL<Adverb, params...>::rtn>;
+		#include"map/semiotic.hh"
 
+		#undef LIST
 		#undef AT
 		#undef CASES
 		#undef SORTFILL

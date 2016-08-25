@@ -18,11 +18,11 @@
 
 template
 <
-	typename subject,
+	typename sub_adjective,
 
-	size_type directionEnum = subject::direction_enum,
-	size_type imageEnum = subject::image_enum,
-	size_type iteratorEnum = subject::iterator_enum
+	size_type sub_directionEnum = sub_adjective::direction_enum,
+	size_type sub_imageEnum = sub_adjective::image_enum,
+	size_type sub_iteratorEnum = sub_adjective::iterator_enum
 >
 struct iterate_out;
 
@@ -31,10 +31,10 @@ struct iterate_out;
 /***********************************************************************************************************************/
 
 
-template<typename subject, size_type iteratorEnum>
-struct iterate_out<subject, Adjective::forward, Adjective::mutate, iteratorEnum>
+template<typename sub_adjective, size_type sub_iteratorEnum>
+struct iterate_out<sub_adjective, Adjective::forward, Adjective::mutate, sub_iteratorEnum>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
 		++out;
 	}
@@ -44,32 +44,32 @@ struct iterate_out<subject, Adjective::forward, Adjective::mutate, iteratorEnum>
 /***********************************************************************************************************************/
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::segment>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::forward, Adjective::allocate, Adjective::segment>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
 		++out;
 	}
 };
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::hook>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::forward, Adjective::allocate, Adjective::hook>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
-		out = +out = new subject;
+		out = +out = new sub_adjective;
 	}
 };
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::link>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::forward, Adjective::allocate, Adjective::link>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
-		+out = new subject;
+		+out = new sub_adjective;
 		-+out = out;
 		++out;
 	}
@@ -80,10 +80,10 @@ struct iterate_out<subject, Adjective::forward, Adjective::allocate, Adjective::
 /***********************************************************************************************************************/
 
 
-template<typename subject, size_type iteratorEnum>
-struct iterate_out<subject, Adjective::backward, Adjective::mutate, iteratorEnum>
+template<typename sub_adjective, size_type sub_iteratorEnum>
+struct iterate_out<sub_adjective, Adjective::backward, Adjective::mutate, sub_iteratorEnum>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
 		--out;
 	}
@@ -93,34 +93,34 @@ struct iterate_out<subject, Adjective::backward, Adjective::mutate, iteratorEnum
 /***********************************************************************************************************************/
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::segment>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::backward, Adjective::allocate, Adjective::segment>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
 		--out;
 	}
 };
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::hook>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::backward, Adjective::allocate, Adjective::hook>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
-		typename subject::pointer current = out;
-		out = new subject;
-		+out = current;
+		sub_pointer tmp = out;
+		out = new sub_adjective;
+		+out = tmp;
 	}
 };
 
 
-template<typename subject>
-struct iterate_out<subject, Adjective::backward, Adjective::allocate, Adjective::link>
+template<typename sub_adjective>
+struct iterate_out<sub_adjective, Adjective::backward, Adjective::allocate, Adjective::link>
 {
-	static void apply(typename subject::pointer & out)
+	static void apply(sub_pointer & out)
 	{
-		-out = new subject;
+		-out = new sub_adjective;
 		+-out = out;
 		--out;
 	}
