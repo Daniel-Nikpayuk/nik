@@ -29,7 +29,7 @@ namespace numeric	{
 		template<size_type interface_enum>
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
-		typedef nik::Iterator Modifier;
+		typedef nik::Iterator<size_type> Modifier;
 		typedef typename Modifier::Adjective Adjective;
 		typedef typename Modifier::Adverb Adverb;
 

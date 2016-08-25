@@ -24,7 +24,10 @@ template
 	size_type ob_imageEnum = ob_adjective::image_enum,
 	size_type ob_iteratorEnum = ob_adjective::iterator_enum
 >
-struct iterate_in;
+struct iterate_in
+{
+	static void apply(ob_pointer & in) { }
+};
 
 
 /***********************************************************************************************************************/
@@ -32,7 +35,7 @@ struct iterate_in;
 
 
 template<typename ob_adjective, size_type ob_iteratorEnum>
-struct iterate_in<ob_adjective, Adjective::mutate, Adjective::forward, ob_iteratorEnum>
+struct iterate_in<ob_adjective, Adjective::forward, Adjective::mutate, ob_iteratorEnum>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -45,7 +48,7 @@ struct iterate_in<ob_adjective, Adjective::mutate, Adjective::forward, ob_iterat
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::segment>
+struct iterate_in<ob_adjective, Adjective::forward, Adjective::deallocate, Adjective::segment>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -55,7 +58,7 @@ struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjec
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::hook>
+struct iterate_in<ob_adjective, Adjective::forward, Adjective::deallocate, Adjective::hook>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -65,7 +68,7 @@ struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjec
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjective::link>
+struct iterate_in<ob_adjective, Adjective::forward, Adjective::deallocate, Adjective::link>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -79,7 +82,7 @@ struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::forward, Adjec
 
 
 template<typename ob_adjective, size_type ob_iteratorEnum>
-struct iterate_in<ob_adjective, Adjective::mutate, Adjective::backward, ob_iteratorEnum>
+struct iterate_in<ob_adjective, Adjective::backward, Adjective::mutate, ob_iteratorEnum>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -92,7 +95,7 @@ struct iterate_in<ob_adjective, Adjective::mutate, Adjective::backward, ob_itera
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::segment>
+struct iterate_in<ob_adjective, Adjective::backward, Adjective::deallocate, Adjective::segment>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -102,7 +105,7 @@ struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adje
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::hook>
+struct iterate_in<ob_adjective, Adjective::backward, Adjective::deallocate, Adjective::hook>
 {
 	static void apply(ob_pointer & in)
 	{
@@ -112,7 +115,7 @@ struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adje
 
 
 template<typename ob_adjective>
-struct iterate_in<ob_adjective, Adjective::deallocate, Adjective::backward, Adjective::link>
+struct iterate_in<ob_adjective, Adjective::backward, Adjective::deallocate, Adjective::link>
 {
 	static void apply(ob_pointer & in)
 	{

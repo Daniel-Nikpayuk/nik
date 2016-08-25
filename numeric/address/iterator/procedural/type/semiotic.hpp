@@ -26,10 +26,15 @@ template<typename L, size_type directionEnum, size_type intervalEnum, typename O
 class Type
 <
 	L,
-	LIST<directionEnum, intervalEnum, Adjective::mutate, Adjective::segment>,
+	LIST<directionEnum, intervalEnum, Adjective::allocate, Adjective::segment>,
 	OL
 >
 {
+	public:
+		using parameter_list = L;
+
+		static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
+		static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
 	public:
 		size_type value;
 
@@ -39,20 +44,91 @@ class Type
 };
 
 
+/************************************************************************************************************************/
+
+
+template<typename L, size_type directionEnum, size_type intervalEnum, typename OL, typename Functor>
+class Type
+<
+	L,
+	LIST<directionEnum, intervalEnum, Adjective::mutate, Adjective::segment>,
+	OL,
+	Functor
+>
+{
+	public:
+		using parameter_list = L;
+
+		static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
+		static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
+	public:
+		typedef Functor functor_type;
+		functor_type functor;
+
+		Type(const functor_type & f) : functor(f) { }
+};
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+
+#define APPLY_OMIT_ADVERB_LIST		LIST<Adverb::apply_functor, Adverb::omit_count, optimizerEnum>
 
 template<size_type optimizerEnum>
 class Type
 <
-	LIST<Adverb::omit_functor, Adverb::omit_count, optimizerEnum>
+	APPLY_OMIT_ADVERB_LIST
 >
 {
 	public:
-		using parameter_list = LIST<Adverb::omit_functor, Adverb::omit_count, optimizerEnum>;
+		using parameter_list = APPLY_OMIT_ADVERB_LIST;
+
+		static constexpr size_type functor_enum = AT<APPLY_OMIT_ADVERB_LIST, Modifier::functor>::rtn;
+		static constexpr size_type tracer_enum = AT<APPLY_OMIT_ADVERB_LIST, Modifier::tracer>::rtn;
+		static constexpr size_type optimizer_enum = AT<APPLY_OMIT_ADVERB_LIST, Modifier::optimizer>::rtn;
+
+		static constexpr size_type optimizer_offset = Adverb::template bounds<Modifier::optimizer>::initial;
+
+		template<typename sub_adjective, typename ob_adjective, typename Functor>
+		using adverb = Type
+		<
+			parameter_list,
+			typename sub_adjective::parameter_list,
+			typename ob_adjective::parameter_list,
+			Functor
+		>;
+	public:
+		template<typename sub_adjective, typename ob_adjective, typename Functor>
+		static adverb<sub_adjective, ob_adjective, Functor> verb(const Functor & f)
+		{
+			return adverb<sub_adjective, ob_adjective, Functor>(f);
+		}
+};
+
+
+/***********************************************************************************************************************/
+
+
+#define OMIT_OMIT_ADVERB_LIST		LIST<Adverb::omit_functor, Adverb::omit_count, optimizerEnum>
+
+template<size_type optimizerEnum>
+class Type
+<
+	OMIT_OMIT_ADVERB_LIST
+>
+{
+	public:
+		using parameter_list = OMIT_OMIT_ADVERB_LIST;
+
+		static constexpr size_type functor_enum = AT<OMIT_OMIT_ADVERB_LIST, Modifier::functor>::rtn;
+		static constexpr size_type tracer_enum = AT<OMIT_OMIT_ADVERB_LIST, Modifier::tracer>::rtn;
+		static constexpr size_type optimizer_enum = AT<OMIT_OMIT_ADVERB_LIST, Modifier::optimizer>::rtn;
+
+		static constexpr size_type optimizer_offset = Adverb::template bounds<Modifier::optimizer>::initial;
 
 		template<typename sub_adjective, typename ob_adjective>
-		using return_type = Type
+		using adverb = Type
 		<
 			parameter_list,
 			typename sub_adjective::parameter_list,
@@ -60,9 +136,9 @@ class Type
 		>;
 	public:
 		template<typename sub_adjective, typename ob_adjective>
-		static return_type<sub_adjective, ob_adjective> verb(size_type l, size_type o)
+		static adverb<sub_adjective, ob_adjective> verb(size_type l, size_type o)
 		{
-			return return_type<sub_adjective, ob_adjective>(l, o);
+			return adverb<sub_adjective, ob_adjective>(l, o);
 		}
 };
 

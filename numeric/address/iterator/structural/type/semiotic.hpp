@@ -20,7 +20,7 @@ template<typename ValueType, typename L>
 class Type
 {
 	public:
-		typedef L parameter_list;
+		using parameter_list = L;
 
 		static constexpr size_type direction_enum = AT<L, Modifier::direction>::rtn;
 		static constexpr size_type interval_enum = AT<L, Modifier::interval>::rtn;

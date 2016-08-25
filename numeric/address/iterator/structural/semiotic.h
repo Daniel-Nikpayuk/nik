@@ -26,7 +26,7 @@ namespace numeric	{
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-		typedef nik::Iterator Modifier;
+		typedef nik::Iterator<size_type> Modifier;
 		typedef typename Modifier::Adjective Adjective;
 
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at

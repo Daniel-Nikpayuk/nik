@@ -25,7 +25,7 @@ template
 struct main_action
 {
 	template<typename SubPointer, typename ObPointer>
-	static void apply(SubPointer & out, ObPointer in, adverb & side)
+	static void apply(SubPointer out, const adverb & side, ObPointer in)
 	{
 		side.functor(out, in);
 	}
@@ -39,7 +39,7 @@ template<typename adverb>
 struct main_action<adverb, Adverb::omit_functor>
 {
 	template<typename SubPointer, typename ObPointer>
-	static void apply(SubPointer & out, ObPointer in, adverb & side)
+	static void apply(SubPointer out, const adverb & side, ObPointer in)
 	{
 		*out = *in;
 	}

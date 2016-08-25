@@ -55,20 +55,20 @@ struct prototype;
 template<typename sub_adjective, typename ob_adjective, typename adverb, size_type oImageEnum>
 struct prototype<sub_adjective, ob_adjective, adverb, Adjective::closing, Adjective::closing, oImageEnum>
 {
-	static sub_pointer map(sub_pointer out, ob_pointer in, ob_pointer end, adverb & side)
+	static sub_pointer map(sub_pointer out, adverb & side, ob_pointer in, ob_pointer end)
 	{
 		initialize_variables<sub_adjective>::apply(out, side);
 
 		while (in != end)
 		{
-			main_action<adverb>::apply(out, in, side);
+			main_action<adverb>::apply(out, side, in);
 			count_action<adverb>::apply(side);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(in);
 		}
 
-		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
+		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, side, in);
 
 		return out;
 	}

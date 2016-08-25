@@ -22,9 +22,12 @@
 
 namespace nik
 {
+	template<typename SizeType = global_size_type>
 	struct Iterator
 	{
-		enum AdjectiveType : global_size_type
+		typedef SizeType size_type;
+
+		enum AdjectiveType : size_type
 		{
 			direction,
 			interval,
@@ -35,11 +38,11 @@ namespace nik
 
 		struct Adjective
 		{
-			static constexpr global_size_type length = AdjectiveType::adjective;
+			static constexpr size_type length = AdjectiveType::adjective;
 
-			template<global_size_type adjective_type, typename Filler = void> struct bounds;
+			template<size_type adjective_type, typename Filler = void> struct bounds;
 
-			enum : global_size_type
+			enum : size_type
 			{
 				forward,
 				backward,
@@ -61,35 +64,35 @@ namespace nik
 			template<typename Filler>
 			struct bounds<AdjectiveType::direction, Filler>
 			{
-				static constexpr global_size_type initial = forward;
-				static constexpr global_size_type terminal = backward;
+				static constexpr size_type initial = forward;
+				static constexpr size_type terminal = backward;
 			};
 
 			template<typename Filler>
 			struct bounds<AdjectiveType::interval, Filler>
 			{
-				static constexpr global_size_type initial = closing;
-				static constexpr global_size_type terminal = open;
+				static constexpr size_type initial = closing;
+				static constexpr size_type terminal = open;
 			};
 
 			template<typename Filler>
 			struct bounds<AdjectiveType::image, Filler>
 			{
-				static constexpr global_size_type initial = mutate;
-				static constexpr global_size_type terminal = deallocate;
+				static constexpr size_type initial = mutate;
+				static constexpr size_type terminal = deallocate;
 			};
 
 			template<typename Filler>
 			struct bounds<AdjectiveType::iterator, Filler>
 			{
-				static constexpr global_size_type initial = segment;
-				static constexpr global_size_type terminal = link;
+				static constexpr size_type initial = segment;
+				static constexpr size_type terminal = link;
 			};
 		};
 
 /***********************************************************************************************************************/
 
-		enum AdverbType : global_size_type
+		enum AdverbType : size_type
 		{
 			functor,
 			tracer,
@@ -99,11 +102,11 @@ namespace nik
 
 		struct Adverb
 		{
-			static constexpr global_size_type length = AdverbType::adverb;
+			static constexpr size_type length = AdverbType::adverb;
 
-			template<global_size_type adverb_type, typename Filler = void> struct bounds;
+			template<size_type adverb_type, typename Filler = void> struct bounds;
 
-			enum : global_size_type
+			enum : size_type
 			{
 				apply_functor,
 				omit_functor,
@@ -118,22 +121,22 @@ namespace nik
 			template<typename Filler>
 			struct bounds<AdverbType::functor, Filler>
 			{
-				static constexpr global_size_type initial = apply_functor;
-				static constexpr global_size_type terminal = omit_functor;
+				static constexpr size_type initial = apply_functor;
+				static constexpr size_type terminal = omit_functor;
 			};
 
 			template<typename Filler>
 			struct bounds<AdverbType::tracer, Filler>
 			{
-				static constexpr global_size_type initial = omit_count;
-				static constexpr global_size_type terminal = apply_count;
+				static constexpr size_type initial = omit_count;
+				static constexpr size_type terminal = apply_count;
 			};
 
 			template<typename Filler>
 			struct bounds<AdverbType::optimizer, Filler>
 			{
-				static constexpr global_size_type initial = prototype;
-				static constexpr global_size_type terminal = specialize;
+				static constexpr size_type initial = prototype;
+				static constexpr size_type terminal = specialize;
 			};
 		};
 	};

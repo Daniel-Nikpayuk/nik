@@ -18,6 +18,6 @@
 template<typename sub_adjective, typename ob_adjective, typename adverb>
 struct specialize
 {
-	static sub_pointer map(sub_pointer, ob_pointer, ob_pointer, adverb);
+	static sub_pointer map(sub_pointer, adverb &, ob_pointer, ob_pointer);
 };
 

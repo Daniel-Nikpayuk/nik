@@ -30,7 +30,7 @@ template
 struct deinitialize_variables
 {
 	template<typename adverb>
-	static void apply(sub_pointer & out, ob_pointer & in, adverb & side) { }
+	static void apply(sub_pointer & out, adverb & side, ob_pointer & in) { }
 };
 
 
@@ -42,7 +42,7 @@ template<typename sub_adjective, typename ob_adjective, size_type ob_imageEnum, 
 struct deinitialize_variables<sub_adjective, ob_adjective, Adjective::allocate, Adjective::segment, ob_imageEnum, ob_iteratorEnum>
 {
 	template<typename adverb>
-	static void apply(sub_pointer & out, ob_pointer & in, adverb & side)
+	static void apply(sub_pointer & out, adverb & side, ob_pointer & in)
 	{
 		sub_pointer tmp = out;
 		out = side.current;
@@ -55,7 +55,7 @@ template<typename sub_adjective, typename ob_adjective, size_type sub_imageEnum,
 struct deinitialize_variables<sub_adjective, ob_adjective, sub_imageEnum, sub_iteratorEnum, Adjective::deallocate, Adjective::segment>
 {
 	template<typename adverb>
-	static void apply(sub_pointer & out, ob_pointer & in, adverb & side)
+	static void apply(sub_pointer & out, adverb & side, ob_pointer & in)
 	{
 		delete side.origin;
 	}
@@ -66,7 +66,7 @@ template<typename sub_adjective, typename ob_adjective>
 struct deinitialize_variables<sub_adjective, ob_adjective, Adjective::allocate, Adjective::segment, Adjective::deallocate, Adjective::segment>
 {
 	template<typename adverb>
-	static void apply(sub_pointer & out, ob_pointer & in, adverb & side)
+	static void apply(sub_pointer & out, adverb & side, ob_pointer & in)
 	{
 		sub_pointer tmp = out;
 		out = side.current;

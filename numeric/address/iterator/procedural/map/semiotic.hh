@@ -21,6 +21,10 @@
 #include"prototype.hh"
 #include"specialize.hh"
 
+
+/************************************************************************************************************************/
+
+
 /*
 template<typename sub_adjective, typename ob_adjective, typename adverb>
 static void map(sub_pointer & out, ob_pointer in, ob_pointer end, adverb & side)
@@ -38,7 +42,7 @@ static void map(sub_pointer & out, ob_pointer in, ob_pointer end, adverb & side)
 */
 
 template<typename sub_adjective, typename ob_adjective, typename adverb>
-static sub_pointer map(sub_pointer out, ob_pointer in, ob_pointer end, adverb & side)
+static sub_pointer map(sub_pointer out, adverb & side, ob_pointer in, ob_pointer end)
 {
 	using optimizer_type = CASES
 	<
@@ -48,7 +52,26 @@ static sub_pointer map(sub_pointer out, ob_pointer in, ob_pointer end, adverb & 
 
 	>::rtn;
 
-	return optimizer_type::map(out, in, end, side);
+	return optimizer_type::map(out, side, in, end);
+}
+
+template<size_type optimizerEnum, typename sub_adjective, typename ob_adjective, typename Functor>
+static sub_pointer map(sub_pointer out, const Functor & functor, ob_pointer in, ob_pointer end)
+{
+	using verb_type = type<Adverb::apply_functor, Adverb::omit_count, optimizerEnum>;
+	using adverb = typename verb_type::template adverb<sub_adjective, ob_adjective, Functor>;
+
+	adverb side = verb_type::template verb<sub_adjective, ob_adjective>(functor);
+
+	using optimizer_type = CASES
+	<
+		(verb_type::optimizer_enum - verb_type::optimizer_offset),
+		prototype<sub_adjective, ob_adjective, adverb>,
+		specialize<sub_adjective, ob_adjective, adverb>
+
+	>::rtn;
+
+	return optimizer_type::map(out, side, in, end);
 }
 
 #undef sub_pointer
