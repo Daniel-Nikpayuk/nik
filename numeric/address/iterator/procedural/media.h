@@ -23,21 +23,25 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+		using Modifier = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Modifier;
+		using Attribute = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Attribute;
+
+/***********************************************************************************************************************/
+
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
 		template<size_type interface_enum>
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
-		typedef nik::Iterator<size_type> Modifier;
-		typedef typename Modifier::Adjective Adjective;
-		typedef typename Modifier::Adverb Adverb;
+		using StrModifier = typename structural<nik::semiotic>::Modifier;
+		using StrAttribute = typename structural<nik::semiotic>::Attribute;
 
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-//		#include"type/media.hh"
+//		#include"adverb/media.hh"
 
 		#undef AT
 		#undef CASES

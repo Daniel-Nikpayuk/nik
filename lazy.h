@@ -18,6 +18,24 @@
 #ifndef LAZY_H
 #define LAZY_H
 
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 #define LAZY
+
+
+#define stringify(string)												\
+	#string
+
+
+#define compile(name, path)												\
+	stringify(path/nik/module/name.cpp)
+
+
+#define module(name, path)													\
+	stringify(path/nik/module/name.h)
+
 
 #endif

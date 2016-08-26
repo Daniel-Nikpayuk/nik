@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename ModuleType, typename in>
+template<typename Attribute, typename in>
 struct fill
 {
-	using rtn = typename semiotic::template fill<ModuleType, typename in::null, in, 0, ModuleType::length>::rtn;
+	using rtn = typename semiotic::template fill<Attribute, typename in::null, in, 0, Attribute::dimension>::rtn;
 };
 

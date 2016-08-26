@@ -17,7 +17,7 @@
 
 
 template<typename ValueType, typename L>
-class Type
+class Adjective
 {
 	public:
 		using parameter_list = L;
@@ -27,7 +27,7 @@ class Type
 		static constexpr size_type image_enum = AT<L, Modifier::image>::rtn;
 		static constexpr size_type iterator_enum = AT<L, Modifier::iterator>::rtn;
 	protected:
-		static constexpr size_type iterator_offset = Adjective::template bounds<Modifier::iterator>::initial;
+		static constexpr size_type iterator_offset = Attribute::template bounds<Modifier::iterator>::initial;
 	public:
 		using pointer = CASES
 		<
@@ -51,6 +51,6 @@ class Type
 
 
 template<typename T, size_type... params>
-using type = Type<T, SORTFILL<Adjective, params...>::rtn>;
+using adjective = Adjective<T, SORTFILL<Attribute, params...>::rtn>;
 
 

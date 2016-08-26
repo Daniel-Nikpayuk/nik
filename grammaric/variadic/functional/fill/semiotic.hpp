@@ -15,11 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename ModuleType, typename out, typename in, size_type k, size_type n>
+template<typename Attribute, typename out, typename in, size_type k, size_type n>
 struct fill
 {
-	static constexpr size_type b = ModuleType::template bounds<k>::initial;
-	static constexpr size_type e = ModuleType::template bounds<k>::terminal;
+	static constexpr size_type b = Attribute::template bounds<k>::initial;
+	static constexpr size_type e = Attribute::template bounds<k>::terminal;
 
 	//
 
@@ -67,11 +67,11 @@ struct fill
 
 	//
 
-	using rtn = typename fill<ModuleType, new_out, new_in, k+1, n>::rtn;
+	using rtn = typename fill<Attribute, new_out, new_in, k+1, n>::rtn;
 };
 
-template<typename ModuleType, typename out, typename in, size_type n>
-struct fill<ModuleType, out, in, n, n>
+template<typename Attribute, typename out, typename in, size_type n>
+struct fill<Attribute, out, in, n, n>
 {
 	using rtn = out;
 };
