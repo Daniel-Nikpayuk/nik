@@ -15,33 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+using Manner = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Manner;
 
-	template<typename SizeType>
-	struct module<nik::iterator, nik::procedural, nik::media, SizeType>
-	{
-		typedef SizeType size_type;
+using Connotation = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Connotation;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-		template<size_type interface_enum>
-		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
+/***********************************************************************************************************************/
 
-		using Attribute = typename structural<nik::media>::Attribute;
-		using Association = typename structural<nik::media>::Association;
 
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+template<size_type... params>
+using adverb = SORTFILL<Connotation, params...>::rtn;
 
-		#include"adverb/media.hpp"
-
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
-	};
-
-}}
 

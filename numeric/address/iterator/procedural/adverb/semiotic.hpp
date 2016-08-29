@@ -16,219 +16,170 @@
 ************************************************************************************************************************/
 
 
-template<typename S, typename O, typename L, typename F> struct Functor { };
+// Manner Adverbs:
 
 
-/***********************************************************************************************************************/
-
-
-/*
-template<typename L, size_type directionEnum, size_type intervalEnum, typename OL>
-class Functor
-<
-	LIST<directionEnum, intervalEnum, Attribute::allocate, Attribute::segment>,
-	OL
-	L,
->
+struct Manner
 {
-	public:
-		using parameter_list = L;
-
-		static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
-		static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
-	public:
-		size_type value;
-
-		Functor() { }
-		Functor(size_type l, size_type o) { value = l + o; }
-		Functor(const Functor & t) : value(t.value) { }
-};
-*/
-
-
-/************************************************************************************************************************/
-
-
-template<size_type directionEnum, size_type intervalEnum, typename OL, typename L, typename F>
-class Functor
-<
-	LIST<directionEnum, intervalEnum, StrAttribute::mutate, StrAttribute::segment>,
-	OL,
-	L,
-	F
->
-{
-		typedef F functor_type;
-	public:
-		using parameter_list = L;
-
-		static constexpr size_type functor_enum = AT<L, Modifier::functor>::rtn;
-		static constexpr size_type tracer_enum = AT<L, Modifier::tracer>::rtn;
-	public:
-		functor_type functor;
-
-		Functor(const functor_type & f) : functor(f) { }
+	enum : size_type
+	{
+		functor,
+		tracer,
+		optimizer,
+		dimension
+	};
 };
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-/*
-#define APPLY_OMIT_ATTRIBUTES		LIST<Attribute::omit_assign, Attribute::omit_count, Attribute::omit_effect, optimizerEnum>
-
-template<typename sub_adjective, typename ob_adjective, size_type optimizerEnum>
-class Functor
-<
-	sub_adjective,
-	ob_adjective,
-	APPLY_OMIT_ATTRIBUTES
->
+struct Connotation
 {
-	public:
-		using parameter_list = APPLY_OMIT_ATTRIBUTES;
+	static constexpr size_type dimension = Manner::dimension;
 
-		static constexpr size_type functor_enum = AT<APPLY_OMIT_ATTRIBUTES, Modifier::functor>::rtn;
-		static constexpr size_type tracer_enum = AT<APPLY_OMIT_ATTRIBUTES, Modifier::tracer>::rtn;
-		static constexpr size_type effector_enum = AT<APPLY_OMIT_ATTRIBUTES, Modifier::effector>::rtn;
-		static constexpr size_type optimizer_enum = AT<APPLY_OMIT_ATTRIBUTES, Modifier::optimizer>::rtn;
+	template<size_type, typename Filler = void> struct bounds;
 
-		static constexpr size_type optimizer_offset = Attribute::template bounds<Modifier::optimizer>::initial;
+	enum : size_type
+	{
+		omit_assign,
+		apply_assign,
 
-		template<typename F>
-		using type = Functor
-		<
-			typename sub_adjective::parameter_list,
-			typename ob_adjective::parameter_list,
-			parameter_list,
-			F
-		>;
-	public:
-		template<typename F>
-		static type<F> set(const F & f)
-		{
-			return type<F>(f);
-		}
+		omit_count,
+		apply_count,
+
+		prototype,
+		specialize
+	};
+
+	template<typename Filler>
+	struct bounds<Manner::functor, Filler>
+	{
+		static constexpr size_type initial = omit_assign;
+		static constexpr size_type terminal = apply_assign;
+	};
+
+	template<typename Filler>
+	struct bounds<Manner::tracer, Filler>
+	{
+		static constexpr size_type initial = omit_count;
+		static constexpr size_type terminal = apply_count;
+	};
+
+	template<typename Filler>
+	struct bounds<Manner::optimizer, Filler>
+	{
+		static constexpr size_type initial = prototype;
+		static constexpr size_type terminal = specialize;
+	};
 };
-*/
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename... params> struct _adverb { };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename L>
+struct _adverb<L>
+{
+	using parameter_list = L;
+
+	static constexpr size_type functor_enum		= AT<L, Manner::functor		>::rtn;
+	static constexpr size_type tracer_enum		= AT<L, Manner::tracer		>::rtn;
+	static constexpr size_type optimizer_enum	= AT<L, Manner::optimizer	>::rtn;
+
+	_adverb() { }
+};
 
 
 /***********************************************************************************************************************/
 
 
-#define OMIT_OMIT_ATTRIBUTES		LIST<Attribute::apply_assign, Attribute::omit_count, Attribute::omit_effect, optimizerEnum>
-
-/*
 template<size_type optimizerEnum>
-class Functor
-<
-	OMIT_OMIT_ATTRIBUTES
->
+using omit_omit = LIST<Connotation::omit_assign, Connotation::omit_count, optimizerEnum>;
+
+template<size_type optimizerEnum, typename F>
+struct _adverb<omit_omit<optimizerEnum>, F>
 {
-	public:
-		using parameter_list = OMIT_OMIT_ATTRIBUTES;
+	using parameter_list = omit_omit<optimizerEnum>;
 
-		static constexpr size_type functor_enum = AT<OMIT_OMIT_ATTRIBUTES, Modifier::functor>::rtn;
-		static constexpr size_type tracer_enum = AT<OMIT_OMIT_ATTRIBUTES, Modifier::tracer>::rtn;
-		static constexpr size_type optimizer_enum = AT<OMIT_OMIT_ATTRIBUTES, Modifier::optimizer>::rtn;
+	static constexpr size_type functor_enum		= Connotation::omit_assign;
+	static constexpr size_type tracer_enum		= Connotation::omit_count;
+	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-		static constexpr size_type optimizer_offset = Attribute::template bounds<Modifier::optimizer>::initial;
+	F functor;
 
-		template<typename sub_adjective, typename ob_adjective>
-		using type = Functor
-		<
-			parameter_list,
-			typename sub_adjective::parameter_list,
-			typename ob_adjective::parameter_list
-		>;
-	public:
-		template<typename sub_adjective, typename ob_adjective>
-		static type<sub_adjective, ob_adjective> functor(size_type l, size_type o)
-		{
-			return type<sub_adjective, ob_adjective>(l, o);
-		}
+	_adverb(const F & f) : functor(f) { }
 };
-*/
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename... adjectives> struct adverb { };
-
-
-/***********************************************************************************************************************/
-
-
-/*
-template<typename sub_adjective>
-class adverb<sub_adjective>
+template<size_type optimizerEnum>
+struct _adverb<omit_omit<optimizerEnum>>
 {
-	public:
-		template<size_type... params>
-		using functor = Functor<sub_adjective, SORTFILL<Attribute, params...>::rtn>;
+	using parameter_list = omit_omit<optimizerEnum>;
+
+	static constexpr size_type functor_enum		= Connotation::omit_assign;
+	static constexpr size_type tracer_enum		= Connotation::omit_count;
+	static constexpr size_type optimizer_enum	= optimizerEnum;
+
+	template<typename F>
+	static _adverb<parameter_list, F> with(const F & f)
+	{
+		return _adverb<parameter_list, F>(f);
+	}
 };
-*/
 
 
-template<typename sub_adjective, typename ob_adjective>
-class adverb<sub_adjective, ob_adjective>
+/***********************************************************************************************************************/
+
+
+template<size_type optimizerEnum>
+using omit_apply = LIST<Connotation::omit_assign, Connotation::apply_count, optimizerEnum>;
+
+template<size_type optimizerEnum, typename F>
+struct _adverb<omit_apply<optimizerEnum>, F>
 {
-	public:
-/*
-		template<typename F, size_type... params>
-		using type = Functor
-		<
-			typename sub_adjective::parameter_list,
-			typename ob_adjective::parameter_list,
-			SORTFILL<Attribute, params...>::rtn,
-			F
-		>;
-*/
+	using parameter_list = omit_apply<optimizerEnum>;
 
-		template<typename F>
-		using type = Functor
-		<
-			typename sub_adjective::parameter_list,
-			typename ob_adjective::parameter_list,
-			SORTFILL<Attribute>::rtn,
-			F
-		>;
+	static constexpr size_type functor_enum		= Connotation::omit_assign;
+	static constexpr size_type tracer_enum		= Connotation::apply_count;
+	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-		template<typename F>
-		static type<F> functor(const F & f)
-		{
-			return type<F>(f);
-		}
+	F functor;
+	size_type count;
 
-/*
-		template<size_type p0, typename F>
-		static type<F, p0> functor(const F & f)
-		{
-			return type<F, p0>(f);
-		}
-
-		template<size_type p0, size_type p1, typename F>
-		static type<F, p0, p1> functor(const F & f)
-		{
-			return type<F, p0, p1>(f);
-		}
-
-		template<size_type p0, size_type p1, size_type p2, typename F>
-		static type<F, p0, p1, p2> functor(const F & f)
-		{
-			return type<F, p0, p1, p2>(f);
-		}
-
-		template<size_type p0, size_type p1, size_type p2, size_type p3, typename F>
-		static type<F, p0, p1, p2, p3> functor(const F & f)
-		{
-			return type<F, p0, p1, p2, p3>(f);
-		}
-*/
+	_adverb(const F & f, size_type c) : functor(f), count(c) { }
 };
+
+template<size_type optimizerEnum>
+struct _adverb<omit_apply<optimizerEnum>>
+{
+	using parameter_list = omit_apply<optimizerEnum>;
+
+	static constexpr size_type functor_enum		= Connotation::omit_assign;
+	static constexpr size_type tracer_enum		= Connotation::apply_count;
+	static constexpr size_type optimizer_enum	= optimizerEnum;
+
+	template<typename F>
+	static _adverb<parameter_list, F> with(const F & f, size_type c = 0)
+	{
+		return _adverb<parameter_list, F>(f, c);
+	}
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type... params>
+using adverb = _adverb<SORTFILL<Connotation, params...>::rtn>;
 
 

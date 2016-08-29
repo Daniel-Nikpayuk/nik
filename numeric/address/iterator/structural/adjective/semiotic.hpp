@@ -16,41 +16,173 @@
 ************************************************************************************************************************/
 
 
-template<typename ValueType, typename L>
-class Adjective
+// Attributive Adjectives:
+
+
+struct Attribute
 {
-	public:
-		using parameter_list = L;
-
-		static constexpr size_type direction_enum = AT<L, Modifier::direction>::rtn;
-		static constexpr size_type interval_enum = AT<L, Modifier::interval>::rtn;
-		static constexpr size_type image_enum = AT<L, Modifier::image>::rtn;
-		static constexpr size_type iterator_enum = AT<L, Modifier::iterator>::rtn;
-	protected:
-		static constexpr size_type iterator_offset = Attribute::template bounds<Modifier::iterator>::initial;
-	public:
-		using pointer = CASES
-		<
-			(iterator_enum - iterator_offset),
-			segment_pointer<ValueType>,
-			hook_pointer<ValueType>,
-			link_pointer<ValueType>
-
-		>::rtn;
-
-		typedef ValueType value_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		static void_ptr operator new (size_t n)
-			{ return new void_ptr[pointer::dimension]; }
+	enum : size_type
+	{
+		direction,
+		interval,
+		image,
+		iterator,
+		dimension
+	};
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename T, size_type... params>
-using adjective = Adjective<T, SORTFILL<Attribute, params...>::rtn>;
+struct Association
+{
+	static constexpr size_type dimension = Attribute::dimension;
+
+	template<size_type attribute, typename Filler = void> struct bounds;
+
+	enum : size_type
+	{
+		forward,
+		backward,
+
+		closing,
+		closed,
+		opening,
+		open,
+
+		mutate,
+		allocate,
+		deallocate,
+
+		segment,
+		hook,
+		link
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::direction, Filler>
+	{
+		static constexpr size_type initial = forward;
+		static constexpr size_type terminal = backward;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::interval, Filler>
+	{
+		static constexpr size_type initial = closing;
+		static constexpr size_type terminal = open;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::image, Filler>
+	{
+		static constexpr size_type initial = mutate;
+		static constexpr size_type terminal = deallocate;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::iterator, Filler>
+	{
+		static constexpr size_type initial = segment;
+		static constexpr size_type terminal = link;
+	};
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename... params> struct _adjective { };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename L>
+struct _adjective<L>
+{
+	using parameter_list = L;
+
+	static constexpr size_type direction_enum	= AT<L, Attribute::direction	>::rtn;
+	static constexpr size_type interval_enum	= AT<L, Attribute::interval	>::rtn;
+	static constexpr size_type image_enum		= AT<L, Attribute::image	>::rtn;
+	static constexpr size_type iterator_enum	= AT<L, Attribute::iterator	>::rtn;
+
+	_adjective() { }
+};
+
+
+/***********************************************************************************************************************/
+
+
+template<size_type directionEnum, size_type intervalEnum>
+using allocate_segment = LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>;
+
+template<size_type directionEnum, size_type intervalEnum>
+struct _adjective<allocate_segment<directionEnum, intervalEnum>>
+{
+	using parameter_list = allocate_segment<directionEnum, intervalEnum>;
+
+	static constexpr size_type direction_enum	= directionEnum;
+	static constexpr size_type interval_enum	= intervalEnum;
+	static constexpr size_type image_enum		= Association::allocate;
+	static constexpr size_type iterator_enum	= Association::segment;
+
+	size_type length;
+	size_type offset;
+
+	_adjective(size_type l, size_type o) : length(l), offset(o) { }
+};
+
+
+/***********************************************************************************************************************/
+
+
+template<size_type directionEnum, size_type intervalEnum>
+using deallocate_segment = LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>;
+
+template<size_type directionEnum, size_type intervalEnum, typename T>
+struct _adjective<deallocate_segment<directionEnum, intervalEnum>, T>
+{
+	using parameter_list = deallocate_segment<directionEnum, intervalEnum>;
+
+	static constexpr size_type direction_enum	= directionEnum;
+	static constexpr size_type interval_enum	= intervalEnum;
+	static constexpr size_type image_enum		= Association::deallocate;
+	static constexpr size_type iterator_enum	= Association::segment;
+
+	T *origin;
+
+	_adjective(T *o) : origin(o) { }
+};
+
+template<size_type directionEnum, size_type intervalEnum>
+struct _adjective<deallocate_segment<directionEnum, intervalEnum>>
+{
+	using parameter_list = deallocate_segment<directionEnum, intervalEnum>;
+
+	static constexpr size_type direction_enum	= directionEnum;
+	static constexpr size_type interval_enum	= intervalEnum;
+	static constexpr size_type image_enum		= Association::deallocate;
+	static constexpr size_type iterator_enum	= Association::segment;
+
+	template<typename T>
+	static _adjective<parameter_list, T> with(T *o)
+	{
+		return _adjective<parameter_list, T>(o);
+	}
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type... params>
+using adjective = _adjective<SORTFILL<Association, params...>::rtn>;
 
 

@@ -15,3 +15,15 @@
 **
 ************************************************************************************************************************/
 
+using Attribute = typename module<nik::iterator, nik::structural, nik::semiotic, size_type>::Attribute;
+
+using Association = typename module<nik::iterator, nik::structural, nik::semiotic, size_type>::Association;
+
+
+/***********************************************************************************************************************/
+
+
+template<size_type... params>
+using adjective = SORTFILL<Association, params...>::rtn;
+
+

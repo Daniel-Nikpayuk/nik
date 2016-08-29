@@ -23,11 +23,6 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		using Modifier = typename module<nik::iterator, nik::structural, nik::semiotic, size_type>::Modifier;
-		using Attribute = typename module<nik::iterator, nik::structural, nik::semiotic, size_type>::Attribute;
-
-/***********************************************************************************************************************/
-
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
@@ -35,11 +30,12 @@ namespace numeric	{
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
+		#include"adjective/media.hpp"
+
 		#include"segment/media.hpp"
 		#include"node/media.hpp"
 		#include"hook/media.hpp"
 		#include"link/media.hpp"
-		#include"adjective/media.hpp"
 
 		#undef AT
 		#undef CASES
