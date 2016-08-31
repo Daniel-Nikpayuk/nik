@@ -29,8 +29,8 @@ template
 >
 struct deinitialize_variables
 {
-	template<typename adverb>
-	static void apply(sub_pointer & out, adverb & side, ob_pointer & in) { }
+	template<typename sub_pointer, typename variables, typename ob_pointer>
+	static void apply(sub_pointer & out, const variables & var, ob_pointer & in) { }
 };
 
 

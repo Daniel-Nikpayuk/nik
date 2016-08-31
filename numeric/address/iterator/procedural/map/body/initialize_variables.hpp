@@ -18,6 +18,7 @@
 
 template
 <
+	typename sub_pointer,
 	typename sub_adjective,
 
 	size_type sub_directionEnum = sub_adjective::direction_enum,
@@ -26,34 +27,41 @@ template
 >
 struct initialize_variables
 {
-	template<typename adverb>
-	static void apply(sub_pointer & out, adverb & side) { }
+	sub_pointer current;
+
+	initialize_variables(sub_pointer & out, const sub_adjective & sub) { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<typename sub_adjective>
-struct initialize_variables<sub_adjective, Adjective::forward, Adjective::allocate, Adjective::segment>
+template<typename sub_pointer, typename sub_adjective>
+struct initialize_variables<sub_pointer, sub_adjective, Association::forward, Association::allocate, Association::segment>
 {
-	template<typename adverb>
-	static void apply(sub_pointer & out, adverb & side)
+	using value_type = typename structural<nik::semiotic>::template trim<sub_pointer>::pointer;
+
+	sub_pointer origin;
+
+	initialize_variables(sub_pointer & out, const sub_adjective & sub)
 	{
-		side.current = new typename sub_adjective::value_type[side.length];
-		out = side.current + side.offset;
+		origin = new value_type[sub.length];
+		out = origin + sub.offset;
 	}
 };
 
 
-template<typename sub_adjective>
-struct initialize_variables<sub_adjective, Adjective::backward, Adjective::allocate, Adjective::segment>
+template<typename sub_pointer, typename sub_adjective>
+struct initialize_variables<sub_pointer, sub_adjective, Association::backward, Association::allocate, Association::segment>
 {
-	template<typename adverb>
-	static void apply(sub_pointer & out, adverb & side)
+	using value_type = typename structural<nik::semiotic>::template trim<sub_pointer>::pointer;
+
+	sub_pointer origin;
+
+	initialize_variables(sub_pointer & out, const sub_adjective & sub)
 	{
-		side.current = new typename sub_adjective::value_type[side.length];
-		out = side.current + (side.length - 1 - side.offset);
+		origin = new value_type[sub.length];
+		out = origin + (sub.length - 1 - sub.offset);
 	}
 };
 

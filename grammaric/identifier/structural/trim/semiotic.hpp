@@ -15,26 +15,55 @@
 **
 ************************************************************************************************************************/
 
-#include"prototype.hh"
-#include"specialize.hh"
+// default to returning the original type if it is already "trimmed".
+
+template<typename T>
+struct trim
+{
+	using constant = T;
+
+	using reference = T;
+	using const_reference = T;
+
+	using pointer = T;
+	using const_pointer = T;
+};
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+template<typename T>
+struct trim<T const>
+{
+	using constant = T;
+};
 
 /************************************************************************************************************************/
 
-/*
-	The ordering of the arguments are intended to privilege template parameter type deduction.
-*/
-
-template<typename sub_pointer, typename map_adverb, typename ob_pointer, typename sub_adjective, typename ob_adjective>
-static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_pointer end, sub_adjective sub, ob_adjective ob)
+template<typename T>
+struct trim<T&>
 {
-	using optimizer_type = CASES
-	<
-		(map_adverb::optimizer_enum - map_adverb::optimizer_offset),
-		prototype<sub_adjective, ob_adjective>,
-		specialize<sub_adjective, ob_adjective>
+	using reference = T;
+};
 
-	>::rtn;
+template<typename T>
+struct trim<T const &>
+{
+	using const_reference = T;
+};
 
-	return optimizer_type::map(out, ad, in, end, sub, ob);
-}
+/************************************************************************************************************************/
+
+template<typename T>
+struct trim<T*>
+{
+	using pointer = T;
+};
+
+template<typename T>
+struct trim<T const *>
+{
+	using const_pointer = T;
+};
 

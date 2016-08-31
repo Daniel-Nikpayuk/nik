@@ -15,10 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_adjective, typename ob_adjective>
-struct specialize
-{
-	template<typename sub_pointer, typename map_adverb, typename ob_pointer>
-	static sub_pointer map(sub_pointer, map_adverb, ob_pointer, ob_pointer);
-};
-

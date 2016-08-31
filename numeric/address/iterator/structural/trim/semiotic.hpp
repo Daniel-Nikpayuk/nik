@@ -15,10 +15,31 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_adjective, typename ob_adjective>
-struct specialize
+// default to returning the original type if it is already "trimmed".
+
+template<typename T>
+struct trim
 {
-	template<typename sub_pointer, typename map_adverb, typename ob_pointer>
-	static sub_pointer map(sub_pointer, map_adverb, ob_pointer, ob_pointer);
+	using pointer = T;
+};
+
+/************************************************************************************************************************/
+
+template<typename T>
+struct trim<T*>
+{
+	using pointer = segment<T>;
+};
+
+template<typename T>
+struct trim<hook_pointer<T>>
+{
+	using pointer = hook<T>;
+};
+
+template<typename T>
+struct trim<link_pointer<T>>
+{
+	using pointer = link<T>;
 };
 

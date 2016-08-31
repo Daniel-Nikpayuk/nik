@@ -96,6 +96,9 @@ struct _adverb<L>
 	static constexpr size_type tracer_enum		= AT<L, Manner::tracer		>::rtn;
 	static constexpr size_type optimizer_enum	= AT<L, Manner::optimizer	>::rtn;
 
+	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
+	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+
 	_adverb() { }
 };
 
@@ -115,6 +118,9 @@ struct _adverb<omit_omit<optimizerEnum>, F>
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
+	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
+	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+
 	F functor;
 
 	_adverb(const F & f) : functor(f) { }
@@ -128,6 +134,9 @@ struct _adverb<omit_omit<optimizerEnum>>
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
+
+	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
+	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
 	static _adverb<parameter_list, F> with(const F & f)
@@ -152,6 +161,9 @@ struct _adverb<omit_apply<optimizerEnum>, F>
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
+	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
+	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+
 	F functor;
 	size_type count;
 
@@ -166,6 +178,9 @@ struct _adverb<omit_apply<optimizerEnum>>
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
+
+	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
+	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
 	static _adverb<parameter_list, F> with(const F & f, size_type c = 0)

@@ -24,6 +24,7 @@ namespace grammaric	{
 		typedef SizeType size_type;
 
 		#include"container/media.hpp"
+		#include"trim/media.hpp"
 	};
 
 }}

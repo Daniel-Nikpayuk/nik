@@ -39,7 +39,7 @@ namespace numeric	{
 
 		#include"adverb/semiotic.hpp"
 
-//		#include"map/semiotic.hh"
+		#include"map/semiotic.hh"
 
 //		#include"discourse/semiotic.hpp"
 
