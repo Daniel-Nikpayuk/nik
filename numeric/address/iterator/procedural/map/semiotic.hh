@@ -25,7 +25,7 @@
 */
 
 template<typename sub_pointer, typename map_adverb, typename ob_pointer, typename sub_adjective, typename ob_adjective>
-static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_pointer end, sub_adjective sub, ob_adjective ob)
+static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_pointer end, const sub_adjective & sub, const ob_adjective & ob)
 {
 	using optimizer_type = CASES
 	<
@@ -36,5 +36,34 @@ static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_point
 	>::rtn;
 
 	return optimizer_type::map(out, ad, in, end, sub, ob);
+}
+
+/*
+	allocate, segment:
+*/
+
+template<size_type directionEnum, size_type intervalEnum>
+using allocate_segment = typename structural<nik::semiotic>::template
+	adjective<directionEnum, intervalEnum, Association::allocate, Association::segment>;
+
+template<typename sub_pointer, typename map_adverb, typename ob_pointer,
+	size_type directionEnum, size_type intervalEnum, typename ob_adjective>
+static sub_pointer map(sub_pointer & out, map_adverb & ad,
+	ob_pointer in, ob_pointer end, allocate_segment<directionEnum, intervalEnum> sub, ob_adjective ob)
+{
+	using value_type = typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::value_type;
+
+	out = new value_type[sub.length];
+	size_type offset = (directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset;
+
+	using optimizer_type = CASES
+	<
+		(map_adverb::optimizer_enum - map_adverb::optimizer_offset),
+		prototype<allocate_segment<directionEnum, intervalEnum>, ob_adjective>,
+		specialize<allocate_segment<directionEnum, intervalEnum>, ob_adjective>
+
+	>::rtn;
+
+	return optimizer_type::map(out + offset, ad, in, end, sub, ob);
 }
 

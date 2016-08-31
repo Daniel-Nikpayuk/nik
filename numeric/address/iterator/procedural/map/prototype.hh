@@ -15,14 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include"body/initialize_variables.hpp"
 //#include"body/peek_action.hpp"
 //#include"body/main_action.hpp"
 //#include"body/count_action.hpp"
 //#include"body/iterate_out.hpp"
 //#include"body/iterate_in.hpp"
 //#include"body/memory_action_in.hpp"
-#include"body/deinitialize_variables.hpp"
+//#include"body/deinitialize_variables.hpp"
 
 /***********************************************************************************************************************/
 
@@ -57,8 +56,6 @@ struct prototype<sub_adjective, ob_adjective, Association::closing, Association:
 	template<typename sub_pointer, typename map_adverb, typename ob_pointer>
 	static sub_pointer map(sub_pointer out, map_adverb ad, ob_pointer in, ob_pointer end, sub_adjective sub, ob_adjective ob)
 	{
-		initialize_variables<sub_pointer, sub_adjective> var(out, sub);
-
 /*
 		while (in != end)
 		{

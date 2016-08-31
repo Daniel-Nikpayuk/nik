@@ -135,7 +135,7 @@ struct _adjective<allocate_segment<directionEnum, intervalEnum>>
 	size_type length;
 	size_type offset;
 
-	_adjective(size_type l, size_type o) : length(l), offset(o) { }
+	_adjective(size_type l, size_type o = 0) : length(l), offset(o) { }
 };
 
 
