@@ -18,31 +18,33 @@
 
 template
 <
-	typename adverb,
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
 
-	size_type functorEnum = adverb::functor_enum
+	typename sub_pointer,
+	typename ob_pointer
 >
-struct main_action
+static void main_action(const _adverb<LIST<Connotation::omit_assign, tracerEnum, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
 {
-	template<typename SubPointer, typename ObPointer>
-	static void apply(SubPointer out, const adverb & side, ObPointer in)
-	{
-		side.functor(out, in);
-	}
-};
+	ad.functor(out, in);
+}
 
 
 /***********************************************************************************************************************/
 
 
-template<typename adverb>
-struct main_action<adverb, Adverb::omit_functor>
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+
+	typename sub_pointer,
+	typename ob_pointer
+>
+static void main_action(const _adverb<LIST<Connotation::apply_assign, tracerEnum, optimizerEnum>> & ad, sub_pointer out, ob_pointer in)
 {
-	template<typename SubPointer, typename ObPointer>
-	static void apply(SubPointer out, const adverb & side, ObPointer in)
-	{
-		*out = *in;
-	}
-};
+	*out = *in;
+}
 
 

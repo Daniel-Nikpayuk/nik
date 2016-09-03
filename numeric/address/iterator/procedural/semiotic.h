@@ -32,6 +32,9 @@ namespace numeric	{
 		using Attribute = typename structural<nik::semiotic>::Attribute;
 		using Association = typename structural<nik::semiotic>::Association;
 
+		template<typename L>
+		using _adjective = typename structural<nik::semiotic>::template _adjective<L>;
+
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
@@ -39,7 +42,7 @@ namespace numeric	{
 
 		#include"adverb/semiotic.hpp"
 
-		#include"map/semiotic.hh"
+		#include"map/semiotic.hpp"
 
 //		#include"discourse/semiotic.hpp"
 

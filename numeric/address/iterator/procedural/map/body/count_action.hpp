@@ -18,26 +18,26 @@
 
 template
 <
-	typename adverb,
-
-	size_type tracerEnum = adverb::tracer_enum
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
 >
-struct count_action
-{
-	static void apply(adverb & side) { }
-};
+static void count_action(_adverb<LIST<functorEnum, Connotation::omit_count, optimizerEnum>, F> & ad)
+	{ }
 
 
 /***********************************************************************************************************************/
 
 
-template<typename adverb>
-struct count_action<adverb, Adverb::apply_count>
+template
+<
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
+>
+static void count_action(_adverb<LIST<functorEnum, Connotation::apply_count, optimizerEnum>, F> & ad)
 {
-	static void apply(adverb & side)
-	{
-		++side.count;
-	}
-};
+	++ad.count;
+}
 
 

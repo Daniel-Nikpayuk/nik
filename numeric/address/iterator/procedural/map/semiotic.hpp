@@ -15,27 +15,76 @@
 **
 ************************************************************************************************************************/
 
-//#include"body/peek_action.hpp"
-//#include"body/main_action.hpp"
-//#include"body/count_action.hpp"
-//#include"body/iterate_out.hpp"
-//#include"body/iterate_in.hpp"
-//#include"body/memory_action_in.hpp"
-//#include"body/deinitialize_variables.hpp"
-
-/***********************************************************************************************************************/
-
 
 template
 <
-	typename sub_adjective,
-	typename ob_adjective,
+	size_type functorEnum,
+	size_type tracerEnum,
+	typename F,
 
-	size_type sub_intervalEnum = sub_adjective::interval_enum,
-	size_type ob_intervalEnum = ob_adjective::interval_enum,
-	size_type ob_imageEnum = ob_adjective::image_enum
+	typename sub_pointer,
+
+	size_type sub_directionEnum,
+	size_type sub_imageEnum,
+	size_type sub_iteratorEnum,
+
+	typename ob_pointer,
+
+	size_type ob_directionEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum
 >
-struct prototype;
+static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::specialize>, F> & ad,
+
+	sub_pointer out,
+
+	const _adjective<LIST<sub_directionEnum, Association::closing, sub_imageEnum, sub_iteratorEnum>> & sub,
+
+	ob_pointer in, ob_pointer end,
+
+	const _adjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>> & ob);
+
+/*
+template<typename sub_adjective, typename ob_adjective>
+struct specialize
+{
+	template<typename sub_pointer, typename map_adverb, typename ob_pointer>
+	static sub_pointer map(sub_pointer, map_adverb, ob_pointer, ob_pointer);
+};
+
+
+	The ordering of the arguments are intended to privilege template parameter type deduction.
+
+template<typename sub_pointer, typename map_adverb, typename ob_pointer, typename sub_adjective, typename ob_adjective>
+static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_pointer end, const sub_adjective & sub, const ob_adjective & ob)
+{
+	using optimizer_type = CASES
+	<
+		(map_adverb::optimizer_enum - map_adverb::optimizer_offset),
+		prototype<sub_adjective, ob_adjective>,
+		specialize<sub_adjective, ob_adjective>
+
+	>::rtn;
+
+	return optimizer_type::map(out, ad, in, end, sub, ob);
+}
+*/
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
+//#include"body/peek_action.hpp"
+#include"body/main_action.hpp"
+#include"body/count_action.hpp"
+#include"body/iterate_action.hpp"
+//#include"body/memory_action_in.hpp"
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 /************************************************************************************************************************
@@ -50,28 +99,94 @@ struct prototype;
 */
 
 
-template<typename sub_adjective, typename ob_adjective, size_type oImageEnum>
-struct prototype<sub_adjective, ob_adjective, Association::closing, Association::closing, oImageEnum>
-{
-	template<typename sub_pointer, typename map_adverb, typename ob_pointer>
-	static sub_pointer map(sub_pointer out, map_adverb ad, ob_pointer in, ob_pointer end, sub_adjective sub, ob_adjective ob)
-	{
-/*
-		while (in != end)
-		{
-			main_action<adverb>::apply(out, side, in);
-			count_action<adverb>::apply(side);
+template
+<
+	size_type functorEnum,
+	size_type tracerEnum,
+	typename F,
 
-			iterate_out<sub_adjective>::apply(out);
-			iterate_in<ob_adjective>::apply(in);
-		}
+	typename sub_pointer,
+
+	size_type sub_directionEnum,
+	size_type sub_imageEnum,
+	size_type sub_iteratorEnum,
+
+	typename ob_pointer,
+
+	size_type ob_directionEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum
+>
+static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
+
+	sub_pointer out,
+
+	const _adjective<LIST<sub_directionEnum, Association::closing, sub_imageEnum, sub_iteratorEnum>> & sub,
+
+	ob_pointer in, ob_pointer end,
+
+	const _adjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>> & ob)
+{
+	while (in != end)
+	{
+		main_action(ad, out, in);
+		count_action(ad);
+
+		iterate_action(out, sub);
+		iterate_action(in, ob);
+	}
+
+	return out;
+}
+
+
+/*
+	allocate, segment:
 */
 
-//		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, var);
 
-		return out;
+template
+<
+	size_type functorEnum,
+	size_type tracerEnum,
+	typename F,
+
+	typename sub_pointer,
+
+	size_type sub_directionEnum,
+
+	typename ob_pointer,
+
+	size_type ob_directionEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum
+>
+static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
+
+	sub_pointer & origin,
+
+	const _adjective<LIST<sub_directionEnum, Association::closing, Association::allocate, Association::segment>> & sub,
+
+	ob_pointer in, ob_pointer end,
+
+	const _adjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>> & ob)
+{
+	using value_type = typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::value_type;
+	origin = new value_type[sub.length];
+	size_type offset = (sub_directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset;
+	sub_pointer out = origin + offset;
+
+	while (in != end)
+	{
+		main_action(ad, out, in);
+		count_action(ad);
+
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
-};
+
+	return out;
+}
 
 
 /***********************************************************************************************************************/
