@@ -16,8 +16,14 @@
 ************************************************************************************************************************/
 
 
-#define DEFAULT		LIST<directionEnum, imageEnum, iteratorEnum>
-#define SEGMENT		LIST<directionEnum, imageEnum, Association::segment>
+	while (omit_peek())												\
+	{														\
+		functor_action(template_policy, arity_policy)								\
+		count_action(count_policy)										\
+															\
+		iterate_out(out_direction, out_memory, out_pointer)							\
+		iterate_in(in_direction, in_memory, in_pointer, arity_policy)						\
+	}														\
 
 
 /***********************************************************************************************************************/
@@ -25,25 +31,43 @@
 
 template
 <
-	typename pointer,
+	size_type functorEnum,
+	size_type tracerEnum,
+	size_type optimizerEnum,
 
-	size_type directionEnum,
-	size_type imageEnum,
-	size_type iteratorEnum
+	typename sub_pointer,
+	typename ob_pointer,
+	typename F
 >
-static bool peek_action(pointer in, pointer end, const _adjective<DEFAULT> & adj)
+static void fcoi_loop(const _adverb<LIST<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
 {
-	return (+in != end);
+	*out = *in;
 }
 
 
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type directionEnum, size_type imageEnum>
-static bool peek_action(pointer in, pointer end, const _adjective<SEGMENT> & adj)
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
+
+	typename sub_pointer,
+	typename ob_pointer
+>
+static void functor_action(const _adverb<LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
+static void count_action(_adverb<LIST<functorEnum, Connotation::apply_count, optimizerEnum>, F> & ad)
 {
-	return (in < end);
+	ad.functor(out, in);
+	++ad.count;
 }
+
+
+
+/***********************************************************************************************************************/
+
+
 
 

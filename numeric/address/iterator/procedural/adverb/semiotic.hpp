@@ -42,8 +42,8 @@ struct Connotation
 
 	enum : size_type
 	{
-		omit_assign,
-		apply_assign,
+		omit_functor,
+		apply_functor,
 
 		omit_count,
 		apply_count,
@@ -55,8 +55,8 @@ struct Connotation
 	template<typename Filler>
 	struct bounds<Manner::functor, Filler>
 	{
-		static constexpr size_type initial = omit_assign;
-		static constexpr size_type terminal = apply_assign;
+		static constexpr size_type initial = omit_functor;
+		static constexpr size_type terminal = apply_functor;
 	};
 
 	template<typename Filler>
@@ -80,39 +80,22 @@ struct Connotation
 /***********************************************************************************************************************/
 
 
-template<typename... params> struct _adverb { };
+template<typename L, typename F = void> struct _adverb { };
 
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename L>
-struct _adverb<L>
-{
-	using parameter_list = L;
-
-	static constexpr size_type functor_enum		= AT<L, Manner::functor		>::rtn;
-	static constexpr size_type tracer_enum		= AT<L, Manner::tracer		>::rtn;
-	static constexpr size_type optimizer_enum	= AT<L, Manner::optimizer	>::rtn;
-
-	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
-	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
-
-	_adverb() { }
-};
+#define OMIT_OMIT	LIST<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>
+#define OMIT_APPLY	LIST<Connotation::omit_functor, Connotation::apply_count, optimizerEnum>
+#define APPLY_OMIT	LIST<Connotation::apply_functor, Connotation::omit_count, optimizerEnum>
+#define APPLY_APPLY	LIST<Connotation::apply_functor, Connotation::apply_count, optimizerEnum>
 
 
 /***********************************************************************************************************************/
 
-
-template<size_type optimizerEnum>
-using omit_omit = LIST<Connotation::omit_assign, Connotation::omit_count, optimizerEnum>;
 
 template<size_type optimizerEnum, typename F>
-struct _adverb<omit_omit<optimizerEnum>, F>
+struct _adverb<APPLY_OMIT, F>
 {
-	using parameter_list = omit_omit<optimizerEnum>;
+	using parameter_list = APPLY_OMIT;
 
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
@@ -127,9 +110,9 @@ struct _adverb<omit_omit<optimizerEnum>, F>
 };
 
 template<size_type optimizerEnum>
-struct _adverb<omit_omit<optimizerEnum>>
+struct _adverb<OMIT_OMIT, void>
 {
-	using parameter_list = omit_omit<optimizerEnum>;
+	using parameter_list = OMIT_OMIT;
 
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
@@ -139,9 +122,9 @@ struct _adverb<omit_omit<optimizerEnum>>
 	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
-	static _adverb<parameter_list, F> with(const F & f)
+	static _adverb<APPLY_OMIT, F> as(const F & f)
 	{
-		return _adverb<parameter_list, F>(f);
+		return _adverb<APPLY_OMIT, F>(f);
 	}
 };
 
@@ -149,13 +132,10 @@ struct _adverb<omit_omit<optimizerEnum>>
 /***********************************************************************************************************************/
 
 
-template<size_type optimizerEnum>
-using omit_apply = LIST<Connotation::omit_assign, Connotation::apply_count, optimizerEnum>;
-
 template<size_type optimizerEnum, typename F>
-struct _adverb<omit_apply<optimizerEnum>, F>
+struct _adverb<APPLY_APPLY, F>
 {
-	using parameter_list = omit_apply<optimizerEnum>;
+	using parameter_list = APPLY_APPLY;
 
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
@@ -171,9 +151,9 @@ struct _adverb<omit_apply<optimizerEnum>, F>
 };
 
 template<size_type optimizerEnum>
-struct _adverb<omit_apply<optimizerEnum>>
+struct _adverb<OMIT_APPLY, void>
 {
-	using parameter_list = omit_apply<optimizerEnum>;
+	using parameter_list = OMIT_APPLY;
 
 	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
@@ -183,9 +163,9 @@ struct _adverb<omit_apply<optimizerEnum>>
 	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
-	static _adverb<parameter_list, F> with(const F & f, size_type c = 0)
+	static _adverb<APPLY_APPLY, F> as(const F & f, size_type c = 0)
 	{
-		return _adverb<parameter_list, F>(f, c);
+		return _adverb<APPLY_APPLY, F>(f, c);
 	}
 };
 
@@ -195,6 +175,6 @@ struct _adverb<omit_apply<optimizerEnum>>
 
 
 template<size_type... params>
-using adverb = _adverb<SORTFILL<Connotation, params...>::rtn>;
+using adverb = _adverb<SORTFILL<Connotation, params...>::rtn, void>;
 
 

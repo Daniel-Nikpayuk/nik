@@ -16,19 +16,8 @@
 ************************************************************************************************************************/
 
 
-template
-<
-	size_type tracerEnum,
-	size_type optimizerEnum,
-	typename F,
-
-	typename sub_pointer,
-	typename ob_pointer
->
-static void main_action(const _adverb<LIST<Connotation::omit_assign, tracerEnum, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
-{
-	ad.functor(out, in);
-}
+#define OMIT	LIST<Connotation::omit_functor, tracerEnum, optimizerEnum>
+#define APPLY	LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>
 
 
 /***********************************************************************************************************************/
@@ -42,9 +31,52 @@ template
 	typename sub_pointer,
 	typename ob_pointer
 >
-static void main_action(const _adverb<LIST<Connotation::apply_assign, tracerEnum, optimizerEnum>> & ad, sub_pointer out, ob_pointer in)
+static inline void functor_action(const _adverb<OMIT> & ad, sub_pointer out, ob_pointer in)
 {
 	*out = *in;
 }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
+
+	typename sub_pointer,
+	typename ob_pointer
+>
+static void functor_action(const _adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in)
+{
+	ad.functor(out, in);
+}
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
+
+	typename sub_pointer,
+	typename ob_pointer
+>
+static void functor_action(const _adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, ob_pointer in1)
+{
+	ad.functor(out, in, in1);
+}
+
+
+/***********************************************************************************************************************/
+
+
+#undef APPLY
+#undef OMIT
 
 

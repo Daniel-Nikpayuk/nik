@@ -17,7 +17,7 @@
 
 
 #define DEFAULT		LIST<directionEnum, imageEnum, iteratorEnum>
-#define SEGMENT		LIST<directionEnum, imageEnum, Association::segment>
+#define DEALLOCATE	LIST<directionEnum, Association::deallocate, iteratorEnum>
 
 
 /***********************************************************************************************************************/
@@ -31,19 +31,17 @@ template
 	size_type imageEnum,
 	size_type iteratorEnum
 >
-static bool peek_action(pointer in, pointer end, const _adjective<DEFAULT> & adj)
-{
-	return (+in != end);
-}
+static void memory_action(pointer in, const _adjective<DEFAULT> & adj)
+	{ }
 
 
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type directionEnum, size_type imageEnum>
-static bool peek_action(pointer in, pointer end, const _adjective<SEGMENT> & adj)
+template<typename pointer, size_type directionEnum, size_type iteratorEnum>
+static void memory_action(pointer in, const _adjective<DEALLOCATE> & adj)
 {
-	return (in < end);
+	delete in;
 }
 
 

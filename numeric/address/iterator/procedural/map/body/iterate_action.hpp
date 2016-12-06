@@ -16,37 +16,51 @@
 ************************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::mutate, iteratorEnum>> & adj)
+#define FORWARD_MUTATE			LIST<Association::forward, Association::mutate, iteratorEnum>
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename pointer,
+
+	size_type iteratorEnum
+>
+static void iterate_action(pointer & p, const _adjective<FORWARD_MUTATE> & adj)
 {
 	++p;
 }
 
 
 /***********************************************************************************************************************/
+
+
+#define FORWARD_ALLOCATE_SEGMENT	LIST<Association::forward, Association::allocate, Association::segment>
+#define FORWARD_ALLOCATE_HOOK		LIST<Association::forward, Association::allocate, Association::hook>
+#define FORWARD_ALLOCATE_LINK		LIST<Association::forward, Association::allocate, Association::link>
+
+
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::allocate, Association::segment>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_SEGMENT> & adj)
 {
 	++p;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::allocate, Association::hook>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_HOOK> & adj)
 {
 	p = +p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::allocate, Association::link>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_LINK> & adj)
 {
 	+p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 	-+p = p;
@@ -55,61 +69,73 @@ static void iterate_action(pointer & p,
 
 
 /***********************************************************************************************************************/
+
+
+#define FORWARD_DEALLOCATE_SEGMENT	LIST<Association::forward, Association::deallocate, Association::segment>
+#define FORWARD_DEALLOCATE_HOOK		LIST<Association::forward, Association::deallocate, Association::hook>
+#define FORWARD_DEALLOCATE_LINK		LIST<Association::forward, Association::deallocate, Association::link>
+
+
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::deallocate, Association::segment>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_SEGMENT> & adj)
 {
 	++p;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::deallocate, Association::hook>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_HOOK> & adj)
 {
 	delete p++;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::forward, intervalEnum, Association::deallocate, Association::link>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_LINK> & adj)
 {
 	delete -++p;
 }
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
+
+
+#define BACKWARD_MUTATE			LIST<Association::backward, Association::mutate, iteratorEnum>
+
+
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::mutate, iteratorEnum>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_MUTATE> & adj)
 {
 	--p;
 }
 
 
 /***********************************************************************************************************************/
+
+
+#define BACKWARD_ALLOCATE_SEGMENT	LIST<Association::backward, Association::allocate, Association::segment>
+#define BACKWARD_ALLOCATE_HOOK		LIST<Association::backward, Association::allocate, Association::hook>
+#define BACKWARD_ALLOCATE_LINK		LIST<Association::backward, Association::allocate, Association::link>
+
+
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::allocate, Association::segment>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_SEGMENT> & adj)
 {
 	--p;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::allocate, Association::hook>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_HOOK> & adj)
 {
 	pointer tmp = p;
 	p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
@@ -117,9 +143,8 @@ static void iterate_action(pointer & p,
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::allocate, Association::link>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_LINK> & adj)
 {
 	-p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 	+-p = p;
@@ -128,28 +153,32 @@ static void iterate_action(pointer & p,
 
 
 /***********************************************************************************************************************/
+
+
+#define BACKWARD_DEALLOCATE_SEGMENT	LIST<Association::backward, Association::deallocate, Association::segment>
+#define BACKWARD_DEALLOCATE_HOOK	LIST<Association::backward, Association::deallocate, Association::hook>
+#define BACKWARD_DEALLOCATE_LINK	LIST<Association::backward, Association::deallocate, Association::link>
+
+
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::deallocate, Association::segment>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_SEGMENT> & adj)
 {
 	--p;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::deallocate, Association::hook>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_HOOK> & adj)
 {
 	delete p--;
 }
 
 
-template<typename pointer, size_type intervalEnum>
-static void iterate_action(pointer & p,
-	const _adjective<LIST<Association::backward, intervalEnum, Association::deallocate, Association::link>> & adj)
+template<typename pointer, size_type iteratorEnum>
+static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_LINK> & adj)
 {
 	delete +--p;
 }

@@ -77,7 +77,7 @@ static sub_pointer map(sub_pointer out, map_adverb & ad, ob_pointer in, ob_point
 
 
 //#include"body/peek_action.hpp"
-#include"body/main_action.hpp"
+#include"body/functor_action.hpp"
 #include"body/count_action.hpp"
 #include"body/iterate_action.hpp"
 //#include"body/memory_action_in.hpp"
@@ -129,11 +129,11 @@ static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::protot
 {
 	while (in != end)
 	{
-		main_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
-		iterate_action(out, sub);
-		iterate_action(in, ob);
+		iterate_out_action(out, sub);
+		iterate_in_action(in, ob);
 	}
 
 	return out;
@@ -178,7 +178,7 @@ static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::protot
 
 	while (in != end)
 	{
-		main_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -209,14 +209,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closing, Association:
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		iterate_out<sub_adjective>::apply(out);
@@ -252,7 +252,7 @@ struct prototype<sub_adjective, ob_adjective, Association::closing, Association:
 		{
 			iterate_in<ob_adjective, Association::mutate>::apply(variables);
 
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
@@ -285,14 +285,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closing, Association:
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective, Association::deallocate>::apply(variables);
 		}
 
-		main_action<sub_adjective, ob_adjective>::apply(out, variables);
+		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
 		iterate_out<sub_adjective>::apply(out);
@@ -328,7 +328,7 @@ struct prototype<sub_adjective, ob_adjective, Association::closing, Association:
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
@@ -365,14 +365,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closed, Association::
 
 		while (peek_action<ob_adjective>::test(in, end))
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		iterate_in<ob_adjective>::apply(variables);
@@ -405,14 +405,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closed, Association::
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		memory_action_in<ob_adjective>::apply(variables);
@@ -447,14 +447,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closed, Association::
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		memory_action_in<ob_adjective>::apply(variables);
@@ -489,14 +489,14 @@ struct prototype<sub_adjective, ob_adjective, Association::closed, Association::
 
 		while (peek_action<ob_adjective>::test(in, end))
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		iterate_in<ob_adjective>::apply(variables);
@@ -533,7 +533,7 @@ struct prototype<sub_adjective, ob_adjective, Association::opening, Association:
 		{
 			iterate_out<sub_adjective>::apply(out);
 
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_in<ob_adjective>::apply(variables);
@@ -569,14 +569,14 @@ struct prototype<sub_adjective, ob_adjective, Association::opening, Association:
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<sub_adjective, ob_adjective>::apply(out, variables);
+		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
 		memory_action_in<ob_adjective>::apply(variables);
@@ -612,7 +612,7 @@ struct prototype<sub_adjective, ob_adjective, Association::opening, Association:
 			iterate_in<ob_adjective, Association::mutate>::apply(variables);
 			iterate_out<sub_adjective>::apply(out);
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 		}
 
@@ -644,14 +644,14 @@ struct prototype<sub_adjective, ob_adjective, Association::opening, Association:
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective, Association::deallocate>::apply(variables);
 		}
 
-		main_action<sub_adjective, ob_adjective>::apply(out, variables);
+		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
 		memory_action_in<ob_adjective, Association::deallocate>::apply(variables);
@@ -688,7 +688,7 @@ struct prototype<sub_adjective, ob_adjective, Association::opening, Association:
 		{
 			iterate_out<sub_adjective>::apply(out);
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_in<ob_adjective>::apply(variables);
@@ -726,7 +726,7 @@ struct prototype<sub_adjective, ob_adjective, Association::open, Association::cl
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
@@ -763,14 +763,14 @@ struct prototype<sub_adjective, ob_adjective, Association::open, Association::cl
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective>::apply(variables);
 		}
 
-		main_action<sub_adjective, ob_adjective>::apply(out, variables);
+		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 		count_action<Adverb>::apply(verb);
 
 		iterate_out<sub_adjective>::apply(out);
@@ -807,7 +807,7 @@ struct prototype<sub_adjective, ob_adjective, Association::open, Association::op
 			iterate_in<ob_adjective, Association::mutate>::apply(variables);
 			iterate_out<sub_adjective>::apply(out);
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 			count_action<Adverb>::apply(verb);
 		}
 
@@ -841,14 +841,14 @@ struct prototype<sub_adjective, ob_adjective, Association::open, Association::op
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
 			iterate_in<ob_adjective, Association::deallocate>::apply(variables);
 		}
 
-			main_action<sub_adjective, ob_adjective>::apply(out, in, side);
+			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
 		count_action<Adverb>::apply(verb);
 
 		iterate_out<sub_adjective>::apply(out);
@@ -885,7 +885,7 @@ struct prototype<sub_adjective, ob_adjective, Association::open, Association::op
 
 		while (in != end)
 		{
-			main_action<sub_adjective, ob_adjective>::apply(out, variables);
+			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
 			count_action<Adverb>::apply(verb);
 
 			iterate_out<sub_adjective>::apply(out);
