@@ -16,11 +16,31 @@
 ************************************************************************************************************************/
 
 
-// Adjective Associations:
+// Attributive Adjectives:
+
+
+struct Attribute
+{
+	enum : size_type
+	{
+		direction,
+		interval,
+		image,
+		iterator,
+		dimension
+	};
+};
+
+
+/***********************************************************************************************************************/
 
 
 struct Association
 {
+	static constexpr size_type dimension = Attribute::dimension;
+
+	template<size_type attribute, typename Filler = void> struct bounds;
+
 	enum : size_type
 	{
 		forward,
@@ -33,41 +53,41 @@ struct Association
 
 		mutate,
 		allocate,
-
-		immutate,
 		deallocate,
 
 		segment,
 		hook,
-		link,
+		link
+	};
 
-		dimension
+	template<typename Filler>
+	struct bounds<Attribute::direction, Filler>
+	{
+		static constexpr size_type initial = forward;
+		static constexpr size_type terminal = backward;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::interval, Filler>
+	{
+		static constexpr size_type initial = closing;
+		static constexpr size_type terminal = open;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::image, Filler>
+	{
+		static constexpr size_type initial = mutate;
+		static constexpr size_type terminal = deallocate;
+	};
+
+	template<typename Filler>
+	struct bounds<Attribute::iterator, Filler>
+	{
+		static constexpr size_type initial = segment;
+		static constexpr size_type terminal = link;
 	};
 };
-
-
-/***********************************************************************************************************************/
-
-
-// Adjective Attributes:
-
-
-using SubjectAttribute = LIST
-<
-	direction,	LIST<forward, backward>,
-	interval,	LIST<closing, closed, opening, open>,
-	image,		LIST<mutate, allocate>,
-	iterator,	LIST<segment, hook, link>
->;
-
-
-using ObjectAttribute = LIST
-<
-	direction,	LIST<forward, backward>,
-	interval,	LIST<closing, closed, opening, open>,
-	image,		LIST<immutate, deallocate>,
-	iterator,	LIST<segment, hook, link>
->;
 
 
 /***********************************************************************************************************************/
@@ -76,10 +96,6 @@ using ObjectAttribute = LIST
 
 
 template<typename... params> struct _adjective { };
-
-
-#define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
-#define DEALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>
 
 
 /***********************************************************************************************************************/
@@ -104,9 +120,12 @@ struct _adjective<L>
 
 
 template<size_type directionEnum, size_type intervalEnum>
-struct _adjective<ALLOCATE_SEGMENT>
+using allocate_segment = LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>;
+
+template<size_type directionEnum, size_type intervalEnum>
+struct _adjective<allocate_segment<directionEnum, intervalEnum>>
 {
-	using parameter_list = ALLOCATE_SEGMENT;
+	using parameter_list = allocate_segment<directionEnum, intervalEnum>;
 
 	static constexpr size_type direction_enum	= directionEnum;
 	static constexpr size_type interval_enum	= intervalEnum;
@@ -123,10 +142,13 @@ struct _adjective<ALLOCATE_SEGMENT>
 /***********************************************************************************************************************/
 
 
+template<size_type directionEnum, size_type intervalEnum>
+using deallocate_segment = LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>;
+
 template<size_type directionEnum, size_type intervalEnum, typename T>
-struct _adjective<DEALLOCATE_SEGMENT, T>
+struct _adjective<deallocate_segment<directionEnum, intervalEnum>, T>
 {
-	using parameter_list = DEALLOCATE_SEGMENT;
+	using parameter_list = deallocate_segment<directionEnum, intervalEnum>;
 
 	static constexpr size_type direction_enum	= directionEnum;
 	static constexpr size_type interval_enum	= intervalEnum;
@@ -139,9 +161,9 @@ struct _adjective<DEALLOCATE_SEGMENT, T>
 };
 
 template<size_type directionEnum, size_type intervalEnum>
-struct _adjective<DEALLOCATE_SEGMENT>
+struct _adjective<deallocate_segment<directionEnum, intervalEnum>>
 {
-	using parameter_list = DEALLOCATE_SEGMENT;
+	using parameter_list = deallocate_segment<directionEnum, intervalEnum>;
 
 	static constexpr size_type direction_enum	= directionEnum;
 	static constexpr size_type interval_enum	= intervalEnum;

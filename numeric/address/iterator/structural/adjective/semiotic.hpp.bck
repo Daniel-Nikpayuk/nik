@@ -33,8 +33,6 @@ struct Association
 
 		mutate,
 		allocate,
-
-		immutate,
 		deallocate,
 
 		segment,
@@ -52,22 +50,48 @@ struct Association
 // Adjective Attributes:
 
 
-using SubjectAttribute = LIST
-<
-	direction,	LIST<forward, backward>,
-	interval,	LIST<closing, closed, opening, open>,
-	image,		LIST<mutate, allocate>,
-	iterator,	LIST<segment, hook, link>
->;
+struct Attribute
+{
+	enum : size_type
+	{
+		direction,
+		interval,
+		image,
+		iterator,
 
+		dimension
+	};
 
-using ObjectAttribute = LIST
-<
-	direction,	LIST<forward, backward>,
-	interval,	LIST<closing, closed, opening, open>,
-	image,		LIST<immutate, deallocate>,
-	iterator,	LIST<segment, hook, link>
->;
+	template<size_type attribute, typename Filler = void> struct bounds;
+
+	template<typename Filler>
+	struct bounds<direction, Filler>
+	{
+		static constexpr size_type initial = Association::forward;
+		static constexpr size_type terminal = Association::backward;
+	};
+
+	template<typename Filler>
+	struct bounds<interval, Filler>
+	{
+		static constexpr size_type initial = Association::closing;
+		static constexpr size_type terminal = Association::open;
+	};
+
+	template<typename Filler>
+	struct bounds<image, Filler>
+	{
+		static constexpr size_type initial = Association::mutate;
+		static constexpr size_type terminal = Association::deallocate;
+	};
+
+	template<typename Filler>
+	struct bounds<iterator, Filler>
+	{
+		static constexpr size_type initial = Association::segment;
+		static constexpr size_type terminal = Association::link;
+	};
+};
 
 
 /***********************************************************************************************************************/
