@@ -15,42 +15,41 @@
 **
 ************************************************************************************************************************/
 
-template<typename Attribute, typename out, typename in, size_type k, size_type n>
+template<typename out, typename in, typename Relation, typename Null = typename Relation::null>
 struct fill
 {
-	static constexpr size_type b = Attribute::template bounds<k>::initial;
-	static constexpr size_type e = Attribute::template bounds<k>::terminal;
+	using set = typename Relation::car;
 
 	//
 
 	template<typename in1, typename Filler = void>
-	struct new_out_helper
+	struct safe_new_out
 	{
 		using rtn = IF_THEN_ELSE
 		<
-			(b <= in1::car && in1::car <= e),
+			isMember<in1::car, set>::rtn,
 			typename out::template append<in1::car>,
-			typename out::template append<b>
+			typename out::template append<set::car>
 
 		>::rtn;
 	};
 
 	template<typename Filler>
-	struct new_out_helper<typename in::null, Filler>
+	struct safe_new_out<typename in::null, Filler>
 	{
-		using rtn = typename out::template append<b>;
+		using rtn = typename out::template append<set::car>;
 	};
 
-	using new_out = typename new_out_helper<in>::rtn;
+	using new_out = typename safe_new_out<in>::rtn;
 
 	//
 
 	template<typename in1, typename Filler = void>
-	struct new_in_helper
+	struct safe_new_in
 	{
 		using rtn = IF_THEN_ELSE
 		<
-			(b <= in1::car && in1::car <= e),
+			isMember<in1::car, set>::rtn,
 			typename in1::cdr,
 			in1
 
@@ -58,20 +57,21 @@ struct fill
 	};
 
 	template<typename Filler>
-	struct new_in_helper<typename in::null, Filler>
+	struct safe_new_in<typename in::null, Filler>
 	{
 		using rtn = typename in::null;
 	};
 
-	using new_in = typename new_in_helper<in>::rtn;
+	using new_in = typename safe_new_in<in>::rtn;
 
 	//
 
-	using rtn = typename fill<Attribute, new_out, new_in, k+1, n>::rtn;
+	using rtn = typename fill<new_out, new_in, typename Relation::cdr>::rtn;
+
 };
 
-template<typename Attribute, typename out, typename in, size_type n>
-struct fill<Attribute, out, in, n, n>
+template<typename out, typename in, typename Null>
+struct fill<out, in, Null, Null>
 {
 	using rtn = out;
 };

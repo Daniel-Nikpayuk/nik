@@ -15,13 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename Attribute, size_type... params>
+/*
+	As this code is intended to be a convenience function to begin with, the "Field" type is
+	passed instead of the more specific "Relation" type which is simpler from the user's point of view.
+*/
+
+template<typename Field, size_type... params>
 struct sortFill
 {
 	using in = typename structural<nik::semiotic>::template list<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	using rtn = typename fill<Attribute, sorted>::rtn;
+	using rtn = typename semiotic::template fill<sorted, typename Field::Relation>::rtn;
 };
 

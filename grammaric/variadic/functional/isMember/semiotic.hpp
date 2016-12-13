@@ -15,3 +15,15 @@
 **
 ************************************************************************************************************************/
 
+template<size_type x, typename L, typename Null = typename L::null>
+struct isMember
+{
+	static constexpr bool rtn = (x == L::car) ? true : isMember<x, typename L::cdr>::rtn;
+};
+
+template<size_type x, typename Null>
+struct isMember<x, Null, Null>
+{
+	static constexpr bool rtn = false;
+};
+

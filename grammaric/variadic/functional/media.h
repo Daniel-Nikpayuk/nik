@@ -36,6 +36,7 @@ namespace grammaric	{
 		#include"cases/media.hpp"
 
 		#include"isNull/media.hpp"
+		#include"isMember/media.hpp"
 		#include"length/media.hpp"
 		#include"at/media.hpp"
 		#include"erase/media.hpp"

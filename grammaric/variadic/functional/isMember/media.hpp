@@ -15,3 +15,9 @@
 **
 ************************************************************************************************************************/
 
+template<size_type x, typename L>
+struct isMember
+{
+	static constexpr bool value() { return semiotic::template isMember<x, L>::rtn; }
+};
+

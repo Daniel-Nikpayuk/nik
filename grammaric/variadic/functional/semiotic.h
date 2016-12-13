@@ -36,6 +36,7 @@ namespace grammaric	{
 		#include"cases/semiotic.hpp"
 
 		#include"isNull/semiotic.hpp"
+		#include"isMember/semiotic.hpp"
 		#include"length/semiotic.hpp"
 		#include"at/semiotic.hpp"
 		#include"erase/semiotic.hpp"
