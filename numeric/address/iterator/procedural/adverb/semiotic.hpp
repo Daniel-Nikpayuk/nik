@@ -15,17 +15,23 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Connotations and Manners of "{omit, apply} functor" are implicit in the build and so I do not specify them explicitly.
+	Strictly speaking this is bad design because I am relying on an implementation feature to enforce specification design,
+	but in this case I'm allowing it. This might change in the future, but I doubt it.
+*/
 
-// Manner Adverbs:
 
-
-struct Manner
+struct Connotation
 {
 	enum : size_type
 	{
-		functor,
-		tracer,
-		optimizer,
+		omit_count,
+		apply_count,
+
+		prototype,
+		specialize,
+
 		dimension
 	};
 };
@@ -34,44 +40,28 @@ struct Manner
 /***********************************************************************************************************************/
 
 
-struct Connotation
+/*
+	Manner Adverbs:
+				LIST data structures are appropriate here because resolution
+				occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Manner
 {
-	static constexpr size_type dimension = Manner::dimension;
-
-	template<size_type, typename Filler = void> struct bounds;
-
 	enum : size_type
 	{
-		omit_functor,
-		apply_functor,
+		tracer,
+		optimizer,
 
-		omit_count,
-		apply_count,
-
-		prototype,
-		specialize
+		dimension
 	};
 
-	template<typename Filler>
-	struct bounds<Manner::functor, Filler>
-	{
-		static constexpr size_type initial = omit_functor;
-		static constexpr size_type terminal = apply_functor;
-	};
-
-	template<typename Filler>
-	struct bounds<Manner::tracer, Filler>
-	{
-		static constexpr size_type initial = omit_count;
-		static constexpr size_type terminal = apply_count;
-	};
-
-	template<typename Filler>
-	struct bounds<Manner::optimizer, Filler>
-	{
-		static constexpr size_type initial = prototype;
-		static constexpr size_type terminal = specialize;
-	};
+	using Relation = LIST
+	<
+		LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
+		LIST<Connotation::prototype, Connotation::specialize>		// optimizer
+	>;
 };
 
 
@@ -80,51 +70,45 @@ struct Connotation
 /***********************************************************************************************************************/
 
 
-template<typename L, typename F = void> struct _adverb { };
+template<typename L, typename F = void> struct Adverb { };
 
 
-#define OMIT_OMIT	LIST<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>
-#define OMIT_APPLY	LIST<Connotation::omit_functor, Connotation::apply_count, optimizerEnum>
-#define APPLY_OMIT	LIST<Connotation::apply_functor, Connotation::omit_count, optimizerEnum>
-#define APPLY_APPLY	LIST<Connotation::apply_functor, Connotation::apply_count, optimizerEnum>
+#define OMIT	LIST<Connotation::omit_count, optimizerEnum>
+#define APPLY	LIST<Connotation::apply_count, optimizerEnum>
 
 
 /***********************************************************************************************************************/
 
 
 template<size_type optimizerEnum, typename F>
-struct _adverb<APPLY_OMIT, F>
+struct Adverb<OMIT, F>
 {
-	using parameter_list = APPLY_OMIT;
+	using parameter_list = OMIT;
 
-	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
-	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	F functor;
 
-	_adverb(const F & f) : functor(f) { }
+	Adverb(const F & f) : functor(f) { }
 };
 
 template<size_type optimizerEnum>
-struct _adverb<OMIT_OMIT, void>
+struct Adverb<OMIT, void>
 {
-	using parameter_list = OMIT_OMIT;
+	using parameter_list = OMIT;
 
-	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
-	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
-	static _adverb<APPLY_OMIT, F> as(const F & f)
+	static Adverb<OMIT, F> as(const F & f)
 	{
-		return _adverb<APPLY_OMIT, F>(f);
+		return Adverb<OMIT, F>(f);
 	}
 };
 
@@ -133,48 +117,55 @@ struct _adverb<OMIT_OMIT, void>
 
 
 template<size_type optimizerEnum, typename F>
-struct _adverb<APPLY_APPLY, F>
+struct Adverb<APPLY, F>
 {
-	using parameter_list = APPLY_APPLY;
+	using parameter_list = APPLY;
 
-	static constexpr size_type functor_enum		= Connotation::omit_assign;
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
-	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	F functor;
 	size_type count;
 
-	_adverb(const F & f, size_type c) : functor(f), count(c) { }
+	Adverb(const F & f, size_type c) : functor(f), count(c) { }
 };
 
-template<size_type optimizerEnum>
-struct _adverb<OMIT_APPLY, void>
-{
-	using parameter_list = OMIT_APPLY;
 
-	static constexpr size_type functor_enum		= Connotation::omit_assign;
+template<size_type optimizerEnum>
+struct Adverb<APPLY, void>
+{
+	using parameter_list = APPLY;
+
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-	static constexpr size_type functor_offset = Connotation::template bounds<Manner::functor>::initial;
-	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
+//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 	template<typename F>
-	static _adverb<APPLY_APPLY, F> as(const F & f, size_type c = 0)
+	static Adverb<APPLY, F> as(const F & f, size_type c = 0)
 	{
-		return _adverb<APPLY_APPLY, F>(f, c);
+		return Adverb<APPLY, F>(f, c);
 	}
 };
 
 
 /***********************************************************************************************************************/
+
+
+#undef OMIT
+#undef APPLY
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
+// void as default implies "omit_functor" connotation.
+
+
 template<size_type... params>
-using adverb = _adverb<SORTFILL<Connotation, params...>::rtn, void>;
+using adverb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
 
 

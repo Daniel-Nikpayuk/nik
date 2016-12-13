@@ -34,7 +34,7 @@ template
 	size_type ob_imageEnum,
 	size_type ob_iteratorEnum
 >
-static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::specialize>, F> & ad,
+static sub_pointer map(Adverb<LIST<functorEnum, tracerEnum, Connotation::specialize>, F> & ad,
 
 	sub_pointer out,
 
@@ -117,7 +117,7 @@ template
 	size_type ob_imageEnum,
 	size_type ob_iteratorEnum
 >
-static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
+static sub_pointer map(Adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
 
 	sub_pointer out,
 
@@ -161,7 +161,7 @@ template
 	size_type ob_imageEnum,
 	size_type ob_iteratorEnum
 >
-static sub_pointer map(_adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
+static sub_pointer map(Adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F> & ad,
 
 	sub_pointer & origin,
 

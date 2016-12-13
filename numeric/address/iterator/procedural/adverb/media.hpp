@@ -15,15 +15,28 @@
 **
 ************************************************************************************************************************/
 
-using Manner = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Manner;
+#define MODULE typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>
 
-using Connotation = typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>::Connotation;
+
+using Connotation = MODULE::Connotation;
+
+
+/***********************************************************************************************************************/
+
+
+using Manner = MODULE::Manner;
 
 
 /***********************************************************************************************************************/
 
 
 template<size_type... params>
-using adverb = SORTFILL<Connotation, params...>::rtn;
+using adverb = MODULE::template adverb<params...>;
+
+
+/***********************************************************************************************************************/
+
+
+#undef MODULE
 
 

@@ -29,7 +29,7 @@ template
 	size_type optimizerEnum,
 	typename F
 >
-static void count_action(_adverb<OMIT, F> & ad)
+static void count_action(Adverb<OMIT, F> & ad)
 	{ }
 
 
@@ -42,7 +42,7 @@ template
 	size_type optimizerEnum,
 	typename F
 >
-static void count_action(_adverb<APPLY, optimizerEnum>, F> & ad)
+static void count_action(Adverb<APPLY, F> & ad)
 {
 	++ad.count;
 }
