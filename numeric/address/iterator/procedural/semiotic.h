@@ -29,11 +29,14 @@ namespace numeric	{
 		template<size_type interface_enum>
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
-		using Attribute = typename structural<nik::semiotic>::Attribute;
 		using Association = typename structural<nik::semiotic>::Association;
+//		using Attribute = typename structural<nik::semiotic>::Attribute;
 
 		template<typename L>
-		using _adjective = typename structural<nik::semiotic>::template _adjective<L>;
+		using SubjectAdjective = typename structural<nik::semiotic>::template SubjectAdjective<L>;
+
+		template<typename L>
+		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L>;
 
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at

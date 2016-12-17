@@ -31,7 +31,7 @@ template
 	size_type imageEnum,
 	size_type iteratorEnum
 >
-static bool peek_action(pointer in, pointer end, const _adjective<DEFAULT> & adj)
+static bool peek_action(pointer in, pointer end, const ObjectAdjective<DEFAULT> & adj)
 {
 	return (+in != end);
 }
@@ -41,7 +41,7 @@ static bool peek_action(pointer in, pointer end, const _adjective<DEFAULT> & adj
 
 
 template<typename pointer, size_type directionEnum, size_type imageEnum>
-static bool peek_action(pointer in, pointer end, const _adjective<SEGMENT> & adj)
+static bool peek_action(pointer in, pointer end, const ObjectAdjective<SEGMENT> & adj)
 {
 	return (in < end);
 }

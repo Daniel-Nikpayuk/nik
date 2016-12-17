@@ -28,7 +28,7 @@ template
 
 	size_type iteratorEnum
 >
-static void iterate_action(pointer & p, const _adjective<FORWARD_MUTATE> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_MUTATE> & adj)
 {
 	++p;
 }
@@ -46,21 +46,21 @@ static void iterate_action(pointer & p, const _adjective<FORWARD_MUTATE> & adj)
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_SEGMENT> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_ALLOCATE_SEGMENT> & adj)
 {
 	++p;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_HOOK> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_ALLOCATE_HOOK> & adj)
 {
 	p = +p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_LINK> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_ALLOCATE_LINK> & adj)
 {
 	+p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 	-+p = p;
@@ -80,21 +80,21 @@ static void iterate_action(pointer & p, const _adjective<FORWARD_ALLOCATE_LINK> 
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_SEGMENT> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_SEGMENT> & adj)
 {
 	++p;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_HOOK> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_HOOK> & adj)
 {
 	delete p++;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_LINK> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_LINK> & adj)
 {
 	delete -++p;
 }
@@ -110,7 +110,7 @@ static void iterate_action(pointer & p, const _adjective<FORWARD_DEALLOCATE_LINK
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_MUTATE> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_MUTATE> & adj)
 {
 	--p;
 }
@@ -128,14 +128,14 @@ static void iterate_action(pointer & p, const _adjective<BACKWARD_MUTATE> & adj)
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_SEGMENT> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_ALLOCATE_SEGMENT> & adj)
 {
 	--p;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_HOOK> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_ALLOCATE_HOOK> & adj)
 {
 	pointer tmp = p;
 	p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
@@ -144,7 +144,7 @@ static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_HOOK>
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_LINK> & adj)
+static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_ALLOCATE_LINK> & adj)
 {
 	-p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
 	+-p = p;
@@ -164,21 +164,21 @@ static void iterate_action(pointer & p, const _adjective<BACKWARD_ALLOCATE_LINK>
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_SEGMENT> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_SEGMENT> & adj)
 {
 	--p;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_HOOK> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_HOOK> & adj)
 {
 	delete p--;
 }
 
 
 template<typename pointer, size_type iteratorEnum>
-static void iterate_action(pointer & p, const _adjective<BACKWARD_DEALLOCATE_LINK> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_LINK> & adj)
 {
 	delete +--p;
 }

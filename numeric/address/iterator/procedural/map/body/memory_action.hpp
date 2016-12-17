@@ -31,7 +31,7 @@ template
 	size_type imageEnum,
 	size_type iteratorEnum
 >
-static void memory_action(pointer in, const _adjective<DEFAULT> & adj)
+static void memory_action(pointer in, const ObjectAdjective<DEFAULT> & adj)
 	{ }
 
 
@@ -39,7 +39,7 @@ static void memory_action(pointer in, const _adjective<DEFAULT> & adj)
 
 
 template<typename pointer, size_type directionEnum, size_type iteratorEnum>
-static void memory_action(pointer in, const _adjective<DEALLOCATE> & adj)
+static void memory_action(pointer in, const ObjectAdjective<DEALLOCATE> & adj)
 {
 	delete in;
 }
