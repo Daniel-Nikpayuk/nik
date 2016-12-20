@@ -31,7 +31,7 @@ template
 	typename sub_pointer,
 	typename ob_pointer
 >
-static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_pointer in)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in)
 {
 	*out = *in;
 }

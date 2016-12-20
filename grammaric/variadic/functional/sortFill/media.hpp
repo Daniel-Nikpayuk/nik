@@ -23,10 +23,10 @@
 template<typename Field, size_type... params>
 struct sortFill
 {
-	using in = typename structural<nik::semiotic>::template list<params...>;
+	using in = LIST<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	using rtn = typename semiotic::template fill<sorted, typename Field::Relation>::rtn;
+	using rtn = typename semiotic::template fill<typename sorted::null, sorted, typename Field::Relation>::rtn;
 };
 

@@ -29,6 +29,8 @@ namespace numeric	{
 		template<size_type interface_enum>
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
+		using semiotic = module<nik::iterator, nik::procedural, nik::semiotic, size_type>;
+
 		using Attribute = typename structural<nik::media>::Attribute;
 		using Association = typename structural<nik::media>::Association;
 

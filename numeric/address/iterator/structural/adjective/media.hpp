@@ -16,35 +16,29 @@
 ************************************************************************************************************************/
 
 
-#define MODULE typename module<nik::iterator, nik::structural, nik::semiotic, size_type>
-
-
-using Association = MODULE::Association;
+using Association = typename semiotic::Association;
 
 
 /***********************************************************************************************************************/
 
 
-using SubjectAttribute = MODULE::SubjectAttribute;
+using SubjectAttribute = typename semiotic::SubjectAttribute;
 
 
-using ObjectAttribute = MODULE::ObjectAttribute;
+using ObjectAttribute = typename semiotic::ObjectAttribute;
 
 
 /***********************************************************************************************************************/
 
 
 template<size_type... params>
-using subject_adjective = MODULE::template subject_adjective<params...>;
+using subject_adjective = typename semiotic::template subject_adjective<params...>;
 
 
 template<size_type... params>
-using object_adjective = MODULE::template object_adjective<params...>;
+using object_adjective = typename semiotic::template object_adjective<params...>;
 
 
 /***********************************************************************************************************************/
-
-
-#undef MODULE
 
 

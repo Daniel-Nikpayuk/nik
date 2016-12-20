@@ -31,7 +31,7 @@ namespace grammaric	{
 
 		using media = module<nik::variadic, nik::functional, nik::media, size_type>;
 
-		#define IF_THEN_ELSE typename control_flow<nik::functional, nik::media>::template if_then_else
+		#define IF_THEN_ELSE	typename control_flow<nik::functional, nik::media>::template if_then_else
 
 		#include"cases/semiotic.hpp"
 

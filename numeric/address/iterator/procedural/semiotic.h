@@ -38,6 +38,7 @@ namespace numeric	{
 		template<typename L>
 		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L>;
 
+		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
@@ -49,6 +50,7 @@ namespace numeric	{
 
 //		#include"discourse/semiotic.hpp"
 
+		#undef TUPLE
 		#undef LIST
 		#undef AT
 		#undef CASES

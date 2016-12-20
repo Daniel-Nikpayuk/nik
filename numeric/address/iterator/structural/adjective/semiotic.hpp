@@ -48,11 +48,12 @@ struct Association
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 /*
 	Adjective Attributes:
-				LIST data structures are appropriate here because resolution
+				TUPLE/LIST data structures are appropriate here because resolution
 				occurs during compile-time and the size is expected to be small.
 */
 
@@ -69,7 +70,7 @@ struct SubjectAttribute
 		dimension
 	};
 
-	using Relation = LIST
+	using Relation = TUPLE
 	<
 		LIST<Association::forward, Association::backward>,						// direction
 		LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
@@ -79,6 +80,62 @@ struct SubjectAttribute
 };
 
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename... params> struct SubjectAdjective { };
+
+
+#define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename L>
+struct SubjectAdjective<L>
+{
+	using parameter_list = L;
+
+	static constexpr size_type direction_enum	= AT<L, SubjectAttribute::direction	>::rtn;
+	static constexpr size_type interval_enum	= AT<L, SubjectAttribute::interval	>::rtn;
+	static constexpr size_type image_enum		= AT<L, SubjectAttribute::image		>::rtn;
+	static constexpr size_type iterator_enum	= AT<L, SubjectAttribute::iterator	>::rtn;
+
+	SubjectAdjective() { }
+};
+
+
+/***********************************************************************************************************************/
+
+
+template<size_type directionEnum, size_type intervalEnum>
+struct SubjectAdjective<ALLOCATE_SEGMENT>
+{
+	using parameter_list = ALLOCATE_SEGMENT;
+
+	static constexpr size_type direction_enum	= directionEnum;
+	static constexpr size_type interval_enum	= intervalEnum;
+	static constexpr size_type image_enum		= Association::allocate;
+	static constexpr size_type iterator_enum	= Association::segment;
+
+	size_type length;
+	size_type offset;
+
+	SubjectAdjective(size_type l, size_type o = 0) : length(l), offset(o) { }
+};
+
+
+/***********************************************************************************************************************/
+
+
+#undef ALLOCATE_SEGMENT
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -94,7 +151,7 @@ struct ObjectAttribute
 		dimension
 	};
 
-	using Relation = LIST
+	using Relation = TUPLE
 	<
 		LIST<Association::forward, Association::backward>,						// direction
 		LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
@@ -106,13 +163,11 @@ struct ObjectAttribute
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-template<typename... params> struct Adjective { };
+template<typename... params> struct ObjectAdjective { };
 
 
-#define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
 #define DEALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>
 
 
@@ -120,45 +175,25 @@ template<typename... params> struct Adjective { };
 /***********************************************************************************************************************/
 
 
-template<typename L, typename AttributeType>
-struct Adjective<L, AttributeType>
+template<typename L>
+struct ObjectAdjective<L>
 {
 	using parameter_list = L;
 
-	static constexpr size_type direction_enum	= AT<L, AttributeType::direction	>::rtn;
-	static constexpr size_type interval_enum	= AT<L, AttributeType::interval		>::rtn;
-	static constexpr size_type image_enum		= AT<L, AttributeType::image		>::rtn;
-	static constexpr size_type iterator_enum	= AT<L, AttributeType::iterator		>::rtn;
+	static constexpr size_type direction_enum	= AT<L, ObjectAttribute::direction	>::rtn;
+	static constexpr size_type interval_enum	= AT<L, ObjectAttribute::interval	>::rtn;
+	static constexpr size_type image_enum		= AT<L, ObjectAttribute::image		>::rtn;
+	static constexpr size_type iterator_enum	= AT<L, ObjectAttribute::iterator	>::rtn;
 
-	Adjective() { }
+	ObjectAdjective() { }
 };
 
 
 /***********************************************************************************************************************/
 
 
-template<size_type directionEnum, size_type intervalEnum, typename AttributeType>
-struct Adjective<ALLOCATE_SEGMENT, AttributeType>
-{
-	using parameter_list = ALLOCATE_SEGMENT;
-
-	static constexpr size_type direction_enum	= directionEnum;
-	static constexpr size_type interval_enum	= intervalEnum;
-	static constexpr size_type image_enum		= Association::allocate;
-	static constexpr size_type iterator_enum	= Association::segment;
-
-	size_type length;
-	size_type offset;
-
-	Adjective(size_type l, size_type o = 0) : length(l), offset(o) { }
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<size_type directionEnum, size_type intervalEnum, typename T, typename AttributeType>
-struct Adjective<DEALLOCATE_SEGMENT, T, AttributeType>
+template<size_type directionEnum, size_type intervalEnum, typename T>
+struct ObjectAdjective<DEALLOCATE_SEGMENT, T>
 {
 	using parameter_list = DEALLOCATE_SEGMENT;
 
@@ -169,12 +204,12 @@ struct Adjective<DEALLOCATE_SEGMENT, T, AttributeType>
 
 	T *origin;
 
-	Adjective(T *o) : origin(o) { }
+	ObjectAdjective(T *o) : origin(o) { }
 };
 
 
-template<size_type directionEnum, size_type intervalEnum, typename AttributeType>
-struct Adjective<DEALLOCATE_SEGMENT, AttributeType>
+template<size_type directionEnum, size_type intervalEnum>
+struct ObjectAdjective<DEALLOCATE_SEGMENT>
 {
 	using parameter_list = DEALLOCATE_SEGMENT;
 
@@ -183,10 +218,12 @@ struct Adjective<DEALLOCATE_SEGMENT, AttributeType>
 	static constexpr size_type image_enum		= Association::deallocate;
 	static constexpr size_type iterator_enum	= Association::segment;
 
+//	Type extension:
+
 	template<typename T>
-	static Adjective<parameter_list, T, AttributeType> with(T *o)
+	static ObjectAdjective<parameter_list, T> with(T *o)
 	{
-		return Adjective<parameter_list, T, AttributeType>(o);
+		return ObjectAdjective<parameter_list, T>(o);
 	}
 };
 
@@ -194,18 +231,7 @@ struct Adjective<DEALLOCATE_SEGMENT, AttributeType>
 /***********************************************************************************************************************/
 
 
-#undef ALLOCATE_SEGMENT
 #undef DEALLOCATE_SEGMENT
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<typename L> struct SubjectAdjective : public Adjective<L, SubjectAttribute> { };
-
-
-template<typename L> struct ObjectAdjective : public Adjective<L, ObjectAttribute> { };
 
 
 /***********************************************************************************************************************/

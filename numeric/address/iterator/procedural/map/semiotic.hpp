@@ -66,10 +66,13 @@ static sub_pointer map(ADV_SPECIALIZE & ad,
 
 
 #define ADV_PROTOTYPE													\
-		Adverb<LIST<tracerEnum, Connotation::prototype>, F>
+		Adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F>
 
 #define SUB_ADJ_CLOSING_ALLOCATE_SEGMENT										\
-		SubjectAdjective<LIST<sub_directionEnum, Association::closing, sub_imageEnum, sub_iteratorEnum>>
+		SubjectAdjective											\
+		<													\
+			LIST<sub_directionEnum, Association::closing, Association::allocate, Association::segment>	\
+		>
 
 
 /************************************************************************************************************************
@@ -86,6 +89,7 @@ static sub_pointer map(ADV_SPECIALIZE & ad,
 
 template
 <
+	size_type functorEnum,
 	size_type tracerEnum,
 	typename F,
 
@@ -127,14 +131,13 @@ static sub_pointer map(ADV_PROTOTYPE & ad,
 
 template
 <
+	size_type functorEnum,
 	size_type tracerEnum,
 	typename F,
 
 	typename sub_pointer,
 
 	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
 
 	typename ob_pointer,
 

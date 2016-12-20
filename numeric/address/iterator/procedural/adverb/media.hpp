@@ -15,28 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#define MODULE typename module<nik::iterator, nik::procedural, nik::semiotic, size_type>
 
-
-using Connotation = MODULE::Connotation;
+using Connotation = typename semiotic::Connotation;
 
 
 /***********************************************************************************************************************/
 
 
-using Manner = MODULE::Manner;
+using Manner = typename semiotic::Manner;
 
 
 /***********************************************************************************************************************/
 
 
 template<size_type... params>
-using adverb = MODULE::template adverb<params...>;
+using adverb = typename semiotic::template adverb<params...>;
 
 
 /***********************************************************************************************************************/
-
-
-#undef MODULE
 
 
