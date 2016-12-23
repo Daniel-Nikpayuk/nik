@@ -125,9 +125,10 @@ template
 
 	size_type intervalEnum,
 	size_type imageEnum,
-	size_type iteratorEnum
+	size_type iteratorEnum,
+	typename T
 >
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD, T> & adj)
 {
 	++p;
 }
@@ -143,15 +144,15 @@ static void iterate_action(pointer & p, const ObjectAdjective<FORWARD> & adj)
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_HOOK> & adj)
+template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_HOOK, T> & adj)
 {
 	delete p++;
 }
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_LINK> & adj)
+template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
+static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_LINK, T> & adj)
 {
 	delete -++p;
 }
@@ -164,11 +165,13 @@ static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE
 template
 <
 	typename pointer,
+
 	size_type intervalEnum,
 	size_type imageEnum,
-	size_type iteratorEnum
+	size_type iteratorEnum,
+	typename T
 >
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD> & adj)
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD, T> & adj)
 {
 	--p;
 }
@@ -184,15 +187,15 @@ static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD> & adj)
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_HOOK> & adj)
+template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_HOOK, T> & adj)
 {
 	delete p--;
 }
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_LINK> & adj)
+template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
+static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_LINK, T> & adj)
 {
 	delete +--p;
 }

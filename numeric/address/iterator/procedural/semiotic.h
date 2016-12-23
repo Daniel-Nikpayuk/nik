@@ -35,8 +35,8 @@ namespace numeric	{
 		template<typename L>
 		using SubjectAdjective = typename structural<nik::semiotic>::template SubjectAdjective<L>;
 
-		template<typename L>
-		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L>;
+		template<typename L, typename T>
+		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L, T>;
 
 		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list

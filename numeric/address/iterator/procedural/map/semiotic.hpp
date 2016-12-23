@@ -16,17 +16,40 @@
 ************************************************************************************************************************/
 
 
-#define ADV_SPECIALIZE		Adverb<LIST<tracerEnum, Connotation::specialize>, F>
-
-#define SUB_ADJ_CLOSING		SubjectAdjective<LIST<sub_directionEnum, Association::closing, sub_imageEnum, sub_iteratorEnum>>
-#define OB_ADJ_CLOSING		ObjectAdjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>>
+#define ADV_SPECIALIZE		Adverb<LIST<functorEnum, tracerEnum, Connotation::specialize>, F>
 
 
 /************************************************************************************************************************/
 
 
+#define SUB_ADJ_CLOSING		SubjectAdjective<LIST<sub_directionEnum, Association::closing, sub_imageEnum, sub_iteratorEnum>>
+
+#define SUB_ADJ_CLOSED		SubjectAdjective<LIST<sub_directionEnum, Association::closed, sub_imageEnum, sub_iteratorEnum>>
+
+#define SUB_ADJ_OPENING		SubjectAdjective<LIST<sub_directionEnum, Association::opening, sub_imageEnum, sub_iteratorEnum>>
+
+#define SUB_ADJ_OPEN		SubjectAdjective<LIST<sub_directionEnum, Association::open, sub_imageEnum, sub_iteratorEnum>>
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_CLOSING		ObjectAdjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>, T>
+
+#define OB_ADJ_CLOSED		ObjectAdjective<LIST<ob_directionEnum, Association::closed, ob_imageEnum, ob_iteratorEnum>, T>
+
+#define OB_ADJ_OPENING		ObjectAdjective<LIST<ob_directionEnum, Association::opening, ob_imageEnum, ob_iteratorEnum>, T>
+
+#define OB_ADJ_OPEN		ObjectAdjective<LIST<ob_directionEnum, Association::open, ob_imageEnum, ob_iteratorEnum>, T>
+
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+
+
 template
 <
+	size_type functorEnum,
 	size_type tracerEnum,
 	typename F,
 
@@ -40,9 +63,10 @@ template
 
 	size_type ob_directionEnum,
 	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
+	size_type ob_iteratorEnum,
+	typename T
 >
-static sub_pointer map(ADV_SPECIALIZE & ad,
+static sub_pointer map(const ADV_SPECIALIZE & ad,
 
 			sub_pointer out, const SUB_ADJ_CLOSING & sub,
 
@@ -62,11 +86,20 @@ static sub_pointer map(ADV_SPECIALIZE & ad,
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
 #define ADV_PROTOTYPE													\
 		Adverb<LIST<functorEnum, tracerEnum, Connotation::prototype>, F>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_CLOSING_MUTATE_SEGMENT											\
+		SubjectAdjective											\
+		<													\
+			LIST<sub_directionEnum, Association::closing, Association::mutate, Association::segment>	\
+		>
 
 #define SUB_ADJ_CLOSING_ALLOCATE_SEGMENT										\
 		SubjectAdjective											\
@@ -75,298 +108,68 @@ static sub_pointer map(ADV_SPECIALIZE & ad,
 		>
 
 
+/***********************************************************************************************************************/
+
+#define SUB_ADJ_CLOSED_ALLOCATE_SEGMENT											\
+		SubjectAdjective											\
+		<													\
+			LIST<sub_directionEnum, Association::closed, Association::allocate, Association::segment>	\
+		>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_OPENING_ALLOCATE_SEGMENT										\
+		SubjectAdjective											\
+		<													\
+			LIST<sub_directionEnum, Association::opening, Association::allocate, Association::segment>	\
+		>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_OPEN_ALLOCATE_SEGMENT											\
+		SubjectAdjective											\
+		<													\
+			LIST<sub_directionEnum, Association::open, Association::allocate, Association::segment>	\
+		>
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_CLOSING_IMMUTATE_SEGMENT											\
+		ObjectAdjective												\
+		<													\
+			LIST<ob_directionEnum, Association::closing, Association::immutate, Association::segment>,	\
+			T												\
+		>
+
+#define OB_ADJ_CLOSING_DEALLOCATE_SEGMENT										\
+		ObjectAdjective												\
+		<													\
+			LIST<ob_directionEnum, Association::closing, Association::deallocate, Association::segment>,	\
+			T												\
+		>
+
+
+/***********************************************************************************************************************/
+
+
+/***********************************************************************************************************************/
+
+
 /************************************************************************************************************************
 							closing
 ************************************************************************************************************************/
 
 
-/*
-	Constraints:
-
-	[in, end) --> [out, out + end-in)
-*/
-
-
-template
-<
-	size_type functorEnum,
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-
-
-/*
-	allocate, segment:
-*/
-
-
-template
-<
-	size_type functorEnum,
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer & origin, const SUB_ADJ_CLOSING_ALLOCATE_SEGMENT & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	using value_type = typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::value_type;
-	origin = new value_type[sub.length];
-	size_type offset = (sub_directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset;
-	sub_pointer out = origin + offset;
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-/*
-#define OB_ADJ_CLOSING													\
-		ObjectAdjective<LIST<ob_directionEnum, Association::closing, ob_imageEnum, ob_iteratorEnum>>
-*/
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> [out, out + end-in+1)
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in)
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-	}
-
-	return out;
-}
-*/
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in), end-in > 0
-*/
-
-
-/*
-template<typename sub_adjective, typename ob_adjective>
-struct prototype<sub_adjective, ob_adjective, Association::closing, Association::opening, Association::deallocate>
-{
-	static sub_pointer map(sub_pointer out, ob_pointer in)
-	{
-		initialize_variables<sub_adjective>::apply(out, side);
-
-		iterate<ob_adjective, Association::mutate>::apply(variables);
-
-		while (in != end)
-		{
-			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
-			count_action<Adverb>::apply(verb);
-
-			iterate<sub_adjective>::apply(out);
-			iterate<ob_adjective, Association::deallocate>::apply(variables);
-		}
-
-		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
-		count_action<Adverb>::apply(verb);
-
-		iterate<sub_adjective>::apply(out);
-		memory_action_in<ob_adjective, Association::deallocate>::apply(variables);
-
-		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
-
-		return out;
-	}
-};
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> [out, out + end-in-1), end-in > 0
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(in, ob);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-*/
+#include"closing/closing.hpp"
+#include"closing/closed.hpp"
+#include"closing/opening.hpp"
+#include"closing/open.hpp"
 
 
 /************************************************************************************************************************
@@ -374,217 +177,10 @@ static sub_pointer map(ADV_PROTOTYPE & ad,
 ************************************************************************************************************************/
 
 
-/*
-	Constraints:
-
-	[in, end) --> [out, out + end-in-1], end-in > 0
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (peek_action(in, end, ob))
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> [out, out + end-in]
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in-1], end-in > 0
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(in, ob<mutate>);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> [out, out + end-in-2], end-in > 1
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(in, ob<mutate>);
-
-	while (peek_action(in, end, ob))
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(in, ob);
-
-	return out;
-}
-*/
+#include"closed/closing.hpp"
+#include"closed/closed.hpp"
+#include"closed/opening.hpp"
+#include"closed/open.hpp"
 
 
 /************************************************************************************************************************
@@ -592,244 +188,10 @@ static sub_pointer map(ADV_PROTOTYPE & ad,
 ************************************************************************************************************************/
 
 
-/*
-	Constraints:
-
-	[in, end) --> (out, out + end-in]
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> (out, out + end-in+1]
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in]
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob<mutate>);
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-	}
-
-	return out;
-}
-*/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in], end-in > 0
-*/
-
-
-/*
-template<typename sub_adjective, typename ob_adjective>
-struct prototype<sub_adjective, ob_adjective, Association::opening, Association::opening, Association::deallocate>
-{
-	static sub_pointer map(sub_pointer out, ob_pointer in)
-	{
-		initialize_variables<sub_adjective>::apply(out, side);
-
-		iterate<ob_adjective, Association::mutate>::apply(variables);
-		iterate<sub_adjective>::apply(out);
-
-		while (in != end)
-		{
-			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
-			count_action<Adverb>::apply(verb);
-
-			iterate<sub_adjective>::apply(out);
-			iterate<ob_adjective, Association::deallocate>::apply(variables);
-		}
-
-		functor_action<sub_adjective, ob_adjective>::apply(out, variables);
-		count_action<Adverb>::apply(verb);
-
-		memory_action_in<ob_adjective, Association::deallocate>::apply(variables);
-
-		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
-
-		return out;
-	}
-};
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> (out, out + end-in-1], end-in > 0
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(in, ob<mutate>);
-
-	while (in != end)
-	{
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-*/
+#include"opening/closing.hpp"
+#include"opening/closed.hpp"
+#include"opening/opening.hpp"
+#include"opening/open.hpp"
 
 
 /************************************************************************************************************************
@@ -837,248 +199,9 @@ static sub_pointer map(ADV_PROTOTYPE & ad,
 ************************************************************************************************************************/
 
 
-/*
-	Constraints:
-
-	[in, end) --> (out, out + end-in+1)
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> (out, out + end-in+2)
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in+1)
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob<mutate>);
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-	}
-
-	iterate_action(out, sub);
-
-	return out;
-}
-*/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in+1), end-in > 0
-*/
-
-
-/*
-template<typename sub_adjective, typename ob_adjective>
-struct prototype<sub_adjective, ob_adjective, Association::open, Association::opening, Association::deallocate>
-{
-	static sub_pointer map(sub_pointer out, ob_pointer in)
-	{
-		initialize_variables<sub_adjective>::apply(out, side);
-
-		iterate<ob_adjective, Association::mutate>::apply(variables);
-		iterate<sub_adjective>::apply(out);
-
-		while (in != end)
-		{
-			functor_action<sub_adjective, ob_adjective>::apply(out, variables);
-			count_action<Adverb>::apply(verb);
-
-			iterate<sub_adjective>::apply(out);
-			iterate<ob_adjective, Association::deallocate>::apply(variables);
-		}
-
-			functor_action<sub_adjective, ob_adjective>::apply(out, in, side);
-		count_action<Adverb>::apply(verb);
-
-		iterate<sub_adjective>::apply(out);
-		memory_action_in<ob_adjective, Association::deallocate>::apply(variables);
-
-		deinitialize_variables<sub_adjective, ob_adjective>::apply(out, in, side);
-
-		return out;
-	}
-};
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> (out, out + end-in), end-in > 0
-*/
-
-
-/*
-template
-<
-	size_type tracerEnum,
-	typename F,
-
-	typename sub_pointer,
-
-	size_type sub_directionEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum,
-
-	typename ob_pointer,
-
-	size_type ob_directionEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum
->
-static sub_pointer map(ADV_PROTOTYPE & ad,
-
-			sub_pointer out, const SUB_ADJ_CLOSING & sub,
-
-			ob_pointer in, ob_pointer end, const OB_ADJ_CLOSING & ob)
-{
-	iterate_action(in, ob<mutate>);
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-*/
+#include"open/closing.hpp"
+#include"open/closed.hpp"
+#include"open/opening.hpp"
+#include"open/open.hpp"
 
 

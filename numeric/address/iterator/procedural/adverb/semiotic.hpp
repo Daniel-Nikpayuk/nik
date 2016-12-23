@@ -97,8 +97,6 @@ struct Adverb<APPLY_OMIT, F>
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
-
 	F functor;
 
 	Adverb(const F & f) : functor(f) { }
@@ -113,8 +111,6 @@ struct Adverb<OMIT_OMIT, void>
 	static constexpr size_type functor_enum		= Connotation::omit_functor;
 	static constexpr size_type tracer_enum		= Connotation::omit_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
-
-//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 //	Type coersion:
 
@@ -138,8 +134,6 @@ struct Adverb<APPLY_APPLY, F>
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
 
-//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
-
 	F functor;
 	size_type count;
 
@@ -155,8 +149,6 @@ struct Adverb<OMIT_APPLY, void>
 	static constexpr size_type functor_enum		= Connotation::omit_functor;
 	static constexpr size_type tracer_enum		= Connotation::apply_count;
 	static constexpr size_type optimizer_enum	= optimizerEnum;
-
-//	static constexpr size_type optimizer_offset = Connotation::template bounds<Manner::optimizer>::initial;
 
 //	Type coersion:
 
