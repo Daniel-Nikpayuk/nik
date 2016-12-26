@@ -16,7 +16,7 @@
 ************************************************************************************************************************/
 
 
-#define DEFAULT		LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
+#define FULL		LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
 
 #define SEGMENT		LIST<directionEnum, intervalEnum, imageEnum, Association::segment>
 
@@ -34,7 +34,7 @@ template
 	size_type iteratorEnum,
 	typename T
 >
-static bool peek_action(pointer in, pointer end, const ObjectAdjective<DEFAULT, T> & adj)
+static inline bool peek_action(pointer in, pointer end, const ObjectAdjective<FULL, T> & adj)
 {
 	return (+in != end);
 }
@@ -43,8 +43,16 @@ static bool peek_action(pointer in, pointer end, const ObjectAdjective<DEFAULT, 
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type directionEnum, size_type intervalEnum, size_type imageEnum, typename T>
-static bool peek_action(pointer in, pointer end, const ObjectAdjective<SEGMENT, T> & adj)
+template
+<
+	typename pointer,
+
+	size_type directionEnum,
+	size_type intervalEnum,
+	size_type imageEnum,
+	typename T
+>
+static inline bool peek_action(pointer in, pointer end, const ObjectAdjective<SEGMENT, T> & adj)
 {
 	return (in < end);
 }
@@ -53,7 +61,8 @@ static bool peek_action(pointer in, pointer end, const ObjectAdjective<SEGMENT, 
 /***********************************************************************************************************************/
 
 
-#undef DEFAULT
+#undef FULL
 
 #undef SEGMENT
+
 

@@ -49,27 +49,9 @@ template
 	typename sub_pointer,
 	typename ob_pointer
 >
-static void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in)
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in)
 {
 	ad.functor(out, in);
-}
-
-
-/***********************************************************************************************************************/
-
-
-template
-<
-	size_type tracerEnum,
-	size_type optimizerEnum,
-	typename F,
-
-	typename sub_pointer,
-	typename ob_pointer
->
-static void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, ob_pointer in1)
-{
-	ad.functor(out, in, in1);
 }
 
 

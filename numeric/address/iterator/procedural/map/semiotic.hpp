@@ -15,8 +15,23 @@
 **
 ************************************************************************************************************************/
 
+/*
+	The adverb as well as object-adjective arguments are strictly non-const reference values, meaning one cannot
+	pass non-reference arguments to them. Although this code is meant to provide a clean narrative interface,
+	given its low-level, I have decided against adding any wrappers for user-friendly dispatch cases.
 
-#define ADV_PARAMETERS													\
+	Though not the intention, this also forces the low-level coder to create a single type-info object to pass
+	which is actually good for memory/space efficiency.
+
+	Note:	This collection does not interpret the combination [sub,ob]_adj<backward, [mutate,deallocate], hook>
+		and leaves it undefined.
+*/
+
+
+/***********************************************************************************************************************/
+
+
+#define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
 	size_type functorEnum,												\
 	size_type tracerEnum,												\
@@ -45,7 +60,7 @@
 	size_type sub_iteratorEnum,
 
 
-#define SUB_ADJ_PARAMETERS_SUB_REDUCED											\
+#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
 	typename sub_pointer,												\
 															\
@@ -81,7 +96,7 @@
 
 #define FULL_PARAMETERS													\
 															\
-	ADV_PARAMETERS													\
+	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
 	SUB_ADJ_PARAMETERS_FULL												\
 															\
@@ -93,7 +108,7 @@
 
 #define INTERVAL_REDUCED_PARAMETERS											\
 															\
-	ADV_PARAMETERS													\
+	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
 	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
@@ -103,11 +118,11 @@
 /***********************************************************************************************************************/
 
 
-#define SUB_REDUCED_PARAMETERS												\
+#define DIRECTION_ONLY_PARAMETERS											\
 															\
-	ADV_PARAMETERS													\
+	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	SUB_ADJ_PARAMETERS_SUB_REDUCED											\
+	SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
 	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
 
@@ -116,9 +131,9 @@
 /***********************************************************************************************************************/
 
 
-#define ADV_TYPE(OPTIMIZER)												\
+#define ADV_TYPE(optimizer)												\
 															\
-	Adverb<LIST<functorEnum, tracerEnum, Connotation::OPTIMIZER>, F>
+	Adverb<LIST<functorEnum, tracerEnum, Connotation::optimizer>, F>
 
 
 /***********************************************************************************************************************/
@@ -134,7 +149,7 @@
 	SubjectAdjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
-#define SUB_ADJ_SEGMENT(interval, image)										\
+#define SUB_ADJ_IMAGE(interval, image)											\
 															\
 	SubjectAdjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
 
@@ -878,14 +893,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 #define ALLOCATE_SEGMENT_MAP(sub_interval, ob_interval)									\
 															\
-template<SUB_REDUCED_PARAMETERS>											\
+template<DIRECTION_ONLY_PARAMETERS>											\
 static sub_pointer map(ADV_TYPE(prototype) & ad,									\
 															\
-			sub_pointer & origin, const SUB_ADJ_SEGMENT(sub_interval, allocate) & sub,			\
+			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(ob_interval) & ob)				\
 															\
-	{ return map(ad, memory_action(origin, sub), SUB_ADJ_SEGMENT(sub_interval, mutate)(), in, end, ob); }
+	{ return map(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 
 
 /***********************************************************************************************************************/

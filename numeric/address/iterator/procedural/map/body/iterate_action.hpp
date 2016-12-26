@@ -16,188 +16,229 @@
 ************************************************************************************************************************/
 
 
-#define FORWARD		LIST<Association::forward, intervalEnum, imageEnum, iteratorEnum>
+#define SUB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
+															\
+	typename sub_pointer,												\
+															\
+	size_type sub_intervalEnum,											\
+	size_type sub_imageEnum,											\
+	size_type sub_iteratorEnum
+
+
+#define SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY									\
+															\
+	typename sub_pointer,												\
+															\
+	size_type sub_intervalEnum,											\
+	size_type sub_iteratorEnum
 
 
 /***********************************************************************************************************************/
 
 
-template
-<
-	typename pointer,
-
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum
->
-static void iterate_action(pointer & p, const SubjectAdjective<FORWARD> & adj)
-{
-	++p;
-}
-
-
-/***********************************************************************************************************************/
-
-
-#define FORWARD_ALLOCATE_HOOK		LIST<Association::forward, intervalEnum, Association::allocate, Association::hook>
-#define FORWARD_ALLOCATE_LINK		LIST<Association::forward, intervalEnum, Association::allocate, Association::link>
-
-
-/***********************************************************************************************************************/
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_ALLOCATE_HOOK> & adj)
-{
-	p = +p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
-}
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const SubjectAdjective<FORWARD_ALLOCATE_LINK> & adj)
-{
-	+p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
-	-+p = p;
-	++p;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define BACKWARD		LIST<Association::backward, intervalEnum, imageEnum, iteratorEnum>
-
-
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename pointer,
-
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum
->
-static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD> & adj)
-{
-	--p;
-}
-
-
-/***********************************************************************************************************************/
-
-
-#define BACKWARD_ALLOCATE_HOOK		LIST<Association::backward, intervalEnum, Association::allocate, Association::hook>
-#define BACKWARD_ALLOCATE_LINK		LIST<Association::backward, intervalEnum, Association::allocate, Association::link>
-
-
-/***********************************************************************************************************************/
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_ALLOCATE_HOOK> & adj)
-{
-	pointer tmp = p;
-	p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
-	+p = tmp;
-}
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum>
-static void iterate_action(pointer & p, const SubjectAdjective<BACKWARD_ALLOCATE_LINK> & adj)
-{
-	-p = new typename structural<nik::semiotic>::template trim<pointer>::pointer;
-	+-p = p;
-	--p;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename pointer,
-
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum,
+#define OB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
+															\
+	typename ob_pointer,												\
+															\
+	size_type ob_intervalEnum,											\
+	size_type ob_imageEnum,												\
+	size_type ob_iteratorEnum,											\
 	typename T
->
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD, T> & adj)
-{
-	++p;
-}
 
 
-/***********************************************************************************************************************/
-
-
-#define FORWARD_DEALLOCATE_HOOK		LIST<Association::forward, intervalEnum, Association::deallocate, Association::hook>
-#define FORWARD_DEALLOCATE_LINK		LIST<Association::forward, intervalEnum, Association::deallocate, Association::link>
-
-
-/***********************************************************************************************************************/
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_HOOK, T> & adj)
-{
-	delete p++;
-}
-
-
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
-static void iterate_action(pointer & p, const ObjectAdjective<FORWARD_DEALLOCATE_LINK, T> & adj)
-{
-	delete -++p;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename pointer,
-
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum,
+#define OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY									\
+															\
+	typename ob_pointer,												\
+															\
+	size_type ob_intervalEnum,											\
+	size_type ob_iteratorEnum,											\
 	typename T
->
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD, T> & adj)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_DIR(direction)												\
+															\
+	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+
+
+#define SUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
+															\
+	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_DIR(direction)												\
+															\
+	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+
+
+#define OB_ADJ_DIR_IMG_ITER(direction, image, iterator)									\
+															\
+	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define SUB_POINTER_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::pointer
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(forward) & sub)
+	{ ++out; }
+
+
+/***********************************************************************************************************************/
+
+
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, hook) & sub)
+	{ out = +out = new SUB_POINTER_TYPE; }
+
+
+/***********************************************************************************************************************/
+
+
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, link) & sub)
 {
-	--p;
+	+out = new SUB_POINTER_TYPE;
+	-+out = out;
+	++out;
+}
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	Note:	This collection is undefined for SubjectAdjective<backward, mutate, hook>.
+*/
+
+template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(backward) & sub)
+{
+	static_assert
+	(
+		sub_imageEnum != Association::mutate					||
+		sub_iteratorEnum != Association::hook					,
+
+		"\n\nmap is undefined for SubjectAdjective<backward, mutate, hook>.\n"
+	);
+
+	--out;
 }
 
 
 /***********************************************************************************************************************/
 
 
-#define BACKWARD_DEALLOCATE_HOOK	LIST<Association::backward, intervalEnum, Association::deallocate, Association::hook>
-#define BACKWARD_DEALLOCATE_LINK	LIST<Association::backward, intervalEnum, Association::deallocate, Association::link>
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, hook) & sub)
+{
+	sub_pointer tmp = out;
+	out = new SUB_POINTER_TYPE;
+	+out = tmp;
+}
 
 
 /***********************************************************************************************************************/
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_HOOK, T> & adj)
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, link) & sub)
 {
-	delete p--;
+	-out = new SUB_POINTER_TYPE;
+	+-out = out;
+	--out;
 }
 
 
-template<typename pointer, size_type intervalEnum, size_type iteratorEnum, typename T>
-static void iterate_action(pointer & p, const ObjectAdjective<BACKWARD_DEALLOCATE_LINK, T> & adj)
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(forward) & ob)
+	{ ++in; }
+
+
+/***********************************************************************************************************************/
+
+
+template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & ob)
+	{ delete in++; }
+
+
+/***********************************************************************************************************************/
+
+
+template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & ob)
+	{ delete -++in; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	Note:	This collection is undefined for ObjectAdjective<backward, hook>.
+*/
+
+template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(backward) & ob)
 {
-	delete +--p;
+	static_assert
+	(
+		ob_iteratorEnum != Association::hook			,
+
+		"\n\nmap is undefined for ObjectAdjective<backward, hook>.\n"
+	);
+
+	--in;
 }
+
+
+/***********************************************************************************************************************/
+
+
+template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & ob)
+	{ delete +--in; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#undef SUB_ADJ_PARAMETERS_DIRECTION_REDUCED
+#undef SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
+#undef OB_ADJ_PARAMETERS_DIRECTION_REDUCED
+#undef OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
+#undef SUB_ADJ_DIR
+#undef SUB_ADJ_DIR_IMG_ITER
+#undef OB_ADJ_DIR
+#undef OB_ADJ_DIR_IMG_ITER
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#undef SUB_POINTER_TYPE
 
 

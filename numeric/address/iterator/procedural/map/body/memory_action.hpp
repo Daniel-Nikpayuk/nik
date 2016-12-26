@@ -15,8 +15,15 @@
 **
 ************************************************************************************************************************/
 
+/*
+	memory_action can be called on both "out" as well as "in" pointers, as well as "ob" adjectives alone.
+*/
 
-#define DEFAULT			LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
+
+/***********************************************************************************************************************/
+
+
+#define FULL			LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
 
 #define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
 
@@ -25,6 +32,14 @@
 #define DEALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>
 
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<pointer>::pointer::value_type
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -37,16 +52,14 @@ template
 	size_type imageEnum,
 	size_type iteratorEnum
 >
-static void memory_action(const pointer & out, const SubjectAdjective<DEFAULT> & sub)
+static inline void memory_action(const pointer & out, const SubjectAdjective<FULL> & sub)
 	{ }
 
 
 /***********************************************************************************************************************/
 
 
-#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<pointer>::pointer::value_type
-
-// "origin" needs to be a reference.
+// "origin" needs to be a reference value.
 
 template
 <
@@ -55,15 +68,12 @@ template
 	size_type directionEnum,
 	size_type intervalEnum
 >
-static pointer memory_action(pointer & origin, const SubjectAdjective<ALLOCATE_SEGMENT> & sub)
+static inline pointer memory_action(pointer & origin, const SubjectAdjective<ALLOCATE_SEGMENT> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
 	return origin + ((directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset);
 }
-
-
-#undef VALUE_TYPE
 
 
 /***********************************************************************************************************************/
@@ -80,12 +90,14 @@ template
 	size_type iteratorEnum,
 	typename T
 >
-static void memory_action(const pointer & in, const ObjectAdjective<DEFAULT, T> & ob)
+static inline void memory_action(const pointer & in, const ObjectAdjective<FULL, T> & ob)
 	{ }
 
 
 /***********************************************************************************************************************/
 
+
+// "in" needs to be a reference value.
 
 template
 <
@@ -96,12 +108,13 @@ template
 	size_type iteratorEnum,
 	typename T
 >
-static void memory_action(pointer in, const ObjectAdjective<DEALLOCATE, T> & ob)
+static inline void memory_action(pointer & in, const ObjectAdjective<DEALLOCATE, T> & ob)
 {
 	delete in;
 }
 
 
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -109,9 +122,26 @@ template
 <
 	size_type directionEnum,
 	size_type intervalEnum,
+	size_type imageEnum,
+	size_type iteratorEnum,
 	typename T
 >
-static void memory_action(ObjectAdjective<DEALLOCATE_SEGMENT, T> & ob)
+static inline void memory_action(const ObjectAdjective<FULL, T> & ob)
+	{ }
+
+
+/***********************************************************************************************************************/
+
+
+// "ob" needs to be a reference value.
+
+template
+<
+	size_type directionEnum,
+	size_type intervalEnum,
+	typename T
+>
+static inline void memory_action(ObjectAdjective<DEALLOCATE_SEGMENT, T> & ob)
 {
 	delete [] ob.origin;
 }
@@ -120,12 +150,18 @@ static void memory_action(ObjectAdjective<DEALLOCATE_SEGMENT, T> & ob)
 /***********************************************************************************************************************/
 
 
-#undef DEFAULT
+#undef FULL
 
 #undef ALLOCATE_SEGMENT
 
 #undef DEALLOCATE
 
 #undef DEALLOCATE_SEGMENT
+
+
+/***********************************************************************************************************************/
+
+
+#undef VALUE_TYPE
 
 
