@@ -16,6 +16,42 @@
 ************************************************************************************************************************/
 
 
-#include"../share/loop.cpp"
+#define OMIT	LIST<functorEnum, Connotation::omit_count, optimizerEnum>
+#define APPLY	LIST<functorEnum, Connotation::apply_count, optimizerEnum>
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
+>
+static inline void count_action(Adverb<OMIT, F> & ad)
+	{ }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
+>
+static inline void count_action(Adverb<APPLY, F> & ad)
+{
+	++ad.count;
+}
+
+
+/***********************************************************************************************************************/
+
+
+#undef APPLY
+#undef OMIT
 
 

@@ -30,7 +30,6 @@ namespace numeric	{
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
 		using Association = typename structural<nik::semiotic>::Association;
-//		using Attribute = typename structural<nik::semiotic>::Attribute;
 
 		template<typename L>
 		using SubjectAdjective = typename structural<nik::semiotic>::template SubjectAdjective<L>;
@@ -48,7 +47,7 @@ namespace numeric	{
 
 		#include"map/semiotic.hpp"
 
-//		#include"discourse/semiotic.hpp"
+		#include"discourse/semiotic.hpp"
 
 		#undef TUPLE
 		#undef LIST

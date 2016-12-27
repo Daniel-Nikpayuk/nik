@@ -15,7 +15,20 @@
 **
 ************************************************************************************************************************/
 
+/*
+	This code is not intended to be used standalone.
+	It needs to be equipped with a context to be interpreted by the compiler.
+*/
 
-#include"../share/loop.cpp"
+/*
+	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
 
+	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
+	in the special case where the data is only accessible through iterators.
+
+	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
+	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+*/
+
+/***********************************************************************************************************************/
 

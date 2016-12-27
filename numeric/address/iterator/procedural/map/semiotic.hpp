@@ -844,7 +844,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 	count_action(ad);
 
 	iterate_action(out, sub);
-	iterate_action(in, ob);
+	memory_action(in, ob);
 
 	memory_action(ob);
 

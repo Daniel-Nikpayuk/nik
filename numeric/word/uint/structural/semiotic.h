@@ -26,7 +26,28 @@ namespace structural	{
 	{
 		typedef SizeType size_type;
 
+/*
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
+
+		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
+		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+*/
+
+		#include"adjective/semiotic.hpp"
+
 		#include"identity/semiotic.hpp"
+
+/*
+		#undef TUPLE
+		#undef LIST
+		#undef AT
+		#undef CASES
+		#undef SORTFILL
+*/
 	};
 
 }}}}}
