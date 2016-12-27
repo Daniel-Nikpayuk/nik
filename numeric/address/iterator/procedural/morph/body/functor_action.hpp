@@ -15,57 +15,50 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include"namespace.h"
-
-//#include"error.h"
-
-#include"printer.h"
-
-//#include"user.h"
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#ifndef LAZY
+#define OMIT	LIST<Connotation::omit_functor, tracerEnum, optimizerEnum>
+#define APPLY	LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>
 
 
 /***********************************************************************************************************************/
 
 
-#define stringify(string)												\
-	#string
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+
+	typename sub_pointer,
+	typename ob_int_type
+>
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_int_type in)
+{
+	*out = in;
+}
 
 
-#define nik(name)													\
-	stringify(module/name.h)
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
+
+	typename sub_pointer,
+	typename ob_int_type
+>
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_int_type in)
+{
+	ad.functor(out, in);
+}
 
 
 /***********************************************************************************************************************/
 
 
-#include nik(uint)
-
-#include nik(iterator)
-
-
-/***********************************************************************************************************************/
+#undef APPLY
+#undef OMIT
 
 
-#endif
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#endif

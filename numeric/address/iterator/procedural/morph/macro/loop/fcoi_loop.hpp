@@ -15,57 +15,59 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include"namespace.h"
-
-//#include"error.h"
-
-#include"printer.h"
-
-//#include"user.h"
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#ifndef LAZY
+	while (omit_peek())												\
+	{														\
+		functor_action(template_policy, arity_policy)								\
+		count_action(count_policy)										\
+															\
+		iterate_out(out_direction, out_memory, out_pointer)							\
+		iterate_in(in_direction, in_memory, in_pointer, arity_policy)						\
+	}														\
 
 
 /***********************************************************************************************************************/
 
 
-#define stringify(string)												\
-	#string
+template
+<
+	size_type functorEnum,
+	size_type tracerEnum,
+	size_type optimizerEnum,
+
+	typename sub_pointer,
+	typename ob_pointer,
+	typename F
+>
+static void fcoi_loop(const _adverb<LIST<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
+{
+	*out = *in;
+}
 
 
-#define nik(name)													\
-	stringify(module/name.h)
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type tracerEnum,
+	size_type optimizerEnum,
+	typename F,
+
+	typename sub_pointer,
+	typename ob_pointer
+>
+static void functor_action(const _adverb<LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>, F> & ad, sub_pointer out, ob_pointer in)
+static void count_action(_adverb<LIST<functorEnum, Connotation::apply_count, optimizerEnum>, F> & ad)
+{
+	ad.functor(out, in);
+	++ad.count;
+}
+
 
 
 /***********************************************************************************************************************/
 
 
-#include nik(uint)
-
-#include nik(iterator)
 
 
-/***********************************************************************************************************************/
-
-
-#endif
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#endif

@@ -26,6 +26,13 @@ namespace numeric	{
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
+		using uint = module<nik::uint, nik::structural, nik::semiotic, size_type>;
+
+		using UIntAssociation = typename uint::Association;
+
+		template<typename L>
+		using UIntAdjective = typename uint::template Adjective<L>;
+
 		template<size_type interface_enum>
 		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
 
@@ -45,6 +52,7 @@ namespace numeric	{
 
 		#include"adverb/semiotic.hpp"
 
+		#include"morph/semiotic.hpp"
 		#include"map/semiotic.hpp"
 
 		#include"discourse/semiotic.hpp"

@@ -15,57 +15,75 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
+/*
+	memory_action can be called on "out".
+*/
+
+
+/***********************************************************************************************************************/
+
+
+#define FULL			LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
+
+#define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include"namespace.h"
-
-//#include"error.h"
-
-#include"printer.h"
-
-//#include"user.h"
+#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<pointer>::pointer::value_type
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#ifndef LAZY
+template
+<
+	typename pointer,
+
+	size_type directionEnum,
+	size_type intervalEnum,
+	size_type imageEnum,
+	size_type iteratorEnum
+>
+static inline void memory_action(const pointer & out, const SubjectAdjective<FULL> & sub)
+	{ }
 
 
 /***********************************************************************************************************************/
 
 
-#define stringify(string)												\
-	#string
+// "origin" needs to be a reference value.
 
+template
+<
+	typename pointer,
 
-#define nik(name)													\
-	stringify(module/name.h)
+	size_type directionEnum,
+	size_type intervalEnum
+>
+static inline pointer memory_action(pointer & origin, const SubjectAdjective<ALLOCATE_SEGMENT> & sub)
+{
+	origin = new VALUE_TYPE[sub.length];
 
-
-/***********************************************************************************************************************/
-
-
-#include nik(uint)
-
-#include nik(iterator)
-
-
-/***********************************************************************************************************************/
-
-
-#endif
+	return origin + ((directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset);
+}
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#endif
+#undef FULL
+
+#undef ALLOCATE_SEGMENT
+
+
+/***********************************************************************************************************************/
+
+
+#undef VALUE_TYPE
+
+

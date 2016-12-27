@@ -15,33 +15,43 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
 
-	template<typename SizeType>
-	struct module<nik::uint, nik::structural, nik::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+#define OMIT	LIST<functorEnum, Connotation::omit_count, optimizerEnum>
+#define APPLY	LIST<functorEnum, Connotation::apply_count, optimizerEnum>
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+/***********************************************************************************************************************/
 
-		#include"adjective/semiotic.hpp"
 
-		#include"identity/semiotic.hpp"
+template
+<
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
+>
+static inline void count_action(Adverb<OMIT, F> & ad)
+	{ }
 
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
-	};
 
-}}
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type functorEnum,
+	size_type optimizerEnum,
+	typename F
+>
+static inline void count_action(Adverb<APPLY, F> & ad)
+{
+	++ad.count;
+}
+
+
+/***********************************************************************************************************************/
+
+
+#undef APPLY
+#undef OMIT
+
 

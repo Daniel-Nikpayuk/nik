@@ -15,33 +15,20 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+/*
+	This code is not intended to be used standalone.
+	It needs to be equipped with a context to be interpreted by the compiler.
+*/
 
-	template<typename SizeType>
-	struct module<nik::uint, nik::structural, nik::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+/*
+	Keep in mind you can always specify the template type to be a reference if need be (in1, in2, end2).
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
+	These methods are less iterator algorithms than they are iterator reference algorithms---data algorithms
+	in the special case where the data is only accessible through iterators.
 
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+	The ordering of "op" then "new" is intentional as it provides higher composability of these methods.
+	As "out" is assign shifted when its "+out" is allocated, there is no need to increment seperately.
+*/
 
-		#include"adjective/semiotic.hpp"
-
-		#include"identity/semiotic.hpp"
-
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
-	};
-
-}}
+/***********************************************************************************************************************/
 

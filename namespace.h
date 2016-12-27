@@ -32,6 +32,7 @@ namespace nik
 		sint,
 
 		iterator,
+
 		module // filler
 	};
 
@@ -40,6 +41,7 @@ namespace nik
 		structural,
 		functional,
 		procedural,
+
 		orientation // filler
 	};
 
@@ -47,6 +49,7 @@ namespace nik
 	{
 		semiotic,
 		media,
+
 		interface // filler
 	};
 

@@ -84,10 +84,11 @@ struct SubjectAttribute
 /***********************************************************************************************************************/
 
 
-template<typename L> struct SubjectAdjective { };
+template<typename... params> struct SubjectAdjective { };
 
 
 #define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
+#define REALLOCATE_SEGMENT	LIST<direction_enum, interval_enum, Association::allocate, Association::segment>
 
 
 /***********************************************************************************************************************/
@@ -108,6 +109,27 @@ struct SubjectAdjective<ALLOCATE_SEGMENT>
 	size_type offset;
 
 	SubjectAdjective(size_type l, size_type o = 0) : length(l), offset(o) { }
+};
+
+
+template<typename L>
+struct SubjectAdjective<L>
+{
+	using parameter_list = L;
+
+	static constexpr size_type direction_enum	= AT<L, SubjectAttribute::direction	>::rtn;
+	static constexpr size_type interval_enum	= AT<L, SubjectAttribute::interval	>::rtn;
+	static constexpr size_type image_enum		= AT<L, SubjectAttribute::image		>::rtn;
+	static constexpr size_type iterator_enum	= AT<L, SubjectAttribute::iterator	>::rtn;
+
+	SubjectAdjective() { }
+
+//	Type coersion:
+
+	static SubjectAdjective<REALLOCATE_SEGMENT> with(size_type l, size_type o = 0)
+	{
+		return SubjectAdjective<REALLOCATE_SEGMENT>(l, o);
+	}
 };
 
 

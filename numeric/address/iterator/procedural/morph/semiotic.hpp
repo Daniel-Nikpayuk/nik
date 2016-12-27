@@ -15,6 +15,7 @@
 **
 ************************************************************************************************************************/
 
+
 /*
 	The adverb as well as object-adjective arguments are strictly non-const reference values, meaning one cannot
 	pass non-reference arguments to them. Although this code is meant to provide a clean narrative interface,
@@ -72,23 +73,17 @@
 
 #define OB_ADJ_PARAMETERS_FULL												\
 															\
-	typename ob_pointer,												\
+	typename ob_int_type,												\
 															\
 	size_type ob_directionEnum,											\
-	size_type ob_intervalEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
-	typename T
+	size_type ob_intervalEnum											\
 
 
 #define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
-	typename ob_pointer,												\
+	typename ob_int_type,												\
 															\
-	size_type ob_directionEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
-	typename T
+	size_type ob_directionEnum											\
 
 
 /***********************************************************************************************************************/
@@ -159,17 +154,12 @@
 
 #define OB_ADJ_FULL													\
 															\
-	ObjectAdjective<LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+	UIntAdjective<LIST<ob_directionEnum, ob_intervalEnum>>
 
 
 #define OB_ADJ_INTERVAL(interval)											\
 															\
-	ObjectAdjective<LIST<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, T>
-
-
-#define OB_ADJ_IMAGE(interval, image)											\
-															\
-	ObjectAdjective<LIST<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, T>
+	UIntAdjective<LIST<ob_directionEnum, UIntAssociation::interval>>
 
 
 /************************************************************************************************************************/
@@ -177,21 +167,19 @@
 
 
 template<FULL_PARAMETERS>
-static sub_pointer map(ADV_TYPE(specialize) & ad,
+static sub_pointer morph(ADV_TYPE(specialize) & ad,
 
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_FULL & ob);
+			ob_int_type in, ob_int_type end, const OB_ADJ_FULL & ob);
 
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
-
-struct Map
+struct Morph
 {
-	#include"body/peek_action.hpp"
 	#include"body/functor_action.hpp"
 	#include"body/count_action.hpp"
 	#include"body/iterate_action.hpp"
@@ -212,22 +200,20 @@ struct Map
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -244,28 +230,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::iterate_action(out, sub);
 
 	return out;
 }
@@ -282,60 +265,21 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(in, ob);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
+		Morph::iterate_action(out, sub);
 	}
-
-	Map::memory_action(ob);
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
-
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-
-	while (in != end)
-	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
-
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
-	}
-
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -352,24 +296,22 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, ob);
+	Morph::iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -388,27 +330,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
-	while (Map::peek_action(in, end, ob))
+	while (in < end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
-	Map::iterate_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::iterate_action(in, ob);
 
 	return out;
 }
@@ -425,27 +365,23 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
 	return out;
 }
@@ -462,29 +398,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(opening) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
+	Morph::iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
 	return out;
 }
@@ -501,29 +433,27 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+	Morph::iterate_action(in, ob);
 
-	while (Map::peek_action(in, end, ob))
+	while (in < end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
-	Map::iterate_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::iterate_action(in, ob);
 
 	return out;
 }
@@ -542,23 +472,21 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	while (in != end)
 	{
-		Map::iterate_action(out, sub);
+		Morph::iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -575,29 +503,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
-	Map::iterate_action(out, sub);
+	Morph::iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
 	return out;
 }
@@ -614,59 +538,20 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
-		Map::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 	}
-
-	Map::memory_action(ob);
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in], end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
-
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	Map::iterate_action(out, sub);
-
-	while (in != end)
-	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
-
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
-	}
-
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -683,25 +568,23 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+	Morph::iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Map::iterate_action(out, sub);
+		Morph::iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -720,24 +603,22 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
-	Map::iterate_action(out, sub);
+	Morph::iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -754,30 +635,27 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
-	Map::iterate_action(out, sub);
+	Morph::iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	Morph::functor_action(ad, out, in);
+	Morph::count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::iterate_action(out, sub);
 
 	return out;
 }
@@ -794,62 +672,22 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
-		Map::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 	}
 
-	Map::iterate_action(out, sub);
-
-	Map::memory_action(ob);
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in+1), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
-
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	Map::iterate_action(out, sub);
-
-	while (in != end)
-	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
-
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
-	}
-
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
-
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
-
-	Map::memory_action(ob);
+	Morph::iterate_action(out, sub);
 
 	return out;
 }
@@ -866,25 +704,23 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
-	Map::iterate_action(out, sub);
+	Morph::iterate_action(in, ob);
+	Morph::iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		Morph::functor_action(ad, out, in);
+		Morph::count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		Morph::iterate_action(out, sub);
+		Morph::iterate_action(in, ob);
 	}
-
-	Map::memory_action(ob);
 
 	return out;
 }
@@ -894,40 +730,40 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 /***********************************************************************************************************************/
 
 
-#define ALLOCATE_SEGMENT_MAP(sub_interval, ob_interval)									\
+#define ALLOCATE_SEGMENT_MORPH(sub_interval, ob_interval)								\
 															\
 template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer map(ADV_TYPE(prototype) & ad,									\
+static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
 															\
 			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(ob_interval) & ob)				\
+			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)			\
 															\
-	{ return map(ad, Map::memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+	{ return morph(ad, Morph::memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 
 
 /***********************************************************************************************************************/
 
 
-ALLOCATE_SEGMENT_MAP(closing, closing)
-ALLOCATE_SEGMENT_MAP(closing, closed)
-ALLOCATE_SEGMENT_MAP(closing, opening)
-ALLOCATE_SEGMENT_MAP(closing, open)
+ALLOCATE_SEGMENT_MORPH(closing, closing)
+ALLOCATE_SEGMENT_MORPH(closing, closed)
+ALLOCATE_SEGMENT_MORPH(closing, opening)
+ALLOCATE_SEGMENT_MORPH(closing, open)
 
-ALLOCATE_SEGMENT_MAP(closed, closing)
-ALLOCATE_SEGMENT_MAP(closed, closed)
-ALLOCATE_SEGMENT_MAP(closed, opening)
-ALLOCATE_SEGMENT_MAP(closed, open)
+ALLOCATE_SEGMENT_MORPH(closed, closing)
+ALLOCATE_SEGMENT_MORPH(closed, closed)
+ALLOCATE_SEGMENT_MORPH(closed, opening)
+ALLOCATE_SEGMENT_MORPH(closed, open)
 
-ALLOCATE_SEGMENT_MAP(opening, closing)
-ALLOCATE_SEGMENT_MAP(opening, closed)
-ALLOCATE_SEGMENT_MAP(opening, opening)
-ALLOCATE_SEGMENT_MAP(opening, open)
+ALLOCATE_SEGMENT_MORPH(opening, closing)
+ALLOCATE_SEGMENT_MORPH(opening, closed)
+ALLOCATE_SEGMENT_MORPH(opening, opening)
+ALLOCATE_SEGMENT_MORPH(opening, open)
 
-ALLOCATE_SEGMENT_MAP(open, closing)
-ALLOCATE_SEGMENT_MAP(open, closed)
-ALLOCATE_SEGMENT_MAP(open, opening)
-ALLOCATE_SEGMENT_MAP(open, open)
+ALLOCATE_SEGMENT_MORPH(open, closing)
+ALLOCATE_SEGMENT_MORPH(open, closed)
+ALLOCATE_SEGMENT_MORPH(open, opening)
+ALLOCATE_SEGMENT_MORPH(open, open)
 
 
 /***********************************************************************************************************************/

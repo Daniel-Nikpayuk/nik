@@ -18,35 +18,14 @@
 #ifndef MODULE_UINT_H
 #define MODULE_UINT_H
 
+#include"variadic.h"
+
 #include"../numeric/word/uint/structural/semiotic.h"
-#include"../numeric/word/uint/functional/semiotic.h"
-#include"../numeric/word/uint/procedural/semiotic.h"
+//#include"../numeric/word/uint/functional/semiotic.h"
+//#include"../numeric/word/uint/procedural/semiotic.h"
 
-#include"../numeric/word/uint/structural/media.h"
-#include"../numeric/word/uint/functional/media.h"
-#include"../numeric/word/uint/procedural/media.h"
-
-namespace nik
-{
-	template<typename SizeType>
-	struct semiotic<SizeType, module::uint>
-	{
-		typedef SizeType size_type;
-
-		using nwus = numeric::word::uint::structural::semiotic<size_type>;
-		using nwuf = numeric::word::uint::functional::semiotic<size_type>;
-		using nwup = numeric::word::uint::procedural::semiotic<size_type>;
-	};
-
-	template<typename SizeType>
-	struct media<SizeType, module::uint>
-	{
-		typedef SizeType size_type;
-
-		using nwus = numeric::word::uint::structural::media<size_type>;
-		using nwuf = numeric::word::uint::functional::media<size_type>;
-		using nwup = numeric::word::uint::procedural::media<size_type>;
-	};
-}
+//#include"../numeric/word/uint/structural/media.h"
+//#include"../numeric/word/uint/functional/media.h"
+//#include"../numeric/word/uint/procedural/media.h"
 
 #endif
