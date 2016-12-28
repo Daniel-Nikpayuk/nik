@@ -61,7 +61,7 @@ struct Morph
 	};
 
 	template<size_type... params>
-	using adverb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
 
 	struct SubjectAttribute
 	{

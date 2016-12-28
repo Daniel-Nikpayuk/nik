@@ -41,6 +41,28 @@
 
 struct Map
 {
+	struct Manner
+	{
+		enum : size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
+			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
+		>;
+	};
+
+	template<size_type... params>
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+
 	struct SubjectAttribute
 	{
 		enum : size_type
