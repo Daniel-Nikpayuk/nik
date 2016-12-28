@@ -16,125 +16,110 @@
 ************************************************************************************************************************/
 
 
-#define SUB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
+#define ESUB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
 															\
-	typename sub_pointer,												\
+	typename esub_pointer,												\
 															\
-	size_type sub_intervalEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum
+	size_type esub_intervalEnum,											\
+	size_type esub_imageEnum,											\
+	size_type esub_iteratorEnum
 
 
-#define SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY									\
+#define ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY									\
 															\
-	typename sub_pointer,												\
+	typename esub_pointer,												\
 															\
-	size_type sub_intervalEnum,											\
-	size_type sub_iteratorEnum
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
-															\
-	typename ob_pointer,												\
-															\
-	size_type ob_intervalEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
-	typename T
-
-
-#define OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY									\
-															\
-	typename ob_pointer,												\
-															\
-	size_type ob_intervalEnum,											\
-	size_type ob_iteratorEnum,											\
-	typename T
+	size_type esub_intervalEnum,											\
+	size_type esub_iteratorEnum
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define SUB_ADJ_DIR(direction)												\
+#define ESUB_ADJ_DIR(direction)												\
 															\
-	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	ESubjectAdjective<LIST<Association::direction, esub_intervalEnum, esub_imageEnum, esub_iteratorEnum>>
 
 
-#define SUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
+#define ESUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
 															\
-	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_DIR(direction)												\
-															\
-	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
-
-
-#define OB_ADJ_DIR_IMG_ITER(direction, image, iterator)									\
-															\
-	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
+	ESubjectAdjective<LIST<Association::direction, esub_intervalEnum, Association::image, Association::iterator>>
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define SUB_POINTER_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::pointer
+#define ESUB_POINTER_TYPE	typename structural<nik::semiotic>::template trim<esub_pointer>::pointer::pointer
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(forward) & sub)
+template<ESUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR(forward) & esub)
 	{ ++out; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, hook) & sub)
-	{ out = +out = new SUB_POINTER_TYPE; }
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(forward, allocate, hook) & esub)
+	{ out = +out = new ESUB_POINTER_TYPE; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, link) & sub)
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(forward, allocate, link) & esub)
 {
-	+out = new SUB_POINTER_TYPE;
+	+out = new ESUB_POINTER_TYPE;
 	-+out = out;
 	++out;
 }
 
 
 /***********************************************************************************************************************/
+
+
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & esub)
+	{ delete out++; }
+
+
+/***********************************************************************************************************************/
+
+
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & esub)
+	{ delete -++out; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 /*
-	Note:	This collection is undefined for SubjectAdjective<backward, mutate, hook>.
+	Note:	This collection is undefined for ESubjectAdjective<backward, [mutate/deallocate], hook>.
 */
 
-template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(backward) & sub)
+template<ESUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR(backward) & esub)
 {
 	static_assert
 	(
-		sub_imageEnum != Association::mutate					||
-		sub_iteratorEnum != Association::hook					,
+		(
+			esub_imageEnum != Association::mutate				&&
+			esub_imageEnum != Association::deallocate
+		)									||
+		esub_iteratorEnum != Association::hook					,
 
-		"\n\nmap is undefined for SubjectAdjective<backward, mutate, hook>.\n"
+		"\n\nmap is undefined for ESubjectAdjective<backward, mutate, hook>.\n"
 	);
 
 	--out;
@@ -144,11 +129,11 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(backward)
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, hook) & sub)
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(backward, allocate, hook) & esub)
 {
-	sub_pointer tmp = out;
-	out = new SUB_POINTER_TYPE;
+	esub_pointer tmp = out;
+	out = new ESUB_POINTER_TYPE;
 	+out = tmp;
 }
 
@@ -156,89 +141,38 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, link) & sub)
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(backward, allocate, link) & esub)
 {
-	-out = new SUB_POINTER_TYPE;
+	-out = new ESUB_POINTER_TYPE;
 	+-out = out;
 	--out;
 }
 
 
 /***********************************************************************************************************************/
+
+
+template<ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(esub_pointer & out, const ESUB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & esub)
+	{ delete +--out; }
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(forward) & ob)
-	{ ++in; }
-
-
-/***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & ob)
-	{ delete in++; }
-
-
-/***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & ob)
-	{ delete -++in; }
+#undef ESUB_ADJ_PARAMETERS_DIRECTION_REDUCED
+#undef ESUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
+#undef ESUB_ADJ_DIR
+#undef ESUB_ADJ_DIR_IMG_ITER
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-/*
-	Note:	This collection is undefined for ObjectAdjective<backward, hook>.
-*/
-
-template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(backward) & ob)
-{
-	static_assert
-	(
-		ob_iteratorEnum != Association::hook			,
-
-		"\n\nmap is undefined for ObjectAdjective<backward, hook>.\n"
-	);
-
-	--in;
-}
-
-
-/***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & ob)
-	{ delete +--in; }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef SUB_ADJ_PARAMETERS_DIRECTION_REDUCED
-#undef SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
-#undef OB_ADJ_PARAMETERS_DIRECTION_REDUCED
-#undef OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
-#undef SUB_ADJ_DIR
-#undef SUB_ADJ_DIR_IMG_ITER
-#undef OB_ADJ_DIR
-#undef OB_ADJ_DIR_IMG_ITER
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef SUB_POINTER_TYPE
+#undef ESUB_POINTER_TYPE
 
 

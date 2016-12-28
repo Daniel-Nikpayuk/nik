@@ -41,6 +41,9 @@ namespace numeric	{
 		template<typename L>
 		using SubjectAdjective = typename structural<nik::semiotic>::template SubjectAdjective<L>;
 
+		template<typename... params>
+		using ESubjectAdjective = typename structural<nik::semiotic>::template ESubjectAdjective<params...>;
+
 		template<typename L, typename T>
 		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L, T>;
 
@@ -52,6 +55,7 @@ namespace numeric	{
 
 		#include"adverb/semiotic.hpp"
 
+		#include"repeat/semiotic.hpp"
 		#include"morph/semiotic.hpp"
 		#include"map/semiotic.hpp"
 

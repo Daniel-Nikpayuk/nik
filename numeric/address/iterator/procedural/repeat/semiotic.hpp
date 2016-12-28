@@ -16,15 +16,10 @@
 ************************************************************************************************************************/
 
 /*
-	The adverb as well as object-adjective arguments are strictly non-const reference values, meaning one cannot
-	pass non-reference arguments to them. Although this code is meant to provide a clean narrative interface,
-	given its low-level, I have decided against adding any wrappers for user-friendly dispatch cases.
-
-	Though not the intention, this also forces the low-level coder to create a single type-info object to pass
-	which is actually good for memory/space efficiency.
-
-	Note:	This collection does not interpret the combination [sub,ob]_adj<backward, [mutate,deallocate], hook>
+	Note:	This collection does not interpret the combination sub_adj<backward, mutate, hook>
 		and leaves it undefined.
+
+		the repeat variable 'n' is of size_type which breaks semantically for negative numbers (signed types).
 */
 
 
@@ -41,48 +36,30 @@
 /***********************************************************************************************************************/
 
 
-#define SUB_ADJ_PARAMETERS_FULL												\
+#define ESUB_ADJ_PARAMETERS_FULL											\
 															\
-	typename sub_pointer,												\
+	typename esub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_intervalEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum,
+	size_type esub_directionEnum,											\
+	size_type esub_intervalEnum,											\
+	size_type esub_imageEnum,											\
+	size_type esub_iteratorEnum
 
 
-#define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
+#define ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
-	typename sub_pointer,												\
+	typename esub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum,
+	size_type esub_directionEnum,											\
+	size_type esub_imageEnum,											\
+	size_type esub_iteratorEnum
 
 
-#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
+#define ESUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
-	typename sub_pointer,												\
+	typename esub_pointer,												\
 															\
-	size_type sub_directionEnum,
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_PARAMETERS_FULL												\
-															\
-	typename ob_int_type,												\
-															\
-	size_type ob_directionEnum,											\
-	size_type ob_intervalEnum											\
-
-
-#define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename ob_int_type,												\
-															\
-	size_type ob_directionEnum											\
+	size_type esub_directionEnum
 
 
 /***********************************************************************************************************************/
@@ -92,9 +69,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	SUB_ADJ_PARAMETERS_FULL												\
-															\
-	OB_ADJ_PARAMETERS_FULL
+	ESUB_ADJ_PARAMETERS_FULL
 
 
 /***********************************************************************************************************************/
@@ -104,9 +79,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
+	ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED
 
 
 /***********************************************************************************************************************/
@@ -116,9 +89,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
+	ESUB_ADJ_PARAMETERS_DIRECTION_ONLY
 
 
 /***********************************************************************************************************************/
@@ -133,32 +104,19 @@
 /***********************************************************************************************************************/
 
 
-#define SUB_ADJ_FULL													\
+#define ESUB_ADJ_FULL													\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	ESubjectAdjective<LIST<esub_directionEnum, esub_intervalEnum, esub_imageEnum, esub_iteratorEnum>>
 
 
-#define SUB_ADJ_INTERVAL(interval)											\
+#define ESUB_ADJ_INTERVAL(interval)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	ESubjectAdjective<LIST<esub_directionEnum, Association::interval, esub_imageEnum, esub_iteratorEnum>>
 
 
-#define SUB_ADJ_IMAGE(interval, image)											\
+#define ESUB_ADJ_IMAGE(interval, image)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_FULL													\
-															\
-	ObjectAdjective<LIST<ob_directionEnum, ob_intervalEnum>>
-
-
-#define OB_ADJ_INTERVAL(interval)											\
-															\
-	ObjectAdjective<LIST<ob_directionEnum, Association::interval>>
+	ESubjectAdjective<LIST<esub_directionEnum, Association::interval, Association::image, Association::segment>>
 
 
 /************************************************************************************************************************/
@@ -166,11 +124,11 @@
 
 
 template<FULL_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(specialize) & ad,
+static esub_pointer repeat(ADV_TYPE(specialize) & ad,
 
-			sub_pointer out, const SUB_ADJ_FULL & sub,
+			esub_pointer out, ESUB_ADJ_FULL & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_FULL & ob);
+			size_type n);
 
 
 /************************************************************************************************************************/
@@ -178,11 +136,13 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 /************************************************************************************************************************/
 
 
-#include"body/peek_action.hpp"
-#include"body/functor_action.hpp"
-#include"body/count_action.hpp"
-#include"body/iterate_action.hpp"
-#include"body/memory_action.hpp"
+struct Repeat
+{
+	#include"body/functor_action.hpp"
+	#include"body/count_action.hpp"
+	#include"body/iterate_action.hpp"
+	#include"body/memory_action.hpp"
+};
 
 
 /************************************************************************************************************************
@@ -193,159 +153,27 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 /*
 	Constraints:
 
-	[in, end) --> [out, out + end-in)
+	[out, out + n)
 */
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			esub_pointer out, ESUB_ADJ_INTERVAL(closing) & esub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			size_type n)
 {
-	while (in != end)
+	while (n)
 	{
-		functor_action(ad, out, in);
-		count_action(ad);
+		Repeat::functor_action(ad, out);
+		Repeat::count_action(ad);
 
-		iterate_action(out, sub);
-		iterate_action(in, ob);
+		Repeat::iterate_action(out, esub);
+		--n;
 	}
 
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> [out, out + end-in+1)
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
-{
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in)
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, immutate) & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-	}
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> [out, out + end-in-1), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
-{
-	iterate_action(in, ob);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
+	Repeat::memory_action(esub);
 
 	return out;
 }
@@ -359,139 +187,30 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /*
 	Constraints:
 
-	[in, end) --> [out, out + end-in-1], end-in > 0
+	[out, out + n]
 */
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			esub_pointer out, ESUB_ADJ_INTERVAL(closed) & esub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			size_type n)
 {
-	while (peek_action(in, end, ob))
+	while (n)
 	{
-		functor_action(ad, out, in);
-		count_action(ad);
+		Repeat::functor_action(ad, out);
+		Repeat::count_action(ad);
 
-		iterate_action(out, sub);
-		iterate_action(in, ob);
+		Repeat::iterate_action(out, esub);
+		--n;
 	}
 
-	functor_action(ad, out, in);
-	count_action(ad);
+	Repeat::functor_action(ad, out);
+	Repeat::count_action(ad);
 
-	iterate_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> [out, out + end-in]
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
-{
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> [out, out + end-in-1], end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(opening) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> [out, out + end-in-2], end-in > 1
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
-
-	while (peek_action(in, end, ob))
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(in, ob);
+	Repeat::memory_action(esub);
 
 	return out;
 }
@@ -505,161 +224,28 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /*
 	Constraints:
 
-	[in, end) --> (out, out + end-in]
+	(out, out + n]
 */
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			esub_pointer out, ESUB_ADJ_INTERVAL(opening) & esub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			size_type n)
 {
-	while (in != end)
+	while (n)
 	{
-		iterate_action(out, sub);
+		Repeat::iterate_action(out, esub);
 
-		functor_action(ad, out, in);
-		count_action(ad);
+		Repeat::functor_action(ad, out);
+		Repeat::count_action(ad);
 
-		iterate_action(in, ob);
+		--n;
 	}
 
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	[in, end] --> (out, out + end-in+1]
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
-{
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in]
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, immutate) & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob);
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-	}
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in], end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> (out, out + end-in-1], end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
-
-	while (in != end)
-	{
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(in, ob);
-	}
+	Repeat::memory_action(esub);
 
 	return out;
 }
@@ -673,208 +259,83 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /*
 	Constraints:
 
-	[in, end) --> (out, out + end-in+1)
+	(out, out + n+1)
 */
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			esub_pointer out, ESUB_ADJ_INTERVAL(open) & esub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			size_type n)
 {
-	iterate_action(out, sub);
+	Repeat::iterate_action(out, esub);
 
-	while (in != end)
+	while (n)
 	{
-		functor_action(ad, out, in);
-		count_action(ad);
+		Repeat::functor_action(ad, out);
+		Repeat::count_action(ad);
 
-		iterate_action(out, sub);
-		iterate_action(in, ob);
+		Repeat::iterate_action(out, esub);
+		--n;
 	}
+
+	Repeat::memory_action(esub);
 
 	return out;
 }
 
 
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 /*
-	Constraints:
-
-	[in, end] --> (out, out + end-in+2)
+	Notice in this case the esub_adjective can be const because we know enough about it to optimize as such.
 */
 
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
-{
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in+1)
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, immutate) & ob)
-{
-	while (in != end)
-	{
-		iterate_action(in, ob);
-		iterate_action(out, sub);
-
-		functor_action(ad, out, in);
-		count_action(ad);
-	}
-
-	iterate_action(out, sub);
-
-	return out;
-}
-
-
-/*
-	Constraints:
-
-	(in, end] --> (out, out + end-in+1), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
-
-			ob_int_type in, ob_int_type end, OB_ADJ_IMAGE(opening, deallocate) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	functor_action(ad, out, in);
-	count_action(ad);
-
-	iterate_action(out, sub);
-	memory_action(in, ob);
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-
-
-/*
-	Constraints:
-
-	(in, end) --> (out, out + end-in), end-in > 0
-*/
-
-
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
-
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
-{
-	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
-	iterate_action(out, sub);
-
-	while (in != end)
-	{
-		functor_action(ad, out, in);
-		count_action(ad);
-
-		iterate_action(out, sub);
-		iterate_action(in, ob);
-	}
-
-	return out;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define ALLOCATE_SEGMENT_REPEAT(sub_interval, ob_interval)								\
+#define ALLOCATE_SEGMENT_REPEAT(esub_interval)										\
 															\
 template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
+static esub_pointer repeat(ADV_TYPE(prototype) & ad,									\
 															\
-			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
+			esub_pointer & origin, const ESUB_ADJ_IMAGE(esub_interval, allocate) & esub,			\
 															\
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)				\
+			size_type n)											\
 															\
-	{ return repeat(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+{															\
+	ESUB_ADJ_IMAGE(esub_interval, mutate) esub_mutate;								\
+															\
+	return repeat(ad, Repeat::memory_action(origin, esub), esub_mutate, n);						\
+}
 
 
 /***********************************************************************************************************************/
 
 
-ALLOCATE_SEGMENT_REPEAT(closing, closing)
-ALLOCATE_SEGMENT_REPEAT(closing, closed)
-ALLOCATE_SEGMENT_REPEAT(closing, opening)
-ALLOCATE_SEGMENT_REPEAT(closing, open)
+ALLOCATE_SEGMENT_REPEAT(closing)
+ALLOCATE_SEGMENT_REPEAT(closed)
+ALLOCATE_SEGMENT_REPEAT(opening)
+ALLOCATE_SEGMENT_REPEAT(open)
 
-ALLOCATE_SEGMENT_REPEAT(closed, closing)
-ALLOCATE_SEGMENT_REPEAT(closed, closed)
-ALLOCATE_SEGMENT_REPEAT(closed, opening)
-ALLOCATE_SEGMENT_REPEAT(closed, open)
 
-ALLOCATE_SEGMENT_REPEAT(opening, closing)
-ALLOCATE_SEGMENT_REPEAT(opening, closed)
-ALLOCATE_SEGMENT_REPEAT(opening, opening)
-ALLOCATE_SEGMENT_REPEAT(opening, open)
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
-ALLOCATE_SEGMENT_REPEAT(open, closing)
-ALLOCATE_SEGMENT_REPEAT(open, closed)
-ALLOCATE_SEGMENT_REPEAT(open, opening)
-ALLOCATE_SEGMENT_REPEAT(open, open)
+
+#undef ADV_PARAMETERS_OPTIMIZER_REDUCED
+#undef ESUB_ADJ_PARAMETERS_FULL
+#undef ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED
+#undef ESUB_ADJ_PARAMETERS_DIRECTION_ONLY
+#undef FULL_PARAMETERS
+#undef INTERVAL_REDUCED_PARAMETERS
+#undef DIRECTION_ONLY_PARAMETERS
+#undef ADV_TYPE
+#undef ESUB_ADJ_FULL
+#undef ESUB_ADJ_INTERVAL
+#undef ESUB_ADJ_IMAGE
+#undef ALLOCATE_SEGMENT_REPEAT
 
 
