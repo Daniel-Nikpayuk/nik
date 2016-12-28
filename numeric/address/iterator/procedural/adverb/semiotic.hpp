@@ -41,36 +41,6 @@ struct Connotation
 
 
 /***********************************************************************************************************************/
-
-
-/*
-	Manner Adverbs:
-				TUPLE/LIST data structures are appropriate here because resolution
-				occurs during compile-time and the size is expected to be small.
-*/
-
-
-struct Manner
-{
-	enum : size_type
-	{
-		functor,
-		tracer,
-		optimizer,
-
-		dimension
-	};
-
-	using Relation = TUPLE
-	<
-		LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-		LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
-		LIST<Connotation::prototype, Connotation::specialize>		// optimizer
-	>;
-};
-
-
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -168,13 +138,5 @@ struct Adverb<OMIT_APPLY, void>
 
 #undef APPLY_OMIT
 #undef APPLY_APPLY
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<size_type... params>
-using adverb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
 
 

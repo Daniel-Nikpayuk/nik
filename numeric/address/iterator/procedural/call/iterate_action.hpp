@@ -55,31 +55,43 @@
 	typename T
 
 
+#define OB_ADJ_PARAMETERS_INTERVAL_ONLY											\
+															\
+	typename ob_int_type,												\
+															\
+	size_type ob_intervalEnum											\
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 #define SUB_ADJ_DIR(direction)												\
 															\
-	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<LIST<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
 															\
-	SubjectAdjective<LIST<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
+	Adjective<LIST<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
 
 
 /***********************************************************************************************************************/
 
 
+#define OB_UINT_ADJ_DIR(direction)											\
+															\
+	UIntAdjective<LIST<UIntAssociation::direction, ob_intervalEnum>>
+
+
 #define OB_ADJ_DIR(direction)												\
 															\
-	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<LIST<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_DIR_IMG_ITER(direction, image, iterator)									\
 															\
-	ObjectAdjective<LIST<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
+	Adjective<LIST<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
 
 
 /***********************************************************************************************************************/
@@ -119,26 +131,29 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 
 
 /***********************************************************************************************************************/
+
+
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & sub)
+	{ delete out++; }
+
+
 /***********************************************************************************************************************/
 
 
-/*
-	Note:	This collection is undefined for SubjectAdjective<backward, mutate, hook>.
-*/
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & sub)
+	{ delete -++out; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
 static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(backward) & sub)
-{
-	static_assert
-	(
-		sub_imageEnum != Association::mutate					||
-		sub_iteratorEnum != Association::hook					,
-
-		"\n\nmap is undefined for SubjectAdjective<backward, mutate, hook>.\n"
-	);
-
-	--out;
-}
+	{ --out; }
 
 
 /***********************************************************************************************************************/
@@ -166,6 +181,23 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 
 
 /***********************************************************************************************************************/
+
+
+template<SUB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY>
+static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & sub)
+	{ delete +--out; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<OB_ADJ_PARAMETERS_INTERVAL_ONLY>
+static inline void iterate_action(ob_int_type & in, const OB_UINT_ADJ_DIR(forward) & ob)
+	{ ++in; }
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -195,22 +227,18 @@ static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(for
 /***********************************************************************************************************************/
 
 
-/*
-	Note:	This collection is undefined for ObjectAdjective<backward, hook>.
-*/
+template<OB_ADJ_PARAMETERS_INTERVAL_ONLY>
+static inline void iterate_action(ob_int_type & in, const OB_UINT_ADJ_DIR(backward) & ob)
+	{ --in; }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
 static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(backward) & ob)
-{
-	static_assert
-	(
-		ob_iteratorEnum != Association::hook			,
-
-		"\n\nmap is undefined for ObjectAdjective<backward, hook>.\n"
-	);
-
-	--in;
-}
+	{ --in; }
 
 
 /***********************************************************************************************************************/
@@ -223,6 +251,7 @@ static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(bac
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 #undef SUB_ADJ_PARAMETERS_DIRECTION_REDUCED
@@ -231,6 +260,7 @@ static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(bac
 #undef OB_ADJ_PARAMETERS_INTERVAL_ITERATOR_ONLY
 #undef SUB_ADJ_DIR
 #undef SUB_ADJ_DIR_IMG_ITER
+#undef OB_UINT_ADJ_DIR
 #undef OB_ADJ_DIR
 #undef OB_ADJ_DIR_IMG_ITER
 

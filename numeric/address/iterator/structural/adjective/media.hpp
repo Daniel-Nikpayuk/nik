@@ -22,28 +22,7 @@ using Association = typename semiotic::Association;
 /***********************************************************************************************************************/
 
 
-using SubjectAttribute = typename semiotic::SubjectAttribute;
-
-
-using ESubjectAttribute = typename semiotic::ESubjectAttribute;
-
-
-using ObjectAttribute = typename semiotic::ObjectAttribute;
-
-
-/***********************************************************************************************************************/
-
-
-template<size_type... params>
-using subject_adjective = typename semiotic::template subject_adjective<params...>;
-
-
-template<size_type... params>
-using esubject_adjective = typename semiotic::template esubject_adjective<params...>;
-
-
-template<size_type... params>
-using object_adjective = typename semiotic::template object_adjective<params...>;
+using Attribute = typename semiotic::Attribute;
 
 
 /***********************************************************************************************************************/

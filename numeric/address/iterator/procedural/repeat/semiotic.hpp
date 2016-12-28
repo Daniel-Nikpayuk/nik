@@ -24,6 +24,67 @@
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Repeat
+{
+	struct Manner
+	{
+		enum : size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
+			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
+		>;
+	};
+
+	template<size_type... params>
+	using adverb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+
+	struct Attribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			LIST<Association::mutate, Association::allocate, Association::deallocate>,			// image
+			LIST<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+	};
+
+	template<size_type... params>
+	using subject = Adjective<SORTFILL<Attribute, params...>::rtn>;
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 #define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
@@ -36,30 +97,30 @@
 /***********************************************************************************************************************/
 
 
-#define ESUB_ADJ_PARAMETERS_FULL											\
+#define SUB_ADJ_PARAMETERS_FULL												\
 															\
-	typename esub_pointer,												\
+	typename sub_pointer,												\
 															\
-	size_type esub_directionEnum,											\
-	size_type esub_intervalEnum,											\
-	size_type esub_imageEnum,											\
-	size_type esub_iteratorEnum
+	size_type sub_directionEnum,											\
+	size_type sub_intervalEnum,											\
+	size_type sub_imageEnum,											\
+	size_type sub_iteratorEnum
 
 
-#define ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
+#define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
-	typename esub_pointer,												\
+	typename sub_pointer,												\
 															\
-	size_type esub_directionEnum,											\
-	size_type esub_imageEnum,											\
-	size_type esub_iteratorEnum
+	size_type sub_directionEnum,											\
+	size_type sub_imageEnum,											\
+	size_type sub_iteratorEnum
 
 
-#define ESUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
+#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
-	typename esub_pointer,												\
+	typename sub_pointer,												\
 															\
-	size_type esub_directionEnum
+	size_type sub_directionEnum
 
 
 /***********************************************************************************************************************/
@@ -69,7 +130,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	ESUB_ADJ_PARAMETERS_FULL
+	SUB_ADJ_PARAMETERS_FULL
 
 
 /***********************************************************************************************************************/
@@ -79,7 +140,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED
+	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
 
 
 /***********************************************************************************************************************/
@@ -89,7 +150,7 @@
 															\
 	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	ESUB_ADJ_PARAMETERS_DIRECTION_ONLY
+	SUB_ADJ_PARAMETERS_DIRECTION_ONLY
 
 
 /***********************************************************************************************************************/
@@ -104,19 +165,38 @@
 /***********************************************************************************************************************/
 
 
-#define ESUB_ADJ_FULL													\
+#define SUB_ADJ_FULL													\
 															\
-	ESubjectAdjective<LIST<esub_directionEnum, esub_intervalEnum, esub_imageEnum, esub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
-#define ESUB_ADJ_INTERVAL(interval)											\
+#define SUB_ADJ_INTERVAL(interval)											\
 															\
-	ESubjectAdjective<LIST<esub_directionEnum, Association::interval, esub_imageEnum, esub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
-#define ESUB_ADJ_IMAGE(interval, image)											\
+#define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	ESubjectAdjective<LIST<esub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define STATIC_ASSERT													\
+															\
+	static_assert													\
+	(														\
+		sub_directionEnum != Association::backward				||				\
+		(													\
+			sub_imageEnum != Association::mutate				&&				\
+			sub_imageEnum != Association::deallocate							\
+		)									||				\
+		sub_iteratorEnum != Association::hook					,				\
+															\
+		"\n\nmap is undefined for Subject<backward, hook>.\n"							\
+	);
 
 
 /************************************************************************************************************************/
@@ -124,25 +204,11 @@
 
 
 template<FULL_PARAMETERS>
-static esub_pointer repeat(ADV_TYPE(specialize) & ad,
+static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 
-			esub_pointer out, ESUB_ADJ_FULL & sub,
+			sub_pointer out, SUB_ADJ_FULL & sub,
 
 			size_type n);
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-struct Repeat
-{
-	#include"body/functor_action.hpp"
-	#include"body/count_action.hpp"
-	#include"body/iterate_action.hpp"
-	#include"body/memory_action.hpp"
-};
 
 
 /************************************************************************************************************************
@@ -158,22 +224,24 @@ struct Repeat
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static esub_pointer repeat(ADV_TYPE(prototype) & ad,
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			esub_pointer out, ESUB_ADJ_INTERVAL(closing) & esub,
+			sub_pointer out, SUB_ADJ_INTERVAL(closing) & sub,
 
 			size_type n)
 {
+	STATIC_ASSERT
+
 	while (n)
 	{
-		Repeat::functor_action(ad, out);
-		Repeat::count_action(ad);
+		functor_action(ad, out);
+		count_action(ad);
 
-		Repeat::iterate_action(out, esub);
+		iterate_action(out, sub);
 		--n;
 	}
 
-	Repeat::memory_action(esub);
+	memory_action(sub);
 
 	return out;
 }
@@ -192,25 +260,27 @@ static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static esub_pointer repeat(ADV_TYPE(prototype) & ad,
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			esub_pointer out, ESUB_ADJ_INTERVAL(closed) & esub,
+			sub_pointer out, SUB_ADJ_INTERVAL(closed) & sub,
 
 			size_type n)
 {
+	STATIC_ASSERT
+
 	while (n)
 	{
-		Repeat::functor_action(ad, out);
-		Repeat::count_action(ad);
+		functor_action(ad, out);
+		count_action(ad);
 
-		Repeat::iterate_action(out, esub);
+		iterate_action(out, sub);
 		--n;
 	}
 
-	Repeat::functor_action(ad, out);
-	Repeat::count_action(ad);
+	functor_action(ad, out);
+	count_action(ad);
 
-	Repeat::memory_action(esub);
+	memory_action(sub);
 
 	return out;
 }
@@ -229,23 +299,25 @@ static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static esub_pointer repeat(ADV_TYPE(prototype) & ad,
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			esub_pointer out, ESUB_ADJ_INTERVAL(opening) & esub,
+			sub_pointer out, SUB_ADJ_INTERVAL(opening) & sub,
 
 			size_type n)
 {
+	STATIC_ASSERT
+
 	while (n)
 	{
-		Repeat::iterate_action(out, esub);
+		iterate_action(out, sub);
 
-		Repeat::functor_action(ad, out);
-		Repeat::count_action(ad);
+		functor_action(ad, out);
+		count_action(ad);
 
 		--n;
 	}
 
-	Repeat::memory_action(esub);
+	memory_action(sub);
 
 	return out;
 }
@@ -264,24 +336,26 @@ static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 
 template<INTERVAL_REDUCED_PARAMETERS>
-static esub_pointer repeat(ADV_TYPE(prototype) & ad,
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
-			esub_pointer out, ESUB_ADJ_INTERVAL(open) & esub,
+			sub_pointer out, SUB_ADJ_INTERVAL(open) & sub,
 
 			size_type n)
 {
-	Repeat::iterate_action(out, esub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (n)
 	{
-		Repeat::functor_action(ad, out);
-		Repeat::count_action(ad);
+		functor_action(ad, out);
+		count_action(ad);
 
-		Repeat::iterate_action(out, esub);
+		iterate_action(out, sub);
 		--n;
 	}
 
-	Repeat::memory_action(esub);
+	memory_action(sub);
 
 	return out;
 }
@@ -292,22 +366,22 @@ static esub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 
 /*
-	Notice in this case the esub_adjective can be const because we know enough about it to optimize as such.
+	Notice in this case the sub_adjective can be const because we know enough about it to optimize as such.
 */
 
-#define ALLOCATE_SEGMENT_REPEAT(esub_interval)										\
+#define ALLOCATE_SEGMENT_REPEAT(sub_interval)										\
 															\
 template<DIRECTION_ONLY_PARAMETERS>											\
-static esub_pointer repeat(ADV_TYPE(prototype) & ad,									\
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
 															\
-			esub_pointer & origin, const ESUB_ADJ_IMAGE(esub_interval, allocate) & esub,			\
+			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
 			size_type n)											\
 															\
 {															\
-	ESUB_ADJ_IMAGE(esub_interval, mutate) esub_mutate;								\
+	SUB_ADJ_IMAGE(sub_interval, mutate) sub_mutate;									\
 															\
-	return repeat(ad, Repeat::memory_action(origin, esub), esub_mutate, n);						\
+	return repeat(ad, memory_action(origin, sub), sub_mutate, n);							\
 }
 
 
@@ -326,16 +400,17 @@ ALLOCATE_SEGMENT_REPEAT(open)
 
 
 #undef ADV_PARAMETERS_OPTIMIZER_REDUCED
-#undef ESUB_ADJ_PARAMETERS_FULL
-#undef ESUB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef ESUB_ADJ_PARAMETERS_DIRECTION_ONLY
+#undef SUB_ADJ_PARAMETERS_FULL
+#undef SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
+#undef SUB_ADJ_PARAMETERS_DIRECTION_ONLY
 #undef FULL_PARAMETERS
 #undef INTERVAL_REDUCED_PARAMETERS
 #undef DIRECTION_ONLY_PARAMETERS
 #undef ADV_TYPE
-#undef ESUB_ADJ_FULL
-#undef ESUB_ADJ_INTERVAL
-#undef ESUB_ADJ_IMAGE
+#undef SUB_ADJ_FULL
+#undef SUB_ADJ_INTERVAL
+#undef SUB_ADJ_IMAGE
+#undef STATIC_ASSERT
 #undef ALLOCATE_SEGMENT_REPEAT
 
 

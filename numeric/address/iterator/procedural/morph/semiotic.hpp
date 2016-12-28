@@ -30,6 +30,86 @@
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Morph
+{
+	struct Manner
+	{
+		enum : size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
+			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
+		>;
+	};
+
+	template<size_type... params>
+	using adverb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+
+	struct SubjectAttribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			LIST<Association::mutate, Association::allocate>,						// image
+			LIST<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+	};
+
+	template<size_type... params>
+	using subject = Adjective<SORTFILL<SubjectAttribute, params...>::rtn>;
+
+	struct ObjectAttribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+		>;
+	};
+
+	template<size_type... params>
+	using object = UIntAdjective<SORTFILL<ObjectAttribute, params...>::rtn>;
+};
+
+
+/***********************************************************************************************************************/
 
 
 #define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
@@ -136,17 +216,17 @@
 
 #define SUB_ADJ_FULL													\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
 
 
 /***********************************************************************************************************************/
@@ -162,6 +242,22 @@
 	UIntAdjective<LIST<ob_directionEnum, UIntAssociation::interval>>
 
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define STATIC_ASSERT													\
+															\
+	static_assert													\
+	(														\
+		sub_directionEnum != Association::backward				||				\
+		sub_imageEnum != Association::mutate					||				\
+		sub_iteratorEnum != Association::hook					,				\
+															\
+		"\n\nmap is undefined for Subject<backward, mutate, hook>.\n"						\
+	);
+
+
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 
@@ -172,19 +268,6 @@ static sub_pointer morph(ADV_TYPE(specialize) & ad,
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_FULL & ob);
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-struct Morph
-{
-	#include"body/functor_action.hpp"
-	#include"body/count_action.hpp"
-	#include"body/iterate_action.hpp"
-	#include"body/memory_action.hpp"
-};
 
 
 /************************************************************************************************************************
@@ -206,13 +289,15 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -236,19 +321,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Morph::iterate_action(out, sub);
+	iterate_action(out, sub);
 
 	return out;
 }
@@ -271,14 +358,16 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::iterate_action(in, ob);
+		iterate_action(in, ob);
 
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
+		iterate_action(out, sub);
 	}
 
 	return out;
@@ -302,15 +391,17 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Morph::iterate_action(in, ob);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -336,19 +427,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
+	STATIC_ASSERT
+
 	while (in < end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Morph::iterate_action(in, ob);
+	iterate_action(in, ob);
 
 	return out;
 }
@@ -371,17 +464,19 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
 	return out;
 }
@@ -404,19 +499,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(opening) & ob)
 {
-	Morph::iterate_action(in, ob);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
 	return out;
 }
@@ -439,21 +536,23 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Morph::iterate_action(in, ob);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
 
 	while (in < end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Morph::iterate_action(in, ob);
+	iterate_action(in, ob);
 
 	return out;
 }
@@ -478,14 +577,16 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::iterate_action(out, sub);
+		iterate_action(out, sub);
 
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(in, ob);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -509,19 +610,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
-	Morph::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
 	return out;
 }
@@ -544,13 +647,15 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::iterate_action(in, ob);
-		Morph::iterate_action(out, sub);
+		iterate_action(in, ob);
+		iterate_action(out, sub);
 
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 	}
 
 	return out;
@@ -574,16 +679,18 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Morph::iterate_action(in, ob);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Morph::iterate_action(out, sub);
+		iterate_action(out, sub);
 
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(in, ob);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -609,15 +716,17 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
-	Morph::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -641,21 +750,23 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
-	Morph::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Morph::functor_action(ad, out, in);
-	Morph::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Morph::iterate_action(out, sub);
+	iterate_action(out, sub);
 
 	return out;
 }
@@ -678,16 +789,18 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Morph::iterate_action(in, ob);
-		Morph::iterate_action(out, sub);
+		iterate_action(in, ob);
+		iterate_action(out, sub);
 
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 	}
 
-	Morph::iterate_action(out, sub);
+	iterate_action(out, sub);
 
 	return out;
 }
@@ -710,16 +823,18 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
-	Morph::iterate_action(in, ob);
-	Morph::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Morph::functor_action(ad, out, in);
-		Morph::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Morph::iterate_action(out, sub);
-		Morph::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
 	return out;
@@ -739,7 +854,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
 															\
 			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)			\
 															\
-	{ return morph(ad, Morph::memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+	{ return morph(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 
 
 /***********************************************************************************************************************/
@@ -786,6 +901,7 @@ ALLOCATE_SEGMENT_MORPH(open, open)
 #undef SUB_ADJ_IMAGE
 #undef OB_ADJ_FULL
 #undef OB_ADJ_INTERVAL
+#undef STATIC_ASSERT
 #undef ALLOCATE_SEGMENT_MORPH
 
 

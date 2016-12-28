@@ -38,14 +38,8 @@ namespace numeric	{
 
 		using Association = typename structural<nik::semiotic>::Association;
 
-		template<typename L>
-		using SubjectAdjective = typename structural<nik::semiotic>::template SubjectAdjective<L>;
-
 		template<typename... params>
-		using ESubjectAdjective = typename structural<nik::semiotic>::template ESubjectAdjective<params...>;
-
-		template<typename L, typename T>
-		using ObjectAdjective = typename structural<nik::semiotic>::template ObjectAdjective<L, T>;
+		using Adjective = typename structural<nik::semiotic>::template Adjective<params...>;
 
 		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
@@ -54,6 +48,12 @@ namespace numeric	{
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
 		#include"adverb/semiotic.hpp"
+
+		#include"call/peek_action.hpp"
+		#include"call/functor_action.hpp"
+		#include"call/count_action.hpp"
+		#include"call/iterate_action.hpp"
+		#include"call/memory_action.hpp"
 
 		#include"repeat/semiotic.hpp"
 		#include"morph/semiotic.hpp"

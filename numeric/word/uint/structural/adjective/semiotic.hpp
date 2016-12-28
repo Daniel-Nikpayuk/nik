@@ -57,12 +57,6 @@ struct Attribute
 
 		dimension
 	};
-
-	using Relation = TUPLE
-	<
-		LIST<Association::forward, Association::backward>,						// direction
-		LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
-	>;
 };
 
 
@@ -87,14 +81,5 @@ struct Adjective<L>
 
 	Adjective() { }
 };
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<size_type... params>
-using adjective = Adjective<SORTFILL<Attribute, params...>::rtn>;
 
 

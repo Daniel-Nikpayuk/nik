@@ -29,6 +29,69 @@
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Map
+{
+	struct SubjectAttribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+		
+			dimension
+		};
+		
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			LIST<Association::mutate, Association::allocate>,						// image
+			LIST<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+	};
+
+	template<size_type... params>
+	using subject = Adjective<SORTFILL<SubjectAttribute, params...>::rtn>;
+
+	struct ObjectAttribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+		
+			dimension
+		};
+		
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			LIST<Association::immutate, Association::deallocate>,						// image
+			LIST<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+	};
+
+	template<size_type... params>
+	using object = Adjective<SORTFILL<ObjectAttribute, params...>::rtn, void>;
+};
+
+
+/***********************************************************************************************************************/
 
 
 #define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
@@ -141,17 +204,17 @@
 
 #define SUB_ADJ_FULL													\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	SubjectAdjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
 
 
 /***********************************************************************************************************************/
@@ -159,17 +222,33 @@
 
 #define OB_ADJ_FULL													\
 															\
-	ObjectAdjective<LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_INTERVAL(interval)											\
 															\
-	ObjectAdjective<LIST<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<LIST<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_IMAGE(interval, image)											\
 															\
-	ObjectAdjective<LIST<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, T>
+	Adjective<LIST<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, T>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define STATIC_ASSERT													\
+															\
+	static_assert													\
+	(														\
+		sub_directionEnum != Association::backward				||				\
+		sub_imageEnum != Association::mutate					||				\
+		sub_iteratorEnum != Association::hook					,				\
+															\
+		"\n\nmap is undefined for Subject<backward, mutate, hook>.\n"						\
+	);
 
 
 /************************************************************************************************************************/
@@ -182,21 +261,6 @@ static sub_pointer map(ADV_TYPE(specialize) & ad,
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_FULL & ob);
-
-
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-/************************************************************************************************************************/
-
-
-struct Map
-{
-	#include"body/peek_action.hpp"
-	#include"body/functor_action.hpp"
-	#include"body/count_action.hpp"
-	#include"body/iterate_action.hpp"
-	#include"body/memory_action.hpp"
-};
 
 
 /************************************************************************************************************************
@@ -218,16 +282,18 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -250,22 +316,24 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
+	iterate_action(out, sub);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -288,17 +356,19 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
+		iterate_action(in, ob);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
+		iterate_action(out, sub);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -318,24 +388,26 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
+	iterate_action(out, sub);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -358,18 +430,20 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, ob);
+	STATIC_ASSERT
+
+	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -394,21 +468,23 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
 {
-	while (Map::peek_action(in, end, ob))
-	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+	STATIC_ASSERT
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+	while (peek_action(in, end, ob))
+	{
+		functor_action(ad, out, in);
+		count_action(ad);
+
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(in, ob);
+	iterate_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -431,21 +507,23 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::memory_action(in, ob);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -468,23 +546,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::memory_action(in, ob);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -507,23 +587,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+	STATIC_ASSERT
 
-	while (Map::peek_action(in, end, ob))
+	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+
+	while (peek_action(in, end, ob))
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(in, ob);
+	iterate_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -548,17 +630,19 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::iterate_action(out, sub);
+		iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(in, ob);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -581,23 +665,25 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
 {
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::memory_action(in, ob);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -620,16 +706,18 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
-		Map::iterate_action(out, sub);
+		iterate_action(in, ob);
+		iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -649,24 +737,26 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::memory_action(in, ob);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -689,19 +779,21 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
 
 	while (in != end)
 	{
-		Map::iterate_action(out, sub);
+		iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(in, ob);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -726,18 +818,20 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
 {
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -760,24 +854,26 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
 {
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
+	iterate_action(out, sub);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -800,18 +896,20 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
 {
+	STATIC_ASSERT
+
 	while (in != end)
 	{
-		Map::iterate_action(in, ob);
-		Map::iterate_action(out, sub);
+		iterate_action(in, ob);
+		iterate_action(out, sub);
 
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 	}
 
-	Map::iterate_action(out, sub);
+	iterate_action(out, sub);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -831,25 +929,27 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::functor_action(ad, out, in);
-	Map::count_action(ad);
+	functor_action(ad, out, in);
+	count_action(ad);
 
-	Map::iterate_action(out, sub);
-	Map::memory_action(in, ob);
+	iterate_action(out, sub);
+	memory_action(in, ob);
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -872,19 +972,21 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
 {
-	Map::iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
-	Map::iterate_action(out, sub);
+	STATIC_ASSERT
+
+	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
+	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		Map::functor_action(ad, out, in);
-		Map::count_action(ad);
+		functor_action(ad, out, in);
+		count_action(ad);
 
-		Map::iterate_action(out, sub);
-		Map::iterate_action(in, ob);
+		iterate_action(out, sub);
+		iterate_action(in, ob);
 	}
 
-	Map::memory_action(ob);
+	memory_action(ob);
 
 	return out;
 }
@@ -903,7 +1005,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,									\
 															\
 			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(ob_interval) & ob)				\
 															\
-	{ return map(ad, Map::memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+	{ return map(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 
 
 /***********************************************************************************************************************/
@@ -950,6 +1052,7 @@ ALLOCATE_SEGMENT_MAP(open, open)
 #undef SUB_ADJ_IMAGE
 #undef OB_ADJ_FULL
 #undef OB_ADJ_INTERVAL
+#undef STATIC_ASSERT
 #undef ALLOCATE_SEGMENT_MORPH
 
 

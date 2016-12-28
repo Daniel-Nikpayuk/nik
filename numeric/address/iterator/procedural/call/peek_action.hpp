@@ -16,8 +16,9 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	LIST<Connotation::omit_functor, tracerEnum, optimizerEnum>
-#define APPLY	LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>
+#define FULL		LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
+
+#define SEGMENT		LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, Association::segment>
 
 
 /***********************************************************************************************************************/
@@ -25,15 +26,17 @@
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	typename ob_pointer,
 
-	typename sub_pointer,
-	typename ob_pointer
+	size_type ob_directionEnum,
+	size_type ob_intervalEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum,
+	typename T
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<FULL, T> & ob)
 {
-	*out = *in;
+	return (+in != end);
 }
 
 
@@ -42,23 +45,24 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
-	typename F,
+	typename ob_pointer,
 
-	typename sub_pointer,
-	typename ob_pointer
+	size_type ob_directionEnum,
+	size_type ob_intervalEnum,
+	size_type ob_imageEnum,
+	typename T
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT, T> & ob)
 {
-	ad.functor(out, in);
+	return (in < end);
 }
 
 
 /***********************************************************************************************************************/
 
 
-#undef APPLY
-#undef OMIT
+#undef FULL
+
+#undef SEGMENT
 
 

@@ -23,9 +23,11 @@
 /***********************************************************************************************************************/
 
 
-#define FULL			LIST<directionEnum, intervalEnum, imageEnum, iteratorEnum>
+#define SUB_FULL		LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>
 
-#define ALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::allocate, Association::segment>
+#define OB_FULL			LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
+
+#define ALLOCATE_SEGMENT	LIST<sub_directionEnum, sub_intervalEnum, Association::allocate, Association::segment>
 
 #define DEALLOCATE		LIST<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>
 
@@ -36,7 +38,7 @@
 /***********************************************************************************************************************/
 
 
-#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<pointer>::pointer::value_type
+#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::value_type
 
 
 /***********************************************************************************************************************/
@@ -45,17 +47,64 @@
 
 template
 <
-	typename pointer,
-
-	size_type directionEnum,
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum
+	size_type sub_directionEnum,
+	size_type sub_intervalEnum,
+	size_type sub_imageEnum,
+	size_type sub_iteratorEnum
 >
-static inline void memory_action(const pointer & out, const SubjectAdjective<FULL> & sub)
+static inline void memory_action(const Adjective<SUB_FULL> & sub)
 	{ }
 
 
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename sub_pointer,
+
+	size_type sub_directionEnum,
+	size_type sub_intervalEnum,
+	size_type sub_imageEnum,
+	size_type sub_iteratorEnum
+>
+static inline void memory_action(const sub_pointer & out, const Adjective<SUB_FULL> & sub)
+	{ }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename ob_pointer,
+
+	size_type ob_directionEnum,
+	size_type ob_intervalEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum,
+	typename T
+>
+static inline void memory_action(const ob_pointer & in, const Adjective<OB_FULL, T> & ob)
+	{ }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	size_type ob_directionEnum,
+	size_type ob_intervalEnum,
+	size_type ob_imageEnum,
+	size_type ob_iteratorEnum,
+	typename T
+>
+static inline void memory_action(const Adjective<OB_FULL, T> & ob)
+	{ }
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -63,22 +112,41 @@ static inline void memory_action(const pointer & out, const SubjectAdjective<FUL
 
 template
 <
-	typename pointer,
+	typename sub_pointer,
 
-	size_type directionEnum,
-	size_type intervalEnum
+	size_type sub_directionEnum,
+	size_type sub_intervalEnum
 >
-static inline pointer memory_action(pointer & origin, const SubjectAdjective<ALLOCATE_SEGMENT> & sub)
+static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<ALLOCATE_SEGMENT> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
-	return origin + ((directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset);
+	return origin + ((sub_directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset);
 }
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+
+// "adj" needs to be a reference value.
+
+template
+<
+	size_type directionEnum,
+	size_type intervalEnum,
+	typename T
+>
+static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
+{
+	delete [] adj.origin;
+}
+
+
+/***********************************************************************************************************************/
+
+
+// "p" needs to be a reference value.
 
 template
 <
@@ -86,67 +154,17 @@ template
 
 	size_type directionEnum,
 	size_type intervalEnum,
-	size_type imageEnum,
 	size_type iteratorEnum,
 	typename T
 >
-static inline void memory_action(const pointer & in, const ObjectAdjective<FULL, T> & ob)
-	{ }
-
-
-/***********************************************************************************************************************/
-
-
-// "in" needs to be a reference value.
-
-template
-<
-	typename pointer,
-
-	size_type directionEnum,
-	size_type intervalEnum,
-	size_type iteratorEnum,
-	typename T
->
-static inline void memory_action(pointer & in, const ObjectAdjective<DEALLOCATE, T> & ob)
+static inline void memory_action(pointer & p, const Adjective<DEALLOCATE, T> & adj)
 {
-	delete in;
+	delete p;
 }
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-
-
-template
-<
-	size_type directionEnum,
-	size_type intervalEnum,
-	size_type imageEnum,
-	size_type iteratorEnum,
-	typename T
->
-static inline void memory_action(const ObjectAdjective<FULL, T> & ob)
-	{ }
-
-
-/***********************************************************************************************************************/
-
-
-// "ob" needs to be a reference value.
-
-template
-<
-	size_type directionEnum,
-	size_type intervalEnum,
-	typename T
->
-static inline void memory_action(ObjectAdjective<DEALLOCATE_SEGMENT, T> & ob)
-{
-	delete [] ob.origin;
-}
-
-
 /***********************************************************************************************************************/
 
 
