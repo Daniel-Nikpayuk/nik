@@ -15,31 +15,32 @@
 **
 ************************************************************************************************************************/
 
-// default to returning the original type if it is already "trimmed".
+namespace nik		{
+namespace numeric	{
 
-template<typename T>
-struct trim
-{
-	using pointer = T;
-};
+	template<typename SizeType>
+	struct module<nik::list, nik::procedural, nik::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-/***********************************************************************************************************************/
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-template<typename T>
-struct trim<T*>
-{
-	using pointer = segment<T>;
-};
+		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
+		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-template<typename T>
-struct trim<hook_pointer<T>>
-{
-	using pointer = hook<T>;
-};
+//		#include"identity/semiotic.hpp"
+//		#include"arithmetic/semiotic.hpp"
 
-template<typename T>
-struct trim<link_pointer<T>>
-{
-	using pointer = link<T>;
-};
+		#undef TUPLE
+		#undef LIST
+		#undef AT
+		#undef CASES
+		#undef SORTFILL
+	};
+
+}}
 

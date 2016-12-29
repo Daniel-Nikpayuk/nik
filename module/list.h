@@ -15,31 +15,13 @@
 **
 ************************************************************************************************************************/
 
-// default to returning the original type if it is already "trimmed".
+#ifndef MODULE_LIST_H
+#define MODULE_LIST_H
 
-template<typename T>
-struct trim
-{
-	using pointer = T;
-};
+#include"../numeric/address/list/structural/semiotic.h"
+#include"../numeric/address/list/procedural/semiotic.h"
 
-/***********************************************************************************************************************/
+#include"../numeric/address/list/structural/media.h"
+#include"../numeric/address/list/procedural/media.h"
 
-template<typename T>
-struct trim<T*>
-{
-	using pointer = segment<T>;
-};
-
-template<typename T>
-struct trim<hook_pointer<T>>
-{
-	using pointer = hook<T>;
-};
-
-template<typename T>
-struct trim<link_pointer<T>>
-{
-	using pointer = link<T>;
-};
-
+#endif

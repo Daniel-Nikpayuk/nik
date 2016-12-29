@@ -17,38 +17,30 @@
 
 namespace nik		{
 namespace numeric	{
-namespace address	{
-namespace list		{
-namespace structural	{
 
 	template<typename SizeType>
-	struct semiotic
+	struct module<nik::list, nik::structural, nik::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		typedef grammaric::structural::media<size_type> gsm_traits;
-		typedef iterator::structural::semiotic<size_type> iss_traits;
+		template<size_type orientation_enum, size_type interface_enum>
+		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
-		typedef word::uint::functional::semiotic<size_type> wufs_policy;
-		typedef word::sint::functional::semiotic<size_type> wsfs_policy;
+		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
+		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
+		#define AT			 variadic<nik::functional, nik::semiotic>::template at
+		#define CASES		typename variadic<nik::functional, nik::media>::template cases
+		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-		typedef iterator::procedural::hook::semiotic<size_type> iphs_policy;
+//		#include"base/media.hpp"
+//		#include"identity/media.hpp"
 
-		#include"base/semiotic.cpp"
-		#include"identity/semiotic.cpp"
-		#include"uint/semiotic.cpp"
+		#undef TUPLE
+		#undef LIST
+		#undef AT
+		#undef CASES
+		#undef SORTFILL
 	};
 
-	template<typename SizeType>
-	struct media
-	{
-		typedef SizeType size_type;
-
-		typedef grammaric::structural::media<size_type> gsm_traits;
-
-//		#include"base/media.cpp"
-//		#include"identity/media.cpp"
-	};
-
-}}}}}
+}}
 

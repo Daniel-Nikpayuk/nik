@@ -32,6 +32,7 @@ namespace nik
 		sint,
 
 		iterator,
+		list,
 
 		module // filler
 	};

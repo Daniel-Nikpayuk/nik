@@ -20,6 +20,9 @@
 		and leaves it undefined.
 
 		the repeat variable 'n' is of size_type which breaks semantically for negative numbers (signed types).
+
+		No need for "memory_action(sub)" at body's end, as it would only be called for a segment deallocate,
+		in which case there's no need for such an expensive loop to begin with. This special case is branched.
 */
 
 
@@ -199,8 +202,14 @@ struct Repeat
 	);
 
 
-/************************************************************************************************************************/
-/************************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<FULL_PARAMETERS>
+static sub_pointer repeat(ADV_TYPE(specialize) & ad,
+
+			sub_pointer out, sub_pointer end, SUB_ADJ_FULL & sub);
 
 
 template<FULL_PARAMETERS>
@@ -214,6 +223,35 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 /************************************************************************************************************************
 							closing
 ************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[out, end)
+*/
+
+
+template<INTERVAL_REDUCED_PARAMETERS>
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+
+			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(closing) & sub)
+{
+	STATIC_ASSERT
+
+	while (out != end)
+	{
+		functor_action(ad, out);
+		count_action(ad);
+
+		iterate_action(out, sub);
+	}
+
+	return out;
+}
+
+
+/***********************************************************************************************************************/
 
 
 /*
@@ -241,8 +279,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 		--n;
 	}
 
-	memory_action(sub);
-
 	return out;
 }
 
@@ -250,6 +286,38 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /************************************************************************************************************************
 							closed
 ************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	[out, end]
+*/
+
+
+template<INTERVAL_REDUCED_PARAMETERS>
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+
+			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(closed) & sub)
+{
+	STATIC_ASSERT
+
+	while (out != end)
+	{
+		functor_action(ad, out);
+		count_action(ad);
+
+		iterate_action(out, sub);
+	}
+
+	functor_action(ad, out);
+	count_action(ad);
+
+	return out;
+}
+
+
+/***********************************************************************************************************************/
 
 
 /*
@@ -280,8 +348,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 	functor_action(ad, out);
 	count_action(ad);
 
-	memory_action(sub);
-
 	return out;
 }
 
@@ -289,6 +355,35 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /************************************************************************************************************************
 							opening
 ************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(out, end]
+*/
+
+
+template<INTERVAL_REDUCED_PARAMETERS>
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+
+			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(opening) & sub)
+{
+	STATIC_ASSERT
+
+	while (out != end)
+	{
+		iterate_action(out, sub);
+
+		functor_action(ad, out);
+		count_action(ad);
+	}
+
+	return out;
+}
+
+
+/***********************************************************************************************************************/
 
 
 /*
@@ -317,8 +412,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 		--n;
 	}
 
-	memory_action(sub);
-
 	return out;
 }
 
@@ -326,6 +419,37 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 /************************************************************************************************************************
 							open
 ************************************************************************************************************************/
+
+
+/*
+	Constraints:
+
+	(out, end), out != end
+*/
+
+
+template<INTERVAL_REDUCED_PARAMETERS>
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+
+			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(open) & sub)
+{
+	STATIC_ASSERT
+
+	iterate_action(out, sub);
+
+	while (out != end)
+	{
+		functor_action(ad, out);
+		count_action(ad);
+
+		iterate_action(out, sub);
+	}
+
+	return out;
+}
+
+
+/***********************************************************************************************************************/
 
 
 /*
@@ -355,8 +479,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 		--n;
 	}
 
-	memory_action(sub);
-
 	return out;
 }
 
@@ -372,12 +494,28 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 #define ALLOCATE_SEGMENT_REPEAT(sub_interval)										\
 															\
 template<DIRECTION_ONLY_PARAMETERS>											\
+static void repeat(ADV_TYPE(prototype) & ad,										\
+															\
+			sub_pointer out, sub_pointer end, SUB_ADJ_IMAGE(sub_interval, deallocate) & sub)		\
+															\
+	{ memory_action(sub); }												\
+															\
+template<DIRECTION_ONLY_PARAMETERS>											\
+static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
+															\
+			sub_pointer & origin, sub_pointer end, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub)	\
+{															\
+	SUB_ADJ_IMAGE(sub_interval, mutate) sub_mutate;									\
+															\
+	return repeat(ad, memory_action(origin, sub), end, sub_mutate);							\
+}															\
+															\
+template<DIRECTION_ONLY_PARAMETERS>											\
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
 															\
 			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
 			size_type n)											\
-															\
 {															\
 	SUB_ADJ_IMAGE(sub_interval, mutate) sub_mutate;									\
 															\

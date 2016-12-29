@@ -15,6 +15,67 @@
 **
 ************************************************************************************************************************/
 
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+
+
+struct Repeat
+{
+	struct Manner
+	{
+		enum : size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
+			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
+		>;
+	};
+
+	template<size_type... params>
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+
+	struct Attribute
+	{
+		enum : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::forward, Association::backward>,						// direction
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			LIST<Association::mutate, Association::allocate, Association::deallocate>,			// image
+			LIST<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+	};
+
+	template<size_type... params>
+	using subject = Adjective<SORTFILL<Attribute, params...>::rtn>;
+};
+*/
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 namespace nik
 {
  namespace semiotic

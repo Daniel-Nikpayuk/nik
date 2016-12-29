@@ -15,55 +15,16 @@
 **
 ************************************************************************************************************************/
 
-// default to returning the original type if it is already "trimmed".
 
-template<typename T>
-struct trim
-{
-	using constant = T;
-
-	using reference = T;
-	using const_reference = T;
-
-	using pointer = T;
-	using const_pointer = T;
-};
+using Association = typename semiotic::Association;
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
-template<typename T>
-struct trim<T const>
-{
-	using constant = T;
-};
+
+using Attribute = typename semiotic::Attribute;
+
 
 /***********************************************************************************************************************/
 
-template<typename T>
-struct trim<T&>
-{
-	using reference = T;
-};
-
-template<typename T>
-struct trim<T const &>
-{
-	using const_reference = T;
-};
-
-/***********************************************************************************************************************/
-
-template<typename T>
-struct trim<T*>
-{
-	using pointer = T;
-};
-
-template<typename T>
-struct trim<T const *>
-{
-	using const_pointer = T;
-};
 
