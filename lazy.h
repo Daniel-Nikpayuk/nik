@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -34,7 +34,7 @@
 	stringify(path/nik/module/name.cpp)
 
 
-#define module(name, path)													\
+#define module(name, path)												\
 	stringify(path/nik/module/name.h)
 
 

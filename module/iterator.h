@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -18,7 +18,7 @@
 #ifndef MODULE_ITERATOR_H
 #define MODULE_ITERATOR_H
 
-#include"variadic.h"
+#include"uint.h"
 
 #include"../numeric/address/iterator/structural/semiotic.h"
 #include"../numeric/address/iterator/procedural/semiotic.h"

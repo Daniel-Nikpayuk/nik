@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015, 2016 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -52,10 +52,6 @@
 
 /***********************************************************************************************************************/
 
-
-#include nik(uint)
-
-#include nik(iterator)
 
 #include nik(list)
 
