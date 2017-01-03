@@ -28,19 +28,19 @@ struct Grow
 	{
 		enum : size_type
 		{
-			fixor,
+			fixer,
 
 			dimension
 		};
 
 		using Relation = TUPLE
 		<
-			LIST<Connotation::after, Connotation::before, Connotation::between>		// fixor
+			LIST<Connotation::after, Connotation::before, Connotation::between>		// fixer
 		>;
 	};
 
 	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
 
 	struct Attribute
 	{
@@ -63,11 +63,81 @@ struct Grow
 
 
 /***********************************************************************************************************************/
+
+
+#define SUB_ADJ_PARAMETERS_LIST												\
+															\
+	typename sub_list,
+
+
+#define SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename sub_pointer,
+
+
 /***********************************************************************************************************************/
 
 
-template<typename WList, typename WPointer>
-static WPointer grow(<before>, WList & out, <closing>, WPointer in)
+#define OB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename ob_pointer
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_LIST_OB_POINTER_PARAMETERS											\
+															\
+	SUB_ADJ_PARAMETERS_LIST												\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_POINTER_OB_POINTER_PARAMETERS										\
+															\
+	SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define ADV_TYPE(fixer)													\
+															\
+	Adverb<LIST<Connotation::fixer>>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_INTERVAL(interval)											\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_INTERVAL(interval)											\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(before) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
 	+in=out.initial;
 	out.initial=in;
@@ -75,8 +145,12 @@ static WPointer grow(<before>, WList & out, <closing>, WPointer in)
 	return in;
 }
 
-template<typename WList, typename WPointer>
-static WPointer grow(<before>, WList & out, <closing>, WPointer in, WPointer end)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(before) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	+end=out.initial;
 	out.initial=in;
@@ -84,16 +158,24 @@ static WPointer grow(<before>, WList & out, <closing>, WPointer in, WPointer end
 	return in;
 }
 
-template<typename WList, typename WPointer>
-static WPointer grow(<after>, WList & out, <closing>, WPointer in)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(after) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
 	out.terminal=+out.terminal=in;
 
 	return in;
 }
 
-template<typename WList, typename WPointer>
-static WPointer grow(<after>, WList & out, <closing>, WPointer in, WPointer end, <closing>)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(after) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	+out.terminal=in;
 	out.terminal=end;
@@ -105,8 +187,12 @@ static WPointer grow(<after>, WList & out, <closing>, WPointer in, WPointer end,
 	Slightly awkward grammar, but categorization of this algorithm within the larger design takes precidence.
 */
 
-template<typename WList, typename WPointer>
-static WPointer grow(<between>, typename WList::iterator out, <closing>, WPointer in)
+template<SUB_POINTER_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(between) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
 	+in=+out;
 	+out=in;
@@ -114,13 +200,32 @@ static WPointer grow(<between>, typename WList::iterator out, <closing>, WPointe
 	return in;
 }
 
-template<typename WList, typename WPointer>
-static WPointer grow(<between>, typename WList::iterator out, <closing>, WPointer in, WPointer end, <closing>)
+template<SUB_POINTER_OB_POINTER_PARAMETERS>
+static ob_pointer grow(const ADV_TYPE(between) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	+end=+out;
 	+out=in;
 
 	return in;
 }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#undef SUB_ADJ_PARAMETERS_LIST
+#undef SUB_ADJ_PARAMETERS_POINTER
+#undef OB_ADJ_PARAMETERS_POINTER
+#undef SUB_LIST_OB_POINTER_PARAMETERS
+#undef SUB_POINTER_OB_POINTER_PARAMETERS
+#undef ADV_TYPE
+#undef SUB_ADJ_INTERVAL
+#undef OB_ADJ_INTERVAL
 
 

@@ -28,7 +28,7 @@ struct Shrink
 	{
 		enum : size_type
 		{
-			fixor,
+			fixer,
 			racer,
 
 			dimension
@@ -36,13 +36,13 @@ struct Shrink
 
 		using Relation = TUPLE
 		<
-			LIST<Connotation::after, Connotation::before, Connotation::between>,		// fixor
+			LIST<Connotation::after, Connotation::before, Connotation::between>,		// fixer
 			LIST<Connotation::mean, Connotation::fast>					// racer
 		>;
 	};
 
 	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
 
 	struct Attribute
 	{
@@ -65,6 +65,89 @@ struct Shrink
 
 
 /***********************************************************************************************************************/
+
+
+#define ADV_PARAMETERS_RACER_ONLY											\
+															\
+	size_type racerEnum,
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_PARAMETERS_LIST												\
+															\
+	typename sub_list
+
+
+#define SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename sub_pointer
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename ob_pointer
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_LIST_PARAMETERS												\
+															\
+	ADV_PARAMETERS_RACER_ONLY											\
+															\
+	SUB_ADJ_PARAMETERS_LIST
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_LIST_OB_POINTER_PARAMETERS											\
+															\
+	ADV_PARAMETERS_RACER_ONLY											\
+															\
+	SUB_ADJ_PARAMETERS_LIST,											\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_POINTER_PARAMETERS												\
+															\
+	ADV_PARAMETERS_RACER_ONLY											\
+															\
+	SUB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define ADV_FIXER(fixer)												\
+															\
+	Adverb<LIST<Connotation::fixer, racerEnum>>
+
+
+#define ADV_RACER(fixer, racer)												\
+															\
+	Adverb<LIST<Connotation::fixer, Connotation::racer>>
+
+
+/***********************************************************************************************************************/
+
+
+#define ADJ_INTERVAL(interval)												\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -72,27 +155,46 @@ struct Shrink
 	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
 */
 	
-template<typename WList>
-static void shrink(<before>, WList & out, <closing>)
+template<SUB_LIST_PARAMETERS>
+static void shrink(const ADV_FIXER(before) & ad,
+
+			sub_list & out, const ADJ_INTERVAL(closing) & sub)
+
 	{ delete out.initial++; }
 
-template<typename WList, typename WPointer>
-static void shrink(<before>, WList & out, <closing>, WPointer end)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static void shrink(const ADV_FIXER(before) & ad,
+
+			sub_list & out, const ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
-	ief_policy::disc::clear::no_return(out.initial, end);
-	out.initial=end;
+	typename IterProcSem::Repeat::template verb<> identity;
+	typename IterProcSem::Repeat::template subject<IterAssoc::deallocate, IterAssoc::hook> deallocate;
+
+	out.intial=IterProcSem::repeat(identity, out.initial, in, deallocate);
 }
 	
-template<typename WList, typename WPointer>
-static void shrink(<after>, WList & out, <closing>, WPointer in)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static void shrink(const ADV_FIXER(after) & ad,
+
+			sub_list & out, const ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
-	ief_policy::disc::clear::no_return(+in, out.terminal);
-	delete out.terminal;
+	typename IterProcSem::Repeat::template verb<> identity;
+	typename IterProcSem::Repeat::template subject<IterAssoc::open, IterAssoc::deallocate, IterAssoc::hook> deallocate;
+
+	delete IterProcSem::repeat(identity, in, out.terminal, deallocate);
 	out.terminal=in;
 }
 
-template<typename WList, typename WPointer>
-static void shrink(<after, fast>, WList & out, <closing>, WPointer in)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static void shrink(const ADV_RACER(after, fast) & ad,
+
+			sub_list & out, const ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
 {
 	delete out.terminal;
 	out.terminal=in;
@@ -102,19 +204,25 @@ static void shrink(<after, fast>, WList & out, <closing>, WPointer in)
 	Slightly awkward grammar, but categorization of this algorithm within the larger design takes precidence.
 */
 
-template<typename WList>
-static void shrink(<between>, typename WList::iterator out)
+template<SUB_POINTER_PARAMETERS>
+static void shrink(const ADV_FIXER(between) & ad,
+
+			sub_pointer out)
 {
-	typename WList::iterator in=+(+out);
+	sub_pointer in=+(+out);
 	delete +out;
 	+out=in;
 }
 
-template<typename WList, typename WPointer>
-static void shrink(<between>, typename WList::iterator out, WPointer end, <closing>)
+template<SUB_POINTER_PARAMETERS>
+static void shrink(const ADV_FIXER(between) & ad,
+
+			sub_pointer out, sub_pointer end, const ADJ_INTERVAL(closing) & sub)
 {
-	ief_policy::disc::clear::no_return(+out, end);
-	+out=end;
+	typename IterProcSem::Repeat::template verb<> identity;
+	typename IterProcSem::Repeat::template subject<IterAssoc::open, IterAssoc::deallocate, IterAssoc::hook> deallocate;
+
+	+out=IterProcSem::repeat(identity, out, end, deallocate);
 }
 
 

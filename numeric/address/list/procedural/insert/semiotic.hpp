@@ -15,10 +15,133 @@
 **
 ************************************************************************************************************************/
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<prepend>, WList & out, <closing>, ValueType value)
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Insert
 {
-	*snrlf_policy::iden::grow::before::no_return(out, new typename WList::node)=value;
+	struct Manner
+	{
+		enum : size_type
+		{
+			fixer,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::after, Connotation::before, Connotation::between>		// fixer
+		>;
+	};
+
+	template<size_type... params>
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
+
+	struct Attribute
+	{
+		enum : size_type
+		{
+			interval,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+		>;
+	};
+
+	template<size_type... params>
+	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
+};
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_PARAMETERS_LIST												\
+															\
+	typename sub_list,
+
+
+#define SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename sub_pointer,
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename ob_pointer
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_LIST_OB_POINTER_PARAMETERS											\
+															\
+	SUB_ADJ_PARAMETERS_LIST												\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_POINTER_OB_POINTER_PARAMETERS										\
+															\
+	SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define ADV_TYPE(fixer)													\
+															\
+	Adverb<LIST<Connotation::fixer>>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_INTERVAL(interval)											\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
+
+
+#define OB_ADJ_INTERVAL(interval)											\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(prepend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_int value)
+{
+	typename Grow::template verb<Connotation::before> before;
+
+	*grow(before, out, new typename sub_list::node) = value;
 
 	return out.initial;
 }
@@ -27,33 +150,51 @@ static typename WList::iterator insert(<prepend>, WList & out, <closing>, ValueT
 	n >= 1.
 */
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<prepend>, WList & out, <closing>, size_type n, ValueType value)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(prepend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				size_type n, ob_int value)
 {
-	typename WList::iterator in=new typename WList::node;
+	typename Grow::template verb<Connotation::before> before;
+	typename Repeat::template verb<> identity;
+
+	sub_pointer in=new typename sub_list::node;
 	*in=value;
-	return snrlf_policy::iden::grow::before::with_return(out, in,
-		snritf_policy::fwd_over::repeat::post_test::template
-			with_return<typename WList::node>(in, n-1, value));
+
+	return grow(before, out, in, repeat(identity, in, n-1, value));
 }
 
 /*
 	in != end
 */
 
-template<typename WList, typename RIterator, typename ERIterator>
-static typename WList::iterator insert(<prepend>, WList & out, <closing>, RIterator in, ERIterator end, <closing>)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(prepend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
-	typename WList::iterator tmp=new typename WList::node;
-	return snrlf_policy::iden::grow::before::with_return(out, tmp,
-		snritf_policy::disc::assign::prepost::template
-			with_return<typename WList::node>(tmp, in, end));
+	typename Grow::template verb<Connotation::before> before;
+	typename Map::template verb<> assign;
+
+	sub_pointer tmp=new typename sub_list::node;
+
+	return grow(before, out, tmp, map(assign, tmp, in, end));
 }
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<append>, WList & out, <closing>, ValueType value)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(append) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_int value)
 {
-	*snrlf_policy::iden::grow::after::no_return(out, new typename WList::node)=value;
+	typename Grow::template verb<> after;
+
+	*grow(after, out, new typename sub_list::node) = value;
 
 	return out.terminal;
 }
@@ -62,42 +203,66 @@ static typename WList::iterator insert(<append>, WList & out, <closing>, ValueTy
 	n >= 1.
 */
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<append>, WList & out, <closing>, size_type n, ValueType value)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(append) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				size_type n, ob_int value)
 {
-	typename WList::iterator in=new typename WList::node;
+	typename Grow::template verb<> after;
+	typename Repeat::template verb<> identity;
+
+	sub_pointer in=new typename sub_list::node;
 	*in=value;
-	return snrlf_policy::iden::grow::after::with_return(out, in,
-		snritf_policy::fwd_over::repeat::post_test::template
-			with_return<typename WList::node>(in, n-1, value));
+
+	return grow(after, out, in, repeat(identity, in, n-1, value));
 }
 
-template<typename WList, typename RIterator, typename ERIterator>
-static typename WList::iterator insert(<append>, WList & out, <closing>, RIterator in, ERIterator end, <closing>)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(append) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
-	typename WList::iterator tmp=new typename WList::node;
-	return snrlf_policy::iden::grow::after::with_return(out, tmp,
-		snritf_policy::fwd_over::assign::template
-			with_return<typename WList::node>(tmp, in, end));
+	typename Grow::template verb<> after;
+	typename Map::template verb<> assign;
+
+	sub_pointer tmp=new typename sub_list::node;
+
+	return grow(after, out, tmp, map(assign, tmp, in, end));
 }
 
 /*
 	in != end
 */
 
-template<typename WList, typename RIterator, typename ERIterator>
-static typename WList::iterator insert(<append>, WList & out, <closing>, RIterator in, ERIterator end, <prepost>)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(append) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing, prepost) & ob)
 {
-	typename WList::iterator tmp=new typename WList::node;
-	return snrlf_policy::iden::grow::after::with_return(out, tmp,
-		snritf_policy::disc::assign::prepost::template
-			with_return<typename WList::node>(tmp, in, end));
+	typename Grow::template verb<> after;
+	typename Map::template verb<> assign;
+
+	sub_pointer tmp=new typename sub_list::node;
+
+	return grow(after, out, tmp, map(assign, tmp, in, end));
 }
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<impend>, WList & out, ValueType value)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(impend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_int value)
 {
-	*snrlf_policy::iden::grow::between::no_return(out, new typename WList::node)=value;
+	typename Grow::template verb<Connotation::between> between;
+
+	*grow(between, out, new typename sub_list::node) = value;
 
 	return out.initial;
 }
@@ -106,26 +271,38 @@ static typename WList::iterator insert(<impend>, WList & out, ValueType value)
 	n >= 1.
 */
 
-template<typename WList, typename ValueType>
-static typename WList::iterator insert(<impend>, WList & out, size_type n, ValueType value)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(impend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				size_type n, ob_int value)
 {
-	typename WList::iterator in=new typename WList::node;
+	typename Grow::template verb<Connotation::between> between;
+	typename Repeat::template verb<> identity;
+
+	sub_pointer in=new typename sub_list::node;
 	*in=value;
-	return snrlf_policy::iden::grow::between::with_return(out, in,
-		snritf_policy::fwd_over::repeat::post_test::template
-			with_return<typename WList::node>(in, n-1, value));
+
+	return grow(between, out, in, repeat(identity, in, n-1, value));
 }
 
 /*
 	in != end
 */
 
-template<typename WList, typename RIterator, typename ERIterator>
-static typename WList::iterator insert(<impend>, WList & out, RIterator in, ERIterator end, <closing>)
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static sub_pointer insert(const ADV_PENDER(impend) & ad,
+
+				sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+				ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & sub)
 {
-	typename WList::iterator tmp=new typename WList::node;
-	return snrlf_policy::iden::grow::between::with_return(out, tmp,
-		snritf_policy::disc::assign::prepost::template
-			with_return<typename WList::node>(tmp, in, end));
+	typename Grow::template verb<Connotation::between> between;
+	typename Map::template verb<> assign;
+
+	sub_pointer tmp=new typename sub_list::node;
+
+	return grow(between, out, tmp, map(assign, tmp, in, end));
 }
 

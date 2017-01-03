@@ -26,14 +26,30 @@ namespace numeric	{
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
+		using IterStrSem = module<nik::iterator, nik::structural, nik::semiotic, size_type>;
+		using IterAssoc = typename IterStrSem::Association;
+
+		using IterProcSem = module<nik::iterator, nik::procedural, nik::semiotic, size_type>;
+		using IterConno = typename IterProcSem::Connotation;
+
+		template<size_type interface_enum>
+		using structural = module<nik::list, nik::structural, interface_enum, size_type>;
+
+		using Association = typename structural<nik::semiotic>::Association;
+
+		template<typename L>
+		using Adjective = typename structural<nik::semiotic>::template Adjective<L>;
+
 		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
 		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
 		#define AT			 variadic<nik::functional, nik::semiotic>::template at
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-//		#include"grow/semiotic.hpp"
-//		#include"shrink/semiotic.hpp"
+		#include"adverb/semiotic.hpp"
+
+		#include"grow/semiotic.hpp"
+		#include"shrink/semiotic.hpp"
 //		#include"insert/semiotic.hpp"
 //		#include"erase/semiotic.hpp"
 

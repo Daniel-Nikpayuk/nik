@@ -38,6 +38,8 @@ namespace numeric	{
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
+		#include"adjective/semiotic.hpp"
+
 		#include"base/semiotic.hpp"
 //		#include"identity/semiotic.hpp"
 //		#include"uint/semiotic.hpp"

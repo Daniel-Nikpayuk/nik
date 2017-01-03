@@ -15,14 +15,101 @@
 **
 ************************************************************************************************************************/
 
+
+/*
+	TUPLE/LIST data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Erase
+{
+	struct Manner
+	{
+		enum : size_type
+		{
+			jector,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Connotation::reject, Connotation::deject, Connotation::eject>		// jector
+		>;
+	};
+
+	template<size_type... params>
+	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
+
+	struct Attribute
+	{
+		enum : size_type
+		{
+			interval,
+
+			dimension
+		};
+
+		using Relation = TUPLE
+		<
+			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+		>;
+	};
+
+	template<size_type... params>
+	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
+};
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_PARAMETERS_POINTER											\
+															\
+	typename sub_pointer
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_POINTER_PARAMETERS												\
+															\
+	OB_ADJ_PARAMETERS_POINTER
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define ADV_JECTOR(jector)												\
+															\
+	Adverb<LIST<Connotation::jector>>
+
+
+/***********************************************************************************************************************/
+
+
+#define SUB_ADJ_INTERVAL(interval)											\
+															\
+	Adjective<LIST<Association::interval>>
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+
 /*
 	Assumes 't' is the original front: detaches 't'; deletes 't'; returns the new front.
 
 	Does not detach new front from original front resulting in a dangling pointer.
 */
 
-template<typename WPointer>
-static void erase(<deject>, WPointer out)
+template<SUB_POINTER_PARAMETERS>
+static void erase(const ADV_JECTOR(deject) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	++out;
 	delete -out;
@@ -35,8 +122,10 @@ static void erase(<deject>, WPointer out)
 	Assumes first is the proper front.  No need for generic Iterator as you are erasing from a given structure.
 */
 
-template<typename WPointer, typename ERPointer>
-static void erase(<deject>, WPointer out, ERPointer end)
+template<SUB_POINTER_PARAMETERS>
+static void erase(const ADV_JECTOR(deject) & ad,
+
+			sub_pointer out, sub_pointer end, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	-last=0;
 	while ((first=+first) != last) delete (-first);
@@ -49,8 +138,10 @@ static void erase(<deject>, WPointer out, ERPointer end)
 	Does not detach new back from original back resulting in a dangling pointer.
 */
 
-template<typename WPointer>
-static void erase(<reject>, WPointer out)
+template<SUB_POINTER_PARAMETERS>
+static void erase(const ADV_JECTOR(reject) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	t=-t;
 	delete (+t);
@@ -63,8 +154,10 @@ static void erase(<reject>, WPointer out)
 	Assumes last is the proper back.  No need for generic Iterator as you are erasing from a given structure.
 */
 
-template<typename WPointer, typename ERPointer>
-static void erase(<reject>, WPointer out, ERPointer end)
+template<SUB_POINTER_PARAMETERS>
+static void erase(const ADV_JECTOR(reject) & ad,
+
+			sub_pointer out, sub_pointer end, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	RPointer rtn=-first;
 	+rtn=0;
@@ -77,8 +170,10 @@ static void erase(<reject>, WPointer out, ERPointer end)
 	Same as above but additionally decrements count as a side-effect (counting the length between first and last).
 */
 
-template<typename WPointer, typename ERPointer>
-static void erase(<reject, apply_count>, WPointer out, ERPointer end)
+template<SUB_POINTER_PARAMETERS>
+static void erase(const ADV_JECTOR(reject, apply_count) & ad,
+
+			sub_pointer out, sub_pointer end, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	RPointer rtn=-first;
 	+rtn=0;
@@ -87,8 +182,10 @@ static void erase(<reject, apply_count>, WPointer out, ERPointer end)
 	delete first;
 }
 
-template<typename WPointer>
-static WPointer erase(<eject>, WPointer out)
+template<SUB_POINTER_PARAMETERS>
+static WPointer erase(const ADV_JECTOR & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub)
 {
 	WPointer in=+(+out);
 	delete +out;
@@ -97,11 +194,15 @@ static WPointer erase(<eject>, WPointer out)
 	return in;
 }
 
-template<typename WPointer, typename EWPointer>
-static WPointer erase(<eject>, WPointer out, EWPointer end)
+template<SUB_POINTER_PARAMETERS>
+static WPointer erase(const ADV_JECTOR & ad,
+
+			sub_pointer out, sub_pointer end, const SUB_ADJ_INTERVAL(closing) & sub)
 {
-	clear::no_return(+out, end);
-	+out=end;
+	typename IterProcSem::Repeat::template verb<> identity;
+	typename IterProcSem::Repeat::template subject<IterAssoc::open, IterAssoc::deallocate, IterAssoc::hook> deallocate;
+
+	+out=repeat(identity, out, end, deallocate);
 
 	return end;
 }

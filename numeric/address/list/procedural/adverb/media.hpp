@@ -16,57 +16,22 @@
 ************************************************************************************************************************/
 
 
-// Adjective Associations:
-
-
-struct Association
-{
-	enum : size_type
-	{
-		closing,
-		closed,
-		opening,
-		open,
-
-		dimension
-	};
-};
+using Connotation = typename semiotic::Connotation;
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-/*
-	Adjective Attributes:
-*/
-
-
-struct Attribute
-{
-	enum : size_type
-	{
-		interval,
-
-		dimension
-	};
-};
+using Manner = typename semiotic::Manner;
 
 
 /***********************************************************************************************************************/
+
+
+template<size_type... params>
+using adverb = typename semiotic::template adverb<params...>;
+
+
 /***********************************************************************************************************************/
-
-
-template<typename L>
-struct Adjective
-{
-	using parameter_list = L;
-
-	static constexpr size_type interval_enum	= AT<L, Association::interval	>::rtn;
-
-	Adjective() { }
-};
-
 
 

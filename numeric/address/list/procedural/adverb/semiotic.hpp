@@ -15,58 +15,47 @@
 **
 ************************************************************************************************************************/
 
-
-// Adjective Associations:
-
-
-struct Association
-{
-	enum : size_type
-	{
-		closing,
-		closed,
-		opening,
-		open,
-
-		dimension
-	};
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 /*
-	Adjective Attributes:
+	Connotations and Manners of "{omit, apply} functor" are implicit in the build and it is tempting to minimize,
+	but 1) This is bad design because I would be relying on an implementation feature to enforce specification design,
+	2) Without explicitly specifying them, the compiler cannot distinguish the partial specializations below.
 */
 
 
-struct Attribute
+struct Connotation
 {
 	enum : size_type
 	{
-		interval,
+		after,
+		before,
+		between,
+
+		append,
+		prepend,
+		impend,
+
+		reject,
+		deject,
+		eject,
 
 		dimension
 	};
 };
 
 
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 template<typename L>
-struct Adjective
+struct Adverb
 {
 	using parameter_list = L;
 
-	static constexpr size_type interval_enum	= AT<L, Association::interval	>::rtn;
+	static constexpr size_type fixer_enum	= AT<L, Connotation::fixer	>::rtn;
 
-	Adjective() { }
+	Adverb() { }
 };
-
 
 
