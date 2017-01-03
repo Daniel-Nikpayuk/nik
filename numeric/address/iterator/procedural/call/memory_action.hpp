@@ -38,7 +38,7 @@
 /***********************************************************************************************************************/
 
 
-#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::pointer::value_type
+#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::node::value_type
 
 
 /***********************************************************************************************************************/

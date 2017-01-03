@@ -27,6 +27,6 @@ struct container
 	typedef ValueType* pointer;
 	typedef ValueType const * const_pointer;
 
-	typedef media::size_type size_type;
+	typedef module::size_type size_type;
 };
 

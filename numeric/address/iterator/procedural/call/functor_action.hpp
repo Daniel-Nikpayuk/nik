@@ -43,9 +43,10 @@ template
 	size_type optimizerEnum,
 
 	typename sub_pointer,
-	typename ob_int_type
+	typename ob_pointer,
+	typename L
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_int_type in)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
 {
 	*out = in;
 }
@@ -60,9 +61,11 @@ template
 	size_type optimizerEnum,
 
 	typename sub_pointer,
-	typename object
+	typename ob_pointer,
+	typename L,
+	typename T
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, typename object::pointer in)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
 {
 	*out = *in;
 }
@@ -96,9 +99,10 @@ template
 	typename F,
 
 	typename sub_pointer,
-	typename ob_int_type
+	typename ob_pointer,
+	typename L
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_int_type in)
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
 {
 	ad.functor(out, in);
 }
@@ -114,9 +118,11 @@ template
 	typename F,
 
 	typename sub_pointer,
-	typename object
+	typename ob_pointer,
+	typename L,
+	typename T
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, typename object::pointer in)
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
 {
 	ad.functor(out, in);
 }

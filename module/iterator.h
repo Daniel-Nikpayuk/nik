@@ -18,6 +18,7 @@
 #ifndef MODULE_ITERATOR_H
 #define MODULE_ITERATOR_H
 
+#include"identifier.h"
 #include"uint.h"
 
 #include"../numeric/address/iterator/structural/semiotic.h"

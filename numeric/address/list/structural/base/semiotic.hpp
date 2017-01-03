@@ -16,44 +16,30 @@
 ************************************************************************************************************************/
 
 
-#define initialize_interval(name, label) \
-template<typename RIterator, typename ERIterator> \
-void initialize_from_##label(RIterator first, ERIterator last) \
-{ \
-	initial=new node; \
-	terminal=iphs_policy::zip::assign::label::as::name::template with_return<node>(initial, first, last); \
-}
-
-
 template<typename T>
 struct base
 {
-	typedef typename gsm_traits::template container<base, T> attributes;
-
-	typedef typename attributes::value_type value_type;
-	typedef typename attributes::reference reference;
-	typedef typename attributes::const_reference const_reference;
-	typedef typename attributes::size_type size_type;
-
-	typedef typename iss_traits::template hook<T> node;
-	typedef typename iss_traits::template const_hook<T> const_node;
+	typedef typename IterStrSem::template hook<T> node;
+	typedef typename IterStrSem::template const_hook<T> const_node;
 	typedef typename node::pointer iterator;
 	typedef typename const_node::pointer const_iterator;
-
-	static constexpr size_type interval_type=IntervalType;
 
 	iterator initial;
 	iterator terminal;
 
-	static void print(const base & b)
+	static void display(const base & b)
 	{
-		for (iterator k=b.initial; k != b.terminal; ++k)
-		{
-			builtin.print(*k);
-			builtin.print(' ');
-		}
+		typename IterProcSem::Repeat::template verb<> identity;
+		typename IterProcSem::Repeat::template subject<IterAssoc::hook> mutate;
 
-		builtin.print(endl);
+		auto print = identity.as([](iterator out)
+		{
+			builtin.print(*out);
+			builtin.print(' ');
+		});
+
+		IterProcSem::repeat(print, b.initial, b.terminal, mutate);
+		builtin.print(nik::endl);
 	}
 
 //	Assigning "terminal" first (given the possible order exchange) is semantically preferred as it
@@ -63,18 +49,23 @@ struct base
 		{ initial=terminal=new node; }
 
 	template<typename RIterator, typename ERIterator>
-	void initialize_from(RIterator first, ERIterator last)
+	void initialize(RIterator first, ERIterator last)
 	{
+		typename IterProcSem::Map::template verb<> assign;
+		typename IterProcSem::Map::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
+		typename IterProcSem::Map::template object<IterAssoc::hook> immutate;
+
 		initial=new node;
-		terminal=iphs_policy::zip::assign::closing::template with_return<node>(initial, first, last);
+		terminal=IterProcSem::map(assign, initial, allocate, first, last, immutate);
 	}
 
-	initialize_interval(closing, closed)
-	initialize_interval(closing, opening)
-	initialize_interval(closing, open)
-
 	void terminalize()
-		{ iphs_policy::identity::clear::closed::no_return(initial, terminal); }
+	{
+		typename IterProcSem::Repeat::template verb<> identity;
+		typename IterProcSem::Repeat::template subject<IterAssoc::closed, IterAssoc::deallocate, IterAssoc::hook> deallocate;
+
+		IterProcSem::repeat(identity, initial, terminal, deallocate);
+	}
 
 	base() { }
 	base(const base & n) { }
@@ -83,8 +74,5 @@ struct base
 	const base & operator = (const base & n)
 		{ return *this; }
 };
-
-
-#undef initialize_interval
 
 

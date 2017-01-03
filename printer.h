@@ -19,7 +19,7 @@
 
 namespace nik
 {
-	constexpr void *null_ptr=0;
+	constexpr void *null_ptr=0; // use builtin "nullptr"
 
 	constexpr char endl='\n';
 

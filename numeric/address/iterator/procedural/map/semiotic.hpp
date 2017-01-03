@@ -308,7 +308,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -342,14 +342,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -384,7 +384,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(in, ob);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -416,14 +416,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -458,7 +458,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -494,14 +494,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (peek_action(in, end, ob))
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -533,14 +533,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	memory_action(in, ob);
@@ -574,14 +574,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	memory_action(in, ob);
@@ -615,14 +615,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (peek_action(in, end, ob))
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -658,7 +658,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -693,14 +693,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	memory_action(in, ob);
@@ -735,7 +735,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 	}
 
@@ -766,14 +766,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	memory_action(in, ob);
@@ -809,7 +809,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -846,7 +846,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -882,14 +882,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -925,7 +925,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 	}
 
@@ -958,14 +958,14 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -1001,7 +1001,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);

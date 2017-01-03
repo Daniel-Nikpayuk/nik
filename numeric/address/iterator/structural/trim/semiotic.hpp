@@ -20,7 +20,7 @@
 template<typename T>
 struct trim
 {
-	using pointer = T;
+	using node = T;
 };
 
 /***********************************************************************************************************************/
@@ -28,18 +28,18 @@ struct trim
 template<typename T>
 struct trim<T*>
 {
-	using pointer = segment<T>;
+	using node = segment<T>;
 };
 
 template<typename T>
 struct trim<hook_pointer<T>>
 {
-	using pointer = hook<T>;
+	using node = hook<T>;
 };
 
 template<typename T>
 struct trim<link_pointer<T>>
 {
-	using pointer = link<T>;
+	using node = link<T>;
 };
 

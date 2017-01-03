@@ -153,7 +153,7 @@ struct Morph
 
 #define OB_ADJ_PARAMETERS_FULL												\
 															\
-	typename ob_int_type,												\
+	typename ob_pointer,												\
 															\
 	size_type ob_directionEnum,											\
 	size_type ob_intervalEnum											\
@@ -161,7 +161,7 @@ struct Morph
 
 #define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
-	typename ob_int_type,												\
+	typename ob_pointer,												\
 															\
 	size_type ob_directionEnum											\
 
@@ -267,7 +267,7 @@ static sub_pointer morph(ADV_TYPE(specialize) & ad,
 
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_FULL & ob);
+			ob_pointer in, ob_pointer end, const OB_ADJ_FULL & ob);
 
 
 /************************************************************************************************************************
@@ -287,13 +287,13 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -319,20 +319,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -356,7 +356,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -364,7 +364,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(in, ob);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -389,7 +389,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -397,7 +397,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -425,20 +425,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
 	while (in < end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -462,20 +462,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	return out;
@@ -497,7 +497,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(opening) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -505,14 +505,14 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	return out;
@@ -534,7 +534,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -542,14 +542,14 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in < end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -575,7 +575,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -583,7 +583,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -608,7 +608,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -616,14 +616,14 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	return out;
@@ -645,7 +645,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -654,7 +654,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 	}
 
@@ -677,7 +677,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -687,7 +687,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -714,7 +714,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -722,7 +722,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -748,7 +748,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -756,14 +756,14 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in);
+	functor_action(ad, out, in, ob);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -787,7 +787,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_int_type in, ob_int_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -796,7 +796,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 	}
 
@@ -821,7 +821,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -830,7 +830,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in);
+		functor_action(ad, out, in, ob);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -852,7 +852,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
 															\
 			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
-			ob_int_type in, ob_int_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)			\
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(ob_interval) & ob)				\
 															\
 	{ return morph(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 

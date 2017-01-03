@@ -23,6 +23,8 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+		using identifier = grammaric::module<nik::identifier, nik::structural, nik::semiotic, size_type>;
+
 		template<size_type orientation_enum, size_type interface_enum>
 		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
 
