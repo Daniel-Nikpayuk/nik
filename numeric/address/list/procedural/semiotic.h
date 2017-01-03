@@ -32,8 +32,10 @@ namespace numeric	{
 		#define CASES		typename variadic<nik::functional, nik::media>::template cases
 		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
-//		#include"identity/semiotic.hpp"
-//		#include"arithmetic/semiotic.hpp"
+//		#include"grow/semiotic.hpp"
+//		#include"shrink/semiotic.hpp"
+//		#include"insert/semiotic.hpp"
+//		#include"erase/semiotic.hpp"
 
 		#undef TUPLE
 		#undef LIST

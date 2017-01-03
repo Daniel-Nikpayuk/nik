@@ -16,6 +16,75 @@
 ************************************************************************************************************************/
 
 
+/*
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
+
+struct initialize
+{
+	struct disjoint
+	{
+		template<typename WList>
+		static void no_return(WList & out)
+		{
+			out.initial=new typename WList::node;
+			out.terminal=new typename WList::node;
+			+out.initial=out.terminal;
+		}
+	};
+};
+*/
+
+/*
+	Classified here because custom initializations are inherently unsafe: Could lead to memory leaks.
+
+struct copy
+{
+	struct initialize
+	{
+		template<typename WList, typename RList>
+		static void no_return(WList & out, const RList & in)
+		{
+			out.initialize();
+			out.terminal=ief_policy::fwd_over::assign::template
+				with_return<typename WList::node>(out.terminal, in.initial, in.terminal);
+		}
+
+		struct prepost
+		{
+			template<typename WList, typename RIterator, typename ERIterator>
+			static void no_return(WList & out, RIterator in, ERIterator end)
+			{
+				out.initialize();
+				out.terminal=ief_policy::disc::copy::before::template
+					with_return<typename WList::node>(out.terminal, in, end);
+			}
+		};
+
+		struct disjoint
+		{
+			template<typename WList, typename RList>
+			static void no_return(WList & out, const RList & in)
+			{
+				initialize::disjoint::no_return(out);
+				out.terminal=ief_policy::fwd_over::assign::template
+					with_return<typename WList::node>(out.terminal, +in.initial, in.terminal);
+			}
+		};
+	};
+
+	struct shallow
+	{
+		template<typename WList, typename RList>
+		static void no_return(WList & out, const RList & in)
+		{
+			out.initial=in.initial;
+			out.terminal=in.terminal;
+		}
+	};
+};
+*/
+
+
 template<typename T>
 struct base
 {

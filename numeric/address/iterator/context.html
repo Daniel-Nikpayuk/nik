@@ -98,5 +98,12 @@ What order do you present these as function arguments? If for example (in1, end1
 forward iteration. This lowers entropy in general and as such it is better to privilege (initial, terminal) regardless of
 iterator direction. By extension, if you have any inbetween iterator values, they should be ordered accordingly.
 
+---------
+
+The narrative design of iterators is that they are locally oriented, so other narratives align with this. For example
+specifying both "closing interval" and "backward direction" is not commutative. This is to say, if you view it locally oriented,
+you privilege direction first, and then interval. If you privilege global orientation, then it would be interval first,
+then direction.
+
   </body>
 </html>
