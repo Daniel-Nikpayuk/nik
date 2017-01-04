@@ -18,12 +18,14 @@
 template<typename L, typename Null = typename L::null>
 struct quickSort
 {
-	using ltoe		= typename media::template lessThanOrEqual<L::car>;
-	using leftFiltered	= typename media::template filter<ltoe, typename L::cdr>::rtn;
+	using enum_compare	= compare<typename L::enum_type>;
+
+	using ltoe		= typename enum_compare::template lessThanOrEqual<L::car>;
+	using leftFiltered	= typename filter<ltoe, typename L::cdr>::rtn;
 	using leftSorted	= typename quickSort<leftFiltered>::rtn;
 
-	using gtoe		= typename media::template greaterThanOrEqual<L::car>;
-	using rightFiltered	= typename media::template filter<gtoe, typename L::cdr>::rtn;
+	using gtoe		= typename enum_compare::template greaterThanOrEqual<L::car>;
+	using rightFiltered	= typename filter<gtoe, typename L::cdr>::rtn;
 	using rightSorted	= typename quickSort<rightFiltered>::rtn;
 
 	using rtn = typename catenate<leftSorted, typename rightSorted::template prepend<L::car> >::rtn;

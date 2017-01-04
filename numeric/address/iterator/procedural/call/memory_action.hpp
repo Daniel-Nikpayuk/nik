@@ -23,22 +23,22 @@
 /***********************************************************************************************************************/
 
 
-#define SUB_FULL		LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>
+#define SUB_FULL		adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>
 
-#define OB_FULL			LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
+#define OB_FULL			adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
 
-#define ALLOCATE_SEGMENT	LIST<sub_directionEnum, sub_intervalEnum, Association::allocate, Association::segment>
+#define ALLOCATE_SEGMENT	adj_list<sub_directionEnum, sub_intervalEnum, Association::allocate, Association::segment>
 
-#define DEALLOCATE		LIST<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>
+#define DEALLOCATE		adj_list<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>
 
-#define DEALLOCATE_SEGMENT	LIST<directionEnum, intervalEnum, Association::deallocate, Association::segment>
+#define DEALLOCATE_SEGMENT	adj_list<directionEnum, intervalEnum, Association::deallocate, Association::segment>
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define VALUE_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::node::value_type
+#define VALUE_TYPE	typename structural<Interface::semiotic>::template trim<sub_pointer>::node::value_type
 
 
 /***********************************************************************************************************************/
@@ -47,10 +47,10 @@
 
 template
 <
-	size_type sub_directionEnum,
-	size_type sub_intervalEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum
+	Association sub_directionEnum,
+	Association sub_intervalEnum,
+	Association sub_imageEnum,
+	Association sub_iteratorEnum
 >
 static inline void memory_action(const Adjective<SUB_FULL> & sub)
 	{ }
@@ -63,10 +63,10 @@ template
 <
 	typename sub_pointer,
 
-	size_type sub_directionEnum,
-	size_type sub_intervalEnum,
-	size_type sub_imageEnum,
-	size_type sub_iteratorEnum
+	Association sub_directionEnum,
+	Association sub_intervalEnum,
+	Association sub_imageEnum,
+	Association sub_iteratorEnum
 >
 static inline void memory_action(const sub_pointer & out, const Adjective<SUB_FULL> & sub)
 	{ }
@@ -79,10 +79,10 @@ template
 <
 	typename ob_pointer,
 
-	size_type ob_directionEnum,
-	size_type ob_intervalEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum,
+	Association ob_directionEnum,
+	Association ob_intervalEnum,
+	Association ob_imageEnum,
+	Association ob_iteratorEnum,
 	typename T
 >
 static inline void memory_action(const ob_pointer & in, const Adjective<OB_FULL, T> & ob)
@@ -94,10 +94,10 @@ static inline void memory_action(const ob_pointer & in, const Adjective<OB_FULL,
 
 template
 <
-	size_type ob_directionEnum,
-	size_type ob_intervalEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum,
+	Association ob_directionEnum,
+	Association ob_intervalEnum,
+	Association ob_imageEnum,
+	Association ob_iteratorEnum,
 	typename T
 >
 static inline void memory_action(const Adjective<OB_FULL, T> & ob)
@@ -114,8 +114,8 @@ template
 <
 	typename sub_pointer,
 
-	size_type sub_directionEnum,
-	size_type sub_intervalEnum
+	Association sub_directionEnum,
+	Association sub_intervalEnum
 >
 static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<ALLOCATE_SEGMENT> & sub)
 {
@@ -133,8 +133,8 @@ static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<AL
 
 template
 <
-	size_type directionEnum,
-	size_type intervalEnum,
+	Association directionEnum,
+	Association intervalEnum,
 	typename T
 >
 static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
@@ -152,9 +152,9 @@ template
 <
 	typename pointer,
 
-	size_type directionEnum,
-	size_type intervalEnum,
-	size_type iteratorEnum,
+	Association directionEnum,
+	Association intervalEnum,
+	Association iteratorEnum,
 	typename T
 >
 static inline void memory_action(pointer & p, const Adjective<DEALLOCATE, T> & adj)

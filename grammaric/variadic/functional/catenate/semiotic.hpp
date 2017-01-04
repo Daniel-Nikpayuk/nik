@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename L1, typename L2, typename Null = typename L2::null>
+template<typename outL, typename inL, typename Null = typename inL::null>
 struct catenate
 {
-	using rtn = typename catenate<typename L1::template append<L2::car>, typename L2::cdr>::rtn;
+	using rtn = typename catenate<typename outL::template append<inL::car>, typename inL::cdr>::rtn;
 };
 
-template<typename L, typename Null>
-struct catenate<L, Null, Null>
+template<typename outL, typename Null>
+struct catenate<outL, Null, Null>
 {
-	using rtn = L;
+	using rtn = outL;
 };
 

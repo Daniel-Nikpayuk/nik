@@ -19,35 +19,50 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<nik::iterator, nik::procedural, nik::semiotic, SizeType>
+	struct module<Module::iterator, Orientation::procedural, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		using identifier = grammaric::module<nik::identifier, nik::structural, nik::semiotic, size_type>;
+		//
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
-		using uint = module<nik::uint, nik::structural, nik::semiotic, size_type>;
+		template<typename enum_type>
+		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
+
+		template<typename... params>
+		using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
+
+		template<typename Field, typename Relation, Relation... params>
+		using sortFill = typename variadic<Orientation::functional, Interface::media>::template sortFill<Field, Relation, params...>;
+
+		//
+
+		using uint = module<Module::uint, Orientation::structural, Interface::semiotic, size_type>;
 
 		using UIntAssociation = typename uint::Association;
+
+		template<UIntAssociation... params>
+		using uint_list = typename uint::template adj_list<params...>;
 
 		template<typename L>
 		using UIntAdjective = typename uint::template Adjective<L>;
 
-		template<size_type interface_enum>
-		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
+		//
 
-		using Association = typename structural<nik::semiotic>::Association;
+		template<Interface interface_enum>
+		using structural = module<Module::iterator, Orientation::structural, interface_enum, size_type>;
+
+		using Association = typename structural<Interface::semiotic>::Association;
+
+		template<Association... params>
+		using adj_list = typename structural<Interface::semiotic>::template adj_list<params...>;
 
 		template<typename... params>
-		using Adjective = typename structural<nik::semiotic>::template Adjective<params...>;
+		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;
 
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+		//
 
 		#include"adverb/semiotic.hpp"
 
@@ -62,12 +77,6 @@ namespace numeric	{
 		#include"map/semiotic.hpp"
 
 		#include"discourse/semiotic.hpp"
-
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
 	};
 
 }}

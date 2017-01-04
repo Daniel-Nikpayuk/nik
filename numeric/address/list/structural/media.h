@@ -19,27 +19,15 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<nik::list, nik::structural, nik::media, SizeType>
+	struct module<Module::list, Orientation::structural, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
-
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
 //		#include"base/media.hpp"
 //		#include"identity/media.hpp"
-
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
 	};
 
 }}

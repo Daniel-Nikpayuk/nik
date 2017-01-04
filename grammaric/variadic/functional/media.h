@@ -19,36 +19,52 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<nik::variadic, nik::functional, nik::media, SizeType>
+	struct module<Module::variadic, Orientation::functional, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using control_flow = module<nik::control_flow, orientation_enum, interface_enum, size_type>;
+		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
 
-		template<size_type interface_enum>
-		using structural = module<nik::variadic, nik::structural, interface_enum, size_type>;
+		template<bool t, typename f, typename s>
+		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
-		using semiotic = module<nik::variadic, nik::functional, nik::semiotic, size_type>;
+		//
 
-		#define LIST		typename structural<nik::semiotic>::template list
-		#define IF_THEN_ELSE	typename control_flow<nik::functional, nik::media>::template if_then_else
+		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
+
+		template<typename enum_type>
+		using parameter = typename structural::template parameter<enum_type>;
+
+		template<typename... params>
+		using tuple = typename structural::template tuple<params...>;
+
+		//
+
+		using semiotic = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
+
+		// Both:
+
+		#include"isNull/media.hpp"
+		#include"length/media.hpp"
+		#include"catenate/media.hpp"
+		#include"filter/media.hpp"
+
+		// Tuple:
 
 		#include"cases/media.hpp"
 
-		#include"isNull/media.hpp"
+		// List:
+
 		#include"isMember/media.hpp"
-		#include"length/media.hpp"
+		#include"compare/media.hpp"
+		#include"enum_cast/media.hpp"
+
 		#include"at/media.hpp"
 		#include"erase/media.hpp"
-		#include"catenate/media.hpp"
-		#include"filter/media.hpp"
 		#include"sort/media.hpp"
 		#include"fill/media.hpp"
-		#include"sortFill/media.hpp"
 
-		#undef LIST
-		#undef IF_THEN_ELSE
+		#include"sortFill/media.hpp"
 	};
 
 }}

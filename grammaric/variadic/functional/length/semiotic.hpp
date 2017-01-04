@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<size_type count, typename L, typename Null = typename L::null>
+template<typename L, size_type count = 0, typename Null = typename L::null>
 struct length
 {
-	static constexpr size_type rtn = length<count+1, typename L::cdr>::rtn;
+	static constexpr size_type rtn = length<typename L::cdr, count+1>::rtn;
 };
 
-template<size_type count, typename Null>
-struct length<count, Null, Null>
+template<typename Null, size_type count>
+struct length<Null, count, Null>
 {
 	static constexpr size_type rtn = count;
 };

@@ -15,55 +15,65 @@
 **
 ************************************************************************************************************************/
 
-// empty:
-
-template<size_type... params>
-struct list
+template<typename parameter_type = size_type>
+struct parameter
 {
-	using null = list<>;
+	// empty:
 
-	template<size_type... args>
-	using prepend = list<args...>;
+	template<parameter_type... params>
+	struct list
+	{
+		typedef parameter_type enum_type;
 
-	template<size_type... args>
-	using append = list<args...>;
+		using null = list<>;
 
-	static void print() { }
-};
+		template<enum_type... args>
+		using prepend = list<args...>;
 
-template<size_type first, size_type... params>
-struct list<first, params...>
-{
-	using null = list<>;
+		template<enum_type... args>
+		using append = list<args...>;
 
-	static constexpr size_type car = first;
+		static void print() { }
+	};
 
-	using cdr = list<params...>;
+	template<parameter_type first, parameter_type... params>
+	struct list<first, params...>
+	{
+		typedef parameter_type enum_type;
 
-	template<size_type... args>
-	using prepend = list<args..., first, params...>;
+		using null = list<>;
 
-	template<size_type... args>
-	using append = list<first, params..., args...>;
+		static constexpr enum_type car = first;
 
-	static void print() { parameter_printer::template unroll<size_type, first, params...>::print(); }
-};
+		using cdr = list<params...>;
 
-template<size_type first>
-struct list<first>
-{
-	using null = list<>;
+		template<enum_type... args>
+		using prepend = list<args..., first, params...>;
 
-	static constexpr size_type car = first;
+		template<enum_type... args>
+		using append = list<first, params..., args...>;
 
-	using cdr = null;
+		static void print() { parameter_printer::template unroll<enum_type, first, params...>::print(); }
+	};
 
-	template<size_type... args>
-	using prepend = list<args..., first>;
+	template<parameter_type first>
+	struct list<first>
+	{
+		typedef parameter_type enum_type;
 
-	template<size_type... args>
-	using append = list<first, args...>;
+		using null = list<>;
 
-	static void print() { parameter_printer::template unroll<size_type, first>::print(); }
+		static constexpr enum_type car = first;
+
+		using cdr = null;
+
+		template<enum_type... args>
+		using prepend = list<args..., first>;
+
+		template<enum_type... args>
+		using append = list<first, args...>;
+
+		static void print() { parameter_printer::template unroll<enum_type, first>::print(); }
+	};
 };
 

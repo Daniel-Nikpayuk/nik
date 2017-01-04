@@ -15,23 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<typename predicate, typename out, typename in, typename Null = typename in::null>
+template<typename predicate, typename inL, typename outL = typename inL::null, typename Null = typename inL::null>
 struct filter
 {
-	using new_out = IF_THEN_ELSE
+	using new_outL = typename if_then_else
 	<
-		predicate::test(in::car),
-		typename out::template append<in::car>,
-		out
+		predicate::test(inL::car),
+		typename outL::template append<inL::car>,
+		outL
 
 	>::rtn;
 
-	using rtn = typename filter<predicate, new_out, typename in::cdr>::rtn;
+	using rtn = typename filter<predicate, typename inL::cdr, new_outL>::rtn;
 };
 
-template<typename predicate, typename out, typename Null>
-struct filter<predicate, out, Null, Null>
+template<typename predicate, typename Null, typename outL>
+struct filter<predicate, Null, outL, Null>
 {
-	using rtn = out;
+	using rtn = outL;
 };
 

@@ -19,17 +19,14 @@
 // Adjective Associations:
 
 
-struct Association
+enum struct Association : size_type
 {
-	enum : size_type
-	{
-		closing,
-		closed,
-		opening,
-		open,
+	closing,
+	closed,
+	opening,
+	open,
 
-		dimension
-	};
+	dimension
 };
 
 
@@ -43,15 +40,29 @@ struct Association
 */
 
 
-struct Attribute
+enum struct Attribute : size_type
 {
-	enum : size_type
-	{
-		interval,
+	interval,
 
-		dimension
-	};
+	dimension
 };
+
+
+using AttributeList = typename parameter<Attribute>::template list
+<
+	Attribute::interval
+>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<Association... params>
+using adj_list = typename parameter<Association>::template list<params...>;
+
+template<Attribute i>
+using enum_cast = typename variadic<Orientation::functional, Interface::semiotic>::template enum_cast<AttributeList, i>;
 
 
 /***********************************************************************************************************************/
@@ -63,7 +74,7 @@ struct Adjective
 {
 	using parameter_list = L;
 
-	static constexpr size_type interval_enum	= AT<L, Association::interval	>::rtn;
+	static constexpr Association interval_enum	= at<L, enum_cast<Attribute::interval>::rtn	>::rtn;
 
 	Adjective() { }
 };

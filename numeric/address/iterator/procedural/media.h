@@ -19,30 +19,13 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<nik::iterator, nik::procedural, nik::media, SizeType>
+	struct module<Module::iterator, Orientation::procedural, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
-
-		template<size_type interface_enum>
-		using structural = module<nik::iterator, nik::structural, interface_enum, size_type>;
-
-		using semiotic = module<nik::iterator, nik::procedural, nik::semiotic, size_type>;
-
-		using Attribute = typename structural<nik::media>::Attribute;
-		using Association = typename structural<nik::media>::Association;
-
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+		using semiotic = module<Module::iterator, Orientation::procedural, Interface::semiotic, size_type>;
 
 		#include"adverb/media.hpp"
-
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
 	};
 
 }}

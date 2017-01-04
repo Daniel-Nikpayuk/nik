@@ -16,8 +16,8 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	LIST<Connotation::omit_functor, tracerEnum, optimizerEnum>
-#define APPLY	LIST<Connotation::apply_functor, tracerEnum, optimizerEnum>
+#define OMIT	adv_list<Connotation::omit_functor, tracerEnum, optimizerEnum>
+#define APPLY	adv_list<Connotation::apply_functor, tracerEnum, optimizerEnum>
 
 
 /***********************************************************************************************************************/
@@ -25,8 +25,8 @@
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 
 	typename sub_pointer
 >
@@ -39,8 +39,8 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer p)
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 
 	typename sub_pointer,
 	typename ob_pointer,
@@ -57,8 +57,8 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 
 	typename sub_pointer,
 	typename ob_pointer,
@@ -77,8 +77,8 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 	typename F,
 
 	typename sub_pointer
@@ -94,8 +94,8 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 	typename F,
 
 	typename sub_pointer,
@@ -113,8 +113,8 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, 
 
 template
 <
-	size_type tracerEnum,
-	size_type optimizerEnum,
+	Connotation tracerEnum,
+	Connotation optimizerEnum,
 	typename F,
 
 	typename sub_pointer,

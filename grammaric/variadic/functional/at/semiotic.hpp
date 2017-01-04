@@ -18,12 +18,12 @@
 template<typename L, size_type index>
 struct at
 {
-	static constexpr size_type rtn = at<typename L::cdr, index-1>::rtn;
+	static constexpr typename L::enum_type rtn = at<typename L::cdr, index-1>::rtn;
 };
 
 template<typename L>
 struct at<L, 0>
 {
-	static constexpr size_type rtn = L::car;
+	static constexpr typename L::enum_type rtn = L::car;
 };
 

@@ -31,58 +31,52 @@
 
 
 /*
-	TUPLE/LIST data structures are appropriate here because resolution
+	tuple/list data structures are appropriate here because resolution
 	occurs during compile-time and the size is expected to be small.
 */
 
 
 struct Repeat
 {
-	struct Manner
+	enum struct Manner : size_type
 	{
-		enum : size_type
-		{
-			functor,
-			tracer,
-			optimizer,
+		functor,
+		tracer,
+		optimizer,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
-			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+	using Selection = tuple
+	<
+		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
+		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
+	>;
 
-	struct Attribute
+	template<Connotation... params>
+	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn, void>;
+
+	enum struct Attribute : size_type
 	{
-		enum : size_type
-		{
-			direction,
-			interval,
-			image,
-			iterator,
+		direction,
+		interval,
+		image,
+		iterator,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Association::forward, Association::backward>,						// direction
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-			LIST<Association::mutate, Association::allocate, Association::deallocate>,			// image
-			LIST<Association::segment, Association::hook, Association::link>				// iterator
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using subject = Adjective<SORTFILL<Attribute, params...>::rtn>;
+	using Arrangement = tuple
+	<
+		adj_list<Association::forward, Association::backward>,						// direction
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+		adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
+		adj_list<Association::segment, Association::hook, Association::link>				// iterator
+	>;
+
+	template<Association... params>
+	using subject = Adjective<typename sortFill<Arrangement, Association, params...>::rtn>;
 };
 
 
@@ -92,8 +86,8 @@ struct Repeat
 
 #define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	size_type functorEnum,												\
-	size_type tracerEnum,												\
+	Connotation functorEnum,											\
+	Connotation tracerEnum,												\
 	typename F,
 
 
@@ -104,26 +98,26 @@ struct Repeat
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_intervalEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum
+	Association sub_directionEnum,											\
+	Association sub_intervalEnum,											\
+	Association sub_imageEnum,											\
+	Association sub_iteratorEnum
 
 
 #define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum
+	Association sub_directionEnum,											\
+	Association sub_imageEnum,											\
+	Association sub_iteratorEnum
 
 
 #define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum
+	Association sub_directionEnum
 
 
 /***********************************************************************************************************************/
@@ -162,7 +156,7 @@ struct Repeat
 
 #define ADV_TYPE(optimizer)												\
 															\
-	Adverb<LIST<functorEnum, tracerEnum, Connotation::optimizer>, F>
+	Adverb<adv_list<functorEnum, tracerEnum, Connotation::optimizer>, F>
 
 
 /***********************************************************************************************************************/
@@ -170,17 +164,17 @@ struct Repeat
 
 #define SUB_ADJ_FULL													\
 															\
-	Adjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	Adjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>>
 
 
 /***********************************************************************************************************************/

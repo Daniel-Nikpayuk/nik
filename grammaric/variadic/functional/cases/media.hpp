@@ -18,7 +18,7 @@
 template<size_type index, typename if_zero, typename if_one, typename... params>
 struct cases
 {
-	using in = typename structural<nik::semiotic>::template tuple<params...>;
+	using in = tuple<params...>;
 
 	using rtn = typename semiotic::template cases<in, index-2>::rtn;
 };

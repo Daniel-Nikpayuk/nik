@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename L>
+template<typename L, typename L::enum_type x>
 struct isMember
 {
-	static constexpr bool value() { return semiotic::template isMember<x, L>::rtn; }
+	static constexpr bool value() { return semiotic::template isMember<L, x>::rtn; }
 };
 

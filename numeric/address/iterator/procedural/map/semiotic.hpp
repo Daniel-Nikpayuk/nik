@@ -41,75 +41,66 @@
 
 struct Map
 {
-	struct Manner
+	enum struct Manner : size_type
 	{
-		enum : size_type
-		{
-			functor,
-			tracer,
-			optimizer,
+		functor,
+		tracer,
+		optimizer,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-			LIST<Connotation::omit_count, Connotation::apply_count>,	// tracer
-			LIST<Connotation::prototype, Connotation::specialize>		// optimizer
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn, void>;
+	using Selection = tuple
+	<
+		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
+		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
+	>;
 
-	struct SubjectAttribute
+	template<Connotation... params>
+	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn, void>;
+
+	enum struct SubjectAttribute : size_type
 	{
-		enum : size_type
-		{
-			direction,
-			interval,
-			image,
-			iterator,
-		
-			dimension
-		};
-		
-		using Relation = TUPLE
-		<
-			LIST<Association::forward, Association::backward>,						// direction
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-			LIST<Association::mutate, Association::allocate>,						// image
-			LIST<Association::segment, Association::hook, Association::link>				// iterator
-		>;
+		direction,
+		interval,
+		image,
+		iterator,
+	
+		dimension
 	};
+		
+	using SubjectArrangement = tuple
+	<
+		adj_list<Association::forward, Association::backward>,						// direction
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+		adj_list<Association::mutate, Association::allocate>,						// image
+		adj_list<Association::segment, Association::hook, Association::link>				// iterator
+	>;
 
-	template<size_type... params>
-	using subject = Adjective<SORTFILL<SubjectAttribute, params...>::rtn>;
+	template<Association... params>
+	using subject = Adjective<typename sortFill<SubjectArrangement, Association, params...>::rtn>;
 
-	struct ObjectAttribute
+	enum struct ObjectAttribute : size_type
 	{
-		enum : size_type
-		{
-			direction,
-			interval,
-			image,
-			iterator,
-		
-			dimension
-		};
-		
-		using Relation = TUPLE
-		<
-			LIST<Association::forward, Association::backward>,						// direction
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-			LIST<Association::immutate, Association::deallocate>,						// image
-			LIST<Association::segment, Association::hook, Association::link>				// iterator
-		>;
+		direction,
+		interval,
+		image,
+		iterator,
+	
+		dimension
 	};
+		
+	using ObjectArrangement = tuple
+	<
+		adj_list<Association::forward, Association::backward>,						// direction
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+		adj_list<Association::immutate, Association::deallocate>,					// image
+		adj_list<Association::segment, Association::hook, Association::link>				// iterator
+	>;
 
-	template<size_type... params>
-	using object = Adjective<SORTFILL<ObjectAttribute, params...>::rtn, void>;
+	template<Association... params>
+	using object = Adjective<typename sortFill<ObjectArrangement, Association, params...>::rtn, void>;
 };
 
 
@@ -118,8 +109,8 @@ struct Map
 
 #define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
 															\
-	size_type functorEnum,												\
-	size_type tracerEnum,												\
+	Connotation functorEnum,											\
+	Connotation tracerEnum,												\
 	typename F,
 
 
@@ -130,26 +121,26 @@ struct Map
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_intervalEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum,
+	Association sub_directionEnum,											\
+	Association sub_intervalEnum,											\
+	Association sub_imageEnum,											\
+	Association sub_iteratorEnum,
 
 
 #define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum,
+	Association sub_directionEnum,											\
+	Association sub_imageEnum,											\
+	Association sub_iteratorEnum,
 
 
 #define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_directionEnum,
+	Association sub_directionEnum,
 
 
 /***********************************************************************************************************************/
@@ -159,10 +150,10 @@ struct Map
 															\
 	typename ob_pointer,												\
 															\
-	size_type ob_directionEnum,											\
-	size_type ob_intervalEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
+	Association ob_directionEnum,											\
+	Association ob_intervalEnum,											\
+	Association ob_imageEnum,											\
+	Association ob_iteratorEnum,											\
 	typename T
 
 
@@ -170,9 +161,9 @@ struct Map
 															\
 	typename ob_pointer,												\
 															\
-	size_type ob_directionEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
+	Association ob_directionEnum,											\
+	Association ob_imageEnum,											\
+	Association ob_iteratorEnum,											\
 	typename T
 
 
@@ -218,7 +209,7 @@ struct Map
 
 #define ADV_TYPE(optimizer)												\
 															\
-	Adverb<LIST<functorEnum, tracerEnum, Connotation::optimizer>, F>
+	Adverb<adv_list<functorEnum, tracerEnum, Connotation::optimizer>, F>
 
 
 /***********************************************************************************************************************/
@@ -226,17 +217,17 @@ struct Map
 
 #define SUB_ADJ_FULL													\
 															\
-	Adjective<LIST<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	Adjective<LIST<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>>
 
 
 /***********************************************************************************************************************/
@@ -244,17 +235,17 @@ struct Map
 
 #define OB_ADJ_FULL													\
 															\
-	Adjective<LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<adj_list<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_IMAGE(interval, image)											\
 															\
-	Adjective<LIST<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, T>
+	Adjective<adj_list<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, T>
 
 
 /***********************************************************************************************************************/

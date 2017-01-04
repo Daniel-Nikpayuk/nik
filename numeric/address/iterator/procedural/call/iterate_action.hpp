@@ -20,16 +20,16 @@
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_intervalEnum,											\
-	size_type sub_imageEnum,											\
-	size_type sub_iteratorEnum
+	Association sub_intervalEnum,											\
+	Association sub_imageEnum,											\
+	Association sub_iteratorEnum
 
 
 #define SUB_ADJ_PARAMETERS_INTERVAL_ONLY										\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_intervalEnum											\
+	Association sub_intervalEnum											\
 
 
 /***********************************************************************************************************************/
@@ -39,16 +39,16 @@
 															\
 	typename ob_pointer,												\
 															\
-	size_type ob_intervalEnum											\
+	UIntAssociation ob_intervalEnum											\
 
 
 #define OB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
 															\
 	typename ob_pointer,												\
 															\
-	size_type ob_intervalEnum,											\
-	size_type ob_imageEnum,												\
-	size_type ob_iteratorEnum,											\
+	Association ob_intervalEnum,											\
+	Association ob_imageEnum,											\
+	Association ob_iteratorEnum,											\
 	typename T
 
 
@@ -56,7 +56,7 @@
 															\
 	typename ob_pointer,												\
 															\
-	size_type ob_intervalEnum,											\
+	Association ob_intervalEnum,											\
 	typename T
 
 
@@ -66,12 +66,12 @@
 
 #define SUB_ADJ_DIR(direction)												\
 															\
-	Adjective<LIST<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
 
 
 #define SUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
 															\
-	Adjective<LIST<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
+	Adjective<adj_list<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
 
 
 /***********************************************************************************************************************/
@@ -79,24 +79,24 @@
 
 #define OB_UINT_ADJ_DIR(direction)											\
 															\
-	UIntAdjective<LIST<UIntAssociation::direction, ob_intervalEnum>>
+	UIntAdjective<uint_list<UIntAssociation::direction, ob_intervalEnum>>
 
 
 #define OB_ADJ_DIR(direction)												\
 															\
-	Adjective<LIST<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+	Adjective<adj_list<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
 
 
 #define OB_ADJ_DIR_IMG_ITER(direction, image, iterator)									\
 															\
-	Adjective<LIST<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
+	Adjective<adj_list<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define NODE_TYPE	typename structural<nik::semiotic>::template trim<sub_pointer>::node
+#define NODE_TYPE	typename structural<Interface::semiotic>::template trim<sub_pointer>::node
 
 
 /***********************************************************************************************************************/
@@ -272,6 +272,5 @@ static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(bac
 
 
 #undef NODE_TYPE
-
 
 

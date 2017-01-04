@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename L, typename Null = typename L::null>
+template<typename L, typename L::enum_type x, typename Null = typename L::null>
 struct isMember
 {
-	static constexpr bool rtn = (x == L::car) ? true : isMember<x, typename L::cdr>::rtn;
+	static constexpr bool rtn = (x == L::car) ? true : isMember<typename L::cdr, x>::rtn;
 };
 
-template<size_type x, typename Null>
-struct isMember<x, Null, Null>
+template<typename Null, typename Null::enum_type x>
+struct isMember<Null, x, Null>
 {
 	static constexpr bool rtn = false;
 };

@@ -19,7 +19,7 @@
 
 namespace nik
 {
-	constexpr void *null_ptr=0; // use builtin "nullptr"
+	constexpr void *null_ptr=0; // use builtin "nullptr" instead!
 
 	constexpr char endl='\n';
 
@@ -58,21 +58,21 @@ namespace nik
 
 	struct parameter_printer
 	{
-		template<typename size_type, size_type... params> struct unroll;
+		template<typename enum_type, enum_type... params> struct unroll;
 
-		template<typename size_type, size_type current, size_type... params>
-		struct unroll<size_type, current, params...>
+		template<typename enum_type, enum_type current, enum_type... params>
+		struct unroll<enum_type, current, params...>
 		{
 			static void print()
 			{
 				builtin_printer::print(current);
 				builtin_printer::print(' ');
-				unroll<size_type, params...>::print();
+				unroll<enum_type, params...>::print();
 			}
 		};
 
-		template<typename size_type>
-		struct unroll<size_type>
+		template<typename enum_type>
+		struct unroll<enum_type>
 		{
 			static void print()
 			{
@@ -80,10 +80,10 @@ namespace nik
 			}
 		};
 
-		template<typename size_type, size_type... params>
+		template<typename enum_type, enum_type... params>
 		static void print()
 		{
-			unroll<size_type, params...>::print();
+			unroll<enum_type, params...>::print();
 		}
 	};
 

@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<size_type index, typename T>
+template<size_type index, typename Tuple>
 struct cases
 {
-	using rtn = typename cases<index-1, typename T::cdr>::rtn;
+	using rtn = typename cases<index-1, typename Tuple::cdr>::rtn;
 };
 
-template<typename T>
-struct cases<0, T>
+template<typename Tuple>
+struct cases<0, Tuple>
 {
-	using rtn = typename T::car;
+	using rtn = typename Tuple::car;
 };
 

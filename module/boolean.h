@@ -22,23 +22,4 @@
 
 #include"../numeric/word/boolean/structural/media.h"
 
-namespace nik
-{
-	template<typename SizeType>
-	struct semiotic<SizeType, module::boolean>
-	{
-		typedef SizeType size_type;
-
-		using nwbs = numeric::word::boolean::structural::semiotic<size_type>;
-	};
-
-	template<typename SizeType>
-	struct media<SizeType, module::boolean>
-	{
-		typedef SizeType size_type;
-
-		using nwbs = numeric::word::boolean::structural::media<size_type>;
-	};
-}
-
 #endif

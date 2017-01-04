@@ -15,18 +15,25 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
+template<typename enum_type>
+struct compare
+{
+	template<enum_type t>
+	struct lessThanOrEqual
 	{
-		typedef SizeType size_type;
-
-		#include"tuple/media.hpp"
-		#include"list/media.hpp"
-		#include"array/media.hpp"
+		static constexpr bool test(enum_type current)
+		{
+			return (current <= t);
+		}
 	};
 
-}}
+	template<enum_type t>
+	struct greaterThanOrEqual
+	{
+		static constexpr bool test(enum_type current)
+		{
+			return (current >= t);
+		}
+	};
+};
 

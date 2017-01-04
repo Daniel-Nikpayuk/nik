@@ -19,34 +19,38 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<nik::variadic, nik::functional, nik::semiotic, SizeType>
+	struct module<Module::variadic, Orientation::functional, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using control_flow = module<nik::control_flow, orientation_enum, interface_enum, size_type>;
+		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
 
-		template<size_type interface_enum>
-		using structural = module<nik::variadic, nik::structural, interface_enum, size_type>;
+		template<bool t, typename f, typename s>
+		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
-		using media = module<nik::variadic, nik::functional, nik::media, size_type>;
+		// Both:
 
-		#define IF_THEN_ELSE	typename control_flow<nik::functional, nik::media>::template if_then_else
+		#include"isNull/semiotic.hpp"
+		#include"length/semiotic.hpp"
+		#include"catenate/semiotic.hpp"
+		#include"filter/semiotic.hpp"
+
+		// Tuple:
 
 		#include"cases/semiotic.hpp"
 
-		#include"isNull/semiotic.hpp"
+		// List:
+
 		#include"isMember/semiotic.hpp"
-		#include"length/semiotic.hpp"
+		#include"compare/semiotic.hpp"
+		#include"enum_cast/semiotic.hpp"
+
 		#include"at/semiotic.hpp"
 		#include"erase/semiotic.hpp"
-		#include"catenate/semiotic.hpp"
-		#include"filter/semiotic.hpp"
 		#include"sort/semiotic.hpp"
 		#include"fill/semiotic.hpp"
-		#include"sortFill/semiotic.hpp"
 
-		#undef IF_THEN_ELSE
+		#include"sortFill/semiotic.hpp"
 	};
 
 }}

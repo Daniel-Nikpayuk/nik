@@ -26,27 +26,4 @@
 #include"../numeric/word/sint/functional/media.h"
 #include"../numeric/word/sint/procedural/media.h"
 
-namespace nik
-{
-	template<typename SizeType>
-	struct semiotic<SizeType, module::sint>
-	{
-		typedef SizeType size_type;
-
-		using nwss = numeric::word::sint::structural::semiotic<size_type>;
-		using nwsf = numeric::word::sint::functional::semiotic<size_type>;
-		using nwsp = numeric::word::sint::procedural::semiotic<size_type>;
-	};
-
-	template<typename SizeType>
-	struct media<SizeType, module::sint>
-	{
-		typedef SizeType size_type;
-
-		using nwss = numeric::word::sint::structural::media<size_type>;
-		using nwsf = numeric::word::sint::functional::media<size_type>;
-		using nwsp = numeric::word::sint::procedural::media<size_type>;
-	};
-}
-
 #endif

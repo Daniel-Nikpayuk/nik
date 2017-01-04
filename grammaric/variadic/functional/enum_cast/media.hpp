@@ -15,18 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		#include"tuple/media.hpp"
-		#include"list/media.hpp"
-		#include"array/media.hpp"
-	};
-
-}}
+template<typename L, typename L::enum_type x>
+struct enum_cast
+{
+	static constexpr size_type value() { return semiotic::template enum_cast<L, x>::rtn; }
+};
 

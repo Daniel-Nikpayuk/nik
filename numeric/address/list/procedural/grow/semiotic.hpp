@@ -24,41 +24,35 @@
 
 struct Grow
 {
-	struct Manner
+	enum struct Manner : size_type
 	{
-		enum : size_type
-		{
-			fixer,
+		fixer,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Connotation::after, Connotation::before, Connotation::between>		// fixer
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
+	using Selection = tuple
+	<
+		adv_list<Connotation::after, Connotation::before, Connotation::between>		// fixer
+	>;
 
-	struct Attribute
+	template<Connotation... params>
+	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn>;
+
+	enum struct Attribute : size_type
 	{
-		enum : size_type
-		{
-			interval,
+		interval,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
+	using Arrangement = tuple
+	<
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+	>;
+
+	template<Association... params>
+	using noun = Adjective<typename sortFill<Arrangement, Association, params...>::rtn>;
 };
 
 
@@ -109,7 +103,7 @@ struct Grow
 
 #define ADV_TYPE(fixer)													\
 															\
-	Adverb<LIST<Connotation::fixer>>
+	Adverb<adv_list<Connotation::fixer>>
 
 
 /***********************************************************************************************************************/
@@ -117,7 +111,7 @@ struct Grow
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<Association::interval>>
+	Adjective<adj_list<Association::interval>>
 
 
 /***********************************************************************************************************************/
@@ -125,7 +119,7 @@ struct Grow
 
 #define OB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<Association::interval>>
+	Adjective<adj_list<Association::interval>>
 
 
 /***********************************************************************************************************************/

@@ -18,6 +18,6 @@
 template<typename L>
 struct length
 {
-	static constexpr size_type value() { return semiotic::template length<0, L>::rtn; }
+	static constexpr size_type value() { return semiotic::template length<L>::rtn; }
 };
 

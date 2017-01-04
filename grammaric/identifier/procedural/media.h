@@ -19,7 +19,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<nik::identifier, nik::procedural, nik::media, SizeType>
+	struct module<Module::identifier, Orientation::procedural, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 

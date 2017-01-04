@@ -16,9 +16,9 @@
 ************************************************************************************************************************/
 
 
-#define FULL		LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
+#define FULL		adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
 
-#define SEGMENT		LIST<ob_directionEnum, ob_intervalEnum, ob_imageEnum, Association::segment>
+#define SEGMENT		adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, Association::segment>
 
 
 /***********************************************************************************************************************/
@@ -28,10 +28,10 @@ template
 <
 	typename ob_pointer,
 
-	size_type ob_directionEnum,
-	size_type ob_intervalEnum,
-	size_type ob_imageEnum,
-	size_type ob_iteratorEnum,
+	Association ob_directionEnum,
+	Association ob_intervalEnum,
+	Association ob_imageEnum,
+	Association ob_iteratorEnum,
 	typename T
 >
 static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<FULL, T> & ob)
@@ -47,9 +47,9 @@ template
 <
 	typename ob_pointer,
 
-	size_type ob_directionEnum,
-	size_type ob_intervalEnum,
-	size_type ob_imageEnum,
+	Association ob_directionEnum,
+	Association ob_intervalEnum,
+	Association ob_imageEnum,
 	typename T
 >
 static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT, T> & ob)

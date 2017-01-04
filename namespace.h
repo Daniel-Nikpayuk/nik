@@ -21,7 +21,7 @@ namespace nik
 {
 	using global_size_type = size_t;
 
-	enum Module : global_size_type
+	enum struct Module : global_size_type
 	{
 		control_flow,
 		identifier,
@@ -34,33 +34,33 @@ namespace nik
 		iterator,
 		list,
 
-		module // filler
+		dimension // filler
 	};
 
-	enum Orientation : global_size_type
+	enum struct Orientation : global_size_type
 	{
 		structural,
 		functional,
 		procedural,
 
-		orientation // filler
+		dimension // filler
 	};
 
-	enum Interface : global_size_type
+	enum struct Interface : global_size_type
 	{
 		semiotic,
 		media,
 
-		interface // filler
+		dimension // filler
 	};
 
 	namespace grammaric
 	{
 		template
 		<
-			global_size_type module_enum,
-			global_size_type orientation_enum,
-			global_size_type interface_enum,
+			Module module_enum,
+			Orientation orientation_enum,
+			Interface interface_enum,
 
 			typename SizeType = global_size_type
 		>
@@ -68,9 +68,9 @@ namespace nik
 		{
 			static_assert
 			(
-				module_enum != control_flow		||
-				module_enum != identifier		||
-				module_enum != variadic			,
+				module_enum != Module::control_flow	||
+				module_enum != Module::identifier	||
+				module_enum != Module::variadic		,
 		
 				"This module is not yet implemented!"
 			);
@@ -81,9 +81,9 @@ namespace nik
 	{
 		template
 		<
-			global_size_type module_enum,
-			global_size_type orientation_enum,
-			global_size_type interface_enum,
+			Module module_enum,
+			Orientation orientation_enum,
+			Interface interface_enum,
 
 			typename SizeType = global_size_type
 		>
@@ -91,7 +91,7 @@ namespace nik
 		{
 			static_assert
 			(
-				module_enum != iterator			,
+				module_enum != Module::iterator		,
 		
 				"This module is not yet implemented!"
 			);

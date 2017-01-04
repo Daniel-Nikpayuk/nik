@@ -19,18 +19,18 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<nik::iterator, nik::structural, nik::semiotic, SizeType>
+	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
+		template<typename enum_type>
+		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
+
+		template<typename L, size_type i>
+		using at = typename variadic<Orientation::functional, Interface::semiotic>::template at<L, i>;
 
 		#include"adjective/semiotic.hpp"
 
@@ -39,12 +39,6 @@ namespace numeric	{
 		#include"hook/semiotic.hpp"
 		#include"link/semiotic.hpp"
 		#include"trim/semiotic.hpp"
-
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
 	};
 
 }}

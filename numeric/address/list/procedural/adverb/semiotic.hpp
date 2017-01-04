@@ -22,24 +22,21 @@
 */
 
 
-struct Connotation
+enum struct Connotation : size_type
 {
-	enum : size_type
-	{
-		after,
-		before,
-		between,
+	after,
+	before,
+	between,
 
-		append,
-		prepend,
-		impend,
+	append,
+	prepend,
+	impend,
 
-		reject,
-		deject,
-		eject,
+	reject,
+	deject,
+	eject,
 
-		dimension
-	};
+	dimension
 };
 
 
@@ -48,12 +45,46 @@ struct Connotation
 /***********************************************************************************************************************/
 
 
+enum struct Manner : size_type
+{
+	fixer,
+	pender,
+	jector,
+
+	dimension
+};
+
+
+using MannerList = typename parameter<Manner>::template list
+<
+	Manner::fixer,
+	Manner::pender,
+	Manner::jector
+>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<Connotation... params>
+using adv_list = typename parameter<Connotation>::template list<params...>;
+
+template<Manner i>
+using enum_cast = typename variadic<Orientation::functional, Interface::semiotic>::template enum_cast<MannerList, i>;
+
+
+/***********************************************************************************************************************/
+
 template<typename L>
 struct Adverb
 {
 	using parameter_list = L;
 
-	static constexpr size_type fixer_enum	= AT<L, Connotation::fixer	>::rtn;
+	static constexpr size_type fixer_enum	= at<L, enum_cast<Manner::fixer>::rtn	>::rtn;
+	static constexpr size_type pender_enum	= at<L, enum_cast<Manner::pender>::rtn	>::rtn;
+	static constexpr size_type jector_enum	= at<L, enum_cast<Manner::jector>::rtn	>::rtn;
 
 	Adverb() { }
 };

@@ -15,27 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type t>
-struct lessThanOrEqual
-{
-	static constexpr bool test(size_type current)
-	{
-		return (current <= t);
-	}
-};
-
-template<size_type t>
-struct greaterThanOrEqual
-{
-	static constexpr bool test(size_type current)
-	{
-		return (current >= t);
-	}
-};
-
-template<typename predicate, typename in>
+template<typename predicate, typename inL>
 struct filter
 {
-	using rtn = typename semiotic::template filter<predicate, typename in::null, in>::rtn;
+	using rtn = typename semiotic::template filter<predicate, inL>::rtn;
 };
 

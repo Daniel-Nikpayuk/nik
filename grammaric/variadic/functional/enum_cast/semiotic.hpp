@@ -15,18 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename L, typename L::enum_type x, size_type i = 0, typename Null = typename L::null>
+struct enum_cast
+{
+        static constexpr int rtn = (x == L::car) ? i : enum_cast<typename L::cdr, x, i+1>::rtn;
+};
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		#include"tuple/media.hpp"
-		#include"list/media.hpp"
-		#include"array/media.hpp"
-	};
-
-}}
+template<typename Null, typename Null::enum_type x, size_type i>
+struct enum_cast<Null, x, i, Null>
+{
+        static constexpr int rtn = i;
+};
 

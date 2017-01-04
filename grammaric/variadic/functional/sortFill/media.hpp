@@ -20,13 +20,13 @@
 	passed instead of the more specific "Relation" type which is simpler from the user's point of view.
 */
 
-template<typename Field, size_type... params>
+template<typename Field, typename Relation, Relation... params>
 struct sortFill
 {
-	using in = LIST<params...>;
+	using in = typename parameter<Relation>::template list<params...>;
 
 	using sorted = typename semiotic::template quickSort<in>::rtn;
 
-	using rtn = typename semiotic::template fill<typename sorted::null, sorted, typename Field::Relation>::rtn;
+	using rtn = typename semiotic::template fill<sorted, Field>::rtn;
 };
 

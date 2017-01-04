@@ -39,7 +39,7 @@ struct Insert
 		>;
 	};
 
-	template<size_type... params>
+	template<Connotation... params>
 	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
 
 	struct Attribute
@@ -57,7 +57,7 @@ struct Insert
 		>;
 	};
 
-	template<size_type... params>
+	template<Association... params>
 	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
 };
 

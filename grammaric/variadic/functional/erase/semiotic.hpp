@@ -15,23 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<size_type current, size_type index, typename L1, typename L2, typename Null = typename L2::null>
+template<size_type index, typename inL, typename outL= typename inL::null, size_type current = 0, typename Null = typename inL::null>
 struct erase
 {
-	using new_L1 = IF_THEN_ELSE
+	using new_outL = typename if_then_else
 	<
 		(current == index),
-		L1,
-		typename L1::template append<L2::car>
+		outL,
+		typename outL::template append<inL::car>
 
 	>::rtn;
 
-	using rtn = typename erase<current+1, index, new_L1, typename L2::cdr>::rtn;
+	using rtn = typename erase<index, typename inL::cdr, new_outL, current+1>::rtn;
 };
 
-template<size_type current, size_type index, typename L, typename Null>
-struct erase<current, index, L, Null, Null>
+template<size_type index, typename Null, typename outL, size_type current>
+struct erase<index, Null, outL, current, Null>
 {
-	using rtn = L;
+	using rtn = outL;
 };
 

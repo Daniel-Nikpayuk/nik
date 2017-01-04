@@ -19,36 +19,32 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<nik::list, nik::structural, nik::semiotic, SizeType>
+	struct module<Module::list, Orientation::structural, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		template<size_type orientation_enum, size_type interface_enum>
-		using variadic = grammaric::module<nik::variadic, orientation_enum, interface_enum, size_type>;
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
-		using IterStrSem = module<nik::iterator, nik::structural, nik::semiotic, size_type>;
+		template<typename enum_type>
+		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
+
+		template<typename L, size_type i>
+		using at = typename variadic<Orientation::functional, Interface::semiotic>::template at<L, i>;
+
+		//
+
+		using IterStrSem = module<Module::iterator, Orientation::structural, Interface::semiotic, size_type>;
 		using IterAssoc = typename IterStrSem::Association;
 
-		using IterProcSem = module<nik::iterator, nik::procedural, nik::semiotic, size_type>;
+		using IterProcSem = module<Module::iterator, Orientation::procedural, Interface::semiotic, size_type>;
 		using IterConno = typename IterProcSem::Connotation;
-
-		#define TUPLE		typename variadic<nik::structural, nik::semiotic>::template tuple
-		#define LIST		typename variadic<nik::structural, nik::semiotic>::template list
-		#define AT			 variadic<nik::functional, nik::semiotic>::template at
-		#define CASES		typename variadic<nik::functional, nik::media>::template cases
-		#define SORTFILL	typename variadic<nik::functional, nik::media>::template sortFill
 
 		#include"adjective/semiotic.hpp"
 
 		#include"base/semiotic.hpp"
 //		#include"identity/semiotic.hpp"
 //		#include"uint/semiotic.hpp"
-
-		#undef TUPLE
-		#undef LIST
-		#undef AT
-		#undef CASES
-		#undef SORTFILL
 	};
 
 }}

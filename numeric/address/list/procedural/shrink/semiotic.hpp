@@ -24,43 +24,37 @@
 
 struct Shrink
 {
-	struct Manner
+	enum struct Manner : size_type
 	{
-		enum : size_type
-		{
-			fixer,
-			racer,
+		fixer,
+		racer,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Connotation::after, Connotation::before, Connotation::between>,		// fixer
-			LIST<Connotation::mean, Connotation::fast>					// racer
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
+	using Selection = tuple
+	<
+		adv_list<Connotation::after, Connotation::before, Connotation::between>,		// fixer
+		adv_list<Connotation::mean, Connotation::fast>						// racer
+	>;
 
-	struct Attribute
+	template<Connotation... params>
+	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn>;
+
+	enum struct Attribute : size_type
 	{
-		enum : size_type
-		{
-			interval,
+		interval,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
-		>;
+		dimension
 	};
 
-	template<size_type... params>
-	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
+	using Arrangement = tuple
+	<
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+	>;
+
+	template<Association... params>
+	using noun = Adjective<typename sortFill<Arrangement, Association, params...>::rtn>;
 };
 
 
@@ -131,12 +125,12 @@ struct Shrink
 
 #define ADV_FIXER(fixer)												\
 															\
-	Adverb<LIST<Connotation::fixer, racerEnum>>
+	Adverb<adv_list<Connotation::fixer, racerEnum>>
 
 
 #define ADV_RACER(fixer, racer)												\
 															\
-	Adverb<LIST<Connotation::fixer, Connotation::racer>>
+	Adverb<adv_list<Connotation::fixer, Connotation::racer>>
 
 
 /***********************************************************************************************************************/
@@ -144,7 +138,7 @@ struct Shrink
 
 #define ADJ_INTERVAL(interval)												\
 															\
-	Adjective<LIST<Association::interval>>
+	Adjective<adv_list<Association::interval>>
 
 
 /***********************************************************************************************************************/

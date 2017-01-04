@@ -16,8 +16,8 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	LIST<functorEnum, Connotation::omit_count, optimizerEnum>
-#define APPLY	LIST<functorEnum, Connotation::apply_count, optimizerEnum>
+#define OMIT	adv_list<functorEnum, Connotation::omit_count, optimizerEnum>
+#define APPLY	adv_list<functorEnum, Connotation::apply_count, optimizerEnum>
 
 
 /***********************************************************************************************************************/
@@ -25,8 +25,8 @@
 
 template
 <
-	size_type functorEnum,
-	size_type optimizerEnum,
+	Connotation functorEnum,
+	Connotation optimizerEnum,
 	typename F
 >
 static inline void count_action(Adverb<OMIT, F> & ad)
@@ -38,8 +38,8 @@ static inline void count_action(Adverb<OMIT, F> & ad)
 
 template
 <
-	size_type functorEnum,
-	size_type optimizerEnum,
+	Connotation functorEnum,
+	Connotation optimizerEnum,
 	typename F
 >
 static inline void count_action(Adverb<APPLY, F> & ad)

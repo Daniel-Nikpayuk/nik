@@ -19,20 +19,17 @@
 // Adjective Associations:
 
 
-struct Association
+enum struct Association : size_type
 {
-	enum : size_type
-	{
-		forward,
-		backward,
+	forward,
+	backward,
 
-		closing,
-		closed,
-		opening,
-		open,
+	closing,
+	closed,
+	opening,
+	open,
 
-		dimension
-	};
+	dimension
 };
 
 
@@ -48,16 +45,19 @@ struct Association
 */
 
 
-struct Attribute
+enum struct Attribute : size_type
 {
-	enum : size_type
-	{
-		direction,
-		interval,
+	direction,
+	interval,
 
-		dimension
-	};
+	dimension
 };
+
+using AttributeList = typename parameter<Attribute>::template list
+<
+	Attribute::direction,
+	Attribute::interval
+>;
 
 
 /***********************************************************************************************************************/
@@ -65,6 +65,16 @@ struct Attribute
 
 
 template<typename... params> struct Adjective { };
+
+
+/***********************************************************************************************************************/
+
+
+template<Association... params>
+using adj_list = typename parameter<Association>::template list<params...>;
+
+template<Attribute i>
+using enum_cast = typename variadic<Orientation::functional, Interface::semiotic>::template enum_cast<AttributeList, i>;
 
 
 /***********************************************************************************************************************/
@@ -76,8 +86,8 @@ struct Adjective<L>
 {
 	using parameter_list = L;
 
-	static constexpr size_type direction_enum	= AT<L, Attribute::direction	>::rtn;
-	static constexpr size_type interval_enum	= AT<L, Attribute::interval	>::rtn;
+	static constexpr Association direction_enum	= at<L, enum_cast<Attribute::direction	>::rtn	>::rtn;
+	static constexpr Association interval_enum	= at<L, enum_cast<Attribute::interval	>::rtn	>::rtn;
 
 	Adjective() { }
 };
