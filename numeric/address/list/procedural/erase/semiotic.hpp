@@ -24,41 +24,35 @@
 
 struct Erase
 {
-	struct Manner
+	enum struct Manner : size_type
 	{
-		enum : size_type
-		{
-			jector,
+		jector,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Connotation::reject, Connotation::deject, Connotation::eject>		// jector
-		>;
+		dimension
 	};
+
+	using Selection = tuple
+	<
+		adv_list<Connotation::reject, Connotation::deject, Connotation::eject>		// jector
+	>;
 
 	template<Connotation... params>
-	using verb = Adverb<SORTFILL<Manner, params...>::rtn>;
+	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn>;
 
-	struct Attribute
+	enum struct Attribute : size_type
 	{
-		enum : size_type
-		{
-			interval,
+		interval,
 
-			dimension
-		};
-
-		using Relation = TUPLE
-		<
-			LIST<Association::closing, Association::closed, Association::opening, Association::open>	// interval
-		>;
+		dimension
 	};
 
+	using Arrangement = tuple
+	<
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>	// interval
+	>;
+
 	template<Association... params>
-	using noun = Adjective<SORTFILL<Attribute, params...>::rtn>;
+	using noun = Adjective<typename sortFill<Arrangement, Association, params...>::rtn>;
 };
 
 
@@ -84,7 +78,7 @@ struct Erase
 
 #define ADV_JECTOR(jector)												\
 															\
-	Adverb<LIST<Connotation::jector>>
+	Adverb<adv_list<Connotation::jector>>
 
 
 /***********************************************************************************************************************/
@@ -92,7 +86,7 @@ struct Erase
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<LIST<Association::interval>>
+	Adjective<adj_list<Association::interval>>
 
 
 /***********************************************************************************************************************/

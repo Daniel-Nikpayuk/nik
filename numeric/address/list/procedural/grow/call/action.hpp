@@ -61,14 +61,6 @@ struct Grow
 /***********************************************************************************************************************/
 
 
-#define ADV_PARAMETERS_FULL												\
-															\
-	Connotation fixerEnum,
-
-
-/***********************************************************************************************************************/
-
-
 #define SUB_ADJ_PARAMETERS_LIST												\
 															\
 	typename sub_list,
@@ -92,8 +84,6 @@ struct Grow
 
 #define SUB_LIST_OB_POINTER_PARAMETERS											\
 															\
-	ADV_PARAMETERS_FULL												\
-															\
 	SUB_ADJ_PARAMETERS_LIST												\
 															\
 	OB_ADJ_PARAMETERS_POINTER
@@ -104,8 +94,6 @@ struct Grow
 
 #define SUB_POINTER_OB_POINTER_PARAMETERS										\
 															\
-	ADV_PARAMETERS_FULL												\
-															\
 	SUB_ADJ_PARAMETERS_POINTER											\
 															\
 	OB_ADJ_PARAMETERS_POINTER
@@ -115,9 +103,9 @@ struct Grow
 /***********************************************************************************************************************/
 
 
-#define ADV_TYPE													\
+#define ADV_TYPE(fixer)													\
 															\
-	Adverb<adv_list<fixerEnum>>
+	Adverb<adv_list<Connotation::fixer>>
 
 
 /***********************************************************************************************************************/
@@ -147,18 +135,14 @@ struct Grow
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
 
 			ob_pointer in)
 {
-	connect_action(out, in);
-	update_action(out, in);
-/*
 	+in=out.initial;
 	out.initial=in;
-*/
 
 	return in;
 }
@@ -168,16 +152,14 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closed) & sub,
 
 			ob_pointer in)
 {
-/*
 	+in=out.initial;
 	out.initial=in;
-*/
 
 	return in;
 }
@@ -187,7 +169,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(opening) & sub,
 
@@ -204,7 +186,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(open) & sub,
 
@@ -227,7 +209,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
 
@@ -246,7 +228,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
 
@@ -263,7 +245,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
 
@@ -281,7 +263,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
 
@@ -303,7 +285,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closed) & sub,
 
@@ -313,6 +295,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -320,7 +303,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closed) & sub,
 
@@ -330,6 +313,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -337,7 +321,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closed) & sub,
 
@@ -347,6 +331,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -354,7 +339,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(closed) & sub,
 
@@ -364,6 +349,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -373,7 +359,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(opening) & sub,
 
@@ -383,6 +369,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -390,7 +377,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(opening) & sub,
 
@@ -400,6 +387,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -407,7 +395,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(opening) & sub,
 
@@ -417,6 +405,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -424,7 +413,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(opening) & sub,
 
@@ -434,6 +423,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -443,7 +433,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(open) & sub,
 
@@ -453,6 +443,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -460,7 +451,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(open) & sub,
 
@@ -470,6 +461,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -477,7 +469,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(open) & sub,
 
@@ -487,6 +479,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
 
 
@@ -494,7 +487,7 @@ static ob_pointer grow(const ADV_TYPE & ad,
 
 
 template<SUB_LIST_OB_POINTER_PARAMETERS>
-static ob_pointer grow(const ADV_TYPE & ad,
+static inline ob_pointer grow(const ADV_TYPE(before) & ad,
 
 			sub_list & out, const SUB_ADJ_INTERVAL(open) & sub,
 
@@ -504,7 +497,143 @@ static ob_pointer grow(const ADV_TYPE & ad,
 	out.initial=in;
 
 	return in;
+	return out.initial;
 }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/************************************************************************************************************************
+							after
+************************************************************************************************************************/
+
+
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static inline ob_pointer grow(const ADV_TYPE(after) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
+{
+	out.terminal=+out.terminal=in;
+
+	return in;
+	return out.terminal;
+}
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<SUB_LIST_OB_POINTER_PARAMETERS>
+static inline ob_pointer grow(const ADV_TYPE(after) & ad,
+
+			sub_list & out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+{
+	+out.terminal=in;
+	out.terminal=end;
+
+	return end;
+	return out.terminal;
+}
+
+
+/************************************************************************************************************************
+							closing
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							closed
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							opening
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							open
+************************************************************************************************************************/
+
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/************************************************************************************************************************
+							between
+************************************************************************************************************************/
+
+
+/*
+	Slightly awkward grammar, but categorization of this algorithm within the larger design takes precidence.
+*/
+
+template<SUB_POINTER_OB_POINTER_PARAMETERS>
+static inline ob_pointer grow(const ADV_TYPE(between) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in)
+{
+	+in=+out;
+	+out=in;
+
+	return in;
+}
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<SUB_POINTER_OB_POINTER_PARAMETERS>
+static inline ob_pointer grow(const ADV_TYPE(between) & ad,
+
+			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+
+			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+{
+	+end=+out;
+	+out=in;
+
+	return in;
+}
+
+
+/************************************************************************************************************************
+							closing
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							closed
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							opening
+************************************************************************************************************************/
+
+
+
+/************************************************************************************************************************
+							open
+************************************************************************************************************************/
+
 
 
 /***********************************************************************************************************************/
