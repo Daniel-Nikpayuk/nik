@@ -16,8 +16,39 @@
 ************************************************************************************************************************/
 
 
+/*
+struct Count
+{
+	struct Omit { };
+
+	struct Apply
+	{
+		size_type count;
+	};
+};
+
+static inline void count_action(Count::Omit *ad)
+	{ }
+
+template
+<
+	Connotation functorEnum,
+	Connotation optimizerEnum,
+	typename F
+>
+static inline void count_action(Count::APPLY *ad)
+{
+	++ad->count;
+}
+*/
+
+
+/***********************************************************************************************************************/
+
+
 #define OMIT	adv_list<functorEnum, Connotation::omit_count, optimizerEnum>
 #define APPLY	adv_list<functorEnum, Connotation::apply_count, optimizerEnum>
+
 
 
 /***********************************************************************************************************************/
