@@ -103,11 +103,20 @@ class node_pointer
 		typedef void_ptr* void_ptr_ptr;
 
 			// an array of unknown types.
-		void_ptr_ptr current;
+		void_ptr_ptr initial;
+		void_ptr_ptr terminal;
 	public:
 		node_pointer() { }
-		node_pointer(node_ptr p) { current=(void_ptr_ptr) p; }
-		node_pointer(const node_pointer & p) { current=p.current; }
+		node_pointer(node_ptr i, node_ptr t)
+		{
+			initial=(void_ptr_ptr) i;
+			terminal=(void_ptr_ptr) t;
+		}
+		node_pointer(const node_pointer & p)
+		{
+			initial=p.initial;
+			terminal=p.terminal;
+		}
 		~node_pointer() { }
 /*
 	Needed for delete conversion.
@@ -118,44 +127,47 @@ class node_pointer
 	Needed for loop condition testing "while (node_pointer)".
 */
 		operator bool () const
-			{ return current; }
+			{ return initial != terminal; }
 
 		bool operator == (const node_pointer & p) const
-			{ return (current == p.current); }
+			{ return (initial == p.initial && terminal == p.terminal); }
 
 		bool operator != (const node_pointer & p) const
-			{ return (current != p.current); }
+			{ return (initial != p.initial || terminal != p.terminal); }
 
 		static void operator delete (void_ptr p)
-			{ delete [] ((node_pointer_ptr) p)->current; }
+		{
+			delete [] ((node_pointer_ptr) p)->initial;
+			delete [] ((node_pointer_ptr) p)->terminal;
+		}
 
 		value_type_ref operator * () const
-			{ return (value_type_ref) current[value]; }
+			{ return (value_type_ref) initial[value]; }
 
-		value_type_ptr operator -> () const
-			{ return & (value_type_ref) current[value]; }
+		value_type_ref operator ~ () const
+			{ return (value_type_ref) terminal[value]; }
 
-		node_pointer_ref operator + () const
-			{ return (node_pointer_ref) current[next]; }
+		node_iterator_ref operator + () const
+			{ return terminal; }
 
 		node_pointer_ref operator ++ ()
 		{
-			current=((node_pointer_ref) current[next]).current;
+			initial=((node_pointer_ref) initial[next]).initial;
 			return *this;
 		}
 
 		node_pointer operator ++ (int)
 		{
-			node_pointer out(*this);
-			current=((node_pointer_ref) current[next]).current;
-			return out;
+			terminal=((node_pointer_ref) terminal[next]).terminal;
+			return *this;
 		}
 
 		node_pointer_ref operator += (size_type n)
 		{
 			while (n)
 			{
-				current=((node_pointer_ref) current[next]).current;
+				initial=((node_pointer_ref) initial[next]).initial;
+				terminal=((node_pointer_ref) terminal[next]).terminal;
 				--n;
 			}
 
@@ -167,34 +179,35 @@ class node_pointer
 			node_pointer out(*this);
 			while (n)
 			{
-				out.current=((node_pointer_ref) out.current[next]).current;
+				out.initial=((node_pointer_ref) out.initial[next]).initial;
+				out.terminal=((node_pointer_ref) out.terminal[next]).terminal;
 				--n;
 			}
 
 			return out;
 		}
 
-		node_pointer_ref operator - () const
-			{ return (node_pointer_ref) current[previous]; }
+		node_iterator_ref operator - () const
+			{ return initial; }
 
 		node_pointer_ref operator -- ()
 		{
-			current=((node_pointer_ref) current[previous]).current;
+			initial=((node_pointer_ref) initial[previous]).initial;
 			return *this;
 		}
 
 		node_pointer operator -- (int)
 		{
-			node_pointer out(*this);
-			current=((node_pointer_ref) current[previous]).current;
-			return out;
+			terminal=((node_pointer_ref) terminal[previous]).terminal;
+			return *this;
 		}
 
 		node_pointer_ref operator -= (size_type n)
 		{
 			while (n)
 			{
-				current=((node_pointer_ref) current[previous]).current;
+				initial=((node_pointer_ref) initial[previous]).initial;
+				terminal=((node_pointer_ref) terminal[previous]).terminal;
 				--n;
 			}
 
@@ -206,23 +219,12 @@ class node_pointer
 			node_pointer out(*this);
 			while (n)
 			{
-				out.current=((node_pointer_ref) out.current[previous]).current;
+				out.initial=((node_pointer_ref) out.initial[previous]).initial;
+				out.terminal=((node_pointer_ref) out.terminal[previous]).terminal;
 				--n;
 			}
 
 			return out;
-		}
-
-		size_type operator - (node_pointer p) const
-		{
-			size_type n=0;
-			while (p.current != current)
-			{
-				p.current=((node_pointer_ref) p.current[next]).current;
-				++n;
-			}
-
-			return n;
 		}
 };
 
@@ -251,12 +253,25 @@ class const_node_pointer
 		typedef void_ptr* void_ptr_ptr;
 
 			// an array of unknown types.
-		void_ptr_ptr current;
+		void_ptr_ptr initial;
+		void_ptr_ptr terminal;
 	public:
 		const_node_pointer() { }
-		const_node_pointer(const_node_ptr p) { current=(void_ptr_ptr) p; }
-		const_node_pointer(const node_pointer<T, N> & p) { current=p.current; }
-		const_node_pointer(const const_node_pointer & p) { current=p.current; }
+		const_node_pointer(const_node_ptr i, const_node_ptr t)
+		{
+			initial=(void_ptr_ptr) i;
+			terminal=(void_ptr_ptr) t;
+		}
+		const_node_pointer(const node_pointer<T, N> & p)
+		{
+			initial=p.initial;
+			terminal=p.terminal;
+		}
+		const_node_pointer(const const_node_pointer & p)
+		{
+			initial=p.initial;
+			terminal=p.terminal;
+		}
 		~const_node_pointer() { }
 /*
 	Needed for delete conversion.
@@ -267,44 +282,47 @@ class const_node_pointer
 	Needed for loop condition testing "while (node_pointer)".
 */
 		operator bool () const
-			{ return current; }
+			{ return initial != terminal; }
 
 		bool operator == (const const_node_pointer & p) const
-			{ return (current == p.current); }
+			{ return (initial == p.initial && terminal == p.terminal); }
 
 		bool operator != (const const_node_pointer & p) const
-			{ return (current != p.current); }
+			{ return (initial != p.initial || terminal != p.terminal); }
 
 		static void operator delete (void_ptr p)
-			{ delete [] ((const_node_pointer_ptr) p)->current; }
+		{
+			delete [] ((node_pointer_ptr) p)->initial;
+			delete [] ((node_pointer_ptr) p)->terminal;
+		}
 
 		value_type_ref operator * () const
-			{ return (value_type_ref) current[value]; }
+			{ return (value_type_ref) initial[value]; }
 
-		value_type_ptr operator -> () const
-			{ return & (value_type_ref) current[value]; }
+		value_type_ref operator ~ () const
+			{ return (value_type_ref) terminal[value]; }
 
-		const_node_pointer_ref operator + () const
-			{ return (const_node_pointer_ref) current[next]; }
+		const_node_iterator_ref operator + () const
+			{ return terminal; }
 
 		const_node_pointer_ref operator ++ ()
 		{
-			current=((const_node_pointer_ref) current[next]).current;
+			initial=((const_node_pointer_ref) initial[next]).initial;
 			return *this;
 		}
 
 		const_node_pointer operator ++ (int)
 		{
-			const_node_pointer out(*this);
-			current=((const_node_pointer_ref) current[next]).current;
-			return out;
+			terminal=((const_node_pointer_ref) terminal[next]).terminal;
+			return *this;
 		}
 
 		const_node_pointer_ref operator += (size_type n)
 		{
 			while (n)
 			{
-				current=((const_node_pointer_ref) current[next]).current;
+				initial=((const_node_pointer_ref) initial[next]).initial;
+				terminal=((const_node_pointer_ref) terminal[next]).terminal;
 				--n;
 			}
 
@@ -316,34 +334,35 @@ class const_node_pointer
 			const_node_pointer out(*this);
 			while (n)
 			{
-				out.current=((const_node_pointer_ref) out.current[next]).current;
+				out.initial=((const_node_pointer_ref) out.initial[next]).initial;
+				out.terminal=((const_node_pointer_ref) out.terminal[next]).terminal;
 				--n;
 			}
 
 			return out;
 		}
 
-		const_node_pointer_ref operator - () const
-			{ return (const_node_pointer_ref) current[previous]; }
+		const_node_iterator_ref operator - () const
+			{ return initial; }
 
 		const_node_pointer_ref operator -- ()
 		{
-			current=((const_node_pointer_ref) current[previous]).current;
+			initial=((const_node_pointer_ref) initial[previous]).initial;
 			return *this;
 		}
 
 		const_node_pointer operator -- (int)
 		{
-			const_node_pointer out(*this);
-			current=((const_node_pointer_ref) current[previous]).current;
-			return out;
+			terminal=((const_node_pointer_ref) terminal[previous]).terminal;
+			return *this;
 		}
 
 		const_node_pointer_ref operator -= (size_type n)
 		{
 			while (n)
 			{
-				current=((const_node_pointer_ref) current[previous]).current;
+				initial=((const_node_pointer_ref) initial[previous]).initial;
+				terminal=((const_node_pointer_ref) terminal[previous]).terminal;
 				--n;
 			}
 
@@ -355,23 +374,12 @@ class const_node_pointer
 			const_node_pointer out(*this);
 			while (n)
 			{
-				out.current=((const_node_pointer_ref) out.current[previous]).current;
+				out.initial=((const_node_pointer_ref) out.initial[previous]).initial;
+				out.terminal=((const_node_pointer_ref) out.terminal[previous]).terminal;
 				--n;
 			}
 
 			return out;
-		}
-
-		size_type operator - (const_node_pointer p) const
-		{
-			size_type n=0;
-			while (p.current != current)
-			{
-				p.current=((const_node_pointer_ref) p.current[next]).current;
-				++n;
-			}
-
-			return n;
 		}
 };
 

@@ -1,0 +1,120 @@
+<!--Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation-->
+<html>
+  <head>
+    <title>Nik - </title>
+  </head>
+  <body>
+
+It's tempting to pass to many of these functions "separators" as arguments? Is it a good idea or not?
+
+Associations can be grouped by Attribute, then ordered by Arrangement.
+
+Connotations can be grouped by Manner, then ordered by Selection.
+
+One might question whether it's warranted to have zippers and other procedures
+which act recursively on these iterator types, because the whole point of lists and chains and vectors
+is to formalize such recursive pointers as types, but the need for these procedures here
+becomes clear once you consider zipping over subpointers (not the initial or terminal values but segments
+in between).
+
+Regarding monoidic style operators, keep in mind there are structural and procedural varieties.
+The structural varieties connect pointer structures, while the procedural varieties connect zippers
+that act on them.
+
+As for structural, for semiotic primitives, there are four varieties:
+
+...] | [...
+...) | [...
+...] | (...
+...) | (...
+
+The first being a clean and ideal catenation, the others require a left or right "pop" or both.
+
+As for procedural, there are 16 varieties:
+
+compose:
+
+[ ]∘( ]=[ ]
+[ ]∘( )=[ )
+[ )∘[ ]=[ ]
+[ )∘[ )=[ )
+( ]∘( ]=( ]
+( ]∘( )=( )
+( )∘[ ]=( ]
+( )∘[ )=( )
+
+join:
+
+[ ]⋄[ ]=[ ]
+[ ]⋄[ )=[ )
+( ]⋄[ ]=( ]
+( ]⋄[ )=( )
+
+bind:
+
+[ )⋆( ]=[ ]
+[ )⋆( )=[ )
+( )⋆( ]=( ]
+( )⋆( )=( )
+
+Keep in mind regarding composition, instead of creating actual methods to compose our zippers, the zippers
+themselves have been designed with user-friendly interface for easy composition. Also, the above rules
+are minimalistic and abstract out the fact that the composed zippers may themselves be using differing atomic
+operators and that's alright. In practice I have yet to decide if "join" and "bind" are even useful,
+though if they are they'll likely be in the media space (along with an extra safe version of compose).
+
+Componentwise?
+
+Prototypical
+
+*Functional* iterators are functional in the sense that they have no side effects. They are methods on the iterators themselves.
+Every other variety of iterator (not classified as functional) comes with side effects (*effective*) on the dereference values
+of these iterators.
+
+*Overload* iterators are the grammatically simplest variety of effective iterators.
+
+There's a clear classification for "pure" or truly generic iterators and fuzzier iterator concepts: For example generic *list*
+methods are presented here, but you could argue that lists manipulation methods could be classified under lists not iterators,
+or that there's no clear hierarchy of type between the two. Fundamentally though, lists as memory are navigated by iterators,
+and so are a form of iterator memory. Thus it's not unreasonable to privilege iterators over lists or vectors.
+
+*no_return / with_return* is distinguished from *no_break / with_break* on account that a return is given inside the loop itself,
+which potentially breaks the loop. In such cases, the loop-comparison iterator (in != end) is returned instead of the default *out*.
+The reason for this is when there is no such loop breaking, the *in* iterator will equal *end* upon completion, and there is no
+need for a return.
+
+Iterators are prefixed with:
+
++R: Read
++W: Write
++RW: Read/write
++E: End.
+
+WIterators are assumed safe for modification.
+In practice this means providing a deep copy if necessary when passing const references as input.
+
+Ordering policy for function arguments:
+
+These templated functions are meant not only to be generic extensions of the existing implementation grammar,
+but for greatest use, they are also meant to be composable with each other. Thus we privilege composability.
+Keep in mind though the semiotics here are regarding *iterators* and so in order for them to be composable
+the return value must be the primary iterator of interest. I've already decided to maintain "no\_return"
+as well as "with\_return" versions for each function, and as such given the nature of C++ template deduction,
+it is best to present this primary iterator of interest as the first argument (for the sake of the no\_return version)
+as this way its type can be declared as a reference when necessary (without having to declare other types).
+Such a policy supports the privileging of composability as it reduces grammar declarations for the user.
+
+There is a slight twist though. Within the arithmetic classes, there is notably a "carry" value which for composability
+purposes should preceed the primary iterator.
+
+Finally, any read only iterators or constants should come after, as their types will not likely need to be declared
+explicitly.
+
+Policy also needs to be set regarding iterator intervals [in, end) related to iterator types: bidirectional, random\_access.
+For example with bidirectional, you might have a forward iterator in1--end1 as well as a backward iterator in2--end2.
+What order do you present these as function arguments? If for example (in1, end1, end2, in2), then this implicitly privileges
+forward iteration. This lowers entropy in general and as such it is better to privilege (initial, terminal) regardless of
+iterator direction. By extension, if you have any inbetween iterator values, they should be ordered accordingly.
+
+  </body>
+</html>
