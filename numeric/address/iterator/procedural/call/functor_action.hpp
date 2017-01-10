@@ -16,8 +16,8 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	adv_list<Connotation::omit_functor, tracerEnum, optimizerEnum>
-#define APPLY	adv_list<Connotation::apply_functor, tracerEnum, optimizerEnum>
+#define OMIT	adv_list<Connotation::omit_functor>
+#define APPLY	adv_list<Connotation::apply_functor>
 
 
 /***********************************************************************************************************************/
@@ -25,12 +25,9 @@
 
 template
 <
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
-
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer p)
+static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer p)
 	{ }
 
 
@@ -39,14 +36,11 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer p)
 
 template
 <
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
-
 	typename sub_pointer,
 	typename ob_pointer,
 	typename L
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
+static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
 {
 	*out = in;
 }
@@ -57,15 +51,12 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out
 
 template
 <
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
-
 	typename sub_pointer,
 	typename ob_pointer,
 	typename L,
 	typename T
 >
-static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
+static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
 {
 	*out = *in;
 }
@@ -77,13 +68,10 @@ static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out
 
 template
 <
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
 	typename F,
-
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
+static inline void functor_action(const FunctorAdverb<APPLY, F> & ad, sub_pointer p)
 {
 	ad.functor(p);
 }
@@ -92,37 +80,19 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
 /***********************************************************************************************************************/
 
 
-template
-<
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
-	typename F,
-
-	typename sub_pointer,
-	typename ob_pointer,
-	typename L
->
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
-{
-	ad.functor(out, in);
-}
-
-
-/***********************************************************************************************************************/
+/*
+	Adjective == UIntAdjective<L> || Adjective<L, T>
+*/
 
 
 template
 <
-	Connotation tracerEnum,
-	Connotation optimizerEnum,
 	typename F,
-
 	typename sub_pointer,
 	typename ob_pointer,
-	typename L,
-	typename T
+	typename Adjective
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
+static inline void functor_action(const FunctorAdverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
 {
 	ad.functor(out, in);
 }

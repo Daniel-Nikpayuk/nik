@@ -43,14 +43,54 @@ enum struct Connotation : size_type
 /***********************************************************************************************************************/
 
 
-template<typename L, typename F = void> struct Adverb { };
+template<Connotation... params>
+using adv_list = typename parameter<Connotation>::template list<params...>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	default: omit_functor
+*/
+
+template<typename L, typename F> struct FunctorAdverb { };
 
 
 /***********************************************************************************************************************/
 
 
-template<Connotation... params>
-using adv_list = typename parameter<Connotation>::template list<params...>;
+template<typename F>
+struct FunctorAdverb<adv_list<Connotation::apply_functor>, F>
+{
+	F functor;
+
+	FunctorAdverb(const F & f) : functor(f) { }
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	default: omit_count
+*/
+
+template<typename L, typename Filler = void> struct CountAdverb { };
+
+
+/***********************************************************************************************************************/
+
+
+template<typename Filler>
+struct CountAdverb<adv_list<Connotation::apply_count>, Filler> { size_type count; };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 template<Connotation optimizerEnum>
 using OMIT_OMIT = adv_list<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>;
@@ -68,8 +108,21 @@ using APPLY_APPLY = adv_list<Connotation::apply_functor, Connotation::apply_coun
 /***********************************************************************************************************************/
 
 
+/*
+	default: omit_functor, omit_count
+*/
+
+
+template<typename L, typename F = void>
+struct Adverb { static_assert(true, "this variant is not implemented."); };
+
+
+/***********************************************************************************************************************/
+
+
 template<Connotation optimizerEnum, typename F>
-struct Adverb<APPLY_OMIT<optimizerEnum>, F>
+struct Adverb<APPLY_OMIT<optimizerEnum>, F> :	public FunctorAdverb< adv_list<Connotation::apply_functor>, F>,
+						public CountAdverb< adv_list<Connotation::omit_count> >
 {
 	using parameter_list = APPLY_OMIT<optimizerEnum>;
 
@@ -77,14 +130,13 @@ struct Adverb<APPLY_OMIT<optimizerEnum>, F>
 	static constexpr Connotation tracer_enum		= Connotation::omit_count;
 	static constexpr Connotation optimizer_enum		= optimizerEnum;
 
-	F functor;
-
-	Adverb(const F & f) : functor(f) { }
+	Adverb(const F & f) : FunctorAdverb< adv_list<Connotation::apply_functor>, F>(f) { }
 };
 
 
 template<Connotation optimizerEnum>
-struct Adverb<OMIT_OMIT<optimizerEnum>, void>
+struct Adverb<OMIT_OMIT<optimizerEnum>, void> :	public FunctorAdverb< adv_list<Connotation::omit_functor>, void>,
+						public CountAdverb< adv_list<Connotation::omit_count> >
 {
 	using parameter_list = OMIT_OMIT<optimizerEnum>;
 
@@ -95,9 +147,9 @@ struct Adverb<OMIT_OMIT<optimizerEnum>, void>
 //	Type coersion:
 
 	template<typename F>
-	static Adverb<APPLY_OMIT<optimizerEnum>, F> as(const F & f)
+	static Adverb<APPLY_OMIT<optimizer_enum>, F> as(const F & f)
 	{
-		return Adverb<APPLY_OMIT<optimizerEnum>, F>(f);
+		return Adverb<APPLY_OMIT<optimizer_enum>, F>(f);
 	}
 };
 
@@ -106,7 +158,8 @@ struct Adverb<OMIT_OMIT<optimizerEnum>, void>
 
 
 template<Connotation optimizerEnum, typename F>
-struct Adverb<APPLY_APPLY<optimizerEnum>, F>
+struct Adverb<APPLY_APPLY<optimizerEnum>, F> :	public FunctorAdverb< adv_list<Connotation::apply_functor>, F>,
+						public CountAdverb< adv_list<Connotation::apply_count> >
 {
 	using parameter_list = APPLY_APPLY<optimizerEnum>;
 
@@ -114,15 +167,14 @@ struct Adverb<APPLY_APPLY<optimizerEnum>, F>
 	static constexpr Connotation tracer_enum		= Connotation::apply_count;
 	static constexpr Connotation optimizer_enum		= optimizerEnum;
 
-	F functor;
-	size_type count;
-
-	Adverb(const F & f, size_type c) : functor(f), count(c) { }
+	Adverb(const F & f, size_type c) :	FunctorAdverb< adv_list<Connotation::apply_functor>, F>(f),
+						CountAdverb< adv_list<Connotation::apply_count> >::count(c) { }
 };
 
 
 template<Connotation optimizerEnum>
-struct Adverb<OMIT_APPLY<optimizerEnum>, void>
+struct Adverb<OMIT_APPLY<optimizerEnum>, void> :	public FunctorAdverb< adv_list<Connotation::omit_functor>, void>,
+							public CountAdverb< adv_list<Connotation::apply_count> >
 {
 	using parameter_list = OMIT_APPLY<optimizerEnum>;
 

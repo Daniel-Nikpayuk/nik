@@ -59,6 +59,9 @@ namespace numeric	{
 		template<Association... params>
 		using adj_list = typename structural<Interface::semiotic>::template adj_list<params...>;
 
+		template<typename L, typename Filler = void>
+		using PeekAdjective = typename structural<Interface::semiotic>::template PeekAdjective<L, Filler>;
+
 		template<typename... params>
 		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;
 

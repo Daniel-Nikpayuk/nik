@@ -84,16 +84,30 @@ using AttributeList = typename parameter<Attribute>::template list
 /***********************************************************************************************************************/
 
 
-template<typename... params> struct Adjective { };
-
-
-/***********************************************************************************************************************/
-
 template<Association... params>
 using adj_list = typename parameter<Association>::template list<params...>;
 
 template<Attribute i>
 using enum_cast = typename variadic<Orientation::functional, Interface::semiotic>::template enum_cast<AttributeList, i>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	default: !segment
+*/
+
+
+template<typename L, typename Filler = void> struct PeekAdjective { };
+
+template<typename Filler> struct PeekAdjective<adj_list<Association::segment>, Filler> { };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 template<Association directionEnum, Association intervalEnum>
 using ALLOCATE_SEGMENT = adj_list<directionEnum, intervalEnum, Association::allocate, Association::segment>;
@@ -103,11 +117,18 @@ using DEALLOCATE_SEGMENT = adj_list<directionEnum, intervalEnum, Association::de
 
 
 /***********************************************************************************************************************/
+
+
+template<typename... params>
+struct Adjective { static_assert(true, "this variant is not implemented."); };
+
+
 /***********************************************************************************************************************/
 
 
 template<Association directionEnum, Association intervalEnum>
-struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> >
+struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > :
+									public PeekAdjective< adj_list<Association::segment> >
 {
 	using parameter_list = ALLOCATE_SEGMENT<directionEnum, intervalEnum>;
 
@@ -124,7 +145,8 @@ struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> >
 
 
 template<Association directionEnum, Association intervalEnum, typename T>
-struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T>
+struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T> :
+									public PeekAdjective< adj_list<Association::segment> >
 {
 	using parameter_list = DEALLOCATE_SEGMENT<directionEnum, intervalEnum>;
 
@@ -140,7 +162,8 @@ struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T>
 
 
 template<typename L>
-struct Adjective<L>
+struct Adjective<L> :
+			public PeekAdjective< adj_list< at<L, enum_cast<Attribute::iterator>::rtn >::rtn >>
 {
 	using parameter_list = L;
 
