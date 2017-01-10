@@ -20,7 +20,24 @@
 	Adjective Associations:
 
 				Strongly typed for improved type checking.
+
+				Parameter pack being "typename..." requires adj_lists
+				as enums themselves don't count as typenames.
 */
+
+
+enum struct Dispatch : size_type
+{
+	Default,
+
+	AllocateSegment,
+	Forward,
+	Backward,
+
+	DeallocateSegment,
+
+	Deallocate
+};
 
 
 enum struct Association : size_type
@@ -84,11 +101,50 @@ using AttributeList = typename parameter<Attribute>::template list
 /***********************************************************************************************************************/
 
 
+template<Dispatch... params>
+using dis_list = typename parameter<Dispatch>::template list<params...>;
+
 template<Association... params>
 using adj_list = typename parameter<Association>::template list<params...>;
 
 template<Attribute i>
 using enum_cast = typename variadic<Orientation::functional, Interface::semiotic>::template enum_cast<AttributeList, i>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename... params>
+struct MemoryAdjective { static_assert(true, "this variant is not implemented."); };
+
+
+/*
+	default:
+*/
+
+template<typename Filler>
+struct MemoryAdjective< dis_list<Dispatch::Default>, Filler> { };
+
+template<Dispatch direction>
+struct MemoryAdjective< dis_list<Dispatch::AllocateSegment, direction> >
+{
+	size_type length;
+	size_type offset;
+
+	MemoryAdjective(size_type l, size_type o) : length(l), offset(o) { }
+};
+
+template<typename T>
+struct MemoryAdjective< dis_list<Dispatch::DeallocateSegment>, T>
+{
+	T *origin;
+
+	MemoryAdjective(T *o) : origin(o) { }
+};
+
+template<typename Filler>
+struct MemoryAdjective< dis_list<Dispatch::Deallocate>, Filler> { };
 
 
 /***********************************************************************************************************************/
@@ -128,7 +184,13 @@ struct Adjective { static_assert(true, "this variant is not implemented."); };
 
 template<Association directionEnum, Association intervalEnum>
 struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > :
-									public PeekAdjective< adj_list<Association::segment> >
+
+		public MemoryAdjective<dis_list<
+
+			Dispatch::AllocateSegment,
+			(directionEnum == Association::forward) ? Dispatch::Forward : Dispatch::Backward
+		>>,
+		public PeekAdjective< adj_list<Association::segment> >
 {
 	using parameter_list = ALLOCATE_SEGMENT<directionEnum, intervalEnum>;
 
@@ -137,16 +199,20 @@ struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > :
 	static constexpr Association image_enum		= Association::allocate;
 	static constexpr Association iterator_enum	= Association::segment;
 
-	size_type length;
-	size_type offset;
+	Adjective(size_type l, size_type o = 0) : MemoryAdjective<dis_list<
 
-	Adjective(size_type l, size_type o = 0) : length(l), offset(o) { }
+		Dispatch::AllocateSegment,
+		(directionEnum == Association::forward) ? Dispatch::Forward : Dispatch::Backward
+
+	>>(l, o) { }
 };
 
 
 template<Association directionEnum, Association intervalEnum, typename T>
 struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T> :
-									public PeekAdjective< adj_list<Association::segment> >
+
+		public MemoryAdjective< dis_list<Dispatch::DeallocateSegment>, T>,
+		public PeekAdjective< adj_list<Association::segment> >
 {
 	using parameter_list = DEALLOCATE_SEGMENT<directionEnum, intervalEnum>;
 
@@ -155,15 +221,16 @@ struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T> :
 	static constexpr Association image_enum		= Association::deallocate;
 	static constexpr Association iterator_enum	= Association::segment;
 
-	T *origin;
-
-	Adjective(T *o) : origin(o) { }
+	Adjective(T *o) : MemoryAdjective< dis_list<Dispatch::DeallocateSegment>, T>(o) { }
 };
 
 
 template<typename L>
 struct Adjective<L> :
-			public PeekAdjective< adj_list< at<L, enum_cast<Attribute::iterator>::rtn >::rtn >>
+
+		public MemoryAdjective< dis_list<Dispatch::Default> >,
+		public MemoryAdjective< dis_list<Dispatch::Deallocate> >,
+		public PeekAdjective< adj_list< at<L, enum_cast<Attribute::iterator>::rtn >::rtn >>
 {
 	using parameter_list = L;
 
@@ -187,10 +254,5 @@ struct Adjective<L> :
 		return Adjective<DEALLOCATE_SEGMENT<direction_enum, interval_enum>, T>(o);
 	}
 };
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
