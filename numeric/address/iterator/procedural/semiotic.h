@@ -54,20 +54,12 @@ namespace numeric	{
 		template<Interface interface_enum>
 		using structural = module<Module::iterator, Orientation::structural, interface_enum, size_type>;
 
-//		using MemoryAssociation = typename structural<Interface::semiotic>::MemoryAssociation;
-
 		using Association = typename structural<Interface::semiotic>::Association;
 
 		template<Association... params>
 		using adj_list = typename structural<Interface::semiotic>::template adj_list<params...>;
 
-/*
-		template<MemoryAssociation memory_assoc, typename T = void>
-		using MemoryAdjective = typename structural<Interface::semiotic>::template MemoryAdjective<memory_assoc, T>;
-*/
-
-		template<typename L, typename Filler = void>
-		using PeekAdjective = typename structural<Interface::semiotic>::template PeekAdjective<L, Filler>;
+		using null_list = adj_list<>;
 
 		template<typename... params>
 		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;

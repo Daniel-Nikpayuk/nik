@@ -23,15 +23,11 @@
 /***********************************************************************************************************************/
 
 
-#define SUB_FULL		adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>
+#define ALLOCATE_SEGMENT	adj_list<sub_directionEnum, Association::allocate, Association::segment>
 
-#define OB_FULL			adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>
+#define DEALLOCATE		adj_list<Association::deallocate>
 
-#define ALLOCATE_SEGMENT	adj_list<sub_directionEnum, sub_intervalEnum, Association::allocate, Association::segment>
-
-#define DEALLOCATE		adj_list<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>
-
-#define DEALLOCATE_SEGMENT	adj_list<directionEnum, intervalEnum, Association::deallocate, Association::segment>
+#define DEALLOCATE_SEGMENT	adj_list<Association::deallocate, Association::segment>
 
 
 /***********************************************************************************************************************/
@@ -45,66 +41,37 @@
 /***********************************************************************************************************************/
 
 
-template
-<
-	Association sub_directionEnum,
-	Association sub_intervalEnum,
-	Association sub_imageEnum,
-	Association sub_iteratorEnum
->
-static inline void memory_action(const Adjective<SUB_FULL> & sub)
+static inline void memory_action(const Adjective<null_list> & adj)
 	{ }
 
 
 /***********************************************************************************************************************/
 
 
-template
-<
-	typename sub_pointer,
-
-	Association sub_directionEnum,
-	Association sub_intervalEnum,
-	Association sub_imageEnum,
-	Association sub_iteratorEnum
->
-static inline void memory_action(const sub_pointer & out, const Adjective<SUB_FULL> & sub)
-	{ }
-
-
-/***********************************************************************************************************************/
-
+// "adj" needs to be a reference value.
 
 template
 <
-	typename ob_pointer,
-
-	Association ob_directionEnum,
-	Association ob_intervalEnum,
-	Association ob_imageEnum,
-	Association ob_iteratorEnum,
 	typename T
 >
-static inline void memory_action(const ob_pointer & in, const Adjective<OB_FULL, T> & ob)
-	{ }
+static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
+{
+	delete [] adj.origin;
+}
 
 
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 template
 <
-	Association ob_directionEnum,
-	Association ob_intervalEnum,
-	Association ob_imageEnum,
-	Association ob_iteratorEnum,
-	typename T
+	typename pointer
 >
-static inline void memory_action(const Adjective<OB_FULL, T> & ob)
+static inline void memory_action(const pointer & p, const Adjective<null_list> & adj)
 	{ }
 
 
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -114,8 +81,7 @@ template
 <
 	typename sub_pointer,
 
-	Association sub_directionEnum,
-	Association sub_intervalEnum
+	Association sub_directionEnum
 >
 static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<ALLOCATE_SEGMENT> & sub)
 {
@@ -126,38 +92,15 @@ static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<AL
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-// "adj" needs to be a reference value.
-
-template
-<
-	Association directionEnum,
-	Association intervalEnum,
-	typename T
->
-static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
-{
-	delete [] adj.origin;
-}
-
-
-/***********************************************************************************************************************/
 
 
 // "p" needs to be a reference value.
 
 template
 <
-	typename pointer,
-
-	Association directionEnum,
-	Association intervalEnum,
-	Association iteratorEnum,
-	typename T
+	typename pointer
 >
-static inline void memory_action(pointer & p, const Adjective<DEALLOCATE, T> & adj)
+static inline void memory_action(pointer & p, const Adjective<DEALLOCATE> & adj)
 {
 	delete p;
 }
@@ -167,8 +110,6 @@ static inline void memory_action(pointer & p, const Adjective<DEALLOCATE, T> & a
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-
-#undef FULL
 
 #undef ALLOCATE_SEGMENT
 

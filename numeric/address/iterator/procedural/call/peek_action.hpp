@@ -16,8 +16,6 @@
 ************************************************************************************************************************/
 
 
-#define FULL		adj_list<ob_iteratorEnum>
-
 #define SEGMENT		adj_list<Association::segment>
 
 
@@ -30,7 +28,7 @@ template
 
 	Association ob_iteratorEnum
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const PeekAdjective<FULL> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<null_list> & ob)
 {
 	return (+in != end);
 }
@@ -43,7 +41,7 @@ template
 <
 	typename ob_pointer
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const PeekAdjective<SEGMENT> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT> & ob)
 {
 	return (in < end);
 }
@@ -52,7 +50,19 @@ static inline bool peek_action(ob_pointer in, ob_pointer end, const PeekAdjectiv
 /***********************************************************************************************************************/
 
 
-#undef FULL
+template
+<
+	typename ob_pointer,
+	typename T
+>
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT, T> & ob)
+{
+	return (in < end);
+}
+
+
+/***********************************************************************************************************************/
+
 
 #undef SEGMENT
 

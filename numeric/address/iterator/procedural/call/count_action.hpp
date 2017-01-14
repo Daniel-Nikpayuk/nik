@@ -23,14 +23,14 @@
 /***********************************************************************************************************************/
 
 
-static inline void count_action(CountAdverb<OMIT> & ad)
+static inline void count_action(Adverb<OMIT> & ad)
 	{ }
 
 
 /***********************************************************************************************************************/
 
 
-static inline void count_action(CountAdverb<APPLY> & ad)
+static inline void count_action(Adverb<APPLY> & ad)
 {
 	++ad.count;
 }

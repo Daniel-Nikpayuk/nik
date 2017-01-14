@@ -27,7 +27,7 @@ template
 <
 	typename sub_pointer
 >
-static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer p)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer p)
 	{ }
 
 
@@ -40,7 +40,7 @@ template
 	typename ob_pointer,
 	typename L
 >
-static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
 {
 	*out = in;
 }
@@ -56,7 +56,7 @@ template
 	typename L,
 	typename T
 >
-static inline void functor_action(const FunctorAdverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
+static inline void functor_action(const Adverb<OMIT, void> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
 {
 	*out = *in;
 }
@@ -71,7 +71,7 @@ template
 	typename F,
 	typename sub_pointer
 >
-static inline void functor_action(const FunctorAdverb<APPLY, F> & ad, sub_pointer p)
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
 {
 	ad.functor(p);
 }
@@ -92,7 +92,7 @@ template
 	typename ob_pointer,
 	typename Adjective
 >
-static inline void functor_action(const FunctorAdverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
+static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
 {
 	ad.functor(out, in);
 }
