@@ -16,25 +16,6 @@
 ************************************************************************************************************************/
 
 
-#define SUB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_intervalEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum
-
-
-#define SUB_ADJ_PARAMETERS_INTERVAL_ONLY										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_intervalEnum											\
-
-
-/***********************************************************************************************************************/
-
-
 #define OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED									\
 															\
 	typename ob_pointer,												\
@@ -42,36 +23,18 @@
 	UIntAssociation ob_intervalEnum											\
 
 
-#define OB_ADJ_PARAMETERS_DIRECTION_REDUCED										\
-															\
-	typename ob_pointer,												\
-															\
-	Association ob_intervalEnum,											\
-	Association ob_imageEnum,											\
-	Association ob_iteratorEnum,											\
-	typename T
-
-
-#define OB_ADJ_PARAMETERS_INTERVAL_ONLY											\
-															\
-	typename ob_pointer,												\
-															\
-	Association ob_intervalEnum,											\
-	typename T
-
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define SUB_ADJ_DIR(direction)												\
+#define DIRECTION(direction)												\
 															\
-	Adjective<adj_list<Association::direction, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	adj_list<Association::direction>
 
 
-#define SUB_ADJ_DIR_IMG_ITER(direction, image, iterator)								\
+#define DIR_IMG_ITER(direction, image, iterator)									\
 															\
-	Adjective<adj_list<Association::direction, sub_intervalEnum, Association::image, Association::iterator>>
+	adj_list<Association::direction, Association::image, Association::iterator>
 
 
 /***********************************************************************************************************************/
@@ -82,45 +45,44 @@
 	UIntAdjective<uint_list<UIntAssociation::direction, ob_intervalEnum>>
 
 
-#define OB_ADJ_DIR(direction)												\
-															\
-	Adjective<adj_list<Association::direction, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, T>
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
-#define OB_ADJ_DIR_IMG_ITER(direction, image, iterator)									\
-															\
-	Adjective<adj_list<Association::direction, ob_intervalEnum, Association::image, Association::iterator>, T>
+#define NODE_TYPE	typename structural<Interface::semiotic>::template trim<pointer>::node
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define NODE_TYPE	typename structural<Interface::semiotic>::template trim<sub_pointer>::node
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(forward) & sub)
-	{ ++out; }
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & p, const Adjective<DIRECTION(forward)> & adj)
+	{ ++p; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, hook) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, allocate, hook)> & adj)
 	{ out = +out = new NODE_TYPE; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, allocate, link) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, allocate, link)> & adj)
 {
 	+out = new NODE_TYPE;
 	-+out = out;
@@ -131,16 +93,22 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, deallocate, hook)> & adj)
 	{ delete out++; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, deallocate, link)> & adj)
 	{ delete -++out; }
 
 
@@ -149,18 +117,24 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR(backward) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIRECTION(backward)> & adj)
 	{ --out; }
 
 
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, hook) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, allocate, hook)> & adj)
 {
-	sub_pointer tmp = out;
+	pointer tmp = out;
 	out = new NODE_TYPE;
 	+out = tmp;
 }
@@ -169,8 +143,11 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, allocate, link) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, allocate, link)> & adj)
 {
 	-out = new NODE_TYPE;
 	+-out = out;
@@ -181,8 +158,11 @@ static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(
 /***********************************************************************************************************************/
 
 
-template<SUB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(sub_pointer & out, const SUB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & sub)
+template
+<
+	typename pointer
+>
+static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, deallocate, link)> & adj)
 	{ delete +--out; }
 
 
@@ -200,31 +180,6 @@ static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(forward
 /***********************************************************************************************************************/
 
 
-template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(forward) & ob)
-	{ ++in; }
-
-
-/***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, hook) & ob)
-	{ delete in++; }
-
-
-/***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(forward, deallocate, link) & ob)
-	{ delete -++in; }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 template<OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED>
 static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(backward) & ob)
 	{ --in; }
@@ -232,39 +187,13 @@ static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(backwar
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-
-
-template<OB_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR(backward) & ob)
-	{ --in; }
-
-
 /***********************************************************************************************************************/
 
-
-template<OB_ADJ_PARAMETERS_INTERVAL_ONLY>
-static inline void iterate_action(ob_pointer & in, const OB_ADJ_DIR_IMG_ITER(backward, deallocate, link) & ob)
-	{ delete +--in; }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef SUB_ADJ_PARAMETERS_DIRECTION_REDUCED
-#undef SUB_ADJ_PARAMETERS_INTERVAL_ONLY
 
 #undef OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED
-#undef OB_ADJ_PARAMETERS_DIRECTION_REDUCED
-#undef OB_ADJ_PARAMETERS_INTERVAL_ONLY
-
-#undef SUB_ADJ_DIR
-#undef SUB_ADJ_DIR_IMG_ITER
-
+#undef DIRECTION
+#undef DIR_IMG_ITER
 #undef OB_UINT_ADJ_DIR
-#undef OB_ADJ_DIR
-#undef OB_ADJ_DIR_IMG_ITER
 
 
 /***********************************************************************************************************************/

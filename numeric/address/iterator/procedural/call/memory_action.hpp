@@ -41,7 +41,7 @@
 /***********************************************************************************************************************/
 
 
-static inline void memory_action(const Adjective<null_list> & adj)
+static inline void memory_action(const Adjective<null_adj> & adj)
 	{ }
 
 
@@ -68,7 +68,7 @@ template
 <
 	typename pointer
 >
-static inline void memory_action(const pointer & p, const Adjective<null_list> & adj)
+static inline void memory_action(const pointer & p, const Adjective<null_adj> & adj)
 	{ }
 
 

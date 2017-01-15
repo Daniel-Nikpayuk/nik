@@ -59,7 +59,7 @@ namespace numeric	{
 		template<Association... params>
 		using adj_list = typename structural<Interface::semiotic>::template adj_list<params...>;
 
-		using null_list = adj_list<>;
+		using null_adj = typename structural<Interface::semiotic>::null_adj;
 
 		template<typename... params>
 		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;

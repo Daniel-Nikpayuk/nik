@@ -16,14 +16,13 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	adv_list<Connotation::omit_count>
 #define APPLY	adv_list<Connotation::apply_count>
 
 
 /***********************************************************************************************************************/
 
 
-static inline void count_action(Adverb<OMIT> & ad)
+static inline void count_action(Adverb<null_adv> & ad)
 	{ }
 
 
@@ -40,6 +39,5 @@ static inline void count_action(Adverb<APPLY> & ad)
 
 
 #undef APPLY
-#undef OMIT
 
 

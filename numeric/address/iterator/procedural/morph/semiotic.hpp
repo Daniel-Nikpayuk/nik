@@ -79,7 +79,7 @@ struct Morph
 	>;
 
 	template<Association... params>
-	using subject = Adjective<typename sortFill<SubjectArrangement, Association, params...>::rtn>;
+	using subject = Adjective<typename sortFill<SubjectArrangement, Association, params...>::rtn, void>;
 
 	enum struct ObjectAttribute : size_type
 	{
@@ -120,7 +120,8 @@ struct Morph
 	Association sub_directionEnum,											\
 	Association sub_intervalEnum,											\
 	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,
+	Association sub_iteratorEnum,											\
+	typename T,
 
 
 #define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
@@ -129,14 +130,16 @@ struct Morph
 															\
 	Association sub_directionEnum,											\
 	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,
+	Association sub_iteratorEnum,											\
+	typename T,
 
 
 #define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
 															\
 	typename sub_pointer,												\
 															\
-	Association sub_directionEnum,
+	Association sub_directionEnum,											\
+	typename T,
 
 
 /***********************************************************************************************************************/
@@ -207,17 +210,17 @@ struct Morph
 
 #define SUB_ADJ_FULL													\
 															\
-	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>, T>
 
 
 #define SUB_ADJ_INTERVAL(interval)											\
 															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>, T>
 
 
 #define SUB_ADJ_IMAGE(interval, image)											\
 															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>>
+	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>, T>
 
 
 /***********************************************************************************************************************/

@@ -90,7 +90,7 @@ using AttributeList = typename parameter<Attribute>::template list
 template<Association... params>
 using adj_list = typename parameter<Association>::template list<params...>;
 
-using null_list = adj_list<>;
+using null_adj = adj_list<>;
 
 
 /***********************************************************************************************************************/
@@ -107,14 +107,12 @@ struct Adjective { static_assert(true, "this variant is not implemented."); };
 ***********************************************************************************************************************/
 
 
-template<typename EnumStruct>
-struct Adjective<typename parameter<Association>::template list<EnumStruct::null>> { };
+/*
+	Lacking sufficient parameters, the compiler accepts the following:
 
-template<typename EnumStruct>
-struct Adjective<typename parameter<Association>::template list<EnumStruct::deallocate>> { };
-
-template<typename EnumStruct>
-struct Adjective<typename parameter<Association>::template list<EnumStruct::segment>> { };
+	template<typename EnumStruct>
+	struct Adjective<typename parameter<Association>::template list<EnumStruct::> > { };
+*/
 
 
 /************************************************************************************************************************
@@ -151,6 +149,17 @@ struct Adjective< adj_list<directionEnum, Association::allocate, Association::se
 ***********************************************************************************************************************/
 
 
+/************************************************************************************************************************
+
+	Functions which use the following to pattern match and dispatch require the same parameter shape,
+	which is why some are padded with void parameter typenames.
+
+************************************************************************************************************************/
+
+
+//	segment:
+
+
 template<Association directionEnum, Association intervalEnum>
 using ALLOCATE_SEGMENT = adj_list<directionEnum, intervalEnum, Association::allocate, Association::segment>;
 
@@ -158,12 +167,10 @@ template<Association directionEnum, Association intervalEnum>
 using DEALLOCATE_SEGMENT = adj_list<directionEnum, intervalEnum, Association::deallocate, Association::segment>;
 
 
-/***********************************************************************************************************************/
-
-
 template<Association directionEnum, Association intervalEnum>
-struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > :
+struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum>, void> :
 
+		public Adjective< adj_list<Association::segment> >,
 		public Adjective< adj_list<directionEnum, Association::allocate, Association::segment> >
 {
 	using parameter_list = ALLOCATE_SEGMENT<directionEnum, intervalEnum>;
@@ -182,6 +189,8 @@ struct Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > :
 template<Association directionEnum, Association intervalEnum, typename T>
 struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T> :
 
+		public Adjective< adj_list<Association::deallocate> >,
+		public Adjective< adj_list<Association::segment> >,
 		public Adjective< adj_list<Association::deallocate, Association::segment>, T>
 {
 	using parameter_list = DEALLOCATE_SEGMENT<directionEnum, intervalEnum>;
@@ -191,31 +200,33 @@ struct Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T> :
 	static constexpr Association image_enum		= Association::deallocate;
 	static constexpr Association iterator_enum	= Association::segment;
 
-	Adjective(T *o) : Adjective< adj_list<Association::deallocate, Association::segment>, T>(o) { }
+	Adjective(T *o) :
+
+		Adjective< adj_list<Association::deallocate, Association::segment>, T>(o) { }
 };
 
 
-template<Association directionEnum, Association intervalEnum, Association imageEnum, Association iteratorEnum>
-struct Adjective< adj_list<directionEnum, intervalEnum, imageEnum, iteratorEnum>, void> :
+// imageEnum == mutate || immutate
 
-		public Adjective<null_list>
-//		public Adjective< adj_list<Association::deallocate> >,
-//		public Adjective< adj_list<iteratorEnum> >
+
+template<Association directionEnum, Association intervalEnum, Association imageEnum>
+struct Adjective< adj_list<directionEnum, intervalEnum, imageEnum, Association::segment>, void> :
+
+		public Adjective< null_adj >,
+		public Adjective< adj_list<Association::segment> >
 {
-	using parameter_list = adj_list<directionEnum, intervalEnum, imageEnum, iteratorEnum>;
+	using parameter_list = adj_list<directionEnum, intervalEnum, imageEnum, Association::segment>;
 
 	static constexpr Association direction_enum	= directionEnum;
 	static constexpr Association interval_enum	= intervalEnum;
 	static constexpr Association image_enum		= imageEnum;
-	static constexpr Association iterator_enum	= iteratorEnum;
-
-	Adjective() { }
+	static constexpr Association iterator_enum	= Association::segment;
 
 //	Type coersion:
 
-	static Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> > with(size_type l, size_type o = 0)
+	static Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum>, void> with(size_type l, size_type o = 0)
 	{
-		return Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum> >(l, o);
+		return Adjective<ALLOCATE_SEGMENT<directionEnum, intervalEnum>, void>(l, o);
 	}
 
 	template<typename T>
@@ -223,6 +234,73 @@ struct Adjective< adj_list<directionEnum, intervalEnum, imageEnum, iteratorEnum>
 	{
 		return Adjective<DEALLOCATE_SEGMENT<directionEnum, intervalEnum>, T>(o);
 	}
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+//	hook, link:
+
+
+template<Association directionEnum, Association intervalEnum, Association iteratorEnum>
+struct Adjective< adj_list<directionEnum, intervalEnum, Association::immutate, iteratorEnum>, void> :
+
+		public Adjective< null_adj >,
+		public Adjective< adj_list<directionEnum> >
+{
+	using parameter_list = adj_list<directionEnum, intervalEnum, Association::immutate, iteratorEnum>;
+
+	static constexpr Association direction_enum	= directionEnum;
+	static constexpr Association interval_enum	= intervalEnum;
+	static constexpr Association image_enum		= Association::immutate;
+	static constexpr Association iterator_enum	= iteratorEnum;
+};
+
+
+template<Association directionEnum, Association intervalEnum, Association iteratorEnum>
+struct Adjective< adj_list<directionEnum, intervalEnum, Association::mutate, iteratorEnum>, void> :
+
+		public Adjective< null_adj >,
+		public Adjective< adj_list<directionEnum> >
+{
+	using parameter_list = adj_list<directionEnum, intervalEnum, Association::mutate, iteratorEnum>;
+
+	static constexpr Association direction_enum	= directionEnum;
+	static constexpr Association interval_enum	= intervalEnum;
+	static constexpr Association image_enum		= Association::mutate;
+	static constexpr Association iterator_enum	= iteratorEnum;
+};
+
+
+template<Association directionEnum, Association intervalEnum, Association iteratorEnum>
+struct Adjective< adj_list<directionEnum, intervalEnum, Association::allocate, iteratorEnum>, void> :
+
+		public Adjective< null_adj >,
+		public Adjective< adj_list<directionEnum, Association::allocate, iteratorEnum> >
+{
+	using parameter_list = adj_list<directionEnum, intervalEnum, Association::allocate, iteratorEnum>;
+
+	static constexpr Association direction_enum	= directionEnum;
+	static constexpr Association interval_enum	= intervalEnum;
+	static constexpr Association image_enum		= Association::allocate;
+	static constexpr Association iterator_enum	= iteratorEnum;
+};
+
+
+template<Association directionEnum, Association intervalEnum, Association iteratorEnum>
+struct Adjective< adj_list<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>, void> :
+
+		public Adjective< adj_list<Association::deallocate> >,
+		public Adjective< adj_list<directionEnum, Association::deallocate, iteratorEnum> >
+{
+	using parameter_list = adj_list<directionEnum, intervalEnum, Association::deallocate, iteratorEnum>;
+
+	static constexpr Association direction_enum	= directionEnum;
+	static constexpr Association interval_enum	= intervalEnum;
+	static constexpr Association image_enum		= Association::deallocate;
+	static constexpr Association iterator_enum	= iteratorEnum;
 };
 
 

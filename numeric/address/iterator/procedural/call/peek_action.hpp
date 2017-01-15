@@ -24,11 +24,9 @@
 
 template
 <
-	typename ob_pointer,
-
-	Association ob_iteratorEnum
+	typename ob_pointer
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<null_list> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<null_adj> & ob)
 {
 	return (+in != end);
 }
@@ -42,20 +40,6 @@ template
 	typename ob_pointer
 >
 static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT> & ob)
-{
-	return (in < end);
-}
-
-
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename ob_pointer,
-	typename T
->
-static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<SEGMENT, T> & ob)
 {
 	return (in < end);
 }
