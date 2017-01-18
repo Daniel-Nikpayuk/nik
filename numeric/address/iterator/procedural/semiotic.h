@@ -68,11 +68,11 @@ namespace numeric	{
 
 		#include"adverb/semiotic.hpp"
 
-		#include"call/peek_action.hpp"
-		#include"call/functor_action.hpp"
-		#include"call/count_action.hpp"
-		#include"call/iterate_action.hpp"
-		#include"call/memory_action.hpp"
+		#include"action/peek_action.hpp"
+		#include"action/functor_action.hpp"
+		#include"action/count_action.hpp"
+		#include"action/iterate_action.hpp"
+		#include"action/memory_action.hpp"
 
 		#include"repeat/semiotic.hpp"
 		#include"morph/semiotic.hpp"
