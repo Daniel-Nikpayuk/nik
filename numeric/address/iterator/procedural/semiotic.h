@@ -78,6 +78,13 @@ namespace numeric	{
 		#include"morph/semiotic.hpp"
 		#include"map/semiotic.hpp"
 
+		#include"noderize/semiotic.hpp"
+		#include"catenate/semiotic.hpp"
+		#include"grow/semiotic.hpp"
+		#include"shrink/semiotic.hpp"
+		#include"split/semiotic.hpp"
+		#include"strip/semiotic.hpp"
+
 		#include"discourse/semiotic.hpp"
 	};
 

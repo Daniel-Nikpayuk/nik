@@ -133,7 +133,7 @@ struct base
 		typename IterProcSem::Repeat::template verb<> identity;
 		typename IterProcSem::Repeat::template subject<IterAssoc::closed, IterAssoc::deallocate, IterAssoc::hook> deallocate;
 
-		IterProcSem::repeat(identity, initial, terminal, deallocate);
+		initial=IterProcSem::repeat(identity, initial, terminal, deallocate);
 	}
 
 	base() { }

@@ -31,6 +31,10 @@ enum struct Connotation : size_type
 	omit_count,
 	apply_count,
 
+	after,
+	before,
+	between,
+
 	prototype,
 	specialize,
 
