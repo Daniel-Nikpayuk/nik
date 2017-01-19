@@ -88,24 +88,28 @@ struct copy
 template<typename T>
 struct base
 {
+	typedef T value_type;
+
 	typedef typename IterStrSem::template hook<T> node;
 	typedef typename IterStrSem::template const_hook<T> const_node;
 	typedef typename node::pointer iterator;
 	typedef typename const_node::pointer const_iterator;
+
+	typename IterProcSem::Repeat::template verb<> identity;
+	typename IterProcSem::Morph::template verb<> assign;
+	typename IterProcSem::Map::template verb<> copy;
 
 	iterator initial;
 	iterator terminal;
 
 	static void display(const base & b)
 	{
-		typename IterProcSem::Repeat::template verb<> identity;
 		typename IterProcSem::Repeat::template subject<IterAssoc::hook> mutate;
 
-		auto print = identity.as([](iterator out)
-		{
-			builtin.print(*out);
-			builtin.print(' ');
-		});
+		auto print = IterProcSem::Repeat::template verb<>::as
+		(
+			[] (iterator out) { builtin.print(*out); builtin.print(' '); }
+		);
 
 		IterProcSem::repeat(print, b.initial, b.terminal, mutate);
 		builtin.print(nik::endl);
@@ -115,25 +119,13 @@ struct base
 //	expects an iterator without a value, while with "initial" a value is expected when the list is non-empty.
 
 	void initialize()
-		{ initial=terminal=new node; }
-
-	template<typename RIterator, typename ERIterator>
-	void initialize(RIterator first, ERIterator last)
-	{
-		typename IterProcSem::Map::template verb<> assign;
-		typename IterProcSem::Map::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
-		typename IterProcSem::Map::template object<IterAssoc::hook> immutate;
-
-		initial=new node;
-		terminal=IterProcSem::map(assign, initial, allocate, first, last, immutate);
-	}
+		{ initial = terminal = new node; }
 
 	void terminalize()
 	{
-		typename IterProcSem::Repeat::template verb<> identity;
 		typename IterProcSem::Repeat::template subject<IterAssoc::closed, IterAssoc::deallocate, IterAssoc::hook> deallocate;
 
-		initial=IterProcSem::repeat(identity, initial, terminal, deallocate);
+		initial = IterProcSem::repeat(identity, initial, terminal, deallocate);
 	}
 
 	base() { }
@@ -142,6 +134,84 @@ struct base
 
 	const base & operator = (const base & n)
 		{ return *this; }
+
+// back:
+
+	void push_back(const value_type & value)
+	{
+		*terminal = value;
+		terminal = +terminal = new node;
+	}
+
+	void repeat_back(size_type n, const value_type & value)
+	{
+		auto constant = identity.as( [value](iterator out){ *out = value; } );
+		typename IterProcSem::Repeat::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
+
+		terminal = IterProcSem::repeat(constant, terminal, allocate, n);
+	}
+
+	void assign_back(const value_type & first, const value_type & last)
+	{
+		typename IterProcSem::Morph::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
+		typename IterProcSem::Morph::template object<> normal;
+
+		terminal = IterProcSem::morph(assign, terminal, allocate, first, last, normal);
+	}
+
+	template<typename RIterator, typename ERIterator>
+	void copy_back(RIterator first, ERIterator last)
+	{
+		typename IterProcSem::Map::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
+		typename IterProcSem::Map::template object<IterAssoc::hook> immutate;
+
+		terminal = IterProcSem::map(copy, terminal, allocate, first, last, immutate);
+	}
+
+// front:
+
+	void push_front(const value_type & value)
+	{
+		iterator tmp = initial;
+		IterProcSem::noderize(initial, value);
+		+initial = tmp;
+	}
+
+	void repeat_front(size_type n, const value_type & value)
+	{
+		auto constant = identity.as( [value](iterator out){ *out = value; } );
+		typename IterProcSem::Repeat::template subject
+		<
+			IterAssoc::hook,
+			IterAssoc::allocate,
+			IterAssoc::opening,
+			IterAssoc::backward
+
+		> allocate;
+
+		initial = IterProcSem::repeat(constant, initial, allocate, n);
+	}
+
+	void assign_front(const value_type & first, const value_type & last)
+	{
+		typename IterProcSem::Morph::template subject<IterAssoc::hook, IterAssoc::allocate, IterAssoc::opening> allocate;
+		typename IterProcSem::Morph::template object<EnumAssoc::open> normal;
+
+		iterator tmp = initial;
+		IterProcSem::noderize(initial, first);
+		+ IterProcSem::morph(assign, initial, allocate, first, last, normal) = tmp;
+	}
+
+	template<typename RIterator, typename ERIterator>
+	void copy_front(RIterator first, ERIterator last)
+	{
+		typename IterProcSem::Map::template subject<IterAssoc::hook, IterAssoc::allocate, IterAssoc::opening> allocate;
+		typename IterProcSem::Map::template object<IterAssoc::hook, IterAssoc::open> immutate;
+
+		iterator tmp = initial;
+		IterProcSem::noderize(initial, first);
+		+ IterProcSem::map(copy, initial, allocate, first, last, immutate) = tmp;
+	}
 };
 
 

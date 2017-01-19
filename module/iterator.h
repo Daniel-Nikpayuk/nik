@@ -19,7 +19,6 @@
 #define MODULE_ITERATOR_H
 
 #include"identifier.h"
-#include"uint.h" // no longer needed, prune accordingly.
 #include"enumerator.h"
 
 #include"../numeric/address/iterator/structural/semiotic.h"

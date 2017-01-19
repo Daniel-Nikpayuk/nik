@@ -34,6 +34,11 @@ namespace numeric	{
 
 		//
 
+		using EnumStrSem = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
+		using EnumAssoc = typename EnumStrSem::Association;
+
+		//
+
 		using IterStrSem = module<Module::iterator, Orientation::structural, Interface::semiotic, size_type>;
 		using IterAssoc = typename IterStrSem::Association;
 
