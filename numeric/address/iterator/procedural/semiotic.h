@@ -39,15 +39,17 @@ namespace numeric	{
 
 		//
 
-		using uint = module<Module::uint, Orientation::structural, Interface::semiotic, size_type>;
+		using enumerator = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
 
-		using UIntAssociation = typename uint::Association;
+		using EnumAssociation = typename enumerator::Association;
 
-		template<UIntAssociation... params>
-		using uint_list = typename uint::template adj_list<params...>;
+		template<EnumAssociation... params>
+		using enum_list = typename enumerator::template adj_list<params...>;
 
-		template<typename L>
-		using UIntAdjective = typename uint::template Adjective<L>;
+		using null_enum = typename enumerator::null_adj;
+
+		template<typename... params>
+		using EnumAdjective = typename enumerator::template Adjective<params...>;
 
 		//
 

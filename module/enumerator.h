@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ITERATOR_H
-#define MODULE_ITERATOR_H
+#ifndef MODULE_ENUMERATOR_H
+#define MODULE_ENUMERATOR_H
 
-#include"identifier.h"
-#include"uint.h" // no longer needed, prune accordingly.
-#include"enumerator.h"
+#include"variadic.h"
 
-#include"../numeric/address/iterator/structural/semiotic.h"
-#include"../numeric/address/iterator/procedural/semiotic.h"
+#include"../numeric/address/enumerator/structural/semiotic.h"
 
-#include"../numeric/address/iterator/structural/media.h"
-#include"../numeric/address/iterator/procedural/media.h"
+#include"../numeric/address/enumerator/structural/media.h"
 
 #endif

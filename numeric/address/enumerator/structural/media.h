@@ -15,17 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ITERATOR_H
-#define MODULE_ITERATOR_H
+namespace nik		{
+namespace numeric	{
 
-#include"identifier.h"
-#include"uint.h" // no longer needed, prune accordingly.
-#include"enumerator.h"
+	template<typename SizeType>
+	struct module<Module::enumerator, Orientation::structural, Interface::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../numeric/address/iterator/structural/semiotic.h"
-#include"../numeric/address/iterator/procedural/semiotic.h"
+		using semiotic = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
 
-#include"../numeric/address/iterator/structural/media.h"
-#include"../numeric/address/iterator/procedural/media.h"
+		#include"adjective/media.hpp"
+	};
 
-#endif
+}}
+

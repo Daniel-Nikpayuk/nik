@@ -15,17 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ITERATOR_H
-#define MODULE_ITERATOR_H
+namespace nik		{
+namespace numeric	{
 
-#include"identifier.h"
-#include"uint.h" // no longer needed, prune accordingly.
-#include"enumerator.h"
+	template<typename SizeType>
+	struct module<Module::enumerator, Orientation::structural, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../numeric/address/iterator/structural/semiotic.h"
-#include"../numeric/address/iterator/procedural/semiotic.h"
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
-#include"../numeric/address/iterator/structural/media.h"
-#include"../numeric/address/iterator/procedural/media.h"
+		template<typename enum_type>
+		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
 
-#endif
+		#include"adjective/semiotic.hpp"
+	};
+
+}}
+

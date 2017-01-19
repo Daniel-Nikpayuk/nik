@@ -83,6 +83,8 @@ struct Morph
 
 	enum struct ObjectAttribute : size_type
 	{
+		increment,
+
 		direction,
 		interval,
 
@@ -91,12 +93,13 @@ struct Morph
 
 	using ObjectArrangement = tuple
 	<
-		uint_list<UIntAssociation::forward, UIntAssociation::backward>,							// direction
-		uint_list<UIntAssociation::closing, UIntAssociation::closed, UIntAssociation::opening, UIntAssociation::open>	// interval
+		enum_list<EnumAssociation::succeed, EnumAssociation::accede>,							// increment
+		enum_list<EnumAssociation::forward, EnumAssociation::backward>,							// direction
+		enum_list<EnumAssociation::closing, EnumAssociation::closed, EnumAssociation::opening, EnumAssociation::open>	// interval
 	>;
 
-	template<UIntAssociation... params>
-	using object = UIntAdjective<typename sortFill<ObjectArrangement, UIntAssociation, params...>::rtn>;
+	template<EnumAssociation... params>
+	using object = EnumAdjective<typename sortFill<ObjectArrangement, EnumAssociation, params...>::rtn, void>;
 };
 
 
@@ -147,17 +150,21 @@ struct Morph
 
 #define OB_ADJ_PARAMETERS_FULL												\
 															\
-	typename ob_pointer,												\
+	typename ob_value_type,												\
 															\
-	UIntAssociation ob_directionEnum,										\
-	UIntAssociation ob_intervalEnum											\
+	EnumAssociation ob_incrementEnum,										\
+	EnumAssociation ob_directionEnum,										\
+	EnumAssociation ob_intervalEnum,										\
+	typename U
 
 
 #define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
 															\
-	typename ob_pointer,												\
+	typename ob_value_type,												\
 															\
-	UIntAssociation ob_directionEnum										\
+	EnumAssociation ob_incrementEnum,										\
+	EnumAssociation ob_directionEnum,										\
+	typename U
 
 
 /***********************************************************************************************************************/
@@ -228,12 +235,12 @@ struct Morph
 
 #define OB_ADJ_FULL													\
 															\
-	UIntAdjective<uint_list<ob_directionEnum, ob_intervalEnum>>
+	EnumAdjective<enum_list<ob_incrementEnum, ob_directionEnum, ob_intervalEnum>, U>
 
 
 #define OB_ADJ_INTERVAL(interval)											\
 															\
-	UIntAdjective<uint_list<ob_directionEnum, UIntAssociation::interval>>
+	EnumAdjective<enum_list<ob_incrementEnum, ob_directionEnum, EnumAssociation::interval>, U>
 
 
 /***********************************************************************************************************************/
@@ -261,7 +268,7 @@ static sub_pointer morph(ADV_TYPE(specialize) & ad,
 
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_FULL & ob);
+			ob_value_type in, ob_value_type end, const OB_ADJ_FULL & ob);
 
 
 /************************************************************************************************************************
@@ -281,7 +288,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -313,7 +320,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -350,7 +357,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -383,7 +390,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -419,7 +426,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -456,7 +463,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -491,7 +498,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -528,7 +535,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -569,7 +576,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -602,7 +609,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -639,7 +646,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -671,7 +678,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -708,7 +715,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
 {
 	STATIC_ASSERT
 
@@ -742,7 +749,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
 {
 	STATIC_ASSERT
 
@@ -781,7 +788,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
 {
 	STATIC_ASSERT
 
@@ -815,7 +822,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
 
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
 {
 	STATIC_ASSERT
 
@@ -846,7 +853,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
 															\
 			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
 															\
-			ob_pointer in, ob_pointer end, const OB_ADJ_INTERVAL(ob_interval) & ob)				\
+			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)			\
 															\
 	{ return morph(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
 

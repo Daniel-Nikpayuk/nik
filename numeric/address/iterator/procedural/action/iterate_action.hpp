@@ -16,17 +16,6 @@
 ************************************************************************************************************************/
 
 
-#define OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED									\
-															\
-	typename ob_pointer,												\
-															\
-	UIntAssociation ob_intervalEnum											\
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 #define DIRECTION(direction)												\
 															\
 	adj_list<Association::direction>
@@ -40,9 +29,14 @@
 /***********************************************************************************************************************/
 
 
-#define OB_UINT_ADJ_DIR(direction)											\
+#define ACCEDE														\
 															\
-	UIntAdjective<uint_list<UIntAssociation::direction, ob_intervalEnum>>
+	enum_list<EnumAssociation::accede>
+
+
+#define ENUM_DIRECTION(direction)											\
+															\
+	enum_list<EnumAssociation::succeed, EnumAssociation::direction>
 
 
 /***********************************************************************************************************************/
@@ -171,17 +165,33 @@ static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(ba
 /***********************************************************************************************************************/
 
 
-template<OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(forward) & ob)
+template
+<
+	typename value_type,
+	typename A
+>
+static inline void iterate_action(value_type & in, const EnumAdjective<ACCEDE, A> & ob)
+	{ ob.accessor(in); }
+
+
+/***********************************************************************************************************************/
+
+template
+<
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const EnumAdjective<ENUM_DIRECTION(forward)> & ob)
 	{ ++in; }
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-template<OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED>
-static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(backward) & ob)
+template
+<
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const EnumAdjective<ENUM_DIRECTION(backward)> & ob)
 	{ --in; }
 
 
@@ -190,10 +200,10 @@ static inline void iterate_action(ob_pointer & in, const OB_UINT_ADJ_DIR(backwar
 /***********************************************************************************************************************/
 
 
-#undef OB_UINT_ADJ_PARAMETERS_DIRECTION_REDUCED
 #undef DIRECTION
 #undef DIR_IMG_ITER
-#undef OB_UINT_ADJ_DIR
+#undef ACCEDE
+#undef ENUM_DIRECTION
 
 
 /***********************************************************************************************************************/

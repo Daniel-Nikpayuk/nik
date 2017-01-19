@@ -80,7 +80,7 @@ static void grow(const Adverb<AFTER> & adv, pointer & out, size_type length, siz
 	pointer	tmp;
 
 	typename Map::template verb<> assign;
-	auto allocate = typename Map::template subject<Association::allocate>::with(length + n);
+	auto allocate = typename Map::template subject<>::with(length + n);
 	auto deallocate = typename Map::template object<>::with(out);
 
 	map(assign, tmp, allocate, out, out + length, deallocate);
@@ -96,17 +96,17 @@ template
 <
 	typename pointer
 >
-static void grow(const Adverb<BEFORE> & adv, pointer & out, size_type length, size_type n)
+static void grow(const Adverb<BEFORE> & adv, pointer & origin, size_type length, size_type n)
 {
 	pointer	tmp;
 
 	typename Map::template verb<> assign;
-	auto allocate = typename Map::template subject<Association::allocate>::with(length + n, n);
-	auto deallocate = typename Map::template object<>::with(out);
+	auto allocate = typename Map::template subject<>::with(length + n, n);
+	auto deallocate = typename Map::template object<>::with(origin);
 
-	map(assign, tmp, allocate, out, out + length, deallocate);
+	map(assign, tmp, allocate, origin, origin + length, deallocate);
 
-	out = tmp;
+	origin = tmp;
 }
 
 
@@ -117,7 +117,7 @@ template
 <
 	typename pointer
 >
-static void grow(const Adverb<BETWEEN> & adv, pointer & out, size_type length, size_type n, size_type offset = 0)
+static void grow(const Adverb<BETWEEN> & adv, pointer & origin, size_type length, size_type n, size_type offset = 0)
 {
 	pointer	tmp;
 
@@ -127,12 +127,12 @@ static void grow(const Adverb<BETWEEN> & adv, pointer & out, size_type length, s
 	auto allocate = mutate.with(length + n, offset + n);
 
 	typename Map::template object<> immutate;
-	auto deallocate = immutate.with(out);
+	auto deallocate = immutate.with(origin);
 
-	map(assign, tmp, allocate, out + offset, out + length, immutate);
-	map(assign, tmp, mutate, out, out + offset, deallocate);
+	map(assign, tmp, allocate, origin + offset, origin + length, immutate);
+	map(assign, tmp, mutate, origin, origin + offset, deallocate);
 
-	out = tmp;
+	origin = tmp;
 }
 
 

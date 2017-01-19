@@ -15,17 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ITERATOR_H
-#define MODULE_ITERATOR_H
 
-#include"identifier.h"
-#include"uint.h" // no longer needed, prune accordingly.
-#include"enumerator.h"
+using Association = typename semiotic::Association;
 
-#include"../numeric/address/iterator/structural/semiotic.h"
-#include"../numeric/address/iterator/procedural/semiotic.h"
 
-#include"../numeric/address/iterator/structural/media.h"
-#include"../numeric/address/iterator/procedural/media.h"
+/***********************************************************************************************************************/
 
-#endif
+
+using Attribute = typename semiotic::Attribute;
+
+
+/***********************************************************************************************************************/
+
+

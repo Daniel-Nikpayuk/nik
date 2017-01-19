@@ -31,6 +31,7 @@ namespace nik
 		uint,
 		sint,
 
+		enumerator,
 		iterator,
 		list,
 
@@ -91,6 +92,7 @@ namespace nik
 		{
 			static_assert
 			(
+				module_enum != Module::enumerator	||
 				module_enum != Module::iterator		,
 		
 				"This module is not yet implemented!"

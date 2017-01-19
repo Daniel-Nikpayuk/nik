@@ -37,10 +37,9 @@ static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer p)
 template
 <
 	typename sub_pointer,
-	typename ob_pointer,
-	typename L
+	typename ob_value_type
 >
-static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_pointer in, const UIntAdjective<L> & ob)
+static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_value_type in, const EnumAdjective<null_enum> & ob)
 {
 	*out = in;
 }
@@ -81,7 +80,7 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
 
 
 /*
-	Adjective == UIntAdjective<L> || Adjective<L, T>
+	Adjective == EnumAdjective<L> || Adjective<L, T>
 */
 
 
