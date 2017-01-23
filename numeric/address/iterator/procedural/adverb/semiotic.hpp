@@ -47,18 +47,16 @@ enum struct Connotation : size_type
 /***********************************************************************************************************************/
 
 
-template<Connotation... params>
-using adv_list = typename parameter<Connotation>::template list<params...>;
-
-using null_adv = adv_list<>;
+using bit = typename bitmask::template bit<Connotation>;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
-template<typename... params>
-struct Adverb { static_assert(true, "this variant is not implemented."); };
+template<size_type base, typename F> struct Adverb;
+// { static_assert(true, "this variant is not implemented."); }; // should be false.
 
 
 /************************************************************************************************************************
@@ -66,8 +64,16 @@ struct Adverb { static_assert(true, "this variant is not implemented."); };
 ***********************************************************************************************************************/
 
 
+template<typename F> struct Adverb<0, F> { };
+
+
+/***********************************************************************************************************************/
+
+static constexpr size_type ApplyFunctor	= bit::template list_cast<Connotation::apply_functor>::rtn;
+static constexpr size_type ApplyCount	= bit::template list_cast<Connotation::apply_count>::rtn;
+
 template<typename F>
-struct Adverb< adv_list<Connotation::apply_functor>, F>
+struct Adverb<ApplyFunctor, F>
 {
 	F functor;
 
@@ -75,13 +81,12 @@ struct Adverb< adv_list<Connotation::apply_functor>, F>
 };
 
 
-/***********************************************************************************************************************/
-
-
-template<typename EnumStruct>
-struct Adverb<typename parameter<Connotation>::template list<EnumStruct::apply_count>>
+template<typename Filler>
+struct Adverb<ApplyCount, Filler>
 {
 	size_type count;
+
+	Adverb(const size_type & c) : count(c) { }
 };
 
 
@@ -90,107 +95,100 @@ struct Adverb<typename parameter<Connotation>::template list<EnumStruct::apply_c
 ***********************************************************************************************************************/
 
 
+static constexpr size_type ApplyApply	= bit::template list_cast<Connotation::apply_functor, Connotation::apply_count>::rtn;
+static constexpr size_type ApplyOmit	= bit::template list_cast<Connotation::apply_functor, Connotation::omit_count>::rtn;
+
+template<typename F>
+struct Adverb<ApplyApply, F> :
+
+		public Adverb<ApplyFunctor, F>,
+		public Adverb<ApplyCount, void>
+{
+	Adverb(const F & f, size_type c) :
+
+			Adverb<ApplyFunctor, F>(f),
+			Adverb<ApplyCount, void>(c)
+
+		{ }
+};
+
+
+template<typename F>
+struct Adverb<ApplyOmit, F> :
+
+		public Adverb<ApplyFunctor, F>
+{
+	Adverb(const F & f) :
+
+			Adverb<ApplyFunctor, F>(f)
+
+		{ }
+};
+
+
+static constexpr size_type OmitApply	= bit::template list_cast<Connotation::omit_functor, Connotation::apply_count>::rtn;
+static constexpr size_type OmitOmit	= bit::template list_cast<Connotation::omit_functor, Connotation::omit_count>::rtn;
+
+
+template<typename Filler>
+struct Adverb<OmitApply, Filler> :
+
+		public Adverb<ApplyCount, void>
+{
+	template<typename F>
+	static Adverb<ApplyApply, F> as(const F & f)
+	{
+		return Adverb<ApplyApply, F> (f);
+	}
+};
+
+
+template<typename Filler>
+struct Adverb<OmitOmit, Filler>
+{
+	template<typename F>
+	static Adverb<ApplyOmit, F> as(const F & f)
+	{
+		return Adverb<ApplyOmit, F> (f);
+	}
+
+	template<typename F>
+	static Adverb<ApplyApply, F> as(const F & f, size_type c)
+	{
+		return Adverb<ApplyApply, F>(f, c);
+	}
+};
+
+
 /************************************************************************************************************************
 							3
 ***********************************************************************************************************************/
 
 
-template<Connotation optimizerEnum>
-using OMIT_OMIT = adv_list<Connotation::omit_functor, Connotation::omit_count, optimizerEnum>;
-
-template<Connotation optimizerEnum>
-using OMIT_APPLY = adv_list<Connotation::omit_functor, Connotation::apply_count, optimizerEnum>;
-
-template<Connotation optimizerEnum>
-using APPLY_OMIT = adv_list<Connotation::apply_functor, Connotation::omit_count, optimizerEnum>;
-
-template<Connotation optimizerEnum>
-using APPLY_APPLY = adv_list<Connotation::apply_functor, Connotation::apply_count, optimizerEnum>;
-
-
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<Connotation optimizerEnum, typename F>
-struct Adverb<APPLY_OMIT<optimizerEnum>, F> :
+using Adverbs = typename parameter<size_type>::template list
+<
+	OmitOmit,
+	OmitApply
+>;
 
-		public Adverb< adv_list<Connotation::apply_functor>, F>,
-		public Adverb< null_adv >
-{
-	using parameter_list = APPLY_OMIT<optimizerEnum>;
+template<size_type bitmask>
+using Dispatch = typename bit::template pattern<bitmask>::template dispatch<Adverbs>;
 
-	static constexpr Connotation functor_enum		= Connotation::apply_functor;
-	static constexpr Connotation tracer_enum		= Connotation::omit_count;
-	static constexpr Connotation optimizer_enum		= optimizerEnum;
+template<size_type bitmask, typename F = void>
+struct Adverb : public cases
+<
+	Dispatch<bitmask>::rtn,
 
-	Adverb(const F & f) : Adverb< adv_list<Connotation::apply_functor>, F>(f) { }
-};
+	Adverb<OmitOmit, F>,
+	Adverb<OmitApply, F>,
 
+	Adverb<0, F>
 
-template<Connotation optimizerEnum>
-struct Adverb<OMIT_OMIT<optimizerEnum>, void> :
-
-		public Adverb< adv_list<Connotation::omit_functor> >,
-		public Adverb< null_adv >
-{
-	using parameter_list = OMIT_OMIT<optimizerEnum>;
-
-	static constexpr Connotation functor_enum		= Connotation::omit_functor;
-	static constexpr Connotation tracer_enum		= Connotation::omit_count;
-	static constexpr Connotation optimizer_enum		= optimizerEnum;
-
-//	Type coersion:
-
-	template<typename F>
-	static Adverb<APPLY_OMIT<optimizer_enum>, F> as(const F & f)
-	{
-		return Adverb<APPLY_OMIT<optimizer_enum>, F>(f);
-	}
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<Connotation optimizerEnum, typename F>
-struct Adverb<APPLY_APPLY<optimizerEnum>, F> :
-
-		public Adverb< adv_list<Connotation::apply_functor>, F>,
-		public Adverb< adv_list<Connotation::apply_count> >
-{
-	using parameter_list = APPLY_APPLY<optimizerEnum>;
-
-	static constexpr Connotation functor_enum		= Connotation::apply_functor;
-	static constexpr Connotation tracer_enum		= Connotation::apply_count;
-	static constexpr Connotation optimizer_enum		= optimizerEnum;
-
-	Adverb(const F & f, size_type c) :	Adverb< adv_list<Connotation::apply_functor>, F>(f),
-						Adverb< adv_list<Connotation::apply_count> >::count(c) { }
-};
-
-
-template<Connotation optimizerEnum>
-struct Adverb<OMIT_APPLY<optimizerEnum>, void> :
-
-		public Adverb< adv_list<Connotation::omit_functor> >,
-		public Adverb< adv_list<Connotation::apply_count> >
-{
-	using parameter_list = OMIT_APPLY<optimizerEnum>;
-
-	static constexpr Connotation functor_enum		= Connotation::omit_functor;
-	static constexpr Connotation tracer_enum		= Connotation::apply_count;
-	static constexpr Connotation optimizer_enum		= optimizerEnum;
-
-//	Type coersion:
-
-	template<typename F>
-	static Adverb<APPLY_APPLY<optimizerEnum>, F> as(const F & f, size_type c = 0)
-	{
-		return Adverb<APPLY_APPLY<optimizerEnum>, F>(f, c);
-	}
-};
-
-
-/***********************************************************************************************************************/
+>::rtn { };
 
 

@@ -15,14 +15,16 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename L::enum_type x, size_type i = 0, typename Null = typename L::null>
-struct enum_cast
+template<size_type x, typename L, size_type i = 0, typename Null = typename L::null>
+struct dispatch
 {
-        static constexpr size_type rtn = (x == L::car) ? i : enum_cast<typename L::cdr, x, i+1>::rtn;
+	static constexpr size_type car = (size_type) L::car;
+
+        static constexpr size_type rtn = ((car & x) == car) ? i : dispatch<x, typename L::cdr, i+1>::rtn;
 };
 
-template<typename Null, typename Null::enum_type x, size_type i>
-struct enum_cast<Null, x, i, Null>
+template<size_type x, typename Null, size_type i>
+struct dispatch<x, Null, i, Null>
 {
         static constexpr size_type rtn = i;
 };

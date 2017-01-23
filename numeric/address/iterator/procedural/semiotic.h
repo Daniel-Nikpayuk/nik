@@ -23,6 +23,8 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+		using bitmask = grammaric::module<Module::bitmask, Orientation::structural, Interface::media, size_type>;
+
 		//
 
 		template<Orientation orientation_enum, Interface interface_enum>
@@ -31,14 +33,21 @@ namespace numeric	{
 		template<typename enum_type>
 		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
 
+		template<typename L>
+		using length = typename variadic<Orientation::functional, Interface::semiotic>::template length<L>;
+
 		template<typename... params>
 		using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
+
+		template<size_type i, typename... params>
+		using cases = typename variadic<Orientation::functional, Interface::media>::template cases<i, params...>;
 
 		template<typename Field, typename Relation, Relation... params>
 		using sortFill = typename variadic<Orientation::functional, Interface::media>::template sortFill<Field, Relation, params...>;
 
 		//
 
+/*
 		using enumerator = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
 
 		using EnumAssociation = typename enumerator::Association;
@@ -50,6 +59,7 @@ namespace numeric	{
 
 		template<typename... params>
 		using EnumAdjective = typename enumerator::template Adjective<params...>;
+*/
 
 		//
 
@@ -59,24 +69,34 @@ namespace numeric	{
 		using Association = typename structural<Interface::semiotic>::Association;
 
 		template<Association... params>
-		using adj_list = typename structural<Interface::semiotic>::template adj_list<params...>;
+		using adj_list = typename parameter<Association>::template list<params...>;
 
-		using null_adj = typename structural<Interface::semiotic>::null_adj;
+		using null_adj = adj_list<>;
 
-		template<typename... params>
-		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;
+		using adj_bit = typename structural<Interface::semiotic>::bit;
+
+		template<size_type bitmask, typename T = void>
+		using Adjective = typename structural<Interface::semiotic>::template Adjective<bitmask, T>;
 
 		//
 
 		#include"adverb/semiotic.hpp"
 
-		#include"action/peek_action.hpp"
+		template<Connotation... params>
+		using adv_list = typename parameter<Connotation>::template list<params...>;
+
+		using null_adv = adv_list<>;
+
+		//
+
+//		#include"action/peek_action.hpp"
 		#include"action/functor_action.hpp"
-		#include"action/count_action.hpp"
+//		#include"action/count_action.hpp"
 		#include"action/iterate_action.hpp"
-		#include"action/memory_action.hpp"
+//		#include"action/memory_action.hpp"
 
 		#include"repeat/semiotic.hpp"
+/*
 		#include"morph/semiotic.hpp"
 		#include"map/semiotic.hpp"
 
@@ -88,6 +108,7 @@ namespace numeric	{
 		#include"strip/semiotic.hpp"
 
 		#include"discourse/semiotic.hpp"
+*/
 	};
 
 }}

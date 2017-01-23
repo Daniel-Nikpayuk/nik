@@ -30,136 +30,9 @@
 /***********************************************************************************************************************/
 
 
-/*
-	tuple/list data structures are appropriate here because resolution
-	occurs during compile-time and the size is expected to be small.
-*/
-
-
-struct Repeat
-{
-	enum struct Manner : size_type
-	{
-		functor,
-		tracer,
-		optimizer,
-
-		dimension
-	};
-
-	using Selection = tuple
-	<
-		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
-		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
-	>;
-
-	template<Connotation... params>
-	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn, void>;
-
-	enum struct Attribute : size_type
-	{
-		direction,
-		interval,
-		image,
-		iterator,
-
-		dimension
-	};
-
-	using Arrangement = tuple
-	<
-		adj_list<Association::forward, Association::backward>,						// direction
-		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-		adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
-		adj_list<Association::segment, Association::hook, Association::link>				// iterator
-	>;
-
-	template<Association... params>
-	using subject = Adjective<typename sortFill<Arrangement, Association, params...>::rtn, void>;
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	Connotation functorEnum,											\
-	Connotation tracerEnum,												\
-	typename F,
-
-
-/***********************************************************************************************************************/
-
-
-#define SUB_ADJ_PARAMETERS_FULL												\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_intervalEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T
-
-
-#define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T
-
-
-#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	typename T
-
-
-/***********************************************************************************************************************/
-
-
-#define FULL_PARAMETERS													\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_FULL
-
-
-/***********************************************************************************************************************/
-
-
-#define INTERVAL_REDUCED_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
-
-
-/***********************************************************************************************************************/
-
-
-#define DIRECTION_ONLY_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_DIRECTION_ONLY
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 #define ADV_TYPE(optimizer)												\
 															\
-	Adverb<adv_list<functorEnum, tracerEnum, Connotation::optimizer>, F>
+	Adverb<Connotation::optimizer, F>
 
 
 /***********************************************************************************************************************/
@@ -203,6 +76,7 @@ struct Repeat
 /***********************************************************************************************************************/
 
 
+/*
 template<FULL_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 
@@ -215,6 +89,78 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 			sub_pointer out, SUB_ADJ_FULL & sub,
 
 			size_type n);
+*/
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+/*
+	tuple/list data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+*/
+
+
+struct Repeat
+{
+	enum struct Manner : size_type
+	{
+		functor,
+		tracer,
+		optimizer,
+
+		dimension
+	};
+
+	using Selection = tuple
+	<
+		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
+		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
+	>;
+
+	template<Connotation... params>
+	using verb = Adverb
+	<
+		bit::template cast
+		<
+			typename sortFill<Selection, Connotation, params...>::rtn
+
+		>::rtn
+	>;
+
+
+/***********************************************************************************************************************/
+
+
+	enum struct Attribute : size_type
+	{
+		direction,
+		interval,
+		image,
+		iterator,
+
+		dimension
+	};
+
+	using Arrangement = tuple
+	<
+		adj_list<Association::forward, Association::backward>,						// direction
+		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+		adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
+		adj_list<Association::segment, Association::hook, Association::link>				// iterator
+	>;
+
+	template<Association... params>
+	using subject = Adjective
+	<
+		adj_bit::template cast
+		<
+			typename sortFill<Arrangement, Association, params...>::rtn
+
+		>::rtn
+	>;
 
 
 /************************************************************************************************************************
@@ -229,6 +175,159 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 */
 
 
+	template<size_type verb_mask, size_type sub_mask>
+	struct closing
+	{
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
+		{
+//			STATIC_ASSERT
+
+			while (out != end)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+			}
+
+			return out;
+		}
+
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, Adjective<sub_mask, T> & sub, size_type n)
+		{
+//			STATIC_ASSERT
+
+			while (n)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+				--n;
+			}
+
+			return out;
+		}
+	};
+
+	template<size_type verb_mask, size_type sub_mask>
+	struct closed
+	{
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
+		{
+//			STATIC_ASSERT
+
+			while (out != end)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+			}
+
+			functor_action(ad, out);
+//			count_action(ad);
+
+			return out;
+		}
+	};
+
+	using VerbDispatch = typename parameter<size_type>::template list
+	<
+		bit::template list_cast<Connotation::	prototype	>::rtn,
+		bit::template list_cast<Connotation::	specialize	>::rtn
+	>;
+
+	using SubjectDispatch = typename parameter<size_type>::template list
+	<
+		adj_bit::template list_cast<Association::	closing	>::rtn,
+		adj_bit::template list_cast<Association::	closed	>::rtn,
+		adj_bit::template list_cast<Association::	opening	>::rtn,
+		adj_bit::template list_cast<Association::	open	>::rtn
+	>;
+
+	template<size_type bitmask>
+	using verb_dispatch = typename bit::template pattern<bitmask>::template dispatch<VerbDispatch>;
+
+	template<size_type bitmask>
+	using sub_dispatch = typename adj_bit::template pattern<bitmask>::template dispatch<SubjectDispatch>;
+
+	template<size_type verb_mask, size_type sub_mask>
+	struct dispatch
+	{
+		static constexpr size_type rtn =	length<VerbDispatch>::rtn	*
+							verb_dispatch<verb_mask>::rtn	+
+							sub_dispatch<sub_mask>::rtn	;
+	};
+};
+
+
+template<size_type verb_mask, size_type sub_mask>
+using RepeatDispatcher = typename cases
+<
+	0,//Repeat::template dispatch<verb_mask, sub_mask>::rtn,
+
+	typename Repeat::template closing<verb_mask, sub_mask>,
+	typename Repeat::template closed<verb_mask, sub_mask>//,
+/*
+	Repeat::opening<verb_mask, sub_mask>,
+	Repeat::open<verb_mask, sub_mask>,
+*/
+
+>::rtn;
+
+
+template
+<
+	size_type verb_mask,
+	typename F,
+
+	typename sub_pointer,
+
+	size_type sub_mask,
+	typename T
+>
+static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
+{
+	return RepeatDispatcher<verb_mask, sub_mask>::repeat(ad, out, end, sub);
+};
+
+
+template
+<
+	size_type verb_mask,
+	typename F,
+
+	typename sub_pointer,
+
+	size_type sub_mask,
+	typename T
+>
+static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, Adjective<sub_mask, T> & sub, size_type n)
+{
+	return RepeatDispatcher<verb_mask, sub_mask>::repeat(ad, out, sub, n);
+};
+
+
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -246,6 +345,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -258,6 +358,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -278,6 +379,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -292,6 +394,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -312,6 +415,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -324,6 +428,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -347,6 +452,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -361,6 +467,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -378,6 +485,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -390,6 +498,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -411,6 +520,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -425,6 +535,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -444,6 +555,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -456,6 +568,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
@@ -478,6 +591,7 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -523,10 +637,12 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
 /***********************************************************************************************************************/
 
 
+/*
 ALLOCATE_SEGMENT_REPEAT(closing)
 ALLOCATE_SEGMENT_REPEAT(closed)
 ALLOCATE_SEGMENT_REPEAT(opening)
 ALLOCATE_SEGMENT_REPEAT(open)
+*/
 
 
 /***********************************************************************************************************************/

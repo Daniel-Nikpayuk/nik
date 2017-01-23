@@ -16,35 +16,19 @@
 ************************************************************************************************************************/
 
 namespace nik		{
-namespace numeric	{
+namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
+	struct module<Module::bitmask, Orientation::functional, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		using bitmask = grammaric::module<Module::bitmask, Orientation::structural, Interface::media, size_type>;
+		#include"in/semiotic.hpp"
+		#include"set/semiotic.hpp"
+		#include"tail/semiotic.hpp"
 
-		//
-
-		template<Orientation orientation_enum, Interface interface_enum>
-		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
-
-		template<typename enum_type>
-		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
-
-		template<size_type i, typename... params>
-		using cases = typename variadic<Orientation::functional, Interface::media>::template cases<i, params...>;
-
-		//
-
-		#include"adjective/semiotic.hpp"
-
-		#include"segment/semiotic.hpp"
-		#include"node/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
-		#include"trim/semiotic.hpp"
+		#include"cast/semiotic.hpp"
+		#include"dispatch/semiotic.hpp"
 	};
 
 }}

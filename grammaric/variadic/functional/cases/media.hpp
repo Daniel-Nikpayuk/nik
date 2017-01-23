@@ -20,7 +20,7 @@ struct cases
 {
 	using in = tuple<params...>;
 
-	using rtn = typename semiotic::template cases<in, index-2>::rtn;
+	using rtn = typename semiotic::template cases<index-2, in>::rtn;
 };
 
 template<typename if_zero, typename if_one, typename... params>

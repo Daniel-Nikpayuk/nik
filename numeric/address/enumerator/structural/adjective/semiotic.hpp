@@ -116,11 +116,13 @@ struct Adjective< adj_list<Association::accede, directionEnum, intervalEnum>, A>
 		public Adjective< null_adj >,
 		public Adjective< adj_list<Association::accede>, A>
 {
+/*
 	using parameter_list = adj_list<Association::accede, directionEnum, intervalEnum>;
 
 	static constexpr Association increment_enum	= Association::accede;
 	static constexpr Association direction_enum	= directionEnum;
 	static constexpr Association interval_enum	= intervalEnum;
+*/
 
 	Adjective(const A & a) :
 
@@ -134,11 +136,13 @@ struct Adjective< adj_list<Association::succeed, directionEnum, intervalEnum>, v
 		public Adjective< null_adj >,
 		public Adjective< adj_list<Association::succeed, directionEnum> >
 {
+/*
 	using parameter_list = adj_list<Association::succeed, directionEnum, intervalEnum>;
 
 	static constexpr Association increment_enum	= Association::succeed;
 	static constexpr Association direction_enum	= directionEnum;
 	static constexpr Association interval_enum	= intervalEnum;
+*/
 
 //	Type coersion:
 

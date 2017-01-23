@@ -15,15 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename L::enum_type x, size_type i = 0, typename Null = typename L::null>
-struct enum_cast
+template<size_type base, size_type mask>
+struct set
 {
-        static constexpr size_type rtn = (x == L::car) ? i : enum_cast<typename L::cdr, x, i+1>::rtn;
-};
-
-template<typename Null, typename Null::enum_type x, size_type i>
-struct enum_cast<Null, x, i, Null>
-{
-        static constexpr size_type rtn = i;
+	static constexpr size_type value() { return semiotic::template set<base, mask>::rtn; }
 };
 

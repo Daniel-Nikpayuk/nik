@@ -18,7 +18,7 @@
 #ifndef MODULE_ITERATOR_H
 #define MODULE_ITERATOR_H
 
-#include"identifier.h"
+#include"bitmask.h"
 #include"enumerator.h"
 
 #include"../numeric/address/iterator/structural/semiotic.h"

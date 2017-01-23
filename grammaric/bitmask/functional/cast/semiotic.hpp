@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename L::enum_type x, size_type i = 0, typename Null = typename L::null>
-struct enum_cast
+template<typename L, size_type bitmask = 0, typename Null = typename L::null>
+struct cast
 {
-        static constexpr size_type rtn = (x == L::car) ? i : enum_cast<typename L::cdr, x, i+1>::rtn;
+        static constexpr size_type rtn = cast<typename L::cdr, bitmask | ((size_type) 1 << (size_type) L::car) >::rtn;
 };
 
-template<typename Null, typename Null::enum_type x, size_type i>
-struct enum_cast<Null, x, i, Null>
+template<typename Null, size_type bitmask>
+struct cast<Null, bitmask, Null>
 {
-        static constexpr size_type rtn = i;
+        static constexpr size_type rtn = bitmask;
 };
 

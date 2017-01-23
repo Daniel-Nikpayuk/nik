@@ -23,17 +23,20 @@
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer
 >
 static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer p)
 	{ }
+*/
 
 
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer,
@@ -43,11 +46,13 @@ static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_v
 {
 	*out = in;
 }
+*/
 
 
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer,
@@ -59,6 +64,7 @@ static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_p
 {
 	*out = *in;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -70,7 +76,7 @@ template
 	typename F,
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
+static inline void functor_action(const Adverb<ApplyFunctor, F> & ad, sub_pointer p)
 {
 	ad.functor(p);
 }
@@ -84,6 +90,7 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer p)
 */
 
 
+/*
 template
 <
 	typename F,
@@ -95,6 +102,7 @@ static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, 
 {
 	ad.functor(out, in);
 }
+*/
 
 
 /***********************************************************************************************************************/
