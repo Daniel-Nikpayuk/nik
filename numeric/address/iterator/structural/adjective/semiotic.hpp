@@ -87,7 +87,7 @@ using bit = typename bitmask::template bit<Association>;
 /***********************************************************************************************************************/
 
 
-template<size_type base, typename T> struct Adjective;
+template<size_type bitmask, typename T> struct Adjective;
 // { static_assert(true, "this variant is not implemented."); }; // should be false.
 
 
@@ -96,7 +96,7 @@ template<size_type base, typename T> struct Adjective;
 ************************************************************************************************************************/
 
 
-template<typename T> struct Adjective<0, T> { };
+template<typename T> struct Adjective<0, T> { static constexpr size_type bitmask = 0; };
 
 
 /***********************************************************************************************************************/
@@ -109,6 +109,8 @@ static constexpr size_type DeallocateSegment	= bit::template list_cast<Associati
 template<typename Filler>
 struct Adjective<Segment, Filler>
 {
+	static constexpr size_type bitmask = Segment;
+
 	static Adjective<AllocateSegment, Filler> with(size_type l, size_type o = 0)
 	{
 		return Adjective<AllocateSegment, Filler>(l, o);
@@ -130,6 +132,8 @@ struct Adjective<Segment, Filler>
 template<typename T>
 struct Adjective<DeallocateSegment, T>
 {
+	static constexpr size_type bitmask = DeallocateSegment;
+
 	T *origin;
 
 	Adjective(T *o) : origin(o) { }
@@ -139,6 +143,8 @@ struct Adjective<DeallocateSegment, T>
 template<typename Filler>
 struct Adjective<AllocateSegment, Filler>
 {
+	static constexpr size_type bitmask = AllocateSegment;
+
 	size_type length;
 	size_type offset;
 
@@ -159,7 +165,7 @@ static constexpr size_type ForwardAllocateHook	= bit::template list_cast
 
 >::rtn;
 
-template<typename T> struct Adjective<ForwardAllocateHook, T> { };
+template<typename T> struct Adjective<ForwardAllocateHook, T> { static constexpr size_type bitmask = ForwardAllocateHook; };
 
 
 /************************************************************************************************************************
@@ -167,24 +173,14 @@ template<typename T> struct Adjective<ForwardAllocateHook, T> { };
 ************************************************************************************************************************/
 
 
-using Adjectives = typename parameter<size_type>::template list
-<
-	Segment,
-	AllocateSegment,
-	DeallocateSegment,
-
-	ForwardAllocateHook
->;
-
-template<size_type bitmask>
-using Dispatch = typename bit::template pattern<bitmask>::template dispatch<Adjectives>;
+template<size_type bitmask, typename... params>
+using dispatch = typename bit::template pattern<bitmask>::template dispatch<params...>;
 
 template<size_type bitmask, typename T = void>
-struct Adjective : public cases
+struct Adjective : public dispatch
 <
-	Dispatch<bitmask>::rtn,
+	bitmask,
 
-	Adjective<Segment, T>,
 	Adjective<AllocateSegment, T>,
 	Adjective<DeallocateSegment, T>,
 

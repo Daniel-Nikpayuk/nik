@@ -23,6 +23,11 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
+
+		template<bool t, typename f, typename s>
+		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+
 		#include"in/semiotic.hpp"
 		#include"set/semiotic.hpp"
 		#include"tail/semiotic.hpp"

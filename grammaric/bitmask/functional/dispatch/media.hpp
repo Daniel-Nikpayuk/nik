@@ -15,9 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename L>
-struct dispatch
-{
-	static constexpr size_type value() { return semiotic::template dispatch<x, L>::rtn; }
-};
-

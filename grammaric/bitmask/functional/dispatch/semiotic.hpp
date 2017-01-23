@@ -15,17 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename L, size_type i = 0, typename Null = typename L::null>
+template<size_type x, typename car, typename... cdr>
 struct dispatch
 {
-	static constexpr size_type car = (size_type) L::car;
+	using rtn = typename if_then_else
+	<
+		(x & car::bitmask) == car::bitmask,
+		car,
+		typename dispatch<x, cdr...>::rtn
 
-        static constexpr size_type rtn = ((car & x) == car) ? i : dispatch<x, typename L::cdr, i+1>::rtn;
+	>::rtn;
 };
 
-template<size_type x, typename Null, size_type i>
-struct dispatch<x, Null, i, Null>
+template<size_type x, typename last>
+struct dispatch<x, last>
 {
-        static constexpr size_type rtn = i;
+	using rtn = last;
 };
 

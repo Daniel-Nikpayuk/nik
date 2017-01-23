@@ -39,8 +39,8 @@ struct bit
 		template<size_type m>
 		using tail = typename functional::template tail<b, m>;
 
-		template<typename L>
-		using dispatch = typename functional::template dispatch<b, L>;
+		template<typename... params>
+		using dispatch = typename functional::template dispatch<b, params...>;
 	};
 };
 

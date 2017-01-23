@@ -55,7 +55,7 @@ using bit = typename bitmask::template bit<Connotation>;
 /***********************************************************************************************************************/
 
 
-template<size_type base, typename F> struct Adverb;
+template<size_type bitmask, typename F> struct Adverb;
 // { static_assert(true, "this variant is not implemented."); }; // should be false.
 
 
@@ -64,7 +64,7 @@ template<size_type base, typename F> struct Adverb;
 ***********************************************************************************************************************/
 
 
-template<typename F> struct Adverb<0, F> { };
+template<typename F> struct Adverb<0, F> { static constexpr size_type bitmask = 0; };
 
 
 /***********************************************************************************************************************/
@@ -75,6 +75,8 @@ static constexpr size_type ApplyCount	= bit::template list_cast<Connotation::app
 template<typename F>
 struct Adverb<ApplyFunctor, F>
 {
+	static constexpr size_type bitmask = ApplyFunctor;
+
 	F functor;
 
 	Adverb(const F & f) : functor(f) { }
@@ -84,6 +86,8 @@ struct Adverb<ApplyFunctor, F>
 template<typename Filler>
 struct Adverb<ApplyCount, Filler>
 {
+	static constexpr size_type bitmask = ApplyCount;
+
 	size_type count;
 
 	Adverb(const size_type & c) : count(c) { }
@@ -104,6 +108,8 @@ struct Adverb<ApplyApply, F> :
 		public Adverb<ApplyFunctor, F>,
 		public Adverb<ApplyCount, void>
 {
+	static constexpr size_type bitmask = ApplyApply;
+
 	Adverb(const F & f, size_type c) :
 
 			Adverb<ApplyFunctor, F>(f),
@@ -118,6 +124,8 @@ struct Adverb<ApplyOmit, F> :
 
 		public Adverb<ApplyFunctor, F>
 {
+	static constexpr size_type bitmask = ApplyOmit;
+
 	Adverb(const F & f) :
 
 			Adverb<ApplyFunctor, F>(f)
@@ -135,6 +143,8 @@ struct Adverb<OmitApply, Filler> :
 
 		public Adverb<ApplyCount, void>
 {
+	static constexpr size_type bitmask = OmitApply;
+
 	template<typename F>
 	static Adverb<ApplyApply, F> as(const F & f)
 	{
@@ -146,6 +156,8 @@ struct Adverb<OmitApply, Filler> :
 template<typename Filler>
 struct Adverb<OmitOmit, Filler>
 {
+	static constexpr size_type bitmask = OmitOmit;
+
 	template<typename F>
 	static Adverb<ApplyOmit, F> as(const F & f)
 	{
@@ -170,19 +182,13 @@ struct Adverb<OmitOmit, Filler>
 /***********************************************************************************************************************/
 
 
-using Adverbs = typename parameter<size_type>::template list
-<
-	OmitOmit,
-	OmitApply
->;
-
-template<size_type bitmask>
-using Dispatch = typename bit::template pattern<bitmask>::template dispatch<Adverbs>;
+template<size_type bitmask, typename... params>
+using dispatch = typename bit::template pattern<bitmask>::template dispatch<params...>;
 
 template<size_type bitmask, typename F = void>
-struct Adverb : public cases
+struct Adverb : public dispatch
 <
-	Dispatch<bitmask>::rtn,
+	bitmask,
 
 	Adverb<OmitOmit, F>,
 	Adverb<OmitApply, F>,
