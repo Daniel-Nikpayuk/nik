@@ -29,11 +29,15 @@ namespace grammaric	{
 		template<typename enum_type>
 		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
 
+		template<typename... params>
+		using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
+
 		//
 
 		using functional = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
 
 		#include"bit/media.hpp"
+		#include"bitlist/media.hpp"
 	};
 
 }}

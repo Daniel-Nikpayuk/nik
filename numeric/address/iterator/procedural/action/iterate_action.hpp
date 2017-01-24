@@ -16,6 +16,9 @@
 ************************************************************************************************************************/
 
 
+using Adjective_ForwardAllocateHook = typename structural<Interface::semiotic>::Adjective_ForwardAllocateHook;
+
+/*
 static constexpr size_type ForwardAllocateHook	= adj_bit::template list_cast
 <
 	Association::forward,
@@ -23,6 +26,7 @@ static constexpr size_type ForwardAllocateHook	= adj_bit::template list_cast
 	Association::hook
 
 >::rtn;
+*/
 
 
 #define DIRECTION(direction)												\
@@ -74,10 +78,9 @@ static inline void iterate_action(pointer & p, const Adjective<DIRECTION(forward
 
 template
 <
-	typename pointer,
-	typename T
+	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<ForwardAllocateHook, T> & adj)
+static inline void iterate_action(pointer & out, const Adjective_ForwardAllocateHook & adj)
 
 	{ out = +out = new NODE_TYPE; }
 

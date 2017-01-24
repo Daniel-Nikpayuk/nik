@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type base, size_type mask>
+template<size_type mask, size_type base>
 struct tail
 {
-	static constexpr size_type rtn = ~base & mask;
+	static constexpr size_type rtn = mask & ~base;
 };
 

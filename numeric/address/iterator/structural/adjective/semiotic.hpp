@@ -87,8 +87,7 @@ using bit = typename bitmask::template bit<Association>;
 /***********************************************************************************************************************/
 
 
-template<size_type bitmask, typename T> struct Adjective;
-// { static_assert(true, "this variant is not implemented."); }; // should be false.
+template<size_type mask, typename... params> struct Adjective;
 
 
 /************************************************************************************************************************
@@ -96,30 +95,38 @@ template<size_type bitmask, typename T> struct Adjective;
 ************************************************************************************************************************/
 
 
-template<typename T> struct Adjective<0, T> { static constexpr size_type bitmask = 0; };
+struct Adjective_Null { };
 
 
 /***********************************************************************************************************************/
 
 
-static constexpr size_type Segment		= bit::template list_cast<Association::segment>::rtn;
-static constexpr size_type AllocateSegment	= bit::template list_cast<Association::allocate, Association::segment>::rtn;
-static constexpr size_type DeallocateSegment	= bit::template list_cast<Association::deallocate, Association::segment>::rtn;
-
-template<typename Filler>
-struct Adjective<Segment, Filler>
+struct Segment
 {
-	static constexpr size_type bitmask = Segment;
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::segment
 
-	static Adjective<AllocateSegment, Filler> with(size_type l, size_type o = 0)
+	>::rtn;
+};
+
+struct AllocateSegment { };
+struct DeallocateSegment { };
+
+template<size_type mask>
+struct Adjective<mask, Segment>
+{
+	static constexpr size_type bitmask = Segment::bitmask;
+
+	static Adjective<mask, AllocateSegment> with(size_type l, size_type o = 0)
 	{
-		return Adjective<AllocateSegment, Filler>(l, o);
+		return Adjective<mask, AllocateSegment>(l, o);
 	}
 
 	template<typename T>
-	static Adjective<DeallocateSegment, T> with(T *o)
+	static Adjective<mask, DeallocateSegment, T> with(T *o)
 	{
-		return Adjective<DeallocateSegment, T>(o);
+		return Adjective<mask, DeallocateSegment, T>(o);
 	}
 };
 
@@ -129,22 +136,18 @@ struct Adjective<Segment, Filler>
 ************************************************************************************************************************/
 
 
-template<typename T>
-struct Adjective<DeallocateSegment, T>
+template<size_type mask, typename T>
+struct Adjective<mask, DeallocateSegment, T>
 {
-	static constexpr size_type bitmask = DeallocateSegment;
-
 	T *origin;
 
 	Adjective(T *o) : origin(o) { }
 };
 
 
-template<typename Filler>
-struct Adjective<AllocateSegment, Filler>
+template<size_type mask>
+struct Adjective<mask, AllocateSegment>
 {
-	static constexpr size_type bitmask = AllocateSegment;
-
 	size_type length;
 	size_type offset;
 
@@ -157,15 +160,16 @@ struct Adjective<AllocateSegment, Filler>
 ************************************************************************************************************************/
 
 
-static constexpr size_type ForwardAllocateHook	= bit::template list_cast
-<
-	Association::forward,
-	Association::allocate,
-	Association::hook
+struct Adjective_ForwardAllocateHook
+{
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::forward,
+		Association::allocate,
+		Association::hook
 
->::rtn;
-
-template<typename T> struct Adjective<ForwardAllocateHook, T> { static constexpr size_type bitmask = ForwardAllocateHook; };
+	>::rtn;
+};
 
 
 /************************************************************************************************************************
@@ -173,20 +177,101 @@ template<typename T> struct Adjective<ForwardAllocateHook, T> { static constexpr
 ************************************************************************************************************************/
 
 
-template<size_type bitmask, typename... params>
-using dispatch = typename bit::template pattern<bitmask>::template dispatch<params...>;
+template<size_type mask>
+using pattern = typename bit::template pattern<mask>;
 
-template<size_type bitmask, typename T = void>
-struct Adjective : public dispatch
+template<size_type mask, typename... params>
+using match = typename pattern<mask>::template match<params...>;
+
+struct Closing
+{
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::closing
+
+	>::rtn;
+};
+
+struct Closed
+{
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::closed
+
+	>::rtn;
+};
+
+struct Opening
+{
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::opening
+
+	>::rtn;
+};
+
+struct Open
+{
+	static constexpr size_type bitmask = bit::template list_cast
+	<
+		Association::open
+
+	>::rtn;
+};
+
+template<size_type mask, typename Interval>
+struct Adjective<mask, Interval> : public match
 <
-	bitmask,
+	mask,
 
-	Adjective<AllocateSegment, T>,
-	Adjective<DeallocateSegment, T>,
+	Adjective
+	<
+		pattern<mask>::template tail<Segment::bitmask>::rtn,
+		Segment
+	>,
 
-	Adjective<ForwardAllocateHook, T>,
+	Adjective_ForwardAllocateHook,
 
-	Adjective<0, T>
+	Adjective_Null
+
+>::rtn { };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+struct Adjective<mask> : public match
+<
+	mask,
+
+	Adjective
+	<
+		pattern<mask>::template tail<Closing::bitmask>::rtn,
+		Closing
+	>,
+
+	Adjective
+	<
+		pattern<mask>::template tail<Closed::bitmask>::rtn,
+		Closed
+	>,
+
+	Adjective
+	<
+		pattern<mask>::template tail<Opening::bitmask>::rtn,
+		Opening
+	>,
+
+	Adjective
+	<
+		pattern<mask>::template tail<Open::bitmask>::rtn,
+		Open
+	>,
+
+	Adjective_Null
 
 >::rtn { };
 

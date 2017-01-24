@@ -15,26 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+/*
+	X	: list of size_types.
+	L	: list of size_types.
+*/
 
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::functional, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename X, typename L, typename Null = typename L::null>
+struct matchwise
+{
+	static constexpr size_type x = X::car;
+	static constexpr size_type l = L::car;
 
-		using semiotic = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
+	static constexpr bool rtn = ((x & l) == l) && matchwise<typename X::cdr, typename L::cdr>::rtn;
+};
 
-		#include"in/media.hpp"
-		#include"set/media.hpp"
-		#include"tail/media.hpp"
-
-		#include"cast/media.hpp"
-		#include"match/media.hpp"
-		#include"matchwise/media.hpp"
-
-		#include"dispatch/media.hpp"
-	};
-
-}}
+template<typename Null>
+struct matchwise<Null, Null>
+{
+	static constexpr bool rtn = true;
+};
 

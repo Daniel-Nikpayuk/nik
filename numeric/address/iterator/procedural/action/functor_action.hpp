@@ -73,10 +73,12 @@ static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_p
 
 template
 <
+	size_type mask,
 	typename F,
+
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<ApplyFunctor, F> & ad, sub_pointer p)
+static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_pointer p)
 {
 	ad.functor(p);
 }

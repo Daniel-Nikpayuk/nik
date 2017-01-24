@@ -24,6 +24,7 @@ namespace grammaric	{
 		typedef SizeType size_type;
 
 		#include"bit/semiotic.hpp"
+		#include"bitlist/semiotic.hpp"
 	};
 
 }}

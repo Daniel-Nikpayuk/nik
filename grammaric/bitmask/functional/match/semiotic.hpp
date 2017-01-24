@@ -15,26 +15,21 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<size_type x, typename car, typename... cdr>
+struct match
+{
+	using rtn = typename if_then_else
+	<
+		(x & car::bitmask) == car::bitmask,
+		car,
+		typename match<x, cdr...>::rtn
 
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::functional, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
+	>::rtn;
+};
 
-		using semiotic = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
-
-		#include"in/media.hpp"
-		#include"set/media.hpp"
-		#include"tail/media.hpp"
-
-		#include"cast/media.hpp"
-		#include"match/media.hpp"
-		#include"matchwise/media.hpp"
-
-		#include"dispatch/media.hpp"
-	};
-
-}}
+template<size_type x, typename last>
+struct match<x, last>
+{
+	using rtn = last;
+};
 

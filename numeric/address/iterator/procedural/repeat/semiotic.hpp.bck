@@ -161,11 +161,6 @@ struct Repeat
 
 		>::rtn
 	>;
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
 /************************************************************************************************************************
@@ -180,29 +175,156 @@ struct Repeat
 */
 
 
+	template<size_type verb_mask, size_type sub_mask>
+	struct closing
+	{
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
+		{
+//			STATIC_ASSERT
+
+			while (out != end)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+			}
+
+			return out;
+		}
+
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, Adjective<sub_mask, T> & sub, size_type n)
+		{
+//			STATIC_ASSERT
+
+			while (n)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+				--n;
+			}
+
+			return out;
+		}
+	};
+
+	template<size_type verb_mask, size_type sub_mask>
+	struct closed
+	{
+		template
+		<
+			typename F,
+			typename sub_pointer,
+			typename T
+		>
+		static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
+		{
+//			STATIC_ASSERT
+
+			while (out != end)
+			{
+				functor_action(ad, out);
+//				count_action(ad);
+
+				iterate_action(out, sub);
+			}
+
+			functor_action(ad, out);
+//			count_action(ad);
+
+			return out;
+		}
+	};
+
+	using VerbDispatch = typename parameter<size_type>::template list
+	<
+		bit::template list_cast<Connotation::	prototype	>::rtn,
+		bit::template list_cast<Connotation::	specialize	>::rtn
+	>;
+
+	using SubjectDispatch = typename parameter<size_type>::template list
+	<
+		adj_bit::template list_cast<Association::	closing	>::rtn,
+		adj_bit::template list_cast<Association::	closed	>::rtn,
+		adj_bit::template list_cast<Association::	opening	>::rtn,
+		adj_bit::template list_cast<Association::	open	>::rtn
+	>;
+
+	template<size_type bitmask>
+	using verb_dispatch = typename bit::template pattern<bitmask>::template dispatch<VerbDispatch>;
+
+	template<size_type bitmask>
+	using sub_dispatch = typename adj_bit::template pattern<bitmask>::template dispatch<SubjectDispatch>;
+
+	template<size_type verb_mask, size_type sub_mask>
+	struct dispatch
+	{
+		static constexpr size_type rtn =	length<VerbDispatch>::rtn	*
+							verb_dispatch<verb_mask>::rtn	+
+							sub_dispatch<sub_mask>::rtn	;
+	};
+};
+
+
+template<size_type verb_mask, size_type sub_mask>
+using RepeatDispatcher = typename cases
+<
+	0,//Repeat::template dispatch<verb_mask, sub_mask>::rtn,
+
+	typename Repeat::template closing<verb_mask, sub_mask>,
+	typename Repeat::template closed<verb_mask, sub_mask>//,
+/*
+	Repeat::opening<verb_mask, sub_mask>,
+	Repeat::open<verb_mask, sub_mask>,
+*/
+
+>::rtn;
+
+
 template
 <
 	size_type verb_mask,
-	typename... F,
+	typename F,
 
 	typename sub_pointer,
 
 	size_type sub_mask,
-	typename... T
+	typename T
 >
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad, sub_pointer out, Adjective<sub_mask, Closing, T...> & sub, size_type n)
+static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, sub_pointer end, Adjective<sub_mask, T> & sub)
 {
-	while (n)
-	{
-		functor_action(ad, out);
-//		count_action(ad);
+	return RepeatDispatcher<verb_mask, sub_mask>::repeat(ad, out, end, sub);
+};
 
-		iterate_action(out, sub);
-		--n;
-	}
 
-	return out;
-}
+template
+<
+	size_type verb_mask,
+	typename F,
+
+	typename sub_pointer,
+
+	size_type sub_mask,
+	typename T
+>
+static sub_pointer repeat(Adverb<verb_mask, F> & ad, sub_pointer out, Adjective<sub_mask, T> & sub, size_type n)
+{
+	return RepeatDispatcher<verb_mask, sub_mask>::repeat(ad, out, sub, n);
+};
 
 
 /*

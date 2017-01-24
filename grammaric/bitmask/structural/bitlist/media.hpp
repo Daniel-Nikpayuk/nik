@@ -15,26 +15,18 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... EnumStructs>
+struct bitlist
+{
+	using parameter_tuple = tuple<EnumStructs...>;
 
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::functional, Interface::media, SizeType>
+	template<typename L>
+	struct pattern
 	{
-		typedef SizeType size_type;
+		// should static_cast here validating L's types.
 
-		using semiotic = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
-
-		#include"in/media.hpp"
-		#include"set/media.hpp"
-		#include"tail/media.hpp"
-
-		#include"cast/media.hpp"
-		#include"match/media.hpp"
-		#include"matchwise/media.hpp"
-
-		#include"dispatch/media.hpp"
+		template<typename... params>
+		using match = typename functional::template dispatch<L, params...>;
 	};
-
-}}
+};
 

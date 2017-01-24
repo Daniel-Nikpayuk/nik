@@ -15,20 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename car, typename... cdr>
+/*
+	X	: list of size_types.
+	Car	: list of size_types.
+*/
+
+template<typename X, typename car, typename... cdr>
 struct dispatch
 {
 	using rtn = typename if_then_else
 	<
-		(x & car::bitmask) == car::bitmask,
+		matchwise<X, typename car::mask_list>::rtn,
 		car,
-		typename dispatch<x, cdr...>::rtn
+		typename dispatch<X, cdr...>::rtn
 
 	>::rtn;
 };
 
-template<size_type x, typename last>
-struct dispatch<x, last>
+template<typename X, typename last>
+struct dispatch<X, last>
 {
 	using rtn = last;
 };

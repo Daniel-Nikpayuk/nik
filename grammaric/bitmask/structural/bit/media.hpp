@@ -27,20 +27,20 @@ struct bit
 	template<EnumStruct... params>
 	using list_cast = cast<list<params...>>;
 
-	template<size_type b>
+	template<size_type m>
 	struct pattern
 	{
-		template<size_type m>
-		using in = typename functional::template in<b, m>;
+		template<size_type n>
+		using in = typename functional::template in<m, n>;
 
-		template<size_type m>
-		using set = typename functional::template set<b, m>;
+		template<size_type n>
+		using set = typename functional::template set<m, n>;
 
-		template<size_type m>
-		using tail = typename functional::template tail<b, m>;
+		template<size_type l>
+		using tail = typename functional::template tail<m, l>;
 
 		template<typename... params>
-		using dispatch = typename functional::template dispatch<b, params...>;
+		using match = typename functional::template match<m, params...>;
 	};
 };
 

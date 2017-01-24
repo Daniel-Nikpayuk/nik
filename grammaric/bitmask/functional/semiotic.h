@@ -33,6 +33,9 @@ namespace grammaric	{
 		#include"tail/semiotic.hpp"
 
 		#include"cast/semiotic.hpp"
+		#include"match/semiotic.hpp"
+		#include"matchwise/semiotic.hpp"
+
 		#include"dispatch/semiotic.hpp"
 	};
 

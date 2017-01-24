@@ -75,8 +75,8 @@ namespace numeric	{
 
 		using adj_bit = typename structural<Interface::semiotic>::bit;
 
-		template<size_type bitmask, typename T = void>
-		using Adjective = typename structural<Interface::semiotic>::template Adjective<bitmask, T>;
+		template<size_type mask, typename... params>
+		using Adjective = typename structural<Interface::semiotic>::template Adjective<mask, params...>;
 
 		//
 
@@ -86,6 +86,13 @@ namespace numeric	{
 		using adv_list = typename parameter<Connotation>::template list<params...>;
 
 		using null_adv = adv_list<>;
+
+		//
+
+		using Closing = typename structural<Interface::semiotic>::Closing;
+		using Closed = typename structural<Interface::semiotic>::Closed;
+		using Opening = typename structural<Interface::semiotic>::Opening;
+		using Open = typename structural<Interface::semiotic>::Open;
 
 		//
 
