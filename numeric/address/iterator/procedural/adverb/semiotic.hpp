@@ -53,8 +53,88 @@ enum struct Connotation : size_type
 
 using bit = typename bitmask::template bit<Connotation>;
 
+template<Connotation... params>
+using list_cast = typename bit::template list_cast<params...>;
+
+template<size_type mask>
+using pattern = typename bit::template pattern<mask>;
+
+template<size_type mask, typename... params>
+using match = typename pattern<mask>::template match<params...>;
+
+template<size_type mask, typename S>
+using tail = typename pattern<mask>::template tail<S::bitmask>;
+
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+struct Prototype
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::prototype
+
+	>::rtn;
+};
+
+struct Specialize
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::specialize
+
+	>::rtn;
+};
+
+
+struct ApplyFunctor { };
+struct ApplyCount { };
+
+
+struct ApplyApply
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::apply_functor,
+		Connotation::apply_count
+
+	>::rtn;
+};
+
+struct ApplyOmit
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::apply_functor,
+		Connotation::omit_count
+
+	>::rtn;
+};
+
+
+struct OmitApply
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::omit_functor,
+		Connotation::apply_count
+
+	>::rtn;
+};
+
+struct OmitOmit
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Connotation::omit_functor,
+		Connotation::omit_count
+
+	>::rtn;
+};
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -62,18 +142,18 @@ using bit = typename bitmask::template bit<Connotation>;
 template<size_type mask, typename... params> struct Adverb;
 
 
-/************************************************************************************************************************
-							1
-***********************************************************************************************************************/
-
-
-struct Adverb_Null { };
-
-
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-struct ApplyFunctor { };
-struct ApplyCount { };
+
+struct Adverb_OmitFunctor { };
+struct Adverb_OmitCount { };
+
+
+/************************************************************************************************************************
+							1
+************************************************************************************************************************/
+
 
 template<size_type mask, typename F>
 struct Adverb<mask, ApplyFunctor, F>
@@ -82,7 +162,6 @@ struct Adverb<mask, ApplyFunctor, F>
 
 	Adverb(const F & f) : functor(f) { }
 };
-
 
 template<size_type mask>
 struct Adverb<mask, ApplyCount>
@@ -95,28 +174,7 @@ struct Adverb<mask, ApplyCount>
 
 /************************************************************************************************************************
 							2
-***********************************************************************************************************************/
-
-
-struct ApplyApply
-{
-	static constexpr size_type bitmask = bit::template list_cast
-	<
-		Connotation::apply_functor,
-		Connotation::apply_count
-
-	>::rtn;
-};
-
-struct ApplyOmit
-{
-	static constexpr size_type bitmask = bit::template list_cast
-	<
-		Connotation::apply_functor,
-		Connotation::omit_count
-
-	>::rtn;
-};
+************************************************************************************************************************/
 
 
 template<size_type mask, typename F>
@@ -139,7 +197,8 @@ struct Adverb<mask, ApplyApply, F> :
 template<size_type mask, typename F>
 struct Adverb<mask, ApplyOmit, F> :
 
-		public Adverb<mask, ApplyFunctor, F>
+		public Adverb<mask, ApplyFunctor, F>,
+		public Adverb_OmitCount
 {
 	static constexpr size_type bitmask = ApplyOmit::bitmask;
 
@@ -151,113 +210,89 @@ struct Adverb<mask, ApplyOmit, F> :
 };
 
 
-struct OmitApply
-{
-	static constexpr size_type bitmask = bit::template list_cast
-	<
-		Connotation::omit_functor,
-		Connotation::apply_count
-
-	>::rtn;
-};
-
-struct OmitOmit
-{
-	static constexpr size_type bitmask = bit::template list_cast
-	<
-		Connotation::omit_functor,
-		Connotation::omit_count
-
-	>::rtn;
-};
-
-
 template<size_type mask>
 struct Adverb<mask, OmitApply> :
 
-		public Adverb<mask, ApplyCount>
+		public Adverb<mask, ApplyCount>,
+		public Adverb_OmitFunctor
 {
 	static constexpr size_type bitmask = OmitApply::bitmask;
-};
 
+	static constexpr size_type functor_mask = mask | ApplyOmit::bitmask;
 
-struct Prototype
-{
-	static constexpr size_type bitmask = bit::template list_cast
-	<
-		Connotation::prototype
+	using Optimizer = typename match<mask, Prototype, Specialize>::rtn;
 
-	>::rtn;
+	template<typename F>
+	static Adverb<functor_mask, Optimizer, F> cast(const F & f)
+	{
+		return Adverb<functor_mask, Optimizer, F>(f);
+	}
+
 };
 
 
 template<size_type mask>
-struct Adverb<mask, OmitOmit>
+struct Adverb<mask, OmitOmit> :
+
+		public Adverb_OmitFunctor,
+		public Adverb_OmitCount
 {
 	static constexpr size_type bitmask = OmitOmit::bitmask;
 
-	static constexpr size_type castmask = mask | ApplyOmit::bitmask;
+	static constexpr size_type functor_mask = mask | ApplyOmit::bitmask;
+
+	using Optimizer = typename match<mask, Prototype, Specialize>::rtn;
 
 	template<typename F>
-	static Adverb<castmask, Prototype, F> cast(const F & f)
+	static Adverb<functor_mask, Optimizer, F> cast(const F & f)
 	{
-		return Adverb<castmask, Prototype, F>(f);
+		return Adverb<functor_mask, Optimizer, F>(f);
 	}
 };
 
 
 /************************************************************************************************************************
 							3
-***********************************************************************************************************************/
+************************************************************************************************************************/
 
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask, typename S>
+using Adverb_Tail = Adverb< tail<mask, S>::rtn, S>;
+
+template<size_type mask, typename S, typename F>
+using Adverb_Tail_F = Adverb< tail<mask, S>::rtn, S, F>;
 
 template<size_type mask>
-using pattern = typename bit::template pattern<mask>;
-
-template<size_type mask, typename... params>
-using match = typename pattern<mask>::template match<params...>;
-
-template<size_type mask>
-using safe_match = typename match
+using match_count = typename match
 <
 	mask,
 
-	Adverb
-	<
-		pattern<mask>::template tail<OmitOmit::bitmask>::rtn,
-		OmitOmit
-	>,
-
-	Adverb
-	<
-		pattern<mask>::template tail<OmitApply::bitmask>::rtn,
-		OmitApply
-	>,
-
-	Adverb_Null
+	Adverb_Tail<mask, OmitOmit>,
+	Adverb_Tail<mask, OmitApply>
 
 >::rtn;
 
 template<size_type mask, typename F>
-using functor_match = typename match
+using match_functor = typename match
 <
 	mask,
 
-	Adverb
-	<
-		pattern<mask>::template tail<ApplyOmit::bitmask>::rtn,
-		ApplyOmit,
-		F
-	>,
+	Adverb_Tail_F<mask, ApplyOmit, F>,
+	Adverb_Tail_F<mask, ApplyApply, F>
 
-	Adverb
-	<
-		pattern<mask>::template tail<ApplyApply::bitmask>::rtn,
-		ApplyApply,
-		F
-	>,
+>::rtn;
 
-	Adverb_Null
+template<size_type mask>
+using match_optimizer = typename match
+<
+	mask,
+
+	Adverb<mask, Prototype>,
+	Adverb<mask, Specialize>
 
 >::rtn;
 
@@ -268,18 +303,18 @@ using functor_match = typename match
 
 
 template<size_type mask, typename Optimizer>
-struct Adverb<mask, Optimizer> : public safe_match<mask>
+struct Adverb<mask, Optimizer> : public match_count<mask>
 {
 	static constexpr size_type bitmask = Optimizer::bitmask;
 };
 
 
 template<size_type mask, typename Optimizer, typename F>
-struct Adverb<mask, Optimizer, F> : public functor_match<mask, F>
+struct Adverb<mask, Optimizer, F> : public match_functor<mask, F>
 {
 	static constexpr size_type bitmask = Optimizer::bitmask;
 
-	Adverb(const F & f) : functor_match<mask, F>(f) { }
+	Adverb(const F & f) : match_functor<mask, F>(f) { }
 };
 
 
@@ -287,18 +322,6 @@ struct Adverb<mask, Optimizer, F> : public functor_match<mask, F>
 
 
 template<size_type mask>
-struct Adverb<mask> : public match
-<
-	mask,
-
-	Adverb
-	<
-		mask,//pattern<mask>::template tail<Prototype::bitmask>::rtn,
-		Prototype
-	>,
-
-	Adverb_Null
-
->::rtn { };
+struct Adverb<mask> : public match_optimizer<mask> { };
 
 

@@ -23,11 +23,10 @@
 /***********************************************************************************************************************/
 
 
-#define ALLOCATE_SEGMENT	adj_list<sub_directionEnum, Association::allocate, Association::segment>
+using DeallocateSegment = typename structural<Interface::semiotic>::DeallocateSegment;
+using AllocateSegment = typename structural<Interface::semiotic>::AllocateSegment;
 
-#define DEALLOCATE		adj_list<Association::deallocate>
-
-#define DEALLOCATE_SEGMENT	adj_list<Association::deallocate, Association::segment>
+using Adjective_Deallocate = typename structural<Interface::semiotic>::Adjective_Deallocate;
 
 
 /***********************************************************************************************************************/
@@ -41,7 +40,11 @@
 /***********************************************************************************************************************/
 
 
-static inline void memory_action(const Adjective<null_adj> & adj)
+template
+<
+	size_type mask
+>
+static inline void memory_action(const Adjective_Coarse<mask> & adj)
 	{ }
 
 
@@ -52,9 +55,10 @@ static inline void memory_action(const Adjective<null_adj> & adj)
 
 template
 <
+	size_type mask,
 	typename T
 >
-static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
+static inline void memory_action(Adjective<mask, DeallocateSegment, T> & adj)
 {
 	delete [] adj.origin;
 }
@@ -66,14 +70,35 @@ static inline void memory_action(Adjective<DEALLOCATE_SEGMENT, T> & adj)
 
 template
 <
-	typename pointer
+	typename pointer,
+	size_type mask
 >
-static inline void memory_action(const pointer & p, const Adjective<null_adj> & adj)
+static inline void memory_action(const pointer & p, const Adjective_Coarse<mask> & adj)
 	{ }
 
 
 /***********************************************************************************************************************/
 
+template<size_type mask, Association... params>
+using contains = typename adj_pattern<adj_bit::template list_cast<params...>::rtn>::template in<mask>;
+
+template<size_type mask, bool>
+struct dispatch
+{
+	static size_type offset(const Adjective<mask, AllocateSegment> & sub)
+	{
+		return sub.offset;
+	};
+};
+
+template<size_type mask>
+struct dispatch<mask, false>
+{
+	static size_type offset(const Adjective<mask, AllocateSegment> & sub)
+	{
+		return sub.length - 1 - sub.offset;
+	};
+};
 
 // "origin" needs to be a reference value.
 
@@ -81,13 +106,13 @@ template
 <
 	typename sub_pointer,
 
-	Association sub_directionEnum
+	size_type mask
 >
-static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<ALLOCATE_SEGMENT> & sub)
+static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<mask, AllocateSegment> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
-	return origin + ((sub_directionEnum == Association::forward) ? sub.offset : sub.length - 1 - sub.offset);
+	return origin + dispatch<mask, contains<mask, Association::forward>::rtn>::offset(sub);
 }
 
 
@@ -100,7 +125,7 @@ template
 <
 	typename pointer
 >
-static inline void memory_action(pointer & p, const Adjective<DEALLOCATE> & adj)
+static inline void memory_action(pointer & p, const Adjective_Deallocate & adj)
 {
 	delete p;
 }
@@ -108,16 +133,6 @@ static inline void memory_action(pointer & p, const Adjective<DEALLOCATE> & adj)
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef ALLOCATE_SEGMENT
-
-#undef DEALLOCATE
-
-#undef DEALLOCATE_SEGMENT
-
-
 /***********************************************************************************************************************/
 
 

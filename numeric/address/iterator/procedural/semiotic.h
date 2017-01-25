@@ -47,19 +47,17 @@ namespace numeric	{
 
 		//
 
-/*
 		using enumerator = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
 
 		using EnumAssociation = typename enumerator::Association;
 
 		template<EnumAssociation... params>
-		using enum_list = typename enumerator::template adj_list<params...>;
+		using enum_list = typename parameter<EnumAssociation>::template list<params...>;
 
-		using null_enum = typename enumerator::null_adj;
+		using null_enum = enum_list<>;
 
-		template<typename... params>
-		using EnumAdjective = typename enumerator::template Adjective<params...>;
-*/
+		template<size_type mask, typename... params>
+		using EnumAdjective = typename enumerator::template Adjective<mask, params...>;
 
 		//
 
@@ -74,6 +72,9 @@ namespace numeric	{
 		using null_adj = adj_list<>;
 
 		using adj_bit = typename structural<Interface::semiotic>::bit;
+
+		template<size_type mask>
+		using adj_pattern = typename adj_bit::template pattern<mask>;
 
 		template<size_type mask, typename... params>
 		using Adjective = typename structural<Interface::semiotic>::template Adjective<mask, params...>;
@@ -96,26 +97,24 @@ namespace numeric	{
 
 		//
 
-//		#include"action/peek_action.hpp"
+		#include"action/peek_action.hpp"
 		#include"action/functor_action.hpp"
-//		#include"action/count_action.hpp"
+		#include"action/count_action.hpp"
 		#include"action/iterate_action.hpp"
-//		#include"action/memory_action.hpp"
+		#include"action/memory_action.hpp"
 
 		#include"repeat/semiotic.hpp"
-/*
-		#include"morph/semiotic.hpp"
-		#include"map/semiotic.hpp"
+//		#include"morph/semiotic.hpp"
+//		#include"map/semiotic.hpp"
 
-		#include"noderize/semiotic.hpp"
-		#include"catenate/semiotic.hpp"
-		#include"grow/semiotic.hpp"
-		#include"shrink/semiotic.hpp"
-		#include"split/semiotic.hpp"
-		#include"strip/semiotic.hpp"
+//		#include"noderize/semiotic.hpp"
+//		#include"catenate/semiotic.hpp"
+//		#include"grow/semiotic.hpp"
+//		#include"shrink/semiotic.hpp"
+//		#include"split/semiotic.hpp"
+//		#include"strip/semiotic.hpp"
 
-		#include"discourse/semiotic.hpp"
-*/
+//		#include"discourse/semiotic.hpp"
 	};
 
 }}

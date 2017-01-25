@@ -23,6 +23,10 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+		using bitmask = grammaric::module<Module::bitmask, Orientation::structural, Interface::media, size_type>;
+
+		//
+
 		template<Orientation orientation_enum, Interface interface_enum>
 		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 

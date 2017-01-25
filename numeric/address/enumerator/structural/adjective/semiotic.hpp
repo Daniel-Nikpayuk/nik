@@ -70,20 +70,91 @@ enum struct Attribute : size_type
 /***********************************************************************************************************************/
 
 
+using bit = typename bitmask::template bit<Association>;
+
 template<Association... params>
-using adj_list = typename parameter<Association>::template list<params...>;
+using list_cast = typename bit::template list_cast<params...>;
 
-using null_adj = adj_list<>;
+template<size_type mask>
+using pattern = typename bit::template pattern<mask>;
+
+template<size_type mask, typename... params>
+using match = typename pattern<mask>::template match<params...>;
+
+template<size_type mask, typename S>
+using tail = typename pattern<mask>::template tail<S::bitmask>;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-// should be false.
+struct Succeed
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::succeed
 
-template<typename... params>
-struct Adjective { static_assert(true, "this variant is not implemented."); };
+	>::rtn;
+};
+
+
+struct Accede
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::accede
+
+	>::rtn;
+};
+
+
+struct Closing
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::closing
+
+	>::rtn;
+};
+
+struct Closed
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::closed
+
+	>::rtn;
+};
+
+struct Opening
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::opening
+
+	>::rtn;
+};
+
+struct Open
+{
+	static constexpr size_type bitmask = list_cast
+	<
+		Association::open
+
+	>::rtn;
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask, typename... params> struct Adjective;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 /************************************************************************************************************************
@@ -91,9 +162,28 @@ struct Adjective { static_assert(true, "this variant is not implemented."); };
 ************************************************************************************************************************/
 
 
-template<typename A>
-struct Adjective< adj_list<Association::accede>, A>
+template<size_type mask>
+struct Adjective<mask, Succeed>
 {
+	static constexpr size_type bitmask = Succeed::bitmask;
+
+	static constexpr size_type accede_mask = mask | Accede::bitmask;
+
+	using Interval = typename match<mask, Closing, Closed, Opening, Open>::rtn;
+
+	template<typename A>
+	static Adjective<accede_mask, Interval, A> cast(const A & a)
+	{
+		return Adjective<accede_mask, Interval, A>(a);
+	}
+};
+
+
+template<size_type mask, typename A>
+struct Adjective<mask, Accede, A>
+{
+	static constexpr size_type bitmask = Accede::bitmask;
+
 	A accessor;
 
 	Adjective(const A & a) : accessor(a) { }
@@ -110,47 +200,71 @@ struct Adjective< adj_list<Association::accede>, A>
 ************************************************************************************************************************/
 
 
-template<Association directionEnum, Association intervalEnum, typename A>
-struct Adjective< adj_list<Association::accede, directionEnum, intervalEnum>, A> :
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
-		public Adjective< null_adj >,
-		public Adjective< adj_list<Association::accede>, A>
+
+template<size_type mask, typename S>
+using Adjective_Tail = Adjective< tail<mask, S>::rtn, S>;
+
+template<size_type mask, typename S, typename A>
+using Adjective_Tail_A = Adjective< tail<mask, S>::rtn, S, A>;
+
+template<size_type mask, typename A>
+using match_accede = typename match
+<
+	mask,
+
+	Adjective_Tail_A<mask, Accede, A>
+
+>::rtn;
+
+template<size_type mask>
+using match_increment = typename match
+<
+	mask,
+
+	Adjective_Tail<mask, Succeed>
+
+>::rtn;
+
+template<size_type mask>
+using match_interval = typename match
+<
+	mask,
+
+	Adjective<mask, Closing>,
+	Adjective<mask, Closed>,
+	Adjective<mask, Opening>,
+	Adjective<mask, Open>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask, typename Interval>
+struct Adjective<mask, Interval> : public match_increment<mask>
 {
-/*
-	using parameter_list = adj_list<Association::accede, directionEnum, intervalEnum>;
+	static constexpr size_type bitmask = Interval::bitmask;
+};
 
-	static constexpr Association increment_enum	= Association::accede;
-	static constexpr Association direction_enum	= directionEnum;
-	static constexpr Association interval_enum	= intervalEnum;
-*/
+template<size_type mask, typename Interval, typename A>
+struct Adjective<mask, Interval, A> : public match_accede<mask, A>
+{
+	static constexpr size_type bitmask = Interval::bitmask;
 
-	Adjective(const A & a) :
-
-		Adjective< adj_list<Association::accede>, A>(a) { }
+	Adjective(const A & a) : match_accede<mask, A>(a) { }
 };
 
 
-template<Association directionEnum, Association intervalEnum>
-struct Adjective< adj_list<Association::succeed, directionEnum, intervalEnum>, void> :
+/***********************************************************************************************************************/
 
-		public Adjective< null_adj >,
-		public Adjective< adj_list<Association::succeed, directionEnum> >
-{
-/*
-	using parameter_list = adj_list<Association::succeed, directionEnum, intervalEnum>;
 
-	static constexpr Association increment_enum	= Association::succeed;
-	static constexpr Association direction_enum	= directionEnum;
-	static constexpr Association interval_enum	= intervalEnum;
-*/
-
-//	Type coersion:
-
-	template<typename A>
-	static Adjective< adj_list<Association::accede, directionEnum, intervalEnum>, A> with(const A & a)
-	{
-		return Adjective< adj_list<Association::accede, directionEnum, intervalEnum>, A>(a);
-	}
-};
+template<size_type mask>
+struct Adjective<mask> : public match_interval<mask> { };
 
 

@@ -16,55 +16,49 @@
 ************************************************************************************************************************/
 
 
-#define OMIT	adv_list<Connotation::omit_functor>
-#define APPLY	adv_list<Connotation::apply_functor>
-
-
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer p)
+static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer p)
 	{ }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename sub_pointer,
-	typename ob_value_type
+	typename ob_value_type,
+
+	size_type mask,
+	typename... A
 >
-static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_value_type in, const EnumAdjective<null_enum> & ob)
+static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer out, ob_value_type in, const EnumAdjective<mask, A...> & ob)
 {
 	*out = in;
 }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename sub_pointer,
 	typename ob_pointer,
-	typename L,
-	typename T
+
+	size_type mask,
+	typename... T
 >
-static inline void functor_action(const Adverb<OMIT> & ad, sub_pointer out, ob_pointer in, const Adjective<L, T> & ob)
+static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer out, ob_pointer in, const Adjective<mask, T...> & ob)
 {
 	*out = *in;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -92,26 +86,21 @@ static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_
 */
 
 
-/*
 template
 <
+	size_type mask,
 	typename F,
 	typename sub_pointer,
 	typename ob_pointer,
 	typename Adjective
 >
-static inline void functor_action(const Adverb<APPLY, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
+static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
 {
 	ad.functor(out, in);
 }
-*/
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-
-
-#undef APPLY
-#undef OMIT
 
 

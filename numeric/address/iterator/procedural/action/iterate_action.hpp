@@ -16,40 +16,22 @@
 ************************************************************************************************************************/
 
 
+using Adjective_Forward = typename structural<Interface::semiotic>::Adjective_Forward;
+
 using Adjective_ForwardAllocateHook = typename structural<Interface::semiotic>::Adjective_ForwardAllocateHook;
+using Adjective_ForwardAllocateLink = typename structural<Interface::semiotic>::Adjective_ForwardAllocateLink;
 
-/*
-static constexpr size_type ForwardAllocateHook	= adj_bit::template list_cast
-<
-	Association::forward,
-	Association::allocate,
-	Association::hook
-
->::rtn;
-*/
+using Adjective_ForwardDeallocateHook = typename structural<Interface::semiotic>::Adjective_ForwardDeallocateHook;
+using Adjective_ForwardDeallocateLink = typename structural<Interface::semiotic>::Adjective_ForwardDeallocateLink;
 
 
-#define DIRECTION(direction)												\
-															\
-	adj_list<Association::direction>
+using Adjective_Backward = typename structural<Interface::semiotic>::Adjective_Backward;
 
+using Adjective_BackwardAllocateHook = typename structural<Interface::semiotic>::Adjective_BackwardAllocateHook;
+using Adjective_BackwardAllocateLink = typename structural<Interface::semiotic>::Adjective_BackwardAllocateLink;
 
-#define DIR_IMG_ITER(direction, image, iterator)									\
-															\
-	adj_list<Association::direction, Association::image, Association::iterator>
-
-
-/***********************************************************************************************************************/
-
-
-#define ACCEDE														\
-															\
-	enum_list<EnumAssociation::accede>
-
-
-#define ENUM_DIRECTION(direction)											\
-															\
-	enum_list<EnumAssociation::succeed, EnumAssociation::direction>
+using Adjective_BackwardDeallocateHook = typename structural<Interface::semiotic>::Adjective_BackwardDeallocateHook;
+using Adjective_BackwardDeallocateLink = typename structural<Interface::semiotic>::Adjective_BackwardDeallocateLink;
 
 
 /***********************************************************************************************************************/
@@ -63,14 +45,12 @@ static constexpr size_type ForwardAllocateHook	= adj_bit::template list_cast
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & p, const Adjective<DIRECTION(forward)> & adj)
+static inline void iterate_action(pointer & p, const Adjective_Forward & adj)
 	{ ++p; }
-*/
 
 
 /***********************************************************************************************************************/
@@ -88,44 +68,38 @@ static inline void iterate_action(pointer & out, const Adjective_ForwardAllocate
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, allocate, link)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_ForwardAllocateLink & adj)
 {
 	+out = new NODE_TYPE;
 	-+out = out;
 	++out;
 }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, deallocate, hook)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_ForwardDeallocateHook & adj)
 	{ delete out++; }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(forward, deallocate, link)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_ForwardDeallocateLink & adj)
 	{ delete -++out; }
-*/
 
 
 /***********************************************************************************************************************/
@@ -133,61 +107,53 @@ static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(fo
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIRECTION(backward)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_Backward & adj)
 	{ --out; }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, allocate, hook)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_BackwardAllocateHook & adj)
 {
 	pointer tmp = out;
 	out = new NODE_TYPE;
 	+out = tmp;
 }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, allocate, link)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_BackwardAllocateLink & adj)
 {
 	-out = new NODE_TYPE;
 	+-out = out;
 	--out;
 }
-*/
 
 
 /***********************************************************************************************************************/
 
 
-/*
 template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(backward, deallocate, link)> & adj)
+static inline void iterate_action(pointer & out, const Adjective_BackwardDeallocateLink & adj)
 	{ delete +--out; }
-*/
 
 
 /***********************************************************************************************************************/
@@ -199,9 +165,11 @@ static inline void iterate_action(pointer & out, const Adjective<DIR_IMG_ITER(ba
 template
 <
 	typename value_type,
+
+	size_type mask,
 	typename A
 >
-static inline void iterate_action(value_type & in, const EnumAdjective<ACCEDE, A> & ob)
+static inline void iterate_action(value_type & in, const EnumAdjective<mask, Accede, A> & ob)
 	{ ob.accessor(in); }
 */
 
@@ -233,16 +201,6 @@ static inline void iterate_action(value_type & in, const EnumAdjective<ENUM_DIRE
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#undef DIRECTION
-#undef DIR_IMG_ITER
-#undef ACCEDE
-#undef ENUM_DIRECTION
-
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 

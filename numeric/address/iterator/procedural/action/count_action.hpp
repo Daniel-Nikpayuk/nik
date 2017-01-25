@@ -16,28 +16,23 @@
 ************************************************************************************************************************/
 
 
-#define APPLY	adv_list<Connotation::apply_count>
-
-
 /***********************************************************************************************************************/
 
 
-static inline void count_action(Adverb<null_adv> & ad)
+static inline void count_action(Adverb_OmitCount & ad)
 	{ }
 
 
 /***********************************************************************************************************************/
 
 
-static inline void count_action(Adverb<APPLY> & ad)
+template<size_type mask>
+static inline void count_action(Adverb<mask, ApplyCount> & ad)
 {
 	++ad.count;
 }
 
 
 /***********************************************************************************************************************/
-
-
-#undef APPLY
 
 

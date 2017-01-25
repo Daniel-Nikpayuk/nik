@@ -30,27 +30,19 @@
 /***********************************************************************************************************************/
 
 
-#define ADV_TYPE(optimizer)												\
+#define PARAMETERS													\
 															\
-	Adverb<Connotation::optimizer, F>
+	size_type verb_mask,												\
+	typename... F,													\
+															\
+	typename sub_pointer,												\
+															\
+	size_type sub_mask,												\
+	typename... T
 
 
 /***********************************************************************************************************************/
-
-
-#define SUB_ADJ_FULL													\
-															\
-	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_INTERVAL(interval)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_IMAGE(interval, image)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>, T>
+/***********************************************************************************************************************/
 
 
 /***********************************************************************************************************************/
@@ -180,38 +172,12 @@ struct Repeat
 */
 
 
-template
-<
-	size_type verb_mask,
-	typename... F,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-	typename sub_pointer,
-
-	size_type sub_mask,
-	typename... T
->
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad, sub_pointer out, Adjective<sub_mask, Closing, T...> & sub, size_type n)
+			sub_pointer out, sub_pointer end, Adjective<sub_mask, Closing, T...> & sub)
 {
-	while (n)
-	{
-		functor_action(ad, out);
-//		count_action(ad);
-
-		iterate_action(out, sub);
-		--n;
-	}
-
-	return out;
-}
-
-
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
-
-			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(closing) & sub)
-{
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (out != end)
 	{
@@ -223,7 +189,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -236,15 +201,14 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, Adjective<sub_mask, Closing, T...> & sub,
 
 			size_type n)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (n)
 	{
@@ -257,7 +221,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -272,13 +235,12 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(closed) & sub)
+			sub_pointer out, sub_pointer end, Adjective<sub_mask, Closed, T...> & sub)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (out != end)
 	{
@@ -293,7 +255,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -306,15 +267,14 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, Adjective<sub_mask, Closed, T...> & sub,
 
 			size_type n)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (n)
 	{
@@ -330,7 +290,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -345,13 +304,12 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(opening) & sub)
+			sub_pointer out, sub_pointer end, Adjective<sub_mask, Opening, T...> & sub)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (out != end)
 	{
@@ -363,7 +321,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -376,15 +333,14 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, Adjective<sub_mask, Opening, T...> & sub,
 
 			size_type n)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (n)
 	{
@@ -398,7 +354,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -413,13 +368,12 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, SUB_ADJ_INTERVAL(open) & sub)
+			sub_pointer out, sub_pointer end, Adjective<sub_mask, Open, T...> & sub)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
@@ -433,7 +387,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -446,15 +399,14 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, Adjective<sub_mask, Open, T...> & sub,
 
 			size_type n)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
@@ -469,7 +421,6 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -480,66 +431,48 @@ static sub_pointer repeat(ADV_TYPE(prototype) & ad,
 	Notice in this case the sub_adjective can be const because we know enough about it to optimize as such.
 */
 
-#define ALLOCATE_SEGMENT_REPEAT(sub_interval)										\
-															\
-template<DIRECTION_ONLY_PARAMETERS>											\
-static void repeat(ADV_TYPE(prototype) & ad,										\
-															\
-			sub_pointer out, sub_pointer end, SUB_ADJ_IMAGE(sub_interval, deallocate) & sub)		\
-															\
-	{ memory_action(sub); }												\
-															\
-template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
-															\
-			sub_pointer & origin, sub_pointer end, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub)	\
-{															\
-	SUB_ADJ_IMAGE(sub_interval, mutate) sub_mutate;									\
-															\
-	return repeat(ad, memory_action(origin, sub), end, sub_mutate);							\
-}															\
-															\
-template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer repeat(ADV_TYPE(prototype) & ad,									\
-															\
-			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
-															\
-			size_type n)											\
-{															\
-	SUB_ADJ_IMAGE(sub_interval, mutate) sub_mutate;									\
-															\
-	return repeat(ad, memory_action(origin, sub), sub_mutate, n);							\
+
+using MutateSegment = typename structural<Interface::semiotic>::MutateSegment;
+
+
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+
+			sub_pointer out, sub_pointer end, Adjective<sub_mask, DeallocateSegment, T...> & sub)
+
+	{ memory_action(sub); }
+
+
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+
+			sub_pointer & origin, sub_pointer end, const Adjective<sub_mask, AllocateSegment, T...> & sub)
+{
+	Adjective<sub_mask, MutateSegment, T...> sub_mutate;
+
+	return repeat(ad, memory_action(origin, sub), end, sub_mutate);
+}
+
+
+template<PARAMETERS>
+static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+
+			sub_pointer & origin, const Adjective<sub_mask, AllocateSegment, T...> & sub,
+
+			size_type n)
+{
+	Adjective<sub_mask, MutateSegment, T...> sub_mutate;
+
+	return repeat(ad, memory_action(origin, sub), sub_mutate, n);
 }
 
 
 /***********************************************************************************************************************/
-
-
-/*
-ALLOCATE_SEGMENT_REPEAT(closing)
-ALLOCATE_SEGMENT_REPEAT(closed)
-ALLOCATE_SEGMENT_REPEAT(opening)
-ALLOCATE_SEGMENT_REPEAT(open)
-*/
-
-
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#undef ADV_PARAMETERS_OPTIMIZER_REDUCED
-#undef SUB_ADJ_PARAMETERS_FULL
-#undef SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef SUB_ADJ_PARAMETERS_DIRECTION_ONLY
-#undef FULL_PARAMETERS
-#undef INTERVAL_REDUCED_PARAMETERS
-#undef DIRECTION_ONLY_PARAMETERS
-#undef ADV_TYPE
-#undef SUB_ADJ_FULL
-#undef SUB_ADJ_INTERVAL
-#undef SUB_ADJ_IMAGE
+#undef PARAMETERS
 #undef STATIC_ASSERT
-#undef ALLOCATE_SEGMENT_REPEAT
 
 
