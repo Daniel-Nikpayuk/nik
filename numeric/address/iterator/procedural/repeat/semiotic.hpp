@@ -113,9 +113,9 @@ struct Repeat
 	>;
 
 	template<Connotation... params>
-	using verb = Adverb
+	using verb = optimizer
 	<
-		bit::template cast
+		bitmask::template cast
 		<
 			typename sortFill<Selection, Connotation, params...>::rtn
 
@@ -145,9 +145,9 @@ struct Repeat
 	>;
 
 	template<Association... params>
-	using subject = Adjective
+	using subject = adj_modifier
 	<
-		adj_bit::template cast
+		adj_bitmask::template cast
 		<
 			typename sortFill<Arrangement, Association, params...>::rtn
 
@@ -172,6 +172,7 @@ struct Repeat
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -189,10 +190,12 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
 
+static constexpr size_type Closing = structural<Interface::semiotic>::Closing;
 
 /*
 	Constraints:
@@ -201,10 +204,13 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+template
+<
+	typename sub_pointer
+>
+static sub_pointer repeat(Adverb<Connotation::prototype> *ad,
 
-			sub_pointer out, Adjective<sub_mask, Closing, T...> & sub,
+			sub_pointer out, Adjective<Association::closing> & sub,
 
 			size_type n)
 {
@@ -212,10 +218,11 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	while (n)
 	{
-		functor_action(ad, out);
-		count_action(ad);
+		nik::display << (size_type) ad->bitmask << nik::endl;
+//		functor_action(ad, out);
+//		count_action(ad);
 
-		iterate_action(out, sub);
+//		iterate_action(out, sub);
 		--n;
 	}
 
@@ -235,6 +242,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -255,6 +263,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -267,6 +276,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -290,6 +300,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -304,6 +315,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -321,6 +333,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -333,6 +346,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -354,6 +368,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -368,6 +383,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -387,6 +403,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -399,6 +416,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
@@ -421,6 +439,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -432,13 +451,11 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-using MutateSegment = typename structural<Interface::semiotic>::MutateSegment;
-
-
+/*
 template<PARAMETERS>
 static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, Adjective<sub_mask, DeallocateSegment, T...> & sub)
+			sub_pointer out, sub_pointer end, TAdjective<T, Association::deallocate, Association::Segment> & sub)
 
 	{ memory_action(sub); }
 
@@ -465,6 +482,7 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return repeat(ad, memory_action(origin, sub), sub_mutate, n);
 }
+*/
 
 
 /***********************************************************************************************************************/

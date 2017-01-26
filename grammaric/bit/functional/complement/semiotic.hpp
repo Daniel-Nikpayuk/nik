@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type base, size_type mask>
-struct in
+template<size_type mask, size_type base>
+struct complement
 {
-	static constexpr bool rtn = ((base & mask) == base);
+	static constexpr size_type rtn = mask & ~base;
 };
 

@@ -51,103 +51,219 @@ enum struct Connotation : size_type
 /***********************************************************************************************************************/
 
 
-using bit = typename bitmask::template bit<Connotation>;
+enum struct Manner : size_type
+{
+	functor,
+	tracer,
+	fixer,
+	optimizer,
+
+	dimension
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+using bitmask = typename bit::template bitmask<Connotation>;
 
 template<Connotation... params>
-using list_cast = typename bit::template list_cast<params...>;
+using list_cast = typename bitmask::template list_cast<params...>;
 
 template<size_type mask>
-using pattern = typename bit::template pattern<mask>;
+using pattern = typename bitmask::template pattern<mask>;
 
-template<size_type mask, typename... params>
+template<size_type mask, size_type... params>
 using match = typename pattern<mask>::template match<params...>;
 
-template<size_type mask, typename S>
-using tail = typename pattern<mask>::template tail<S::bitmask>;
+template<size_type mask, typename... params>
+using dispatch = typename pattern<mask>::template dispatch<params...>;
+
+template<size_type base, size_type mask>
+using apply = typename pattern<base>::template apply<mask>;
+
+template<size_type mask, size_type base>
+using deduct = typename pattern<mask>::template deduct<base>;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-struct Prototype
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::prototype
-
-	>::rtn;
-};
-
-struct Specialize
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::specialize
-
-	>::rtn;
-};
+/************************************************************************************************************************
+							functor
+************************************************************************************************************************/
 
 
-struct ApplyFunctor { };
-struct ApplyCount { };
+static constexpr size_type		OmitFunctor
+
+= list_cast
+<
+	Connotation::omit_functor
+
+>::rtn;
+
+static constexpr size_type		ApplyFunctor
+
+= list_cast
+<
+	Connotation::apply_functor
+
+>::rtn;
+
+static constexpr size_type		OmitOmit
+
+= list_cast
+<
+	Connotation::omit_functor,
+	Connotation::omit_count
+
+>::rtn;
+
+static constexpr size_type		OmitApply
+
+= list_cast
+<
+	Connotation::omit_functor,
+	Connotation::apply_count
+
+>::rtn;
+
+static constexpr size_type		ApplyOmit
+
+= list_cast
+<
+	Connotation::apply_functor,
+	Connotation::omit_count
+
+>::rtn;
+
+static constexpr size_type		ApplyApply
+
+= list_cast
+<
+	Connotation::apply_functor,
+	Connotation::apply_count
+
+>::rtn;
+
+/***********************************************************************************************************************/
+
+static constexpr size_type		Functor
+
+= list_cast
+<
+	Connotation::omit_functor,
+	Connotation::apply_functor
+
+>::rtn;
 
 
-struct ApplyApply
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::apply_functor,
-		Connotation::apply_count
-
-	>::rtn;
-};
-
-struct ApplyOmit
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::apply_functor,
-		Connotation::omit_count
-
-	>::rtn;
-};
+/************************************************************************************************************************
+							tracer
+************************************************************************************************************************/
 
 
-struct OmitApply
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::omit_functor,
-		Connotation::apply_count
+static constexpr size_type		OmitCount
 
-	>::rtn;
-};
+= list_cast
+<
+	Connotation::omit_count
 
-struct OmitOmit
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Connotation::omit_functor,
-		Connotation::omit_count
+>::rtn;
 
-	>::rtn;
-};
+static constexpr size_type		ApplyCount
+
+= list_cast
+<
+	Connotation::apply_count
+
+>::rtn;
+
+/***********************************************************************************************************************/
+
+static constexpr size_type		Tracer
+
+= list_cast
+<
+	Connotation::omit_count,
+	Connotation::apply_count
+
+>::rtn;
+
+
+/************************************************************************************************************************
+							fixer
+************************************************************************************************************************/
+
+
+static constexpr size_type		Fixer
+
+= list_cast
+<
+	Connotation::after,
+	Connotation::before,
+	Connotation::between
+
+>::rtn;
+
+
+/************************************************************************************************************************
+							optimizer
+************************************************************************************************************************/
+
+
+static constexpr size_type		Prototype
+
+= list_cast
+<
+	Connotation::prototype
+
+>::rtn;
+
+static constexpr size_type		Specialize
+
+= list_cast
+<
+	Connotation::specialize
+
+>::rtn;
+
+/***********************************************************************************************************************/
+
+static constexpr size_type		Optimizer
+
+= list_cast
+<
+	Connotation::prototype,
+	Connotation::specialize
+
+>::rtn;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params> struct Adverb;
+template<size_type mask, typename... params>
+struct adverb;
 
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+template<size_type mask>
+struct adverb<mask> { static constexpr size_type bitmask = mask; };
 
 
-struct Adverb_OmitFunctor { };
-struct Adverb_OmitCount { };
+// "using" for polymorphic dispatching.
+
+
+template<Connotation... params>
+using Adverb = adverb<list_cast<params...>::rtn>;
+
+
+template<typename F, Connotation... params>
+using FAdverb = adverb<list_cast<params...>::rtn, F>;
 
 
 /************************************************************************************************************************
@@ -155,100 +271,60 @@ struct Adverb_OmitCount { };
 ************************************************************************************************************************/
 
 
-template<size_type mask, typename F>
-struct Adverb<mask, ApplyFunctor, F>
+template<size_type mask>
+struct adverb<mask, adverb<OmitFunctor> >
 {
-	F functor;
+	static constexpr size_type bitmask = OmitFunctor;
+	static constexpr size_type functor_mask = apply< deduct<mask, Functor>::rtn, ApplyFunctor>::rtn;
+	static constexpr size_type Optimizer = match<mask, Prototype, Specialize>::rtn;
 
-	Adverb(const F & f) : functor(f) { }
+	template<typename F>
+	static adverb<functor_mask, adverb<Optimizer>, F> cast(const F & f)
+	{
+		return adverb<functor_mask, adverb<Optimizer>, F>(f);
+	}
 };
 
-template<size_type mask>
-struct Adverb<mask, ApplyCount>
+
+template<typename F>
+struct adverb<ApplyFunctor, F>
 {
+	static constexpr size_type bitmask = ApplyFunctor;
+
+	F functor;
+
+	adverb(const F & f) : functor(f) { }
+};
+
+
+template<size_type mask>
+struct adverb<mask, adverb<OmitCount> >
+{
+	static constexpr size_type bitmask = OmitCount;
+	static constexpr size_type tracer_mask = apply< deduct<mask, Tracer>::rtn, ApplyCount>::rtn;
+	static constexpr size_type Optimizer = match<mask, Prototype, Specialize>::rtn;
+
+	static adverb<tracer_mask, adverb<Optimizer> > cast(const size_type & c)
+	{
+		return adverb<tracer_mask, adverb<Optimizer> >(c);
+	}
+};
+
+
+template<size_type mask>
+struct adverb<mask, adverb<ApplyCount> >
+{
+	static constexpr size_type bitmask = ApplyCount;
+
 	size_type count;
 
-	Adverb(const size_type & c) : count(c) { }
+	adverb(const size_type & c) : count(c) { }
 };
 
 
 /************************************************************************************************************************
 							2
 ************************************************************************************************************************/
-
-
-template<size_type mask, typename F>
-struct Adverb<mask, ApplyApply, F> :
-
-		public Adverb<mask, ApplyFunctor, F>,
-		public Adverb<mask, ApplyCount>
-{
-	static constexpr size_type bitmask = ApplyApply::bitmask;
-
-	Adverb(const F & f, size_type c) :
-
-			Adverb<mask, ApplyFunctor, F>(f),
-			Adverb<mask, ApplyCount>(c)
-
-		{ }
-};
-
-
-template<size_type mask, typename F>
-struct Adverb<mask, ApplyOmit, F> :
-
-		public Adverb<mask, ApplyFunctor, F>,
-		public Adverb_OmitCount
-{
-	static constexpr size_type bitmask = ApplyOmit::bitmask;
-
-	Adverb(const F & f) :
-
-			Adverb<mask, ApplyFunctor, F>(f)
-
-		{ }
-};
-
-
-template<size_type mask>
-struct Adverb<mask, OmitApply> :
-
-		public Adverb<mask, ApplyCount>,
-		public Adverb_OmitFunctor
-{
-	static constexpr size_type bitmask = OmitApply::bitmask;
-
-	static constexpr size_type functor_mask = mask | ApplyOmit::bitmask;
-
-	using Optimizer = typename match<mask, Prototype, Specialize>::rtn;
-
-	template<typename F>
-	static Adverb<functor_mask, Optimizer, F> cast(const F & f)
-	{
-		return Adverb<functor_mask, Optimizer, F>(f);
-	}
-
-};
-
-
-template<size_type mask>
-struct Adverb<mask, OmitOmit> :
-
-		public Adverb_OmitFunctor,
-		public Adverb_OmitCount
-{
-	static constexpr size_type bitmask = OmitOmit::bitmask;
-
-	static constexpr size_type functor_mask = mask | ApplyOmit::bitmask;
-
-	using Optimizer = typename match<mask, Prototype, Specialize>::rtn;
-
-	template<typename F>
-	static Adverb<functor_mask, Optimizer, F> cast(const F & f)
-	{
-		return Adverb<functor_mask, Optimizer, F>(f);
-	}
-};
 
 
 /************************************************************************************************************************
@@ -260,68 +336,128 @@ struct Adverb<mask, OmitOmit> :
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename S>
-using Adverb_Tail = Adverb< tail<mask, S>::rtn, S>;
+template<size_type mask>
+using DispatchError = typename structural<Interface::semiotic>::template DispatchError<mask>;
 
-template<size_type mask, typename S, typename F>
-using Adverb_Tail_F = Adverb< tail<mask, S>::rtn, S, F>;
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 template<size_type mask>
-using match_count = typename match
+using dispatch_fixer = typename dispatch
 <
 	mask,
 
-	Adverb_Tail<mask, OmitOmit>,
-	Adverb_Tail<mask, OmitApply>
+	adverb<Fixer>
 
 >::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using dispatch_functor = typename dispatch
+<
+	mask,
+
+	adverb<mask, adverb<OmitFunctor> >,
+
+	DispatchError<mask>
+
+>::rtn;
+
 
 template<size_type mask, typename F>
-using match_functor = typename match
+using dispatch_functor_F = typename dispatch
 <
 	mask,
 
-	Adverb_Tail_F<mask, ApplyOmit, F>,
-	Adverb_Tail_F<mask, ApplyApply, F>
+	adverb<ApplyFunctor, F>,
 
->::rtn;
-
-template<size_type mask>
-using match_optimizer = typename match
-<
-	mask,
-
-	Adverb<mask, Prototype>,
-	Adverb<mask, Specialize>
+	DispatchError<mask>
 
 >::rtn;
 
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+template<size_type mask>
+using dispatch_tracer = typename dispatch
+<
+	mask,
+
+	adverb<OmitCount>,
+	adverb<mask, adverb<ApplyCount> >,
+
+	DispatchError<mask>
+
+>::rtn;
 
 
-template<size_type mask, typename Optimizer>
-struct Adverb<mask, Optimizer> : public match_count<mask>
+// partition implies no need for a default value.
+
+template<size_type mask>
+struct adverb<mask, adverb<Prototype> > :
+
+		public dispatch_functor<mask>,
+		public dispatch_tracer<mask>
+
 {
-	static constexpr size_type bitmask = Optimizer::bitmask;
+	static constexpr size_type bitmask = Prototype;
 };
 
 
-template<size_type mask, typename Optimizer, typename F>
-struct Adverb<mask, Optimizer, F> : public match_functor<mask, F>
-{
-	static constexpr size_type bitmask = Optimizer::bitmask;
+template<size_type mask, typename F>
+struct adverb<mask, adverb<Prototype>, F> :
 
-	Adverb(const F & f) : match_functor<mask, F>(f) { }
+		public dispatch_functor_F<mask, F>,
+		public dispatch_tracer<mask>
+
+{
+	static constexpr size_type bitmask = Prototype;
+
+	adverb(const F & f) : dispatch_functor_F<mask, F>(f) { }
 };
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask, typename... params>
+struct optimizer;
+
+
+// partition implies no need for a default value.
 
 
 template<size_type mask>
-struct Adverb<mask> : public match_optimizer<mask> { };
+struct optimizer<mask> : public dispatch
+<
+	mask,
+
+	adverb<mask, adverb<Prototype> >//,
+//	adverb<mask, adverb<Specialize> >,
+
+//	DispatchError<mask>
+
+>::rtn { };
+
+
+template<size_type mask, typename F>
+struct optimizer<mask, F> : public dispatch
+<
+	mask,
+
+	adverb<mask, adverb<Prototype>, F>,
+	adverb<mask, adverb<Specialize>, F>,
+
+	DispatchError<mask>
+
+>::rtn
+{
+	optimizer(const F & f) : dispatch_functor_F<mask, F>(f) { }
+};
 
 

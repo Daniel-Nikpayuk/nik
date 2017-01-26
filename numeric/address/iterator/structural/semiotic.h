@@ -23,7 +23,7 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		using bitmask = grammaric::module<Module::bitmask, Orientation::structural, Interface::media, size_type>;
+		using bit = grammaric::module<Module::bit, Orientation::structural, Interface::media, size_type>;
 
 		//
 

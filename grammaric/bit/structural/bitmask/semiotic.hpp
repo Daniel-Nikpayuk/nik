@@ -15,9 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<size_type mask, size_type base>
-struct tail
-{
-	static constexpr size_type value() { return semiotic::template tail<mask, base>::rtn; }
-};
-

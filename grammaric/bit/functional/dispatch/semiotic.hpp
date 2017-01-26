@@ -15,9 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<size_type mask, size_type base>
-struct tail
+template<size_type x, typename car, typename... cdr>
+struct dispatch
 {
-	static constexpr size_type rtn = mask & ~base;
+	using rtn = typename if_then_else
+	<
+		(x & car::bitmask) == car::bitmask,
+		car,
+		typename dispatch<x, cdr...>::rtn
+
+	>::rtn;
+};
+
+template<size_type x, typename last>
+struct dispatch<x, last>
+{
+	using rtn = last;
 };
 

@@ -15,18 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename... EnumStructs>
-struct bitlist
+template<size_type base, size_type mask>
+struct apply
 {
-	using parameter_tuple = tuple<EnumStructs...>;
-
-	template<typename L>
-	struct pattern
-	{
-		// should static_cast here validating L's types.
-
-		template<typename... params>
-		using match = typename functional::template dispatch<L, params...>;
-	};
+	static constexpr size_type rtn = base | mask;
 };
 

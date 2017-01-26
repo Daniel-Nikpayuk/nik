@@ -19,7 +19,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::structural, Interface::media, SizeType>
+	struct module<Module::bit, Orientation::structural, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
@@ -34,9 +34,9 @@ namespace grammaric	{
 
 		//
 
-		using functional = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
+		using functional = module<Module::bit, Orientation::functional, Interface::semiotic, size_type>;
 
-		#include"bit/media.hpp"
+		#include"bitmask/media.hpp"
 		#include"bitlist/media.hpp"
 	};
 

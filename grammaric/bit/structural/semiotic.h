@@ -15,9 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<size_type base, size_type mask>
-struct set
-{
-	static constexpr size_type rtn = base | mask;
-};
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct module<Module::bit, Orientation::structural, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
+
+		#include"bitmask/semiotic.hpp"
+		#include"bitlist/semiotic.hpp"
+	};
+
+}}
 

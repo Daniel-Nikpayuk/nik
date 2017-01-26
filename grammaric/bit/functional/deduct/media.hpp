@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type base, size_type mask>
-struct set
+template<size_type mask, size_type base>
+struct deduct
 {
-	static constexpr size_type value() { return semiotic::template set<base, mask>::rtn; }
+	static constexpr size_type value() { return semiotic::template deduct<mask, base>::rtn; }
 };
 

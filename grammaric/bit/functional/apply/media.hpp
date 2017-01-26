@@ -15,26 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::functional, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		using semiotic = module<Module::bitmask, Orientation::functional, Interface::semiotic, size_type>;
-
-		#include"in/media.hpp"
-		#include"set/media.hpp"
-		#include"tail/media.hpp"
-
-		#include"cast/media.hpp"
-		#include"match/media.hpp"
-		#include"matchwise/media.hpp"
-
-		#include"dispatch/media.hpp"
-	};
-
-}}
+template<size_type base, size_type mask>
+struct apply
+{
+	static constexpr size_type value() { return semiotic::template apply<base, mask>::rtn; }
+};
 

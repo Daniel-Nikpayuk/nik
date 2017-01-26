@@ -17,7 +17,7 @@
 
 
 /*
-	Adjective Associations:
+	adjective Associations:
 
 				Strongly typed for improved type checking.
 
@@ -56,7 +56,7 @@ enum struct Association : size_type
 
 
 /*
-	Adjective Attributes:
+	adjective Attributes:
 				TUPLE/LIST data structures are appropriate here because resolution
 				occurs during compile-time and the size is expected to be small.
 
@@ -79,246 +79,281 @@ enum struct Attribute : size_type
 /***********************************************************************************************************************/
 
 
-using bit = typename bitmask::template bit<Association>;
+using bitmask = typename bit::template bitmask<Association>;
 
 template<Association... params>
-using list_cast = typename bit::template list_cast<params...>;
+using list_cast = typename bitmask::template list_cast<params...>;
 
 template<size_type mask>
-using pattern = typename bit::template pattern<mask>;
+using pattern = typename bitmask::template pattern<mask>;
 
-template<size_type mask, typename... params>
+template<size_type mask, size_type... params>
 using match = typename pattern<mask>::template match<params...>;
 
-template<size_type mask, typename S>
-using tail = typename pattern<mask>::template tail<S::bitmask>;
+template<size_type mask, typename... params>
+using dispatch = typename pattern<mask>::template dispatch<params...>;
 
+template<size_type base, size_type mask>
+using apply = typename pattern<base>::template apply<mask>;
+
+template<size_type mask, size_type base>
+using deduct = typename pattern<mask>::template deduct<base>;
+
+
+/************************************************************************************************************************
+							direction
+************************************************************************************************************************/
+
+
+static constexpr size_type		Forward
+
+= list_cast
+<
+	Association::forward
+
+>::rtn;
+
+static constexpr size_type		ForwardAllocateHook
+
+= list_cast
+<
+	Association::forward,
+	Association::allocate,
+	Association::hook
+
+>::rtn;
+
+static constexpr size_type		ForwardAllocateLink
+
+= list_cast
+<
+	Association::forward,
+	Association::allocate,
+	Association::link
+
+>::rtn;
+
+static constexpr size_type		ForwardDeallocateHook
+
+= list_cast
+<
+	Association::forward,
+	Association::deallocate,
+	Association::hook
+
+>::rtn;
+
+static constexpr size_type		ForwardDeallocateLink
+
+= list_cast
+<
+	Association::forward,
+	Association::deallocate,
+	Association::link
+
+>::rtn;
+
+static constexpr size_type		Backward
+
+= list_cast
+<
+	Association::backward
+
+>::rtn;
+
+static constexpr size_type		BackwardAllocateHook
+
+= list_cast
+<
+	Association::backward,
+	Association::allocate,
+	Association::hook
+
+>::rtn;
+
+static constexpr size_type		BackwardAllocateLink
+
+= list_cast
+<
+	Association::backward,
+	Association::allocate,
+	Association::link
+
+>::rtn;
+
+static constexpr size_type		BackwardDeallocateHook
+
+= list_cast
+<
+	Association::backward,
+	Association::deallocate,
+	Association::hook
+
+>::rtn;
+
+static constexpr size_type		BackwardDeallocateLink
+
+= list_cast
+<
+	Association::backward,
+	Association::deallocate,
+	Association::link
+
+>::rtn;
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
+
+static constexpr size_type		Direction
+
+= list_cast
+<
+	Association::forward,
+	Association::backward
+
+>::rtn;
 
 
-struct Segment // mutate, immuate
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::segment
+/************************************************************************************************************************
+							interval
+************************************************************************************************************************/
 
-	>::rtn;
-};
-
-struct MutateSegment
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::mutate,
-		Association::segment
-
-	>::rtn;
-};
-
-struct AllocateSegment
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::allocate,
-		Association::segment
-
-	>::rtn;
-};
-
-struct DeallocateSegment
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::deallocate,
-		Association::segment
-
-	>::rtn;
-};
 
 // alias from "enumerator" module ?
 
-struct Closing
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::closing
 
-	>::rtn;
-};
+static constexpr size_type		Closing
 
-struct Closed
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::closed
+= list_cast
+<
+	Association::closing
 
-	>::rtn;
-};
+>::rtn;
 
-struct Opening
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::opening
+static constexpr size_type		Closed
 
-	>::rtn;
-};
+= list_cast
+<
+	Association::closed
 
-struct Open
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::open
+>::rtn;
 
-	>::rtn;
-};
+static constexpr size_type		Opening
+
+= list_cast
+<
+	Association::opening
+
+>::rtn;
+
+static constexpr size_type		Open
+
+= list_cast
+<
+	Association::open
+
+>::rtn;
+
+/***********************************************************************************************************************/
+
+static constexpr size_type		Interval
+
+= list_cast
+<
+	Association::closing,
+	Association::closed,
+	Association::opening,
+	Association::open
+
+>::rtn;
+
+
+/************************************************************************************************************************
+							image
+************************************************************************************************************************/
+
+
+static constexpr size_type		Image
+
+= list_cast
+<
+	Association::mutate,
+	Association::allocate,
+	Association::immutate,
+	Association::deallocate
+
+>::rtn;
+
+
+/************************************************************************************************************************
+							iterator
+************************************************************************************************************************/
+
+
+static constexpr size_type		Segment // mutate, immutate
+
+= list_cast
+<
+	Association::segment
+
+>::rtn;
+
+static constexpr size_type		AllocateSegment
+
+= list_cast
+<
+	Association::allocate,
+	Association::segment
+
+>::rtn;
+
+static constexpr size_type		DeallocateSegment
+
+= list_cast
+<
+	Association::deallocate,
+	Association::segment
+
+>::rtn;
+
+/***********************************************************************************************************************/
+
+static constexpr size_type		Iterator
+
+= list_cast
+<
+	Association::segment,
+	Association::hook,
+	Association::link
+
+>::rtn;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params> struct Adjective;
+template<size_type mask, typename... params>
+struct adjective;
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-struct Adjective_Forward
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::forward
-
-	>::rtn;
-};
-
-struct Adjective_Backward { };
-
-struct Adjective_Deallocate { };
-
-struct Adjective_Segment { };
-
-
-struct Adjective_ForwardAllocateHook
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::forward,
-		Association::allocate,
-		Association::hook
-
-	>::rtn;
-};
-
-struct Adjective_ForwardAllocateLink
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::forward,
-		Association::allocate,
-		Association::link
-
-	>::rtn;
-};
-
-struct Adjective_ForwardDeallocateHook
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::forward,
-		Association::deallocate,
-		Association::hook
-
-	>::rtn;
-};
-
-struct Adjective_ForwardDeallocateLink
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::forward,
-		Association::deallocate,
-		Association::link
-
-	>::rtn;
-};
-
-
-
-struct Adjective_BackwardAllocateHook
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::backward,
-		Association::allocate,
-		Association::hook
-
-	>::rtn;
-};
-
-struct Adjective_BackwardAllocateLink
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::backward,
-		Association::allocate,
-		Association::link
-
-	>::rtn;
-};
-
-struct Adjective_BackwardDeallocateHook
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::backward,
-		Association::deallocate,
-		Association::hook
-
-	>::rtn;
-};
-
-struct Adjective_BackwardDeallocateLink
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::backward,
-		Association::deallocate,
-		Association::link
-
-	>::rtn;
-};
 
 template<size_type mask>
-struct Adjective_Coarse :
+struct adjective<mask> { static constexpr size_type bitmask = mask; };
 
-		public match
-		<
-			mask,
 
-			Adjective_ForwardAllocateHook,
-			Adjective_ForwardAllocateLink,
+// "using" for polymorphic dispatching.
 
-			Adjective_ForwardDeallocateHook,
-			Adjective_ForwardDeallocateLink,
 
-			Adjective_Forward,
+template<Association... params>
+using Adjective = adjective<list_cast<params...>::rtn>;
 
-			Adjective_BackwardAllocateHook,
-			Adjective_BackwardAllocateLink,
 
-			Adjective_BackwardDeallocateHook,
-			Adjective_BackwardDeallocateLink,
+template<typename T, Association... params>
+using TAdjective = adjective<list_cast<params...>::rtn, T>;
 
-			Adjective_Backward
 
-		>::rtn
+template<size_type mask, typename... params>
+struct modifier;
 
-	{ };
 
 /************************************************************************************************************************
 							1
@@ -326,26 +361,23 @@ struct Adjective_Coarse :
 
 
 template<size_type mask>
-struct Adjective<mask, Segment> : // mutate, immuate
+struct adjective<mask, adjective<Segment> > : // mutate, immutate
 
-		public Adjective_Segment
+		public adjective<Segment>
 {
-	static constexpr size_type bitmask = Segment::bitmask;
+	static constexpr size_type bitmask = Segment;
+	static constexpr size_type allocate_mask = apply< deduct<mask, Image>::rtn, AllocateSegment>::rtn;
+	static constexpr size_type deallocate_mask = apply< deduct<mask, Image>::rtn, DeallocateSegment>::rtn;
 
-	static constexpr size_type allocate_mask = mask | AllocateSegment::bitmask;
-	static constexpr size_type deallocate_mask = mask | DeallocateSegment::bitmask;
-
-	using Interval = typename match<mask, Closing, Closed, Opening, Open>::rtn;
-
-	static Adjective<allocate_mask, Interval> cast(size_type l, size_type o = 0)
+	static modifier<allocate_mask> cast(size_type l, size_type o = 0)
 	{
-		return Adjective<allocate_mask, Interval>(l, o);
+		return modifier<allocate_mask>(l, o);
 	}
 
 	template<typename T>
-	static Adjective<deallocate_mask, Interval, T> cast(T *o)
+	static modifier<deallocate_mask, T> cast(T *o)
 	{
-		return Adjective<deallocate_mask, Interval, T>(o);
+		return modifier<deallocate_mask, T>(o);
 	}
 };
 
@@ -355,30 +387,30 @@ struct Adjective<mask, Segment> : // mutate, immuate
 ************************************************************************************************************************/
 
 
-template<size_type mask, typename T>
-struct Adjective<mask, DeallocateSegment, T> :
+template<typename T>
+struct adjective<DeallocateSegment, T> :
 
-		public Adjective_Segment
+		public adjective<Segment>
 {
-	static constexpr size_type bitmask = DeallocateSegment::bitmask;
+	static constexpr size_type bitmask = DeallocateSegment;
 
 	T *origin;
 
-	Adjective(T *o) : origin(o) { }
+	adjective(T *o) : origin(o) { }
 };
 
 
 template<size_type mask>
-struct Adjective<mask, AllocateSegment> :
+struct adjective<mask, adjective<AllocateSegment> > :
 
-		public Adjective_Segment
+		public adjective<Segment>
 {
-	static constexpr size_type bitmask = AllocateSegment::bitmask;
+	static constexpr size_type bitmask = AllocateSegment;
 
 	size_type length;
 	size_type offset;
 
-	Adjective(size_type l, size_type o) : length(l), offset(o) { }
+	adjective(size_type l, size_type o) : length(l), offset(o) { }
 };
 
 
@@ -396,75 +428,124 @@ struct Adjective<mask, AllocateSegment> :
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename S>
-using Adjective_Tail = Adjective< tail<mask, S>::rtn, S>;
-
-template<size_type mask, typename S, typename T>
-using Adjective_Tail_T = Adjective< tail<mask, S>::rtn, S, T>;
-
-template<size_type mask, typename T>
-using match_deallocate = typename match
-<
-	mask,
-
-	Adjective_Tail_T<mask, DeallocateSegment, T>
-
->::rtn;
+// not yet implemented.
 
 template<size_type mask>
-using match_iterator = typename match
+struct DispatchError
+{
+	DispatchError() { static_assert(true, "adjective dispatch: no match found."); }
+};
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using dispatch_direction = typename dispatch
 <
 	mask,
 
-	Adjective_Tail<mask, AllocateSegment>,
-	Adjective_Tail<mask, Segment>,
+	adjective<ForwardAllocateHook>,
+	adjective<ForwardAllocateLink>,
 
-	Adjective_Coarse<mask>
+	adjective<ForwardDeallocateHook>,
+	adjective<ForwardDeallocateLink>,
+
+	adjective<Forward>,
+
+	adjective<BackwardAllocateHook>,
+	adjective<BackwardAllocateLink>,
+
+	adjective<BackwardDeallocateHook>,
+	adjective<BackwardDeallocateLink>,
+
+	adjective<Backward>,
+
+	DispatchError<mask>
 
 >::rtn;
+
+
+template<size_type mask>
+using dispatch_interval = typename dispatch
+<
+	mask,
+
+	adjective<Closing>,
+	adjective<Closed>,
+	adjective<Opening>,
+	adjective<Open>,
+
+	DispatchError<mask>
+
+>::rtn;
+
+
+template<size_type mask>
+using dispatch_image = typename dispatch
+<
+	mask,
+
+	adjective<Image>
+
+>::rtn;
+
+
+template<size_type mask>
+using dispatch_iterator = typename dispatch
+<
+	mask,
+
+	adjective<mask, adjective<AllocateSegment> >,
+	adjective<mask, adjective<Segment> >,
+
+	adjective<Iterator>
+
+>::rtn;
+
+
+template<size_type mask, typename T>
+using dispatch_iterator_T = typename dispatch
+<
+	mask,
+
+	adjective<DeallocateSegment, T>,
+
+	adjective<Iterator>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 // partition implies no need for a default value.
 
 template<size_type mask>
-using match_interval = typename match
-<
-	mask,
+struct modifier<mask> :
 
-	Adjective<mask, Closing>,
-	Adjective<mask, Closed>,
-	Adjective<mask, Opening>,
-	Adjective<mask, Open>
+		public dispatch_direction<mask>,
+		public dispatch_interval<mask>,
+		public dispatch_image<Image>,
+		public dispatch_iterator<mask>
 
->::rtn;
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<size_type mask, typename Interval>
-struct Adjective<mask, Interval> : public match_iterator<mask>
 {
-	static constexpr size_type bitmask = Interval::bitmask;
-
-	Adjective() : match_iterator<mask>() { }
-	Adjective(size_type l, size_type o) : match_iterator<mask>(l, o) { }
+	modifier() : dispatch_iterator<mask>() { }
+	modifier(size_type l, size_type o) : dispatch_iterator<mask>(l, o) { }
 };
 
-template<size_type mask, typename Interval, typename T>
-struct Adjective<mask, Interval, T> : public match_deallocate<mask, T>
+template<size_type mask, typename T>
+struct modifier<mask, T> :
+
+		public dispatch_direction<mask>,
+		public dispatch_interval<mask>,
+		public dispatch_image<Image>,
+		public dispatch_iterator_T<mask, T>
+
 {
-	static constexpr size_type bitmask = Interval::bitmask;
-
-	Adjective(T *o) : match_deallocate<mask, T>(o) { }
+	modifier(T *o) : dispatch_iterator_T<mask, T>(o) { }
 };
-
-
-/***********************************************************************************************************************/
-
-
-template<size_type mask>
-struct Adjective<mask> : public match_interval<mask> { };
 
 

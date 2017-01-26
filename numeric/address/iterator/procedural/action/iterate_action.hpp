@@ -16,24 +16,6 @@
 ************************************************************************************************************************/
 
 
-using Adjective_Forward = typename structural<Interface::semiotic>::Adjective_Forward;
-
-using Adjective_ForwardAllocateHook = typename structural<Interface::semiotic>::Adjective_ForwardAllocateHook;
-using Adjective_ForwardAllocateLink = typename structural<Interface::semiotic>::Adjective_ForwardAllocateLink;
-
-using Adjective_ForwardDeallocateHook = typename structural<Interface::semiotic>::Adjective_ForwardDeallocateHook;
-using Adjective_ForwardDeallocateLink = typename structural<Interface::semiotic>::Adjective_ForwardDeallocateLink;
-
-
-using Adjective_Backward = typename structural<Interface::semiotic>::Adjective_Backward;
-
-using Adjective_BackwardAllocateHook = typename structural<Interface::semiotic>::Adjective_BackwardAllocateHook;
-using Adjective_BackwardAllocateLink = typename structural<Interface::semiotic>::Adjective_BackwardAllocateLink;
-
-using Adjective_BackwardDeallocateHook = typename structural<Interface::semiotic>::Adjective_BackwardDeallocateHook;
-using Adjective_BackwardDeallocateLink = typename structural<Interface::semiotic>::Adjective_BackwardDeallocateLink;
-
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -49,7 +31,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & p, const Adjective_Forward & adj)
+static inline void iterate_action(pointer & p, const Adjective<Association::forward> & adj)
 	{ ++p; }
 
 
@@ -60,7 +42,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_ForwardAllocateHook & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::allocate, Association::hook> & adj)
 
 	{ out = +out = new NODE_TYPE; }
 
@@ -72,7 +54,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_ForwardAllocateLink & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::allocate, Association::link> & adj)
 {
 	+out = new NODE_TYPE;
 	-+out = out;
@@ -87,7 +69,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_ForwardDeallocateHook & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::deallocate, Association::hook> & adj)
 	{ delete out++; }
 
 
@@ -98,7 +80,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_ForwardDeallocateLink & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::deallocate, Association::link> & adj)
 	{ delete -++out; }
 
 
@@ -111,7 +93,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_Backward & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::backward> & adj)
 	{ --out; }
 
 
@@ -122,7 +104,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_BackwardAllocateHook & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::allocate, Association::hook> & adj)
 {
 	pointer tmp = out;
 	out = new NODE_TYPE;
@@ -137,7 +119,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_BackwardAllocateLink & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::allocate, Association::link> & adj)
 {
 	-out = new NODE_TYPE;
 	+-out = out;
@@ -152,7 +134,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective_BackwardDeallocateLink & adj)
+static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::deallocate, Association::link> & adj)
 	{ delete +--out; }
 
 

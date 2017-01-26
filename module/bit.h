@@ -15,32 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename EnumStruct>
-struct bit
-{
-	template<EnumStruct... params>
-	using list = typename parameter<EnumStruct>::template list<params...>;
+#ifndef MODULE_BIT_H
+#define MODULE_BIT_H
 
-	template<typename L>
-	using cast = typename functional::template cast<L>;
+#include"variadic.h"
 
-	template<EnumStruct... params>
-	using list_cast = cast<list<params...>>;
+#include"../grammaric/bit/functional/semiotic.h"
+#include"../grammaric/bit/structural/semiotic.h"
 
-	template<size_type m>
-	struct pattern
-	{
-		template<size_type n>
-		using in = typename functional::template in<m, n>;
+#include"../grammaric/bit/functional/media.h"
+#include"../grammaric/bit/structural/media.h"
 
-		template<size_type n>
-		using set = typename functional::template set<m, n>;
-
-		template<size_type l>
-		using tail = typename functional::template tail<m, l>;
-
-		template<typename... params>
-		using match = typename functional::template match<m, params...>;
-	};
-};
-
+#endif

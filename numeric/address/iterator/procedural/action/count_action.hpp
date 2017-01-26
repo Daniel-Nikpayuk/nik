@@ -19,7 +19,7 @@
 /***********************************************************************************************************************/
 
 
-static inline void count_action(Adverb_OmitCount & ad)
+static inline void count_action(Adverb<Connotation::omit_count> & ad)
 	{ }
 
 
@@ -27,7 +27,7 @@ static inline void count_action(Adverb_OmitCount & ad)
 
 
 template<size_type mask>
-static inline void count_action(Adverb<mask, ApplyCount> & ad)
+static inline void count_action(Adverb<Connotation::apply_count> & ad)
 {
 	++ad.count;
 }

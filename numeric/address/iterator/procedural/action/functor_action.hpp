@@ -19,17 +19,20 @@
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer p)
+static inline void functor_action(const Adverb<Connotation::omit_functor> & ad, sub_pointer p)
 	{ }
+*/
 
 
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer,
@@ -38,15 +41,19 @@ template
 	size_type mask,
 	typename... A
 >
-static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer out, ob_value_type in, const EnumAdjective<mask, A...> & ob)
+static inline void functor_action(const Adverb<Connotation::omit_functor> & ad,
+
+			sub_pointer out, ob_value_type in, const EnumAdjective<mask, A...> & ob)
 {
 	*out = in;
 }
+*/
 
 
 /***********************************************************************************************************************/
 
 
+/*
 template
 <
 	typename sub_pointer,
@@ -55,10 +62,13 @@ template
 	size_type mask,
 	typename... T
 >
-static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer out, ob_pointer in, const Adjective<mask, T...> & ob)
+static inline void functor_action(const Adverb<Connotation::omit_functor> & ad,
+
+			sub_pointer out, ob_pointer in, const adjective<mask, T...> & ob)
 {
 	*out = *in;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -67,12 +77,9 @@ static inline void functor_action(const Adverb_OmitFunctor & ad, sub_pointer out
 
 template
 <
-	size_type mask,
-	typename F,
-
 	typename sub_pointer
 >
-static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_pointer p)
+static inline void functor_action(const Adverb<Connotation::apply_functor> & ad, sub_pointer p)
 {
 	ad.functor(p);
 }
@@ -86,18 +93,19 @@ static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_
 */
 
 
+/*
 template
 <
-	size_type mask,
 	typename F,
 	typename sub_pointer,
 	typename ob_pointer,
 	typename Adjective
 >
-static inline void functor_action(const Adverb<mask, ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
+static inline void functor_action(const FAdverb<F, Connotation::apply_functor> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
 {
 	ad.functor(out, in);
 }
+*/
 
 
 /***********************************************************************************************************************/

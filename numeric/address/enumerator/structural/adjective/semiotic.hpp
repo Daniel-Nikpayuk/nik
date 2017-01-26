@@ -70,13 +70,13 @@ enum struct Attribute : size_type
 /***********************************************************************************************************************/
 
 
-using bit = typename bitmask::template bit<Association>;
+using bitmask = typename bit::template bitmask<Association>;
 
 template<Association... params>
-using list_cast = typename bit::template list_cast<params...>;
+using list_cast = typename bitmask::template list_cast<params...>;
 
 template<size_type mask>
-using pattern = typename bit::template pattern<mask>;
+using pattern = typename bitmask::template pattern<mask>;
 
 template<size_type mask, typename... params>
 using match = typename pattern<mask>::template match<params...>;

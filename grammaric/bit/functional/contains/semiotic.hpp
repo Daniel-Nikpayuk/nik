@@ -15,26 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::enumerator, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
-
-		using bit = grammaric::module<Module::bit, Orientation::structural, Interface::media, size_type>;
-
-		//
-
-		template<Orientation orientation_enum, Interface interface_enum>
-		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
-
-		template<typename enum_type>
-		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
-
-		#include"adjective/semiotic.hpp"
-	};
-
-}}
+template<size_type mask, size_type base>
+struct contains
+{
+	static constexpr bool rtn = ((mask & base) == base);
+};
 

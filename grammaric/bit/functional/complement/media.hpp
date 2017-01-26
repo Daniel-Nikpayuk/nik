@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type base, size_type mask>
-struct in
+template<size_type mask, size_type base>
+struct complement
 {
-	static constexpr bool value() { return semiotic::template in<base, mask>::rtn; }
+	static constexpr size_type value() { return semiotic::template complement<mask, base>::rtn; }
 };
 

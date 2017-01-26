@@ -23,7 +23,7 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		using bitmask = grammaric::module<Module::bitmask, Orientation::structural, Interface::media, size_type>;
+		using bit = grammaric::module<Module::bit, Orientation::structural, Interface::media, size_type>;
 
 		//
 
@@ -71,13 +71,22 @@ namespace numeric	{
 
 		using null_adj = adj_list<>;
 
-		using adj_bit = typename structural<Interface::semiotic>::bit;
+		using adj_bitmask = typename structural<Interface::semiotic>::bitmask;
 
 		template<size_type mask>
-		using adj_pattern = typename adj_bit::template pattern<mask>;
+		using adj_pattern = typename adj_bitmask::template pattern<mask>;
 
 		template<size_type mask, typename... params>
-		using Adjective = typename structural<Interface::semiotic>::template Adjective<mask, params...>;
+		using adjective = typename structural<Interface::semiotic>::template adjective<mask, params...>;
+
+		template<Association... params>
+		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;
+
+		template<typename T, Association... params>
+		using TAdjective = typename structural<Interface::semiotic>::template TAdjective<T, params...>;
+
+		template<size_type mask>
+		using adj_modifier = typename structural<Interface::semiotic>::template modifier<mask>;
 
 		//
 
@@ -87,13 +96,6 @@ namespace numeric	{
 		using adv_list = typename parameter<Connotation>::template list<params...>;
 
 		using null_adv = adv_list<>;
-
-		//
-
-		using Closing = typename structural<Interface::semiotic>::Closing;
-		using Closed = typename structural<Interface::semiotic>::Closed;
-		using Opening = typename structural<Interface::semiotic>::Opening;
-		using Open = typename structural<Interface::semiotic>::Open;
 
 		//
 

@@ -15,17 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<size_type x, size_type car, size_type... cdr>
+struct match
+{
+	static constexpr size_type rtn = (x & car) == car ?  car : match<x, cdr...>::rtn;
+};
 
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
-
-		#include"bit/semiotic.hpp"
-		#include"bitlist/semiotic.hpp"
-	};
-
-}}
+template<size_type x, size_type last>
+struct match<x, last>
+{
+	static constexpr size_type rtn = last;
+};
 

@@ -21,15 +21,6 @@
 
 
 /***********************************************************************************************************************/
-
-
-using DeallocateSegment = typename structural<Interface::semiotic>::DeallocateSegment;
-using AllocateSegment = typename structural<Interface::semiotic>::AllocateSegment;
-
-using Adjective_Deallocate = typename structural<Interface::semiotic>::Adjective_Deallocate;
-
-
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -44,7 +35,7 @@ template
 <
 	size_type mask
 >
-static inline void memory_action(const Adjective_Coarse<mask> & adj)
+static inline void memory_action(const adjective<mask> & adj)
 	{ }
 
 
@@ -55,10 +46,9 @@ static inline void memory_action(const Adjective_Coarse<mask> & adj)
 
 template
 <
-	size_type mask,
 	typename T
 >
-static inline void memory_action(Adjective<mask, DeallocateSegment, T> & adj)
+static inline void memory_action(TAdjective<T, Association::deallocate, Association::segment> & adj)
 {
 	delete [] adj.origin;
 }
@@ -73,28 +63,33 @@ template
 	typename pointer,
 	size_type mask
 >
-static inline void memory_action(const pointer & p, const Adjective_Coarse<mask> & adj)
+static inline void memory_action(const pointer & p, const adjective<mask> & adj)
 	{ }
 
 
 /***********************************************************************************************************************/
 
+/*
 template<size_type mask, Association... params>
-using contains = typename adj_pattern<adj_bit::template list_cast<params...>::rtn>::template in<mask>;
+using contains = typename adj_pattern<mask>::template contains
+<
+	adj_bit::template list_cast<params...>::rtn
 
-template<size_type mask, bool>
+>;
+
+template<bool, typename Filler = void>
 struct dispatch
 {
-	static size_type offset(const Adjective<mask, AllocateSegment> & sub)
+	static size_type offset(const Adjective<Association::allocate, Association::segment> & sub)
 	{
 		return sub.offset;
 	};
 };
 
-template<size_type mask>
-struct dispatch<mask, false>
+template<typename Filler>
+struct dispatch<false, Filler>
 {
-	static size_type offset(const Adjective<mask, AllocateSegment> & sub)
+	static size_type offset(const Adjective<Association::allocate, Association::segment> & sub)
 	{
 		return sub.length - 1 - sub.offset;
 	};
@@ -104,16 +99,15 @@ struct dispatch<mask, false>
 
 template
 <
-	typename sub_pointer,
-
-	size_type mask
+	typename sub_pointer
 >
-static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<mask, AllocateSegment> & sub)
+static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<Association::allocate, Association::segment> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
-	return origin + dispatch<mask, contains<mask, Association::forward>::rtn>::offset(sub);
+	return origin + dispatch<contains<sub::mask, Association::forward>::rtn>::offset(sub);
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -125,7 +119,7 @@ template
 <
 	typename pointer
 >
-static inline void memory_action(pointer & p, const Adjective_Deallocate & adj)
+static inline void memory_action(pointer & p, const Adjective<Association::deallocate> & adj)
 {
 	delete p;
 }

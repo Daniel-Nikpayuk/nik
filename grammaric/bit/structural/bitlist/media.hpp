@@ -15,15 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_BITMASK_H
-#define MODULE_BITMASK_H
+/*
+template<typename... EnumStructs>
+struct bitlist
+{
+	using parameter_tuple = tuple<EnumStructs...>;
 
-#include"variadic.h"
+	template<typename L>
+	struct pattern
+	{
+		// should static_cast here validating L's types.
 
-#include"../grammaric/bitmask/functional/semiotic.h"
-#include"../grammaric/bitmask/structural/semiotic.h"
+		template<typename... params>
+		using match = typename functional::template dispatch<L, params...>;
+	};
+};
+*/
 
-#include"../grammaric/bitmask/functional/media.h"
-#include"../grammaric/bitmask/structural/media.h"
-
-#endif

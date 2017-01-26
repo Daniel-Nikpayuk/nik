@@ -15,29 +15,38 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename EnumStruct>
+struct bitmask
+{
+	template<EnumStruct... params>
+	using list = typename parameter<EnumStruct>::template list<params...>;
 
-	template<typename SizeType>
-	struct module<Module::bitmask, Orientation::functional, Interface::semiotic, SizeType>
+	template<typename L>
+	using cast = typename functional::template cast<L>;
+
+	template<EnumStruct... params>
+	using list_cast = cast<list<params...>>;
+
+	template<size_type m>
+	struct pattern
 	{
-		typedef SizeType size_type;
+		template<size_type l>
+		using contains = typename functional::template contains<m, l>;
 
-		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
+		template<size_type l>
+		using complement = typename functional::template complement<m, l>;
 
-		template<bool t, typename f, typename s>
-		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+		template<size_type n>
+		using apply = typename functional::template apply<m, n>;
 
-		#include"in/semiotic.hpp"
-		#include"set/semiotic.hpp"
-		#include"tail/semiotic.hpp"
+		template<size_type l>
+		using deduct = typename functional::template deduct<m, l>;
 
-		#include"cast/semiotic.hpp"
-		#include"match/semiotic.hpp"
-		#include"matchwise/semiotic.hpp"
+		template<size_type... params>
+		using match = typename functional::template match<m, params...>;
 
-		#include"dispatch/semiotic.hpp"
+		template<typename... params>
+		using dispatch = typename functional::template dispatch<m, params...>;
 	};
-
-}}
+};
 

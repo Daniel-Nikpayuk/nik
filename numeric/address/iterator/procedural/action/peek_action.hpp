@@ -16,12 +16,6 @@
 ************************************************************************************************************************/
 
 
-using Adjective_Segment = typename structural<Interface::semiotic>::Adjective_Segment;
-
-template<size_type mask>
-using Adjective_Coarse = typename structural<Interface::semiotic>::template Adjective_Coarse<mask>;
-
-
 /***********************************************************************************************************************/
 
 
@@ -30,7 +24,7 @@ template
 	typename ob_pointer,
 	size_type mask
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective_Coarse<mask> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const adjective<mask> & ob)
 {
 	return (+in != end);
 }
@@ -43,7 +37,7 @@ template
 <
 	typename ob_pointer
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective_Segment & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<Association::segment> & ob)
 {
 	return (in < end);
 }

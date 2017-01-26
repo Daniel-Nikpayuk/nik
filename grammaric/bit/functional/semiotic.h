@@ -15,21 +15,28 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename car, typename... cdr>
-struct match
-{
-	using rtn = typename if_then_else
-	<
-		(x & car::bitmask) == car::bitmask,
-		car,
-		typename match<x, cdr...>::rtn
+namespace nik		{
+namespace grammaric	{
 
-	>::rtn;
-};
+	template<typename SizeType>
+	struct module<Module::bit, Orientation::functional, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-template<size_type x, typename last>
-struct match<x, last>
-{
-	using rtn = last;
-};
+		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
+
+		template<bool t, typename f, typename s>
+		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+
+		#include"contains/semiotic.hpp"
+		#include"complement/semiotic.hpp"
+		#include"apply/semiotic.hpp"
+		#include"deduct/semiotic.hpp"
+
+		#include"cast/semiotic.hpp"
+		#include"match/semiotic.hpp"
+		#include"dispatch/semiotic.hpp"
+	};
+
+}}
 
