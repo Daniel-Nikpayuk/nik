@@ -33,69 +33,18 @@ namespace numeric	{
 		template<typename enum_type>
 		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
 
-		template<typename L>
-		using length = typename variadic<Orientation::functional, Interface::semiotic>::template length<L>;
-
-		template<typename... params>
-		using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
-
-		template<size_type i, typename... params>
-		using cases = typename variadic<Orientation::functional, Interface::media>::template cases<i, params...>;
-
-		template<typename Field, typename Relation, Relation... params>
-		using sortFill = typename variadic<Orientation::functional, Interface::media>::template sortFill<Field, Relation, params...>;
-
 		//
 
 		using enumerator = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
 
-		using EnumAssociation = typename enumerator::Association;
-
-		template<EnumAssociation... params>
-		using enum_list = typename parameter<EnumAssociation>::template list<params...>;
-
-		using null_enum = enum_list<>;
-
-		template<size_type mask, typename... params>
-		using EnumAdjective = typename enumerator::template Adjective<mask, params...>;
-
 		//
 
-		template<Interface interface_enum>
-		using structural = module<Module::iterator, Orientation::structural, interface_enum, size_type>;
-
-		using Association = typename structural<Interface::semiotic>::Association;
-
-		template<Association... params>
-		using adj_list = typename parameter<Association>::template list<params...>;
-
-		using null_adj = adj_list<>;
-
-		using adj_bitmask = typename structural<Interface::semiotic>::bitmask;
-
-		template<size_type mask>
-		using adj_pattern = typename adj_bitmask::template pattern<mask>;
-
-		template<size_type mask, typename... params>
-		using adjective = typename structural<Interface::semiotic>::template adjective<mask, params...>;
-
-		template<Association... params>
-		using Adjective = typename structural<Interface::semiotic>::template Adjective<params...>;
-
-		template<typename T, Association... params>
-		using TAdjective = typename structural<Interface::semiotic>::template TAdjective<T, params...>;
-
-		template<size_type mask>
-		using adj_modifier = typename structural<Interface::semiotic>::template modifier<mask>;
+		using structural = module<Module::iterator, Orientation::structural, Interface::semiotic, size_type>;
 
 		//
 
 		#include"adverb/semiotic.hpp"
-
-		template<Connotation... params>
-		using adv_list = typename parameter<Connotation>::template list<params...>;
-
-		using null_adv = adv_list<>;
+		#include"dispatch/semiotic.hpp"
 
 		//
 

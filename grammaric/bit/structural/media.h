@@ -36,8 +36,7 @@ namespace grammaric	{
 
 		using functional = module<Module::bit, Orientation::functional, Interface::semiotic, size_type>;
 
-		#include"bitmask/media.hpp"
-		#include"bitlist/media.hpp"
+		#include"mask/media.hpp"
 	};
 
 }}

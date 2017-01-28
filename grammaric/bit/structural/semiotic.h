@@ -23,8 +23,7 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		#include"bitmask/semiotic.hpp"
-		#include"bitlist/semiotic.hpp"
+		#include"mask/semiotic.hpp"
 	};
 
 }}

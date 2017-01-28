@@ -19,12 +19,11 @@
 	memory_action can be called on both "out" as well as "in" pointers, as well as "ob" adjectives alone.
 */
 
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define VALUE_TYPE	typename structural<Interface::semiotic>::template trim<sub_pointer>::node::value_type
+#define VALUE_TYPE	typename structural::template trim<sub_pointer>::node::value_type
 
 
 /***********************************************************************************************************************/
@@ -48,7 +47,7 @@ template
 <
 	typename T
 >
-static inline void memory_action(TAdjective<T, Association::deallocate, Association::segment> & adj)
+static inline void memory_action(adjective<DeallocateSegment, T> & adj)
 {
 	delete [] adj.origin;
 }
@@ -80,7 +79,7 @@ using contains = typename adj_pattern<mask>::template contains
 template<bool, typename Filler = void>
 struct dispatch
 {
-	static size_type offset(const Adjective<Association::allocate, Association::segment> & sub)
+	static size_type offset(const adjective<AllocateSegment, void> & sub)
 	{
 		return sub.offset;
 	};
@@ -89,7 +88,7 @@ struct dispatch
 template<typename Filler>
 struct dispatch<false, Filler>
 {
-	static size_type offset(const Adjective<Association::allocate, Association::segment> & sub)
+	static size_type offset(const adjective<AllocateSegment, void> & sub)
 	{
 		return sub.length - 1 - sub.offset;
 	};
@@ -101,7 +100,7 @@ template
 <
 	typename sub_pointer
 >
-static inline sub_pointer memory_action(sub_pointer & origin, const Adjective<Association::allocate, Association::segment> & sub)
+static inline sub_pointer memory_action(sub_pointer & origin, const adjective<AllocateSegment, void> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
@@ -119,7 +118,7 @@ template
 <
 	typename pointer
 >
-static inline void memory_action(pointer & p, const Adjective<Association::deallocate> & adj)
+static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
 {
 	delete p;
 }

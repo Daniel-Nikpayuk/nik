@@ -16,9 +16,6 @@
 ************************************************************************************************************************/
 
 
-/***********************************************************************************************************************/
-
-
 template
 <
 	typename ob_pointer,
@@ -37,12 +34,9 @@ template
 <
 	typename ob_pointer
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const Adjective<Association::segment> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const adjective<Segment> & ob)
 {
 	return (in < end);
 }
-
-
-/***********************************************************************************************************************/
 
 

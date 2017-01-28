@@ -15,17 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename EnumStruct>
-struct bitmask
+struct mask
 {
-	template<EnumStruct... params>
-	using list = typename parameter<EnumStruct>::template list<params...>;
-
 	template<typename L>
 	using cast = typename functional::template cast<L>;
-
-	template<EnumStruct... params>
-	using list_cast = cast<list<params...>>;
 
 	template<size_type m>
 	struct pattern

@@ -45,6 +45,315 @@
 /***********************************************************************************************************************/
 
 
+/*
+	tuple/list data structures are appropriate here because resolution
+	occurs during compile-time and the size is expected to be small.
+
+	When dispatches are properly partitioned, there is no need for a match error.
+*/
+
+
+struct Repeat
+{
+	template<size_type mask>
+	using functor = typename dispatch
+	<
+		mask,
+
+		module::adverb<OmitFunctor>
+
+	>::rtn;
+
+	template<size_type mask, typename F>
+	using functor_F = typename dispatch
+	<
+		mask,
+
+		module::adverb<ApplyFunctor, F>
+
+	>::rtn;
+
+	template<size_type mask>
+	using tracer = typename dispatch
+	<
+		mask,
+
+		module::adverb<OmitCount>,
+		module::adverb<ApplyCount, void>
+
+	>::rtn;
+
+
+/***********************************************************************************************************************/
+
+
+	template<size_type mask, size_type base, typename... params>
+	struct adverb;
+
+
+	template<size_type mask, typename F>
+	struct adverb
+	<
+		mask,
+		match<mask, Prototype, Specialize>::rtn,
+		F
+	> :
+
+			public functor_F<mask, F>,
+			public tracer<mask>
+
+	{
+		adverb(const F & f) : functor_F<mask, F>(f) { }
+	};
+
+
+	template<size_type mask>
+	struct adverb
+	<
+		mask,
+		match<mask, Prototype, Specialize>::rtn
+	> :
+
+			public functor<mask>,
+			public tracer<mask>
+
+	{
+		static constexpr size_type functor_mask = apply< deduct<mask, Functor>::rtn, ApplyFunctor>::rtn;
+		static constexpr size_type tracer_mask = apply< deduct<mask, Tracer>::rtn, ApplyCount>::rtn;
+		static constexpr size_type base = match<mask, Prototype, Specialize>::rtn;
+
+		template<typename F>
+		static adverb<functor_mask, base, F> apply_functor(const F & f)
+		{
+			return adverb<functor_mask, base, F>(f);
+		}
+
+		static adverb<tracer_mask, base> apply_count(const size_type & c)
+		{
+			return adverb<tracer_mask, base>(c);
+		}
+	};
+
+
+/***********************************************************************************************************************/
+
+
+	template<Connotation... params>
+	struct Adverb
+	{
+		enum struct Manner : size_type
+		{
+			functor,
+			tracer,
+			optimizer,
+
+			dimension
+		};
+
+		using Selection = tuple
+		<
+			adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
+			adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
+			adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
+		>;
+
+		static constexpr size_type mask = bit::mask::template cast
+		<
+			typename sortFill<Selection, Connotation, params...>::rtn
+
+		>::rtn;
+
+		static constexpr size_type base = match<mask, Prototype, Specialize>::rtn;
+	};
+
+
+	template<Connotation... params>
+	using verb = adverb
+	<
+		Adverb<params...>::mask,
+		Adverb<params...>::base
+	>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+	template<size_type mask>
+	using direction = typename dispatch
+	<
+		mask,
+
+		module::adjective<ForwardAllocateHook>,
+		module::adjective<ForwardAllocateLink>,
+
+		module::adjective<ForwardDeallocateHook>,
+		module::adjective<ForwardDeallocateLink>,
+
+		module::adjective<Forward>,
+
+		module::adjective<BackwardAllocateHook>,
+		module::adjective<BackwardAllocateLink>,
+
+		module::adjective<BackwardDeallocateHook>,
+		module::adjective<BackwardDeallocateLink>,
+
+		module::adjective<Backward>
+
+	>::rtn;
+
+	template<size_type mask>
+	using interval = typename dispatch
+	<
+		mask,
+
+		module::adjective<Closing>,
+		module::adjective<Closed>,
+		module::adjective<Opening>,
+		module::adjective<Open>
+
+	>::rtn;
+
+	template<size_type mask>
+	using image = typename dispatch
+	<
+		mask,
+
+		module::adjective<Image>
+
+	>::rtn;
+
+	template<size_type mask, typename T>
+	using iterator_T = typename dispatch
+	<
+		mask,
+
+		adjective<DeallocateSegment, T>,
+
+		adjective<Iterator>
+
+	>::rtn;
+
+	template<size_type mask>
+	using iterator = typename dispatch
+	<
+		mask,
+
+		adjective<AllocateSegment, void>,
+		adjective<Segment>,
+
+		adjective<Iterator>
+
+	>::rtn;
+
+
+/***********************************************************************************************************************/
+
+
+	template<size_type mask, size_type base, typename... params>
+	struct adjective;
+
+
+	template<size_type mask, typename T>
+	struct adjective
+	<
+		mask,
+		match<mask, Closing, Closed, Opening, Open>::rtn,
+		T
+	> :
+
+			public direction<mask>,
+			public interval<mask>,
+			public image<mask>,
+			public iterator_T<mask, T>
+
+	{
+		adjective(T *o) : iterator_T<mask, T>(o) { }
+	};
+
+
+	template<size_type mask>
+	struct adjective
+	<
+		mask,
+		match<mask, Closing, Closed, Opening, Open>::rtn
+	> :
+
+			public direction<mask>,
+			public interval<mask>,
+			public image<mask>,
+			public iterator<mask>
+
+	{
+		adjective() : iterator<mask>() { }
+		adjective(size_type l, size_type o) : iterator<mask>(l, o) { }
+
+		static constexpr size_type allocate_mask = apply< deduct<mask, Image>::rtn, AllocateSegment>::rtn;
+		static constexpr size_type deallocate_mask = apply< deduct<mask, Image>::rtn, DeallocateSegment>::rtn;
+		static constexpr size_type base = match<mask, Closing, Closed, Opening, Open>::rtn;
+
+		static adjective<allocate_mask, base> allocate_segment(size_type l, size_type o = 0)
+		{
+			return adjective<allocate_mask, base>(l, o);
+		}
+
+		template<typename T>
+		static adjective<deallocate_mask, base, T> deallocate_segment(T *o)
+		{
+			return adjective<deallocate_mask, base, T>(o);
+		}
+	};
+
+
+/***********************************************************************************************************************/
+
+
+	template<Association... params>
+	struct Adjective
+	{
+		enum struct Attribute : size_type
+		{
+			direction,
+			interval,
+			image,
+			iterator,
+
+			dimension
+		};
+
+		using Arrangement = tuple
+		<
+			adj_list<Association::forward, Association::backward>,						// direction
+			adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+			adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
+			adj_list<Association::segment, Association::hook, Association::link>				// iterator
+		>;
+
+		static constexpr size_type mask = bit::mask::template cast
+		<
+			typename sortFill<Arrangement, Association, params...>::rtn
+
+		>::rtn;
+
+		static constexpr size_type base = match<mask, Closing, Closed, Opening, Open>::rtn;
+	};
+
+	template<Association... params>
+	using subject = adjective
+	<
+		Adjective<params...>::mask,
+		Adjective<params...>::base
+	>;
+};
+
+
+template<size_type mask, size_type base, typename... params>
+using RepeatVerb = typename Repeat::template adverb<mask, base, params...>;
+
+template<size_type mask, size_type base, typename... params>
+using RepeatSubject = typename Repeat::template adjective<mask, base, params...>;
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -88,78 +397,6 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 /***********************************************************************************************************************/
 
 
-/*
-	tuple/list data structures are appropriate here because resolution
-	occurs during compile-time and the size is expected to be small.
-*/
-
-
-struct Repeat
-{
-	enum struct Manner : size_type
-	{
-		functor,
-		tracer,
-		optimizer,
-
-		dimension
-	};
-
-	using Selection = tuple
-	<
-		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
-		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
-	>;
-
-	template<Connotation... params>
-	using verb = optimizer
-	<
-		bitmask::template cast
-		<
-			typename sortFill<Selection, Connotation, params...>::rtn
-
-		>::rtn
-	>;
-
-
-/***********************************************************************************************************************/
-
-
-	enum struct Attribute : size_type
-	{
-		direction,
-		interval,
-		image,
-		iterator,
-
-		dimension
-	};
-
-	using Arrangement = tuple
-	<
-		adj_list<Association::forward, Association::backward>,						// direction
-		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-		adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
-		adj_list<Association::segment, Association::hook, Association::link>				// iterator
-	>;
-
-	template<Association... params>
-	using subject = adj_modifier
-	<
-		adj_bitmask::template cast
-		<
-			typename sortFill<Arrangement, Association, params...>::rtn
-
-		>::rtn
-	>;
-};
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
 /************************************************************************************************************************
 							closing
 ************************************************************************************************************************/
@@ -172,11 +409,10 @@ struct Repeat
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, Adjective<sub_mask, Closing, T...> & sub)
+			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, Closing, T...> & sub)
 {
 //	STATIC_ASSERT
 
@@ -190,12 +426,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
 
-static constexpr size_type Closing = structural<Interface::semiotic>::Closing;
 
 /*
 	Constraints:
@@ -204,13 +438,10 @@ static constexpr size_type Closing = structural<Interface::semiotic>::Closing;
 */
 
 
-template
-<
-	typename sub_pointer
->
-static sub_pointer repeat(Adverb<Connotation::prototype> *ad,
+template<PARAMETERS>
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, Adjective<Association::closing> & sub,
+			sub_pointer out, RepeatSubject<sub_mask, Closing, T...> & sub,
 
 			size_type n)
 {
@@ -218,11 +449,10 @@ static sub_pointer repeat(Adverb<Connotation::prototype> *ad,
 
 	while (n)
 	{
-		nik::display << (size_type) ad->bitmask << nik::endl;
-//		functor_action(ad, out);
-//		count_action(ad);
+		functor_action(ad, out);
+		count_action(ad);
 
-//		iterate_action(out, sub);
+		iterate_action(out, sub);
 		--n;
 	}
 
@@ -242,11 +472,10 @@ static sub_pointer repeat(Adverb<Connotation::prototype> *ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, Adjective<sub_mask, Closed, T...> & sub)
+			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, Closed, T...> & sub)
 {
 //	STATIC_ASSERT
 
@@ -263,7 +492,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -276,11 +504,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, Adjective<sub_mask, Closed, T...> & sub,
+			sub_pointer out, RepeatSubject<sub_mask, Closed, T...> & sub,
 
 			size_type n)
 {
@@ -300,7 +527,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -315,11 +541,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, Adjective<sub_mask, Opening, T...> & sub)
+			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, Opening, T...> & sub)
 {
 //	STATIC_ASSERT
 
@@ -333,7 +558,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -346,11 +570,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, Adjective<sub_mask, Opening, T...> & sub,
+			sub_pointer out, RepeatSubject<sub_mask, Opening, T...> & sub,
 
 			size_type n)
 {
@@ -368,7 +591,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -383,11 +605,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, Adjective<sub_mask, Open, T...> & sub)
+			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, Open, T...> & sub)
 {
 //	STATIC_ASSERT
 
@@ -403,7 +624,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -416,11 +636,10 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, Adjective<sub_mask, Open, T...> & sub,
+			sub_pointer out, RepeatSubject<sub_mask, Open, T...> & sub,
 
 			size_type n)
 {
@@ -439,7 +658,6 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -453,32 +671,32 @@ static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
 
 /*
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, TAdjective<T, Association::deallocate, Association::Segment> & sub)
+			sub_pointer out, sub_pointer end, TRepeatSubject<T, Association::deallocate, Association::Segment> & sub)
 
 	{ memory_action(sub); }
 
 
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer & origin, sub_pointer end, const Adjective<sub_mask, AllocateSegment, T...> & sub)
+			sub_pointer & origin, sub_pointer end, const RepeatSubject<sub_mask, AllocateSegment, T...> & sub)
 {
-	Adjective<sub_mask, MutateSegment, T...> sub_mutate;
+	RepeatSubject<sub_mask, MutateSegment, T...> sub_mutate;
 
 	return repeat(ad, memory_action(origin, sub), end, sub_mutate);
 }
 
 
 template<PARAMETERS>
-static sub_pointer repeat(Adverb<verb_mask, Prototype, F...> & ad,
+static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer & origin, const Adjective<sub_mask, AllocateSegment, T...> & sub,
+			sub_pointer & origin, const RepeatSubject<sub_mask, AllocateSegment, T...> & sub,
 
 			size_type n)
 {
-	Adjective<sub_mask, MutateSegment, T...> sub_mutate;
+	RepeatSubject<sub_mask, MutateSegment, T...> sub_mutate;
 
 	return repeat(ad, memory_action(origin, sub), sub_mutate, n);
 }

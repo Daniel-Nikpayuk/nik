@@ -68,89 +68,41 @@ enum struct Attribute : size_type
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
-
-using bitmask = typename bit::template bitmask<Association>;
-
-template<Association... params>
-using list_cast = typename bitmask::template list_cast<params...>;
-
-template<size_type mask>
-using pattern = typename bitmask::template pattern<mask>;
 
 template<size_type mask, typename... params>
-using match = typename pattern<mask>::template match<params...>;
-
-template<size_type mask, typename S>
-using tail = typename pattern<mask>::template tail<S::bitmask>;
+struct adjective;
 
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-struct Succeed
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::succeed
-
-	>::rtn;
-};
-
-
-struct Accede
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::accede
-
-	>::rtn;
-};
-
-
-struct Closing
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::closing
-
-	>::rtn;
-};
-
-struct Closed
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::closed
-
-	>::rtn;
-};
-
-struct Opening
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::opening
-
-	>::rtn;
-};
-
-struct Open
-{
-	static constexpr size_type bitmask = list_cast
-	<
-		Association::open
-
-	>::rtn;
-};
+template<size_type mask>
+struct adjective<mask> { static constexpr size_type bitmask = mask; };
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params> struct Adjective;
+template<Association... params>
+using adj_list = typename parameter<Association>::template list<params...>;
+
+using null_adj = adj_list<>;
+
+
+template<Association... params>
+using adj_cast = typename bit::mask::template cast<adj_list<params...>>;
+
+// "using" for polymorphic dispatching.
+
+template<Association... params>
+using Adjective = adjective<adj_cast<params...>::rtn>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+static constexpr size_type Accede = adj_cast<Association::accede>::rtn;
 
 
 /***********************************************************************************************************************/
@@ -162,31 +114,14 @@ template<size_type mask, typename... params> struct Adjective;
 ************************************************************************************************************************/
 
 
-template<size_type mask>
-struct Adjective<mask, Succeed>
+template<typename A>
+struct adjective<Accede, A>
 {
-	static constexpr size_type bitmask = Succeed::bitmask;
-
-	static constexpr size_type accede_mask = mask | Accede::bitmask;
-
-	using Interval = typename match<mask, Closing, Closed, Opening, Open>::rtn;
-
-	template<typename A>
-	static Adjective<accede_mask, Interval, A> cast(const A & a)
-	{
-		return Adjective<accede_mask, Interval, A>(a);
-	}
-};
-
-
-template<size_type mask, typename A>
-struct Adjective<mask, Accede, A>
-{
-	static constexpr size_type bitmask = Accede::bitmask;
+	static constexpr size_type bitmask = Accede;
 
 	A accessor;
 
-	Adjective(const A & a) : accessor(a) { }
+	adjective(const A & a) : accessor(a) { }
 };
 
 
@@ -202,69 +137,5 @@ struct Adjective<mask, Accede, A>
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-
-
-template<size_type mask, typename S>
-using Adjective_Tail = Adjective< tail<mask, S>::rtn, S>;
-
-template<size_type mask, typename S, typename A>
-using Adjective_Tail_A = Adjective< tail<mask, S>::rtn, S, A>;
-
-template<size_type mask, typename A>
-using match_accede = typename match
-<
-	mask,
-
-	Adjective_Tail_A<mask, Accede, A>
-
->::rtn;
-
-template<size_type mask>
-using match_increment = typename match
-<
-	mask,
-
-	Adjective_Tail<mask, Succeed>
-
->::rtn;
-
-template<size_type mask>
-using match_interval = typename match
-<
-	mask,
-
-	Adjective<mask, Closing>,
-	Adjective<mask, Closed>,
-	Adjective<mask, Opening>,
-	Adjective<mask, Open>
-
->::rtn;
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<size_type mask, typename Interval>
-struct Adjective<mask, Interval> : public match_increment<mask>
-{
-	static constexpr size_type bitmask = Interval::bitmask;
-};
-
-template<size_type mask, typename Interval, typename A>
-struct Adjective<mask, Interval, A> : public match_accede<mask, A>
-{
-	static constexpr size_type bitmask = Interval::bitmask;
-
-	Adjective(const A & a) : match_accede<mask, A>(a) { }
-};
-
-
-/***********************************************************************************************************************/
-
-
-template<size_type mask>
-struct Adjective<mask> : public match_interval<mask> { };
 
 

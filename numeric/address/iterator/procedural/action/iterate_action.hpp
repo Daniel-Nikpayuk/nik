@@ -15,12 +15,15 @@
 **
 ************************************************************************************************************************/
 
+/*
+	iterate_action can be called on both "out" as well as "in" pointers.
+*/
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define NODE_TYPE	typename structural<Interface::semiotic>::template trim<pointer>::node
+#define NODE_TYPE	typename structural::template trim<pointer>::node
 
 
 /***********************************************************************************************************************/
@@ -31,7 +34,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & p, const Adjective<Association::forward> & adj)
+static inline void iterate_action(pointer & p, const adjective<Forward> & adj)
 	{ ++p; }
 
 
@@ -42,7 +45,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::allocate, Association::hook> & adj)
+static inline void iterate_action(pointer & out, const adjective<ForwardAllocateHook> & adj)
 
 	{ out = +out = new NODE_TYPE; }
 
@@ -54,7 +57,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::allocate, Association::link> & adj)
+static inline void iterate_action(pointer & out, const adjective<ForwardAllocateLink> & adj)
 {
 	+out = new NODE_TYPE;
 	-+out = out;
@@ -69,7 +72,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::deallocate, Association::hook> & adj)
+static inline void iterate_action(pointer & out, const adjective<ForwardDeallocateHook> & adj)
 	{ delete out++; }
 
 
@@ -80,7 +83,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::forward, Association::deallocate, Association::link> & adj)
+static inline void iterate_action(pointer & out, const adjective<ForwardDeallocateLink> & adj)
 	{ delete -++out; }
 
 
@@ -93,7 +96,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::backward> & adj)
+static inline void iterate_action(pointer & out, const adjective<Backward> & adj)
 	{ --out; }
 
 
@@ -104,7 +107,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::allocate, Association::hook> & adj)
+static inline void iterate_action(pointer & out, const adjective<BackwardAllocateHook> & adj)
 {
 	pointer tmp = out;
 	out = new NODE_TYPE;
@@ -119,7 +122,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::allocate, Association::link> & adj)
+static inline void iterate_action(pointer & out, const adjective<BackwardAllocateLink> & adj)
 {
 	-out = new NODE_TYPE;
 	+-out = out;
@@ -134,7 +137,7 @@ template
 <
 	typename pointer
 >
-static inline void iterate_action(pointer & out, const Adjective<Association::backward, Association::deallocate, Association::link> & adj)
+static inline void iterate_action(pointer & out, const adjective<BackwardDeallocateLink> & adj)
 	{ delete +--out; }
 
 
@@ -151,7 +154,7 @@ template
 	size_type mask,
 	typename A
 >
-static inline void iterate_action(value_type & in, const EnumAdjective<mask, Accede, A> & ob)
+static inline void iterate_action(value_type & in, const enum_adjective<mask, Accede, A> & ob)
 	{ ob.accessor(in); }
 */
 
@@ -164,7 +167,7 @@ template
 <
 	typename value_type
 >
-static inline void iterate_action(value_type & in, const EnumAdjective<ENUM_DIRECTION(forward)> & ob)
+static inline void iterate_action(value_type & in, const enum_adjective<ENUM_DIRECTION(forward)> & ob)
 	{ ++in; }
 */
 
@@ -177,7 +180,7 @@ template
 <
 	typename value_type
 >
-static inline void iterate_action(value_type & in, const EnumAdjective<ENUM_DIRECTION(backward)> & ob)
+static inline void iterate_action(value_type & in, const enum_adjective<ENUM_DIRECTION(backward)> & ob)
 	{ --in; }
 */
 

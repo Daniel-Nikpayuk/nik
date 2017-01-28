@@ -33,12 +33,11 @@ namespace numeric	{
 		template<typename enum_type>
 		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
 
-		template<size_type i, typename... params>
-		using cases = typename variadic<Orientation::functional, Interface::media>::template cases<i, params...>;
-
 		//
 
 		#include"adjective/semiotic.hpp"
+
+		//
 
 		#include"segment/semiotic.hpp"
 		#include"node/semiotic.hpp"
