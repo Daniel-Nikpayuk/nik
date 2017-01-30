@@ -129,6 +129,36 @@ static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
 /***********************************************************************************************************************/
 
 
+template<size_type mask>
+using memory = typename dispatch
+<
+	mask,
+
+	adjective<AllocateSegment, size_type>,
+	adjective<Segment>,
+
+	adjective<Iterator>
+
+>::rtn;
+
+
+template<size_type mask, typename T>
+using memory_T = typename dispatch
+<
+	mask,
+
+	adjective<DeallocateSegment, T>,
+
+	adjective<Iterator>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 #undef VALUE_TYPE
 
 

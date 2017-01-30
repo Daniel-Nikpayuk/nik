@@ -130,15 +130,15 @@ static constexpr size_type DeallocateSegment = adj_cast<Association::deallocate,
 ************************************************************************************************************************/
 
 
-template<typename Filler>
-struct adjective<AllocateSegment, Filler>
+template<typename T>
+struct adjective<AllocateSegment, T>
 {
 	static constexpr size_type bitmask = AllocateSegment;
 
-	size_type length;
-	size_type offset;
+	T length;
+	T offset;
 
-	adjective(size_type l, size_type o) : length(l), offset(o) { }
+	adjective(T l, T o) : length(l), offset(o) { }
 };
 
 

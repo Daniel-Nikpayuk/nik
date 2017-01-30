@@ -96,3 +96,27 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 }
 
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using functor = typename dispatch
+<
+	mask,
+
+	adverb<OmitFunctor>
+
+>::rtn;
+
+template<size_type mask, typename F>
+using functor_F = typename dispatch
+<
+	mask,
+
+	adverb<ApplyFunctor, F>
+
+>::rtn;
+
+

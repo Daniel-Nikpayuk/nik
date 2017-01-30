@@ -29,6 +29,8 @@ struct DispatchError
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+template<size_type... params>
+using list = typename parameter<size_type>::template list<params...>;
 
 template<typename... params>
 using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
@@ -58,8 +60,13 @@ using apply = typename pattern<base>::template apply<mask>;
 template<size_type mask, size_type base>
 using deduct = typename pattern<mask>::template deduct<base>;
 
+template<typename Ordering, typename Relation, Relation... params>
+using mask = typename bit::mask::template cast
+<
+	typename sortFill<Ordering, Relation, params...>::rtn
+>;
 
-/***********************************************************************************************************************/
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -206,6 +213,16 @@ static constexpr size_type		Optimizer
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using functor_cast = apply< deduct<mask, Functor>::rtn, ApplyFunctor>;
+
+template<size_type mask>
+using tracer_cast = apply< deduct<mask, Tracer>::rtn, ApplyCount>;
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -476,6 +493,16 @@ static constexpr size_type		Iterator
 
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using allocate_cast = apply< deduct<mask, Image>::rtn, AllocateSegment>;
+
+template<size_type mask>
+using deallocate_cast = apply< deduct<mask, Image>::rtn, DeallocateSegment>;
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 

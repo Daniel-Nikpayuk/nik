@@ -120,14 +120,14 @@ struct adverb<ApplyFunctor, F>
 };
 
 
-template<typename Filler>
-struct adverb<ApplyCount, Filler>
+template<typename T>
+struct adverb<ApplyCount, T>
 {
 	static constexpr size_type bitmask = ApplyCount;
 
-	size_type count;
+	T count;
 
-	adverb(const size_type & c) : count(c) { }
+	adverb(const T & c) : count(c) { }
 };
 
 

@@ -15,47 +15,41 @@
 **
 ************************************************************************************************************************/
 
-template<typename Pointer>
-class array
-{
-	public:
-		typedef Pointer pointer;
-		typedef typename pointer::value_type value_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		operator pointer () const
-			{ return (pointer) this; }
-
-		static void_ptr operator new (size_t n)
-			{ return new value_type; }
-};
-
-template<typename ValueType>
-class array<ValueType*>
-{
-	public:
-		typedef ValueType* pointer;
-		typedef ValueType value_type;
-	protected:
-		typedef void* void_ptr;
-	public:
-		operator pointer () const
-			{ return (pointer) this; }
-
-		static void_ptr operator new (size_t n)
-			{ return new value_type; }
-};
-
 template<typename T>
 using segment_pointer = T*;
-
-template<typename T>
-using segment = array< segment_pointer<T> >;
 
 template<typename T>
 using const_segment_pointer = T const *;
 
 template<typename T>
-using const_segment = array< const_segment_pointer<T> >;
+class segment
+{
+	public:
+		typedef segment_pointer<T> pointer;
+		typedef T value_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		operator pointer () const
+			{ return (pointer) this; }
+
+		static void_ptr operator new (size_t n)
+			{ return new value_type; }
+};
+
+template<typename T>
+class const_segment
+{
+	public:
+		typedef const_segment_pointer<T> pointer;
+		typedef T const value_type;
+	protected:
+		typedef void* void_ptr;
+	public:
+		operator pointer () const
+			{ return (pointer) this; }
+
+		static void_ptr operator new (size_t n)
+			{ return new value_type; }
+};
 

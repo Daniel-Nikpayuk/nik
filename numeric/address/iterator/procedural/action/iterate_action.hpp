@@ -190,6 +190,35 @@ static inline void iterate_action(value_type & in, const enum_adjective<ENUM_DIR
 /***********************************************************************************************************************/
 
 
+template<size_type mask>
+using iterate = typename dispatch
+<
+	mask,
+
+	adjective<ForwardAllocateHook>,
+	adjective<ForwardAllocateLink>,
+
+	adjective<ForwardDeallocateHook>,
+	adjective<ForwardDeallocateLink>,
+
+	adjective<Forward>,
+
+	adjective<BackwardAllocateHook>,
+	adjective<BackwardAllocateLink>,
+
+	adjective<BackwardDeallocateHook>,
+	adjective<BackwardDeallocateLink>,
+
+	adjective<Backward>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 #undef NODE_TYPE
 
 

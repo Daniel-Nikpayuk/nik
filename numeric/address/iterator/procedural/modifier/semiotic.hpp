@@ -15,26 +15,4 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		template<Orientation orientation_enum, Interface interface_enum>
-		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
-
-		using semiotic = module<Module::iterator, Orientation::structural, Interface::semiotic, size_type>;
-
-		#include"adjective/media.hpp"
-
-		#include"segment/media.hpp"
-//		#include"node/media.hpp"
-		#include"hook/media.hpp"
-		#include"link/media.hpp"
-	};
-
-}}
 

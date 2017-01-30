@@ -33,23 +33,29 @@
 /***********************************************************************************************************************/
 
 
+#define PARAMETERS													\
+															\
+	size_type verb_mask,												\
+	typename... F,													\
+															\
+	typename sub_pointer,												\
+															\
+	size_type sub_mask,												\
+	typename... T
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 /*
-	TUPLE/LIST data structures are appropriate here because resolution
+	tuple/list data structures are appropriate here because resolution
 	occurs during compile-time and the size is expected to be small.
 */
 
 
 struct Morph
 {
-	enum struct Manner : size_type
-	{
-		functor,
-		tracer,
-		optimizer,
-
-		dimension
-	};
-
 	using Selection = tuple
 	<
 		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
@@ -57,18 +63,80 @@ struct Morph
 		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
 	>;
 
-	template<Connotation... params>
-	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn, void>;
+	template<size_type mask>
+	using core = match
+	<
+		mask,
 
-	enum struct SubjectAttribute : size_type
+		Prototype,
+		Specialize
+	>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct adverb;
+
+	template<size_type mask, typename F>
+	struct adverb
+	<
+		mask,
+		core<mask>::rtn,
+		F
+	> :
+
+			public functor_F<mask, F>,
+			public count<mask>
+
 	{
-		direction,
-		interval,
-		image,
-		iterator,
-
-		dimension
+		adverb(const F & f) : functor_F<mask, F>(f) { }
 	};
+
+	template<size_type mask>
+	struct adverb
+	<
+		mask,
+		core<mask>::rtn
+	> :
+
+			public functor<mask>,
+			public count<mask>
+
+		{ };
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, typename F>
+	using functor_adverb = adverb<functor_cast<mask>::rtn, core<mask>::rtn, F>;
+
+	template<size_type mask, size_type base, typename F>
+	static functor_adverb<mask, F> apply_functor(const adverb<mask, base> &, const F & f)
+	{
+		return functor_adverb<mask, F>(f);
+	}
+
+	template<size_type mask>
+	using tracer_adverb = adverb<tracer_cast<mask>::rtn, core<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static tracer_adverb<mask> apply_count(const adverb<mask, base> &, const size_type & c)
+	{
+		return tracer_adverb<mask>(c);
+	}
+
+/***********************************************************************************************************************/
+
+	template<Connotation... params>
+	using verb = adverb
+	<
+		mask<Selection, Connotation, params...>::rtn,
+		core<mask<Selection, Connotation, params...>::rtn>::rtn
+	>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 	using SubjectArrangement = tuple
 	<
@@ -78,18 +146,88 @@ struct Morph
 		adj_list<Association::segment, Association::hook, Association::link>				// iterator
 	>;
 
-	template<Association... params>
-	using subject = Adjective<typename sortFill<SubjectArrangement, Association, params...>::rtn, void>;
+	template<size_type mask>
+	using base = match
+	<
+		mask,
 
-	enum struct ObjectAttribute : size_type
+		Closing,
+		Closed,
+		Opening,
+		Open
+	>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct adjective;
+
+	template<size_type mask, typename T>
+	struct adjective
+	<
+		mask,
+		base<mask>::rtn,
+		T
+	> :
+
+			public iterate<mask>,
+			public memory_T<mask, T>
+
 	{
-		increment,
-
-		direction,
-		interval,
-
-		dimension
+		adjective(T *o) : memory_T<mask, T>(o) { }
 	};
+
+
+	template<size_type mask>
+	struct adjective
+	<
+		mask,
+		base<mask>::rtn
+	> :
+
+			public iterate<mask>,
+			public memory<mask>
+
+	{
+		adjective() : memory<mask>() { }
+		adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+	};
+
+/***********************************************************************************************************************/
+
+	template<size_type mask>
+	using allocate_adjective = adjective<allocate_cast<mask>::rtn, base<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static allocate_adjective<mask> allocate_segment(const adjective<mask, base> &, size_type l, size_type o = 0)
+	{
+		return allocate_adjective<mask>(l, o);
+	}
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, typename T>
+	using deallocate_adjective = adjective<deallocate_cast<mask>::rtn, base<mask>::rtn, T>;
+
+	template<size_type mask, size_type base, typename T>
+	static deallocate_adjective<mask, T> deallocate_segment(const adjective<mask, base> &, T *o)
+	{
+		return deallocate_adjective<mask, T>(o);
+	}
+
+/***********************************************************************************************************************/
+
+	template<Association... params>
+	using subject = adjective
+	<
+		mask<SubjectArrangement, Association, params...>::rtn,
+		base<mask<SubjectArrangement, Association, params...>::rtn>::rtn
+	>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 	using ObjectArrangement = tuple
 	<
@@ -98,149 +236,57 @@ struct Morph
 		enum_list<EnumAssociation::closing, EnumAssociation::closed, EnumAssociation::opening, EnumAssociation::open>	// interval
 	>;
 
+	template<size_type mask>
+	using enum_base = base<mask>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct enum_adjective;
+
+	template<size_type mask, typename T>
+	struct enum_adjective
+	<
+		mask,
+		enum_base<mask>::rtn,
+		T
+	> :
+
+			public iterate<mask>
+
+		{ };
+
+
+	template<size_type mask>
+	struct enum_adjective
+	<
+		mask,
+		enum_base<mask>::rtn
+	> :
+
+			public iterate<mask>
+
+		{ };
+
+/***********************************************************************************************************************/
+
 	template<EnumAssociation... params>
-	using object = EnumAdjective<typename sortFill<ObjectArrangement, EnumAssociation, params...>::rtn, void>;
+	using object = enum_adjective
+	<
+		mask<ObjectArrangement, EnumAssociation, params...>::rtn,
+		base<mask<ObjectArrangement, EnumAssociation, params...>::rtn>::rtn
+	>;
 };
 
 
-/***********************************************************************************************************************/
+template<size_type mask, size_type base, typename... params>
+using MorphVerb = typename Morph::template adverb<mask, base, params...>;
 
+template<size_type mask, size_type base, typename... params>
+using MorphSubject = typename Morph::template adjective<mask, base, params...>;
 
-#define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	Connotation functorEnum,											\
-	Connotation tracerEnum,												\
-	typename F,
-
-
-/***********************************************************************************************************************/
-
-
-#define SUB_ADJ_PARAMETERS_FULL												\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_intervalEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T,
-
-
-#define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T,
-
-
-#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	typename T,
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_PARAMETERS_FULL												\
-															\
-	typename ob_value_type,												\
-															\
-	EnumAssociation ob_incrementEnum,										\
-	EnumAssociation ob_directionEnum,										\
-	EnumAssociation ob_intervalEnum,										\
-	typename U
-
-
-#define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename ob_value_type,												\
-															\
-	EnumAssociation ob_incrementEnum,										\
-	EnumAssociation ob_directionEnum,										\
-	typename U
-
-
-/***********************************************************************************************************************/
-
-
-#define FULL_PARAMETERS													\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_FULL												\
-															\
-	OB_ADJ_PARAMETERS_FULL
-
-
-/***********************************************************************************************************************/
-
-
-#define INTERVAL_REDUCED_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-
-
-/***********************************************************************************************************************/
-
-
-#define DIRECTION_ONLY_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define ADV_TYPE(optimizer)												\
-															\
-	Adverb<adv_list<functorEnum, tracerEnum, Connotation::optimizer>, F>
-
-
-/***********************************************************************************************************************/
-
-
-#define SUB_ADJ_FULL													\
-															\
-	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_INTERVAL(interval)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_IMAGE(interval, image)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>, T>
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_FULL													\
-															\
-	EnumAdjective<enum_list<ob_incrementEnum, ob_directionEnum, ob_intervalEnum>, U>
-
-
-#define OB_ADJ_INTERVAL(interval)											\
-															\
-	EnumAdjective<enum_list<ob_incrementEnum, ob_directionEnum, EnumAssociation::interval>, U>
+template<size_type mask, size_type base, typename... params>
+using MorphObject = typename Morph::template enum_adjective<mask, base, params...>;
 
 
 /***********************************************************************************************************************/
@@ -263,12 +309,14 @@ struct Morph
 /***********************************************************************************************************************/
 
 
+/*
 template<FULL_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(specialize) & ad,
 
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
 			ob_value_type in, ob_value_type end, const OB_ADJ_FULL & ob);
+*/
 
 
 /************************************************************************************************************************
@@ -294,7 +342,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		functor_action<ob>(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -315,6 +363,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -340,6 +389,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -352,6 +402,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -373,6 +424,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -385,6 +437,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -407,6 +460,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -421,6 +475,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -446,6 +501,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -458,6 +514,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -481,6 +538,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -493,6 +551,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -518,6 +577,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -530,6 +590,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -557,6 +618,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -571,6 +633,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -592,6 +655,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -604,6 +668,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -629,6 +694,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -641,6 +707,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -661,6 +728,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -673,6 +741,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -696,6 +765,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -710,6 +780,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -732,6 +803,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -744,6 +816,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -771,6 +844,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -783,6 +857,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -805,6 +880,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -817,6 +893,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
+/*
 template<INTERVAL_REDUCED_PARAMETERS>
 static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
@@ -840,6 +917,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -861,6 +939,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
 /***********************************************************************************************************************/
 
 
+/*
 ALLOCATE_SEGMENT_MORPH(closing, closing)
 ALLOCATE_SEGMENT_MORPH(closing, closed)
 ALLOCATE_SEGMENT_MORPH(closing, opening)
@@ -880,6 +959,7 @@ ALLOCATE_SEGMENT_MORPH(open, closing)
 ALLOCATE_SEGMENT_MORPH(open, closed)
 ALLOCATE_SEGMENT_MORPH(open, opening)
 ALLOCATE_SEGMENT_MORPH(open, open)
+*/
 
 
 /***********************************************************************************************************************/
@@ -887,21 +967,7 @@ ALLOCATE_SEGMENT_MORPH(open, open)
 /***********************************************************************************************************************/
 
 
-#undef ADV_PARAMETERS_OPTIMIZER_REDUCED
-#undef SUB_ADJ_PARAMETERS_FULL
-#undef SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef SUB_ADJ_PARAMETERS_DIRECTION_ONLY
-#undef OB_ADJ_PARAMETERS_FULL
-#undef OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef FULL_PARAMETERS
-#undef INTERVAL_REDUCED_PARAMETERS
-#undef DIRECTION_ONLY_PARAMETERS
-#undef ADV_TYPE
-#undef SUB_ADJ_FULL
-#undef SUB_ADJ_INTERVAL
-#undef SUB_ADJ_IMAGE
-#undef OB_ADJ_FULL
-#undef OB_ADJ_INTERVAL
+#undef PARAMETERS
 #undef STATIC_ASSERT
 #undef ALLOCATE_SEGMENT_MORPH
 
