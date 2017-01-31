@@ -150,13 +150,13 @@ struct Repeat
 	<
 		mask,
 
+		AllocateSegment,
+		DeallocateSegment,
+
 		Closing,
 		Closed,
 		Opening,
-		Open,
-
-		AllocateSegment,
-		DeallocateSegment
+		Open
 	>;
 
 /***********************************************************************************************************************/

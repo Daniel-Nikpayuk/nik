@@ -30,6 +30,38 @@
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
+
+
+#define PARAMETERS													\
+															\
+	size_type verb_mask,												\
+	typename... F,													\
+															\
+	typename sub_pointer,												\
+	size_type sub_mask,												\
+	typename... T,													\
+															\
+	typename ob_pointer,												\
+	size_type ob_mask,												\
+	typename... A
+
+
+#define ALLOCATE_SEGMENT_PARAMETERS											\
+															\
+	size_type verb_mask,												\
+	typename... F,													\
+															\
+	typename sub_pointer,												\
+	size_type sub_mask,												\
+	typename... T,													\
+															\
+	typename ob_pointer,												\
+	size_type ob_mask,												\
+	size_type ob_base,												\
+	typename... A
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -41,15 +73,6 @@
 
 struct Map
 {
-	enum struct Manner : size_type
-	{
-		functor,
-		tracer,
-		optimizer,
-
-		dimension
-	};
-
 	using Selection = tuple
 	<
 		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
@@ -57,18 +80,80 @@ struct Map
 		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
 	>;
 
-	template<Connotation... params>
-	using verb = Adverb<typename sortFill<Selection, Connotation, params...>::rtn, void>;
+	template<size_type mask>
+	using core = match
+	<
+		mask,
 
-	enum struct SubjectAttribute : size_type
+		Prototype,
+		Specialize
+	>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct adverb;
+
+	template<size_type mask, typename F>
+	struct adverb
+	<
+		mask,
+		core<mask>::rtn,
+		F
+	> :
+
+			public functor_F<mask, F>,
+			public count<mask>
+
 	{
-		direction,
-		interval,
-		image,
-		iterator,
-
-		dimension
+		adverb(const F & f) : functor_F<mask, F>(f) { }
 	};
+
+	template<size_type mask>
+	struct adverb
+	<
+		mask,
+		core<mask>::rtn
+	> :
+
+			public functor<mask>,
+			public count<mask>
+
+		{ };
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, typename F>
+	using functor_adverb = adverb<functor_cast<mask>::rtn, core<mask>::rtn, F>;
+
+	template<size_type mask, size_type base, typename F>
+	static functor_adverb<mask, F> apply_functor(const adverb<mask, base> &, const F & f)
+	{
+		return functor_adverb<mask, F>(f);
+	}
+
+	template<size_type mask>
+	using tracer_adverb = adverb<tracer_cast<mask>::rtn, core<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static tracer_adverb<mask> apply_count(const adverb<mask, base> &, const size_type & c)
+	{
+		return tracer_adverb<mask>(c);
+	}
+
+/***********************************************************************************************************************/
+
+	template<Connotation... params>
+	using verb = adverb
+	<
+		mask<Selection, Connotation, params...>::rtn,
+		core<mask<Selection, Connotation, params...>::rtn>::rtn
+	>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 	using SubjectArrangement = tuple
 	<
@@ -78,18 +163,101 @@ struct Map
 		adj_list<Association::segment, Association::hook, Association::link>				// iterator
 	>;
 
-	template<Association... params>
-	using subject = Adjective<typename sortFill<SubjectArrangement, Association, params...>::rtn, void>;
+	template<size_type mask>
+	using sub_base = match
+	<
+		mask,
 
-	enum struct ObjectAttribute : size_type
+		AllocateSegment,
+
+		Closing,
+		Closed,
+		Opening,
+		Open
+	>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct sub_adjective;
+
+	template<size_type mask, typename T>
+	struct sub_adjective
+	<
+		mask,
+		sub_base<mask>::rtn,
+		T
+	> :
+
+			public iterate<mask>,
+			public memory_T<mask, T>
+
 	{
-		direction,
-		interval,
-		image,
-		iterator,
-
-		dimension
+		sub_adjective(T *o) : memory_T<mask, T>(o) { }
 	};
+
+
+	template<size_type mask>
+	struct sub_adjective
+	<
+		mask,
+		sub_base<mask>::rtn
+	> :
+
+			public iterate<mask>,
+			public memory<mask>
+
+	{
+		sub_adjective() : memory<mask>() { }
+		sub_adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+	};
+
+/***********************************************************************************************************************/
+
+	template<size_type mask>
+	using mutate_adjective = sub_adjective<mutate_cast<mask>::rtn, sub_base<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static mutate_adjective<mask> mutate(const sub_adjective<mask, base> &)
+	{
+		return mutate_adjective<mask>();
+	}
+
+/***********************************************************************************************************************/
+
+	template<size_type mask>
+	using allocate_adjective = sub_adjective<allocate_cast<mask>::rtn, sub_base<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static allocate_adjective<mask> allocate_segment(const sub_adjective<mask, base> &, size_type l, size_type o = 0)
+	{
+		return allocate_adjective<mask>(l, o);
+	}
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, typename T>
+	using deallocate_adjective = sub_adjective<deallocate_cast<mask>::rtn, sub_base<mask>::rtn, T>;
+
+	template<size_type mask, size_type base, typename T>
+	static deallocate_adjective<mask, T> deallocate_segment(const sub_adjective<mask, base> &, T *o)
+	{
+		return deallocate_adjective<mask, T>(o);
+	}
+
+/***********************************************************************************************************************/
+
+	template<Association... params>
+	using subject = sub_adjective
+	<
+		mask<SubjectArrangement, Association, params...>::rtn,
+		sub_base<mask<SubjectArrangement, Association, params...>::rtn>::rtn
+	>;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 
 	using ObjectArrangement = tuple
 	<
@@ -99,156 +267,69 @@ struct Map
 		adj_list<Association::segment, Association::hook, Association::link>				// iterator
 	>;
 
+	template<size_type mask>
+	using ob_base = match
+	<
+		mask,
+
+		DeallocateSegment,
+
+		Closing,
+		Closed,
+		Opening,
+		Open
+	>;
+
+/***********************************************************************************************************************/
+
+	template<size_type mask, size_type base, typename... params>
+	struct ob_adjective;
+
+	template<size_type mask, typename T>
+	struct ob_adjective
+	<
+		mask,
+		ob_base<mask>::rtn,
+		T
+	> :
+
+			public iterate<mask>,
+			public memory_T<mask, T>
+
+		{ };
+
+
+	template<size_type mask>
+	struct ob_adjective
+	<
+		mask,
+		ob_base<mask>::rtn
+	> :
+
+			public iterate<mask>,
+			public memory<mask>
+
+		{ };
+
+/***********************************************************************************************************************/
+
 	template<Association... params>
-	using object = Adjective<typename sortFill<ObjectArrangement, Association, params...>::rtn, void>;
+	using object = ob_adjective
+	<
+		mask<ObjectArrangement, Association, params...>::rtn,
+		ob_base<mask<ObjectArrangement, Association, params...>::rtn>::rtn
+	>;
 };
 
 
-/***********************************************************************************************************************/
+template<size_type mask, size_type base, typename... params>
+using MapVerb = typename Map::template adverb<mask, base, params...>;
 
+template<size_type mask, size_type base, typename... params>
+using MapSubject = typename Map::template sub_adjective<mask, base, params...>;
 
-#define ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	Connotation functorEnum,											\
-	Connotation tracerEnum,												\
-	typename F,
-
-
-/***********************************************************************************************************************/
-
-
-#define SUB_ADJ_PARAMETERS_FULL												\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_intervalEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T,
-
-
-#define SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	Association sub_imageEnum,											\
-	Association sub_iteratorEnum,											\
-	typename T,
-
-
-#define SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	typename sub_pointer,												\
-															\
-	Association sub_directionEnum,											\
-	typename T,
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_PARAMETERS_FULL												\
-															\
-	typename ob_pointer,												\
-															\
-	Association ob_directionEnum,											\
-	Association ob_intervalEnum,											\
-	Association ob_imageEnum,											\
-	Association ob_iteratorEnum,											\
-	typename U
-
-
-#define OB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	typename ob_pointer,												\
-															\
-	Association ob_directionEnum,											\
-	Association ob_imageEnum,											\
-	Association ob_iteratorEnum,											\
-	typename U
-
-
-/***********************************************************************************************************************/
-
-
-#define FULL_PARAMETERS													\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_FULL												\
-															\
-	OB_ADJ_PARAMETERS_FULL
-
-
-/***********************************************************************************************************************/
-
-
-#define INTERVAL_REDUCED_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_INTERVAL_REDUCED										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-
-
-/***********************************************************************************************************************/
-
-
-#define DIRECTION_ONLY_PARAMETERS											\
-															\
-	ADV_PARAMETERS_OPTIMIZER_REDUCED										\
-															\
-	SUB_ADJ_PARAMETERS_DIRECTION_ONLY										\
-															\
-	OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define ADV_TYPE(optimizer)												\
-															\
-	Adverb<adv_list<functorEnum, tracerEnum, Connotation::optimizer>, F>
-
-
-/***********************************************************************************************************************/
-
-
-#define SUB_ADJ_FULL													\
-															\
-	Adjective<adj_list<sub_directionEnum, sub_intervalEnum, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_INTERVAL(interval)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, sub_imageEnum, sub_iteratorEnum>, T>
-
-
-#define SUB_ADJ_IMAGE(interval, image)											\
-															\
-	Adjective<adj_list<sub_directionEnum, Association::interval, Association::image, Association::segment>, T>
-
-
-/***********************************************************************************************************************/
-
-
-#define OB_ADJ_FULL													\
-															\
-	Adjective<adj_list<ob_directionEnum, ob_intervalEnum, ob_imageEnum, ob_iteratorEnum>, U>
-
-
-#define OB_ADJ_INTERVAL(interval)											\
-															\
-	Adjective<adj_list<ob_directionEnum, Association::interval, ob_imageEnum, ob_iteratorEnum>, U>
-
-
-#define OB_ADJ_IMAGE(interval, image)											\
-															\
-	Adjective<adj_list<ob_directionEnum, Association::interval, Association::image, ob_iteratorEnum>, U>
+template<size_type mask, size_type base, typename... params>
+using MapObject = typename Map::template ob_adjective<mask, base, params...>;
 
 
 /***********************************************************************************************************************/
@@ -271,12 +352,14 @@ struct Map
 /***********************************************************************************************************************/
 
 
+/*
 template<FULL_PARAMETERS>
 static sub_pointer map(ADV_TYPE(specialize) & ad,
 
 			sub_pointer out, const SUB_ADJ_FULL & sub,
 
 			ob_pointer in, ob_pointer end, OB_ADJ_FULL & ob);
+*/
 
 
 /************************************************************************************************************************
@@ -291,14 +374,14 @@ static sub_pointer map(ADV_TYPE(specialize) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closing, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -325,14 +408,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closing, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -353,6 +437,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -365,14 +450,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closing, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningImmutate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -388,6 +474,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /*
@@ -397,14 +484,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closing, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningDeallocate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 
@@ -427,6 +515,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -439,14 +528,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closing, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 
@@ -463,6 +553,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -477,14 +568,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closed, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (peek_action(in, end, ob))
 	{
@@ -504,6 +596,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -516,14 +609,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closed, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -543,6 +637,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -555,14 +650,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closed, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Opening, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 
@@ -584,6 +680,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -596,14 +693,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Closed, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
 
@@ -625,6 +723,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -639,14 +738,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Opening, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -662,6 +762,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -674,14 +775,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Opening, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
@@ -703,6 +805,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -715,14 +818,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Opening, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningImmutate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -737,6 +841,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /*
@@ -746,14 +851,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Opening, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningDeallocate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 	iterate_action(out, sub);
@@ -776,6 +882,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -788,14 +895,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Opening, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
 
@@ -813,6 +921,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -827,14 +936,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Open, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closing) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
@@ -851,6 +961,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -863,14 +974,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Open, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(closed) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
@@ -893,6 +1005,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -905,14 +1018,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Open, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, immutate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningImmutate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
@@ -929,6 +1043,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /*
@@ -938,14 +1053,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Open, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_IMAGE(opening, deallocate) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, OpeningDeallocate, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(opening, immutate)());
 	iterate_action(out, sub);
@@ -969,6 +1085,7 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -981,14 +1098,15 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer map(ADV_TYPE(prototype) & ad,
+/*
+template<PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MapSubject<sub_mask, Open, T...> & sub,
 
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(open) & ob)
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, OB_ADJ_IMAGE(open, immutate)());
 	iterate_action(out, sub);
@@ -1006,46 +1124,26 @@ static sub_pointer map(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define ALLOCATE_SEGMENT_MAP(sub_interval, ob_interval)									\
-															\
-template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer map(ADV_TYPE(prototype) & ad,									\
-															\
-			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
-															\
-			ob_pointer in, ob_pointer end, OB_ADJ_INTERVAL(ob_interval) & ob)				\
-															\
-	{ return map(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+/*
+template<ALLOCATE_SEGMENT_PARAMETERS>
+static sub_pointer map(MapVerb<verb_mask, Prototype, F...> & ad,
 
+			sub_pointer & origin, const MapSubject<sub_mask, AllocateSegment, T...> & sub,
 
-/***********************************************************************************************************************/
+			ob_pointer in, ob_pointer end, const MapObject<ob_mask, ob_base, A...> & ob)
+{
+	auto sub_mutate = Map::mutate(sub);
 
-
-ALLOCATE_SEGMENT_MAP(closing, closing)
-ALLOCATE_SEGMENT_MAP(closing, closed)
-ALLOCATE_SEGMENT_MAP(closing, opening)
-ALLOCATE_SEGMENT_MAP(closing, open)
-
-ALLOCATE_SEGMENT_MAP(closed, closing)
-ALLOCATE_SEGMENT_MAP(closed, closed)
-ALLOCATE_SEGMENT_MAP(closed, opening)
-ALLOCATE_SEGMENT_MAP(closed, open)
-
-ALLOCATE_SEGMENT_MAP(opening, closing)
-ALLOCATE_SEGMENT_MAP(opening, closed)
-ALLOCATE_SEGMENT_MAP(opening, opening)
-ALLOCATE_SEGMENT_MAP(opening, open)
-
-ALLOCATE_SEGMENT_MAP(open, closing)
-ALLOCATE_SEGMENT_MAP(open, closed)
-ALLOCATE_SEGMENT_MAP(open, opening)
-ALLOCATE_SEGMENT_MAP(open, open)
+	return map(ad, memory_action(origin, sub), sub_mutate, in, end, ob);
+}
+*/
 
 
 /***********************************************************************************************************************/
@@ -1053,22 +1151,7 @@ ALLOCATE_SEGMENT_MAP(open, open)
 /***********************************************************************************************************************/
 
 
-#undef ADV_PARAMETERS_OPTIMIZER_REDUCED
-#undef SUB_ADJ_PARAMETERS_FULL
-#undef SUB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef SUB_ADJ_PARAMETERS_DIRECTION_ONLY
-#undef OB_ADJ_PARAMETERS_FULL
-#undef OB_ADJ_PARAMETERS_INTERVAL_REDUCED
-#undef FULL_PARAMETERS
-#undef INTERVAL_REDUCED_PARAMETERS
-#undef DIRECTION_ONLY_PARAMETERS
-#undef ADV_TYPE
-#undef SUB_ADJ_FULL
-#undef SUB_ADJ_INTERVAL
-#undef SUB_ADJ_IMAGE
-#undef OB_ADJ_FULL
-#undef OB_ADJ_INTERVAL
+#undef PARAMETERS
 #undef STATIC_ASSERT
-#undef ALLOCATE_SEGMENT_MORPH
 
 

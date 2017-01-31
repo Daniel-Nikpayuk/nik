@@ -58,7 +58,7 @@ namespace numeric	{
 
 		#include"repeat/semiotic.hpp"
 		#include"morph/semiotic.hpp"
-//		#include"map/semiotic.hpp"
+		#include"map/semiotic.hpp"
 
 //		#include"noderize/semiotic.hpp"
 //		#include"catenate/semiotic.hpp"

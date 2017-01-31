@@ -169,6 +169,8 @@ struct Morph
 	<
 		mask,
 
+		AllocateSegment,
+
 		Closing,
 		Closed,
 		Opening,
@@ -214,6 +216,17 @@ struct Morph
 /***********************************************************************************************************************/
 
 	template<size_type mask>
+	using mutate_adjective = sub_adjective<mutate_cast<mask>::rtn, sub_base<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static mutate_adjective<mask> mutate(const sub_adjective<mask, base> &)
+	{
+		return mutate_adjective<mask>();
+	}
+
+/***********************************************************************************************************************/
+
+	template<size_type mask>
 	using allocate_adjective = sub_adjective<allocate_cast<mask>::rtn, sub_base<mask>::rtn>;
 
 	template<size_type mask, size_type base>
@@ -255,7 +268,15 @@ struct Morph
 	>;
 
 	template<size_type mask>
-	using ob_base = sub_base<mask>;
+	using ob_base = match
+	<
+		mask,
+
+		EnumClosing,
+		EnumClosed,
+		EnumOpening,
+		EnumOpen
+	>;
 
 /***********************************************************************************************************************/
 
@@ -354,7 +375,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosing, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -386,7 +407,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosed, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -423,7 +444,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpening, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -456,7 +477,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpen, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -492,7 +513,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosing, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -529,7 +550,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosed, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -564,7 +585,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpening, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -601,7 +622,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpen, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -642,7 +663,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosing, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -675,7 +696,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosed, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -712,7 +733,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpening, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -744,7 +765,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpen, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -781,7 +802,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosing, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -815,7 +836,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumClosed, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -854,7 +875,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpening, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -888,7 +909,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, EnumOpen, A...> & ob)
 {
 //	STATIC_ASSERT
 
@@ -918,7 +939,6 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 			sub_pointer & origin, const MorphSubject<sub_mask, AllocateSegment, T...> & sub,
 
 			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, ob_base, A...> & ob)
-
 {
 	auto sub_mutate = Morph::mutate(sub);
 
