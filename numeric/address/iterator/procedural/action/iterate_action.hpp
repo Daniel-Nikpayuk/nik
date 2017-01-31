@@ -206,6 +206,27 @@ using iterate = typename dispatch
 >::rtn;
 
 
+template<size_type mask>
+using enum_iterate = typename dispatch
+<
+	mask,
+
+	enum_adjective<EnumForward>,
+	enum_adjective<EnumBackward>
+
+>::rtn;
+
+
+template<size_type mask, typename A>
+using enum_iterate_A = typename dispatch
+<
+	mask,
+
+	enum_adjective<EnumAccede, A>
+
+>::rtn;
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/

@@ -39,11 +39,26 @@
 	typename... F,													\
 															\
 	typename sub_pointer,												\
-															\
 	size_type sub_mask,												\
 	typename... T,													\
 															\
+	typename ob_value_type,												\
 	size_type ob_mask,												\
+	typename... A
+
+
+#define ALLOCATE_SEGMENT_PARAMETERS											\
+															\
+	size_type verb_mask,												\
+	typename... F,													\
+															\
+	typename sub_pointer,												\
+	size_type sub_mask,												\
+	typename... T,													\
+															\
+	typename ob_value_type,												\
+	size_type ob_mask,												\
+	size_type ob_base,												\
 	typename... A
 
 
@@ -150,7 +165,7 @@ struct Morph
 	>;
 
 	template<size_type mask>
-	using base = match
+	using sub_base = match
 	<
 		mask,
 
@@ -163,13 +178,13 @@ struct Morph
 /***********************************************************************************************************************/
 
 	template<size_type mask, size_type base, typename... params>
-	struct adjective;
+	struct sub_adjective;
 
 	template<size_type mask, typename T>
-	struct adjective
+	struct sub_adjective
 	<
 		mask,
-		base<mask>::rtn,
+		sub_base<mask>::rtn,
 		T
 	> :
 
@@ -177,32 +192,32 @@ struct Morph
 			public memory_T<mask, T>
 
 	{
-		adjective(T *o) : memory_T<mask, T>(o) { }
+		sub_adjective(T *o) : memory_T<mask, T>(o) { }
 	};
 
 
 	template<size_type mask>
-	struct adjective
+	struct sub_adjective
 	<
 		mask,
-		base<mask>::rtn
+		sub_base<mask>::rtn
 	> :
 
 			public iterate<mask>,
 			public memory<mask>
 
 	{
-		adjective() : memory<mask>() { }
-		adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+		sub_adjective() : memory<mask>() { }
+		sub_adjective(size_type l, size_type o) : memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/
 
 	template<size_type mask>
-	using allocate_adjective = adjective<allocate_cast<mask>::rtn, base<mask>::rtn>;
+	using allocate_adjective = sub_adjective<allocate_cast<mask>::rtn, sub_base<mask>::rtn>;
 
 	template<size_type mask, size_type base>
-	static allocate_adjective<mask> allocate_segment(const adjective<mask, base> &, size_type l, size_type o = 0)
+	static allocate_adjective<mask> allocate_segment(const sub_adjective<mask, base> &, size_type l, size_type o = 0)
 	{
 		return allocate_adjective<mask>(l, o);
 	}
@@ -210,10 +225,10 @@ struct Morph
 /***********************************************************************************************************************/
 
 	template<size_type mask, typename T>
-	using deallocate_adjective = adjective<deallocate_cast<mask>::rtn, base<mask>::rtn, T>;
+	using deallocate_adjective = sub_adjective<deallocate_cast<mask>::rtn, sub_base<mask>::rtn, T>;
 
 	template<size_type mask, size_type base, typename T>
-	static deallocate_adjective<mask, T> deallocate_segment(const adjective<mask, base> &, T *o)
+	static deallocate_adjective<mask, T> deallocate_segment(const sub_adjective<mask, base> &, T *o)
 	{
 		return deallocate_adjective<mask, T>(o);
 	}
@@ -221,10 +236,10 @@ struct Morph
 /***********************************************************************************************************************/
 
 	template<Association... params>
-	using subject = adjective
+	using subject = sub_adjective
 	<
 		mask<SubjectArrangement, Association, params...>::rtn,
-		base<mask<SubjectArrangement, Association, params...>::rtn>::rtn
+		sub_base<mask<SubjectArrangement, Association, params...>::rtn>::rtn
 	>;
 
 
@@ -240,44 +255,44 @@ struct Morph
 	>;
 
 	template<size_type mask>
-	using enum_base = base<mask>;
+	using ob_base = sub_base<mask>;
 
 /***********************************************************************************************************************/
 
 	template<size_type mask, size_type base, typename... params>
-	struct enum_adjective;
+	struct ob_adjective;
 
-	template<size_type mask, typename T>
-	struct enum_adjective
+	template<size_type mask, typename A>
+	struct ob_adjective
 	<
 		mask,
-		enum_base<mask>::rtn,
-		T
+		ob_base<mask>::rtn,
+		A
 	> :
 
-			public iterate<mask>
+			public enum_iterate_A<mask, A>
 
 		{ };
 
 
 	template<size_type mask>
-	struct enum_adjective
+	struct ob_adjective
 	<
 		mask,
-		enum_base<mask>::rtn
+		ob_base<mask>::rtn
 	> :
 
-			public iterate<mask>
+			public enum_iterate<mask>
 
 		{ };
 
 /***********************************************************************************************************************/
 
 	template<EnumAssociation... params>
-	using object = enum_adjective
+	using object = ob_adjective
 	<
 		mask<ObjectArrangement, EnumAssociation, params...>::rtn,
-		base<mask<ObjectArrangement, EnumAssociation, params...>::rtn>::rtn
+		ob_base<mask<ObjectArrangement, EnumAssociation, params...>::rtn>::rtn
 	>;
 };
 
@@ -286,10 +301,10 @@ template<size_type mask, size_type base, typename... params>
 using MorphVerb = typename Morph::template adverb<mask, base, params...>;
 
 template<size_type mask, size_type base, typename... params>
-using MorphSubject = typename Morph::template adjective<mask, base, params...>;
+using MorphSubject = typename Morph::template sub_adjective<mask, base, params...>;
 
 template<size_type mask, size_type base, typename... params>
-using MorphObject = typename Morph::template enum_adjective<mask, base, params...>;
+using MorphObject = typename Morph::template ob_adjective<mask, base, params...>;
 
 
 /***********************************************************************************************************************/
@@ -334,18 +349,18 @@ static sub_pointer morph(ADV_TYPE(specialize) & ad,
 */
 
 
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action<ob>(ad, out, in);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -366,33 +381,31 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(out, sub);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -405,21 +418,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
 		iterate_action(in, ob);
 
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -427,7 +439,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -440,21 +451,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closing) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closing, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -463,7 +473,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -478,33 +487,31 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in < end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(in, ob);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -517,31 +524,29 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -554,33 +559,31 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -593,35 +596,33 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(closed) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Closed, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 
 	while (in < end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(in, ob);
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -636,21 +637,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -658,7 +658,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -671,33 +670,31 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -710,28 +707,26 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 	}
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -744,15 +739,14 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(opening) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Opening, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 
@@ -760,7 +754,7 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 	{
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -768,7 +762,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /************************************************************************************************************************
@@ -783,21 +776,20 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closing) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closing, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -806,7 +798,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -819,35 +810,33 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(closed) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Closed, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	functor_action(ad, out, in, ob);
+	enum_functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(out, sub);
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -860,22 +849,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, OB_ADJ_INTERVAL(opening) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Opening, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	while (in != end)
 	{
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 	}
 
@@ -883,7 +871,6 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -896,22 +883,21 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 */
 
 
-/*
-template<INTERVAL_REDUCED_PARAMETERS>
-static sub_pointer morph(ADV_TYPE(prototype) & ad,
+template<PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, const SUB_ADJ_INTERVAL(open) & sub,
+			sub_pointer out, const MorphSubject<sub_mask, Open, T...> & sub,
 
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(open) & ob)
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, Open, A...> & ob)
 {
-	STATIC_ASSERT
+//	STATIC_ASSERT
 
 	iterate_action(in, ob);
 	iterate_action(out, sub);
 
 	while (in != end)
 	{
-		functor_action(ad, out, in, ob);
+		enum_functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -920,49 +906,24 @@ static sub_pointer morph(ADV_TYPE(prototype) & ad,
 
 	return out;
 }
-*/
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define ALLOCATE_SEGMENT_MORPH(sub_interval, ob_interval)								\
-															\
-template<DIRECTION_ONLY_PARAMETERS>											\
-static sub_pointer morph(ADV_TYPE(prototype) & ad,									\
-															\
-			sub_pointer & origin, const SUB_ADJ_IMAGE(sub_interval, allocate) & sub,			\
-															\
-			ob_value_type in, ob_value_type end, const OB_ADJ_INTERVAL(ob_interval) & ob)			\
-															\
-	{ return morph(ad, memory_action(origin, sub), SUB_ADJ_IMAGE(sub_interval, mutate)(), in, end, ob); }
+template<ALLOCATE_SEGMENT_PARAMETERS>
+static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
+			sub_pointer & origin, const MorphSubject<sub_mask, AllocateSegment, T...> & sub,
 
-/***********************************************************************************************************************/
+			ob_value_type in, ob_value_type end, const MorphObject<ob_mask, ob_base, A...> & ob)
 
+{
+	auto sub_mutate = Morph::mutate(sub);
 
-/*
-ALLOCATE_SEGMENT_MORPH(closing, closing)
-ALLOCATE_SEGMENT_MORPH(closing, closed)
-ALLOCATE_SEGMENT_MORPH(closing, opening)
-ALLOCATE_SEGMENT_MORPH(closing, open)
-
-ALLOCATE_SEGMENT_MORPH(closed, closing)
-ALLOCATE_SEGMENT_MORPH(closed, closed)
-ALLOCATE_SEGMENT_MORPH(closed, opening)
-ALLOCATE_SEGMENT_MORPH(closed, open)
-
-ALLOCATE_SEGMENT_MORPH(opening, closing)
-ALLOCATE_SEGMENT_MORPH(opening, closed)
-ALLOCATE_SEGMENT_MORPH(opening, opening)
-ALLOCATE_SEGMENT_MORPH(opening, open)
-
-ALLOCATE_SEGMENT_MORPH(open, closing)
-ALLOCATE_SEGMENT_MORPH(open, closed)
-ALLOCATE_SEGMENT_MORPH(open, opening)
-ALLOCATE_SEGMENT_MORPH(open, open)
-*/
+	return morph(ad, memory_action(origin, sub), sub_mutate, in, end, ob);
+}
 
 
 /***********************************************************************************************************************/
@@ -971,7 +932,7 @@ ALLOCATE_SEGMENT_MORPH(open, open)
 
 
 #undef PARAMETERS
+#undef ALLOCATE_SEGMENT_PARAMETERS
 #undef STATIC_ASSERT
-#undef ALLOCATE_SEGMENT_MORPH
 
 
