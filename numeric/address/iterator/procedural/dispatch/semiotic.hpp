@@ -453,6 +453,14 @@ static constexpr size_type		Image
 ************************************************************************************************************************/
 
 
+static constexpr size_type		Mutate // mutate, immutate
+
+= adj_cast
+<
+	Association::mutate
+
+>::rtn;
+
 static constexpr size_type		Segment // mutate, immutate
 
 = adj_cast
@@ -495,6 +503,9 @@ static constexpr size_type		Iterator
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+
+template<size_type mask>
+using mutate_cast = apply< deduct<mask, Image>::rtn, Mutate>;
 
 template<size_type mask>
 using allocate_cast = apply< deduct<mask, Image>::rtn, AllocateSegment>;
@@ -555,10 +566,38 @@ static constexpr size_type		EnumAccede
 
 >::rtn;
 
+/***********************************************************************************************************************/
+
+static constexpr size_type		EnumIncrement
+
+= enum_cast
+<
+	EnumAssociation::succeed,
+	EnumAssociation::accede
+
+>::rtn;
+
 
 /************************************************************************************************************************
 							direction
 ************************************************************************************************************************/
+
+
+static constexpr size_type		EnumForward
+
+= enum_cast
+<
+	EnumAssociation::forward
+
+>::rtn;
+
+static constexpr size_type		EnumBackward
+
+= enum_cast
+<
+	EnumAssociation::backward
+
+>::rtn;
 
 
 /************************************************************************************************************************
@@ -597,5 +636,13 @@ static constexpr size_type		EnumOpen
 	EnumAssociation::open
 
 >::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using accede_cast = apply< deduct<mask, EnumIncrement>::rtn, EnumAccede>;
 
 

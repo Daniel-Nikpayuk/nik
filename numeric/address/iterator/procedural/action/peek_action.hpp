@@ -18,10 +18,9 @@
 
 template
 <
-	typename ob_pointer,
-	size_type mask
+	typename ob_pointer
 >
-static inline bool peek_action(ob_pointer in, ob_pointer end, const adjective<mask> & ob)
+static inline bool peek_action(ob_pointer in, ob_pointer end, const adjective<Iterator> & ob)
 {
 	return (+in != end);
 }
@@ -38,5 +37,22 @@ static inline bool peek_action(ob_pointer in, ob_pointer end, const adjective<Se
 {
 	return (in < end);
 }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using peek = typename dispatch
+<
+	mask,
+
+	adjective<Segment>,
+
+	adjective<Iterator>
+
+>::rtn;
 
 

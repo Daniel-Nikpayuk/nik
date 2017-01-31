@@ -30,11 +30,7 @@
 /***********************************************************************************************************************/
 
 
-template
-<
-	size_type mask
->
-static inline void memory_action(const adjective<mask> & adj)
+static inline void memory_action(const adjective<Image> & adj)
 	{ }
 
 
@@ -59,54 +55,36 @@ static inline void memory_action(adjective<DeallocateSegment, T> & adj)
 
 template
 <
-	typename pointer,
-	size_type mask
+	typename pointer
 >
-static inline void memory_action(const pointer & p, const adjective<mask> & adj)
+static inline void memory_action(const pointer & p, const adjective<Image> & adj)
 	{ }
 
 
 /***********************************************************************************************************************/
 
+
 /*
-template<size_type mask, Association... params>
-using contains = typename adj_pattern<mask>::template contains
-<
-	adj_bit::template list_cast<params...>::rtn
+	"mask" cannot be deduced, and is supplied to determine forward or backward behaviour.
 
->;
-
-template<bool, typename Filler = void>
-struct dispatch
-{
-	static size_type offset(const adjective<AllocateSegment, void> & sub)
-	{
-		return sub.offset;
-	};
-};
-
-template<typename Filler>
-struct dispatch<false, Filler>
-{
-	static size_type offset(const adjective<AllocateSegment, void> & sub)
-	{
-		return sub.length - 1 - sub.offset;
-	};
-};
-
-// "origin" needs to be a reference value.
+	"origin" needs to be a reference value.
+*/
 
 template
 <
+	size_type mask,
+
 	typename sub_pointer
 >
-static inline sub_pointer memory_action(sub_pointer & origin, const adjective<AllocateSegment, void> & sub)
+static inline sub_pointer memory_action(sub_pointer & origin, const adjective<AllocateSegment, size_type> & sub)
 {
 	origin = new VALUE_TYPE[sub.length];
 
-	return origin + dispatch<contains<sub::mask, Association::forward>::rtn>::offset(sub);
+	return origin + bit::mask::template contains<mask, Association::forward>::rtn ?
+
+			sub.offset :
+			sub.length - 1 - sub.offset;
 }
-*/
 
 
 /***********************************************************************************************************************/
@@ -135,9 +113,9 @@ using memory = typename dispatch
 	mask,
 
 	adjective<AllocateSegment, size_type>,
-	adjective<Segment>,
+	adjective<Deallocate>,
 
-	adjective<Iterator>
+	adjective<Image>
 
 >::rtn;
 
@@ -147,9 +125,7 @@ using memory_T = typename dispatch
 <
 	mask,
 
-	adjective<DeallocateSegment, T>,
-
-	adjective<Iterator>
+	adjective<DeallocateSegment, T>
 
 >::rtn;
 

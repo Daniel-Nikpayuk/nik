@@ -146,43 +146,35 @@ static inline void iterate_action(pointer & out, const adjective<BackwardDealloc
 /***********************************************************************************************************************/
 
 
-/*
+template
+<
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const enum_adjective<EnumForward> & ob)
+	{ ++in; }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const enum_adjective<EnumBackward> & ob)
+	{ --in; }
+
+
+/***********************************************************************************************************************/
+
+
 template
 <
 	typename value_type,
-
-	size_type mask,
 	typename A
 >
-static inline void iterate_action(value_type & in, const enum_adjective<mask, Accede, A> & ob)
+static inline void iterate_action(value_type & in, const enum_adjective<EnumAccede, A> & ob)
 	{ ob.accessor(in); }
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-template
-<
-	typename value_type
->
-static inline void iterate_action(value_type & in, const enum_adjective<ENUM_DIRECTION(forward)> & ob)
-	{ ++in; }
-*/
-
-
-/***********************************************************************************************************************/
-
-
-/*
-template
-<
-	typename value_type
->
-static inline void iterate_action(value_type & in, const enum_adjective<ENUM_DIRECTION(backward)> & ob)
-	{ --in; }
-*/
 
 
 /***********************************************************************************************************************/

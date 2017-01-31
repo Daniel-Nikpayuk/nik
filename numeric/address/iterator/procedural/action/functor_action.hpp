@@ -30,19 +30,12 @@ static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer p)
 template
 <
 	typename sub_pointer,
-	typename ob_value_type,
-
-	size_type mask
+	typename ob_value_type
 >
-static inline void functor_action(const adverb<OmitFunctor> & ad,
-
-			sub_pointer out, ob_value_type in, const enum_adjective<mask> & ob)
+static inline void enum_functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_value_type in)
 {
 	*out = in;
 }
-
-
-/***********************************************************************************************************************/
 
 
 template
@@ -52,9 +45,7 @@ template
 
 	size_type mask
 >
-static inline void functor_action(const adverb<OmitFunctor> & ad,
-
-			sub_pointer out, ob_pointer in, const adjective<mask> & ob)
+static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_pointer in)
 {
 	*out = *in;
 }
@@ -78,19 +69,25 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 /***********************************************************************************************************************/
 
 
-/*
-	Adjective == EnumAdjective<L> || Adjective<L, T>
-*/
+template
+<
+	typename F,
+	typename sub_pointer,
+	typename ob_pointer
+>
+static inline void enum_functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in)
+{
+	ad.functor(out, in);
+}
 
 
 template
 <
 	typename F,
 	typename sub_pointer,
-	typename ob_pointer,
-	typename Adjective
+	typename ob_pointer
 >
-static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in, const Adjective & ob)
+static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in)
 {
 	ad.functor(out, in);
 }

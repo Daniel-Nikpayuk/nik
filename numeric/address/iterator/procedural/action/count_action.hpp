@@ -24,7 +24,7 @@ static inline void count_action(adverb<OmitCount> & ad)
 
 
 template<size_type mask>
-static inline void count_action(adverb<ApplyCount> & ad)
+static inline void count_action(adverb<ApplyCount, size_type> & ad)
 {
 	++ad.count;
 }
@@ -40,8 +40,9 @@ using count = typename dispatch
 <
 	mask,
 
-	adverb<OmitCount>,
-	adverb<ApplyCount, size_type>
+	adverb<ApplyCount, size_type>,
+
+	adverb<OmitCount>
 
 >::rtn;
 

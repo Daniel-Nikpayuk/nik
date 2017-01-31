@@ -153,7 +153,10 @@ struct Repeat
 		Closing,
 		Closed,
 		Opening,
-		Open
+		Open,
+
+		AllocateSegment,
+		DeallocateSegment
 	>;
 
 /***********************************************************************************************************************/
@@ -191,6 +194,17 @@ struct Repeat
 		adjective() : memory<mask>() { }
 		adjective(size_type l, size_type o) : memory<mask>(l, o) { }
 	};
+
+/***********************************************************************************************************************/
+
+	template<size_type mask>
+	using mutate_adjective = adjective<mutate_cast<mask>::rtn, base<mask>::rtn>;
+
+	template<size_type mask, size_type base>
+	static mutate_adjective<mask> mutate(const adjective<mask, base> &)
+	{
+		return mutate_adjective<mask>();
+	}
 
 /***********************************************************************************************************************/
 
@@ -547,13 +561,12 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
-/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 			sub_pointer & origin, sub_pointer end, const RepeatSubject<sub_mask, AllocateSegment, T...> & sub)
 {
-	RepeatSubject<sub_mask, MutateSegment, T...> sub_mutate;
+	auto sub_mutate = Repeat::mutate(sub);
 
 	return repeat(ad, memory_action(origin, sub), end, sub_mutate);
 }
@@ -566,7 +579,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 			size_type n)
 {
-	RepeatSubject<sub_mask, MutateSegment, T...> sub_mutate;
+	auto sub_mutate = Repeat::mutate(sub);
 
 	return repeat(ad, memory_action(origin, sub), sub_mutate, n);
 }
@@ -575,10 +588,9 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
-			sub_pointer out, sub_pointer end, TRepeatSubject<T, Association::deallocate, Association::Segment> & sub)
+			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, DeallocateSegment, T...> & sub)
 
 	{ memory_action(sub); }
-*/
 
 
 /***********************************************************************************************************************/

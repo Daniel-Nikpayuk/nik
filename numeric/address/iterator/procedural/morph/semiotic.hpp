@@ -41,7 +41,10 @@
 	typename sub_pointer,												\
 															\
 	size_type sub_mask,												\
-	typename... T
+	typename... T,													\
+															\
+	size_type ob_mask,												\
+	typename... A
 
 
 /***********************************************************************************************************************/
