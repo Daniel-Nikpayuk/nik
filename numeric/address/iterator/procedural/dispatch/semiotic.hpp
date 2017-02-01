@@ -426,6 +426,14 @@ static constexpr size_type		Interval
 ************************************************************************************************************************/
 
 
+static constexpr size_type		Allocate
+
+= adj_cast
+<
+	Association::allocate
+
+>::rtn;
+
 static constexpr size_type		Deallocate // hook, link
 
 = adj_cast

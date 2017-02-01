@@ -17,6 +17,15 @@
 
 /*
 	memory_action can be called on both "out" as well as "in" pointers, as well as "ob" adjectives alone.
+
+	If you're using the bitmask approach:
+
+	In the case one needs alternate dispatch defaults (see: Image, Not_Deallocate, Not_Allocate), it can be
+	combinatorially shown one has 2^n-n possible values to choose from. Regarding infill extensibility,
+	every context will be different. If 2^n-n is not enough, your design itself may be insufficient. If n is less
+	than the bitsize one should have more possible values to choose from. One can also expand into using other
+	Attributes/Manners, but this becomes a probabilistic game of collision. Regardless, how you decide enumerate such
+	choices will inevitably suffer from complexity. However you decide to choose, document well.
 */
 
 /***********************************************************************************************************************/
@@ -30,7 +39,7 @@
 /***********************************************************************************************************************/
 
 
-static inline void memory_action(const adjective<Image - DeallocateSegment> & adj)
+static inline void memory_action(const adjective<Image> & adj)
 	{ }
 
 
@@ -58,7 +67,7 @@ using valent_memory = typename dispatch
 <
 	mask,
 
-	adjective<Image - DeallocateSegment>
+	adjective<Image>
 
 >::rtn;
 
@@ -78,11 +87,14 @@ using valent_memory_T = typename dispatch
 /***********************************************************************************************************************/
 
 
+static constexpr size_type Not_Deallocate = deduct<Image, Deallocate>::rtn;
+
+
 template
 <
 	typename pointer
 >
-static inline void memory_action(const pointer & p, const adjective<Image> & adj)
+static inline void memory_action(const pointer & p, const adjective<Not_Deallocate> & adj)
 	{ }
 
 
@@ -99,6 +111,38 @@ static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
 {
 	delete p;
 }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using deallo_monovalent_memory = typename dispatch
+<
+	mask,
+
+	adjective<Deallocate>,
+
+	adjective<Not_Deallocate>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+static constexpr size_type Not_Allocate = deduct<Image, Allocate>::rtn;
+
+
+template
+<
+	typename pointer
+>
+static inline void memory_action(const pointer & p, const adjective<Not_Allocate> & adj)
+	{ }
 
 
 /***********************************************************************************************************************/
@@ -132,14 +176,13 @@ static inline sub_pointer memory_action(sub_pointer & origin, const adjective<Al
 
 
 template<size_type mask>
-using monovalent_memory = typename dispatch
+using allo_monovalent_memory = typename dispatch
 <
 	mask,
 
 	adjective<AllocateSegment, size_type>,
-	adjective<Deallocate>,
 
-	adjective<Image>
+	adjective<Not_Allocate>
 
 >::rtn;
 

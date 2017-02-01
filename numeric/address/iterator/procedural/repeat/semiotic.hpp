@@ -189,11 +189,12 @@ struct Repeat
 
 			public iterate<mask>,
 			public valent_memory<mask>,
-			public monovalent_memory<mask>
+			public allo_monovalent_memory<mask>,
+			public deallo_monovalent_memory<mask>
 
 	{
-		adjective() : valent_memory<mask>(), monovalent_memory<mask>() { }
-		adjective(size_type l, size_type o) : monovalent_memory<mask>(l, o) { }
+		adjective() : valent_memory<mask>(), allo_monovalent_memory<mask>(), deallo_monovalent_memory<mask>() { }
+		adjective(size_type l, size_type o) : allo_monovalent_memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/

@@ -205,11 +205,11 @@ struct Morph
 
 			public iterate<mask>,
 			// no deallocation.
-			public monovalent_memory<mask>
+			public allo_monovalent_memory<mask>
 
 	{
-		sub_adjective() : monovalent_memory<mask>() { }
-		sub_adjective(size_type l, size_type o) : monovalent_memory<mask>(l, o) { }
+		sub_adjective() : allo_monovalent_memory<mask>() { }
+		sub_adjective(size_type l, size_type o) : allo_monovalent_memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/
