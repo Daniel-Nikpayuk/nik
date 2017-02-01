@@ -22,7 +22,7 @@ template<typename T>
 using const_segment_pointer = T const *;
 
 template<typename T>
-class segment
+class segment : public node<T>
 {
 	public:
 		typedef segment_pointer<T> pointer;
@@ -38,7 +38,7 @@ class segment
 };
 
 template<typename T>
-class const_segment
+class const_segment : public const_node<T>
 {
 	public:
 		typedef const_segment_pointer<T> pointer;

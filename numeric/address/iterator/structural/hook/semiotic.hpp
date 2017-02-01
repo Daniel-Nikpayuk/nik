@@ -288,7 +288,7 @@ class const_hook_pointer
 #define POINTER_SIZE 2
 
 template<typename T>
-class hook
+class hook : public node<T>
 {
 	public:
 		typedef hook_pointer<T> pointer;
@@ -301,7 +301,7 @@ class hook
 };
 
 template<typename T>
-class const_hook
+class const_hook : public node<T>
 {
 	public:
 		typedef const_hook_pointer<T> pointer;

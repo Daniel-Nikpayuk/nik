@@ -102,11 +102,11 @@ struct Map
 		F
 	> :
 
-			public functor_F<mask, F>,
+			public divalent_functor_F<mask, F>,
 			public count<mask>
 
 	{
-		adverb(const F & f) : functor_F<mask, F>(f) { }
+		adverb(const F & f) : divalent_functor_F<mask, F>(f) { }
 	};
 
 	template<size_type mask>
@@ -116,7 +116,7 @@ struct Map
 		core<mask>::rtn
 	> :
 
-			public functor<mask>,
+			public divalent_functor<mask>,
 			public count<mask>
 
 		{ };
@@ -189,12 +189,10 @@ struct Map
 		T
 	> :
 
-			public iterate<mask>,
-			public memory_T<mask, T>
+			public iterate<mask>
+			// no deallocation.
 
-	{
-		sub_adjective(T *o) : memory_T<mask, T>(o) { }
-	};
+		{ };
 
 
 	template<size_type mask>
@@ -205,11 +203,11 @@ struct Map
 	> :
 
 			public iterate<mask>,
-			public memory<mask>
+			public monovalent_memory<mask>
 
 	{
-		sub_adjective() : memory<mask>() { }
-		sub_adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+		sub_adjective() : monovalent_memory<mask>() { }
+		sub_adjective(size_type l, size_type o) : monovalent_memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/
@@ -294,9 +292,11 @@ struct Map
 	> :
 
 			public iterate<mask>,
-			public memory_T<mask, T>
+			public valent_memory_T<mask, T>
 
-		{ };
+	{
+		ob_adjective(T *o) : valent_memory_T<mask, T>(o) { }
+	};
 
 
 	template<size_type mask>
@@ -307,7 +307,8 @@ struct Map
 	> :
 
 			public iterate<mask>,
-			public memory<mask>
+			public valent_memory<mask>,
+			public monovalent_memory<mask>
 
 		{ };
 

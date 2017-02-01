@@ -366,7 +366,7 @@ class const_link_pointer
 #define POINTER_SIZE 3
 
 template<typename T>
-class link
+class link : public node<T>
 {
 	public:
 		typedef link_pointer<T> pointer;
@@ -379,7 +379,7 @@ class link
 };
 
 template<typename T>
-class const_link
+class const_link : public node<T>
 {
 	public:
 		typedef const_link_pointer<T> pointer;

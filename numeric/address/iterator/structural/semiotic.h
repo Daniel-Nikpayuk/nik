@@ -39,8 +39,8 @@ namespace numeric	{
 
 		//
 
+		#include"node/semiotic.hpp"
 		#include"segment/semiotic.hpp"
-//		#include"node/semiotic.hpp"
 		#include"hook/semiotic.hpp"
 		#include"link/semiotic.hpp"
 		#include"trim/semiotic.hpp"

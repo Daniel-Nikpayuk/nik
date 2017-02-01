@@ -30,7 +30,7 @@
 /***********************************************************************************************************************/
 
 
-static inline void memory_action(const adjective<Image> & adj)
+static inline void memory_action(const adjective<Image - DeallocateSegment> & adj)
 	{ }
 
 
@@ -53,12 +53,52 @@ static inline void memory_action(adjective<DeallocateSegment, T> & adj)
 /***********************************************************************************************************************/
 
 
+template<size_type mask>
+using valent_memory = typename dispatch
+<
+	mask,
+
+	adjective<Image - DeallocateSegment>
+
+>::rtn;
+
+
+template<size_type mask, typename T>
+using valent_memory_T = typename dispatch
+<
+	mask,
+
+	adjective<DeallocateSegment, T>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 template
 <
 	typename pointer
 >
 static inline void memory_action(const pointer & p, const adjective<Image> & adj)
 	{ }
+
+
+/***********************************************************************************************************************/
+
+
+// "p" needs to be a reference value.
+
+template
+<
+	typename pointer
+>
+static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
+{
+	delete p;
+}
 
 
 /***********************************************************************************************************************/
@@ -88,27 +128,11 @@ static inline sub_pointer memory_action(sub_pointer & origin, const adjective<Al
 
 
 /***********************************************************************************************************************/
-
-
-// "p" needs to be a reference value.
-
-template
-<
-	typename pointer
->
-static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
-{
-	delete p;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 template<size_type mask>
-using memory = typename dispatch
+using monovalent_memory = typename dispatch
 <
 	mask,
 
@@ -116,16 +140,6 @@ using memory = typename dispatch
 	adjective<Deallocate>,
 
 	adjective<Image>
-
->::rtn;
-
-
-template<size_type mask, typename T>
-using memory_T = typename dispatch
-<
-	mask,
-
-	adjective<DeallocateSegment, T>
 
 >::rtn;
 

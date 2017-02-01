@@ -104,10 +104,12 @@ struct base
 
 	static void display(const base & b)
 	{
+		static typename IterProcSem::Repeat::template verb<> id;
 		typename IterProcSem::Repeat::template subject<IterAssoc::hook> mutate;
 
-		auto print = IterProcSem::Repeat::template verb<>::as
+		auto print = IterProcSem::Repeat::apply_functor
 		(
+			id,
 			[] (iterator out) { builtin.print(*out); builtin.print(' '); }
 		);
 
@@ -145,7 +147,7 @@ struct base
 
 	void repeat_back(size_type n, const value_type & value)
 	{
-		auto constant = identity.as( [value](iterator out){ *out = value; } );
+		auto constant = IterProcSem::Repeat::apply_functor(identity, [value](iterator out){ *out = value; } );
 		typename IterProcSem::Repeat::template subject<IterAssoc::hook, IterAssoc::allocate> allocate;
 
 		terminal = IterProcSem::repeat(constant, terminal, allocate, n);
@@ -179,7 +181,7 @@ struct base
 
 	void repeat_front(size_type n, const value_type & value)
 	{
-		auto constant = identity.as( [value](iterator out){ *out = value; } );
+		auto constant = IterProcSem::Repeat::apply_functor(identity, [value](iterator out){ *out = value; } );
 		typename IterProcSem::Repeat::template subject
 		<
 			IterAssoc::hook,

@@ -16,7 +16,7 @@
 ************************************************************************************************************************/
 
 
-#define NODE_TYPE	typename structural<Interface::semiotic>::template trim<pointer>::node
+#define NODE_TYPE	typename structural::template trim<pointer>::node
 
 
 /***********************************************************************************************************************/

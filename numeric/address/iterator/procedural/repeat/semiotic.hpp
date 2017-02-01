@@ -84,11 +84,11 @@ struct Repeat
 		F
 	> :
 
-			public functor_F<mask, F>,
+			public monovalent_functor_F<mask, F>,
 			public count<mask>
 
 	{
-		adverb(const F & f) : functor_F<mask, F>(f) { }
+		adverb(const F & f) : monovalent_functor_F<mask, F>(f) { }
 	};
 
 	template<size_type mask>
@@ -98,7 +98,7 @@ struct Repeat
 		core<mask>::rtn
 	> :
 
-			public functor<mask>,
+			public monovalent_functor<mask>,
 			public count<mask>
 
 		{ };
@@ -173,10 +173,10 @@ struct Repeat
 	> :
 
 			public iterate<mask>,
-			public memory_T<mask, T>
+			public valent_memory_T<mask, T>
 
 	{
-		adjective(T *o) : memory_T<mask, T>(o) { }
+		adjective(T *o) : valent_memory_T<mask, T>(o) { }
 	};
 
 
@@ -188,11 +188,12 @@ struct Repeat
 	> :
 
 			public iterate<mask>,
-			public memory<mask>
+			public valent_memory<mask>,
+			public monovalent_memory<mask>
 
 	{
-		adjective() : memory<mask>() { }
-		adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+		adjective() : valent_memory<mask>(), monovalent_memory<mask>() { }
+		adjective(size_type l, size_type o) : monovalent_memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/

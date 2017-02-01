@@ -103,11 +103,11 @@ struct Morph
 		F
 	> :
 
-			public functor_F<mask, F>,
+			public enum_divalent_functor_F<mask, F>,
 			public count<mask>
 
 	{
-		adverb(const F & f) : functor_F<mask, F>(f) { }
+		adverb(const F & f) : enum_divalent_functor_F<mask, F>(f) { }
 	};
 
 	template<size_type mask>
@@ -117,7 +117,7 @@ struct Morph
 		core<mask>::rtn
 	> :
 
-			public functor<mask>,
+			public enum_divalent_functor<mask>,
 			public count<mask>
 
 		{ };
@@ -190,12 +190,10 @@ struct Morph
 		T
 	> :
 
-			public iterate<mask>,
-			public memory_T<mask, T>
+			public iterate<mask>
+			// no deallocation.
 
-	{
-		sub_adjective(T *o) : memory_T<mask, T>(o) { }
-	};
+		{ };
 
 
 	template<size_type mask>
@@ -206,11 +204,12 @@ struct Morph
 	> :
 
 			public iterate<mask>,
-			public memory<mask>
+			// no deallocation.
+			public monovalent_memory<mask>
 
 	{
-		sub_adjective() : memory<mask>() { }
-		sub_adjective(size_type l, size_type o) : memory<mask>(l, o) { }
+		sub_adjective() : monovalent_memory<mask>() { }
+		sub_adjective(size_type l, size_type o) : monovalent_memory<mask>(l, o) { }
 	};
 
 /***********************************************************************************************************************/
@@ -381,7 +380,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -413,14 +412,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -452,7 +451,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 	{
 		iterate_action(in, ob);
 
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -485,7 +484,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -519,14 +518,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in < end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -556,14 +555,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
@@ -593,14 +592,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
@@ -630,14 +629,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in < end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(in, ob);
@@ -671,7 +670,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 	{
 		iterate_action(out, sub);
 
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -704,14 +703,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	return out;
@@ -742,7 +741,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 	}
 
@@ -775,7 +774,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 	{
 		iterate_action(out, sub);
 
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(in, ob);
@@ -810,7 +809,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
@@ -844,14 +843,14 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);
 		iterate_action(in, ob);
 	}
 
-	enum_functor_action(ad, out, in);
+	functor_action(ad, out, in);
 	count_action(ad);
 
 	iterate_action(out, sub);
@@ -884,7 +883,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 		iterate_action(in, ob);
 		iterate_action(out, sub);
 
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 	}
 
@@ -918,7 +917,7 @@ static sub_pointer morph(MorphVerb<verb_mask, Prototype, F...> & ad,
 
 	while (in != end)
 	{
-		enum_functor_action(ad, out, in);
+		functor_action(ad, out, in);
 		count_action(ad);
 
 		iterate_action(out, sub);

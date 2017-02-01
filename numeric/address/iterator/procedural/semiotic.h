@@ -60,7 +60,7 @@ namespace numeric	{
 		#include"morph/semiotic.hpp"
 		#include"map/semiotic.hpp"
 
-//		#include"noderize/semiotic.hpp"
+		#include"noderize/semiotic.hpp"
 //		#include"catenate/semiotic.hpp"
 //		#include"grow/semiotic.hpp"
 //		#include"shrink/semiotic.hpp"

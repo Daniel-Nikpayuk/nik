@@ -32,6 +32,67 @@
 
 template
 <
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const enum_adjective<EnumForward> & ob)
+	{ ++in; }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename value_type
+>
+static inline void iterate_action(value_type & in, const enum_adjective<EnumBackward> & ob)
+	{ --in; }
+
+
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename value_type,
+	typename A
+>
+static inline void iterate_action(value_type & in, const enum_adjective<EnumAccede, A> & ob)
+	{ ob.accessor(in); }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using enum_iterate = typename dispatch
+<
+	mask,
+
+	enum_adjective<EnumForward>,
+	enum_adjective<EnumBackward>
+
+>::rtn;
+
+
+template<size_type mask, typename A>
+using enum_iterate_A = typename dispatch
+<
+	mask,
+
+	enum_adjective<EnumAccede, A>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template
+<
 	typename pointer
 >
 static inline void iterate_action(pointer & p, const adjective<Forward> & adj)
@@ -89,7 +150,6 @@ static inline void iterate_action(pointer & out, const adjective<ForwardDealloca
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
 template
@@ -143,43 +203,6 @@ static inline void iterate_action(pointer & out, const adjective<BackwardDealloc
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename value_type
->
-static inline void iterate_action(value_type & in, const enum_adjective<EnumForward> & ob)
-	{ ++in; }
-
-
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename value_type
->
-static inline void iterate_action(value_type & in, const enum_adjective<EnumBackward> & ob)
-	{ --in; }
-
-
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename value_type,
-	typename A
->
-static inline void iterate_action(value_type & in, const enum_adjective<EnumAccede, A> & ob)
-	{ ob.accessor(in); }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
 template<size_type mask>
@@ -202,27 +225,6 @@ using iterate = typename dispatch
 	adjective<BackwardDeallocateLink>,
 
 	adjective<Backward>
-
->::rtn;
-
-
-template<size_type mask>
-using enum_iterate = typename dispatch
-<
-	mask,
-
-	enum_adjective<EnumForward>,
-	enum_adjective<EnumBackward>
-
->::rtn;
-
-
-template<size_type mask, typename A>
-using enum_iterate_A = typename dispatch
-<
-	mask,
-
-	enum_adjective<EnumAccede, A>
 
 >::rtn;
 

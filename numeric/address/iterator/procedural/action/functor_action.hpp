@@ -29,36 +29,8 @@ static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer p)
 
 template
 <
-	typename sub_pointer,
-	typename ob_value_type
->
-static inline void enum_functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_value_type in)
-{
-	*out = in;
-}
-
-
-template
-<
-	typename sub_pointer,
-	typename ob_pointer,
-
-	size_type mask
->
-static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_pointer in)
-{
-	*out = *in;
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template
-<
-	typename sub_pointer,
-	typename F
+	typename F,
+	typename sub_pointer
 >
 static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer p)
 {
@@ -67,39 +39,11 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 
 
 /***********************************************************************************************************************/
-
-
-template
-<
-	typename F,
-	typename sub_pointer,
-	typename ob_pointer
->
-static inline void enum_functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in)
-{
-	ad.functor(out, in);
-}
-
-
-template
-<
-	typename F,
-	typename sub_pointer,
-	typename ob_pointer
->
-static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer in)
-{
-	ad.functor(out, in);
-}
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
 template<size_type mask>
-using functor = typename dispatch
+using monovalent_functor = typename dispatch
 <
 	mask,
 
@@ -108,7 +52,113 @@ using functor = typename dispatch
 >::rtn;
 
 template<size_type mask, typename F>
-using functor_F = typename dispatch
+using monovalent_functor_F = typename dispatch
+<
+	mask,
+
+	adverb<ApplyFunctor, F>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template
+<
+	typename sub_pointer,
+	typename ob_value_type
+>
+static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_value_type in)
+{
+	*out = in;
+}
+
+
+template
+<
+	typename F,
+	typename sub_pointer,
+	typename ob_value_type
+>
+static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_value_type in)
+{
+	ad.functor(out, in);
+}
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using enum_divalent_functor = typename dispatch
+<
+	mask,
+
+	adverb<OmitFunctor>
+
+>::rtn;
+
+template<size_type mask, typename F>
+using enum_divalent_functor_F = typename dispatch
+<
+	mask,
+
+	adverb<ApplyFunctor, F>
+
+>::rtn;
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<typename T>
+using ob_pointer = typename structural::template node<T>::pointer;
+
+
+template
+<
+	typename sub_pointer,
+	typename T
+>
+static inline void functor_action(const adverb<OmitFunctor> & ad, sub_pointer out, ob_pointer<T> in)
+{
+	*out = *in;
+}
+
+
+template
+<
+	typename F,
+	typename sub_pointer,
+	typename T
+>
+static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointer out, ob_pointer<T> in)
+{
+	ad.functor(out, in);
+}
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+template<size_type mask>
+using divalent_functor = typename dispatch
+<
+	mask,
+
+	adverb<OmitFunctor>
+
+>::rtn;
+
+template<size_type mask, typename F>
+using divalent_functor_F = typename dispatch
 <
 	mask,
 
