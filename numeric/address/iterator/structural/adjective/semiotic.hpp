@@ -79,12 +79,12 @@ enum struct Attribute : size_type
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params>
+template<typename... params>
 struct adjective;
 
 
-template<size_type mask>
-struct adjective<mask> { static constexpr size_type bitmask = mask; };
+template<typename L>
+struct adjective<L> { using parameter_list = L; };
 
 
 /***********************************************************************************************************************/
@@ -97,23 +97,14 @@ using adj_list = typename parameter<Association>::template list<params...>;
 using null_adj = adj_list<>;
 
 
-template<Association... params>
-using adj_cast = typename bit::mask::template cast<adj_list<params...>>;
-
-// "using" for polymorphic dispatching.
-
-template<Association... params>
-using Adjective = adjective<adj_cast<params...>::rtn>;
-
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-static constexpr size_type AllocateSegment = adj_cast<Association::allocate, Association::segment>::rtn;
+using AllocateSegment = adj_list<Association::allocate, Association::segment>;
 
 
-static constexpr size_type DeallocateSegment = adj_cast<Association::deallocate, Association::segment>::rtn;
+using DeallocateSegment = adj_list<Association::deallocate, Association::segment>;
 
 
 /***********************************************************************************************************************/
@@ -133,7 +124,7 @@ static constexpr size_type DeallocateSegment = adj_cast<Association::deallocate,
 template<typename T>
 struct adjective<AllocateSegment, T>
 {
-	static constexpr size_type bitmask = AllocateSegment;
+	using parameter_list = AllocateSegment;
 
 	T length;
 	T offset;
@@ -145,7 +136,7 @@ struct adjective<AllocateSegment, T>
 template<typename T>
 struct adjective<DeallocateSegment, T>
 {
-	static constexpr size_type bitmask = DeallocateSegment;
+	using parameter_list = DeallocateSegment;
 
 	T *origin;
 

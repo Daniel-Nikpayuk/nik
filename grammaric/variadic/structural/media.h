@@ -23,9 +23,14 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
+		using functional = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
+
+		#include"alias/media.hpp"
+
+		//
+
 		#include"tuple/media.hpp"
-		#include"list/media.hpp"
-		#include"array/media.hpp"
 	};
 
 }}

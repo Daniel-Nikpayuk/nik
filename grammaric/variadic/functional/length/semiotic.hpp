@@ -15,15 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, size_type count = 0, typename Null = typename L::null>
-struct length
+template<typename Tuple, size_type count = 0>
+struct length;
+
+template<typename first, typename... params, size_type count>
+struct length<tuple<first, params...>, count>
 {
-	static constexpr size_type rtn = length<typename L::cdr, count+1>::rtn;
+	static constexpr size_type value = length<tuple<params...>, count+1>::value;
 };
 
-template<typename Null, size_type count>
-struct length<Null, count, Null>
+template<size_type count>
+struct length<null_tuple, count>
 {
-	static constexpr size_type rtn = count;
+	static constexpr size_type value = count;
 };
 

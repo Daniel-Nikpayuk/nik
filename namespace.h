@@ -26,7 +26,7 @@ namespace nik
 		control_flow,
 		identifier,
 		variadic,
-		bit,
+		parameter,
 
 		boolean,
 		uint,

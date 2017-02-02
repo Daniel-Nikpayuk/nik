@@ -15,15 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<size_type index, typename Tuple>
-struct cases
+template<size_type base, size_type mask>
+struct apply
 {
-	using rtn = typename cases<index-1, typename Tuple::cdr>::rtn;
-};
-
-template<typename Tuple>
-struct cases<0, Tuple>
-{
-	using rtn = typename Tuple::car;
+	static constexpr size_type value() { return semiotic::template apply<base, mask>::rtn; }
 };
 

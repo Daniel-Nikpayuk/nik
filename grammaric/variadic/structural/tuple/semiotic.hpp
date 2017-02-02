@@ -20,44 +20,33 @@
 template<typename... params>
 struct tuple
 {
+	using parameters = tuple;
+
+//		Navigational:
+
+	using car = typename functional::template car<parameters>;
+
+	using cdr = typename functional::template cdr<parameters>;
+
+//		Generational:
+
 	using null = tuple<>;
 
-	template<typename... args>
-	using prepend = tuple<args...>;
+	template<typename Tuple>
+	using prepend = typename functional::template catenate<Tuple, parameters>;
 
-	template<typename... args>
-	using append = tuple<args...>;
-};
+	template<typename Tuple>
+	using append = typename functional::template catenate<parameters, Tuple>;
 
-template<typename first, typename... params>
-struct tuple<first, params...>
-{
-	using null = tuple<>;
+//		Existential:
 
-	using car = first;
+	template<typename Tuple>
+	using equals = typename identifier::template equal<parameters, Tuple>;
 
-	using cdr = tuple<params...>;
+	using length = typename functional::template length<parameters>;
 
-	template<typename... args>
-	using prepend = tuple<args..., first, params...>;
+	//
 
-	template<typename... args>
-	using append = tuple<first, params..., args...>;
-};
-
-template<typename first>
-struct tuple<first>
-{
-	using null = tuple<>;
-
-	using car = first;
-
-	using cdr = null;
-
-	template<typename... args>
-	using prepend = tuple<args..., first>;
-
-	template<typename... args>
-	using append = tuple<first, args...>;
+	static void print() { functional::template printer<parameters>::print(); }
 };
 

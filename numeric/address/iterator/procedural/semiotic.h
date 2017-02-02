@@ -23,8 +23,6 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		using bit = grammaric::module<Module::bit, Orientation::structural, Interface::media, size_type>;
-
 		//
 
 		template<Orientation orientation_enum, Interface interface_enum>
@@ -48,17 +46,17 @@ namespace numeric	{
 
 		//
 
-		#include"action/peek_action.hpp"
-		#include"action/functor_action.hpp"
-		#include"action/count_action.hpp"
-		#include"action/iterate_action.hpp"
-		#include"action/memory_action.hpp"
+//		#include"action/peek_action.hpp"
+//		#include"action/functor_action.hpp"
+//		#include"action/count_action.hpp"
+//		#include"action/iterate_action.hpp"
+//		#include"action/memory_action.hpp"
 
 		//
 
-		#include"repeat/semiotic.hpp"
-		#include"morph/semiotic.hpp"
-		#include"map/semiotic.hpp"
+//		#include"repeat/semiotic.hpp"
+//		#include"morph/semiotic.hpp"
+//		#include"map/semiotic.hpp"
 
 		#include"noderize/semiotic.hpp"
 //		#include"catenate/semiotic.hpp"

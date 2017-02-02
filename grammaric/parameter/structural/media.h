@@ -15,23 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<size_type index, typename if_zero, typename if_one, typename... params>
-struct cases
-{
-	using in = tuple<params...>;
+namespace nik		{
+namespace grammaric	{
 
-	using rtn = typename semiotic::template cases<index-2, in>::rtn;
-};
+	template<typename SizeType>
+	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-template<typename if_zero, typename if_one, typename... params>
-struct cases<0, if_zero, if_one, params...>
-{
-	using rtn = if_zero;
-};
+		#include"tuple/media.hpp"
+		#include"list/media.hpp"
+		#include"array/media.hpp"
+	};
 
-template<typename if_zero, typename if_one, typename... params>
-struct cases<1, if_zero, if_one, params...>
-{
-	using rtn = if_one;
-};
+}}
 

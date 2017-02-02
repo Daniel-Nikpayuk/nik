@@ -29,14 +29,18 @@ struct DispatchError
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+/*
 template<size_type... params>
 using list = typename parameter<size_type>::template list<params...>;
+*/
 
 template<typename... params>
 using tuple = typename variadic<Orientation::structural, Interface::semiotic>::template tuple<params...>;
 
+/*
 template<size_type i, typename... params>
 using cases = typename variadic<Orientation::functional, Interface::media>::template cases<i, params...>;
+*/
 
 template<typename Field, typename Relation, Relation... params>
 using sortFill = typename variadic<Orientation::functional, Interface::media>::template sortFill<Field, Relation, params...>;
@@ -45,7 +49,7 @@ using sortFill = typename variadic<Orientation::functional, Interface::media>::t
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
+template<typename mask>
 using pattern = typename bit::mask::template pattern<mask>;
 
 template<size_type mask, size_type... params>
@@ -81,60 +85,55 @@ using mask = typename bit::mask::template cast
 ************************************************************************************************************************/
 
 
-static constexpr size_type		OmitFunctor
+using					OmitFunctor
 
-= adv_cast
+= adv_list
 <
 	Connotation::omit_functor
+>;
 
->::rtn;
+using					OmitOmit
 
-static constexpr size_type		OmitOmit
-
-= adv_cast
+= adv_list
 <
 	Connotation::omit_functor,
 	Connotation::omit_count
+>;
 
->::rtn;
+using					OmitApply
 
-static constexpr size_type		OmitApply
-
-= adv_cast
+= adv_list
 <
 	Connotation::omit_functor,
 	Connotation::apply_count
+>;
 
->::rtn;
+using					ApplyOmit
 
-static constexpr size_type		ApplyOmit
-
-= adv_cast
+= adv_list
 <
 	Connotation::apply_functor,
 	Connotation::omit_count
+>;
 
->::rtn;
+using					ApplyApply
 
-static constexpr size_type		ApplyApply
-
-= adv_cast
+= adv_list
 <
 	Connotation::apply_functor,
 	Connotation::apply_count
-
->::rtn;
+>;
 
 /***********************************************************************************************************************/
 
-static constexpr size_type		Functor
+using					Functor
 
-= adv_cast
+= adv_list
 <
 	Connotation::omit_functor,
 	Connotation::apply_functor
 
->::rtn;
+>;
 
 
 /************************************************************************************************************************
@@ -142,25 +141,25 @@ static constexpr size_type		Functor
 ************************************************************************************************************************/
 
 
-static constexpr size_type		OmitCount
+using					OmitCount
 
-= adv_cast
+= adv_list
 <
 	Connotation::omit_count
 
->::rtn;
+>;
 
 
 /***********************************************************************************************************************/
 
-static constexpr size_type		Tracer
+using					Tracer
 
-= adv_cast
+= adv_list
 <
 	Connotation::omit_count,
 	Connotation::apply_count
 
->::rtn;
+>;
 
 
 /************************************************************************************************************************
@@ -168,15 +167,15 @@ static constexpr size_type		Tracer
 ************************************************************************************************************************/
 
 
-static constexpr size_type		Fixer
+using					Fixer
 
-= adv_cast
+= adv_list
 <
 	Connotation::after,
 	Connotation::before,
 	Connotation::between
 
->::rtn;
+>;
 
 
 /************************************************************************************************************************
@@ -184,43 +183,43 @@ static constexpr size_type		Fixer
 ************************************************************************************************************************/
 
 
-static constexpr size_type		Prototype
+using					Prototype
 
-= adv_cast
+= adv_list
 <
 	Connotation::prototype
 
->::rtn;
+>;
 
-static constexpr size_type		Specialize
+using					Specialize
 
-= adv_cast
+= adv_list
 <
 	Connotation::specialize
 
->::rtn;
+>;
 
 /***********************************************************************************************************************/
 
-static constexpr size_type		Optimizer
+using					Optimizer
 
-= adv_cast
+= adv_list
 <
 	Connotation::prototype,
 	Connotation::specialize
 
->::rtn;
+>;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using functor_cast = apply< deduct<mask, Functor>::rtn, ApplyFunctor>;
+template<typename L>
+using functor_cast = apply< deduct<L, Functor>::rtn, ApplyFunctor>;
 
-template<size_type mask>
-using tracer_cast = apply< deduct<mask, Tracer>::rtn, ApplyCount>;
+template<typename L>
+using tracer_cast = apply< deduct<L, Tracer>::rtn, ApplyCount>;
 
 
 /***********************************************************************************************************************/
@@ -235,14 +234,8 @@ using adj_list = typename structural::template adj_list<params...>;
 using null_adj = typename structural::null_adj;
 
 
-template<size_type mask, typename... params>
-using adjective = typename structural::template adjective<mask, params...>;
-
-template<Association... params>
-using adj_cast = typename structural::template adj_cast<params...>;
-
-template<Association... params>
-using Adjective = typename structural::template Adjective<params...>;
+template<typename... params>
+using adjective = typename structural::template adjective<params...>;
 
 
 /***********************************************************************************************************************/

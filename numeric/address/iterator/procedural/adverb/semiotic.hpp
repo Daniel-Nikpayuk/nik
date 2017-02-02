@@ -67,12 +67,12 @@ enum struct Manner : size_type
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params>
+template<typename... params>
 struct adverb;
 
 
-template<size_type mask>
-struct adverb<mask> { static constexpr size_type bitmask = mask; };
+template<typename L>
+struct adverb<L> { using parameter_list = L; };
 
 
 /***********************************************************************************************************************/
@@ -85,23 +85,14 @@ using adv_list = typename parameter<Connotation>::template list<params...>;
 using null_adv = adv_list<>;
 
 
-template<Connotation... params>
-using adv_cast = typename bit::mask::template cast<adv_list<params...>>;
-
-// "using" for polymorphic dispatching.
-
-template<Connotation... params>
-using Adverb = adverb<adv_cast<params...>::rtn>;
-
-
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-static constexpr size_type ApplyFunctor = adv_cast<Connotation::apply_functor>::rtn;
+using ApplyFunctor = adv_list<Connotation::apply_functor>;
 
 
-static constexpr size_type ApplyCount = adv_cast<Connotation::apply_count>::rtn;
+using ApplyCount = adv_list<Connotation::apply_count>;
 
 
 /************************************************************************************************************************
@@ -112,7 +103,7 @@ static constexpr size_type ApplyCount = adv_cast<Connotation::apply_count>::rtn;
 template<typename F>
 struct adverb<ApplyFunctor, F>
 {
-	static constexpr size_type bitmask = ApplyFunctor;
+	using parameter_list = ApplyFunctor;
 
 	F functor;
 
@@ -123,7 +114,7 @@ struct adverb<ApplyFunctor, F>
 template<typename T>
 struct adverb<ApplyCount, T>
 {
-	static constexpr size_type bitmask = ApplyCount;
+	using parameter_list = ApplyCount;
 
 	T count;
 

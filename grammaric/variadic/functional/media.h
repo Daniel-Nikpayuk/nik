@@ -24,47 +24,29 @@ namespace grammaric	{
 		typedef SizeType size_type;
 
 		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
-
-		template<bool t, typename f, typename s>
-		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
-
-		//
-
+		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
 		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
-
-		template<typename enum_type>
-		using parameter = typename structural::template parameter<enum_type>;
-
-		template<typename... params>
-		using tuple = typename structural::template tuple<params...>;
-
-		//
-
 		using semiotic = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
 
-		// Both:
+		//
 
-		#include"isNull/media.hpp"
-		#include"length/media.hpp"
+		#include"alias/media.hpp"
+
+		// Navigational:
+
+		#include"car/media.hpp"
+		#include"cdr/media.hpp"
+
+		// Generational:
+
 		#include"catenate/media.hpp"
-		#include"filter/media.hpp"
 
-		// Tuple:
+		// Existential:
 
-		#include"cases/media.hpp"
+		#include"empty/media.hpp"
+		#include"length/media.hpp"
 
-		// List:
-
-		#include"isMember/media.hpp"
-		#include"compare/media.hpp"
-		#include"enum_cast/media.hpp"
-
-		#include"at/media.hpp"
-		#include"erase/media.hpp"
-		#include"sort/media.hpp"
-		#include"fill/media.hpp"
-
-		#include"sortFill/media.hpp"
+		#include"printer/media.hpp"
 	};
 
 }}

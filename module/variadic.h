@@ -19,6 +19,7 @@
 #define MODULE_VARIADIC_H
 
 #include"control_flow.h"
+#include"identifier.h"
 
 #include"../grammaric/variadic/structural/semiotic.h"
 #include"../grammaric/variadic/functional/semiotic.h"

@@ -18,9 +18,11 @@
 #ifndef MODULE_IDENTIFIER_H
 #define MODULE_IDENTIFIER_H
 
+#include"../grammaric/identifier/functional/semiotic.h"
 #include"../grammaric/identifier/structural/semiotic.h"
 #include"../grammaric/identifier/procedural/semiotic.h"
 
+#include"../grammaric/identifier/functional/media.h"
 #include"../grammaric/identifier/structural/media.h"
 #include"../grammaric/identifier/procedural/media.h"
 
