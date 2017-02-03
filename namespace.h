@@ -26,13 +26,13 @@ namespace nik
 		control_flow,
 		identifier,
 		variadic,
-		parameter,
+		enumerative,
 
 		boolean,
 		uint,
 		sint,
 
-		enumerator,
+		range,
 		iterator,
 		list,
 
@@ -72,7 +72,8 @@ namespace nik
 			(
 				module_enum != Module::control_flow	||
 				module_enum != Module::identifier	||
-				module_enum != Module::variadic		,
+				module_enum != Module::variadic		||
+				module_enum != Module::enumerative	,
 		
 				"This module is not yet implemented!"
 			);
@@ -93,8 +94,9 @@ namespace nik
 		{
 			static_assert
 			(
-				module_enum != Module::enumerator	||
-				module_enum != Module::iterator		,
+				module_enum != Module::range		||
+				module_enum != Module::iterator		||
+				module_enum != Module::list		,
 		
 				"This module is not yet implemented!"
 			);

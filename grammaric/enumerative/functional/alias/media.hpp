@@ -15,15 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, size_type count = 0, typename Null = typename L::null>
-struct length
-{
-	static constexpr size_type rtn = length<typename L::cdr, count+1>::rtn;
-};
+template<bool t, typename f, typename s>
+using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
-template<typename Null, size_type count>
-struct length<Null, count, Null>
-{
-	static constexpr size_type rtn = count;
-};
+//
+
+template<typename... params>
+using list = typename structural::template list<params...>;
 

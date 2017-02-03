@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_PARAMETER_H
-#define MODULE_PARAMETER_H
+template<bool t, typename f, typename s>
+using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
-#include"variadic.h"
+//
 
-#include"../grammaric/parameter/structural/semiotic.h"
-#include"../grammaric/parameter/functional/semiotic.h"
+using s_parameter = typename structural::template parameter<Parameter>;
 
-#include"../grammaric/parameter/structural/media.h"
-#include"../grammaric/parameter/functional/media.h"
+template<Parameter... params>
+using list = typename s_parameter::template list<params...>;
 
-#endif
+using null_list = list<>;
+

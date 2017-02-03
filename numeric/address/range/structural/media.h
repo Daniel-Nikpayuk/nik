@@ -19,11 +19,11 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<Module::enumerator, Orientation::structural, Interface::media, SizeType>
+	struct module<Module::range, Orientation::structural, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-		using semiotic = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
+		using semiotic = module<Module::incrementor, Orientation::structural, Interface::semiotic, size_type>;
 
 		#include"adjective/media.hpp"
 	};

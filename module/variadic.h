@@ -21,10 +21,10 @@
 #include"control_flow.h"
 #include"identifier.h"
 
-#include"../grammaric/variadic/structural/semiotic.h"
 #include"../grammaric/variadic/functional/semiotic.h"
+#include"../grammaric/variadic/structural/semiotic.h"
 
-#include"../grammaric/variadic/structural/media.h"
 #include"../grammaric/variadic/functional/media.h"
+#include"../grammaric/variadic/structural/media.h"
 
 #endif

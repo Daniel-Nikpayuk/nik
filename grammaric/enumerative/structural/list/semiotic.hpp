@@ -15,43 +15,38 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<Parameter... params>
+struct list
+{
+	using parameters = list;
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+//		Navigational:
 
-		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
+	using car = typename f_parameter::template car<parameters>;
 
-		template<bool t, typename f, typename s>
-		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+	using cdr = typename f_parameter::template cdr<parameters>;
 
-		// Both:
+//		Generational:
 
-		#include"isNull/semiotic.hpp"
-		#include"length/semiotic.hpp"
-		#include"catenate/semiotic.hpp"
-		#include"filter/semiotic.hpp"
+	using null = list<>;
 
-		// Tuple:
+	template<typename List>
+	using prepend = typename f_parameter::template catenate<List, parameters>;
 
-		#include"cases/semiotic.hpp"
+	template<typename List>
+	using append = typename f_parameter::template catenate<parameters, List>;
 
-		// List:
+//		Existential:
 
-		#include"isMember/semiotic.hpp"
-		#include"compare/semiotic.hpp"
-		#include"enum_cast/semiotic.hpp"
+//	using empty = typename functional::template empty<parameters>;
 
-		#include"at/semiotic.hpp"
-		#include"erase/semiotic.hpp"
-		#include"sort/semiotic.hpp"
-		#include"fill/semiotic.hpp"
+//	using length = typename functional::template length<parameters>;
 
-		#include"sortFill/semiotic.hpp"
-	};
+//	template<typename List>
+//	using equals = typename identifier::template equal<parameters, List>;
 
-}}
+	//
+
+	static void print() { f_parameter::template printer<parameters>::print(); }
+};
 

@@ -15,18 +15,26 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename List, typename Null = typename List::null>
+struct printer;
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
+template<Parameter first, Parameter... params, typename Null>
+struct printer<list<first, params...>, Null>
+{
+	static void print()
 	{
-		typedef SizeType size_type;
+		builtin_printer::print(first);
+		builtin_printer::print(' ');
+		printer<list<params...>>::print();
+	}
+};
 
-		#include"tuple/media.hpp"
-		#include"list/media.hpp"
-		#include"array/media.hpp"
-	};
-
-}}
+template<typename Null>
+struct printer<null_list, Null>
+{
+	static void print()
+	{
+		builtin_printer::print('\n');
+	}
+};
 

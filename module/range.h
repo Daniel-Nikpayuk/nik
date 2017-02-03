@@ -15,40 +15,13 @@
 **
 ************************************************************************************************************************/
 
-// empty:
+#ifndef MODULE_RANGE_H
+#define MODULE_RANGE_H
 
-template<typename... params>
-struct tuple
-{
-	using parameters = tuple;
+#include"variadic.h"
 
-//		Navigational:
+#include"../numeric/address/range/structural/semiotic.h"
 
-	using car = typename functional::template car<parameters>;
+#include"../numeric/address/range/structural/media.h"
 
-	using cdr = typename functional::template cdr<parameters>;
-
-//		Generational:
-
-	using null = tuple<>;
-
-	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, parameters>;
-
-	template<typename Tuple>
-	using append = typename functional::template catenate<parameters, Tuple>;
-
-//		Existential:
-
-	using empty = typename functional::template empty<parameters>;
-
-	using length = typename functional::template length<parameters>;
-
-	template<typename Tuple>
-	using equals = typename identifier::template equal<parameters, Tuple>;
-
-	//
-
-	static void print() { functional::template printer<parameters>::print(); }
-};
-
+#endif

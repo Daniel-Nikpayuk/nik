@@ -19,52 +19,52 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<Module::variadic, Orientation::functional, Interface::media, SizeType>
+	struct module<Module::enumerative, Orientation::functional, Interface::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
 		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
-
-		template<bool t, typename f, typename s>
-		using if_then_else = typename control_flow::template if_then_else<t, f, s>;
-
-		//
-
-		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
-
-		template<typename enum_type>
-		using parameter = typename structural::template parameter<enum_type>;
-
-		template<typename... params>
-		using tuple = typename structural::template tuple<params...>;
+		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
+		using structural = module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
 
 		//
 
-		using semiotic = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
+		template<typename Parameter = size_type>
+		struct parameter
+		{
+			#include"alias/semiotic.hpp"
 
-		// Both:
+			// List:
 
-		#include"isNull/media.hpp"
-		#include"length/media.hpp"
-		#include"catenate/media.hpp"
-		#include"filter/media.hpp"
+				// Navigational:
 
-		// Tuple:
+				#include"car/semiotic.hpp"
+				#include"cdr/semiotic.hpp"
 
-		#include"cases/media.hpp"
+				// Generational:
 
-		// List:
+				#include"catenate/semiotic.hpp"
 
-		#include"isMember/media.hpp"
-		#include"compare/media.hpp"
-		#include"enum_cast/media.hpp"
+				// Existential:
 
-		#include"at/media.hpp"
-		#include"erase/media.hpp"
-		#include"sort/media.hpp"
-		#include"fill/media.hpp"
+//				#include"empty/semiotic.hpp"
+//				#include"length/semiotic.hpp"
 
-		#include"sortFill/media.hpp"
+//				#include"filter/semiotic.hpp"
+
+//				#include"contains/semiotic.hpp"
+//				#include"compare/semiotic.hpp"
+//				#include"enum_cast/semiotic.hpp"
+
+//				#include"at/semiotic.hpp"
+//				#include"erase/semiotic.hpp"
+//				#include"sort/semiotic.hpp"
+//				#include"fill/semiotic.hpp"
+
+				#include"printer/semiotic.hpp"
+
+			// Modifier:
+		};
 	};
 
 }}

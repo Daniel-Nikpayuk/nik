@@ -15,13 +15,22 @@
 **
 ************************************************************************************************************************/
 
-template<bool t, typename f, typename s>
-using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+namespace nik		{
+namespace numeric	{
 
-//
+	template<typename SizeType>
+	struct module<Module::range, Orientation::structural, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-template<typename... params>
-using tuple = typename structural::template tuple<params...>;
+		template<Orientation orientation_enum, Interface interface_enum>
+		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
 
-using null_tuple = tuple<>;
+		template<typename enum_type>
+		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
+
+		#include"adjective/semiotic.hpp"
+	};
+
+}}
 

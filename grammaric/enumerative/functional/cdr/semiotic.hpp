@@ -15,15 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename outL, typename inL, typename Null = typename inL::null>
-struct catenate
-{
-	using rtn = typename catenate<typename outL::template append<inL::car>, typename inL::cdr>::rtn;
-};
+template<typename List>
+struct cdr;
 
-template<typename outL, typename Null>
-struct catenate<outL, Null, Null>
+template<Parameter first, Parameter... params>
+struct cdr<list<first, params...>>
 {
-	using rtn = outL;
+	using type = list<params...>;
 };
 

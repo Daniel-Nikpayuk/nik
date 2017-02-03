@@ -15,11 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<bool t, typename f, typename s>
-using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+template<typename Tuple, typename Null = typename Tuple::null>
+struct empty;
 
-//
+template<typename first, typename... params, typename Null>
+struct empty<tuple<first, params...>, Null>
+{ static constexpr bool value = false; };
 
-template<typename... params>
-using tuple = typename structural::template tuple<params...>;
+template<typename Null>
+struct empty<null_tuple, Null>
+{ static constexpr bool value = true; };
 

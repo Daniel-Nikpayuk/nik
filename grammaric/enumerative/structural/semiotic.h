@@ -15,13 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ENUMERATOR_H
-#define MODULE_ENUMERATOR_H
+namespace nik		{
+namespace grammaric	{
 
-#include"variadic.h"
+	template<typename SizeType>
+	struct module<Module::enumerative, Orientation::structural, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../numeric/address/enumerator/structural/semiotic.h"
+		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
+		using functional = module<Module::enumerative, Orientation::functional, Interface::semiotic, size_type>;
 
-#include"../numeric/address/enumerator/structural/media.h"
+		//
 
-#endif
+		template<typename Parameter = size_type>
+		struct parameter
+		{
+			#include"alias/semiotic.hpp"
+
+			//
+
+			#include"list/semiotic.hpp"
+		};
+	};
+
+}}
+

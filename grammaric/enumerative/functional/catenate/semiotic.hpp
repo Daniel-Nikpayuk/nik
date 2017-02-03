@@ -15,40 +15,16 @@
 **
 ************************************************************************************************************************/
 
-// empty:
+template<typename List1, typename List2>
+struct catenate;
 
-template<typename... params>
-struct tuple
+template<Parameter... params1, Parameter... params2>
+struct catenate
+<
+	list<params1...>,
+	list<params2...>
+>
 {
-	using parameters = tuple;
-
-//		Navigational:
-
-	using car = typename functional::template car<parameters>;
-
-	using cdr = typename functional::template cdr<parameters>;
-
-//		Generational:
-
-	using null = tuple<>;
-
-	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, parameters>;
-
-	template<typename Tuple>
-	using append = typename functional::template catenate<parameters, Tuple>;
-
-//		Existential:
-
-	using empty = typename functional::template empty<parameters>;
-
-	using length = typename functional::template length<parameters>;
-
-	template<typename Tuple>
-	using equals = typename identifier::template equal<parameters, Tuple>;
-
-	//
-
-	static void print() { functional::template printer<parameters>::print(); }
+	using type = list<params1..., params2...>;
 };
 

@@ -15,20 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple>
+template<typename Tuple, typename Null = typename Tuple::null>
 struct empty;
 
-template<typename... params>
-struct empty
-<
-	tuple<params...>
->
-{ static constexpr bool value = true; };
-
-template<typename first, typename... params>
-struct empty
-<
-	tuple<first, params...>
->
+template<typename first, typename... params, typename Null>
+struct empty<tuple<first, params...>, Null>
 { static constexpr bool value = false; };
+
+template<typename Null>
+struct empty<null_tuple, Null>
+{ static constexpr bool value = true; };
 

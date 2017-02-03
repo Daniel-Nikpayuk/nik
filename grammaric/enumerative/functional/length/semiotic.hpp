@@ -15,40 +15,18 @@
 **
 ************************************************************************************************************************/
 
-// empty:
+template<typename Tuple, size_type count = 0>
+struct length;
 
-template<typename... params>
-struct tuple
+template<typename first, typename... params, size_type count>
+struct length<tuple<first, params...>, count>
 {
-	using parameters = tuple;
+	static constexpr size_type value = length<tuple<params...>, count+1>::value;
+};
 
-//		Navigational:
-
-	using car = typename functional::template car<parameters>;
-
-	using cdr = typename functional::template cdr<parameters>;
-
-//		Generational:
-
-	using null = tuple<>;
-
-	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, parameters>;
-
-	template<typename Tuple>
-	using append = typename functional::template catenate<parameters, Tuple>;
-
-//		Existential:
-
-	using empty = typename functional::template empty<parameters>;
-
-	using length = typename functional::template length<parameters>;
-
-	template<typename Tuple>
-	using equals = typename identifier::template equal<parameters, Tuple>;
-
-	//
-
-	static void print() { functional::template printer<parameters>::print(); }
+template<size_type count>
+struct length<null_tuple, count>
+{
+	static constexpr size_type value = count;
 };
 
