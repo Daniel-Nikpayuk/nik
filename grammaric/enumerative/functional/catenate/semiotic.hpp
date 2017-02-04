@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename List1, typename List2>
+template<typename... Lists>
 struct catenate;
 
 template<Parameter... params1, Parameter... params2>
@@ -26,5 +26,16 @@ struct catenate
 >
 {
 	using type = list<params1..., params2...>;
+};
+
+template<Parameter... params1, Parameter... params2, Parameter... params3>
+struct catenate
+<
+	list<params1...>,
+	list<params2...>,
+	list<params3...>
+>
+{
+	using type = list<params1..., params2..., params3...>;
 };
 

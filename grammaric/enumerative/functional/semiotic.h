@@ -25,6 +25,7 @@ namespace grammaric	{
 
 		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
 		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
+		using variadic = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
 		using structural = module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
 
 		//
@@ -41,29 +42,41 @@ namespace grammaric	{
 				#include"car/semiotic.hpp"
 				#include"cdr/semiotic.hpp"
 
+//				#include"at/semiotic.hpp"
+
 				// Generational:
 
+				#include"cons/semiotic.hpp"
+				#include"push/semiotic.hpp"
 				#include"catenate/semiotic.hpp"
+
+//				#include"copy/semiotic.hpp"
+//				#include"sifter/semiotic.hpp"
+
+//				#include"decatenate/semiotic.hpp"
+//				#include"decons/semiotic.hpp"
+//				#include"pop/semiotic.hpp"
+
+//				#include"erase/semiotic.hpp"
+				#include"filter/semiotic.hpp"
 
 				// Existential:
 
-//				#include"empty/semiotic.hpp"
-//				#include"length/semiotic.hpp"
+				#include"empty/semiotic.hpp"
+				#include"length/semiotic.hpp"
 
-//				#include"filter/semiotic.hpp"
+				#include"compare/semiotic.hpp"
 
-//				#include"contains/semiotic.hpp"
-//				#include"compare/semiotic.hpp"
-//				#include"enum_cast/semiotic.hpp"
-
-//				#include"at/semiotic.hpp"
-//				#include"erase/semiotic.hpp"
-//				#include"sort/semiotic.hpp"
-//				#include"fill/semiotic.hpp"
-
-				#include"printer/semiotic.hpp"
+				#include"contains/semiotic.hpp"
 
 			// Modifier:
+
+				// Generational:
+
+				#include"sort/semiotic.hpp"
+				#include"fill/semiotic.hpp"
+
+			#include"printer/semiotic.hpp"
 		};
 	};
 

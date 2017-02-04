@@ -15,11 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename List, typename Null = typename List::null>
+template<typename List, typename Filler = void>
 struct printer;
 
-template<Parameter first, Parameter... params, typename Null>
-struct printer<list<first, params...>, Null>
+template<Parameter first, Parameter... params, typename Filler>
+struct printer<list<first, params...>, Filler>
 {
 	static void print()
 	{
@@ -29,8 +29,8 @@ struct printer<list<first, params...>, Null>
 	}
 };
 
-template<typename Null>
-struct printer<null_list, Null>
+template<typename Filler>
+struct printer<null_list, Filler>
 {
 	static void print()
 	{

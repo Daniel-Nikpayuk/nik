@@ -15,25 +15,26 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename Null = typename L::null>
-struct quickSort
+template<typename L, typename Filler = void>
+struct quickSort;
+
+template<Parameter first, Parameter... params, typename Filler>
+struct quickSort<list<first, params...>, Filler>
 {
-	using enum_compare	= compare<typename L::enum_type>;
+	using ltoe		= typename compare::template lessThanOrEqual<first>;
+	using leftFiltered	= typename filter<ltoe, list<params...>>::type;
+	using leftSorted	= typename quickSort<leftFiltered>::type;
 
-	using ltoe		= typename enum_compare::template lessThanOrEqual<L::car>;
-	using leftFiltered	= typename filter<ltoe, typename L::cdr>::rtn;
-	using leftSorted	= typename quickSort<leftFiltered>::rtn;
+	using gtoe		= typename compare::template greaterThanOrEqual<first>;
+	using rightFiltered	= typename filter<gtoe, list<params...>>::type;
+	using rightSorted	= typename quickSort<rightFiltered>::type;
 
-	using gtoe		= typename enum_compare::template greaterThanOrEqual<L::car>;
-	using rightFiltered	= typename filter<gtoe, typename L::cdr>::rtn;
-	using rightSorted	= typename quickSort<rightFiltered>::rtn;
-
-	using rtn = typename catenate<leftSorted, typename rightSorted::template prepend<L::car> >::rtn;
+	using type = typename catenate<leftSorted, list<first>, rightSorted>::type;
 };
 
-template<typename Null>
-struct quickSort<Null, Null>
+template<typename Filler>
+struct quickSort<null_list, Filler>
 {
-	using rtn = Null;
+	using type = null_list;
 };
 

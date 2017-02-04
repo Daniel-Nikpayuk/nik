@@ -15,15 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, size_type bitmask = 0, typename Null = typename L::null>
-struct cast
-{
-        static constexpr size_type rtn = cast<typename L::cdr, bitmask | ((size_type) 1 << (size_type) L::car) >::rtn;
-};
-
-template<typename Null, size_type bitmask>
-struct cast<Null, bitmask, Null>
-{
-        static constexpr size_type rtn = bitmask;
-};
-

@@ -15,23 +15,26 @@
 **
 ************************************************************************************************************************/
 
-template<typename predicate, typename inL, typename outL = typename inL::null, typename Null = typename inL::null>
-struct filter
+template<typename predicate, typename inL, typename outL = typename inL::null>
+struct filter;
+
+template<typename predicate, Parameter in_first, Parameter... in_params, Parameter... out_params>
+struct filter<predicate, list<in_first, in_params...>, list<out_params...>>
 {
 	using new_outL = typename if_then_else
 	<
-		predicate::test(inL::car),
-		typename outL::template append<inL::car>,
-		outL
+		predicate::test(in_first),
+		list<out_params..., in_first>,
+		list<out_params...>
 
-	>::rtn;
+	>::type;
 
-	using rtn = typename filter<predicate, typename inL::cdr, new_outL>::rtn;
+	using type = typename filter<predicate, list<in_params...>, new_outL>::type;
 };
 
-template<typename predicate, typename Null, typename outL>
-struct filter<predicate, Null, outL, Null>
+template<typename predicate, Parameter... out_params>
+struct filter<predicate, null_list, list<out_params...>>
 {
-	using rtn = outL;
+	using type = list<out_params...>;
 };
 

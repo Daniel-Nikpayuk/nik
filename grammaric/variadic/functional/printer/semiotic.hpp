@@ -15,11 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename Null = typename Tuple::null>
+template<typename Tuple, typename Filler = void>
 struct printer;
 
-template<typename first, typename... params, typename Null>
-struct printer<tuple<first, params...>, Null>
+template<typename first, typename... params, typename Filler>
+struct printer<tuple<first, params...>, Filler>
 {
 	static void print()
 	{
@@ -28,12 +28,12 @@ struct printer<tuple<first, params...>, Null>
 	}
 };
 
-template<typename Null>
-struct printer<null_tuple, Null>
+template<typename Filler>
+struct printer<null_tuple, Filler>
 {
 	static void print()
 	{
-		nik::display << nik::endl;
+		builtin_printer::print('\n');
 	}
 };
 

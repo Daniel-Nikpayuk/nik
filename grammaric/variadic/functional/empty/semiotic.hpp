@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename Null = typename Tuple::null>
+template<typename Tuple, typename Filler = void>
 struct empty;
 
-template<typename first, typename... params, typename Null>
-struct empty<tuple<first, params...>, Null>
+template<typename first, typename... params, typename Filler>
+struct empty<tuple<first, params...>, Filler>
 { static constexpr bool value = false; };
 
-template<typename Null>
-struct empty<null_tuple, Null>
+template<typename Filler>
+struct empty<null_tuple, Filler>
 { static constexpr bool value = true; };
 

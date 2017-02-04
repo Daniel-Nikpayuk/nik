@@ -15,63 +15,101 @@
 **
 ************************************************************************************************************************/
 
-template<typename inL, typename Relation, typename outL = typename inL::null, typename Null = typename Relation::null>
+template<typename Ordering, typename inL, typename outL = typename inL::null>
+struct fill;
+
+template<typename Ordering, Parameter in_first, Parameter... in_params, Parameter... out_params>
+struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
+{
+	using field = typename Ordering::car::type;
+	static constexpr Parameter field_first = field::car::value;
+
+	using new_outL = typename if_then_else
+	<
+		contains<field, in_first>::value,
+		typename push<list<out_params...>, in_first>::type,
+		typename push<list<out_params...>, field_first>::type
+
+	>::type;
+
+	using new_inL = typename if_then_else
+	<
+		contains<field, in_first>::value,
+		list<in_params...>,
+		list<in_first, in_params...>
+
+	>::type;
+
+	//
+
+	using type = typename fill<new_inL, typename Ordering::cdr::type, new_outL>::type;
+};
+
+template<Parameter... in_params, Parameter... out_params>
+struct fill<null_tuple, list<in_params...>, list<out_params...>>
+{
+	using type = list<out_params...>;
+};
+
+/*
+template<typename inL, typename Ordering, typename outL = typename inL::null, typename Null = typename Ordering::null>
 struct fill
 {
-	using set = typename Relation::car;
+	using set = typename Ordering::car;
 
 	//
 
 	template<typename in, typename inNull = typename in::null>
 	struct safe_new_out
 	{
-		using rtn = typename if_then_else
+		using type = typename if_then_else
 		<
-			isMember<set, in::car>::rtn,
+			isMember<set, in::car>::type,
 			typename outL::template append<in::car>,
 			typename outL::template append<set::car>
 
-		>::rtn;
+		>::type;
 	};
 
 	template<typename inNull>
 	struct safe_new_out<inNull, inNull>
 	{
-		using rtn = typename outL::template append<set::car>;
+		using type = typename outL::template append<set::car>;
 	};
 
-	using new_outL = typename safe_new_out<inL>::rtn;
+	using new_outL = typename safe_new_out<inL>::type;
 
 	//
 
 	template<typename in, typename inNull = typename in::null>
 	struct safe_new_in
 	{
-		using rtn = typename if_then_else
+		using type = typename if_then_else
 		<
-			isMember<set, in::car>::rtn,
+			isMember<set, in::car>::type,
 			typename in::cdr,
 			in
 
-		>::rtn;
+		>::type;
 	};
 
 	template<typename inNull>
 	struct safe_new_in<inNull, inNull>
 	{
-		using rtn = inNull;
+		using type = inNull;
 	};
 
-	using new_inL = typename safe_new_in<inL>::rtn;
+	using new_inL = typename safe_new_in<inL>::type;
 
 	//
 
-	using rtn = typename fill<new_inL, typename Relation::cdr, new_outL>::rtn;
+	using type = typename fill<new_inL, typename Ordering::cdr, new_outL>::type;
 };
 
 template<typename inL, typename Null, typename outL>
 struct fill<inL, Null, outL, Null>
 {
-	using rtn = outL;
+	using type = outL;
 };
+*/
 

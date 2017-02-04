@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple1, typename Tuple2>
+template<typename... Tuples>
 struct catenate;
 
 template<typename... params1, typename... params2>
@@ -26,5 +26,16 @@ struct catenate
 >
 {
 	using type = tuple<params1..., params2...>;
+};
+
+template<typename... params1, typename... params2, typename... params3>
+struct catenate
+<
+	tuple<params1...>,
+	tuple<params2...>,
+	tuple<params3...>
+>
+{
+	using type = tuple<params1..., params2..., params3...>;
 };
 

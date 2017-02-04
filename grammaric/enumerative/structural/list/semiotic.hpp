@@ -36,14 +36,16 @@ struct list
 	template<typename List>
 	using append = typename f_parameter::template catenate<parameters, List>;
 
+	using sorted = typename f_parameter::template quickSort<parameters>;
+
 //		Existential:
 
-//	using empty = typename functional::template empty<parameters>;
+	using empty = typename f_parameter::template empty<parameters>;
 
-//	using length = typename functional::template length<parameters>;
+	using length = typename f_parameter::template length<parameters>;
 
-//	template<typename List>
-//	using equals = typename identifier::template equal<parameters, List>;
+	template<typename List>
+	using equals = typename identifier::template equal<parameters, List>;
 
 	//
 

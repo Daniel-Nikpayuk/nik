@@ -15,9 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<size_type mask, size_type base>
-struct contains
+template<typename L, Parameter p>
+struct contains;
+
+template<Parameter first, Parameter... params, Parameter p>
+struct contains<list<first, params...>, p>
 {
-	static constexpr bool rtn = ((mask & base) == base);
+	static constexpr bool value = (first == p) || contains<list<params...>, p>::value;
+};
+
+template<Parameter p>
+struct contains<null_list, p>
+{
+	static constexpr bool value = false;
 };
 

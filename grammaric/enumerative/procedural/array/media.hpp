@@ -15,9 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename L::enum_type x>
-struct enum_cast
-{
-	static constexpr size_type value() { return semiotic::template enum_cast<L, x>::rtn; }
-};
-

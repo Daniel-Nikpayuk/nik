@@ -15,22 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename enum_type>
 struct compare
 {
-	template<enum_type t>
+	template<Parameter t>
 	struct lessThanOrEqual
 	{
-		static constexpr bool test(enum_type current)
+		static constexpr bool test(Parameter current)
 		{
 			return (current <= t);
 		}
 	};
 
-	template<enum_type t>
+	template<Parameter t>
 	struct greaterThanOrEqual
 	{
-		static constexpr bool test(enum_type current)
+		static constexpr bool test(Parameter current)
 		{
 			return (current >= t);
 		}

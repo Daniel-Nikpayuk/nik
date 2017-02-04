@@ -15,9 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename L>
-struct cast
+template<Parameter first, typename List>
+struct cons;
+
+template<Parameter first, Parameter... params>
+struct cons<first, list<params...>>
 {
-	static constexpr size_type value() { return semiotic::template cast<L>::rtn; }
+	using type = list<first, params...>;
 };
 

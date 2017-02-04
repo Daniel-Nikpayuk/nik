@@ -15,9 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename L::enum_type x>
-struct isMember
+template<typename List, Parameter last>
+struct push;
+
+template<Parameter... params, Parameter last>
+struct push<list<params...>, last>
 {
-	static constexpr bool value() { return semiotic::template isMember<L, x>::rtn; }
+	using type = list<params..., last>;
 };
 

@@ -27,3 +27,10 @@ using list = typename s_parameter::template list<params...>;
 
 using null_list = list<>;
 
+//
+
+template<typename... params>
+using tuple = typename variadic::template tuple<params...>;
+
+using null_tuple = tuple<>;
+
