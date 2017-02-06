@@ -51,7 +51,7 @@ struct cross<base<in1_first, in1_params...>, base<in2_first, in2_params...>, bas
 
 		cross<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
 
-	>::type::type;
+	>::type;
 };
 
 template<Parameter... in2_params, Parameter... out_params>

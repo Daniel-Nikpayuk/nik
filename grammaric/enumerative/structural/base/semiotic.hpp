@@ -18,7 +18,7 @@
 template<Parameter... params>
 struct base
 {
-	using this_type = base;
+	using type = base;
 
 	using null = base<>;
 
@@ -26,23 +26,23 @@ struct base
 
 //		Navigational:
 
-	using car = typename f_parameter::template car<this_type>;
+	using car = typename f_parameter::template car<type>;
 
-	using cdr = typename f_parameter::template cdr<this_type>;
+	using cdr = typename f_parameter::template cdr<type>;
 
 //		Existential:
 
-	using empty = typename f_parameter::template empty<this_type>;
+	using empty = typename f_parameter::template empty<type>;
 
-	using length = typename f_parameter::template length<this_type>;
+	using length = typename f_parameter::template length<type>;
 
 	template<typename Base>
-	using equals = typename identifier::template equal<this_type, typename Base::this_type>;
+	using equals = typename identifier::template equal<type, typename Base::type>;
 
 //		Generational:
 
 	//
 
-	static void print() { f_parameter::template printer<this_type>::print(); }
+	static void print() { f_parameter::template printer<type>::print(); }
 };
 

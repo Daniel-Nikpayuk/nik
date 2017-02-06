@@ -23,6 +23,7 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		#include"kind/semiotic.hpp"
 		#include"if_then_else/semiotic.hpp"
 		#include"condition/semiotic.hpp"
 	};

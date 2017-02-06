@@ -28,7 +28,7 @@ struct condition<control<predicate, expression>, lines...>
 	<
 		predicate,
 		expression,
-		typename condition<lines...>::type
+		condition<lines...>
 
 	>::type;
 };
@@ -36,6 +36,6 @@ struct condition<control<predicate, expression>, lines...>
 template<typename expression>
 struct condition<expression>
 {
-	using type = expression;
+	using type = typename expression::type;
 };
 

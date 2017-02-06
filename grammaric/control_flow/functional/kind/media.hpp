@@ -15,29 +15,3 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Assumes modifier:
-*/
-
-template<typename inBase, Parameter p, typename outBase = typename inBase::null>
-struct adjoin;
-
-template<Parameter in_first, Parameter... in_params, Parameter p, Parameter... out_params>
-struct adjoin<base<in_first, in_params...>, p, base<out_params...>>
-{
-	using type = typename condition
-	<
-		control<(in_first == p),	base<out_params..., in_first, in_params...>>,
-		control<(in_first > p),		base<out_params..., p, in_first, in_params...>>,
-
-		adjoin<base<in_params...>, p, base<out_params..., in_first>>
-
-	>::type;
-};
-
-template<Parameter p, Parameter... out_params>
-struct adjoin<null_base, p, base<out_params...>>
-{
-	using type = base<out_params..., p>;
-};
-

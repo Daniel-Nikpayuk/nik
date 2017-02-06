@@ -18,7 +18,9 @@
 template<Parameter... params>
 struct modifier
 {
-	using base_type = base<params...>;
+	using base = parameter::base<params...>;
+
+	using type = modifier;
 
 	using null = modifier<>;
 
@@ -27,7 +29,7 @@ struct modifier
 	template<typename Base> struct modify;
 
 	template<Parameter... args>
-	struct modify<base<args...>>
+	struct modify<parameter::base<args...>>
 	{
 		using type = modifier<args...>;
 	};
@@ -37,24 +39,24 @@ struct modifier
 //		Generational:
 
 	template<Parameter p>
-	using adjoin = modify<typename f_parameter::template adjoin<base_type, p>::type>;
+	using adjoin = modify<typename f_parameter::template adjoin<base, p>::type>;
 
 	template<typename Modifier>
-	using add = modify<typename f_parameter::template add<base_type, typename Modifier::base_type>::type>;
+	using add = modify<typename f_parameter::template add<base, typename Modifier::base>::type>;
 
 	template<typename Modifier>
-	using cross = modify<typename f_parameter::template cross<base_type, typename Modifier::base_type>::type>;
+	using cross = modify<typename f_parameter::template cross<base, typename Modifier::base>::type>;
 
 	template<typename Modifier>
-	using subtract = modify<typename f_parameter::template subtract<base_type, typename Modifier::base_type>::type>;
+	using subtract = modify<typename f_parameter::template subtract<base, typename Modifier::base>::type>;
 
 //		Existential:
 
 	template<Parameter p>
-	using contains = typename f_parameter::template contains<base_type, p>;
+	using contains = typename f_parameter::template contains<base, p>;
 
 	//
 
-	static void print() { base_type::print(); }
+	static void print() { base::print(); }
 };
 

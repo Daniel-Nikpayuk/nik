@@ -18,12 +18,12 @@
 template<bool conditional, typename if_true, typename if_false>
 struct if_then_else
 {
-	using type = if_true;
+	using type = typename if_true::type;
 };
 
 template<typename if_true, typename if_false>
 struct if_then_else<false, if_true, if_false>
 {
-	using type = if_false;
+	using type = typename if_false::type;
 };
 

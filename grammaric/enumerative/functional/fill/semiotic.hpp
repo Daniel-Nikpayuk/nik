@@ -48,8 +48,8 @@ struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 	using new_outL = typename if_then_else
 	<
 		contains<field, in_first>::value,
-		typename push<list<out_params...>, in_first>::type,
-		typename push<list<out_params...>, field_first>::type
+		push<list<out_params...>, in_first>,
+		push<list<out_params...>, field_first>
 
 	>::type;
 
