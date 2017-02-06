@@ -15,17 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, Parameter p>
+/*
+	Assumes modifier:
+*/
+
+template<typename Base, Parameter p>
 struct contains;
 
 template<Parameter first, Parameter... params, Parameter p>
-struct contains<list<first, params...>, p>
+struct contains<base<first, params...>, p>
 {
-	static constexpr bool value = (first > p) && ((first == p) || contains<list<params...>, p>::value);
+	static constexpr bool value = (first <= p) && has<base<first, params...>, p>::value;
 };
 
 template<Parameter p>
-struct contains<null_list, p>
+struct contains<null_base, p>
 {
 	static constexpr bool value = false;
 };

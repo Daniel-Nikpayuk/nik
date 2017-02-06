@@ -15,34 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<Parameter... params>
-struct base
+template<size_type mask, size_type base>
+struct contains
 {
-	using this_type = base;
-
-	using null = base<>;
-
-//		Translational:
-
-//		Navigational:
-
-	using car = typename f_parameter::template car<this_type>;
-
-	using cdr = typename f_parameter::template cdr<this_type>;
-
-//		Existential:
-
-	using empty = typename f_parameter::template empty<this_type>;
-
-	using length = typename f_parameter::template length<this_type>;
-
-	template<typename Base>
-	using equals = typename identifier::template equal<this_type, typename Base::this_type>;
-
-//		Generational:
-
-	//
-
-	static void print() { f_parameter::template printer<this_type>::print(); }
+	static constexpr bool value() { return semiotic::template contains<base, mask>::rtn; }
 };
 

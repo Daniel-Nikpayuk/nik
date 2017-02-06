@@ -15,12 +15,22 @@
 **
 ************************************************************************************************************************/
 
-template<typename Base>
-struct modify;
+/*
+	Assumes unordered list:
+*/
 
-template<Parameter... params>
-struct modify<base<params...>>
+template<typename Base, Parameter p>
+struct has;
+
+template<Parameter first, Parameter... params, Parameter p>
+struct has<base<first, params...>, p>
 {
-	using type = modifier<params...>;
+	static constexpr bool value = (first == p) || has<base<params...>, p>::value;
+};
+
+template<Parameter p>
+struct has<null_base, p>
+{
+	static constexpr bool value = false;
 };
 

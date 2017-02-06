@@ -23,7 +23,7 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
+		using control_flow = module<Module::control_flow, Orientation::functional, Interface::semiotic, size_type>;
 		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
 		using variadic = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
 		using structural = module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
@@ -35,56 +35,70 @@ namespace grammaric	{
 		{
 			#include"alias/semiotic.hpp"
 
+			// Base:
+
+				// Navigational:
+
+					#include"car/semiotic.hpp"
+					#include"cdr/semiotic.hpp"
+
+////					#include"at/semiotic.hpp"
+
+				// Existential:
+
+					#include"empty/semiotic.hpp"
+					#include"length/semiotic.hpp"
+
+					#include"compare/semiotic.hpp"
+
+				// Generational:
+
+////					#include"copy/semiotic.hpp"
+////					#include"sifter/semiotic.hpp"
+
+////					#include"erase/semiotic.hpp"
+					#include"filter/semiotic.hpp"
+
+				// Translational:
+
+					#include"printer/semiotic.hpp"
+
 			// List:
 
 				// Navigational:
 
-				#include"car/semiotic.hpp"
-				#include"cdr/semiotic.hpp"
-
-////				#include"at/semiotic.hpp"
-
 				// Existential:
 
-				#include"empty/semiotic.hpp"
-				#include"length/semiotic.hpp"
-
-				#include"compare/semiotic.hpp"
+					#include"has/semiotic.hpp"
 
 				// Generational:
 
-				#include"cons/semiotic.hpp"
-				#include"push/semiotic.hpp"
-				#include"catenate/semiotic.hpp"
+					#include"cons/semiotic.hpp"
+					#include"push/semiotic.hpp"
+					#include"catenate/semiotic.hpp"
 
-////				#include"copy/semiotic.hpp"
-////				#include"sifter/semiotic.hpp"
+////					#include"decatenate/semiotic.hpp"
+////					#include"decons/semiotic.hpp"
+////					#include"pop/semiotic.hpp"
 
-////				#include"decatenate/semiotic.hpp"
-////				#include"decons/semiotic.hpp"
-////				#include"pop/semiotic.hpp"
-
-////				#include"erase/semiotic.hpp"
-				#include"filter/semiotic.hpp"
-
-				#include"sort/semiotic.hpp"
-
-				// Translational:
-
-//				#include"listify/semiotic.hpp"
-//				#include"modify/semiotic.hpp"
+					#include"sort/semiotic.hpp"
 
 			// Modifier:
 
+				// Navigational:
+
 				// Existential:
 
-//				#include"contains/semiotic.hpp"
+					#include"contains/semiotic.hpp"
 
 				// Generational:
 
-//				#include"fill/semiotic.hpp"
+					#include"adjoin/semiotic.hpp"
+					#include"add/semiotic.hpp"
+					#include"cross/semiotic.hpp"
+					#include"subtract/semiotic.hpp"
 
-			#include"printer/semiotic.hpp"
+//					#include"fill/semiotic.hpp"
 		};
 	};
 

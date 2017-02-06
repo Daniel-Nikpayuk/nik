@@ -15,34 +15,34 @@
 **
 ************************************************************************************************************************/
 
-template<Parameter... params>
-struct base
+template<typename inBase1, typename inBase2, typename outBase = typename inBase1::null>
+struct subtract;
+
+template
+<
+	Parameter in1_first,
+	Parameter... in1_params,
+
+	Parameter... in2_params,
+
+	Parameter... out_params
+>
+struct subtract<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
 {
-	using this_type = base;
+	using type = typename if_then_else
+	<
+		contains<base<in2_params...>, in1_first>::value,
 
-	using null = base<>;
+		subtract<base<in1_params...>, base<in2_params...>, base<out_params...>>,
 
-//		Translational:
+		subtract<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
 
-//		Navigational:
+	>::type::type;
+};
 
-	using car = typename f_parameter::template car<this_type>;
-
-	using cdr = typename f_parameter::template cdr<this_type>;
-
-//		Existential:
-
-	using empty = typename f_parameter::template empty<this_type>;
-
-	using length = typename f_parameter::template length<this_type>;
-
-	template<typename Base>
-	using equals = typename identifier::template equal<this_type, typename Base::this_type>;
-
-//		Generational:
-
-	//
-
-	static void print() { f_parameter::template printer<this_type>::print(); }
+template<Parameter... in2_params, Parameter... out_params>
+struct subtract<null_base, base<in2_params...>, base<out_params...>>
+{
+	using type = base<out_params...>;
 };
 

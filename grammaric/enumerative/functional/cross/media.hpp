@@ -15,12 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename Base>
-struct modify;
-
-template<Parameter... params>
-struct modify<base<params...>>
+template<size_type base, size_type mask>
+struct apply
 {
-	using type = modifier<params...>;
+	static constexpr size_type value() { return semiotic::template apply<base, mask>::rtn; }
 };
 

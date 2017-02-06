@@ -18,6 +18,12 @@
 template<bool t, typename f, typename s>
 using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
+template<bool p, typename e>
+using control = typename control_flow::template control<p, e>;
+
+template<typename... l>
+using condition = typename control_flow::template condition<l...>;
+
 //
 
 using s_parameter = typename structural::template parameter<Parameter>;

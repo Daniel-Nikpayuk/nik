@@ -15,44 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<typename outL, typename inL1, typename inL2>
-struct unite;
+template<typename outBase, typename inBase>
+struct add;
 
-template<typename outL, typename inL1, typename inL2, typename Null = typename inL2::null>
-struct unite<>
+template<Parameter... out_params, Parameter in_first, Parameter... in_params>
+struct add<base<out_params...>, base<in_first, in_params...>>
 {
-	static constexpr bool L1_lt_L2 = inL1::car < inL2::car;
-
-	using new_outL = if_then_else
+	using type = typename add
 	<
-		L1_lt_L2,
+		typename adjoin<base<out_params...>, in_first>::type,
+		base<in_params...>
 
-		if_then_else
-		<
-			inL1,
-
-		>::rtn,
-
-		if_then_else
-		<
-			inL2
-
-		>::rtn
-
-	>::rtn;
-
-	using rtn = unite<new_outL, new_inL1, new_inL2>::rtn;
+	>::type;
 };
 
-template<typename outL, typename inL1, typename Null>
-struct unite<outL, inL1, Null, Null>
+template<Parameter... out_params>
+struct add<base<out_params...>, null_base>
 {
-	using rtn = catenate<outL, inL1>::rtn;
-};
-
-template<typename outL, typename Null, typename inL2>
-struct unite<outL, Null, inL2, Null>
-{
-	using rtn = catenate<outL, inL2>::rtn;
+	using type = base<out_params...>;
 };
 
