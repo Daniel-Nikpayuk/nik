@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename List>
+template<typename Base>
 struct cdr;
 
 template<Parameter first, Parameter... params>
-struct cdr<list<first, params...>>
+struct cdr<base<first, params...>>
 {
-	using type = list<params...>;
+	using type = base<params...>;
 };
 

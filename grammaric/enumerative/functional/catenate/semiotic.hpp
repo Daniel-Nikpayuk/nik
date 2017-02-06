@@ -15,27 +15,27 @@
 **
 ************************************************************************************************************************/
 
-template<typename... Lists>
+template<typename... Bases>
 struct catenate;
 
 template<Parameter... params1, Parameter... params2>
 struct catenate
 <
-	list<params1...>,
-	list<params2...>
+	base<params1...>,
+	base<params2...>
 >
 {
-	using type = list<params1..., params2...>;
+	using type = base<params1..., params2...>;
 };
 
 template<Parameter... params1, Parameter... params2, Parameter... params3>
 struct catenate
 <
-	list<params1...>,
-	list<params2...>,
-	list<params3...>
+	base<params1...>,
+	base<params2...>,
+	base<params3...>
 >
 {
-	using type = list<params1..., params2..., params3...>;
+	using type = base<params1..., params2..., params3...>;
 };
 

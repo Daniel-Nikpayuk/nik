@@ -18,37 +18,57 @@
 template<Parameter... params>
 struct list
 {
-	using parameters = list;
-
-//		Navigational:
-
-	using car = typename f_parameter::template car<parameters>;
-
-	using cdr = typename f_parameter::template cdr<parameters>;
-
-//		Generational:
+	using base_type = base<params...>;
 
 	using null = list<>;
 
-	template<typename List>
-	using prepend = typename f_parameter::template catenate<List, parameters>;
+//		Translational:
 
-	template<typename List>
-	using append = typename f_parameter::template catenate<parameters, List>;
+	template<typename Base> struct coerce;
 
-	using sorted = typename f_parameter::template quickSort<parameters>;
+	template<Parameter... args>
+	struct coerce<base<args...>>
+	{
+		using type = list<args...>;
+	};
+
+/*
+	using keyword is lazy. Required if normal evaluation fails on methods such as cdr with a null list.
+
+	template<typename Method>
+	struct safe
+	{
+		using type = coerce<typename Method::type>::type;
+	};
+*/
+
+//		Navigational:
+
+	using car = typename base_type::car;
+
+	using cdr = coerce<typename base_type::cdr::type>;
 
 //		Existential:
 
-	using empty = typename f_parameter::template empty<parameters>;
+	using empty = typename f_parameter::template empty<base_type>;
 
-	using length = typename f_parameter::template length<parameters>;
+	using length = typename f_parameter::template length<base_type>;
 
 	template<typename List>
-	using equals = typename identifier::template equal<parameters, List>;
+	using equals = typename identifier::template equal<base_type, typename List::base_type>;
+
+//		Generational:
+
+	template<typename List>
+	using prepend = coerce<typename f_parameter::template catenate<typename List::base_type, base_type>::type>;
+
+	template<typename List>
+	using append = coerce<typename f_parameter::template catenate<base_type, typename List::base_type>::type>;
+
+	using sorted = coerce<typename f_parameter::template quickSort<base_type>::type>;
 
 	//
 
-	static void print() { f_parameter::template printer<parameters>::print(); }
+	static void print() { base_type::print(); }
 };
 

@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename List, Parameter last>
+template<typename Base, Parameter last>
 struct push;
 
 template<Parameter... params, Parameter last>
-struct push<list<params...>, last>
+struct push<base<params...>, last>
 {
-	using type = list<params..., last>;
+	using type = base<params..., last>;
 };
 

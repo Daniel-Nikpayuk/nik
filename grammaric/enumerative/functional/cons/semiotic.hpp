@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<Parameter first, typename List>
+template<Parameter first, typename Base>
 struct cons;
 
 template<Parameter first, Parameter... params>
-struct cons<first, list<params...>>
+struct cons<first, base<params...>>
 {
-	using type = list<first, params...>;
+	using type = base<first, params...>;
 };
 

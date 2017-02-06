@@ -15,41 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename outL, typename inL1, typename inL2, typename Null = typename inL2::null>
-struct unite
+template<typename Base>
+struct modify;
+
+template<Parameter... params>
+struct modify<base<params...>>
 {
-	static constexpr bool L1_lt_L2 = inL1::car < inL2::car;
-
-	using new_outL = if_then_else
-	<
-		L1_lt_L2,
-
-		if_then_else
-		<
-			inL1,
-
-		>::rtn,
-
-		if_then_else
-		<
-			inL2
-
-		>::rtn
-
-	>::rtn;
-
-	using rtn = unite<new_outL, new_inL1, new_inL2>::rtn;
-};
-
-template<typename outL, typename inL1, typename Null>
-struct unite<outL, inL1, Null, Null>
-{
-	using rtn = catenate<outL, inL1>::rtn;
-};
-
-template<typename outL, typename Null, typename inL2>
-struct unite<outL, Null, inL2, Null>
-{
-	using rtn = catenate<outL, inL2>::rtn;
+	using type = modifier<params...>;
 };
 

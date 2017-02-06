@@ -16,11 +16,11 @@
 ************************************************************************************************************************/
 
 template<typename Base>
-struct car;
+struct modify;
 
-template<Parameter first, Parameter... params>
-struct car<base<first, params...>>
+template<Parameter... params>
+struct modify<base<params...>>
 {
-	static constexpr Parameter value = first;
+	using type = modifier<params...>;
 };
 

@@ -21,7 +21,7 @@ struct contains;
 template<Parameter first, Parameter... params, Parameter p>
 struct contains<list<first, params...>, p>
 {
-	static constexpr bool value = (first == p) || contains<list<params...>, p>::value;
+	static constexpr bool value = (first > p) && ((first == p) || contains<list<params...>, p>::value);
 };
 
 template<Parameter p>

@@ -15,12 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename Base>
-struct car;
-
-template<Parameter first, Parameter... params>
-struct car<base<first, params...>>
-{
-	static constexpr Parameter value = first;
-};
-

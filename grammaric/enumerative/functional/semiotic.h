@@ -42,23 +42,7 @@ namespace grammaric	{
 				#include"car/semiotic.hpp"
 				#include"cdr/semiotic.hpp"
 
-//				#include"at/semiotic.hpp"
-
-				// Generational:
-
-				#include"cons/semiotic.hpp"
-				#include"push/semiotic.hpp"
-				#include"catenate/semiotic.hpp"
-
-//				#include"copy/semiotic.hpp"
-//				#include"sifter/semiotic.hpp"
-
-//				#include"decatenate/semiotic.hpp"
-//				#include"decons/semiotic.hpp"
-//				#include"pop/semiotic.hpp"
-
-//				#include"erase/semiotic.hpp"
-				#include"filter/semiotic.hpp"
+////				#include"at/semiotic.hpp"
 
 				// Existential:
 
@@ -67,14 +51,38 @@ namespace grammaric	{
 
 				#include"compare/semiotic.hpp"
 
-				#include"contains/semiotic.hpp"
+				// Generational:
+
+				#include"cons/semiotic.hpp"
+				#include"push/semiotic.hpp"
+				#include"catenate/semiotic.hpp"
+
+////				#include"copy/semiotic.hpp"
+////				#include"sifter/semiotic.hpp"
+
+////				#include"decatenate/semiotic.hpp"
+////				#include"decons/semiotic.hpp"
+////				#include"pop/semiotic.hpp"
+
+////				#include"erase/semiotic.hpp"
+				#include"filter/semiotic.hpp"
+
+				#include"sort/semiotic.hpp"
+
+				// Translational:
+
+//				#include"listify/semiotic.hpp"
+//				#include"modify/semiotic.hpp"
 
 			// Modifier:
 
+				// Existential:
+
+//				#include"contains/semiotic.hpp"
+
 				// Generational:
 
-				#include"sort/semiotic.hpp"
-				#include"fill/semiotic.hpp"
+//				#include"fill/semiotic.hpp"
 
 			#include"printer/semiotic.hpp"
 		};

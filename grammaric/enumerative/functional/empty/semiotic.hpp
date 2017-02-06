@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<typename List, typename Filler = void>
+template<typename Base, typename Filler = void>
 struct empty;
 
 template<Parameter first, Parameter... params, typename Filler>
-struct empty<list<first, params...>, Filler>
+struct empty<base<first, params...>, Filler>
 { static constexpr bool value = false; };
 
 template<typename Filler>
-struct empty<null_list, Filler>
+struct empty<null_base, Filler>
 { static constexpr bool value = true; };
 

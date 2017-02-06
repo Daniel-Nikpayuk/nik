@@ -15,3 +15,26 @@
 **
 ************************************************************************************************************************/
 
+template<Parameter... params>
+struct modifier
+{
+	using parameters = modifier;
+
+//		Navigational:
+
+//		Generational:
+
+	using null = modifier<>;
+
+//		Existential:
+
+/*
+	template<Parameter p>
+	using contains = typename f_parameter::template contains<parameters, p>;
+*/
+
+	//
+
+//	static void print() { f_parameter::template printer<parameters>::print(); }
+};
+

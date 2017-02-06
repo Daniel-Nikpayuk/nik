@@ -15,22 +15,22 @@
 **
 ************************************************************************************************************************/
 
-template<typename List, typename Filler = void>
+template<typename Base, typename Filler = void>
 struct printer;
 
 template<Parameter first, Parameter... params, typename Filler>
-struct printer<list<first, params...>, Filler>
+struct printer<base<first, params...>, Filler>
 {
 	static void print()
 	{
 		builtin_printer::print(first);
 		builtin_printer::print(' ');
-		printer<list<params...>>::print();
+		printer<base<params...>>::print();
 	}
 };
 
 template<typename Filler>
-struct printer<null_list, Filler>
+struct printer<null_base, Filler>
 {
 	static void print()
 	{

@@ -15,26 +15,26 @@
 **
 ************************************************************************************************************************/
 
-template<typename predicate, typename inL, typename outL = typename inL::null>
+template<typename predicate, typename inBase, typename outBase = typename inBase::null>
 struct filter;
 
 template<typename predicate, Parameter in_first, Parameter... in_params, Parameter... out_params>
-struct filter<predicate, list<in_first, in_params...>, list<out_params...>>
+struct filter<predicate, base<in_first, in_params...>, base<out_params...>>
 {
-	using new_outL = typename if_then_else
+	using outBase = typename if_then_else
 	<
 		predicate::test(in_first),
-		list<out_params..., in_first>,
-		list<out_params...>
+		base<out_params..., in_first>,
+		base<out_params...>
 
 	>::type;
 
-	using type = typename filter<predicate, list<in_params...>, new_outL>::type;
+	using type = typename filter<predicate, base<in_params...>, outBase>::type;
 };
 
 template<typename predicate, Parameter... out_params>
-struct filter<predicate, null_list, list<out_params...>>
+struct filter<predicate, null_base, base<out_params...>>
 {
-	using type = list<out_params...>;
+	using type = base<out_params...>;
 };
 

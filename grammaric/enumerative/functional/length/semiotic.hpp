@@ -15,17 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename List, size_type count = 0>
+template<typename Base, size_type count = 0>
 struct length;
 
 template<Parameter first, Parameter... params, size_type count>
-struct length<list<first, params...>, count>
+struct length<base<first, params...>, count>
 {
-	static constexpr size_type value = length<list<params...>, count+1>::value;
+	static constexpr size_type value = length<base<params...>, count+1>::value;
 };
 
 template<size_type count>
-struct length<null_list, count>
+struct length<null_base, count>
 {
 	static constexpr size_type value = count;
 };

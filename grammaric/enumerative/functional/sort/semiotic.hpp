@@ -15,26 +15,26 @@
 **
 ************************************************************************************************************************/
 
-template<typename L, typename Filler = void>
+template<typename Base, typename Filler = void>
 struct quickSort;
 
 template<Parameter first, Parameter... params, typename Filler>
-struct quickSort<list<first, params...>, Filler>
+struct quickSort<base<first, params...>, Filler>
 {
 	using ltoe		= typename compare::template lessThanOrEqual<first>;
-	using leftFiltered	= typename filter<ltoe, list<params...>>::type;
+	using leftFiltered	= typename filter<ltoe, base<params...>>::type;
 	using leftSorted	= typename quickSort<leftFiltered>::type;
 
 	using gtoe		= typename compare::template greaterThanOrEqual<first>;
-	using rightFiltered	= typename filter<gtoe, list<params...>>::type;
+	using rightFiltered	= typename filter<gtoe, base<params...>>::type;
 	using rightSorted	= typename quickSort<rightFiltered>::type;
 
-	using type = typename catenate<leftSorted, list<first>, rightSorted>::type;
+	using type = typename catenate<leftSorted, base<first>, rightSorted>::type;
 };
 
 template<typename Filler>
-struct quickSort<null_list, Filler>
+struct quickSort<null_base, Filler>
 {
-	using type = null_list;
+	using type = null_base;
 };
 

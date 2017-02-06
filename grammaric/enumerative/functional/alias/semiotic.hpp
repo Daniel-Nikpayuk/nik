@@ -22,10 +22,12 @@ using if_then_else = typename control_flow::template if_then_else<t, f, s>;
 
 using s_parameter = typename structural::template parameter<Parameter>;
 
-template<Parameter... params>
-using list = typename s_parameter::template list<params...>;
+//
 
-using null_list = list<>;
+template<Parameter... params>
+using base = typename s_parameter::template base<params...>;
+
+using null_base = base<>;
 
 //
 

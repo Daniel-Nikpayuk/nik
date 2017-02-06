@@ -18,19 +18,24 @@
 template<typename Ordering, typename inL, typename outL = typename inL::null>
 struct fill;
 
+template<typename Ordering, Parameter... out_params>
+struct fill<Ordering, null_list, list<out_params...>>
+{
+	using field = typename Ordering::car::type;
+	static constexpr Parameter field_first = field::car::value;
+
+	using new_outL = typename push<list<out_params...>, field_first>::type;
+
+	//
+
+	using type = typename fill<typename Ordering::cdr::type, null_list, new_outL>::type;
+};
+
 template<typename Ordering, Parameter in_first, Parameter... in_params, Parameter... out_params>
 struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 {
 	using field = typename Ordering::car::type;
 	static constexpr Parameter field_first = field::car::value;
-
-	using new_outL = typename if_then_else
-	<
-		contains<field, in_first>::value,
-		typename push<list<out_params...>, in_first>::type,
-		typename push<list<out_params...>, field_first>::type
-
-	>::type;
 
 	using new_inL = typename if_then_else
 	<
@@ -40,9 +45,17 @@ struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 
 	>::type;
 
+	using new_outL = typename if_then_else
+	<
+		contains<field, in_first>::value,
+		typename push<list<out_params...>, in_first>::type,
+		typename push<list<out_params...>, field_first>::type
+
+	>::type;
+
 	//
 
-	using type = typename fill<new_inL, typename Ordering::cdr::type, new_outL>::type;
+	using type = typename fill<typename Ordering::cdr::type, new_inL, new_outL>::type;
 };
 
 template<Parameter... in_params, Parameter... out_params>
