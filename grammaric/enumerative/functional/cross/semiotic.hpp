@@ -35,21 +35,22 @@ template
 >
 struct cross<base<in1_first, in1_params...>, base<in2_first, in2_params...>, base<out_params...>>
 {
-	using type = typename condition
+	using type = typename block
 	<
-		control
+		if_then
 		<
 			(in1_first < in2_first),
 			cross<base<in1_params...>, base<in2_first, in2_params...>, base<out_params...>>
-		>,
 
-		control
+		>, else_then
 		<
 			(in1_first > in2_first),
 			cross<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
-		>,
 
-		cross<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
+		>, then
+		<
+			cross<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
+		>
 
 	>::type;
 };

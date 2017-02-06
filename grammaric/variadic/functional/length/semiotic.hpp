@@ -15,17 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, size_type count = 0>
+template<typename Base, size_type count = 0>
 struct length;
 
 template<typename first, typename... params, size_type count>
-struct length<tuple<first, params...>, count>
+struct length<base<first, params...>, count>
 {
-	static constexpr size_type value = length<tuple<params...>, count+1>::value;
+	static constexpr size_type value = length<base<params...>, count+1>::value;
 };
 
 template<size_type count>
-struct length<null_tuple, count>
+struct length<null_base, count>
 {
 	static constexpr size_type value = count;
 };

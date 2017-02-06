@@ -21,11 +21,17 @@ struct filter;
 template<typename predicate, Parameter in_first, Parameter... in_params, Parameter... out_params>
 struct filter<predicate, base<in_first, in_params...>, base<out_params...>>
 {
-	using outBase = typename if_then_else
+	using outBase = typename block
 	<
-		predicate::test(in_first),
-		base<out_params..., in_first>,
-		base<out_params...>
+		if_then
+		<
+			predicate::test(in_first),
+			base<out_params..., in_first>
+
+		>, then
+		<
+			base<out_params...>
+		>
 
 	>::type;
 

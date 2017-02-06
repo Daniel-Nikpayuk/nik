@@ -15,13 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<bool t, typename f, typename s>
-using if_then_else = typename control_flow::template if_then_else<t, f, s>;
-
 //
 
 template<typename... params>
-using tuple = typename structural::template tuple<params...>;
+using base = typename structural::template base<params...>;
 
-using null_tuple = tuple<>;
+using null_base = base<>;
 

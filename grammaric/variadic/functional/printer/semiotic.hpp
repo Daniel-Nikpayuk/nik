@@ -15,21 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename Filler = void>
+template<typename Base, typename Filler = void>
 struct printer;
 
 template<typename first, typename... params, typename Filler>
-struct printer<tuple<first, params...>, Filler>
+struct printer<base<first, params...>, Filler>
 {
 	static void print()
 	{
 		identifier::template printer<first>::print(", ");
-		printer<tuple<params...>>::print();
+		printer<base<params...>>::print();
 	}
 };
 
 template<typename Filler>
-struct printer<null_tuple, Filler>
+struct printer<null_base, Filler>
 {
 	static void print()
 	{

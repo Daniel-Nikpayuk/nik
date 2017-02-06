@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple>
+template<typename Base>
 struct cdr;
 
 template<typename first, typename... params>
-struct cdr<tuple<first, params...>>
+struct cdr<base<first, params...>>
 {
-	using type = tuple<params...>;
+	using type = base<params...>;
 };
 

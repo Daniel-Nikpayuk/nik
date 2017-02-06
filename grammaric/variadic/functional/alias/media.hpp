@@ -15,9 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template<bool t, typename f, typename s>
-using if_then_else = typename control_flow::template if_then_else<t, f, s>;
-
 //
 
 template<typename... params>

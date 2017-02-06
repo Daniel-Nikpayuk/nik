@@ -15,11 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple>
+template<typename Base>
 struct car;
 
 template<typename first, typename... params>
-struct car<tuple<first, params...>>
+struct car<base<first, params...>>
 {
 	using type = first;
 };

@@ -15,14 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<bool t, typename f, typename s>
-using if_then_else = typename control_flow::template if_then_else<t, f, s>;
+template<bool p, typename e>
+using if_then = typename control_flow::template if_then<p, e>;
 
 template<bool p, typename e>
-using control = typename control_flow::template control<p, e>;
+using else_then = typename control_flow::template else_then<p, e>;
 
-template<typename... l>
-using condition = typename control_flow::template condition<l...>;
+template<typename e>
+using then = typename control_flow::template then<e>;
+
+template<typename... s>
+using block = typename control_flow::template block<s...>;
 
 //
 

@@ -29,13 +29,17 @@ template
 >
 struct subtract<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
 {
-	using type = typename if_then_else
+	using type = typename block
 	<
-		contains<base<in2_params...>, in1_first>::value,
+		if_then
+		<
+			contains<base<in2_params...>, in1_first>::value,
+			subtract<base<in1_params...>, base<in2_params...>, base<out_params...>>
 
-		subtract<base<in1_params...>, base<in2_params...>, base<out_params...>>,
-
-		subtract<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
+		>, then
+		<
+			subtract<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
+		>
 
 	>::type;
 };

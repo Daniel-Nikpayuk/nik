@@ -15,27 +15,49 @@
 **
 ************************************************************************************************************************/
 
-template<bool predicate, typename expression> struct control { };
+template<bool, typename> struct if_then { };
+template<bool, typename> struct else_then { };
+template<typename> struct then { };
 
 //
 
-template<typename... lines> struct condition;
+template<typename... statements> struct block;
 
-template<bool predicate, typename expression, typename... lines>
-struct condition<control<predicate, expression>, lines...>
-{
-	using type = typename if_then_else
-	<
-		predicate,
-		expression,
-		condition<lines...>
-
-	>::type;
-};
-
-template<typename expression>
-struct condition<expression>
+template<typename expression, typename... statements>
+struct block<if_then<true, expression>, statements...>
 {
 	using type = typename expression::type;
 };
+
+template<typename expression, typename... statements>
+struct block<if_then<false, expression>, statements...>
+{
+	using type = typename block<statements...>::type;
+};
+
+template<typename expression, typename... statements>
+struct block<else_then<true, expression>, statements...>
+{
+	using type = typename expression::type;
+};
+
+template<typename expression, typename... statements>
+struct block<else_then<false, expression>, statements...>
+{
+	using type = typename block<statements...>::type;
+};
+
+template<typename expression>
+struct block<then<expression>>
+{
+	using type = typename expression::type;
+};
+
+/*
+template<typename value_type>
+struct condition<then_return<value_type v>>
+{
+	static constexpr value_type value = v;
+};
+*/
 

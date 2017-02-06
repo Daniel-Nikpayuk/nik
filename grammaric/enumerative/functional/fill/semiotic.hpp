@@ -37,11 +37,17 @@ struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 	using field = typename Ordering::car::type;
 	static constexpr Parameter field_first = field::car::value;
 
-	using new_inL = typename if_then_else
+	using new_inL = typename block
 	<
-		contains<field, in_first>::value,
-		list<in_params...>,
-		list<in_first, in_params...>
+		if_then
+		<
+			contains<field, in_first>::value,
+			list<in_params...>
+
+		>, then
+		<
+			list<in_first, in_params...>
+		>
 
 	>::type;
 

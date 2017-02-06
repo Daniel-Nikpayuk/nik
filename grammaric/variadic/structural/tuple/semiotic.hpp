@@ -15,40 +15,50 @@
 **
 ************************************************************************************************************************/
 
-// empty:
-
 template<typename... params>
 struct tuple
 {
-	using parameters = tuple;
+	using base = module::base<params...>;
 
-//		Navigational:
-
-	using car = typename functional::template car<parameters>;
-
-	using cdr = typename functional::template cdr<parameters>;
-
-//		Generational:
+	using type = tuple;
 
 	using null = tuple<>;
 
-	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, parameters>;
+//		Translational:
 
-	template<typename Tuple>
-	using append = typename functional::template catenate<parameters, Tuple>;
+	template<typename Base> struct entuple;
+
+	template<typename... args>
+	struct entuple<module::base<args...>>
+	{
+		using type = tuple<args...>;
+	};
+
+//		Navigational:
+
+	using car = typename base::car;
+
+	using cdr = entuple<typename base::cdr::type>;
 
 //		Existential:
 
-	using empty = typename functional::template empty<parameters>;
+	using empty = typename base::empty;
 
-	using length = typename functional::template length<parameters>;
+	using length = typename base::length;
 
 	template<typename Tuple>
-	using equals = typename identifier::template equal<parameters, Tuple>;
+	using equals = typename base::template equals<typename Tuple::base>;
+
+//		Generational:
+
+	template<typename Tuple>
+	using prepend = entuple<typename functional::template catenate<typename Tuple::base, base>::type>;
+
+	template<typename Tuple>
+	using append = entuple<typename functional::template catenate<base, typename Tuple::base>::type>;
 
 	//
 
-	static void print() { functional::template printer<parameters>::print(); }
+	static void print() { base::print(); }
 };
 

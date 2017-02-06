@@ -18,11 +18,17 @@
 template<size_type x, typename car, typename... cdr>
 struct dispatch
 {
-	using rtn = typename if_then_else
+	using rtn = typename block
 	<
-		(x & car::bitmask) == car::bitmask,
-		car,
-		typename dispatch<x, cdr...>::rtn
+		if_then
+		<
+			(x & car::bitmask) == car::bitmask,
+			car
+
+		>, then
+		<
+			typename dispatch<x, cdr...>::rtn
+		>
 
 	>::rtn;
 };

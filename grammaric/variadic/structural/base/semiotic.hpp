@@ -15,9 +15,34 @@
 **
 ************************************************************************************************************************/
 
-template<size_type mask, size_type base>
-struct complement
+template<typename... params>
+struct base
 {
-	static constexpr size_type rtn = mask & ~base;
+	using type = base;
+
+	using null = base<>;
+
+//		Translational:
+
+//		Navigational:
+
+	using car = typename functional::template car<type>;
+
+	using cdr = typename functional::template cdr<type>;
+
+//		Existential:
+
+	using empty = typename functional::template empty<type>;
+
+	using length = typename functional::template length<type>;
+
+	template<typename Base>
+	using equals = typename identifier::template equal<type, typename Base::type>;
+
+//		Generational:
+
+	//
+
+	static void print() { functional::template printer<type>::print(); }
 };
 

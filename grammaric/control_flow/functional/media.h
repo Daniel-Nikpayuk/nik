@@ -22,10 +22,6 @@ namespace grammaric	{
 	struct module<Module::control_flow, Orientation::functional, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
-
-		#include"kind/media.hpp"
-		#include"if_then_else/media.hpp"
-		#include"condition/media.hpp"
 	};
 
 }}

@@ -18,11 +18,17 @@
 template<size_type index, typename inL, typename outL = typename inL::null, typename Null = typename inL::null>
 struct erase
 {
-	using new_outL = typename if_then_else
+	using new_outL = typename block
 	<
-		(current == index),
-		outL,
-		typename catenate<outL, list<car<inL>::value> >::type
+		if_then
+		<
+			(current == index),
+			outL
+
+		>, then
+		<
+			typename catenate<outL, list<car<inL>::value> >::type
+		>
 
 	>::type;
 

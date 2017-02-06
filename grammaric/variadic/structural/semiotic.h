@@ -30,6 +30,7 @@ namespace grammaric	{
 
 		//
 
+		#include"base/semiotic.hpp"
 		#include"tuple/semiotic.hpp"
 	};
 
