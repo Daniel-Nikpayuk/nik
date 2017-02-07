@@ -26,29 +26,62 @@ struct modifier
 
 //		Translational:
 
-	template<typename Base> struct modify;
+/*
+	lazy type resolution:
+*/
 
-	template<Parameter... args>
-	struct modify<parameter::base<args...>>
+	template<typename Method>
+	struct modify
 	{
-		using type = modifier<args...>;
+		template<typename Base> struct coerce;
+
+		template<Parameter... args>
+		struct coerce<parameter::base<args...>>
+		{
+			using type = modifier<args...>;
+		};
+
+		using type = typename coerce<typename Method::type>::type;
 	};
 
 //		Navigational:
 
+	using car = typename base::car;
+
+	using cdr = modify<typename base::cdr>;
+
 //		Generational:
 
 	template<Parameter p>
-	using adjoin = modify<typename f_parameter::template adjoin<base, p>::type>;
+	using adjoin = modify<typename f_parameter::template adjoin<base, p>>;
 
 	template<typename Modifier>
-	using add = modify<typename f_parameter::template add<base, typename Modifier::base>::type>;
+	using add = modify<typename f_parameter::template add<base, typename Modifier::base>>;
 
 	template<typename Modifier>
-	using cross = modify<typename f_parameter::template cross<base, typename Modifier::base>::type>;
+	using cross = modify<typename f_parameter::template cross<base, typename Modifier::base>>;
 
 	template<typename Modifier>
-	using subtract = modify<typename f_parameter::template subtract<base, typename Modifier::base>::type>;
+	using subtract = modify<typename f_parameter::template subtract<base, typename Modifier::base>>;
+
+	template<typename Ordering>
+	using fill = modify<typename f_parameter::template fill<Ordering, base>>;
+
+	template<Parameter from, Parameter to>
+	using cast = modify
+	<
+		typename f_parameter::template add
+		<
+			typename f_parameter::template subtract
+			<
+				base,
+				parameter::base<from>
+
+			>::type,
+
+			parameter::base<to>
+		>
+	>;
 
 //		Existential:
 

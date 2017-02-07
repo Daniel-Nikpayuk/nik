@@ -18,122 +18,86 @@
 template<typename Ordering, typename inBase, typename outBase = typename inBase::null>
 struct fill;
 
-template<typename Ordering, Parameter in_first, Parameter... in_params, Parameter... out_params>
-struct fill<Ordering, base<in_first, in_params...>, base<out_params...>>
+template<typename modifier, typename... params, Parameter... in_params, Parameter... out_params>
+struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 {
-	using field = typename Ordering::car::type;
-	static constexpr Parameter field_first = field::car::value;
-
-	using new_inL = typename block
-	<
-		if_then
-		<
-			contains<field, in_first>::value,
-			base<in_params...>
-
-		>, then
-		<
-			base<in_first, in_params...>
-		>
-
-	>::type;
-
-	using new_outL = typename block
-	<
-		if_then
-		<
-			contains<field, in_first>::value,
-			base<out_params..., in_first>
-		>, then
-		<
-			base<out_params..., field_first>
-		>
-
-	>::type;
+	static constexpr Parameter first = modifier::car::value;
 
 	//
 
-	using type = typename fill<typename Ordering::cdr::type, new_inL, new_outL>::type;
-};
+	template<typename Base, typename Filler = void>
+	struct safe_in;
 
-template<typename Ordering, Parameter... out_params>
-struct fill<Ordering, null_base, base<out_params...>>
-{
-	using field = typename Ordering::car::type;
-	static constexpr Parameter field_first = field::car::value;
+	template<Parameter front, Parameter... args, typename Filler>
+	struct safe_in<base<front, args...>, Filler>
+	{
+		using type = typename block
+		<
+			if_then
+			<
+				modifier::template contains<front>::value,
+				base<args...>
 
-	using new_outL = base<out_params..., field_first>;
+			>, then
+			<
+				base<front, args...>
+			>
+
+		>::type;
+	};
+
+	template<typename Filler>
+	struct safe_in<null_base, Filler>
+	{
+		using type = null_base;
+	};
+
+	using in_base = typename safe_in<base<in_params...>>::type;
 
 	//
 
-	using type = typename fill<typename Ordering::cdr::type, null_base, new_outL>::type;
+
+	template<typename Base, typename Filler = void>
+	struct safe_out;
+
+	template<Parameter front, Parameter... args, typename Filler>
+	struct safe_out<base<front, args...>, Filler>
+	{
+		using type = typename block
+		<
+			if_then
+			<
+				modifier::template contains<front>::value,
+				base<out_params..., front>
+
+			>, then
+			<
+				base<out_params..., first>
+			>
+
+		>::type;
+	};
+
+	template<typename Filler>
+	struct safe_out<null_base, Filler>
+	{
+		using type = base<out_params..., first>;
+	};
+
+	using out_base = typename safe_out<base<in_params...>>::type;
+
+	//
+
+	using type = typename fill<tuple<params...>, in_base, out_base>::type;
 };
+
+/*
+	Assumes length<in> <= length<Ordering> and ends when empty<Ordering>. As such, it is implied empty<in> as well.
+*/
 
 template<Parameter... out_params>
 struct fill<null_tuple, null_base, base<out_params...>>
 {
 	using type = base<out_params...>;
 };
-
-/*
-template<typename inL, typename Ordering, typename outL = typename inL::null, typename Null = typename Ordering::null>
-struct fill
-{
-	using set = typename Ordering::car;
-
-	//
-
-	template<typename in, typename inNull = typename in::null>
-	struct safe_new_out
-	{
-		using type = typename if_then_else
-		<
-			isMember<set, in::car>::type,
-			typename outL::template append<in::car>,
-			typename outL::template append<set::car>
-
-		>::type;
-	};
-
-	template<typename inNull>
-	struct safe_new_out<inNull, inNull>
-	{
-		using type = typename outL::template append<set::car>;
-	};
-
-	using new_outL = typename safe_new_out<inL>::type;
-
-	//
-
-	template<typename in, typename inNull = typename in::null>
-	struct safe_new_in
-	{
-		using type = typename if_then_else
-		<
-			isMember<set, in::car>::type,
-			typename in::cdr,
-			in
-
-		>::type;
-	};
-
-	template<typename inNull>
-	struct safe_new_in<inNull, inNull>
-	{
-		using type = inNull;
-	};
-
-	using new_inL = typename safe_new_in<inL>::type;
-
-	//
-
-	using type = typename fill<new_inL, typename Ordering::cdr, new_outL>::type;
-};
-
-template<typename inL, typename Null, typename outL>
-struct fill<inL, Null, outL, Null>
-{
-	using type = outL;
-};
-*/
 

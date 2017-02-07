@@ -26,19 +26,29 @@ struct tuple
 
 //		Translational:
 
-	template<typename Base> struct entuple;
+/*
+	lazy type resolution:
+*/
 
-	template<typename... args>
-	struct entuple<module::base<args...>>
+	template<typename Method>
+	struct entuple
 	{
-		using type = tuple<args...>;
+		template<typename Base> struct coerce;
+
+		template<typename... args>
+		struct coerce<module::base<args...>>
+		{
+			using type = tuple<args...>;
+		};
+
+		using type = typename coerce<typename Method::type>::type;
 	};
 
 //		Navigational:
 
 	using car = typename base::car;
 
-	using cdr = entuple<typename base::cdr::type>;
+	using cdr = entuple<typename base::cdr>;
 
 //		Existential:
 
@@ -52,10 +62,10 @@ struct tuple
 //		Generational:
 
 	template<typename Tuple>
-	using prepend = entuple<typename functional::template catenate<typename Tuple::base, base>::type>;
+	using prepend = entuple<typename functional::template catenate<typename Tuple::base, base>>;
 
 	template<typename Tuple>
-	using append = entuple<typename functional::template catenate<base, typename Tuple::base>::type>;
+	using append = entuple<typename functional::template catenate<base, typename Tuple::base>>;
 
 	//
 

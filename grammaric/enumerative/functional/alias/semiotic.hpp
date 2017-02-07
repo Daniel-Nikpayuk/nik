@@ -29,6 +29,14 @@ using block = typename control_flow::template block<s...>;
 
 //
 
+template<bool v>
+using constant = typename control_flow::template parameter<Parameter>::template constant<v>;
+
+template<typename... s>
+using block_return = typename control_flow::template parameter<bool>::template block<s...>;
+
+//
+
 using s_parameter = typename structural::template parameter<Parameter>;
 
 //

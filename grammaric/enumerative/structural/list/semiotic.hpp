@@ -26,29 +26,45 @@ struct list
 
 //		Translational:
 
-	template<typename Base> struct enlist;
+/*
+	lazy type resolution:
+*/
 
-	template<Parameter... args>
-	struct enlist<parameter::base<args...>>
+	template<typename Method>
+	struct enlist
 	{
-		using type = list<args...>;
+		template<typename Base> struct coerce;
+
+		template<Parameter... args>
+		struct coerce<parameter::base<args...>>
+		{
+			using type = list<args...>;
+		};
+
+		using type = typename coerce<typename Method::type>::type;
 	};
 
-	template<typename List> struct modify;
-
-	template<Parameter... args>
-	struct modify<parameter::base<args...>>
+	template<typename Method>
+	struct modify
 	{
-		using type = typename parameter::template modifier<args...>;
+		template<typename Base> struct coerce;
+
+		template<Parameter... args>
+		struct coerce<parameter::base<args...>>
+		{
+			using type = modifier<args...>;
+		};
+
+		using type = typename coerce<typename Method::type>::type;
 	};
 
-	using modified = modify<typename f_parameter::template quickSort<base>::type>;
+	using modified = modify<typename f_parameter::template quickSort<base>>;
 
 //		Navigational:
 
 	using car = typename base::car;
 
-	using cdr = enlist<typename base::cdr::type>;
+	using cdr = enlist<typename base::cdr>;
 
 //		Existential:
 
@@ -62,18 +78,18 @@ struct list
 //		Generational:
 
 	template<Parameter p>
-	using cons = enlist<typename f_parameter::template cons<p, base>::type>;
+	using cons = enlist<typename f_parameter::template cons<p, base>>;
 
 	template<Parameter p>
-	using push = enlist<typename f_parameter::template push<base, p>::type>;
+	using push = enlist<typename f_parameter::template push<base, p>>;
 
 	template<typename List>
-	using prepend = enlist<typename f_parameter::template catenate<typename List::base, base>::type>;
+	using prepend = enlist<typename f_parameter::template catenate<typename List::base, base>>;
 
 	template<typename List>
-	using append = enlist<typename f_parameter::template catenate<base, typename List::base>::type>;
+	using append = enlist<typename f_parameter::template catenate<base, typename List::base>>;
 
-	using sorted = enlist<typename f_parameter::template quickSort<base>::type>;
+	using sorted = enlist<typename f_parameter::template quickSort<base>>;
 
 	//
 

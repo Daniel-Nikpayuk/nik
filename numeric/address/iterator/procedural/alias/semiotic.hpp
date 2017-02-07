@@ -199,10 +199,10 @@ using					Optimizer
 
 
 template<typename mask>
-using functor_cast = typename mask::template subtract<Functor>::type::template add<ApplyFunctor>::type;
+using functor_cast = typename mask::template cast<Functor, ApplyFunctor>::type;
 
 template<typename mask>
-using tracer_cast = typename mask::template subtract<Tracer>::type::template add<ApplyCount>::type;
+using tracer_cast = typename mask::template cast<Tracer, ApplyCount>::type;
 
 
 /***********************************************************************************************************************/
@@ -385,6 +385,13 @@ using					Interval
 ************************************************************************************************************************/
 
 
+using					Mutate // mutate, immutate
+
+= echo
+<
+	Association::mutate
+>;
+
 using					Allocate
 
 = echo
@@ -397,38 +404,6 @@ using					Deallocate // hook, link
 = echo
 <
 	Association::deallocate
->;
-
-/***********************************************************************************************************************/
-
-using					Image
-
-= echo
-<
-	Association::mutate,
-	Association::allocate,
-	Association::immutate,
-	Association::deallocate
->;
-
-
-/************************************************************************************************************************
-							iterator
-************************************************************************************************************************/
-
-
-using					Mutate // mutate, immutate
-
-= echo
-<
-	Association::mutate
->;
-
-using					Segment // mutate, immutate
-
-= echo
-<
-	Association::segment
 >;
 
 using					AllocateSegment
@@ -449,6 +424,31 @@ using					DeallocateSegment
 
 /***********************************************************************************************************************/
 
+using					Image
+
+= echo
+<
+	Association::mutate,
+	Association::allocate,
+	Association::immutate,
+	Association::deallocate
+>;
+
+
+/************************************************************************************************************************
+							iterator
+************************************************************************************************************************/
+
+
+using					Segment // mutate, immutate
+
+= echo
+<
+	Association::segment
+>;
+
+/***********************************************************************************************************************/
+
 using					Iterator
 
 = echo
@@ -464,13 +464,13 @@ using					Iterator
 
 
 template<typename mask>
-using mutate_cast = typename mask::template subtract<Image>::type::template add<Mutate>::type;
+using mutate_cast = typename mask::template cast<Image, Mutate>::type;
 
 template<typename mask>
-using allocate_cast = typename mask::template subtract<Image>::type::template add<AllocateSegment>::type;
+using allocate_cast = typename mask::template cast<Image, AllocateSegment>::type;
 
 template<typename mask>
-using deallocate_cast = typename mask::template subtract<Image>::type::template add<DeallocateSegment>::type;
+using deallocate_cast = typename mask::template cast<Image, DeallocateSegment>::type;
 
 
 /***********************************************************************************************************************/
@@ -592,6 +592,6 @@ using					RangeOpen
 
 
 template<typename mask>
-using accede_cast = typename mask::template subtract<RangeIncrement>::type::template add<RangeAccede>::type;
+using accede_cast = typename mask::template cast<RangeIncrement, RangeAccede>::type;
 
 

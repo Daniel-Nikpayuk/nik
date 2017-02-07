@@ -27,7 +27,7 @@ struct erase
 
 		>, then
 		<
-			typename catenate<outL, list<car<inL>::value> >::type
+			catenate<outL, list<car<inL>::value> >
 		>
 
 	>::type;

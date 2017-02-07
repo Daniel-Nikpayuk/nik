@@ -32,12 +32,12 @@
 
 #define PARAMETERS													\
 															\
-	size_type verb_mask,												\
+	typename verb_mask,												\
 	typename... F,													\
 															\
 	typename sub_pointer,												\
 															\
-	size_type sub_mask,												\
+	typename sub_mask,												\
 	typename... T
 
 
@@ -107,13 +107,13 @@ struct Repeat
 
 /***********************************************************************************************************************/
 
-/*
 	template<Connotation... params>
 	using verb = adverb
 	<
-		typename tone<params...>::template sortFill<Selection>::type
+		typename parameter<Connotation>::
+		template list<params...>::modified::type::
+		template fill<Selection>::type
 	>;
-*/
 
 
 /***********************************************************************************************************************/

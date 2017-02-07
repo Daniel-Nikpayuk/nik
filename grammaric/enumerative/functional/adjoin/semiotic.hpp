@@ -36,6 +36,7 @@ struct adjoin<base<in_first, in_params...>, p, base<out_params...>>
 		<
 			(in_first > p),
 			base<out_params..., p, in_first, in_params...>
+
 		>, then
 		<
 			adjoin<base<in_params...>, p, base<out_params..., in_first>>
