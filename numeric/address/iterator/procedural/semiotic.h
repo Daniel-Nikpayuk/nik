@@ -35,15 +35,15 @@ namespace numeric	{
 
 		//
 
-//		#include"action/peek_action.hpp"
-//		#include"action/functor_action.hpp"
-//		#include"action/count_action.hpp"
-//		#include"action/iterate_action.hpp"
-//		#include"action/memory_action.hpp"
+		#include"action/peek_action.hpp"
+		#include"action/functor_action.hpp"
+		#include"action/count_action.hpp"
+		#include"action/iterate_action.hpp"
+		#include"action/memory_action.hpp"
 
 		//
 
-//		#include"repeat/semiotic.hpp"
+		#include"repeat/semiotic.hpp"
 //		#include"morph/semiotic.hpp"
 //		#include"map/semiotic.hpp"
 

@@ -21,7 +21,7 @@
 
 				Strongly typed for improved type checking.
 
-				Parameter pack being "typename..." requires adj_lists
+				Parameter pack being "typename..." requires echos
 				as enums themselves don't count as typenames.
 */
 
@@ -82,15 +82,12 @@ struct adjective<L> { using type = L; };
 // "using" for polymorphic dispatching.
 
 template<Association... params>
-using Adjective = adjective<adj_list<params...>>;
+using Adjective = adjective<echo<params...>>;
 */
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
-
-
-using Accede = adj_list<Association::accede>;
 
 
 /***********************************************************************************************************************/

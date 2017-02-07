@@ -42,9 +42,9 @@ using parameter = typename enumerative::template parameter<enum_type>;
 enum struct Connotation : size_type;
 
 template<Connotation... params>
-using adv_list = typename parameter<Connotation>::template list<params...>;
+using tone = typename parameter<Connotation>::template modifier<params...>;
 
-using null_adv = adv_list<>;
+using null_tone = tone<>;
 
 
 /***********************************************************************************************************************/
@@ -64,14 +64,21 @@ using null_adv = adv_list<>;
 
 using					OmitFunctor
 
-= adv_list
+= tone
 <
 	Connotation::omit_functor
 >;
 
+using					ApplyFunctor
+
+= tone
+<
+	Connotation::apply_functor
+>;
+
 using					OmitOmit
 
-= adv_list
+= tone
 <
 	Connotation::omit_functor,
 	Connotation::omit_count
@@ -79,7 +86,7 @@ using					OmitOmit
 
 using					OmitApply
 
-= adv_list
+= tone
 <
 	Connotation::omit_functor,
 	Connotation::apply_count
@@ -87,7 +94,7 @@ using					OmitApply
 
 using					ApplyOmit
 
-= adv_list
+= tone
 <
 	Connotation::apply_functor,
 	Connotation::omit_count
@@ -95,7 +102,7 @@ using					ApplyOmit
 
 using					ApplyApply
 
-= adv_list
+= tone
 <
 	Connotation::apply_functor,
 	Connotation::apply_count
@@ -105,7 +112,7 @@ using					ApplyApply
 
 using					Functor
 
-= adv_list
+= tone
 <
 	Connotation::omit_functor,
 	Connotation::apply_functor
@@ -119,17 +126,23 @@ using					Functor
 
 using					OmitCount
 
-= adv_list
+= tone
 <
 	Connotation::omit_count
 >;
 
+using					ApplyCount
+
+= tone
+<
+	Connotation::apply_count
+>;
 
 /***********************************************************************************************************************/
 
 using					Tracer
 
-= adv_list
+= tone
 <
 	Connotation::omit_count,
 	Connotation::apply_count
@@ -143,7 +156,7 @@ using					Tracer
 
 using					Fixer
 
-= adv_list
+= tone
 <
 	Connotation::after,
 	Connotation::before,
@@ -158,14 +171,14 @@ using					Fixer
 
 using					Prototype
 
-= adv_list
+= tone
 <
 	Connotation::prototype
 >;
 
 using					Specialize
 
-= adv_list
+= tone
 <
 	Connotation::specialize
 >;
@@ -174,7 +187,7 @@ using					Specialize
 
 using					Optimizer
 
-= adv_list
+= tone
 <
 	Connotation::prototype,
 	Connotation::specialize
@@ -185,13 +198,11 @@ using					Optimizer
 /***********************************************************************************************************************/
 
 
-/*
-template<typename L>
-using functor_cast = apply< deduct<L, Functor>::rtn, ApplyFunctor>;
+template<typename mask>
+using functor_cast = typename mask::template subtract<Functor>::type::template add<ApplyFunctor>::type;
 
-template<typename L>
-using tracer_cast = apply< deduct<L, Tracer>::rtn, ApplyCount>;
-*/
+template<typename mask>
+using tracer_cast = typename mask::template subtract<Tracer>::type::template add<ApplyCount>::type;
 
 
 /***********************************************************************************************************************/
@@ -201,9 +212,9 @@ using tracer_cast = apply< deduct<L, Tracer>::rtn, ApplyCount>;
 using Association = typename structural::Association;
 
 template<Association... params>
-using adj_list = typename structural::template adj_list<params...>;
+using echo = typename structural::template echo<params...>;
 
-using null_adj = typename structural::null_adj;
+using null_echo = typename structural::null_echo;
 
 template<typename... params>
 using adjective = typename structural::template adjective<params...>;
@@ -225,14 +236,14 @@ using adjective = typename structural::template adjective<params...>;
 
 using					Forward
 
-= adj_list
+= echo
 <
 	Association::forward
 >;
 
 using					ForwardAllocateHook
 
-= adj_list
+= echo
 <
 	Association::forward,
 	Association::allocate,
@@ -241,7 +252,7 @@ using					ForwardAllocateHook
 
 using					ForwardAllocateLink
 
-= adj_list
+= echo
 <
 	Association::forward,
 	Association::allocate,
@@ -250,7 +261,7 @@ using					ForwardAllocateLink
 
 using					ForwardDeallocateHook
 
-= adj_list
+= echo
 <
 	Association::forward,
 	Association::deallocate,
@@ -259,7 +270,7 @@ using					ForwardDeallocateHook
 
 using					ForwardDeallocateLink
 
-= adj_list
+= echo
 <
 	Association::forward,
 	Association::deallocate,
@@ -268,14 +279,14 @@ using					ForwardDeallocateLink
 
 using					Backward
 
-= adj_list
+= echo
 <
 	Association::backward
 >;
 
 using					BackwardAllocateHook
 
-= adj_list
+= echo
 <
 	Association::backward,
 	Association::allocate,
@@ -284,7 +295,7 @@ using					BackwardAllocateHook
 
 using					BackwardAllocateLink
 
-= adj_list
+= echo
 <
 	Association::backward,
 	Association::allocate,
@@ -293,7 +304,7 @@ using					BackwardAllocateLink
 
 using					BackwardDeallocateHook
 
-= adj_list
+= echo
 <
 	Association::backward,
 	Association::deallocate,
@@ -302,7 +313,7 @@ using					BackwardDeallocateHook
 
 using					BackwardDeallocateLink
 
-= adj_list
+= echo
 <
 	Association::backward,
 	Association::deallocate,
@@ -313,7 +324,7 @@ using					BackwardDeallocateLink
 
 using					Direction
 
-= adj_list
+= echo
 <
 	Association::forward,
 	Association::backward
@@ -330,28 +341,28 @@ using					Direction
 
 using					Closing
 
-= adj_list
+= echo
 <
 	Association::closing
 >;
 
 using					Closed
 
-= adj_list
+= echo
 <
 	Association::closed
 >;
 
 using					Opening
 
-= adj_list
+= echo
 <
 	Association::opening
 >;
 
 using					Open
 
-= adj_list
+= echo
 <
 	Association::open
 >;
@@ -360,7 +371,7 @@ using					Open
 
 using					Interval
 
-= adj_list
+= echo
 <
 	Association::closing,
 	Association::closed,
@@ -376,14 +387,14 @@ using					Interval
 
 using					Allocate
 
-= adj_list
+= echo
 <
 	Association::allocate
 >;
 
 using					Deallocate // hook, link
 
-= adj_list
+= echo
 <
 	Association::deallocate
 >;
@@ -392,7 +403,7 @@ using					Deallocate // hook, link
 
 using					Image
 
-= adj_list
+= echo
 <
 	Association::mutate,
 	Association::allocate,
@@ -408,21 +419,21 @@ using					Image
 
 using					Mutate // mutate, immutate
 
-= adj_list
+= echo
 <
 	Association::mutate
 >;
 
 using					Segment // mutate, immutate
 
-= adj_list
+= echo
 <
 	Association::segment
 >;
 
 using					AllocateSegment
 
-= adj_list
+= echo
 <
 	Association::allocate,
 	Association::segment
@@ -430,7 +441,7 @@ using					AllocateSegment
 
 using					DeallocateSegment
 
-= adj_list
+= echo
 <
 	Association::deallocate,
 	Association::segment
@@ -440,7 +451,7 @@ using					DeallocateSegment
 
 using					Iterator
 
-= adj_list
+= echo
 <
 	Association::segment,
 	Association::hook,
@@ -452,36 +463,34 @@ using					Iterator
 /***********************************************************************************************************************/
 
 
-/*
-template<size_type mask>
-using mutate_cast = apply< deduct<mask, Image>::rtn, Mutate>;
+template<typename mask>
+using mutate_cast = typename mask::template subtract<Image>::type::template add<Mutate>::type;
 
-template<size_type mask>
-using allocate_cast = apply< deduct<mask, Image>::rtn, AllocateSegment>;
+template<typename mask>
+using allocate_cast = typename mask::template subtract<Image>::type::template add<AllocateSegment>::type;
 
-template<size_type mask>
-using deallocate_cast = apply< deduct<mask, Image>::rtn, DeallocateSegment>;
-*/
+template<typename mask>
+using deallocate_cast = typename mask::template subtract<Image>::type::template add<DeallocateSegment>::type;
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-using EnumAssociation = typename range::Association;
+using RangeAssociation = typename range::Association;
 
-template<EnumAssociation... params>
-using enum_list = typename range::template adj_list<params...>;
+template<RangeAssociation... params>
+using range_echo = typename range::template echo<params...>;
 
-using null_enum = typename range::null_adj;
+using null_range_echo = typename range::null_echo;
 
 
 template<typename... params>
-using enum_adjective = typename range::template adjective<params...>;
+using range_adjective = typename range::template adjective<params...>;
 
 /*
-template<EnumAssociation... params>
-using EnumAdjective = typename enumerator::template Adjective<params...>;
+template<RangeAssociation... params>
+using RangeAdjective = typename enumerator::template Adjective<params...>;
 */
 
 
@@ -490,7 +499,7 @@ using EnumAdjective = typename enumerator::template Adjective<params...>;
 
 
 /************************************************************************************************************************
-							enum_adjective
+							range_adjective
 ************************************************************************************************************************/
 
 
@@ -499,28 +508,28 @@ using EnumAdjective = typename enumerator::template Adjective<params...>;
 ************************************************************************************************************************/
 
 
-using					EnumSucceed
+using					RangeSucceed
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::succeed
+	RangeAssociation::succeed
 >;
 
-using					EnumAccede
+using					RangeAccede
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::accede
+	RangeAssociation::accede
 >;
 
 /***********************************************************************************************************************/
 
-using					EnumIncrement
+using					RangeIncrement
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::succeed,
-	EnumAssociation::accede
+	RangeAssociation::succeed,
+	RangeAssociation::accede
 >;
 
 
@@ -529,18 +538,18 @@ using					EnumIncrement
 ************************************************************************************************************************/
 
 
-using					EnumForward
+using					RangeForward
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::forward
+	RangeAssociation::forward
 >;
 
-using					EnumBackward
+using					RangeBackward
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::backward
+	RangeAssociation::backward
 >;
 
 
@@ -549,32 +558,32 @@ using					EnumBackward
 ************************************************************************************************************************/
 
 
-using					EnumClosing
+using					RangeClosing
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::closing
+	RangeAssociation::closing
 >;
 
-using					EnumClosed
+using					RangeClosed
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::closed
+	RangeAssociation::closed
 >;
 
-using					EnumOpening
+using					RangeOpening
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::opening
+	RangeAssociation::opening
 >;
 
-using					EnumOpen
+using					RangeOpen
 
-= enum_list
+= range_echo
 <
-	EnumAssociation::open
+	RangeAssociation::open
 >;
 
 
@@ -582,9 +591,7 @@ using					EnumOpen
 /***********************************************************************************************************************/
 
 
-/*
-template<size_type mask>
-using accede_cast = apply< deduct<mask, EnumIncrement>::rtn, EnumAccede>;
-*/
+template<typename mask>
+using accede_cast = typename mask::template subtract<RangeIncrement>::type::template add<RangeAccede>::type;
 
 

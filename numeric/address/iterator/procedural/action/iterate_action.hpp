@@ -34,7 +34,7 @@ template
 <
 	typename value_type
 >
-static inline void iterate_action(value_type & in, const enum_adjective<EnumForward> & ob)
+static inline void iterate_action(value_type & in, const range_adjective<RangeForward> & ob)
 	{ ++in; }
 
 
@@ -45,7 +45,7 @@ template
 <
 	typename value_type
 >
-static inline void iterate_action(value_type & in, const enum_adjective<EnumBackward> & ob)
+static inline void iterate_action(value_type & in, const range_adjective<RangeBackward> & ob)
 	{ --in; }
 
 
@@ -57,7 +57,7 @@ template
 	typename value_type,
 	typename A
 >
-static inline void iterate_action(value_type & in, const enum_adjective<EnumAccede, A> & ob)
+static inline void iterate_action(value_type & in, const range_adjective<RangeAccede, A> & ob)
 	{ ob.accessor(in); }
 
 
@@ -65,25 +65,22 @@ static inline void iterate_action(value_type & in, const enum_adjective<EnumAcce
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using enum_iterate = typename dispatch
+template<typename mask>
+using range_iterate = typename mask::template dispatch
 <
-	mask,
+	range_adjective<RangeForward>,
+	range_adjective<RangeBackward>
 
-	enum_adjective<EnumForward>,
-	enum_adjective<EnumBackward>
-
->::rtn;
+>::type;
 
 
-template<size_type mask, typename A>
-using enum_iterate_A = typename dispatch
+template<typename mask, typename A>
+using range_iterate_A = typename mask::template dispatch
 <
-	mask,
+	range_adjective<RangeAccede, A>
 
-	enum_adjective<EnumAccede, A>
+>::type;
 
->::rtn;
 
 
 /***********************************************************************************************************************/
@@ -205,11 +202,9 @@ static inline void iterate_action(pointer & out, const adjective<BackwardDealloc
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using iterate = typename dispatch
+template<typename mask>
+using iterate = typename mask::template dispatch
 <
-	mask,
-
 	adjective<ForwardAllocateHook>,
 	adjective<ForwardAllocateLink>,
 
@@ -226,7 +221,7 @@ using iterate = typename dispatch
 
 	adjective<Backward>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/

@@ -57,32 +57,18 @@ struct Repeat
 {
 	using Selection = tuple
 	<
-		adv_list<Connotation::omit_functor, Connotation::apply_functor>,	// functor
-		adv_list<Connotation::omit_count, Connotation::apply_count>,		// tracer
-		adv_list<Connotation::prototype, Connotation::specialize>		// optimizer
-	>;
-
-	template<size_type mask>
-	using core = match
-	<
-		mask,
-
-		Prototype,
-		Specialize
+		tone<Connotation::omit_functor, Connotation::apply_functor>,		// functor
+		tone<Connotation::omit_count, Connotation::apply_count>,		// tracer
+		tone<Connotation::prototype, Connotation::specialize>			// optimizer
 	>;
 
 /***********************************************************************************************************************/
 
-	template<size_type mask, size_type base, typename... params>
+	template<typename mask, typename... params>
 	struct adverb;
 
-	template<size_type mask, typename F>
-	struct adverb
-	<
-		mask,
-		core<mask>::rtn,
-		F
-	> :
+	template<typename mask, typename F>
+	struct adverb<mask, F> :
 
 			public monovalent_functor_F<mask, F>,
 			public count<mask>
@@ -91,12 +77,8 @@ struct Repeat
 		adverb(const F & f) : monovalent_functor_F<mask, F>(f) { }
 	};
 
-	template<size_type mask>
-	struct adverb
-	<
-		mask,
-		core<mask>::rtn
-	> :
+	template<typename mask>
+	struct adverb<mask> :
 
 			public monovalent_functor<mask>,
 			public count<mask>
@@ -105,32 +87,33 @@ struct Repeat
 
 /***********************************************************************************************************************/
 
-	template<size_type mask, typename F>
-	using functor_adverb = adverb<functor_cast<mask>::rtn, core<mask>::rtn, F>;
+	template<typename mask, typename F>
+	using functor_adverb = adverb<functor_cast<mask>, F>;
 
-	template<size_type mask, size_type base, typename F>
-	static functor_adverb<mask, F> apply_functor(const adverb<mask, base> &, const F & f)
+	template<typename mask, typename F>
+	static functor_adverb<mask, F> apply_functor(const adverb<mask> &, const F & f)
 	{
 		return functor_adverb<mask, F>(f);
 	}
 
-	template<size_type mask>
-	using tracer_adverb = adverb<tracer_cast<mask>::rtn, core<mask>::rtn>;
+	template<typename mask>
+	using tracer_adverb = adverb<tracer_cast<mask>>;
 
-	template<size_type mask, size_type base>
-	static tracer_adverb<mask> apply_count(const adverb<mask, base> &, const size_type & c)
+	template<typename mask>
+	static tracer_adverb<mask> apply_count(const adverb<mask> &, const size_type & c)
 	{
 		return tracer_adverb<mask>(c);
 	}
 
 /***********************************************************************************************************************/
 
+/*
 	template<Connotation... params>
 	using verb = adverb
 	<
-		mask<Selection, Connotation, params...>::rtn,
-		core<mask<Selection, Connotation, params...>::rtn>::rtn
+		typename tone<params...>::template sortFill<Selection>::type
 	>;
+*/
 
 
 /***********************************************************************************************************************/
@@ -139,38 +122,19 @@ struct Repeat
 
 	using Arrangement = tuple
 	<
-		adj_list<Association::forward, Association::backward>,						// direction
-		adj_list<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
-		adj_list<Association::mutate, Association::allocate, Association::deallocate>,			// image
-		adj_list<Association::segment, Association::hook, Association::link>				// iterator
-	>;
-
-	template<size_type mask>
-	using base = match
-	<
-		mask,
-
-		AllocateSegment,
-		DeallocateSegment,
-
-		Closing,
-		Closed,
-		Opening,
-		Open
+		echo<Association::forward, Association::backward>,						// direction
+		echo<Association::closing, Association::closed, Association::opening, Association::open>,	// interval
+		echo<Association::mutate, Association::allocate, Association::deallocate>,			// image
+		echo<Association::segment, Association::hook, Association::link>				// iterator
 	>;
 
 /***********************************************************************************************************************/
 
-	template<size_type mask, size_type base, typename... params>
+	template<typename mask, typename... params>
 	struct adjective;
 
-	template<size_type mask, typename T>
-	struct adjective
-	<
-		mask,
-		base<mask>::rtn,
-		T
-	> :
+	template<typename mask, typename T>
+	struct adjective<mask, T> :
 
 			public iterate<mask>,
 			public valent_memory_T<mask, T>
@@ -179,13 +143,8 @@ struct Repeat
 		adjective(T *o) : valent_memory_T<mask, T>(o) { }
 	};
 
-
-	template<size_type mask>
-	struct adjective
-	<
-		mask,
-		base<mask>::rtn
-	> :
+	template<typename mask>
+	struct adjective<mask> :
 
 			public iterate<mask>,
 			public valent_memory<mask>,
@@ -199,53 +158,56 @@ struct Repeat
 
 /***********************************************************************************************************************/
 
-	template<size_type mask>
-	using mutate_adjective = adjective<mutate_cast<mask>::rtn, base<mask>::rtn>;
+	template<typename mask>
+	using mutate_adjective = adjective<mutate_cast<mask>>;
 
-	template<size_type mask, size_type base>
-	static mutate_adjective<mask> mutate(const adjective<mask, base> &)
+	template<typename mask>
+	static mutate_adjective<mask> mutate(const adjective<mask> &)
 	{
 		return mutate_adjective<mask>();
 	}
 
 /***********************************************************************************************************************/
 
-	template<size_type mask>
-	using allocate_adjective = adjective<allocate_cast<mask>::rtn, base<mask>::rtn>;
+	template<typename mask>
+	using allocate_adjective = adjective<allocate_cast<mask>>;
 
-	template<size_type mask, size_type base>
-	static allocate_adjective<mask> allocate_segment(const adjective<mask, base> &, size_type l, size_type o = 0)
+	template<typename mask>
+	static allocate_adjective<mask> allocate_segment(const adjective<mask> &, size_type l, size_type o = 0)
 	{
 		return allocate_adjective<mask>(l, o);
 	}
 
 /***********************************************************************************************************************/
 
-	template<size_type mask, typename T>
-	using deallocate_adjective = adjective<deallocate_cast<mask>::rtn, base<mask>::rtn, T>;
+	template<typename mask, typename T>
+	using deallocate_adjective = adjective<deallocate_cast<mask>, T>;
 
-	template<size_type mask, size_type base, typename T>
-	static deallocate_adjective<mask, T> deallocate_segment(const adjective<mask, base> &, T *o)
+	template<typename mask, typename T>
+	static deallocate_adjective<mask, T> deallocate_segment(const adjective<mask> &, T *o)
 	{
 		return deallocate_adjective<mask, T>(o);
 	}
 
 /***********************************************************************************************************************/
 
+/*
 	template<Association... params>
 	using subject = adjective
 	<
-		mask<Arrangement, Association, params...>::rtn,
-		base<mask<Arrangement, Association, params...>::rtn>::rtn
+		typename echo<params...>::template sortFill<Arrangement>::type,
 	>;
+*/
 };
 
 
+/*
 template<size_type mask, size_type base, typename... params>
 using RepeatVerb = typename Repeat::template adverb<mask, base, params...>;
 
 template<size_type mask, size_type base, typename... params>
 using RepeatSubject = typename Repeat::template adjective<mask, base, params...>;
+*/
 
 
 /***********************************************************************************************************************/
@@ -303,6 +265,7 @@ static sub_pointer repeat(ADV_TYPE(specialize) & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -320,6 +283,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -332,6 +296,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -352,6 +317,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -366,6 +332,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -386,6 +353,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -398,6 +366,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -421,6 +390,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -435,6 +405,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -452,6 +423,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -464,6 +436,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -485,6 +458,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /************************************************************************************************************************
@@ -499,6 +473,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -518,6 +493,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -530,6 +506,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -552,6 +529,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
 	return out;
 }
+*/
 
 
 /***********************************************************************************************************************/
@@ -563,6 +541,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 */
 
 
+/*
 template<PARAMETERS>
 static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 
@@ -593,6 +572,7 @@ static sub_pointer repeat(RepeatVerb<verb_mask, Prototype, F...> & ad,
 			sub_pointer out, sub_pointer end, RepeatSubject<sub_mask, DeallocateSegment, T...> & sub)
 
 	{ memory_action(sub); }
+*/
 
 
 /***********************************************************************************************************************/

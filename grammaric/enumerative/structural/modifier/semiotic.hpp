@@ -58,8 +58,8 @@ struct modifier
 	template<typename Modifier>
 	using covers = typename f_parameter::template covers<base, typename Modifier::base>;
 
-	template<typename... Bases>
-	using match = typename f_parameter::template match<base, Bases...>;
+	template<typename... Modifiers>
+	using match = typename f_parameter::template match<base, Modifiers...>;
 
 	template<typename... Modifiers>
 	using dispatch = typename f_parameter::template dispatch<base, Modifiers...>;

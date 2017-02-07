@@ -39,6 +39,6 @@ struct dispatch<base<mask_params...>, modifier, modifiers...>
 template<Parameter... mask_params, typename modifier>
 struct dispatch<base<mask_params...>, modifier>
 {
-	using type = modifier;
+	using type = typename modifier::type;
 };
 

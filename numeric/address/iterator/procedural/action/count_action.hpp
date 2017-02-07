@@ -33,15 +33,13 @@ static inline void count_action(adverb<ApplyCount, size_type> & ad)
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using count = typename dispatch
+template<typename mask>
+using count = typename mask::template dispatch
 <
-	mask,
-
 	adverb<ApplyCount, size_type>,
 
 	adverb<OmitCount>
 
->::rtn;
+>::type;
 
 

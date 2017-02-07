@@ -42,23 +42,19 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using monovalent_functor = typename dispatch
+template<typename mask>
+using monovalent_functor = typename mask::template dispatch
 <
-	mask,
-
 	adverb<OmitFunctor>
 
->::rtn;
+>::type;
 
-template<size_type mask, typename F>
-using monovalent_functor_F = typename dispatch
+template<typename mask, typename F>
+using monovalent_functor_F = typename mask::template dispatch
 <
-	mask,
-
 	adverb<ApplyFunctor, F>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/
@@ -93,23 +89,19 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using enum_divalent_functor = typename dispatch
+template<typename mask>
+using enum_divalent_functor = typename mask::template dispatch
 <
-	mask,
-
 	adverb<OmitFunctor>
 
->::rtn;
+>::type;
 
-template<size_type mask, typename F>
-using enum_divalent_functor_F = typename dispatch
+template<typename mask, typename F>
+using enum_divalent_functor_F = typename mask::template dispatch
 <
-	mask,
-
 	adverb<ApplyFunctor, F>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/
@@ -148,22 +140,18 @@ static inline void functor_action(const adverb<ApplyFunctor, F> & ad, sub_pointe
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using divalent_functor = typename dispatch
+template<typename mask>
+using divalent_functor = typename mask::template dispatch
 <
-	mask,
-
 	adverb<OmitFunctor>
 
->::rtn;
+>::type;
 
-template<size_type mask, typename F>
-using divalent_functor_F = typename dispatch
+template<typename mask, typename F>
+using divalent_functor_F = typename mask::template dispatch
 <
-	mask,
-
 	adverb<ApplyFunctor, F>
 
->::rtn;
+>::type;
 
 

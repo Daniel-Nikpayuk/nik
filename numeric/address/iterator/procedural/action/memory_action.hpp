@@ -62,24 +62,20 @@ static inline void memory_action(adjective<DeallocateSegment, T> & adj)
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using valent_memory = typename dispatch
+template<typename mask>
+using valent_memory = typename mask::template dispatch
 <
-	mask,
-
 	adjective<Image>
 
->::rtn;
+>::type;
 
 
-template<size_type mask, typename T>
-using valent_memory_T = typename dispatch
+template<typename mask, typename T>
+using valent_memory_T = typename mask::template dispatch
 <
-	mask,
-
 	adjective<DeallocateSegment, T>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/
@@ -87,7 +83,7 @@ using valent_memory_T = typename dispatch
 /***********************************************************************************************************************/
 
 
-static constexpr size_type Not_Deallocate = deduct<Image, Deallocate>::rtn;
+using Not_Deallocate = typename Image::template subtract<Deallocate>::type;
 
 
 template
@@ -117,16 +113,14 @@ static inline void memory_action(pointer & p, const adjective<Deallocate> & adj)
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using deallo_monovalent_memory = typename dispatch
+template<typename mask>
+using deallo_monovalent_memory = typename mask::template dispatch
 <
-	mask,
-
 	adjective<Deallocate>,
 
 	adjective<Not_Deallocate>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/
@@ -134,7 +128,7 @@ using deallo_monovalent_memory = typename dispatch
 /***********************************************************************************************************************/
 
 
-static constexpr size_type Not_Allocate = deduct<Image, Allocate>::rtn;
+using Not_Allocate = typename Image::template subtract<Allocate>::type;
 
 
 template
@@ -156,7 +150,7 @@ static inline void memory_action(const pointer & p, const adjective<Not_Allocate
 
 template
 <
-	size_type mask,
+	typename mask,
 
 	typename sub_pointer
 >
@@ -164,7 +158,7 @@ static inline sub_pointer memory_action(sub_pointer & origin, const adjective<Al
 {
 	origin = new VALUE_TYPE[sub.length];
 
-	return origin + bit::mask::template contains<mask, Association::forward>::rtn ?
+	return origin + mask::template contains<Association::forward>::value ?
 
 			sub.offset :
 			sub.length - 1 - sub.offset;
@@ -175,16 +169,14 @@ static inline sub_pointer memory_action(sub_pointer & origin, const adjective<Al
 /***********************************************************************************************************************/
 
 
-template<size_type mask>
-using allo_monovalent_memory = typename dispatch
+template<typename mask>
+using allo_monovalent_memory = typename mask::template dispatch
 <
-	mask,
-
 	adjective<AllocateSegment, size_type>,
 
 	adjective<Not_Allocate>
 
->::rtn;
+>::type;
 
 
 /***********************************************************************************************************************/

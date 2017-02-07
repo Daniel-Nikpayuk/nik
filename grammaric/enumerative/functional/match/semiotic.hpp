@@ -15,30 +15,30 @@
 **
 ************************************************************************************************************************/
 
-template<typename Base, typename...bases>
+template<typename Base, typename...modifiers>
 struct match;
 
-template<Parameter... mask_params, Parameter... params, typename...bases>
-struct match<base<mask_params...>, base<params...>, bases...>
+template<Parameter... mask_params, typename modifier, typename...modifiers>
+struct match<base<mask_params...>, modifier, modifiers...>
 {
 	using type = typename block
 	<
 		if_then
 		<
-			covers<base<mask_params...>, base<params...>>::value,
-			base<params...>
+			covers<base<mask_params...>, typename modifier::base>::value,
+			modifier
 
 		>, then
 		<
-			match<base<mask_params...>, bases...>
+			match<base<mask_params...>, modifiers...>
 		>
 
 	>::type;
 };
 
-template<Parameter... mask_params, Parameter... params>
-struct match<base<mask_params...>, base<params...>>
+template<Parameter... mask_params, typename modifier>
+struct match<base<mask_params...>, modifier>
 {
-	using type = base<params...>;
+	using type = typename modifier::type;
 };
 
