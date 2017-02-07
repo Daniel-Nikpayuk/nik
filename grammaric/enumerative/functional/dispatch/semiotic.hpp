@@ -15,21 +15,30 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, typename car, typename... cdr>
-struct dispatch
-{
-	using rtn = typename if_then_else
-	<
-		(x & car::bitmask) == car::bitmask,
-		car,
-		typename dispatch<x, cdr...>::rtn
+template<typename Base, typename...modifiers>
+struct dispatch;
 
-	>::rtn;
+template<Parameter... mask_params, typename modifier, typename...modifiers>
+struct dispatch<base<mask_params...>, modifier, modifiers...>
+{
+	using type = typename block
+	<
+		if_then
+		<
+			covers<base<mask_params...>, typename modifier::type>::value,
+			modifier
+
+		>, then
+		<
+			dispatch<base<mask_params...>, modifiers...>
+		>
+
+	>::type;
 };
 
-template<size_type x, typename last>
-struct dispatch<x, last>
+template<Parameter... mask_params, typename modifier>
+struct dispatch<base<mask_params...>, modifier>
 {
-	using rtn = last;
+	using type = modifier;
 };
 

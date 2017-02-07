@@ -23,26 +23,15 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		//
-
-		template<Orientation orientation_enum, Interface interface_enum>
-		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
-
-		template<typename enum_type>
-		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
-
-		//
-
-		using enumerator = module<Module::enumerator, Orientation::structural, Interface::semiotic, size_type>;
-
-		//
-
+		using variadic = grammaric::module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
+		using enumerative = grammaric::module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
+		using range = module<Module::range, Orientation::structural, Interface::semiotic, size_type>;
 		using structural = module<Module::iterator, Orientation::structural, Interface::semiotic, size_type>;
 
 		//
 
+		#include"alias/semiotic.hpp"
 		#include"adverb/semiotic.hpp"
-		#include"dispatch/semiotic.hpp"
 
 		//
 
@@ -58,7 +47,7 @@ namespace numeric	{
 //		#include"morph/semiotic.hpp"
 //		#include"map/semiotic.hpp"
 
-		#include"noderize/semiotic.hpp"
+//		#include"noderize/semiotic.hpp"
 //		#include"catenate/semiotic.hpp"
 //		#include"grow/semiotic.hpp"
 //		#include"shrink/semiotic.hpp"

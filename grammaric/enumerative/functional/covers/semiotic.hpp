@@ -15,29 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+/*
+	Assumes modifier:
+*/
 
-	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename inBase1, typename inBase2>
+struct covers;
 
-		using enumerative = grammaric::module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
+template<Parameter... in1_params, Parameter in2_first, Parameter... in2_params>
+struct covers<base<in1_params...>, base<in2_first, in2_params...>>
+{
+	static constexpr bool value = contains<base<in1_params...>, in2_first>::value &&
+					covers<base<in1_params...>, base<in2_params...>>::value;
+};
 
-		//
-
-		#include"alias/semiotic.hpp"
-		#include"adjective/semiotic.hpp"
-
-		//
-
-		#include"node/semiotic.hpp"
-		#include"segment/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
-		#include"trim/semiotic.hpp"
-	};
-
-}}
+template<Parameter... in1_params>
+struct covers<base<in1_params...>, null_base>
+{
+	static constexpr bool value = true;
+};
 

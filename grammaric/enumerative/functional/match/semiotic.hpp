@@ -15,15 +15,30 @@
 **
 ************************************************************************************************************************/
 
-template<size_type x, size_type car, size_type... cdr>
-struct match
+template<typename Base, typename...bases>
+struct match;
+
+template<Parameter... mask_params, Parameter... params, typename...bases>
+struct match<base<mask_params...>, base<params...>, bases...>
 {
-	static constexpr size_type rtn = (x & car) == car ?  car : match<x, cdr...>::rtn;
+	using type = typename block
+	<
+		if_then
+		<
+			covers<base<mask_params...>, base<params...>>::value,
+			base<params...>
+
+		>, then
+		<
+			match<base<mask_params...>, bases...>
+		>
+
+	>::type;
 };
 
-template<size_type x, size_type last>
-struct match<x, last>
+template<Parameter... mask_params, Parameter... params>
+struct match<base<mask_params...>, base<params...>>
 {
-	static constexpr size_type rtn = last;
+	using type = base<params...>;
 };
 

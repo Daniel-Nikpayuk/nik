@@ -72,17 +72,7 @@ struct adverb;
 
 
 template<typename L>
-struct adverb<L> { using parameter_list = L; };
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<Connotation... params>
-using adv_list = typename parameter<Connotation>::template list<params...>;
-
-using null_adv = adv_list<>;
+struct adverb<L> { using type = L; };
 
 
 /***********************************************************************************************************************/
@@ -103,7 +93,7 @@ using ApplyCount = adv_list<Connotation::apply_count>;
 template<typename F>
 struct adverb<ApplyFunctor, F>
 {
-	using parameter_list = ApplyFunctor;
+	using type = ApplyFunctor;
 
 	F functor;
 
@@ -114,7 +104,7 @@ struct adverb<ApplyFunctor, F>
 template<typename T>
 struct adverb<ApplyCount, T>
 {
-	using parameter_list = ApplyCount;
+	using type = ApplyCount;
 
 	T count;
 

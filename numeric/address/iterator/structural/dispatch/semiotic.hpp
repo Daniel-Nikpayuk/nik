@@ -15,29 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+template<size_type x, typename car, typename... cdr>
+struct dispatch;
 
-	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<size_type x, typename car, typename... cdr>
+struct dispatch
+{
+	using rtn = typename if_then_else
+	<
+		(x & car::bitmask) == car::bitmask,
+		car,
+		typename dispatch<x, cdr...>::rtn
 
-		using enumerative = grammaric::module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
+	>::rtn;
+};
 
-		//
-
-		#include"alias/semiotic.hpp"
-		#include"adjective/semiotic.hpp"
-
-		//
-
-		#include"node/semiotic.hpp"
-		#include"segment/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
-		#include"trim/semiotic.hpp"
-	};
-
-}}
+template<size_type x, typename last>
+struct dispatch<x, last>
+{
+	using rtn = last;
+};
 

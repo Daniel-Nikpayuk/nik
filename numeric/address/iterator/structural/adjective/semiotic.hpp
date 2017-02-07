@@ -84,17 +84,7 @@ struct adjective;
 
 
 template<typename L>
-struct adjective<L> { using parameter_list = L; };
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<Association... params>
-using adj_list = typename parameter<Association>::template list<params...>;
-
-using null_adj = adj_list<>;
+struct adjective<L> { using type = L; };
 
 
 /***********************************************************************************************************************/
@@ -124,7 +114,7 @@ using DeallocateSegment = adj_list<Association::deallocate, Association::segment
 template<typename T>
 struct adjective<AllocateSegment, T>
 {
-	using parameter_list = AllocateSegment;
+	using type = AllocateSegment;
 
 	T length;
 	T offset;
@@ -136,7 +126,7 @@ struct adjective<AllocateSegment, T>
 template<typename T>
 struct adjective<DeallocateSegment, T>
 {
-	using parameter_list = DeallocateSegment;
+	using type = DeallocateSegment;
 
 	T *origin;
 

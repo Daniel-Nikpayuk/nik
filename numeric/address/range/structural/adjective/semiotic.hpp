@@ -71,38 +71,26 @@ enum struct Attribute : size_type
 /***********************************************************************************************************************/
 
 
-template<size_type mask, typename... params>
+template<typename... params>
 struct adjective;
 
 
-template<size_type mask>
-struct adjective<mask> { static constexpr size_type bitmask = mask; };
+template<typename L>
+struct adjective<L> { using type = L; };
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-template<Association... params>
-using adj_list = typename parameter<Association>::template list<params...>;
-
-using null_adj = adj_list<>;
-
-
-template<Association... params>
-using adj_cast = typename bit::mask::template cast<adj_list<params...>>;
-
+/*
 // "using" for polymorphic dispatching.
 
 template<Association... params>
-using Adjective = adjective<adj_cast<params...>::rtn>;
+using Adjective = adjective<adj_list<params...>>;
+*/
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-static constexpr size_type Accede = adj_cast<Association::accede>::rtn;
+using Accede = adj_list<Association::accede>;
 
 
 /***********************************************************************************************************************/
@@ -117,7 +105,7 @@ static constexpr size_type Accede = adj_cast<Association::accede>::rtn;
 template<typename A>
 struct adjective<Accede, A>
 {
-	static constexpr size_type bitmask = Accede;
+	using type = Accede;
 
 	A accessor;
 

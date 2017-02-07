@@ -29,6 +29,8 @@ template<bool, typename> struct if_then { };
 template<bool, typename> struct else_then { };
 template<typename> struct then { };
 
+template<typename t> struct kind { using type = t; };
+
 /***********************************************************************************************************************/
 
 template<typename... statements> struct sub_block;
@@ -80,11 +82,7 @@ struct block<if_then<false, expression>, statements...>
 template<typename Parameter>
 struct parameter
 {
-	template<Parameter v>
-	struct constant
-	{
-		static constexpr Parameter value = v;
-	};
+	template<Parameter v> struct constant { static constexpr Parameter value = v; };
 
 /***********************************************************************************************************************/
 

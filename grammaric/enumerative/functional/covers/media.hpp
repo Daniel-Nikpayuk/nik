@@ -15,29 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
-
-		using enumerative = grammaric::module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
-
-		//
-
-		#include"alias/semiotic.hpp"
-		#include"adjective/semiotic.hpp"
-
-		//
-
-		#include"node/semiotic.hpp"
-		#include"segment/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
-		#include"trim/semiotic.hpp"
-	};
-
-}}
+template<size_type mask, size_type base>
+struct contains
+{
+	static constexpr bool value() { return semiotic::template contains<base, mask>::rtn; }
+};
 

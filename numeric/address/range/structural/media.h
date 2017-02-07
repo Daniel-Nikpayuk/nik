@@ -23,7 +23,7 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
-		using semiotic = module<Module::incrementor, Orientation::structural, Interface::semiotic, size_type>;
+		using semiotic = module<Module::range, Orientation::structural, Interface::semiotic, size_type>;
 
 		#include"adjective/media.hpp"
 	};

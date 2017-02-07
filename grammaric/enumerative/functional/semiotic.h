@@ -90,6 +90,9 @@ namespace grammaric	{
 				// Existential:
 
 					#include"contains/semiotic.hpp"
+					#include"covers/semiotic.hpp"
+					#include"match/semiotic.hpp"
+					#include"dispatch/semiotic.hpp"
 
 				// Generational:
 
@@ -98,7 +101,7 @@ namespace grammaric	{
 					#include"cross/semiotic.hpp"
 					#include"subtract/semiotic.hpp"
 
-//					#include"fill/semiotic.hpp"
+					#include"fill/semiotic.hpp"
 		};
 	};
 

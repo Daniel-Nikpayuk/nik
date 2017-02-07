@@ -15,24 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename Ordering, typename inL, typename outL = typename inL::null>
+template<typename Ordering, typename inBase, typename outBase = typename inBase::null>
 struct fill;
 
-template<typename Ordering, Parameter... out_params>
-struct fill<Ordering, null_list, list<out_params...>>
-{
-	using field = typename Ordering::car::type;
-	static constexpr Parameter field_first = field::car::value;
-
-	using new_outL = typename push<list<out_params...>, field_first>::type;
-
-	//
-
-	using type = typename fill<typename Ordering::cdr::type, null_list, new_outL>::type;
-};
-
 template<typename Ordering, Parameter in_first, Parameter... in_params, Parameter... out_params>
-struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
+struct fill<Ordering, base<in_first, in_params...>, base<out_params...>>
 {
 	using field = typename Ordering::car::type;
 	static constexpr Parameter field_first = field::car::value;
@@ -42,20 +29,25 @@ struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 		if_then
 		<
 			contains<field, in_first>::value,
-			list<in_params...>
+			base<in_params...>
 
 		>, then
 		<
-			list<in_first, in_params...>
+			base<in_first, in_params...>
 		>
 
 	>::type;
 
-	using new_outL = typename if_then_else
+	using new_outL = typename block
 	<
-		contains<field, in_first>::value,
-		push<list<out_params...>, in_first>,
-		push<list<out_params...>, field_first>
+		if_then
+		<
+			contains<field, in_first>::value,
+			base<out_params..., in_first>
+		>, then
+		<
+			base<out_params..., field_first>
+		>
 
 	>::type;
 
@@ -64,10 +56,23 @@ struct fill<Ordering, list<in_first, in_params...>, list<out_params...>>
 	using type = typename fill<typename Ordering::cdr::type, new_inL, new_outL>::type;
 };
 
-template<Parameter... in_params, Parameter... out_params>
-struct fill<null_tuple, list<in_params...>, list<out_params...>>
+template<typename Ordering, Parameter... out_params>
+struct fill<Ordering, null_base, base<out_params...>>
 {
-	using type = list<out_params...>;
+	using field = typename Ordering::car::type;
+	static constexpr Parameter field_first = field::car::value;
+
+	using new_outL = base<out_params..., field_first>;
+
+	//
+
+	using type = typename fill<typename Ordering::cdr::type, null_base, new_outL>::type;
+};
+
+template<Parameter... out_params>
+struct fill<null_tuple, null_base, base<out_params...>>
+{
+	using type = base<out_params...>;
 };
 
 /*

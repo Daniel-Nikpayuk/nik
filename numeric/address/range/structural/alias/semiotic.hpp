@@ -15,29 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+template<typename enum_type>
+using parameter = typename enumerative::template parameter<enum_type>;
 
-	template<typename SizeType>
-	struct module<Module::iterator, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+/***********************************************************************************************************************/
 
-		using enumerative = grammaric::module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
+enum struct Association : size_type;
 
-		//
+template<Association... params>
+using adj_list = typename parameter<Association>::template list<params...>;
 
-		#include"alias/semiotic.hpp"
-		#include"adjective/semiotic.hpp"
-
-		//
-
-		#include"node/semiotic.hpp"
-		#include"segment/semiotic.hpp"
-		#include"hook/semiotic.hpp"
-		#include"link/semiotic.hpp"
-		#include"trim/semiotic.hpp"
-	};
-
-}}
+using null_adj = adj_list<>;
 
