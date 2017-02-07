@@ -77,13 +77,61 @@ struct block<if_then<false, expression>, statements...>
 
 /***********************************************************************************************************************/
 
-/*
-template<typename value_type>
-struct condition<then_return<value_type v>>
+template<typename Parameter>
+struct parameter
 {
-	static constexpr value_type value = v;
+	template<Parameter v>
+	struct constant
+	{
+		static constexpr Parameter value = v;
+	};
+
+/***********************************************************************************************************************/
+
+	template<typename... statements> struct sub_block;
+
+	template<typename expression, typename... statements>
+	struct sub_block<else_then<true, expression>, statements...>
+	{
+		STATIC_ASSERT
+
+		static constexpr Parameter value = expression::value;
+	};
+
+	template<typename expression, typename... statements>
+	struct sub_block<else_then<false, expression>, statements...>
+	{
+		STATIC_ASSERT
+
+		static constexpr Parameter value = sub_block<statements...>::value;
+	};
+
+	template<typename expression>
+	struct sub_block<then<expression>>
+	{
+		static constexpr Parameter value = expression::value;
+	};
+
+/***********************************************************************************************************************/
+
+	template<typename... statements> struct block;
+
+	template<typename expression, typename... statements>
+	struct block<if_then<true, expression>, statements...>
+	{
+		STATIC_ASSERT
+
+		static constexpr Parameter value = expression::value;
+	};
+
+	template<typename expression, typename... statements>
+	struct block<if_then<false, expression>, statements...>
+	{
+		STATIC_ASSERT
+
+		static constexpr Parameter value = sub_block<statements...>::value;
+	};
 };
-*/
 
 /***********************************************************************************************************************/
 
