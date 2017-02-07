@@ -18,7 +18,7 @@
 #ifndef MODULE_RANGE_H
 #define MODULE_RANGE_H
 
-#include"variadic.h"
+#include"enumerative.h"
 
 #include"../numeric/address/range/structural/semiotic.h"
 

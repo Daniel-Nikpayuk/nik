@@ -18,7 +18,7 @@
 #ifndef MODULE_ENUMERATIVE_H
 #define MODULE_ENUMERATIVE_H
 
-#include"variadic.h"
+#include"control_flow.h"
 
 #include"../grammaric/enumerative/functional/semiotic.h"
 #include"../grammaric/enumerative/structural/semiotic.h"

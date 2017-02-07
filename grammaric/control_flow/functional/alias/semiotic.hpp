@@ -15,23 +15,8 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... params>
+using tuple = typename variadic::template tuple<params...>;
 
-	template<typename SizeType>
-	struct module<Module::enumerative, Orientation::functional, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
-		using control_flow = module<Module::control_flow, Orientation::functional, Interface::media, size_type>;
-		using structural = module<Module::enumerative, Orientation::structural, Interface::semiotic, size_type>;
-		using semiotic = module<Module::enumerative, Orientation::functional, Interface::semiotic, size_type>;
-
-		//
-
-		#include"alias/media.hpp"
-	};
-
-}}
+using null_tuple = tuple<>;
 

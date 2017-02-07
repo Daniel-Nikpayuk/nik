@@ -23,6 +23,9 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		using variadic = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
+
+		#include"alias/semiotic.hpp"
 		#include"block/semiotic.hpp"
 	};
 

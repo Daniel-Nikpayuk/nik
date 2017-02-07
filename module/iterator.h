@@ -18,7 +18,7 @@
 #ifndef MODULE_ITERATOR_H
 #define MODULE_ITERATOR_H
 
-#include"enumerator.h"
+#include"range.h"
 
 #include"../numeric/address/iterator/structural/semiotic.h"
 #include"../numeric/address/iterator/procedural/semiotic.h"

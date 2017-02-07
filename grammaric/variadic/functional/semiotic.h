@@ -23,7 +23,6 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using control_flow = module<Module::control_flow, Orientation::functional, Interface::semiotic, size_type>;
 		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
 		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
 

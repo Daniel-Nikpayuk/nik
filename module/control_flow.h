@@ -18,6 +18,8 @@
 #ifndef MODULE_CONTROL_FLOW_H
 #define MODULE_CONTROL_FLOW_H
 
+#include"variadic.h"
+
 #include"../grammaric/control_flow/functional/semiotic.h"
 
 #include"../grammaric/control_flow/functional/media.h"

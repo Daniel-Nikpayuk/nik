@@ -23,6 +23,6 @@ struct empty<base<first, params...>, Filler>
 { static constexpr bool value = false; };
 
 template<typename Filler>
-struct empty<base<null_base, Filler>>
+struct empty<null_base, Filler>
 { static constexpr bool value = true; };
 
