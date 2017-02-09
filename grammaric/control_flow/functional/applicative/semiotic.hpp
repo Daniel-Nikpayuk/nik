@@ -15,38 +15,32 @@
 **
 ************************************************************************************************************************/
 
-template<typename inBase1, typename inBase2, typename outBase = typename inBase1::null>
-struct subtract;
-
-template
-<
-	Parameter in1_first,
-	Parameter... in1_params,
-
-	Parameter... in2_params,
-
-	Parameter... out_params
->
-struct subtract<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
+template<Parameter v>
+struct constant
 {
-	using type = typename block
-	<
-		if_then
-		<
-			contains<base<in2_params...>, in1_first>,
-			subtract<base<in1_params...>, base<in2_params...>, base<out_params...>>
-
-		>, then
-		<
-			subtract<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
-		>
-
-	>::type;
+	static constexpr Parameter value = v;
 };
 
-template<Parameter... in2_params, Parameter... out_params>
-struct subtract<null_base, base<in2_params...>, base<out_params...>>
+//
+
+template<typename, typename...>
+struct applicative;
+
+template<typename function, typename first, typename... params>
+struct applicative<function, first, params...>
 {
-	using type = base<out_params...>;
+	struct partial
+	{
+		template<Parameter... args>
+		using lambda = typename function::template lambda<args..., first::value>;
+	};
+
+	static constexpr Parameter value = applicative<partial, params...>::value;
+};
+
+template<typename function>
+struct applicative<function>
+{
+	static constexpr Parameter value = function::template lambda<>::value;
 };
 

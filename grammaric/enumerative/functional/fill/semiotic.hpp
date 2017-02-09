@@ -18,6 +18,82 @@
 template<typename Ordering, typename inBase, typename outBase = typename inBase::null>
 struct fill;
 
+/*
+template<typename modifier, typename... params, Parameter... in_params, Parameter... out_params>
+struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
+{
+	struct modifer_contains
+	{
+		template<typename...> struct lambda;
+
+		template<typename Front>
+		struct lambda<Front> { static constexpr bool value = typename modifier::template contains<Front::value>::value; };
+	};
+
+	struct out_push
+	{
+		template<typename...> struct lambda;
+
+		template<typename Front>
+		struct lambda<Front> { using type = base<out_params..., Front::value>; };
+	};
+
+	static constexpr Parameter modifier_first = modifier::car::value;
+
+	using inBase = base<in_params...>;
+
+	using modifier_contains_in_first = apply<modifier_contains, typename inBase::car>;
+
+	using outFront = apply<out_push, typename inBase::car>;
+
+	//
+
+	using in_base = typename block
+	<
+		if_then
+		<
+			typename inBase::empty,
+			null_base
+
+		>, else_then
+		<
+			modifier_contains_in_first,
+			base<args...>
+
+		>, then
+		<
+			base<front, args...>
+		>
+
+	>::type;
+
+	//
+
+	using out_base = typename block // can be reduced further.
+	<
+		if_then
+		<
+			typename inBase::empty,
+			base<out_params..., first>
+
+		>, else_then
+		<
+			contains_front,
+			outFront
+
+		>, then
+		<
+			base<out_params..., first>
+		>
+
+	>::type;
+
+	//
+
+	using type = typename fill<tuple<params...>, in_base, out_base>::type;
+};
+*/
+
 template<typename modifier, typename... params, Parameter... in_params, Parameter... out_params>
 struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 {
@@ -35,7 +111,7 @@ struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 		<
 			if_then
 			<
-				modifier::template contains<front>::value,
+				typename modifier::template contains<front>,
 				base<args...>
 
 			>, then
@@ -67,7 +143,7 @@ struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 		<
 			if_then
 			<
-				modifier::template contains<front>::value,
+				typename modifier::template contains<front>,
 				base<out_params..., front>
 
 			>, then

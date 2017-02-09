@@ -25,7 +25,7 @@ struct filter<predicate, base<in_first, in_params...>, base<out_params...>>
 	<
 		if_then
 		<
-			predicate::test(in_first),
+			typename predicate::template test<in_first>,
 			base<out_params..., in_first>
 
 		>, then

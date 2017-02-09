@@ -34,3 +34,15 @@ struct contains<null_base, p>
 	static constexpr bool value = false;
 };
 
+// Interpretive/Applicative:
+
+/*
+struct Contains
+{
+	template<typename...> struct lambda;
+
+	template<typename c>
+	struct lambda<c> { static constexpr bool value = contains<c::value>::value; };
+};
+*/
+

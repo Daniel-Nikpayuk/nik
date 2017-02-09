@@ -22,7 +22,7 @@ struct erase
 	<
 		if_then
 		<
-			(current == index),
+			boolean<(current == index)>,
 			outL
 
 		>, then

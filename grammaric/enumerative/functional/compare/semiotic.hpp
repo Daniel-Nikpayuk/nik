@@ -20,19 +20,21 @@ struct compare
 	template<Parameter t>
 	struct lessThanOrEqual
 	{
-		static constexpr bool test(Parameter current)
+		template<Parameter current>
+		struct test
 		{
-			return (current <= t);
-		}
+			static constexpr bool value = (current <= t);
+		};
 	};
 
 	template<Parameter t>
 	struct greaterThanOrEqual
 	{
-		static constexpr bool test(Parameter current)
+		template<Parameter current>
+		struct test
 		{
-			return (current >= t);
-		}
+			static constexpr bool value = (current >= t);
+		};
 	};
 };
 

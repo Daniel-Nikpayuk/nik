@@ -39,12 +39,12 @@ struct cross<base<in1_first, in1_params...>, base<in2_first, in2_params...>, bas
 	<
 		if_then
 		<
-			(in1_first < in2_first),
+			boolean<(in1_first < in2_first)>,
 			cross<base<in1_params...>, base<in2_first, in2_params...>, base<out_params...>>
 
 		>, else_then
 		<
-			(in1_first > in2_first),
+			boolean<(in1_first > in2_first)>,
 			cross<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
 
 		>, then

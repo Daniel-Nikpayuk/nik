@@ -25,7 +25,7 @@ struct dispatch<base<mask_params...>, modifier, modifiers...>
 	<
 		if_then
 		<
-			covers<base<mask_params...>, typename modifier::type>::value,
+			covers<base<mask_params...>, typename modifier::type>,
 			modifier
 
 		>, then

@@ -20,61 +20,53 @@
 	static_assert													\
 	(														\
 		!tuple<statements...>::empty::value,									\
-		"block control flow does not end in a \"then\" statement."						\
+		"branch control flow does not end in a \"then\" statement."						\
 	);
 
 /***********************************************************************************************************************/
 
-template<bool B> struct boolean { static constexpr bool value = B; };
-
-template<typename, typename> struct if_then { };
-template<typename, typename> struct else_then { };
-template<typename> struct then { };
-
-/***********************************************************************************************************************/
-
-template<typename... statements> struct sub_block;
+template<typename... statements> struct sub_branch;
 
 template<typename predicate, typename expression, typename... statements>
-struct sub_block<else_then<predicate, expression>, statements...>
+struct sub_branch<else_then<predicate, expression>, statements...>
 {
 	STATIC_ASSERT
 
-	using type = typename directive
+	static constexpr Parameter value = condition
 	<
 		predicate::value,
 
 		expression,
 
-		sub_block<statements...>
+		sub_branch<statements...>
 
-	>::type;
+	>::value;
 };
 
 template<typename expression>
-struct sub_block<then<expression>>
+struct sub_branch<then<expression>>
 {
-	using type = typename expression::type;
+	static constexpr Parameter value = expression::value;
 };
 
 /***********************************************************************************************************************/
 
-template<typename... statements> struct block;
+template<typename... statements> struct branch;
 
 template<typename predicate, typename expression, typename... statements>
-struct block<if_then<predicate, expression>, statements...>
+struct branch<if_then<predicate, expression>, statements...>
 {
 	STATIC_ASSERT
 
-	using type = typename directive
+	static constexpr Parameter value = condition
 	<
 		predicate::value,
 
 		expression,
 
-		sub_block<statements...>
+		sub_branch<statements...>
 
-	>::type;
+	>::value;
 };
 
 /***********************************************************************************************************************/

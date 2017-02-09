@@ -15,10 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<bool p, typename e>
+template<typename f, typename... a>
+using interpretive = typename control_flow::template interpretive<f, a...>;
+
+//
+
+template<bool p>
+using boolean = typename control_flow::template boolean<p>;
+
+template<typename p, typename e>
 using if_then = typename control_flow::template if_then<p, e>;
 
-template<bool p, typename e>
+template<typename p, typename e>
 using else_then = typename control_flow::template else_then<p, e>;
 
 template<typename e>
@@ -29,11 +37,11 @@ using block = typename control_flow::template block<s...>;
 
 //
 
-template<bool v>
+template<Parameter v>
 using constant = typename control_flow::template parameter<Parameter>::template constant<v>;
 
 template<typename... s>
-using block_return = typename control_flow::template parameter<bool>::template block<s...>;
+using branch = typename control_flow::template parameter<Parameter>::template branch<s...>;
 
 //
 

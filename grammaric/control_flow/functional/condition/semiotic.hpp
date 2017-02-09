@@ -15,18 +15,15 @@
 **
 ************************************************************************************************************************/
 
-/*
-	As this code is intended to be a convenience function to begin with, the "Field" type is
-	passed instead of the more specific "Relation" type which is simpler from the user's point of view.
-*/
-
-template<typename Field, typename Relation, Relation... params>
-struct sortFill
+template<bool, typename, typename if_false>
+struct condition
 {
-	using in = typename parameter<Relation>::template list<params...>;
+	static constexpr Parameter value = if_false::value;
+};
 
-	using sorted = typename semiotic::template quickSort<in>::rtn;
-
-	using rtn = typename semiotic::template fill<sorted, Field>::rtn;
+template<typename if_true, typename if_false>
+struct condition<true, if_true, if_false>
+{
+	static constexpr Parameter value = if_true::value;
 };
 

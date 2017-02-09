@@ -15,38 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename inBase1, typename inBase2, typename outBase = typename inBase1::null>
-struct subtract;
-
-template
-<
-	Parameter in1_first,
-	Parameter... in1_params,
-
-	Parameter... in2_params,
-
-	Parameter... out_params
->
-struct subtract<base<in1_first, in1_params...>, base<in2_params...>, base<out_params...>>
-{
-	using type = typename block
-	<
-		if_then
-		<
-			contains<base<in2_params...>, in1_first>,
-			subtract<base<in1_params...>, base<in2_params...>, base<out_params...>>
-
-		>, then
-		<
-			subtract<base<in1_params...>, base<in2_params...>, base<out_params..., in1_first>>
-		>
-
-	>::type;
-};
-
-template<Parameter... in2_params, Parameter... out_params>
-struct subtract<null_base, base<in2_params...>, base<out_params...>>
-{
-	using type = base<out_params...>;
-};
-
