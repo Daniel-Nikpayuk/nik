@@ -15,38 +15,8 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+//
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::functional, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
-		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
-		using semiotic = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
-
-		//
-
-		#include"alias/media.hpp"
-
-		// Navigational:
-
-		#include"car/media.hpp"
-		#include"cdr/media.hpp"
-
-		// Generational:
-
-		#include"catenate/media.hpp"
-
-		// Existential:
-
-		#include"empty/media.hpp"
-		#include"length/media.hpp"
-
-		#include"printer/media.hpp"
-	};
-
-}}
+template<typename... params>
+using list = typename structural::template list<params...>;
 

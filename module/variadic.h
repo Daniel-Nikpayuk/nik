@@ -15,15 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_VARIADIC_H
-#define MODULE_VARIADIC_H
+#ifndef GRAMMARIC_VARIADIC_H
+#define GRAMMARIC_VARIADIC_H
 
-#include"identifier.h"
+#include"../grammaric/variadic/identity/functional/semiotic.h"
+#include"../grammaric/variadic/identity/structural/semiotic.h"
 
-#include"../grammaric/variadic/functional/semiotic.h"
-#include"../grammaric/variadic/structural/semiotic.h"
-
-#include"../grammaric/variadic/functional/media.h"
-#include"../grammaric/variadic/structural/media.h"
+#include"../grammaric/variadic/identity/functional/media.h"
+#include"../grammaric/variadic/identity/structural/media.h"
 
 #endif

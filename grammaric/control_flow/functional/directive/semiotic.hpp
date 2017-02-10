@@ -15,15 +15,24 @@
 **
 ************************************************************************************************************************/
 
-template<bool, typename, typename if_false>
+template<typename predicate, typename first, typename second>
 struct directive
 {
-	using type = typename if_false::type;
-};
+	template<bool, typename, typename if_false>
+	struct if_then_else { using type = typename if_false::type; };
 
-template<typename if_true, typename if_false>
-struct directive<true, if_true, if_false>
-{
-	using type = typename if_true::type;
+	template<typename if_true, typename if_false>
+	struct if_then_else<true, if_true, if_false>
+	{
+		using type = typename if_true::type;
+	};
+
+	using type = typename if_then_else
+	<
+		predicate::value,
+		first,
+		second
+
+	>::type;
 };
 

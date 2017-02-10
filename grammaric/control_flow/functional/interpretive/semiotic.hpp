@@ -32,7 +32,7 @@ struct interpretive<function, first, params...>
 	struct partial
 	{
 		template<typename... args>
-		using lambda = typename function::template lambda<args..., typename first::type>;
+		using lambda = typename function::template lambda<typename first::type, args...>;
 	};
 
 	using type = typename interpretive<partial, params...>::type;

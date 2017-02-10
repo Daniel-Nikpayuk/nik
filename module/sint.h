@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_SINT_H
-#define MODULE_SINT_H
+#ifndef NUMERIC_SINT_H
+#define NUMERIC_SINT_H
 
 #include"../numeric/word/sint/structural/semiotic.h"
 #include"../numeric/word/sint/functional/semiotic.h"

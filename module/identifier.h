@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_IDENTIFIER_H
-#define MODULE_IDENTIFIER_H
+#ifndef GRAMMARIC_IDENTIFIER_H
+#define GRAMMARIC_IDENTIFIER_H
 
 #include"../grammaric/identifier/functional/semiotic.h"
 #include"../grammaric/identifier/structural/semiotic.h"

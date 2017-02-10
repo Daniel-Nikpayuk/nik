@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_UINT_H
-#define MODULE_UINT_H
+#ifndef NUMERIC_UINT_H
+#define NUMERIC_UINT_H
 
 #include"variadic.h"
 

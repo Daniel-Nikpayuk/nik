@@ -19,7 +19,7 @@
 															\
 	static_assert													\
 	(														\
-		!tuple<statements...>::empty::value,									\
+		!empty<statements...>::value,										\
 		"block control flow does not end in a \"then\" statement."						\
 	);
 
@@ -42,10 +42,8 @@ struct sub_block<else_then<predicate, expression>, statements...>
 
 	using type = typename directive
 	<
-		predicate::value,
-
+		predicate,
 		expression,
-
 		sub_block<statements...>
 
 	>::type;
@@ -68,10 +66,8 @@ struct block<if_then<predicate, expression>, statements...>
 
 	using type = typename directive
 	<
-		predicate::value,
-
+		predicate,
 		expression,
-
 		sub_block<statements...>
 
 	>::type;

@@ -16,7 +16,5 @@
 ************************************************************************************************************************/
 
 template<typename... params>
-using tuple = typename variadic::template tuple<params...>;
-
-using null_tuple = tuple<>;
+using empty = typename identifier::template empty<params...>;
 

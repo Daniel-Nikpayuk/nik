@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_BIT_H
-#define MODULE_BIT_H
+#ifndef GRAMMARIC_BIT_H
+#define GRAMMARIC_BIT_H
 
 #include"variadic.h"
 

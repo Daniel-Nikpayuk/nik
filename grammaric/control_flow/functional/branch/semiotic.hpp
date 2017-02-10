@@ -19,7 +19,7 @@
 															\
 	static_assert													\
 	(														\
-		!tuple<statements...>::empty::value,									\
+		!empty<statements...>::value,										\
 		"branch control flow does not end in a \"then\" statement."						\
 	);
 
@@ -34,10 +34,8 @@ struct sub_branch<else_then<predicate, expression>, statements...>
 
 	static constexpr Parameter value = condition
 	<
-		predicate::value,
-
+		predicate,
 		expression,
-
 		sub_branch<statements...>
 
 	>::value;
@@ -60,10 +58,8 @@ struct branch<if_then<predicate, expression>, statements...>
 
 	static constexpr Parameter value = condition
 	<
-		predicate::value,
-
+		predicate,
 		expression,
-
 		sub_branch<statements...>
 
 	>::value;

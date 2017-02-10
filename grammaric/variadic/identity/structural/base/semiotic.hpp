@@ -15,24 +15,42 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... params>
+struct base
+{
+	using type = base;
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+	using null = base<>;
 
-		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
-		using functional = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
+//		Translational:
 
-		#include"alias/semiotic.hpp"
+//		Navigational:
 
-		//
+	using car = typename functional::template car<type>;
 
-		#include"base/semiotic.hpp"
-		#include"tuple/semiotic.hpp"
-	};
+	using cdr = typename functional::template cdr<type>;
 
-}}
+//		Existential:
+
+	template<typename Base>
+	using equals = typename identifier::template equal<type, typename Base::type>;
+
+	using empty = typename identifier::template empty<params...>;
+
+	using length = typename functional::template length<type>;
+
+//		Generational:
+
+	template<typename first>
+	using cons = typename functional::template cons<first, base>;
+
+	template<typename last>
+	using push = typename functional::template push<base, last>;
+
+	template<typename Base>
+	using prepend = typename functional::template catenate<Base, base>;
+
+	template<typename Base>
+	using append = typename functional::template catenate<base, Base>;
+};
 

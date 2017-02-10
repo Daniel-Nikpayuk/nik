@@ -15,18 +15,44 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+/*
+template<typename f, typename... a>
+using interpretive = typename control_flow::template interpretive<f, a...>;
+*/
 
-	template<typename SizeType>
-	struct module<Module::enumerative, Orientation::structural, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
+//
 
-		#include"alias/media.hpp"
+/*
+template<bool p>
+using boolean = typename control_flow::template boolean<p>;
 
-		#include"list/media.hpp"
-	};
+template<typename p, typename e>
+using if_then = typename control_flow::template if_then<p, e>;
 
-}}
+template<typename p, typename e>
+using else_then = typename control_flow::template else_then<p, e>;
+
+template<typename e>
+using then = typename control_flow::template then<e>;
+
+template<typename... s>
+using block = typename control_flow::template block<s...>;
+*/
+
+//
+
+/*
+template<Parameter v>
+using constant = typename control_flow::template parameter<Parameter>::template constant<v>;
+
+template<typename... s>
+using branch = typename control_flow::template parameter<Parameter>::template branch<s...>;
+*/
+
+//
+
+template<typename... params>
+using base = typename structural::template base<params...>;
+
+using null_base = base<>;
 

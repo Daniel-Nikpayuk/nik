@@ -32,7 +32,7 @@ struct applicative<function, first, params...>
 	struct partial
 	{
 		template<Parameter... args>
-		using lambda = typename function::template lambda<args..., first::value>;
+		using lambda = typename function::template lambda<first::value, args...>;
 	};
 
 	static constexpr Parameter value = applicative<partial, params...>::value;

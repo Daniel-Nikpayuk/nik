@@ -19,32 +19,33 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<Module::variadic, Orientation::functional, Interface::semiotic, SizeType>
+	struct module<Module::interpretive, Orientation::functional, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
 
 		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
-		using structural = module<Module::variadic, Orientation::structural, Interface::semiotic, size_type>;
+		using structural = module<Module::interpretive, Orientation::structural, Interface::semiotic, size_type>;
+		using semiotic = module<Module::interpretive, Orientation::functional, Interface::semiotic, size_type>;
 
 		//
 
-		#include"alias/semiotic.hpp"
+		#include"alias/media.hpp"
 
 		// Navigational:
 
-		#include"car/semiotic.hpp"
-		#include"cdr/semiotic.hpp"
+		#include"car/media.hpp"
+		#include"cdr/media.hpp"
 
 		// Generational:
 
-		#include"catenate/semiotic.hpp"
+		#include"catenate/media.hpp"
 
 		// Existential:
 
-		#include"empty/semiotic.hpp"
-		#include"length/semiotic.hpp"
+		#include"empty/media.hpp"
+		#include"length/media.hpp"
 
-		#include"printer/semiotic.hpp"
+		#include"printer/media.hpp"
 	};
 
 }}

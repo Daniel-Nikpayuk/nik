@@ -15,15 +15,37 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ENUMERATIVE_H
-#define MODULE_ENUMERATIVE_H
+namespace nik		{
+namespace grammaric	{
 
-#include"control_flow.h"
+	template<typename SizeType>
+	struct module<Module::interpretive, Orientation::functional, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../grammaric/enumerative/functional/semiotic.h"
-#include"../grammaric/enumerative/structural/semiotic.h"
+		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
+		using structural = module<Module::interpretive, Orientation::structural, Interface::semiotic, size_type>;
 
-#include"../grammaric/enumerative/functional/media.h"
-#include"../grammaric/enumerative/structural/media.h"
+		//
 
-#endif
+		#include"alias/semiotic.hpp"
+
+		// Navigational:
+
+		#include"car/semiotic.hpp"
+		#include"cdr/semiotic.hpp"
+
+		// Generational:
+
+		#include"catenate/semiotic.hpp"
+
+		// Existential:
+
+		#include"empty/semiotic.hpp"
+		#include"length/semiotic.hpp"
+
+		#include"printer/semiotic.hpp"
+	};
+
+}}
+

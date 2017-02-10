@@ -15,15 +15,24 @@
 **
 ************************************************************************************************************************/
 
-template<bool, typename, typename if_false>
+template<bool predicate, typename first, typename second>
 struct condition
 {
-	static constexpr Parameter value = if_false::value;
-};
+	template<bool, typename, typename if_false>
+	struct if_then_else { static constexpr Parameter value = if_false::value; };
 
-template<typename if_true, typename if_false>
-struct condition<true, if_true, if_false>
-{
-	static constexpr Parameter value = if_true::value;
+	template<typename if_true, typename if_false>
+	struct if_then_else<true, if_true, if_false>
+	{
+		static constexpr Parameter value = if_true::value;
+	};
+
+	static constexpr Parameter value = if_then_else
+	<
+		predicate::value,
+		first,
+		second
+
+	>::value;
 };
 

@@ -24,6 +24,7 @@ namespace grammaric	{
 		typedef SizeType size_type;
 
 		#include"equal/semiotic.hpp"
+		#include"empty/semiotic.hpp"
 
 		#include"printer/semiotic.hpp"
 	};

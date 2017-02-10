@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_LIST_H
-#define MODULE_LIST_H
+#ifndef NUMERIC_LIST_H
+#define NUMERIC_LIST_H
 
 #include"iterator.h"
 

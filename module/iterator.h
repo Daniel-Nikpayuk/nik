@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_ITERATOR_H
-#define MODULE_ITERATOR_H
+#ifndef NUMERIC_ITERATOR_H
+#define NUMERIC_ITERATOR_H
 
 #include"range.h"
 

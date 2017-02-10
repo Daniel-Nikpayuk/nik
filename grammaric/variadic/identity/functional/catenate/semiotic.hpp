@@ -15,24 +15,27 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... Bases>
+struct catenate;
 
-	template<typename SizeType>
-	struct module<Module::variadic, Orientation::structural, Interface::media, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename... params1, typename... params2>
+struct catenate
+<
+	base<params1...>,
+	base<params2...>
+>
+{
+	using rtn = base<params1..., params2...>;
+};
 
-		using identifier = module<Module::identifier, Orientation::functional, Interface::semiotic, size_type>;
-		using functional = module<Module::variadic, Orientation::functional, Interface::semiotic, size_type>;
-
-		#include"alias/media.hpp"
-
-		//
-
-		#include"base/media.hpp"
-		#include"tuple/media.hpp"
-	};
-
-}}
+template<typename... params1, typename... params2, typename... params3>
+struct catenate
+<
+	base<params1...>,
+	base<params2...>,
+	base<params3...>
+>
+{
+	using rtn = base<params1..., params2..., params3...>;
+};
 

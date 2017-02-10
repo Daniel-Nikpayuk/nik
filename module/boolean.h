@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_BOOLEAN_H
-#define MODULE_BOOLEAN_H
+#ifndef NUMERIC_BOOLEAN_H
+#define NUMERIC_BOOLEAN_H
 
 #include"../numeric/word/boolean/structural/semiotic.h"
 

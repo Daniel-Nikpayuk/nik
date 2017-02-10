@@ -15,10 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef MODULE_RANGE_H
-#define MODULE_RANGE_H
+#ifndef NUMERIC_RANGE_H
+#define NUMERIC_RANGE_H
 
-#include"enumerative.h"
+#include"variadic.h"
 
 #include"../numeric/address/range/structural/semiotic.h"
 

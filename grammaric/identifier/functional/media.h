@@ -24,6 +24,7 @@ namespace grammaric	{
 		typedef SizeType size_type;
 
 		#include"equal/media.hpp"
+		#include"empty/media.hpp"
 
 		#include"printer/media.hpp"
 	};
