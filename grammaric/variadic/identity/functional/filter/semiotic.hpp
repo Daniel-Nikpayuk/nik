@@ -18,7 +18,7 @@
 template<typename predicate, typename inBase, typename outBase = typename inBase::null>
 struct filter;
 
-template<typename predicate, Parameter in_first, Parameter... in_params, Parameter... out_params>
+template<typename predicate, typename in_first, typename... in_params, typename... out_params>
 struct filter<predicate, base<in_first, in_params...>, base<out_params...>>
 {
 	using outBase = typename block
@@ -33,14 +33,14 @@ struct filter<predicate, base<in_first, in_params...>, base<out_params...>>
 			base<out_params...>
 		>
 
-	>::type;
+	>::rtn;
 
-	using type = typename filter<predicate, base<in_params...>, outBase>::type;
+	using rtn = typename filter<predicate, base<in_params...>, outBase>::rtn;
 };
 
-template<typename predicate, Parameter... out_params>
+template<typename predicate, typename... out_params>
 struct filter<predicate, null_base, base<out_params...>>
 {
-	using type = base<out_params...>;
+	using rtn = base<out_params...>;
 };
 

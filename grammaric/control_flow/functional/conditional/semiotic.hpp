@@ -16,23 +16,23 @@
 ************************************************************************************************************************/
 
 template<typename predicate, typename first, typename second>
-struct directive
+struct conditional
 {
 	template<bool, typename, typename if_false>
-	struct if_then_else { using type = typename if_false::type; };
+	struct if_then_else { using rtn = typename if_false::rtn; };
 
 	template<typename if_true, typename if_false>
 	struct if_then_else<true, if_true, if_false>
 	{
-		using type = typename if_true::type;
+		using rtn = typename if_true::rtn;
 	};
 
-	using type = typename if_then_else
+	using rtn = typename if_then_else
 	<
-		predicate::value,
+		predicate::rtn::value,
 		first,
 		second
 
-	>::type;
+	>::rtn;
 };
 

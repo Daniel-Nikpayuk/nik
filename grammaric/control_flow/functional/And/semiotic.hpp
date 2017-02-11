@@ -21,12 +21,12 @@ struct And;
 template<typename first, typename second, typename third, typename... params>
 struct And<first, second, third, params...>
 {
-	static constexpr bool value = first::value && And<second, third, params...>::value;
+	static constexpr bool value = first::rtn::value && And<second, third, params...>::rtn::value;
 };
 
 template<typename first, typename second>
 struct And<first, second>
 {
-	static constexpr bool value = first::value && second::value;
+	static constexpr bool value = first::rtn::value && second::rtn::value;
 };
 

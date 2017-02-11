@@ -18,6 +18,6 @@
 template<typename first>
 struct Not
 {
-	static constexpr bool value = !first::value;
+	static constexpr bool value = !first::rtn::value;
 };
 

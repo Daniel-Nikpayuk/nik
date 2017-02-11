@@ -21,12 +21,12 @@ struct Or;
 template<typename first, typename second, typename third, typename... params>
 struct Or<first, second, third, params...>
 {
-	static constexpr bool value = first::value || Or<second, third, params...>::value;
+	static constexpr bool value = first::rtn::value || Or<second, third, params...>::rtn::value;
 };
 
 template<typename first, typename second>
 struct Or<first, second>
 {
-	static constexpr bool value = first::value || second::value;
+	static constexpr bool value = first::rtn::value || second::rtn::value;
 };
 

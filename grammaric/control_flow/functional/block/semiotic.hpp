@@ -19,13 +19,19 @@
 															\
 	static_assert													\
 	(														\
-		!empty<statements...>::value,										\
+		!empty<statements...>::rtn::value,									\
 		"block control flow does not end in a \"then\" statement."						\
 	);
 
 /***********************************************************************************************************************/
 
-template<bool B> struct boolean { static constexpr bool value = B; };
+template<bool B> struct boolean
+{
+	struct rtn
+	{
+		static constexpr bool value = B;
+	};
+};
 
 template<typename, typename> struct if_then { };
 template<typename, typename> struct else_then { };
@@ -40,19 +46,19 @@ struct sub_block<else_then<predicate, expression>, statements...>
 {
 	STATIC_ASSERT
 
-	using type = typename directive
+	using rtn = typename conditional
 	<
 		predicate,
 		expression,
 		sub_block<statements...>
 
-	>::type;
+	>::rtn;
 };
 
 template<typename expression>
 struct sub_block<then<expression>>
 {
-	using type = typename expression::type;
+	using rtn = typename expression::rtn;
 };
 
 /***********************************************************************************************************************/
@@ -64,13 +70,13 @@ struct block<if_then<predicate, expression>, statements...>
 {
 	STATIC_ASSERT
 
-	using type = typename directive
+	using rtn = typename directive
 	<
 		predicate,
 		expression,
 		sub_block<statements...>
 
-	>::type;
+	>::rtn;
 };
 
 /***********************************************************************************************************************/

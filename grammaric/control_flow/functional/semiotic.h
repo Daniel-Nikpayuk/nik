@@ -27,23 +27,14 @@ namespace grammaric	{
 
 		#include"alias/semiotic.hpp"
 
+		#include"applicative/semiotic.hpp"
+
 		#include"Not/semiotic.hpp"
 		#include"And/semiotic.hpp"
 		#include"Or/semiotic.hpp"
 
-		#include"interpretive/semiotic.hpp"
-
-		#include"directive/semiotic.hpp"
+		#include"conditional/semiotic.hpp"
 		#include"block/semiotic.hpp"
-
-		template<typename Parameter>
-		struct parameter
-		{
-			#include"applicative/semiotic.hpp"
-
-			#include"condition/semiotic.hpp"
-			#include"branch/semiotic.hpp"
-		};
 	};
 
 }}

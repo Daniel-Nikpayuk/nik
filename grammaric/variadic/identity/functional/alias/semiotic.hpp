@@ -15,14 +15,22 @@
 **
 ************************************************************************************************************************/
 
-/*
+template<typename Parameter>
+using parameter = typename control_flow::template parameter<Parameter>;
+
+template<typename T>
+using kind = typename control_flow::template kind<T>;
+
 template<typename f, typename... a>
-using interpretive = typename control_flow::template interpretive<f, a...>;
-*/
+using applicative = typename control_flow::template applicative<f, a...>;
 
 //
 
-/*
+template<typename p, typename t, typename f>
+using conditional = typename control_flow::template conditional<p, t, f>;
+
+//
+
 template<bool p>
 using boolean = typename control_flow::template boolean<p>;
 
@@ -37,17 +45,6 @@ using then = typename control_flow::template then<e>;
 
 template<typename... s>
 using block = typename control_flow::template block<s...>;
-*/
-
-//
-
-/*
-template<Parameter v>
-using constant = typename control_flow::template parameter<Parameter>::template constant<v>;
-
-template<typename... s>
-using branch = typename control_flow::template parameter<Parameter>::template branch<s...>;
-*/
 
 //
 

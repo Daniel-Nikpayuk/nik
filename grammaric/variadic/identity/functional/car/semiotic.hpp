@@ -21,6 +21,6 @@ struct car;
 template<typename first, typename... params>
 struct car<base<first, params...>>
 {
-	using rtn = first;
+	using rtn = typename first::rtn;
 };
 

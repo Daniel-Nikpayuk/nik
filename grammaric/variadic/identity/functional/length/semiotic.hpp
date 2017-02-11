@@ -21,12 +21,18 @@ struct length;
 template<typename first, typename... params, size_type count>
 struct length<base<first, params...>, count>
 {
-	static constexpr size_type value = length<base<params...>, count+1>::value;
+	struct rtn
+	{
+		static constexpr size_type value = length<base<params...>, count+1>::rtn::value;
+	};
 };
 
 template<size_type count>
 struct length<null_base, count>
 {
-	static constexpr size_type value = count;
+	struct rtn
+	{
+		static constexpr size_type value = count;
+	};
 };
 

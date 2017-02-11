@@ -15,6 +15,11 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Base is a special case in that we do not need to wrap it as a "kind".
+	It can be assumed it has its own rtn::type.
+*/
+
 template<typename Base>
 struct cdr;
 
