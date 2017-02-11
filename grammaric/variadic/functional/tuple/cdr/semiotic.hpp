@@ -15,21 +15,17 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+/*
+	Tuple is a special case in that we do not need to wrap it as a "kind".
+	It can be assumed it has its own rtn::type.
+*/
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename Tuple>
+struct cdr;
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<typename first, typename... params>
+struct cdr<tuple<first, params...>>
+{
+	using rtn = tuple<params...>;
+};
 

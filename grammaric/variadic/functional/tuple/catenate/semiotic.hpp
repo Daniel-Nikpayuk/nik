@@ -15,21 +15,52 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... expressions>
+struct catenate;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename first, typename second>
+struct catenate<first, second>
+{
+	template<typename... Tuples>
+	struct strict;
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
+	template<typename... params1, typename... params2>
+	struct strict
+	<
+		tuple<params1...>,
+		tuple<params2...>
 
-		#include"expression/semiotic.hpp"
+	> { using rtn = tuple<params1..., params2...>; };
 
-		#include"printer/semiotic.hpp"
-	};
+	using rtn = typename strict
+	<
+		typename first::rtn,
+		typename second::rtn
 
-}}
+	>::rtn;
+};
+
+template<typename first, typename second, typename third>
+struct catenate<first, second, third>
+{
+	template<typename... Tuples>
+	struct strict;
+
+	template<typename... params1, typename... params2, typename... params3>
+	struct strict
+	<
+		tuple<params1...>,
+		tuple<params2...>,
+		tuple<params3...>
+
+	> { using rtn = tuple<params1..., params2..., params3...>; };
+
+	using rtn = typename strict
+	<
+		typename first::rtn,
+		typename second::rtn,
+		typename third::rtn
+
+	>::rtn;
+};
 

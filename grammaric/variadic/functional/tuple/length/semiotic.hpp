@@ -15,21 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename Tuple, size_type count = 0>
+struct length;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
+template<typename first, typename... params, size_type count>
+struct length<tuple<first, params...>, count>
+{
+	struct rtn
 	{
-		typedef SizeType size_type;
-
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
+		static constexpr size_type value = length<tuple<params...>, count+1>::rtn::value;
 	};
+};
 
-}}
+template<size_type count>
+struct length<null_tuple, count>
+{
+	struct rtn
+	{
+		static constexpr size_type value = count;
+	};
+};
 

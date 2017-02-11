@@ -15,21 +15,18 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename expression>
+struct car
+{
+	template<typename Tuple>
+	struct strict;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
+	template<typename first, typename... params>
+	struct strict<tuple<first, params...>>
 	{
-		typedef SizeType size_type;
-
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
+		using rtn = typename first::rtn;
 	};
 
-}}
+	using rtn = typename strict<typename expression::rtn>::rtn;
+};
 

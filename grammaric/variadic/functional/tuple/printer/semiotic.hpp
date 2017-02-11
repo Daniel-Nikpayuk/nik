@@ -15,21 +15,25 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename Tuple, typename Filler = void>
+struct tuple_printer;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
+template<typename first, typename... params, typename Filler>
+struct tuple_printer<tuple<first, params...>, Filler>
+{
+	static void print()
 	{
-		typedef SizeType size_type;
+		identifier::template printer<first::rtn::type>::print(", ");
+		tuple_printer<tuple<params...>>::print();
+	}
+};
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<typename Filler>
+struct tuple_printer<null_tuple, Filler>
+{
+	static void print()
+	{
+		builtin_printer::print('\n');
+	}
+};
 

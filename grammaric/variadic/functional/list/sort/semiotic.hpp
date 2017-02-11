@@ -15,21 +15,26 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename Tuple, typename Filler = void>
+struct quickSort;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename first, typename... params, typename Filler>
+struct quickSort<tuple<first, params...>, Filler>
+{
+	using ltoe		= typename compare::template lessThanOrEqual<first>;
+	using leftFiltered	= filter<ltoe, tuple<params...>>;
+	using leftSorted	= quickSort<leftFiltered>;
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
+	using gtoe		= typename compare::template greaterThanOrEqual<first>;
+	using rightFiltered	= filter<gtoe, tuple<params...>>;
+	using rightSorted	= quickSort<rightFiltered>;
 
-		#include"expression/semiotic.hpp"
+	using rtn = typename catenate<leftSorted, tuple<first>, rightSorted>::rtn;
+};
 
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<typename Filler>
+struct quickSort<null_tuple, Filler>
+{
+	using rtn = null_tuple;
+};
 

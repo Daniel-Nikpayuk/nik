@@ -15,21 +15,33 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
+template<bool B> struct boolean
+{
+	struct rtn
 	{
-		typedef SizeType size_type;
-
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
+		static constexpr bool value = B;
 	};
+};
 
-}}
+template<typename Parameter>
+struct parameter
+{
+	template<Parameter v>
+	struct constant
+	{
+		struct rtn
+		{
+			static constexpr Parameter value = v;
+		};
+	};
+};
+
+template<typename T>
+struct kind
+{
+	struct rtn
+	{
+		using type = T;
+	};
+};
 

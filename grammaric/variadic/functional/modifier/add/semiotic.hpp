@@ -15,21 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename outTuple, typename inTuple>
+struct add;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename... out_params, typename in_first, typename... in_params>
+struct add<tuple<out_params...>, tuple<in_first, in_params...>>
+{
+	using rtn = typename add
+	<
+		typename adjoin<tuple<out_params...>, in_first>::rtn,
+		tuple<in_params...>
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
+	>::rtn;
+};
 
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<typename... out_params>
+struct add<tuple<out_params...>, null_tuple>
+{
+	using rtn = tuple<out_params...>;
+};
 

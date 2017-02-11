@@ -15,21 +15,32 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
+struct compare
+{
+	template<typename expression>
+	struct lessThanOrEqual
 	{
-		typedef SizeType size_type;
-
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
+		template<typename current>
+		struct test
+		{
+			struct rtn
+			{
+				static constexpr bool value = (current::rtn::value <= expression::rtn::value);
+			};
+		};
 	};
 
-}}
+	template<typename expression>
+	struct greaterThanOrEqual
+	{
+		template<typename current>
+		struct test
+		{
+			struct rtn
+			{
+				static constexpr bool value = (current::rtn::value >= expression::rtn::value);
+			};
+		};
+	};
+};
 

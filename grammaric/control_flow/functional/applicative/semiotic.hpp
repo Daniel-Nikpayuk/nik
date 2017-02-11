@@ -15,30 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template<typename Parameter>
-struct parameter
-{
-	template<Parameter v>
-	struct constant
-	{
-		struct rtn
-		{
-			static constexpr Parameter value = v;
-		};
-	};
-};
-
-template<typename T>
-struct kind
-{
-	struct rtn
-	{
-		using type = T;
-	};
-};
-
-//
-
 template<typename, typename...>
 struct applicative;
 
@@ -47,7 +23,7 @@ struct applicative<function, first, params...>
 {
 	struct partial
 	{
-		template<Parameter... args>
+		template<typename... args>
 		using lambda = typename function::template lambda<first::rtn, args...>;
 	};
 

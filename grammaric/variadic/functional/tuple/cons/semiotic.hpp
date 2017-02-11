@@ -15,21 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename first, typename Tuple>
+struct cons;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
-
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
-
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<typename first, typename... params>
+struct cons<first, tuple<params...>>
+{
+	using rtn = tuple<first, params...>;
+};
 

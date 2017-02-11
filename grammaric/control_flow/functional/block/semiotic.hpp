@@ -25,14 +25,6 @@
 
 /***********************************************************************************************************************/
 
-template<bool B> struct boolean
-{
-	struct rtn
-	{
-		static constexpr bool value = B;
-	};
-};
-
 template<typename, typename> struct if_then { };
 template<typename, typename> struct else_then { };
 template<typename> struct then { };
@@ -70,7 +62,7 @@ struct block<if_then<predicate, expression>, statements...>
 {
 	STATIC_ASSERT
 
-	using rtn = typename directive
+	using rtn = typename conditional
 	<
 		predicate,
 		expression,

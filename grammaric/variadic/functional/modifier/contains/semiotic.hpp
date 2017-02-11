@@ -15,21 +15,22 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+/*
+	Assumes modifier:
+*/
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename Base, Parameter p>
+struct contains;
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
+template<Parameter first, Parameter... params, Parameter p>
+struct contains<base<first, params...>, p>
+{
+	static constexpr bool value = (first <= p) && (first == p || contains<base<params...>, p>::value);
+};
 
-		#include"expression/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
-	};
-
-}}
+template<Parameter p>
+struct contains<null_base, p>
+{
+	static constexpr bool value = false;
+};
 

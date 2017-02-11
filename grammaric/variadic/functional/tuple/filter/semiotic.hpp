@@ -15,21 +15,32 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename predicate, typename inTuple, typename outTuple = typename inTuple::null>
+struct filter;
 
-	template<typename SizeType>
-	struct module<Module::identifier, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename predicate, typename in_first, typename... in_params, typename... out_params>
+struct filter<predicate, tuple<in_first, in_params...>, tuple<out_params...>>
+{
+	using outTuple = typename block
+	<
+		if_then
+		<
+			typename predicate::template test<in_first>,
+			tuple<out_params..., in_first>
 
-		#include"equal/semiotic.hpp"
-		#include"empty/semiotic.hpp"
+		>, then
+		<
+			tuple<out_params...>
+		>
 
-		#include"expression/semiotic.hpp"
+	>::rtn;
 
-		#include"printer/semiotic.hpp"
-	};
+	using rtn = typename filter<predicate, tuple<in_params...>, outTuple>::rtn;
+};
 
-}}
+template<typename predicate, typename... out_params>
+struct filter<predicate, null_tuple, tuple<out_params...>>
+{
+	using rtn = tuple<out_params...>;
+};
 
