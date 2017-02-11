@@ -53,7 +53,7 @@ struct tuple
 
 //		Translational:
 
-	static void print() { typename functional::template tuple_printer<rtn>::print(); }
+	static void print() { typename functional::template meta_printer<rtn>::print(); }
 };
 
 using null_tuple = tuple<>;

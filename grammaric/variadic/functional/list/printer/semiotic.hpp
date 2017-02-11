@@ -16,7 +16,7 @@
 ************************************************************************************************************************/
 
 template<typename expression>
-struct list_printer
+struct printer
 {
 	template<typename Tuple, typename Filler = void>
 	struct strict;
@@ -43,7 +43,7 @@ struct list_printer
 
 	static void print()
 	{
-		strict<typename expression::rtn::tuple>::print();
+		strict<typename expression::rtn>::print();
 	}
 };
 

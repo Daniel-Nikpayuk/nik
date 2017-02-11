@@ -100,7 +100,7 @@ struct list
 
 //		Translational:
 
-	static void print() { functional::template list_printer<rtn>::print(); }
+	static void print() { functional::template printer<tuple>::print(); }
 };
 
 using null_list = list<>;

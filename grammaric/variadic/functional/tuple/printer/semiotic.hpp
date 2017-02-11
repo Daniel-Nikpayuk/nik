@@ -15,25 +15,34 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename Filler = void>
-struct tuple_printer;
-
-template<typename first, typename... params, typename Filler>
-struct tuple_printer<tuple<first, params...>, Filler>
+template<typename expression>
+struct meta_printer
 {
+	template<typename Tuple, typename Filler = void>
+	struct strict;
+
+	template<typename first, typename... params, typename Filler>
+	struct strict<tuple<first, params...>, Filler>
+	{
+		static void print()
+		{
+			identifier::template printer<first::rtn::type>::print(", ");
+			strict<tuple<params...>>::print();
+		}
+	};
+
+	template<typename Filler>
+	struct strict<null_tuple, Filler>
+	{
+		static void print()
+		{
+			builtin_printer::print('\n');
+		}
+	};
+
 	static void print()
 	{
-		identifier::template printer<first::rtn::type>::print(", ");
-		tuple_printer<tuple<params...>>::print();
-	}
-};
-
-template<typename Filler>
-struct tuple_printer<null_tuple, Filler>
-{
-	static void print()
-	{
-		builtin_printer::print('\n');
+		strict<typename expression::rtn>::print();
 	}
 };
 
