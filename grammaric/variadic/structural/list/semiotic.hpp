@@ -53,7 +53,7 @@ struct list
 		{
 			using rtn = typename functional::template catenate
 			<
-				list<typename identifier::template parameter<P>::template constant<first>>,
+				module::tuple<typename identifier::template parameter<P>::template constant<first>>,
 				coerce<P, a...>
 
 			>::rtn;
@@ -62,10 +62,10 @@ struct list
 		template<typename P>
 		struct coerce<P>
 		{
-			using rtn = null;
+			using rtn = null_tuple;
 		};
 
-		using rtn = typename coerce<Parameter, args...>::rtn;
+		using rtn = typename enlist<coerce<Parameter, args...>>::rtn;
 	};
 
 //		Navigational:
@@ -100,7 +100,7 @@ struct list
 
 //		Translational:
 
-	static void print() { tuple::print(); }
+	static void print() { functional::template list_printer<rtn>::print(); }
 };
 
 using null_list = list<>;

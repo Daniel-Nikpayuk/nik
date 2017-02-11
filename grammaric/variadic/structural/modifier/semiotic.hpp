@@ -99,6 +99,6 @@ struct modifier
 
 	//
 
-	static void print() { base::print(); }
+	static void print() { list::print(); }
 };
 
