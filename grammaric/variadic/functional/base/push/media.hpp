@@ -15,35 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename expression>
-struct printer
-{
-	template<typename Base, typename Filler = void>
-	struct strict;
-
-	template<typename first, typename... params, typename Filler>
-	struct strict<base<first, params...>, Filler>
-	{
-		static void print()
-		{
-			builtin_printer::print(first::rtn::value);
-			builtin_printer::print(' ');
-			strict<base<params...>, Filler>::print();
-		}
-	};
-
-	template<typename Filler>
-	struct strict<null_base, Filler>
-	{
-		static void print()
-		{
-			builtin_printer::print('\n');
-		}
-	};
-
-	static void print()
-	{
-		strict<typename expression::rtn>::print();
-	}
-};
-

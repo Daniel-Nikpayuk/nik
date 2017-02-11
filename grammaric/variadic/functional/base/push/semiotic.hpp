@@ -15,18 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename expression>
-struct car
+template<typename expression, typename str>
+struct push
 {
-	template<typename Tuple>
+	template<typename Base, typename last>
 	struct strict;
 
-	template<typename first, typename... params>
-	struct strict<tuple<first, params...>>
+	template<typename... params, typename last>
+	struct strict<base<params...>, last>
 	{
-		using rtn = typename first::rtn;
+		using rtn = base<params..., last>;
 	};
 
-	using rtn = typename strict<typename expression::rtn>::rtn;
+	using rtn = typename strict<typename expression::rtn, typename str::rtn>::rtn;
 };
 

@@ -15,12 +15,38 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename last>
-struct push;
-
-template<typename... params, typename last>
-struct push<tuple<params...>, last>
+template<typename predicate, typename expression>
+struct filter
 {
-	using rtn = tuple<params..., last>;
+	template<typename inBase, typename outBase = typename inBase::null>
+	struct strict;
+
+	template<typename in_first, typename... in_params, typename... out_params>
+	struct strict<base<in_first, in_params...>, base<out_params...>>
+	{
+		using outBase = typename block
+		<
+			if_then
+			<
+				typename predicate::template test<in_first>,
+				base<out_params..., in_first>
+		
+			>, then
+			<
+				base<out_params...>
+			>
+
+		>::rtn;
+
+		using rtn = typename strict<base<in_params...>, outBase>::rtn;
+	};
+
+	template<typename... out_params>
+	struct strict<null_base, base<out_params...>>
+	{
+		using rtn = base<out_params...>;
+	};
+
+	using rtn = typename strict<typename expression::rtn>::rtn;
 };
 

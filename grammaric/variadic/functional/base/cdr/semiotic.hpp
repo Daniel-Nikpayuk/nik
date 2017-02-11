@@ -15,52 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<typename... expressions>
-struct catenate;
+/*
+	Base is a special case in that we do not need to wrap it as a "kind".
+	It can be assumed it has its own rtn::type.
+*/
 
-template<typename first, typename second>
-struct catenate<first, second>
+template<typename expression>
+struct cdr
 {
-	template<typename... Tuples>
+	template<typename Base>
 	struct strict;
 
-	template<typename... params1, typename... params2>
-	struct strict
-	<
-		tuple<params1...>,
-		tuple<params2...>
+	template<typename first, typename... params>
+	struct strict<base<first, params...>>
+	{
+		using rtn = base<params...>;
+	};
 
-	> { using rtn = tuple<params1..., params2...>; };
-
-	using rtn = typename strict
-	<
-		typename first::rtn,
-		typename second::rtn
-
-	>::rtn;
-};
-
-template<typename first, typename second, typename third>
-struct catenate<first, second, third>
-{
-	template<typename... Tuples>
-	struct strict;
-
-	template<typename... params1, typename... params2, typename... params3>
-	struct strict
-	<
-		tuple<params1...>,
-		tuple<params2...>,
-		tuple<params3...>
-
-	> { using rtn = tuple<params1..., params2..., params3...>; };
-
-	using rtn = typename strict
-	<
-		typename first::rtn,
-		typename second::rtn,
-		typename third::rtn
-
-	>::rtn;
+	using rtn = typename strict<typename expression::rtn>::rtn;
 };
 

@@ -16,34 +16,17 @@
 ************************************************************************************************************************/
 
 template<typename expression>
-struct printer
+struct car
 {
-	template<typename Base, typename Filler = void>
+	template<typename Base>
 	struct strict;
 
-	template<typename first, typename... params, typename Filler>
-	struct strict<base<first, params...>, Filler>
+	template<typename first, typename... params>
+	struct strict<base<first, params...>>
 	{
-		static void print()
-		{
-			builtin_printer::print(first::rtn::value);
-			builtin_printer::print(' ');
-			strict<base<params...>, Filler>::print();
-		}
+		using rtn = typename first::rtn;
 	};
 
-	template<typename Filler>
-	struct strict<null_base, Filler>
-	{
-		static void print()
-		{
-			builtin_printer::print('\n');
-		}
-	};
-
-	static void print()
-	{
-		strict<typename expression::rtn>::print();
-	}
+	using rtn = typename strict<typename expression::rtn>::rtn;
 };
 

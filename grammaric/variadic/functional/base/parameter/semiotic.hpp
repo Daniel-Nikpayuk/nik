@@ -15,24 +15,29 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, size_type count = 0>
-struct length;
-
-template<typename first, typename... params, size_type count>
-struct length<tuple<first, params...>, count>
+template<typename Parameter, Parameter... params>
+struct parameter
 {
-	struct rtn
-	{
-		static constexpr size_type value = length<tuple<params...>, count+1>::rtn::value;
-	};
-};
+	template<typename List, typename Filler = void>
+	struct strict;
 
-template<size_type count>
-struct length<null_tuple, count>
-{
-	struct rtn
+	template<Parameter first, Parameter... args, typename Filler>
+	struct strict<list<Parameter, first, args...>, Filler>
 	{
-		static constexpr size_type value = count;
+		using rtn = typename catenate
+		<
+			base<constant<Parameter, first>>,
+			strict<list<Parameter, args...>, Filler>
+
+		>::rtn;
 	};
+
+	template<typename Filler>
+	struct strict<null_list<Parameter>, Filler>
+	{
+		using rtn = null_base;
+	};
+
+	using rtn = typename strict<list<Parameter, params...>>::rtn;
 };
 

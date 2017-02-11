@@ -20,7 +20,7 @@ struct fill;
 
 /*
 template<typename modifier, typename... params, Parameter... in_params, Parameter... out_params>
-struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
+struct fill<base<modifier, params...>, base<in_params...>, base<out_params...>>
 {
 	struct modifer_contains
 	{
@@ -90,12 +90,12 @@ struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 
 	//
 
-	using type = typename fill<tuple<params...>, in_base, out_base>::type;
+	using type = typename fill<base<params...>, in_base, out_base>::type;
 };
 */
 
 template<typename modifier, typename... params, Parameter... in_params, Parameter... out_params>
-struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
+struct fill<base<modifier, params...>, base<in_params...>, base<out_params...>>
 {
 	static constexpr Parameter first = modifier::car::value;
 
@@ -164,7 +164,7 @@ struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 
 	//
 
-	using type = typename fill<tuple<params...>, in_base, out_base>::type;
+	using type = typename fill<base<params...>, in_base, out_base>::type;
 };
 
 /*
@@ -172,7 +172,7 @@ struct fill<tuple<modifier, params...>, base<in_params...>, base<out_params...>>
 */
 
 template<Parameter... out_params>
-struct fill<null_tuple, null_base, base<out_params...>>
+struct fill<null_base, null_base, base<out_params...>>
 {
 	using type = base<out_params...>;
 };

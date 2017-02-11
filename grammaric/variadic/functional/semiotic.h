@@ -31,34 +31,48 @@ namespace grammaric	{
 
 		#include"alias/semiotic.hpp"
 
+		// base:
+
+			// Navigational:
+
+				#include"base/car/semiotic.hpp"
+				#include"base/cdr/semiotic.hpp"
+
+////				#include"base/at/semiotic.hpp"
+
+			// Existential:
+
+				#include"base/length/semiotic.hpp"
+
+			// Generational:
+
+////				#include"base/copy/semiotic.hpp"
+////				#include"base/sifter/semiotic.hpp"
+
+////				#include"base/erase/semiotic.hpp"
+				#include"base/filter/semiotic.hpp"
+
+				#include"base/cons/semiotic.hpp"
+				#include"base/push/semiotic.hpp"
+				#include"base/catenate/semiotic.hpp"
+
+////				#include"base/decatenate/semiotic.hpp"
+////				#include"base/decons/semiotic.hpp"
+////				#include"base/pop/semiotic.hpp"
+
+			// Translational:
+
+				#include"base/parameter/semiotic.hpp"
+
 		// tuple:
 
 			// Navigational:
 
-				#include"tuple/car/semiotic.hpp"
-				#include"tuple/cdr/semiotic.hpp"
-
-////				#include"tuple/at/semiotic.hpp"
-
 			// Existential:
 
-				#include"tuple/length/semiotic.hpp"
+//				#include"list/holds/semiotic.hpp"
 
 			// Generational:
-
-////				#include"tuple/copy/semiotic.hpp"
-////				#include"tuple/sifter/semiotic.hpp"
-
-////				#include"tuple/erase/semiotic.hpp"
-				#include"tuple/filter/semiotic.hpp"
-
-				#include"tuple/cons/semiotic.hpp"
-				#include"tuple/push/semiotic.hpp"
-				#include"tuple/catenate/semiotic.hpp"
-
-////				#include"tuple/decatenate/semiotic.hpp"
-////				#include"tuple/decons/semiotic.hpp"
-////				#include"tuple/pop/semiotic.hpp"
 
 			// Translational:
 

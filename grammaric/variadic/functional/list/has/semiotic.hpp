@@ -15,21 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename Tuple, typename expression>
+template<typename Base, typename expression>
 struct has;
 
 template<typename first, typename... params, typename expression>
-struct has<tuple<first, params...>, expression>
+struct has<base<first, params...>, expression>
 {
 	struct rtn
 	{
 		static constexpr bool value = (first::rtn::value == expression::rtn::value) ||
-						has<tuple<params...>, expression>::rtn::value;
+						has<base<params...>, expression>::rtn::value;
 	};
 };
 
 template<typename expression>
-struct has<null_tuple, expression>
+struct has<null_base, expression>
 {
 	struct rtn
 	{

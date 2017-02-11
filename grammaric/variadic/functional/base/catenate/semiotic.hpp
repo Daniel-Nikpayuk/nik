@@ -15,17 +15,34 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Tuple is a special case in that we do not need to wrap it as a "kind".
-	It can be assumed it has its own rtn::type.
-*/
+template<typename... expressions>
+struct catenate;
 
-template<typename Tuple>
-struct cdr;
-
-template<typename first, typename... params>
-struct cdr<tuple<first, params...>>
+template<typename first, typename second, typename third, typename... expressions>
+struct catenate<first, second, third, expressions...>
 {
-	using rtn = tuple<params...>;
+	using rtn = typename catenate<first, catenate<second, third, expressions...>>::rtn;
+};
+
+template<typename first, typename second>
+struct catenate<first, second>
+{
+	template<typename... Bases>
+	struct strict;
+
+	template<typename... params1, typename... params2>
+	struct strict
+	<
+		base<params1...>,
+		base<params2...>
+
+	> { using rtn = base<params1..., params2...>; };
+
+	using rtn = typename strict
+	<
+		typename first::rtn,
+		typename second::rtn
+
+	>::rtn;
 };
 

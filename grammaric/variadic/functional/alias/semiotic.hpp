@@ -21,6 +21,12 @@ using boolean = typename identifier::template boolean<p>;
 template<typename Parameter, Parameter p>
 using constant = typename identifier::template parameter<Parameter>::template constant<p>;
 
+template<typename Parameter, Parameter... params>
+using list = typename identifier::template parameter<Parameter>::template list<params...>;
+
+template<typename Parameter>
+using null_list = typename identifier::template parameter<Parameter>::null_list;
+
 template<typename T>
 using kind = typename identifier::template kind<T>;
 
@@ -51,7 +57,7 @@ using block = typename control_flow::template block<s...>;
 //
 
 template<typename... params>
-using tuple = typename structural::template tuple<params...>;
+using base = typename structural::template base<params...>;
 
-using null_tuple = typename structural::null_tuple;
+using null_base = typename structural::null_base;
 

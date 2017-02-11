@@ -34,6 +34,14 @@ struct parameter
 			static constexpr Parameter value = v;
 		};
 	};
+
+	template<Parameter... params>
+	struct list
+	{
+		using rtn = list;
+	};
+
+	using null_list = list<>;
 };
 
 template<typename T>

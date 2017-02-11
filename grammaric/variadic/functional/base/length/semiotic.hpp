@@ -15,32 +15,27 @@
 **
 ************************************************************************************************************************/
 
-template<typename predicate, typename inTuple, typename outTuple = typename inTuple::null>
-struct filter;
-
-template<typename predicate, typename in_first, typename... in_params, typename... out_params>
-struct filter<predicate, tuple<in_first, in_params...>, tuple<out_params...>>
+template<typename expression>
+struct length
 {
-	using outTuple = typename block
-	<
-		if_then
-		<
-			typename predicate::template test<in_first>,
-			tuple<out_params..., in_first>
+	template<typename Base, size_type count = 0>
+	struct strict;
 
-		>, then
-		<
-			tuple<out_params...>
-		>
+	template<typename first, typename... params, size_type count>
+	struct strict<base<first, params...>, count>
+	{
+		static constexpr size_type value = strict<base<params...>, count+1>::value;
+	};
 
-	>::rtn;
+	template<size_type count>
+	struct strict<null_base, count>
+	{
+		static constexpr size_type value = count;
+	};
 
-	using rtn = typename filter<predicate, tuple<in_params...>, outTuple>::rtn;
-};
-
-template<typename predicate, typename... out_params>
-struct filter<predicate, null_tuple, tuple<out_params...>>
-{
-	using rtn = tuple<out_params...>;
+	struct rtn
+	{
+		static constexpr size_type value = strict<typename expression::rtn>::value;
+	};
 };
 

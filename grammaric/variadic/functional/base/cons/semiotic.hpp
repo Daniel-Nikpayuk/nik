@@ -15,12 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename first, typename Tuple>
-struct cons;
-
-template<typename first, typename... params>
-struct cons<first, tuple<params...>>
+template<typename str, typename expression>
+struct cons
 {
-	using rtn = tuple<first, params...>;
+	template<typename first, typename Base>
+	struct strict;
+
+	template<typename first, typename... params>
+	struct strict<first, base<params...>>
+	{
+		using rtn = base<first, params...>;
+	};
+
+	using rtn = typename strict<typename str::rtn, typename expression::rtn>::rtn;
 };
 

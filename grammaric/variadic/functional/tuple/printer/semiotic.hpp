@@ -18,21 +18,21 @@
 template<typename expression>
 struct meta_printer
 {
-	template<typename Tuple, typename Filler = void>
+	template<typename Base, typename Filler = void>
 	struct strict;
 
 	template<typename first, typename... params, typename Filler>
-	struct strict<tuple<first, params...>, Filler>
+	struct strict<base<first, params...>, Filler>
 	{
 		static void print()
 		{
 			identifier::template printer<first::rtn::type>::print(", ");
-			strict<tuple<params...>>::print();
+			strict<base<params...>, Filler>::print();
 		}
 	};
 
 	template<typename Filler>
-	struct strict<null_tuple, Filler>
+	struct strict<null_base, Filler>
 	{
 		static void print()
 		{

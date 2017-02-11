@@ -18,7 +18,7 @@
 template<typename... params>
 struct list
 {
-	using tuple = module::tuple<params...>;
+	using base = module::base<params...>;
 
 	using rtn = list;
 
@@ -32,7 +32,7 @@ struct list
 		template<typename Tuple> struct coerce;
 
 		template<typename... args>
-		struct coerce<module::tuple<args...>>
+		struct coerce<module::base<args...>>
 		{
 			using rtn = list<args...>;
 		};
@@ -40,67 +40,44 @@ struct list
 		using rtn = typename coerce<typename expression::rtn>::rtn;
 	};
 
-	//
-
-	template<typename Parameter, Parameter... args>
-	struct parameter
-	{
-		template<typename P, P...>
-		struct coerce;
-
-		template<typename P, P first, P... a>
-		struct coerce<P, first, a...>
-		{
-			using rtn = typename functional::template catenate
-			<
-				module::tuple<typename identifier::template parameter<P>::template constant<first>>,
-				coerce<P, a...>
-
-			>::rtn;
-		};
-
-		template<typename P>
-		struct coerce<P>
-		{
-			using rtn = null_tuple;
-		};
-
-		using rtn = typename enlist<coerce<Parameter, args...>>::rtn;
-	};
-
 //		Navigational:
 
-	using car = typename tuple::car;
+	using car = typename base::car;
 
-	using cdr = enlist<typename tuple::cdr>;
+	using cdr = enlist<typename base::cdr>;
 
 //		Existential:
 
-	using empty = typename tuple::empty; 
-	using length = typename tuple::length;
+	using empty = typename base::empty; 
+	using length = typename base::length;
 
 	template<typename List>
-	using equals = typename tuple::template equals<typename List::tuple>;
+	using equals = typename base::template equals<typename List::base>;
 
 //		Generational:
 
 	template<typename x>
-	using cons = enlist<typename tuple::template cons<x>>;
+	using cons = enlist<typename base::template cons<x>>;
 
 	template<typename x>
-	using push = enlist<typename tuple::template push<x>>;
+	using push = enlist<typename base::template push<x>>;
 
 	template<typename List>
-	using prepend = enlist<typename tuple::template prepend<typename List::tuple>>;
+	using prepend = enlist<typename base::template prepend<typename List::base>>;
 
 	template<typename List>
-	using append = enlist<typename tuple::template append<typename List::tuple>>;
+	using append = enlist<typename base::template append<typename List::base>>;
 
-	using sort = enlist<typename functional::template quickSort<tuple>>;
+	using sort = enlist<typename functional::template quickSort<base>>;
 
 //		Translational:
 
-	static void print() { functional::template printer<tuple>::print(); }
+	template<typename Parameter, Parameter... args>
+	using parameter = enlist<typename base::template parameter<Parameter, args...>>;
+
+	//
+
+	static void print() { functional::template printer<base>::print(); }
 };
 
 using null_list = list<>;

@@ -16,47 +16,48 @@
 ************************************************************************************************************************/
 
 template<typename... params>
-struct tuple
+struct base
 {
-	using base = module::base<params...>;
+	using rtn = base;
 
-	using rtn = tuple;
-
-	using null = tuple<>;
+	using null = base<>;
 
 //		Navigational:
 
-	using car = typename functional::template car<base>;
+	using car = typename functional::template car<rtn>;
 
-	using cdr = typename functional::template cdr<base>;
+	using cdr = typename functional::template cdr<rtn>;
 
 //		Existential:
 
-	template<typename Tuple>
-	using equals = typename identifier::template equal<base, typename Tuple::base>;
+	template<typename Base>
+	using equals = typename identifier::template equal<rtn, typename Base::rtn>;
 
 	using empty = typename identifier::template empty<params...>;
 
-	using length = typename functional::template length<base>;
+	using length = typename functional::template length<rtn>;
 
 //		Generational:
 
 	template<typename first>
-	using cons = typename functional::template cons<first, base>;
+	using cons = typename functional::template cons<first, rtn>;
 
 	template<typename last>
-	using push = typename functional::template push<base, last>;
+	using push = typename functional::template push<rtn, last>;
 
-	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, base>;
+	template<typename Base>
+	using prepend = typename functional::template catenate<Base, rtn>;
 
-	template<typename Tuple>
-	using append = typename functional::template catenate<base, Tuple>;
+	template<typename Base>
+	using append = typename functional::template catenate<rtn, Base>;
 
 //		Translational:
 
-	static void print() { typename functional::template meta_printer<base>::print(); }
+	template<typename Parameter, Parameter... args>
+	using parameter = typename functional::template parameter<Parameter, args...>;
+
+	static void print() { typename functional::template meta_printer<rtn>::print(); }
 };
 
-using null_tuple = tuple<>;
+using null_base = base<>;
 

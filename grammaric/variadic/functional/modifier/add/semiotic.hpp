@@ -15,23 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<typename outTuple, typename inTuple>
+template<typename outBase, typename inBase>
 struct add;
 
 template<typename... out_params, typename in_first, typename... in_params>
-struct add<tuple<out_params...>, tuple<in_first, in_params...>>
+struct add<base<out_params...>, base<in_first, in_params...>>
 {
 	using rtn = typename add
 	<
-		typename adjoin<tuple<out_params...>, in_first>::rtn,
-		tuple<in_params...>
+		typename adjoin<base<out_params...>, in_first>::rtn,
+		base<in_params...>
 
 	>::rtn;
 };
 
 template<typename... out_params>
-struct add<tuple<out_params...>, null_tuple>
+struct add<base<out_params...>, null_base>
 {
-	using rtn = tuple<out_params...>;
+	using rtn = base<out_params...>;
 };
 
