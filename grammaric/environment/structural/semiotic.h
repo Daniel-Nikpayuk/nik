@@ -15,15 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+namespace nik		{
+namespace grammaric	{
 
-#include"constant.h"
+	template<typename SizeType>
+	struct module<Module::environment, Orientation::structural, Interface::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+		using constant = module<Module::constant, Orientation::functional, Interface::semiotic, size_type>;
+		using tuple = module<Module::tuple, Orientation::structural, Interface::semiotic, size_type>;
+		using functional = module<Module::environment, Orientation::functional, Interface::semiotic, size_type>;
 
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
+		//
 
-#endif
+		#include"alias/semiotic.hpp"
+
+		//
+
+		#include"binding/semiotic.hpp"
+		#include"frame/semiotic.hpp"
+//		#include"environment/semiotic.hpp"
+	};
+
+}}
+

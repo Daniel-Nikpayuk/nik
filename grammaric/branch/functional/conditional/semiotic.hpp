@@ -20,17 +20,19 @@ struct conditional
 {
 	template<bool, typename, typename> struct strict;
 
-	template<typename Type1, Type1... v1, typename Type2, Type2... v2>
-	struct strict<true, c<Type1, v1...>, c<Type2, v2...>>
+	template<typename Rtn1, typename Rtn2>
+	struct strict<false, Rtn1, Rtn2>
 	{
-		using rtn = c<Type1, v1...>;
+		using rtn = Rtn2;
 	};
 
-	template<typename Type1, Type1... v1, typename Type2, Type2... v2>
-	struct strict<false, c<Type1, v1...>, c<Type2, v2...>>
+	template<typename Rtn1, typename Rtn2>
+	struct strict<true, Rtn1, Rtn2>
 	{
-		using rtn = c<Type2, v2...>;
+		using rtn = Rtn1;
 	};
+
+	// needs to test ::rtn == c, t as a concept.
 
 	using rtn = typename strict
 	<

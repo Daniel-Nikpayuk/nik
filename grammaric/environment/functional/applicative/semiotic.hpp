@@ -15,15 +15,24 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+template<typename, typename...>
+struct applicative;
 
-#include"constant.h"
+template<typename function, typename first, typename... params>
+struct applicative<function, first, params...>
+{
+	struct partial
+	{
+		template<typename... args>
+		using lambda = typename function::template lambda<first::rtn, args...>;
+	};
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+	using rtn = typename applicative<partial, params...>::rtn;
+};
 
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
+template<typename function>
+struct applicative<function>
+{
+	using rtn = typename function::template lambda<>::rtn;
+};
 
-#endif

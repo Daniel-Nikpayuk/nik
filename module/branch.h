@@ -18,7 +18,7 @@
 #ifndef GRAMMARIC_BRANCH_H
 #define GRAMMARIC_BRANCH_H
 
-#include"constant.h"
+#include"tuple.h"
 
 #include"../grammaric/branch/functional/semiotic.h"
 

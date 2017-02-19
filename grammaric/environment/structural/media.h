@@ -15,15 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+namespace nik		{
+namespace grammaric	{
 
-#include"constant.h"
+	template<typename SizeType>
+	struct module<Module::environment, Orientation::structural, Interface::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+		#include"alias/media.hpp"
+	};
 
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
+}}
 
-#endif

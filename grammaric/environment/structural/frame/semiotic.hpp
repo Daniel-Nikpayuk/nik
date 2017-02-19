@@ -15,15 +15,55 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+template<typename... bindings>
+struct frame
+{
+	using t = module::t<bindings...>;
 
-#include"constant.h"
+	using rtn = frame;
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+	using null = frame<>;
 
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
+	//
 
-#endif
+	template<typename expression>
+	struct enframe
+	{
+		template<typename Base> struct coerce;
+
+		template<typename... args>
+		struct coerce<module::t<args...>>
+		{
+			using rtn = frame<args...>;
+		};
+
+		using rtn = typename coerce<typename expression::rtn>::rtn;
+	};
+
+//		Navigational:
+
+	using binding = typename t::car;
+
+	using enclosing = enframe<typename t::cdr>;
+
+//		Existential:
+
+//	using value = typename functional::template find<variable>::type;
+
+//		Generational:
+
+	template<typename variable, typename type>
+	using add_binding = enframe
+	<
+		typename t::template cons
+		<
+			module::binding<variable, type>
+		>
+	>;
+
+//		Translational:
+
+};
+
+using null_frame = frame<>;
+

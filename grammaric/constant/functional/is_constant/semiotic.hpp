@@ -15,15 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+template<typename E>
+struct is_constant
+{
+	template<typename>
+	struct strict
+	{
+		static constexpr bool value = false;
+	};
 
-#include"constant.h"
+	template<typename Type, Type... v>
+	struct strict<c<Type, v...>>
+	{
+		static constexpr bool value = true;
+	};
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+	using rtn = b
+	<
+		strict
+		<
+			typename E::rtn
 
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
+		>::value
+	>;
+};
 
-#endif

@@ -15,15 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_TUPLE_H
-#define GRAMMARIC_TUPLE_H
+template<typename Type, Type value>
+using c = typename constant::template c<Type, value>;
 
-#include"constant.h"
+template<typename... expressions>
+using t = typename tuple::template t<expressions...>;
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
-
-#include"../grammaric/tuple/functional/media.h"
-#include"../grammaric/tuple/structural/media.h"
-
-#endif
