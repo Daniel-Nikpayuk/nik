@@ -1,0 +1,80 @@
+<!--Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation-->
+<html>
+  <head>
+    <title>Nik - </title>
+  </head>
+  <body>
+
+  Functional code is compile time oriented, but it's also meant to be generic.
+  Given the nature of C++ compile time template grammar, a few compromises had to be
+  made to achieve this effect. Notably we use a "base" container and any actual container
+  (within structural) is then a wrapper for this base. The generic algorithms act on this base.
+
+  We have 3 styles of implementation available to us here. The first is to work directly
+  with the parameter packs.
+
+	Strengths:
+
+	Generic as it does not require information about the eventual container.
+	Type safe as the parameter type is still specified.
+
+	Weaknesses:
+
+	Parameter pack must be at the end.
+	Only one parameter pack allowed.
+
+template<Parameter first, Parameter... params>
+struct car
+{
+	static constexpr Parameter value = first;
+};
+
+  Second is to use pattern matching.
+
+	Strengths:
+
+	Type safe as the container type must be specified.
+	Pattern matching allows for relaxed parameter pack constraints, improving expressive capabilities.
+	Pattern matching allows access to the structure directly without assumed equivalent internal methods.
+
+	Weaknesses:
+
+	Increased redundancy as the container type must be specified for each container,
+	even when the code is otherwise the same.
+
+template<typename List>
+struct car;
+
+template<Parameter first, Parameter... params>
+struct car<list<first, params...>>
+{
+	static constexpr Parameter value = first;
+};
+
+  Third is to use generic containers.
+
+	With this exact example this appears cyclical, or simply unnecessary, but for more complicated algorithms
+	such as Quicksort, it becomes more practical.
+
+	Strengths:
+
+	Generic as the container type is arbitrary, only assumed in an object-oriented way to possess the proper
+	methods.
+
+	Weaknesses:
+
+	Grammatically tedious requiring use of many "typename" and "template" keywords to resolve ambiguity.
+	Does not provide direct access to internal elements decreasing expressivity and potential optimization at times.
+
+template<typename List>
+struct car
+{
+	static constexpr Parameter value = List::car;
+};
+
+  As functional is meant to be as generic as possible, we will use either pattern match
+  the base type or use generic containers depending on expressive simplicity. Any type safety should be resolved
+  at the object oriented level.
+
+  </body>
+</html>

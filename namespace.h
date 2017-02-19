@@ -23,17 +23,17 @@ namespace nik
 
 	enum struct Module : global_size_type
 	{
-		control_flow,
-		identifier,
-		variadic,
-		enumerative,
+		constant,
+		branch,
+		tuple,
+		evaluator,
 
 		boolean,
 		uint,
 		sint,
 
 		range,
-		iterator,
+		iterator, // iterative ?
 		list,
 
 		dimension // filler
@@ -70,11 +70,11 @@ namespace nik
 		{
 			static_assert
 			(
-				module_enum != Module::control_flow	||
-				module_enum != Module::identifier	||
-				module_enum != Module::variadic		||
-				module_enum != Module::enumerative	,
-		
+				module_enum != Module::constant		||
+				module_enum != Module::branch		||
+				module_enum != Module::tuple		||
+				module_enum != Module::evaluator	,
+
 				"This module is not yet implemented!"
 			);
 		};
@@ -97,7 +97,7 @@ namespace nik
 				module_enum != Module::range		||
 				module_enum != Module::iterator		||
 				module_enum != Module::list		,
-		
+
 				"This module is not yet implemented!"
 			);
 		};

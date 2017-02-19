@@ -15,55 +15,63 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_H
-#define NIK_H
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include"namespace.h"
-
-//#include"error.h"
-
-#include"printer.h"
-
-//#include"user.h"
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#ifndef LAZY
-
+#define STATIC_ASSERT													\
+															\
+	static_assert													\
+	(														\
+		Not<empty<expressions...>>::rtn::value,									\
+		"block control flow does not end in a \"then\" statement."						\
+	);
 
 /***********************************************************************************************************************/
 
-
-#define stringify(string)												\
-	#string
-
-
-#define nik(name)													\
-	stringify(module/name.h)
-
+template<typename, typename> struct if_then { };
+template<typename, typename> struct else_then { };
+template<typename> struct then { };
 
 /***********************************************************************************************************************/
 
+template<typename...> struct sub_block;
 
-#include nik(evaluator)
+template<typename predicate, typename expression, typename... expressions>
+struct sub_block<else_then<predicate, expression>, expressions...>
+{
+	STATIC_ASSERT
 
+	using rtn = typename conditional
+	<
+		predicate,
+		expression,
+		sub_block<expressions...>
+
+	>::rtn;
+};
+
+template<typename expression>
+struct sub_block<then<expression>>
+{
+	using rtn = typename expression::rtn;
+};
 
 /***********************************************************************************************************************/
 
+template<typename...> struct block;
 
-#endif
+template<typename predicate, typename expression, typename... expressions>
+struct block<if_then<predicate, expression>, expressions...>
+{
+	STATIC_ASSERT
 
+	using rtn = typename conditional
+	<
+		predicate,
+		expression,
+		sub_block<expressions...>
+
+	>::rtn;
+};
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
+#undef STATIC_ASSERT
 
-#endif
