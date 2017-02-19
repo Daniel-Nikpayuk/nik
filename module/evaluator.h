@@ -18,7 +18,7 @@
 #ifndef GRAMMARIC_EVALUATOR_H
 #define GRAMMARIC_EVALUATOR_H
 
-#include"tuple.h"
+#include"environment.h"
 
 #include"../grammaric/evaluator/functional/semiotic.h"
 #include"../grammaric/evaluator/structural/semiotic.h"

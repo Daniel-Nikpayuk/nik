@@ -15,24 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename...>
-struct applicative;
+template<typename, typename, typename> struct extend;
 
-template<typename function, typename first, typename... params>
-struct applicative<function, first, params...>
+template<typename... frames, typename Variables, typename Constants>
+struct extend<e<frames...>, Variables, Constants>
 {
-	struct partial
-	{
-		template<typename... args>
-		using lambda = typename function::template lambda<first::rtn, args...>;
-	};
+	using Frame = typename make<Variables, Constants>::rtn;
 
-	using rtn = typename applicative<partial, params...>::rtn;
-};
-
-template<typename function>
-struct applicative<function>
-{
-	using rtn = typename function::template lambda<>::rtn;
+	using rtn = e<Frame, frames...>;
 };
 

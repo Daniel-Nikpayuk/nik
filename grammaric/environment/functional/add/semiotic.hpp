@@ -15,55 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename... bindings>
-struct frame
+template<typename, typename> struct add;
+
+template<typename Variable, typename Type, Type... values, typename... bindings>
+struct add<b<Variable, Type, values...>, f<bindings...>>
 {
-	using t = module::t<bindings...>;
-
-	using rtn = frame;
-
-	using null = frame<>;
-
-	//
-
-	template<typename expression>
-	struct enframe
-	{
-		template<typename Base> struct coerce;
-
-		template<typename... args>
-		struct coerce<module::t<args...>>
-		{
-			using rtn = frame<args...>;
-		};
-
-		using rtn = typename coerce<typename expression::rtn>::rtn;
-	};
-
-//		Navigational:
-
-	using binding = typename t::car;
-
-	using enclosing = enframe<typename t::cdr>;
-
-//		Existential:
-
-//	using value = typename functional::template find<variable>::type;
-
-//		Generational:
-
-	template<typename variable, typename type>
-	using add_binding = enframe
-	<
-		typename t::template cons
-		<
-			module::binding<variable, type>
-		>
-	>;
-
-//		Translational:
-
+	using rtn = f<b<Variable, Type, values...>, bindings...>;
 };
-
-using null_frame = frame<>;
 

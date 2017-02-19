@@ -15,6 +15,46 @@
 **
 ************************************************************************************************************************/
 
-template<typename... params>
-using empty = typename constant::template empty<params...>;
+template<typename Type, Type... values>
+using c = typename constant::template c<Type, values...>;
+
+//
+
+template<typename... constants>
+using t = typename tuple::template t<constants...>;
+
+using null_t = typename tuple::null_t;
+
+//
+
+template<typename P, typename E1, typename E2>
+using conditional = typename branch::template conditional<P, E1, E2>;
+
+//
+
+template<typename Variable, typename Type, Type... values>
+using b = typename structural::template b<Variable, Type, values...>;
+
+using null_b = typename structural::null_b;
+
+//
+
+template<typename... variables>
+using v = typename structural::template v<variables...>;
+
+using null_v = typename structural::null_v;
+
+//
+
+template<typename... bindings>
+using f = typename structural::template f<bindings...>;
+
+using null_f = typename structural::null_f;
+
+//
+
+template<typename... frames>
+using e = typename structural::template e<frames...>;
+
+using null_e = typename structural::null_e;
 

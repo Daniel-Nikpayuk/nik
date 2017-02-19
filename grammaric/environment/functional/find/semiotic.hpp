@@ -15,41 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Type, Type...> struct b;
+template<typename, typename> struct find;
 
-template<typename Variable, typename Type>
-struct b<Variable, Type>
+template<typename Variable, typename Type, Type... values, typename... bindings, typename variable>
+struct find<f<b<Variable, Type, values...>, bindings...>, variable>
 {
-	using variable = Variable;
-	using type = Type;
+	using Binding = b<Variable, Type, values...>;
+
+	using rtn = typename conditional
+	<
+		match<variable, Binding>,
+		Binding,
+		find<bindings..., variable>
+
+	>::rtn;
 };
 
-template<typename Variable, typename Type, Type v>
-struct b<Variable, Type, v>
+template<typename variable>
+struct find<null_f, variable>
 {
-	using variable = Variable;
-	using type = Type;
-
-	static constexpr Type value = v;
+	using rtn = null_b;
 };
-
-using null_b = b<void, void>;
-
-//
-
-template<typename... variables> struct v { };
-
-using null_v = v<>;
-
-//
-
-template<typename... bindings> struct f { };
-
-using null_f = f<>;
-
-//
-
-template<typename... frames> struct e { };
-
-using null_e = e<>;
 

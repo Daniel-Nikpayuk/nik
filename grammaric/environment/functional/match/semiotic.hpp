@@ -15,11 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename Variable, typename Type>
-struct binding
-{
-	using variable = Variable;
+template<typename, typename> struct match;
 
-	using type = Type;
+template<typename variable, typename Variable, typename Type, Type... values>
+struct match<variable, b<Variable, Type, values...>>
+{
+	static constexpr bool value = false;
+};
+
+template<typename variable, typename Type, Type... values>
+struct match<variable, b<variable, Type, values...>>
+{
+	static constexpr bool value = true;
 };
 

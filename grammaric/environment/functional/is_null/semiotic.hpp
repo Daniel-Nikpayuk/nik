@@ -15,3 +15,17 @@
 **
 ************************************************************************************************************************/
 
+template<typename, typename Filler = void> struct is_null;
+
+template<typename Variable, typename Type, Type... values, typename Filler>
+struct is_null<b<Variable, Type, values...>, Filler>
+{
+	static constexpr bool value = false;
+};
+
+template<typename Filler>
+struct is_null<null_b, Filler>
+{
+	static constexpr bool value = true;
+};
+

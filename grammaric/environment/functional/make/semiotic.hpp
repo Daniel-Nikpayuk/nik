@@ -15,41 +15,24 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Type, Type...> struct b;
+template<typename, typename> struct make;
 
-template<typename Variable, typename Type>
-struct b<Variable, Type>
+// Assumes length<Variables> == length<Constants>
+
+template<typename Variable, typename... variables, typename Type, Type... values, typename... constants>
+struct make<v<Variable, variables...>, t<c<Type, values...>, constants...>>
 {
-	using variable = Variable;
-	using type = Type;
+	using rtn = typename add
+	<
+		b<Variable, Type, values...>,
+		typename make<v<variables...>, t<constants...>>::rtn
+
+	>::rtn;
 };
 
-template<typename Variable, typename Type, Type v>
-struct b<Variable, Type, v>
+template<typename... constants>
+struct make<null_v, t<constants...>>
 {
-	using variable = Variable;
-	using type = Type;
-
-	static constexpr Type value = v;
+	using rtn = null_f;
 };
-
-using null_b = b<void, void>;
-
-//
-
-template<typename... variables> struct v { };
-
-using null_v = v<>;
-
-//
-
-template<typename... bindings> struct f { };
-
-using null_f = f<>;
-
-//
-
-template<typename... frames> struct e { };
-
-using null_e = e<>;
 

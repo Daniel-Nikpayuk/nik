@@ -26,6 +26,7 @@ namespace nik
 		constant,
 		branch,
 		tuple,
+		environment,
 		evaluator,
 
 		boolean,
@@ -73,6 +74,7 @@ namespace nik
 				module_enum != Module::constant		||
 				module_enum != Module::branch		||
 				module_enum != Module::tuple		||
+				module_enum != Module::environment	||
 				module_enum != Module::evaluator	,
 
 				"This module is not yet implemented!"

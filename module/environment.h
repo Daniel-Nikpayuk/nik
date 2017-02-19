@@ -15,41 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Type, Type...> struct b;
+#ifndef GRAMMARIC_ENVIRONMENT_H
+#define GRAMMARIC_ENVIRONMENT_H
 
-template<typename Variable, typename Type>
-struct b<Variable, Type>
-{
-	using variable = Variable;
-	using type = Type;
-};
+#include"tuple.h"
 
-template<typename Variable, typename Type, Type v>
-struct b<Variable, Type, v>
-{
-	using variable = Variable;
-	using type = Type;
+#include"../grammaric/environment/functional/semiotic.h"
+#include"../grammaric/environment/structural/semiotic.h"
 
-	static constexpr Type value = v;
-};
+#include"../grammaric/environment/functional/media.h"
+#include"../grammaric/environment/structural/media.h"
 
-using null_b = b<void, void>;
-
-//
-
-template<typename... variables> struct v { };
-
-using null_v = v<>;
-
-//
-
-template<typename... bindings> struct f { };
-
-using null_f = f<>;
-
-//
-
-template<typename... frames> struct e { };
-
-using null_e = e<>;
-
+#endif

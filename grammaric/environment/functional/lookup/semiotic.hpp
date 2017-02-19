@@ -15,41 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Type, Type...> struct b;
+template<typename, typename> struct lookup;
 
-template<typename Variable, typename Type>
-struct b<Variable, Type>
+template<typename Frame, typename... frames, typename variable>
+struct lookup<e<Frame, frames...>, variable>
 {
-	using variable = Variable;
-	using type = Type;
+	using found = find<Frame, variable>;
+
+	using rtn = typename conditional
+	<
+		is_null<found>,
+		lookup<frames..., variable>,
+		found
+
+	>::rtn;
 };
 
-template<typename Variable, typename Type, Type v>
-struct b<Variable, Type, v>
+template<typename variable>
+struct lookup<null_e, variable>
 {
-	using variable = Variable;
-	using type = Type;
-
-	static constexpr Type value = v;
+	using rtn = null_b;
 };
-
-using null_b = b<void, void>;
-
-//
-
-template<typename... variables> struct v { };
-
-using null_v = v<>;
-
-//
-
-template<typename... bindings> struct f { };
-
-using null_f = f<>;
-
-//
-
-template<typename... frames> struct e { };
-
-using null_e = e<>;
 
