@@ -15,49 +15,50 @@
 **
 ************************************************************************************************************************/
 
-template<typename... params>
-struct t
+template<typename... Expressions>
+struct tuple
 {
-	using rtn = t;
+	using rtn = tuple;
 
-	using null = t<>;
+	using null = tuple<>;
 
 //		Navigational:
 
-	using car = typename functional::template car<rtn>;
+	using car = module::car<rtn>;
+//	using car = typename functional::template car<rtn>;
 
 	using cdr = typename functional::template cdr<rtn>;
 
 //		Existential:
 
-	template<typename Base>
-	using equals = typename constant::template equal<rtn, Base>;
+	template<typename Tuple>
+	using equals = equal<rtn, Tuple>;
 
-	using empty = typename constant::template empty<params...>;
+	using empty = module::empty<Expressions...>;
 
 	using length = typename functional::template length<rtn>;
 
 //		Generational:
 
-	template<typename first>
-	using cons = typename functional::template cons<first, rtn>;
+	template<typename Expression>
+	using cons = typename functional::template cons<Expression, rtn>;
 
 	template<typename last>
 	using push = typename functional::template push<rtn, last>;
 
-	template<typename Base>
-	using prepend = typename functional::template catenate<Base, rtn>;
+	template<typename Tuple>
+	using prepend = typename functional::template catenate<Tuple, rtn>;
 
-	template<typename Base>
-	using append = typename functional::template catenate<rtn, Base>;
+	template<typename Tuple>
+	using append = typename functional::template catenate<rtn, Tuple>;
 
 //		Translational:
 
-	template<typename Parameter, Parameter... args>
-	using parameter = typename functional::template parameter<Parameter, args...>;
+	template<typename Type, Type... Values>
+	using parameter = typename functional::template parameter<Type, Values...>;
 
 	static void print() { typename functional::template meta_printer<rtn>::print(); }
 };
 
-using null_t = t<>;
+using null_tuple = tuple<>;
 

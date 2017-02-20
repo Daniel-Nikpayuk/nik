@@ -21,9 +21,9 @@
 #include"environment.h"
 
 #include"../grammaric/evaluator/functional/semiotic.h"
-#include"../grammaric/evaluator/structural/semiotic.h"
-
 #include"../grammaric/evaluator/functional/media.h"
+
+#include"../grammaric/evaluator/structural/semiotic.h"
 #include"../grammaric/evaluator/structural/media.h"
 
 #endif

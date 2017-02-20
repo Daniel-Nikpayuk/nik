@@ -21,34 +21,31 @@ struct equal
 	template<typename, typename> struct strict;
 
 	template<typename Type1, typename Type2>
-	struct strict<c<Type1>, c<Type2>>
+	struct strict<constant<Type1>, constant<Type2>>
 	{
-		static constexpr bool value = false;
+		using rtn = boolean<false>;
 	};
 
 	template<typename Type>
-	struct strict<c<Type>, c<Type>>
+	struct strict<constant<Type>, constant<Type>>
 	{
-		static constexpr bool value = true;
+		using rtn = boolean<true>;
 	};
 
 	// Assumes "Type" has an implicit equals operator:
 
-	template<typename Type, Type value1, Type value2>
-	struct strict<c<Type, value1>, c<Type, value2>>
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
 	{
-		static constexpr bool value = (value1 == value2);
+		using rtn = boolean<(Value1 == Value2)>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn
+		typename E1::rtn,
+		typename E2::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 
 // Assumes "Type" has an implicit equals operator:
@@ -58,21 +55,18 @@ struct less_than
 {
 	template<typename, typename> struct strict;
 
-	template<typename Type, Type value1, Type value2>
-	struct strict<c<Type, value1>, c<Type, value2>>
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
 	{
-		static constexpr bool value = (value1 < value2);
+		using rtn = boolean<(Value1 < Value2)>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn
+		typename E1::rtn,
+		typename E2::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 
 template<typename E1, typename E2>
@@ -80,21 +74,18 @@ struct less_than_or_equal
 {
 	template<typename, typename> struct strict;
 
-	template<typename Type, Type value1, Type value2>
-	struct strict<c<Type, value1>, c<Type, value2>>
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
 	{
-		static constexpr bool value = (value1 <= value2);
+		using rtn = boolean<(Value1 <= Value2)>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn
+		typename E1::rtn,
+		typename E2::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 
 //
@@ -104,21 +95,18 @@ struct greater_than
 {
 	template<typename, typename> struct strict;
 
-	template<typename Type, Type value1, Type value2>
-	struct strict<c<Type, value1>, c<Type, value2>>
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
 	{
-		static constexpr bool value = (value1 > value2);
+		using rtn = boolean<(Value1 > Value2)>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn
+		typename E1::rtn,
+		typename E2::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 
 template<typename E1, typename E2>
@@ -126,20 +114,17 @@ struct greater_than_or_equal
 {
 	template<typename, typename> struct strict;
 
-	template<typename Type, Type value1, Type value2>
-	struct strict<c<Type, value1>, c<Type, value2>>
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
 	{
-		static constexpr bool value = (value1 >= value2);
+		using rtn = boolean<(Value1 >= Value2)>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn
+		typename E1::rtn,
+		typename E2::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 

@@ -19,7 +19,7 @@
 															\
 	static_assert													\
 	(														\
-		Not<empty<expressions...>>::rtn::value,									\
+		Not<empty<E...>>::rtn::value,										\
 		"block control flow does not end in a \"then\" statement."						\
 	);
 
@@ -33,40 +33,68 @@ template<typename> struct then { };
 
 template<typename...> struct sub_block;
 
-template<typename predicate, typename expression, typename... expressions>
-struct sub_block<else_then<predicate, expression>, expressions...>
+template<typename P, typename E1, typename... E>
+struct sub_block<else_then<P, E1>, E...>
 {
 	STATIC_ASSERT
 
-	using rtn = typename conditional
+	template<typename, typename, typename> struct strict;
+
+	template<typename e1, typename... e>
+	struct strict<boolean<true>, e1, sub_block<e...>>
+	{
+		using rtn = e1;
+	};
+
+	template<typename e1, typename... e>
+	struct strict<boolean<false>, e1, sub_block<e...>>
+	{
+		using rtn = typename sub_block<e...>::rtn;
+	};
+
+	using rtn = typename strict
 	<
-		predicate,
-		expression,
-		sub_block<expressions...>
+		typename P::rtn,
+		E1,
+		sub_block<E...>
 
 	>::rtn;
 };
 
-template<typename expression>
-struct sub_block<then<expression>>
+template<typename E1>
+struct sub_block<then<E1>>
 {
-	using rtn = typename expression::rtn;
+	using rtn = E1;
 };
 
 /***********************************************************************************************************************/
 
 template<typename...> struct block;
 
-template<typename predicate, typename expression, typename... expressions>
-struct block<if_then<predicate, expression>, expressions...>
+template<typename P, typename E1, typename... E>
+struct block<if_then<P, E1>, E...>
 {
 	STATIC_ASSERT
 
-	using rtn = typename conditional
+	template<typename, typename, typename> struct strict;
+
+	template<typename e1, typename... e>
+	struct strict<boolean<true>, e1, sub_block<e...>>
+	{
+		using rtn = e1;
+	};
+
+	template<typename e1, typename... e>
+	struct strict<boolean<false>, e1, sub_block<e...>>
+	{
+		using rtn = typename sub_block<e...>::rtn;
+	};
+
+	using rtn = typename strict
 	<
-		predicate,
-		expression,
-		sub_block<expressions...>
+		typename P::rtn,
+		E1,
+		sub_block<E...>
 
 	>::rtn;
 };

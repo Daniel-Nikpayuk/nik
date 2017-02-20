@@ -15,17 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type... v>
-using c = typename constant::template c<Type, v...>;
-
-template<bool v>
-using b = typename constant::template b<v>;
-
-//
-
-template<typename... expressions>
-using empty = typename constant::template empty<expressions...>;
-
-template<typename expression>
-using Not = typename constant::template Not<expression>;
+#include import(constant, structural, semiotic)
+#include import(constant, functional, semiotic)
 

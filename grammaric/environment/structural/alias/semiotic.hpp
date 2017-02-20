@@ -15,3 +15,8 @@
 **
 ************************************************************************************************************************/
 
+template<typename... Expressions>
+using tuple = typename tuple::template tuple<Expressions...>;
+
+using null_tuple = typename tuple::template null_tuple;
+

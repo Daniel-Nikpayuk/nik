@@ -18,24 +18,24 @@
 template<typename E1, typename E2>
 struct at
 {
-	template<typename, size_type> struct strict;
+	template<typename, typename> struct strict;
 
-	template<typename Type, Type... v, typename... constants, size_type index>
-	struct strict<t<c<Type, v...>, constants...>, index>
+	template<typename Expression, typename... Expressions, typename Type, Type index>
+	struct strict<tuple<Expression, Expressions...>, constant<Type, index>>
 	{
-		using rtn = typename strict<t<constants...>, index-1>::rtn;
+		using rtn = typename strict<tuple<Expressions...>, constant<Type, index-1>>::rtn;
 	};
 
-	template<typename Type, Type... v, typename... constants>
-	struct strict<t<c<Type, v...>, constants...>, 0>
+	template<typename Expression, typename... Expressions, typename Type>
+	struct strict<tuple<Expression, Expressions...>, constant<Type, 0>>
 	{
-		using rtn = c<Type, v...>;
+		using rtn = Expression;
 	};
 
 	using rtn = typename strict
 	<
 		typename E1::rtn,
-		E2::rtn::value
+		typename E2::rtn
 
 	>::rtn;
 };

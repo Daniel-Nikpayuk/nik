@@ -15,17 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Type, Type...> struct b;
+template<typename, typename Type, Type...> struct binding;
 
 template<typename Variable, typename Type>
-struct b<Variable, Type>
+struct binding<Variable, Type>
 {
 	using variable = Variable;
 	using type = Type;
 };
 
 template<typename Variable, typename Type, Type v>
-struct b<Variable, Type, v>
+struct binding<Variable, Type, v>
 {
 	using variable = Variable;
 	using type = Type;
@@ -33,23 +33,26 @@ struct b<Variable, Type, v>
 	static constexpr Type value = v;
 };
 
-using null_b = b<void, void>;
+using null_binding = binding<void, void>;
 
 //
 
-template<typename... variables> struct v { };
+template<typename... Variables>
+using storage = tuple<Variables...>;
 
-using null_v = v<>;
-
-//
-
-template<typename... bindings> struct f { };
-
-using null_f = f<>;
+using null_storage = null_tuple;
 
 //
 
-template<typename... frames> struct e { };
+template<typename... Bindings>
+using frame = tuple<Bindings...>;
 
-using null_e = e<>;
+using null_frame = null_tuple;
+
+//
+
+template<typename... Frames>
+using environment = tuple<Frames...>;
+
+using null_environment = null_tuple;
 

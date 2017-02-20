@@ -15,3 +15,18 @@
 **
 ************************************************************************************************************************/
 
+using Constant_Structural_Semiotic = typename nik::grammaric::module
+<
+	nik::Module::		constant,
+	nik::Orientation::	structural,
+	nik::Interface::	semiotic
+>;
+
+/***********************************************************************************************************************/
+
+template<typename Type, Type... Value>
+using constant = typename Constant_Structural_Semiotic::template constant<Type, Value...>;
+
+template<bool Value>
+using boolean = typename Constant_Structural_Semiotic::template boolean<Value>;
+

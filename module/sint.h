@@ -19,11 +19,12 @@
 #define NUMERIC_SINT_H
 
 #include"../numeric/word/sint/structural/semiotic.h"
-#include"../numeric/word/sint/functional/semiotic.h"
-#include"../numeric/word/sint/procedural/semiotic.h"
-
 #include"../numeric/word/sint/structural/media.h"
+
+#include"../numeric/word/sint/functional/semiotic.h"
 #include"../numeric/word/sint/functional/media.h"
+
+#include"../numeric/word/sint/procedural/semiotic.h"
 #include"../numeric/word/sint/procedural/media.h"
 
 #endif

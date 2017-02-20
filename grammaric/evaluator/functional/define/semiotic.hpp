@@ -15,26 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename variable, size_type value> struct index;
-
-template<typename Parameter, Parameter...> struct list;
-
-template<typename...> struct tuple;
-using null_tuple = tuple<>;
-
 template<typename...> struct BODY;
-
-//
-
-template<typename List, size_type pos, size_type current = 0>
-struct at;
-
-template<typename Parameter, Parameter first, Parameter... params, size_type pos, size_type current>
-struct at<list<Parameter, first, params...>, pos, current>
-{
-	static constexpr size_type value = (current == pos) ? first :
-			at<list<Parameter, params...>, pos, current+1>::value;
-};
 
 //
 
@@ -70,23 +51,4 @@ struct DEFINE
 		using body = typename parsed::body;
 	};
 };
-
-//
-
-template<typename Function, typename Parameter, Parameter... params>
-struct EXECUTE
-{
-	struct frame
-	{
-	};
-
-	params...
-
-	static constexpr Parameter value = ;
-};
-
-//
-
-struct MUL { };
-
 

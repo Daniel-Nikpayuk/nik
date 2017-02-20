@@ -15,9 +15,5 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type... v>
-using c = typename structural::template c<Type, v...>;
-
-template<bool v>
-using b = typename structural::template b<v>;
+#include import(constant, structural, semiotic)
 

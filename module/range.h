@@ -21,7 +21,6 @@
 #include"variadic.h"
 
 #include"../numeric/address/range/structural/semiotic.h"
-
 #include"../numeric/address/range/structural/media.h"
 
 #endif

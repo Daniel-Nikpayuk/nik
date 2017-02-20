@@ -15,32 +15,27 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
+template<typename E1>
 struct length
 {
-	template<typename, size_type count = 0> struct strict;
+	template<typename, typename = constant<size_type, 0>> struct strict;
 
-	template<typename Type, Type... v, typename... constants, size_type count>
-	struct strict<t<c<Type, v...>, constants...>, count>
+	template<typename Expression, typename... Expressions, size_type count>
+	struct strict<tuple<Expression, Expressions...>, constant<size_type, count>>
 	{
-		static constexpr size_type value = strict<t<constants...>, count+1>::value;
+		using rtn = typename strict<tuple<Expressions...>, constant<size_type, count+1>>::rtn;
 	};
 
 	template<size_type count>
-	struct strict<null_t, count>
+	struct strict<null_tuple, constant<size_type, count>>
 	{
-		static constexpr size_type value = count;
+		using rtn = constant<size_type, count>;
 	};
 
-	using rtn = c
+	using rtn = typename strict
 	<
-		size_type,
+		typename E1::rtn
 
-		strict
-		<
-			typename E::rtn
-
-		>::value
-	>;
+	>::rtn;
 };
 

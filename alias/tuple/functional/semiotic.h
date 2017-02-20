@@ -15,23 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename Frame, typename variable>
-struct find_binding
-{
-	template<typename Frame> struct strict;
+using Tuple_Functional_Semiotic = typename nik::grammaric::module
+<
+	nik::Module::		tuple,
+	nik::Orientation::	functional,
+	nik::Interface::	semiotic,
 
-	template<typename Variable, typename Type, typename... bindings>
-	struct strict<frame< binding<Variable, Type>, bindings...>>
-	{
-		using rtn = typename conditional
-		<
-			equal<Variable, variable>,
-			binding<Variable, Type>,
-			strict<bindings...>
+	size_type
+>;
 
-		>::rtn;
-	};
+/***********************************************************************************************************************/
 
-	using rtn = typename strict<Frame>::rtn;
-};
+template<typename E1>
+using car = typename Tuple_Functional_Semiotic::template car<E1>;
 

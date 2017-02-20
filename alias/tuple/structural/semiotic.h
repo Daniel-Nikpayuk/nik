@@ -15,8 +15,17 @@
 **
 ************************************************************************************************************************/
 
-//
+using Tuple_Structural_Semiotic = typename nik::grammaric::module
+<
+	nik::Module::		tuple,
+	nik::Orientation::	structural,
+	nik::Interface::	semiotic
+>;
 
-template<typename... params>
-using list = typename structural::template list<params...>;
+/***********************************************************************************************************************/
+
+template<typename... Expressions>
+using tuple = typename Tuple_Structural_Semiotic::template tuple<Expressions...>;
+
+using null_tuple = typename Tuple_Structural_Semiotic::null_tuple;
 

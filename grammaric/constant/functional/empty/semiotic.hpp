@@ -18,14 +18,11 @@
 template<typename...>
 struct empty
 {
-	using rtn = b
+	using rtn = typename equal
 	<
-		equal
-		<
-			c<empty>,
-			c<empty<>>
+		empty,
+		empty<>
 
-		>::rtn::value
-	>;
+	>::rtn;
 };
 

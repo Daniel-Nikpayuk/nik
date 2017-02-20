@@ -15,30 +15,34 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Lazy policy:
+
+	If you don't have to evaluate it (::rtn), don't.
+*/
+
 template<typename P, typename E1, typename E2>
 struct conditional
 {
-	template<bool, typename, typename> struct strict;
+	template<typename, typename, typename> struct strict;
 
-	template<typename Rtn1, typename Rtn2>
-	struct strict<false, Rtn1, Rtn2>
+	template<typename e1, typename e2>
+	struct strict<boolean<true>, e1, e2>
 	{
-		using rtn = Rtn2;
+		using rtn = e1;
 	};
 
-	template<typename Rtn1, typename Rtn2>
-	struct strict<true, Rtn1, Rtn2>
+	template<typename e1, typename e2>
+	struct strict<boolean<false>, e1, e2>
 	{
-		using rtn = Rtn1;
+		using rtn = e2;
 	};
-
-	// needs to test ::rtn == c, t as a concept.
 
 	using rtn = typename strict
 	<
-		P::rtn::value,
-		typename E1::rtn,
-		typename E2::rtn
+		typename P::rtn,
+		E1,
+		E2
 
 	>::rtn;
 };

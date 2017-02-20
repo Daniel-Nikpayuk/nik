@@ -18,10 +18,14 @@
 #ifndef GRAMMARIC_BRANCH_H
 #define GRAMMARIC_BRANCH_H
 
-#include"tuple.h"
+#include"constant.h"
+
+#undef	import
+#define	import(module, orientation, interface)										\
+															\
+	stringify(../../../../alias/module/orientation/interface.h)
 
 #include"../grammaric/branch/functional/semiotic.h"
-
 #include"../grammaric/branch/functional/media.h"
 
 #endif

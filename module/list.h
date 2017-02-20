@@ -21,9 +21,9 @@
 #include"iterator.h"
 
 #include"../numeric/address/list/structural/semiotic.h"
-#include"../numeric/address/list/procedural/semiotic.h"
-
 #include"../numeric/address/list/structural/media.h"
+
+#include"../numeric/address/list/procedural/semiotic.h"
 #include"../numeric/address/list/procedural/media.h"
 
 #endif

@@ -18,10 +18,15 @@
 #ifndef GRAMMARIC_CONSTANT_H
 #define GRAMMARIC_CONSTANT_H
 
-#include"../grammaric/constant/functional/semiotic.h"
-#include"../grammaric/constant/structural/semiotic.h"
+#undef	import
+#define	import(module, orientation, interface)										\
+															\
+	stringify(../../../../alias/module/orientation/interface.h)
 
-#include"../grammaric/constant/functional/media.h"
+#include"../grammaric/constant/structural/semiotic.h"
 #include"../grammaric/constant/structural/media.h"
+
+#include"../grammaric/constant/functional/semiotic.h"
+#include"../grammaric/constant/functional/media.h"
 
 #endif

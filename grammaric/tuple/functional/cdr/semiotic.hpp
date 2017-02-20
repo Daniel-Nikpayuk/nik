@@ -15,20 +15,20 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
+template<typename E1>
 struct cdr
 {
 	template<typename> struct strict;
 
-	template<typename Type, Type... v, typename... constants>
-	struct strict<t<c<Type, v...>, constants...>>
+	template<typename Expression, typename... Expressions>
+	struct strict<tuple<Expression, Expressions...>>
 	{
-		using rtn = t<constants...>;
+		using rtn = tuple<Expressions...>;
 	};
 
 	using rtn = typename strict
 	<
-		typename E::rtn
+		typename E1::rtn
 
 	>::rtn;
 };

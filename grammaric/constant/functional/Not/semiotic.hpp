@@ -15,24 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
+template<typename E1>
 struct Not
 {
 	template<typename> struct strict;
 
-	template<bool v>
-	struct strict<b<v>>
+	template<bool Value>
+	struct strict<boolean<Value>>
 	{
-		static constexpr bool value = !v;
+		using rtn = boolean<!Value>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E::rtn
+		typename E1::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 

@@ -15,28 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
+template<typename E1>
 struct is_constant
 {
 	template<typename>
 	struct strict
 	{
-		static constexpr bool value = false;
+		using rtn = boolean<false>;
 	};
 
-	template<typename Type, Type... v>
-	struct strict<c<Type, v...>>
+	template<typename Type, Type... Value>
+	struct strict<constant<Type, Value...>>
 	{
-		static constexpr bool value = true;
+		using rtn = boolean<true>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E::rtn
+		typename E1::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 

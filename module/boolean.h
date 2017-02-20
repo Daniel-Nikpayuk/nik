@@ -19,7 +19,6 @@
 #define NUMERIC_BOOLEAN_H
 
 #include"../numeric/word/boolean/structural/semiotic.h"
-
 #include"../numeric/word/boolean/structural/media.h"
 
 #endif

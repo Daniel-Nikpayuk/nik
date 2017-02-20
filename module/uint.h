@@ -21,11 +21,12 @@
 #include"variadic.h"
 
 #include"../numeric/word/uint/structural/semiotic.h"
-//#include"../numeric/word/uint/functional/semiotic.h"
-//#include"../numeric/word/uint/procedural/semiotic.h"
-
 //#include"../numeric/word/uint/structural/media.h"
+
+//#include"../numeric/word/uint/functional/semiotic.h"
 //#include"../numeric/word/uint/functional/media.h"
+
+//#include"../numeric/word/uint/procedural/semiotic.h"
 //#include"../numeric/word/uint/procedural/media.h"
 
 #endif

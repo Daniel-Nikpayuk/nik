@@ -21,9 +21,9 @@
 #include"tuple.h"
 
 #include"../grammaric/environment/functional/semiotic.h"
-#include"../grammaric/environment/structural/semiotic.h"
-
 #include"../grammaric/environment/functional/media.h"
+
+#include"../grammaric/environment/structural/semiotic.h"
 #include"../grammaric/environment/structural/media.h"
 
 #endif

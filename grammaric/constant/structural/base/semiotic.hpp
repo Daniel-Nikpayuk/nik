@@ -15,26 +15,26 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type...> struct c;
+template<typename Type, Type...> struct constant;
 
 template<typename Type>
-struct c<Type>
+struct constant<Type>
 {
-	using rtn = c;
+	using rtn = constant;
 
 	using type = Type;
 };
 
-template<typename Type, Type v>
-struct c<Type, v>
+template<typename Type, Type Value>
+struct constant<Type, Value>
 {
-	using rtn = c;
+	using rtn = constant;
 
 	using type = Type;
 
-	static constexpr Type value = v;
+	static constexpr Type value = Value;
 };
 
-template<bool v>
-using b = c<bool, v>;
+template<bool Value>
+using boolean = constant<bool, Value>;
 

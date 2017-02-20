@@ -15,51 +15,27 @@
 **
 ************************************************************************************************************************/
 
-/*
-template<typename... expressions>
-struct catenate
-{
-	using rtn = typename block
-	<
-		if_then
-		<
-			empty<expressions...>,
-			null_s
-
-		>, else_then
-		<
-			singleton<expressions...>,
-			expressions...
-
-		>, then
-		<
-
-		>
-
-	>::rtn;
-};
-*/
-
 template<typename E1, typename E2, typename... E>
 struct catenate
 {
 	template<typename, typename, typename...> struct strict;
 
-	template<typename... constants1, typename... constants2, typename e3, typename... e>
-	struct strict<t<constants1...>, t<constants2...>, e3, e...>
+	template<typename... Expressions1, typename... Expressions2, typename e3, typename... e>
+	struct strict<tuple<Expressions1...>, tuple<Expressions2...>, e3, e...>
 	{
 		using rtn = typename strict
 		<
-			t<constants1...>,
-			strict<t<constants2...>, typename e3::rtn, e...>
+			tuple<Expressions1..., Expressions2...>,
+			typename e3::rtn,
+			e...
 
 		>::rtn;
 	};
 
-	template<typename... constants1, typename... constants2>
-	struct strict<t<constants1...>, t<constants2...>>
+	template<typename... Expressions1, typename... Expressions2>
+	struct strict<tuple<Expressions1...>, tuple<Expressions2...>>
 	{
-		using rtn = t<constants1..., constants2...>;
+		using rtn = tuple<Expressions1..., Expressions2...>;
 	};
 
 	using rtn = typename strict

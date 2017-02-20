@@ -20,15 +20,15 @@ struct cons
 {
 	template<typename, typename> struct strict;
 
-	template<typename Type, Type... v, typename... constants>
-	struct strict<c<Type, v...>, t<constants...>>
+	template<typename Expression, typename... Expressions>
+	struct strict<Expression, tuple<Expressions...>>
 	{
-		using rtn = t<c<Type, v...>, constants...>;
+		using rtn = tuple<Expression, Expressions...>;
 	};
 
 	using rtn = typename strict
 	<
-		typename E1::rtn,
+		E1,
 		typename E2::rtn
 
 	>::rtn;

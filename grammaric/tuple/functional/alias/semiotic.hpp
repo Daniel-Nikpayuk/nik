@@ -15,16 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type... v>
-using c = typename constant::template c<Type, v...>;
-
-template<bool v>
-using b = typename constant::template b<v>;
+#include import(constant, structural, semiotic)
+#include import(constant, functional, semiotic)
 
 //
 
-template<typename... constants>
-using t = typename structural::template t<constants...>;
-
-using null_t = typename structural::null_t;
+#include import(tuple, structural, semiotic)
 

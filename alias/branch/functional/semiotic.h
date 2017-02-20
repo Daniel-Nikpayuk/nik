@@ -15,11 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename Variable, typename Type>
-struct binding
-{
-	using variable = Variable;
+using Branch_Functional_Semiotic = typename nik::grammaric::module
+<
+	nik::Module::		branch,
+	nik::Orientation::	functional,
+	nik::Interface::	semiotic
+>;
 
-	using type = Type;
-};
+/***********************************************************************************************************************/
+
+template<typename P, typename E1, typename E2>
+using conditional = typename Branch_Functional_Semiotic::template conditional<P, E1, E2>;
+
+template<typename... E>
+using block = typename Branch_Functional_Semiotic::template block<E...>;
 

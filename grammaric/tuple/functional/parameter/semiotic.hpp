@@ -21,13 +21,13 @@
 
 template<typename Type, Type...> struct parameter;
 
-template<typename Type, Type value1, Type... values>
-struct parameter<Type, value1, values...>
+template<typename Type, Type Value, Type... Values>
+struct parameter<Type, Value, Values...>
 {
 	using rtn = typename cons
 	<
-		c<Type, value1>,
-		parameter<Type, values...>
+		constant<Type, Value>,
+		parameter<Type, Values...>
 
 	>::rtn;
 };
@@ -35,6 +35,6 @@ struct parameter<Type, value1, values...>
 template<typename Type>
 struct parameter<Type>
 {
-	using rtn = null_t;
+	using rtn = null_tuple;
 };
 

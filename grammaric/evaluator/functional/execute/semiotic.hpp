@@ -15,28 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename Environment, typename variable>
-struct lookup
+template<typename Function, typename Parameter, Parameter... params>
+struct EXECUTE
 {
-	template<typename Env> struct env_strict;
+	typename Function::body;
 
-	template<typename Frame, typename Frames...>
-	struct env_strict<environment<Frame, Frames...>>
-	{
-		using has = find<Frame, variable>;
+	using env = typename extend
+	<
+		typename Function::environment,
+		typename Function::variables,
+		e<Parameter, params...>
 
-		using rtn = typename conditional
-		<
-			has,
+	>::rtn;
 
-		>::rtn;
-	};
+	using exe = typename env::eval;
 
-	template<typename Filler>
-	struct env_strict<null_environment>
-	{
-	};
-
-	using rtn = typename env_strict<>;
+	static constexpr Parameter value = ;
 };
+
+//
+
+struct MUL { };
 

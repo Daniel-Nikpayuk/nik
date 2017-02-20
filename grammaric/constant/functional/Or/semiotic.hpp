@@ -18,35 +18,37 @@
 template<typename E1, typename E2, typename... E>
 struct Or
 {
-	template<typename, typename, typename...> struct strict;
+	template<typename, typename...> struct strict;
 
-	template<bool value1, bool value2, typename e3, typename... e>
-	struct strict<b<value1>, b<value2>, e3, e...>
+	template<typename e2, typename... e>
+	struct strict<boolean<true>, e2, e...>
 	{
-		static constexpr bool value = value1 || strict
+		using rtn = boolean<true>;
+	};
+
+	template<typename e2, typename... e>
+	struct strict<boolean<false>, e2, e...>
+	{
+		using rtn = typename strict
 		<
-			b<value2>,
-			typename e3::rtn,
+			typename e2::rtn,
 			e...
 
-		>::value;
+		>::rtn;
 	};
 
-	template<bool value1, bool value2>
-	struct strict<b<value1>, b<value2>>
+	template<bool Value>
+	struct strict<boolean<Value>>
 	{
-		static constexpr bool value = (value1 || value2);
+		using rtn = boolean<Value>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E1::rtn,
-			typename E2::rtn,
-			E...
+		typename E1::rtn,
+		E2,
+		E...
 
-		>::value
-	>;
+	>::rtn;
 };
 

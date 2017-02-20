@@ -15,3 +15,10 @@
 **
 ************************************************************************************************************************/
 
+#include import(constant, structural, semiotic)
+#include import(constant, functional, semiotic)
+
+//
+
+#include import(tuple, functional, semiotic)
+

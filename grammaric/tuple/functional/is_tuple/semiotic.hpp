@@ -15,28 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
+template<typename E1>
 struct is_tuple
 {
 	template<typename>
 	struct strict
 	{
-		static constexpr bool value = false;
+		using rtn = boolean<false>;
 	};
 
-	template<typename... constants>
-	struct strict<t<constants...>>
+	template<typename... Expressions>
+	struct strict<tuple<Expressions...>>
 	{
-		static constexpr bool value = true;
+		using rtn = boolean<true>;
 	};
 
-	using rtn = b
+	using rtn = typename strict
 	<
-		strict
-		<
-			typename E::rtn
+		typename E1::rtn
 
-		>::value
-	>;
+	>::rtn;
 };
 

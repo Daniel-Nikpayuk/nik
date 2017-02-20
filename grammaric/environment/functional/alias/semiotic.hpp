@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type... values>
-using c = typename constant::template c<Type, values...>;
+template<typename Type, Type... Value>
+using constant = typename constant::template constant<Type, Value...>;
 
 //
 
-template<typename... constants>
-using t = typename tuple::template t<constants...>;
+template<typename... Expressions>
+using tuple = typename tuple::template tuple<constants...>;
 
-using null_t = typename tuple::null_t;
+using null_tuple = typename tuple::null_tuple;
 
 //
 
@@ -33,7 +33,7 @@ using conditional = typename branch::template conditional<P, E1, E2>;
 //
 
 template<typename Variable, typename Type, Type... values>
-using b = typename structural::template b<Variable, Type, values...>;
+using binding = typename structural::template b<Variable, Type, values...>;
 
 using null_b = typename structural::null_b;
 

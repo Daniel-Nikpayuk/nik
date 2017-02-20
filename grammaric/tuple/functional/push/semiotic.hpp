@@ -20,16 +20,16 @@ struct push
 {
 	template<typename, typename> struct strict;
 
-	template<typename... constants, typename Type, Type... v>
-	struct strict<t<constants...>, c<Type, v...>>
+	template<typename... Expressions, typename Expression>
+	struct strict<tuple<Expressions...>, Expression>
 	{
-		using rtn = t<constants..., c<Type, v...>>;
+		using rtn = tuple<Expressions..., Expression>;
 	};
 
 	using rtn = typename strict
 	<
 		typename E1::rtn,
-		typename E2::rtn
+		E2
 
 	>::rtn;
 };

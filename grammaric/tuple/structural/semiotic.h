@@ -23,8 +23,10 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using constant = module<Module::constant, Orientation::functional, Interface::semiotic, size_type>;
-		using functional = module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
+//		struct module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
+
+//		using constant = module<Module::constant, Orientation::functional, Interface::semiotic, size_type>;
+//		using functional = module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
 
 		//
 

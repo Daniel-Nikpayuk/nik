@@ -20,10 +20,15 @@
 
 #include"constant.h"
 
-#include"../grammaric/tuple/functional/semiotic.h"
-#include"../grammaric/tuple/structural/semiotic.h"
+#undef	import
+#define	import(module, orientation, interface)										\
+															\
+	stringify(../../../../alias/module/orientation/interface.h)
 
-#include"../grammaric/tuple/functional/media.h"
+#include"../grammaric/tuple/structural/semiotic.h"
 #include"../grammaric/tuple/structural/media.h"
+
+#include"../grammaric/tuple/functional/semiotic.h"
+#include"../grammaric/tuple/functional/media.h"
 
 #endif
