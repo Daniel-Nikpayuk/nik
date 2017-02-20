@@ -22,13 +22,6 @@ namespace grammaric	{
 	struct module<Module::tuple, Orientation::functional, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
-
-		using structural = module<Module::tuple, Orientation::structural, Interface::semiotic, size_type>;
-		using semiotic = module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
-
-		//
-
-		#include"alias/media.hpp"
 	};
 
 }}

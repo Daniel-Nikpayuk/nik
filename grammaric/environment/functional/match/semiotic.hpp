@@ -18,13 +18,13 @@
 template<typename, typename> struct match;
 
 template<typename variable, typename Variable, typename Type, Type... values>
-struct match<variable, b<Variable, Type, values...>>
+struct match<variable, binding<Variable, Type, values...>>
 {
 	static constexpr bool value = false;
 };
 
 template<typename variable, typename Type, Type... values>
-struct match<variable, b<variable, Type, values...>>
+struct match<variable, binding<variable, Type, values...>>
 {
 	static constexpr bool value = true;
 };

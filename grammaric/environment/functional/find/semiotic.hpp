@@ -18,9 +18,9 @@
 template<typename, typename> struct find;
 
 template<typename Variable, typename Type, Type... values, typename... bindings, typename variable>
-struct find<f<b<Variable, Type, values...>, bindings...>, variable>
+struct find<frame<binding<Variable, Type, values...>, bindings...>, variable>
 {
-	using Binding = b<Variable, Type, values...>;
+	using Binding = binding<Variable, Type, values...>;
 
 	using rtn = typename conditional
 	<
@@ -32,8 +32,8 @@ struct find<f<b<Variable, Type, values...>, bindings...>, variable>
 };
 
 template<typename variable>
-struct find<null_f, variable>
+struct find<null_frame, variable>
 {
-	using rtn = null_b;
+	using rtn = null_binding;
 };
 

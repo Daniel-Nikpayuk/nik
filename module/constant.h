@@ -18,10 +18,113 @@
 #ifndef GRAMMARIC_CONSTANT_H
 #define GRAMMARIC_CONSTANT_H
 
-#undef	import
-#define	import(module, orientation, interface)										\
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct constant
+	{
+		using SS = module
+		<
+			Module::	constant,
+			Orientation::	structural,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define constant_import_constant()									\
 															\
-	stringify(../../../../alias/module/orientation/interface.h)
+			template<typename Type, Type... Value>								\
+			using constant = typename Constant::SS::template constant<Type, Value...>;
+
+		#define constant_import_boolean()									\
+															\
+			template<bool Value>										\
+			using boolean = typename Constant::SS::template boolean<Value>;
+
+		using FS = module
+		<
+			Module::	constant,
+			Orientation::	functional,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define constant_import_equal()										\
+															\
+			template<typename E1, typename E2>								\
+			using equal = typename Constant::FS::template equal<E1, E2>;
+
+		#define constant_import_less_than()									\
+															\
+			template<typename E1, typename E2>								\
+			using less_than = typename Constant::FS::template less_than<E1, E2>;
+
+		#define constant_import_less_than_or_equal()								\
+															\
+			template<typename E1, typename E2>								\
+			using less_than_or_equal = typename Constant::FS::template less_than_or_equal<E1, E2>;
+
+		#define constant_import_greater_than()									\
+															\
+			template<typename E1, typename E2>								\
+			using greater_than = typename Constant::FS::template greater_than<E1, E2>;
+
+		#define constant_import_greater_than_or_equal()								\
+															\
+			template<typename E1, typename E2>								\
+			using greater_than_or_equal = typename Constant::FS::template greater_than_or_equal<E1, E2>;
+
+		#define constant_import_empty()										\
+															\
+			template<typename... E>										\
+			using empty = typename Constant::FS::template empty<E...>;
+
+		#define constant_import_is_constant()									\
+															\
+			template<typename E1>										\
+			using is_constant = typename Constant::FS::template is_constant<E1>;
+
+/***********************************************************************************************************************/
+
+		#define constant_import_Not()										\
+															\
+			template<typename E1>										\
+			using Not = typename Constant::FS::template Not<E1>;
+
+		#define constant_import_And()										\
+															\
+			template<typename E1, typename E2, typename... E>						\
+			using And = typename Constant::FS::template And<E1, E2, E...>;
+
+		#define constant_import_Or()										\
+															\
+			template<typename E1, typename E2, typename... E>						\
+			using Or = typename Constant::FS::template Or<E1, E2, E...>;
+
+/***********************************************************************************************************************/
+
+		#define constant_import_all()										\
+															\
+			constant_import_constant()									\
+			constant_import_boolean()									\
+															\
+			constant_import_equal()										\
+			constant_import_less_than()									\
+			constant_import_less_than_or_equal()								\
+			constant_import_greater_than()									\
+			constant_import_greater_than_or_equal()								\
+			constant_import_empty()										\
+			constant_import_is_constant()									\
+															\
+			constant_import_Not()										\
+			constant_import_And()										\
+			constant_import_Or()
+	};
+
+}}
 
 #include"../grammaric/constant/structural/semiotic.h"
 #include"../grammaric/constant/structural/media.h"

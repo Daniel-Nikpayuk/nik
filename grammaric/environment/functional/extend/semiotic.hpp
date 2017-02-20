@@ -18,10 +18,10 @@
 template<typename, typename, typename> struct extend;
 
 template<typename... frames, typename Variables, typename Constants>
-struct extend<e<frames...>, Variables, Constants>
+struct extend<environment<frames...>, Variables, Constants>
 {
 	using Frame = typename make<Variables, Constants>::rtn;
 
-	using rtn = e<Frame, frames...>;
+	using rtn = environment<Frame, frames...>;
 };
 

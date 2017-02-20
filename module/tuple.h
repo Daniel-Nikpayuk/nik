@@ -20,10 +20,109 @@
 
 #include"constant.h"
 
-#undef	import
-#define	import(module, orientation, interface)										\
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct tuple
+	{
+		using SS = module
+		<
+			Module::	tuple,
+			Orientation::	structural,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define tuple_import_tuple()										\
 															\
-	stringify(../../../../alias/module/orientation/interface.h)
+			template<typename... Expressions>								\
+			using tuple = typename Tuple::SS::template tuple<Expressions...>;
+
+		#define tuple_import_null_tuple()									\
+															\
+			using null_tuple = typename Tuple::SS::null_tuple;
+
+		using FS = module
+		<
+			Module::	tuple,
+			Orientation::	functional,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define tuple_import_car()										\
+															\
+			template<typename E1>										\
+			using car = typename Tuple::FS::template car<E1>;
+
+		#define tuple_import_cdr()										\
+															\
+			template<typename E1>										\
+			using cdr = typename Tuple::FS::template cdr<E1>;
+
+/***********************************************************************************************************************/
+
+		#define tuple_import_length()										\
+															\
+			template<typename E1>										\
+			using length = typename Tuple::FS::template length<E1>;
+
+/***********************************************************************************************************************/
+
+		#define tuple_import_cons()										\
+															\
+			template<typename E1, typename E2>								\
+			using cons = typename Tuple::FS::template cons<E1, E2>;
+
+		#define tuple_import_push()										\
+															\
+			template<typename E1, typename E2>								\
+			using push = typename Tuple::FS::template push<E1, E2>;
+
+		#define tuple_import_catenate()										\
+															\
+			template<typename E1, typename E2, typename... E>						\
+			using catenate = typename Tuple::FS::template catenate<E1, E2, E...>;
+
+/***********************************************************************************************************************/
+
+		#define tuple_import_parameter()									\
+															\
+			template<typename Type, Type... Values>								\
+			using parameter = typename Tuple::FS::template parameter<Type, Values...>;
+
+/***********************************************************************************************************************/
+
+		#define tuple_import_meta_printer()									\
+															\
+			template<typename E1>										\
+			using meta_printer = typename Tuple::FS::template meta_printer<E1>;
+
+/***********************************************************************************************************************/
+
+		#define tuple_import_all()										\
+															\
+			tuple_import_tuple()										\
+			tuple_import_null_tuple()									\
+															\
+			tuple_import_car()										\
+			tuple_import_cdr()										\
+															\
+			tuple_import_length()										\
+															\
+			tuple_import_cons()										\
+			tuple_import_push()										\
+			tuple_import_catenate()										\
+															\
+			tuple_import_parameter()									\
+															\
+			tuple_import_meta_printer()
+	};
+
+}}
 
 #include"../grammaric/tuple/structural/semiotic.h"
 #include"../grammaric/tuple/structural/media.h"

@@ -15,10 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#include import(constant, structural, semiotic)
-#include import(constant, functional, semiotic)
+import(constant, constant)
+import(constant, boolean)
 
 //
 
-#include import(tuple, structural, semiotic)
+import(tuple, tuple)
+import(tuple, null_tuple)
 

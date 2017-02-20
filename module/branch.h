@@ -20,10 +20,40 @@
 
 #include"constant.h"
 
-#undef	import
-#define	import(module, orientation, interface)										\
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct branch
+	{
+		using FS = module
+		<
+			Module::	branch,
+			Orientation::	functional,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define branch_import_conditional()									\
 															\
-	stringify(../../../../alias/module/orientation/interface.h)
+			template<typename P, typename E1, typename E2>							\
+			using conditional = typename Branch::FS::template conditional<P, E1, E2>;
+
+		#define branch_import_block()										\
+															\
+			template<typename... E>										\
+			using block = typename Branch::FS::template block<E...>;
+
+/***********************************************************************************************************************/
+
+		#define branch_import_all()										\
+															\
+			branch_import_conditional()									\
+			branch_import_block()
+	};
+
+}}
 
 #include"../grammaric/branch/functional/semiotic.h"
 #include"../grammaric/branch/functional/media.h"

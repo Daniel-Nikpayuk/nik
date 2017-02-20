@@ -19,6 +19,81 @@
 #define GRAMMARIC_ENVIRONMENT_H
 
 #include"tuple.h"
+#include"branch.h"
+
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct environment
+	{
+		using SS = module
+		<
+			Module::	environment,
+			Orientation::	structural,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define environment_import_binding()									\
+															\
+			template<typename Variable, typename Type, Type... Value>					\
+			using binding = typename Environment::SS::template environment<Variable, Type, Value...>;
+
+		#define environment_import_null_binding()								\
+															\
+			using null_binding = typename Environment::SS::null_binding;
+
+/***********************************************************************************************************************/
+
+		#define environment_import_variables()									\
+															\
+			template<typename... Variables>									\
+			using variables = typename Environment::SS::template variables<Variables...>;
+
+		#define environment_import_null_variables()								\
+															\
+			using null_variables = typename Environment::SS::null_variables;
+
+/***********************************************************************************************************************/
+
+		#define environment_import_frame()									\
+															\
+			template<typename... Bindings>									\
+			using frame = typename Environment::SS::template frame<Bindings...>;
+
+		#define environment_import_null_frame()									\
+															\
+			using null_frame = typename Environment::SS::null_frame;
+
+/***********************************************************************************************************************/
+
+		#define environment_import_environment()								\
+															\
+			template<typename... Frames>									\
+			using environment = typename Environment::SS::template environment<Frames...>;
+
+		#define environment_import_null_environment()								\
+															\
+			using null_environment = typename Environment::SS::null_environment;
+
+		using FS = module
+		<
+			Module::	environment,
+			Orientation::	functional,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+/***********************************************************************************************************************/
+
+		#define environment_import_all()									\
+
+	};
+
+}}
 
 #include"../grammaric/environment/functional/semiotic.h"
 #include"../grammaric/environment/functional/media.h"

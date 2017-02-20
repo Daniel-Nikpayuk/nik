@@ -36,7 +36,9 @@
 /***********************************************************************************************************************/
 
 
-#define import(module, orientation, interface)
+#define import(module, name)												\
+															\
+	module##_import_##name()
 
 
 /***********************************************************************************************************************/
@@ -56,7 +58,7 @@
 	stringify(module/name.h)
 
 
-#include nik(tuple)
+#include nik(environment)
 
 
 #endif

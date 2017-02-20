@@ -23,12 +23,8 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-//		struct module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
-
-//		using constant = module<Module::constant, Orientation::functional, Interface::semiotic, size_type>;
-//		using functional = module<Module::tuple, Orientation::functional, Interface::semiotic, size_type>;
-
-		//
+		using Constant = grammaric::constant<size_type>;
+		using Tuple = grammaric::tuple<size_type>;
 
 		#include"alias/semiotic.hpp"
 

@@ -25,9 +25,8 @@ struct tuple
 //		Navigational:
 
 	using car = module::car<rtn>;
-//	using car = typename functional::template car<rtn>;
 
-	using cdr = typename functional::template cdr<rtn>;
+	using cdr = module::cdr<rtn>;
 
 //		Existential:
 
@@ -36,28 +35,28 @@ struct tuple
 
 	using empty = module::empty<Expressions...>;
 
-	using length = typename functional::template length<rtn>;
+	using length = module::length<rtn>;
 
 //		Generational:
 
 	template<typename Expression>
-	using cons = typename functional::template cons<Expression, rtn>;
+	using cons = module::cons<Expression, rtn>;
 
 	template<typename last>
-	using push = typename functional::template push<rtn, last>;
+	using push = module::push<rtn, last>;
 
 	template<typename Tuple>
-	using prepend = typename functional::template catenate<Tuple, rtn>;
+	using prepend = module::catenate<Tuple, rtn>;
 
 	template<typename Tuple>
-	using append = typename functional::template catenate<rtn, Tuple>;
+	using append = module::catenate<rtn, Tuple>;
 
 //		Translational:
 
 	template<typename Type, Type... Values>
-	using parameter = typename functional::template parameter<Type, Values...>;
+	using parameter = module::parameter<Type, Values...>;
 
-	static void print() { typename functional::template meta_printer<rtn>::print(); }
+	static void print() { module::meta_printer<rtn>::print(); }
 };
 
 using null_tuple = tuple<>;

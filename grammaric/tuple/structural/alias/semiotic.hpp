@@ -15,10 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#include import(constant, structural, semiotic)
-#include import(constant, functional, semiotic)
+import(constant, equal)
+import(constant, empty)
 
 //
 
-#include import(tuple, functional, semiotic)
+import(tuple, car)
+import(tuple, cdr)
+
+import(tuple, length)
+
+import(tuple, cons)
+import(tuple, push)
+import(tuple, catenate)
+
+import(tuple, parameter)
+import(tuple, meta_printer)
 

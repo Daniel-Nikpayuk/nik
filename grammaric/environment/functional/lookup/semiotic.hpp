@@ -18,7 +18,7 @@
 template<typename, typename> struct lookup;
 
 template<typename Frame, typename... frames, typename variable>
-struct lookup<e<Frame, frames...>, variable>
+struct lookup<environment<Frame, frames...>, variable>
 {
 	using found = find<Frame, variable>;
 
@@ -32,8 +32,8 @@ struct lookup<e<Frame, frames...>, variable>
 };
 
 template<typename variable>
-struct lookup<null_e, variable>
+struct lookup<null_environment, variable>
 {
-	using rtn = null_b;
+	using rtn = null_binding;
 };
 

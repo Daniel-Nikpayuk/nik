@@ -15,6 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#include import(constant, structural, semiotic)
-#include import(constant, functional, semiotic)
+import(constant, boolean)
+
+import(constant, empty)
+
+import(constant, Not)
 

@@ -18,8 +18,8 @@
 template<typename, typename> struct add;
 
 template<typename Variable, typename Type, Type... values, typename... bindings>
-struct add<b<Variable, Type, values...>, f<bindings...>>
+struct add<binding<Variable, Type, values...>, frame<bindings...>>
 {
-	using rtn = f<b<Variable, Type, values...>, bindings...>;
+	using rtn = frame<binding<Variable, Type, values...>, bindings...>;
 };
 

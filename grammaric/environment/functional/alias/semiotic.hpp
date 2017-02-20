@@ -15,46 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type... Value>
-using constant = typename constant::template constant<Type, Value...>;
+import(constant, constant)
 
 //
 
-template<typename... Expressions>
-using tuple = typename tuple::template tuple<constants...>;
-
-using null_tuple = typename tuple::null_tuple;
+import(tuple, tuple)
+import(tuple, null_tuple)
 
 //
 
-template<typename P, typename E1, typename E2>
-using conditional = typename branch::template conditional<P, E1, E2>;
+import(branch, conditional)
 
 //
 
-template<typename Variable, typename Type, Type... values>
-using binding = typename structural::template b<Variable, Type, values...>;
-
-using null_b = typename structural::null_b;
-
-//
-
-template<typename... variables>
-using v = typename structural::template v<variables...>;
-
-using null_v = typename structural::null_v;
-
-//
-
-template<typename... bindings>
-using f = typename structural::template f<bindings...>;
-
-using null_f = typename structural::null_f;
-
-//
-
-template<typename... frames>
-using e = typename structural::template e<frames...>;
-
-using null_e = typename structural::null_e;
+import(environment, binding)
+import(environment, null_binding)
+import(environment, variables)
+import(environment, null_variables)
+import(environment, frame)
+import(environment, null_frame)
+import(environment, environment)
+import(environment, null_environment)
 
