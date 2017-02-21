@@ -17,16 +17,22 @@
 
 template<typename, typename> struct find;
 
-template<typename Variable, typename Type, Type... values, typename... bindings, typename variable>
-struct find<frame<binding<Variable, Type, values...>, bindings...>, variable>
+template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
+struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
 {
-	using Binding = binding<Variable, Type, values...>;
+	using Binding = binding<Variable, Type, Value...>;
 
-	using rtn = typename conditional
+	using rtn = typename block
 	<
-		match<variable, Binding>,
-		Binding,
-		find<bindings..., variable>
+		if_then
+		<
+			match<variable, Binding>,
+			Binding
+
+		>, then_rtn
+		<
+			find<Bindings..., variable>
+		>
 
 	>::rtn;
 };

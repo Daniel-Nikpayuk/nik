@@ -17,11 +17,11 @@
 
 template<typename, typename, typename> struct extend;
 
-template<typename... frames, typename Variables, typename Constants>
-struct extend<environment<frames...>, Variables, Constants>
+template<typename... Frames, typename Variables, typename Constants>
+struct extend<environment<Frames...>, Variables, Constants>
 {
-	using Frame = typename make<Variables, Constants>::rtn;
+	using Frame = typename make<Variables, Constants>::rtn; // non-lazy evaluation.
 
-	using rtn = environment<Frame, frames...>;
+	using rtn = environment<Frame, Frames...>;
 };
 

@@ -26,8 +26,13 @@
 /***********************************************************************************************************************/
 
 template<typename, typename> struct if_then { };
+template<typename, typename> struct if_then_rtn { };
+
 template<typename, typename> struct else_then { };
+template<typename, typename> struct else_then_rtn { };
+
 template<typename> struct then { };
+template<typename> struct then_rtn { };
 
 /***********************************************************************************************************************/
 
@@ -61,10 +66,44 @@ struct sub_block<else_then<P, E1>, E...>
 	>::rtn;
 };
 
+template<typename P, typename E1, typename... E>
+struct sub_block<else_then_rtn<P, E1>, E...>
+{
+	STATIC_ASSERT
+
+	template<typename, typename, typename> struct strict;
+
+	template<typename e1, typename... e>
+	struct strict<boolean<true>, e1, sub_block<e...>>
+	{
+		using rtn = typename e1::rtn;
+	};
+
+	template<typename e1, typename... e>
+	struct strict<boolean<false>, e1, sub_block<e...>>
+	{
+		using rtn = typename sub_block<e...>::rtn;
+	};
+
+	using rtn = typename strict
+	<
+		typename P::rtn,
+		E1,
+		sub_block<E...>
+
+	>::rtn;
+};
+
 template<typename E1>
 struct sub_block<then<E1>>
 {
 	using rtn = E1;
+};
+
+template<typename E1>
+struct sub_block<then_rtn<E1>>
+{
+	using rtn = typename E1::rtn;
 };
 
 /***********************************************************************************************************************/
@@ -82,6 +121,34 @@ struct block<if_then<P, E1>, E...>
 	struct strict<boolean<true>, e1, sub_block<e...>>
 	{
 		using rtn = e1;
+	};
+
+	template<typename e1, typename... e>
+	struct strict<boolean<false>, e1, sub_block<e...>>
+	{
+		using rtn = typename sub_block<e...>::rtn;
+	};
+
+	using rtn = typename strict
+	<
+		typename P::rtn,
+		E1,
+		sub_block<E...>
+
+	>::rtn;
+};
+
+template<typename P, typename E1, typename... E>
+struct block<if_then_rtn<P, E1>, E...>
+{
+	STATIC_ASSERT
+
+	template<typename, typename, typename> struct strict;
+
+	template<typename e1, typename... e>
+	struct strict<boolean<true>, e1, sub_block<e...>>
+	{
+		using rtn = typename e1::rtn;
 	};
 
 	template<typename e1, typename... e>

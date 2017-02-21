@@ -16,6 +16,7 @@
 ************************************************************************************************************************/
 
 import(constant, constant)
+import(constant, boolean)
 
 //
 
@@ -24,7 +25,7 @@ import(tuple, null_tuple)
 
 //
 
-import(branch, conditional)
+import(branch, block)
 
 //
 

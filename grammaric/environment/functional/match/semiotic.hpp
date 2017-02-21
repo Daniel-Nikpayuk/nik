@@ -17,15 +17,15 @@
 
 template<typename, typename> struct match;
 
-template<typename variable, typename Variable, typename Type, Type... values>
-struct match<variable, binding<Variable, Type, values...>>
+template<typename variable, typename Variable, typename Type, Type... Value>
+struct match<variable, binding<Variable, Type, Value...>>
 {
-	static constexpr bool value = false;
+	using rtn = boolean<false>;
 };
 
-template<typename variable, typename Type, Type... values>
-struct match<variable, binding<variable, Type, values...>>
+template<typename variable, typename Type, Type... Value>
+struct match<variable, binding<variable, Type, Value...>>
 {
-	static constexpr bool value = true;
+	using rtn = boolean<true>;
 };
 

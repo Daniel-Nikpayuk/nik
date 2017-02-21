@@ -17,15 +17,15 @@
 
 template<typename, typename Filler = void> struct is_null;
 
-template<typename Variable, typename Type, Type... values, typename Filler>
-struct is_null<binding<Variable, Type, values...>, Filler>
+template<typename Variable, typename Type, Type... Value, typename Filler>
+struct is_null<binding<Variable, Type, Value...>, Filler>
 {
-	static constexpr bool value = false;
+	using rtn = boolean<false>;
 };
 
 template<typename Filler>
 struct is_null<null_binding, Filler>
 {
-	static constexpr bool value = true;
+	using rtn = boolean<true>;
 };
 

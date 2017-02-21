@@ -20,6 +20,8 @@ template<typename, typename Type, Type...> struct binding;
 template<typename Variable, typename Type>
 struct binding<Variable, Type>
 {
+	using rtn = binding;
+
 	using variable = Variable;
 	using type = Type;
 };
@@ -27,6 +29,8 @@ struct binding<Variable, Type>
 template<typename Variable, typename Type, Type v>
 struct binding<Variable, Type, v>
 {
+	using rtn = binding;
+
 	using variable = Variable;
 	using type = Type;
 

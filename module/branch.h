@@ -42,6 +42,24 @@ namespace grammaric	{
 
 		#define branch_import_block()										\
 															\
+			template<typename P, typename E>								\
+			using if_then = typename Branch::FS::template if_then<P, E>;					\
+															\
+			template<typename P, typename E>								\
+			using if_then_rtn = typename Branch::FS::template if_then_rtn<P, E>;				\
+															\
+			template<typename P, typename E>								\
+			using else_then = typename Branch::FS::template else_then<P, E>;				\
+															\
+			template<typename P, typename E>								\
+			using else_then_rtn = typename Branch::FS::template else_then_rtn<P, E>;			\
+															\
+			template<typename E>										\
+			using then = typename Branch::FS::template then<E>;						\
+															\
+			template<typename E>										\
+			using then_rtn = typename Branch::FS::template then_rtn<E>;					\
+															\
 			template<typename... E>										\
 			using block = typename Branch::FS::template block<E...>;
 
@@ -50,7 +68,10 @@ namespace grammaric	{
 		#define branch_import_all()										\
 															\
 			branch_import_conditional()									\
-			branch_import_block()
+			branch_import_conditional_return()								\
+															\
+			branch_import_block()										\
+			branch_import_block_return()
 	};
 
 }}
