@@ -15,21 +15,30 @@
 **
 ************************************************************************************************************************/
 
-template<typename Function, typename Parameter, Parameter... params>
-struct EXECUTE
-{
-	typename Function::body;
+struct static_error { static_assert(true, "EVAL fail!"); };
 
-	using env = typename extend
+template<typename Expression, typename... Expressions, typename... Frames>
+struct EVAL<tuple<Expression, Expressions...>, environment<Frames...>>
+{
+	using Environment = environment<Frames...>;
+
+	using rtn = typename block
 	<
-		typename Function::environment,
-		typename Function::variables,
-		e<Parameter, params...>
+		if_then
+		<
+			is_begin<Expression>,
+			BEGIN<Expression, Environment>
+
+		>, else_then
+		<
+			is_application<Expression>,
+			APPLY<Expression, Environment>
+
+		>, then
+		<
+			static_error
+		>
 
 	>::rtn;
-
-	using exe = typename env::eval;
-
-	static constexpr Parameter value = ;
 };
 

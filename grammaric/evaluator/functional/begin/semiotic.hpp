@@ -15,16 +15,32 @@
 **
 ************************************************************************************************************************/
 
-template<typename...> struct SEQUENCE;
+template<typename...> struct BEGIN;
 
-template<typename Expression, typename... Expressions>
-struct SEQUENCE<tuple<Expression, Expressions...>>
+template<typename Expression, typename... Expressions, typename... Frames>
+struct BEGIN<tuple<Expression, Expressions...>, environment<Frames...>>
 {
+	using Environment = environment<Frames...>;
+
 	using rtn = typename cons
 	<
-		EVALUATE<Expression>,
-		SEQUENCE<tuple<Expressions...>>
+		EVAL<Expression, Environment>,
+		BEGIN<tuple<Expressions...>, Environment>
 
 	>::rtn;
+};
+
+//
+
+template<typename>
+struct is_begin
+{
+	using rtn = boolean<false>;
+};
+
+template<typename... Expressions>
+struct is_begin<BEGIN<Expressions...>>
+{
+	using rtn = boolean<true>;
 };
 

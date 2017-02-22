@@ -23,14 +23,21 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		using Constant = grammaric::constant<size_type>;
+		using Branch = grammaric::branch<size_type>;
 		using Tuple = grammaric::tuple<size_type>;
-		using Evaluator = grammaric::evaluator<size_type>;
 
 		#include"alias/semiotic.hpp"
 
 		//
 
-		#include"sequence/semiotic.hpp"
+		template<typename, typename> struct EVAL;
+
+		#include"begin/semiotic.hpp"
+		#include"apply/semiotic.hpp"
+		#include"eval/semiotic.hpp"
+
+//		#include"define/semiotic.hpp"
 	};
 
 }}

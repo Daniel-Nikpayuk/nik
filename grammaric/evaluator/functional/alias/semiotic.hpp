@@ -15,11 +15,19 @@
 **
 ************************************************************************************************************************/
 
-import(tuple, tuple)
+import(constant, boolean)
 
+//
+
+import(branch, conditional)
+import(branch, block)
+
+//
+
+import(tuple, tuple)
 import(tuple, cons)
 
 //
 
-import(evaluator, EVALUATE)
+import(environment, extend)
 

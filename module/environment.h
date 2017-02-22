@@ -78,6 +78,11 @@ namespace grammaric	{
 
 			SizeType
 		>;
+
+		#define environment_import_extend()									\
+															\
+			template<typename Environment, typename Variables, typename Constants>				\
+			using extend = typename Environment::FS::template extend<Environment, Variables, Constants>;
 	};
 
 }}

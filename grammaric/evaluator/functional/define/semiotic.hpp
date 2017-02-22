@@ -19,14 +19,13 @@ template<typename...> struct BODY;
 
 //
 
-template<typename... expressions>
+template<typename... Expressions>
 struct DEFINE
 {
-	template<typename Variables, typename Tuple = null_tuple, size_type value = 0>
-	struct parse;
+	template<typename, typename Tuple = null_tuple, size_type Value = 0> struct parse;
 
-	template<typename variable, typename... vars, typename... items, size_type value>
-	struct parse<tuple<variable, vars...>, tuple<items...>, value>
+	template<typename Variable, typename... Variables, typename... items, size_type Value>
+	struct parse<tuple<variable, vars...>, tuple<items...>, Value>
 	{
 		using rtn = parse<tuple<vars...>, tuple<items..., index<variable, value>>>;
 
@@ -45,7 +44,9 @@ struct DEFINE
 
 	struct analyze
 	{
-		using parsed = parse<tuple<expressions...>>;
+		using is_primitive = boolean<false>;
+
+		using parsed = parse<tuple<Expressions...>>;
 
 		using variables = typename parsed::variables;
 		using body = typename parsed::body;

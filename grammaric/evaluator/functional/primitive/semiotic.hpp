@@ -17,6 +17,8 @@
 
 struct MUL
 {
+	using is_primitive = boolean<true>;
+
 	template<typename Type, Type x>
 	struct lambda { static constexpr Type value = x*x; };
 };

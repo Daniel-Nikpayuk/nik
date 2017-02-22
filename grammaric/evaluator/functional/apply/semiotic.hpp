@@ -15,49 +15,42 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_EVALUATOR_H
-#define GRAMMARIC_EVALUATOR_H
+template<typename, typename> struct APPLY;
 
-#include"environment.h"
+template<typename Function, typename... Parameters, typename... Frames>
+struct APPLY<tuple<Function, Parameters...>, environment<Frames...>>
+{
+	using Environment = environment<Frames...>;
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct evaluator
-	{
-		using SS = module
+	using rtn = typename conditional
+	<
+		typename Function::is_primitive,
+		typename Function::template lambda<Parameters...>,
+		BEGIN
 		<
-			Module::	evaluator,
-			Orientation::	structural,
-			Interface::	semiotic,
+			typename Function::body,
+			extend
+			<
+				Environment,
+				typename Function::variables,
+				typename Function::constants
+			>
+		>
 
-			SizeType
-		>;
+	>::rtn;
+};
 
-/***********************************************************************************************************************/
+//
 
-		using FS = module
-		<
-			Module::	evaluator,
-			Orientation::	functional,
-			Interface::	semiotic,
+template<typename>
+struct is_application
+{
+	using rtn = boolean<false>;
+};
 
-			SizeType
-		>;
+template<typename... Expressions>
+struct is_application<APPLY<Expressions...>>
+{
+	using rtn = boolean<true>;
+};
 
-		#define evaluator_import_EVAL()										\
-															\
-			template<typename... Expressions>								\
-			using EVAL = typename Evaluator::FS::template EVAL<Expressions...>;
-	};
-
-}}
-
-#include"../grammaric/evaluator/structural/semiotic.h"
-#include"../grammaric/evaluator/structural/media.h"
-
-#include"../grammaric/evaluator/functional/semiotic.h"
-#include"../grammaric/evaluator/functional/media.h"
-
-#endif
