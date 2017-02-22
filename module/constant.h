@@ -103,25 +103,6 @@ namespace grammaric	{
 															\
 			template<typename E1, typename E2, typename... E>						\
 			using Or = typename Constant::FS::template Or<E1, E2, E...>;
-
-/***********************************************************************************************************************/
-
-		#define constant_import_all()										\
-															\
-			constant_import_constant()									\
-			constant_import_boolean()									\
-															\
-			constant_import_equal()										\
-			constant_import_less_than()									\
-			constant_import_less_than_or_equal()								\
-			constant_import_greater_than()									\
-			constant_import_greater_than_or_equal()								\
-			constant_import_empty()										\
-			constant_import_is_constant()									\
-															\
-			constant_import_Not()										\
-			constant_import_And()										\
-			constant_import_Or()
 	};
 
 }}

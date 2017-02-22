@@ -33,9 +33,21 @@ struct conditional
 	};
 
 	template<typename e1, typename e2>
+	struct strict<boolean<true>, eval<e1>, e2>
+	{
+		using rtn = typename e1::rtn;
+	};
+
+	template<typename e1, typename e2>
 	struct strict<boolean<false>, e1, e2>
 	{
 		using rtn = e2;
+	};
+
+	template<typename e1, typename e2>
+	struct strict<boolean<false>, e1, eval<e2>>
+	{
+		using rtn = typename e2::rtn;
 	};
 
 	using rtn = typename strict

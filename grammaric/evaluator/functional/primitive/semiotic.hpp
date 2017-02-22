@@ -15,28 +15,9 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
-
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
+struct MUL
 {
-	using Binding = binding<Variable, Type, Value...>;
-
-	using rtn = typename conditional
-	<
-		match<variable, Binding>,
-		Binding,
-		eval
-		<
-			find<Bindings..., variable>
-		>
-
-	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
+	template<typename Type, Type x>
+	struct lambda { static constexpr Type value = x*x; };
 };
 

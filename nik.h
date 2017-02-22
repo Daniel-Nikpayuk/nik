@@ -58,7 +58,7 @@
 	stringify(module/name.h)
 
 
-#include nik(environment)
+#include nik(evaluator)
 
 
 #endif

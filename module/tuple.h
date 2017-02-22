@@ -38,9 +38,7 @@ namespace grammaric	{
 		#define tuple_import_tuple()										\
 															\
 			template<typename... Expressions>								\
-			using tuple = typename Tuple::SS::template tuple<Expressions...>;
-
-		#define tuple_import_null_tuple()									\
+			using tuple = typename Tuple::SS::template tuple<Expressions...>;				\
 															\
 			using null_tuple = typename Tuple::SS::null_tuple;
 
@@ -100,26 +98,6 @@ namespace grammaric	{
 															\
 			template<typename E1>										\
 			using meta_printer = typename Tuple::FS::template meta_printer<E1>;
-
-/***********************************************************************************************************************/
-
-		#define tuple_import_all()										\
-															\
-			tuple_import_tuple()										\
-			tuple_import_null_tuple()									\
-															\
-			tuple_import_car()										\
-			tuple_import_cdr()										\
-															\
-			tuple_import_length()										\
-															\
-			tuple_import_cons()										\
-			tuple_import_push()										\
-			tuple_import_catenate()										\
-															\
-			tuple_import_parameter()									\
-															\
-			tuple_import_meta_printer()
 	};
 
 }}

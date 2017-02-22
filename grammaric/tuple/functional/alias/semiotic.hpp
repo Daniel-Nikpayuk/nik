@@ -21,5 +21,4 @@ import(constant, boolean)
 //
 
 import(tuple, tuple)
-import(tuple, null_tuple)
 

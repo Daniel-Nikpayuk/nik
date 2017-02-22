@@ -20,19 +20,16 @@ template<typename, typename> struct lookup;
 template<typename Frame, typename... Frames, typename variable>
 struct lookup<environment<Frame, Frames...>, variable>
 {
-	using found = find<Frame, variable>;
+	using found = typename find<Frame, variable>::rtn;
 
-	using rtn = typename block
+	using rtn = typename conditional
 	<
-		if_then_rtn
+		is_null<found>,
+		eval
 		<
-			is_null<found>,
 			lookup<environment<Frames...>, variable>
-
-		>, then_rtn
-		<
-			found
-		>
+		>,
+		found
 
 	>::rtn;
 };

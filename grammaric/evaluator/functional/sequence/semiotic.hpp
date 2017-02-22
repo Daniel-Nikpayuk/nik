@@ -15,28 +15,16 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+template<typename...> struct SEQUENCE;
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
+template<typename Expression, typename... Expressions>
+struct SEQUENCE<tuple<Expression, Expressions...>>
 {
-	using Binding = binding<Variable, Type, Value...>;
-
-	using rtn = typename conditional
+	using rtn = typename cons
 	<
-		match<variable, Binding>,
-		Binding,
-		eval
-		<
-			find<Bindings..., variable>
-		>
+		EVALUATE<Expression>,
+		SEQUENCE<tuple<Expressions...>>
 
 	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
 };
 

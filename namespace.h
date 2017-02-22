@@ -59,6 +59,8 @@ namespace nik
 
 	namespace grammaric
 	{
+		template<typename> struct eval { };
+
 		template
 		<
 			Module module_enum,
@@ -80,6 +82,11 @@ namespace nik
 				"This module is not yet implemented!"
 			);
 		};
+
+		#define grammaric_import_eval()										\
+															\
+			template<typename E1>										\
+			using eval = grammaric::eval<E1>;
 	}
 
 	namespace numeric

@@ -20,10 +20,44 @@
 
 #include"environment.h"
 
-#include"../grammaric/evaluator/functional/semiotic.h"
-#include"../grammaric/evaluator/functional/media.h"
+namespace nik		{
+namespace grammaric	{
+
+	template<typename SizeType>
+	struct evaluator
+	{
+		using SS = module
+		<
+			Module::	evaluator,
+			Orientation::	structural,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+/***********************************************************************************************************************/
+
+		using FS = module
+		<
+			Module::	evaluator,
+			Orientation::	functional,
+			Interface::	semiotic,
+
+			SizeType
+		>;
+
+		#define evaluator_import_EVALUATE()									\
+															\
+			template<typename... Expressions>								\
+			using EVALUATE = typename Evaluator::FS::template EVALUATE<Expressions...>;
+	};
+
+}}
 
 #include"../grammaric/evaluator/structural/semiotic.h"
 #include"../grammaric/evaluator/structural/media.h"
+
+#include"../grammaric/evaluator/functional/semiotic.h"
+#include"../grammaric/evaluator/functional/media.h"
 
 #endif

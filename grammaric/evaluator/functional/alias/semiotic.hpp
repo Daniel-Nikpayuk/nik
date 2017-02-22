@@ -15,6 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<typename... constants>
-using t = typename tuple::template t<constants...>;
+import(tuple, tuple)
+
+import(tuple, cons)
+
+//
+
+import(evaluator, EVALUATE)
 

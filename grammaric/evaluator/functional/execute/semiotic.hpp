@@ -33,7 +33,3 @@ struct EXECUTE
 	static constexpr Parameter value = ;
 };
 
-//
-
-struct MUL { };
-
