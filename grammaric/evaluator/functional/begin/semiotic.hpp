@@ -15,17 +15,17 @@
 **
 ************************************************************************************************************************/
 
-template<typename...> struct BEGIN;
+template<typename, typename> struct BEGIN;
 
 template<typename Expression, typename... Expressions, typename... Frames>
-struct BEGIN<tuple<Expression, Expressions...>, environment<Frames...>>
+struct BEGIN<expression<Expression, Expressions...>, environment<Frames...>>
 {
 	using Environment = environment<Frames...>;
 
 	using rtn = typename cons
 	<
 		EVAL<Expression, Environment>,
-		BEGIN<tuple<Expressions...>, Environment>
+		BEGIN<expression<Expressions...>, Environment>
 
 	>::rtn;
 };

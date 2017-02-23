@@ -24,7 +24,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct tuple
+	struct TupleModule
 	{
 		using SS = module
 		<
@@ -91,13 +91,6 @@ namespace grammaric	{
 															\
 			template<typename Type, Type... Values>								\
 			using parameter = typename Tuple::FS::template parameter<Type, Values...>;
-
-/***********************************************************************************************************************/
-
-		#define tuple_import_meta_printer()									\
-															\
-			template<typename E1>										\
-			using meta_printer = typename Tuple::FS::template meta_printer<E1>;
 	};
 
 }}

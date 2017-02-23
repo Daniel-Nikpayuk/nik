@@ -23,7 +23,7 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using Constant = grammaric::constant<size_type>;
+		using Constant = ConstantModule<size_type>;
 
 		#include"alias/semiotic.hpp"
 

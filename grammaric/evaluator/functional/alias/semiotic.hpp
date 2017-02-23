@@ -29,5 +29,10 @@ import(tuple, cons)
 
 //
 
+import(environment, environment)
 import(environment, extend)
+
+//
+
+import(evaluator, expression)
 

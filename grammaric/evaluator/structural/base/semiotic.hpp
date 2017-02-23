@@ -15,32 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename... Expressions>
+using expression = tuple<Expressions...>;
 
-	template<typename SizeType>
-	struct module<Module::environment, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+using null_expression = null_tuple;
 
-		using Constant		= ConstantModule<size_type>;
-		using Branch		= BranchModule<size_type>;
-		using Tuple		= TupleModule<size_type>;
-		using Environment	= EnvironmentModule<size_type>;
-
-		#include"alias/semiotic.hpp"
-
-		//
-
-		#include"is_null/semiotic.hpp"
-		#include"match/semiotic.hpp"
-		#include"find/semiotic.hpp"
-		#include"lookup/semiotic.hpp"
-
-		#include"add/semiotic.hpp"
-		#include"make/semiotic.hpp"
-		#include"extend/semiotic.hpp"
-	};
-
-}}
 

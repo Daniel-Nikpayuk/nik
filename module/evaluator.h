@@ -24,7 +24,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct evaluator
+	struct EvaluatorModule
 	{
 		using SS = module
 		<
@@ -34,6 +34,13 @@ namespace grammaric	{
 
 			SizeType
 		>;
+
+		#define evaluator_import_expression()									\
+															\
+			template<typename... Expressions>								\
+			using expression = typename Evaluator::SS::template expression<Expressions...>;			\
+															\
+			using null_expression = typename Evaluator::SS::null_expression;
 
 /***********************************************************************************************************************/
 
@@ -48,8 +55,8 @@ namespace grammaric	{
 
 		#define evaluator_import_EVAL()										\
 															\
-			template<typename... Expressions>								\
-			using EVAL = typename Evaluator::FS::template EVAL<Expressions...>;
+			template<typename Expression, typename Environment>						\
+			using EVAL = typename Evaluator::FS::template EVAL<Expression, Environment>;
 	};
 
 }}

@@ -15,9 +15,5 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Type value>
-using c = typename constant::template c<Type, value>;
-
-template<typename... expressions>
-using t = typename tuple::template t<expressions...>;
+import(tuple, tuple)
 

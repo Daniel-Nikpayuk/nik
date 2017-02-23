@@ -22,7 +22,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct constant
+	struct ConstantModule
 	{
 		using SS = module
 		<

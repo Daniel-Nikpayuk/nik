@@ -24,7 +24,7 @@ namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct branch
+	struct BranchModule
 	{
 		using FS = module
 		<

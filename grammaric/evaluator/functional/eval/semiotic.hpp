@@ -15,7 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct static_error { static_assert(true, "EVAL fail!"); };
+template<bool Value>
+struct static_error
+{
+	static_assert(Value, "EVAL fail!");
+
+	using rtn = void;
+};
 
 template<typename Expression, typename... Expressions, typename... Frames>
 struct EVAL<tuple<Expression, Expressions...>, environment<Frames...>>
@@ -36,9 +42,9 @@ struct EVAL<tuple<Expression, Expressions...>, environment<Frames...>>
 
 		>, then
 		<
-			static_error
+			static_error<true>
 		>
 
-	>::rtn;
+	>::rtn::rtn;
 };
 

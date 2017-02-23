@@ -18,14 +18,14 @@
 #ifndef GRAMMARIC_ENVIRONMENT_H
 #define GRAMMARIC_ENVIRONMENT_H
 
-#include"tuple.h"
 #include"branch.h"
+#include"tuple.h"
 
 namespace nik		{
 namespace grammaric	{
 
 	template<typename SizeType>
-	struct environment
+	struct EnvironmentModule
 	{
 		using SS = module
 		<
@@ -39,18 +39,18 @@ namespace grammaric	{
 		#define environment_import_binding()									\
 															\
 			template<typename Variable, typename Type, Type... Value>					\
-			using binding = typename Environment::SS::template environment<Variable, Type, Value...>;	\
+			using binding = typename Environment::SS::template binding<Variable, Type, Value...>;		\
 															\
 			using null_binding = typename Environment::SS::null_binding;
 
 /***********************************************************************************************************************/
 
-		#define environment_import_variables()									\
+		#define environment_import_storage()									\
 															\
 			template<typename... Variables>									\
-			using variables = typename Environment::SS::template variables<Variables...>;			\
+			using storage = typename Environment::SS::template storage<Variables...>;			\
 															\
-			using null_variables = typename Environment::SS::null_variables;
+			using null_storage = typename Environment::SS::null_storage;
 
 /***********************************************************************************************************************/
 

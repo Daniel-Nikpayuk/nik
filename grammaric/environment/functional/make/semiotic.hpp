@@ -20,18 +20,18 @@ template<typename, typename> struct make;
 // Assumes length<Variables> == length<Constants>
 
 template<typename Variable, typename... Variables, typename Type, Type... Value, typename... Constants>
-struct make<variables<Variable, Variables...>, tuple<constant<Type, Value...>, Constants...>>
+struct make<storage<Variable, Variables...>, tuple<constant<Type, Value...>, Constants...>>
 {
 	using rtn = typename add
 	<
 		binding<Variable, Type, Value...>,
-		make<variables<Variables...>, tuple<Constants...>>
+		make<storage<Variables...>, tuple<Constants...>>
 
 	>::rtn;
 };
 
 template<typename... Constants>
-struct make<null_variables, tuple<Constants...>>
+struct make<null_storage, tuple<Constants...>>
 {
 	using rtn = null_frame;
 };

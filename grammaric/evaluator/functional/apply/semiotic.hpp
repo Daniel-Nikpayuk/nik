@@ -26,7 +26,7 @@ struct APPLY<tuple<Function, Parameters...>, environment<Frames...>>
 	<
 		typename Function::is_primitive,
 		typename Function::template lambda<Parameters...>,
-		BEGIN
+		EVAL
 		<
 			typename Function::body,
 			extend
@@ -37,7 +37,7 @@ struct APPLY<tuple<Function, Parameters...>, environment<Frames...>>
 			>
 		>
 
-	>::rtn;
+	>::rtn::rtn;
 };
 
 //

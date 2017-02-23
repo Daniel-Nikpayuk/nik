@@ -24,39 +24,37 @@ struct tuple
 
 //		Navigational:
 
-	using car = module::car<rtn>;
+	using car = typename Tuple::template car<rtn>;
 
-	using cdr = module::cdr<rtn>;
+	using cdr = typename Tuple::template cdr<rtn>;
 
 //		Existential:
 
-	template<typename Tuple>
-	using equals = equal<rtn, Tuple>;
+	template<typename E1>
+	using equals = typename Constant::template equal<rtn, E1>;
 
-	using empty = module::empty<Expressions...>;
+	using empty = typename Constant::template empty<Expressions...>;
 
-	using length = module::length<rtn>;
+	using length = typename Tuple::template length<rtn>;
 
 //		Generational:
 
 	template<typename Expression>
-	using cons = module::cons<Expression, rtn>;
+	using cons = typename Tuple::template cons<Expression, rtn>;
 
 	template<typename last>
-	using push = module::push<rtn, last>;
+	using push = typename Tuple::template push<rtn, last>;
 
-	template<typename Tuple>
-	using prepend = module::catenate<Tuple, rtn>;
+	template<typename E1>
+	using prepend = typename Tuple::template catenate<E1, rtn>;
 
-	template<typename Tuple>
-	using append = module::catenate<rtn, Tuple>;
+	template<typename E1>
+	using append = typename Tuple::template catenate<rtn, E1>;
 
 //		Translational:
 
 	template<typename Type, Type... Values>
-	using parameter = module::parameter<Type, Values...>;
-
-	static void print() { module::meta_printer<rtn>::print(); }
+	using parameter = typename Tuple::template parameter<Type, Values...>;
 };
 
 using null_tuple = tuple<>;
