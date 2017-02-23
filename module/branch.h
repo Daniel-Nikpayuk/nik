@@ -35,12 +35,12 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define branch_import_conditional()									\
+		#define grammaric_Branch_import_conditional()								\
 															\
 			template<typename P, typename E1, typename E2>							\
 			using conditional = typename Branch::FS::template conditional<P, E1, E2>;
 
-		#define branch_import_block()										\
+		#define grammaric_Branch_import_block()									\
 															\
 			template<typename P, typename E>								\
 			using if_then = typename Branch::FS::template if_then<P, E>;					\

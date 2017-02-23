@@ -23,21 +23,21 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using Constant = ConstantModule<size_type>;
+		nik_using(grammaric, Constant)
 
 		#include"alias/semiotic.hpp"
 
 		//
 
+		#include"is_constant/semiotic.hpp"
 		#include"compare/semiotic.hpp"
 		#include"empty/semiotic.hpp"
-		#include"is_constant/semiotic.hpp"
 
 		#include"Not/semiotic.hpp"
 		#include"And/semiotic.hpp"
 		#include"Or/semiotic.hpp"
 
-//		#include"printer/semiotic.hpp"
+		#include"printer/semiotic.hpp"
 	};
 
 }}

@@ -23,16 +23,15 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using Constant		= ConstantModule<size_type>;
-		using Branch		= BranchModule<size_type>;
-		using Tuple		= TupleModule<size_type>;
-		using Environment	= EnvironmentModule<size_type>;
+		nik_using(grammaric, Constant)
+		nik_using(grammaric, Branch)
+		nik_using(grammaric, Tuple)
+		nik_using(grammaric, Environment)
 
 		#include"alias/semiotic.hpp"
 
 		//
 
-		#include"is_null/semiotic.hpp"
 		#include"match/semiotic.hpp"
 		#include"find/semiotic.hpp"
 		#include"lookup/semiotic.hpp"

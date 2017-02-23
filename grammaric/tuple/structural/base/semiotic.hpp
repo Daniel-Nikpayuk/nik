@@ -24,37 +24,37 @@ struct tuple
 
 //		Navigational:
 
-	using car = typename Tuple::template car<rtn>;
+	using car = typename Tuple::FS::template car<rtn>;
 
-	using cdr = typename Tuple::template cdr<rtn>;
+	using cdr = typename Tuple::FS::template cdr<rtn>;
 
 //		Existential:
 
 	template<typename E1>
-	using equals = typename Constant::template equal<rtn, E1>;
+	using equals = typename Constant::FS::template equal<rtn, E1>;
 
-	using empty = typename Constant::template empty<Expressions...>;
+	using empty = typename Constant::FS::template empty<Expressions...>;
 
-	using length = typename Tuple::template length<rtn>;
+	using length = typename Tuple::FS::template length<rtn>;
 
 //		Generational:
 
 	template<typename Expression>
-	using cons = typename Tuple::template cons<Expression, rtn>;
+	using cons = typename Tuple::FS::template cons<Expression, rtn>;
 
 	template<typename last>
-	using push = typename Tuple::template push<rtn, last>;
+	using push = typename Tuple::FS::template push<rtn, last>;
 
 	template<typename E1>
-	using prepend = typename Tuple::template catenate<E1, rtn>;
+	using prepend = typename Tuple::FS::template catenate<E1, rtn>;
 
 	template<typename E1>
-	using append = typename Tuple::template catenate<rtn, E1>;
+	using append = typename Tuple::FS::template catenate<rtn, E1>;
 
 //		Translational:
 
 	template<typename Type, Type... Values>
-	using parameter = typename Tuple::template parameter<Type, Values...>;
+	using parameter = typename Tuple::FS::template parameter<Type, Values...>;
 };
 
 using null_tuple = tuple<>;

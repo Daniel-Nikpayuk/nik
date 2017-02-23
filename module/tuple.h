@@ -35,7 +35,7 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define tuple_import_tuple()										\
+		#define grammaric_Tuple_import_tuple()									\
 															\
 			template<typename... Expressions>								\
 			using tuple = typename Tuple::SS::template tuple<Expressions...>;				\
@@ -51,43 +51,43 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define tuple_import_car()										\
+		#define grammaric_Tuple_import_car()									\
 															\
 			template<typename E1>										\
 			using car = typename Tuple::FS::template car<E1>;
 
-		#define tuple_import_cdr()										\
+		#define grammaric_Tuple_import_cdr()									\
 															\
 			template<typename E1>										\
 			using cdr = typename Tuple::FS::template cdr<E1>;
 
 /***********************************************************************************************************************/
 
-		#define tuple_import_length()										\
+		#define grammaric_Tuple_import_length()									\
 															\
 			template<typename E1>										\
 			using length = typename Tuple::FS::template length<E1>;
 
 /***********************************************************************************************************************/
 
-		#define tuple_import_cons()										\
+		#define grammaric_Tuple_import_cons()									\
 															\
 			template<typename E1, typename E2>								\
 			using cons = typename Tuple::FS::template cons<E1, E2>;
 
-		#define tuple_import_push()										\
+		#define grammaric_Tuple_import_push()									\
 															\
 			template<typename E1, typename E2>								\
 			using push = typename Tuple::FS::template push<E1, E2>;
 
-		#define tuple_import_catenate()										\
+		#define grammaric_Tuple_import_catenate()								\
 															\
 			template<typename E1, typename E2, typename... E>						\
 			using catenate = typename Tuple::FS::template catenate<E1, E2, E...>;
 
 /***********************************************************************************************************************/
 
-		#define tuple_import_parameter()									\
+		#define grammaric_Tuple_import_parameter()								\
 															\
 			template<typename Type, Type... Values>								\
 			using parameter = typename Tuple::FS::template parameter<Type, Values...>;

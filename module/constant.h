@@ -33,12 +33,12 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define constant_import_constant()									\
+		#define grammaric_Constant_import_constant()								\
 															\
 			template<typename Type, Type... Value>								\
 			using constant = typename Constant::SS::template constant<Type, Value...>;
 
-		#define constant_import_boolean()									\
+		#define grammaric_Constant_import_boolean()								\
 															\
 			template<bool Value>										\
 			using boolean = typename Constant::SS::template boolean<Value>;
@@ -52,54 +52,54 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define constant_import_equal()										\
+		#define grammaric_Constant_import_equal()								\
 															\
 			template<typename E1, typename E2>								\
 			using equal = typename Constant::FS::template equal<E1, E2>;
 
-		#define constant_import_less_than()									\
+		#define grammaric_Constant_import_less_than()								\
 															\
 			template<typename E1, typename E2>								\
 			using less_than = typename Constant::FS::template less_than<E1, E2>;
 
-		#define constant_import_less_than_or_equal()								\
+		#define grammaric_Constant_import_less_than_or_equal()							\
 															\
 			template<typename E1, typename E2>								\
 			using less_than_or_equal = typename Constant::FS::template less_than_or_equal<E1, E2>;
 
-		#define constant_import_greater_than()									\
+		#define grammaric_Constant_import_greater_than()							\
 															\
 			template<typename E1, typename E2>								\
 			using greater_than = typename Constant::FS::template greater_than<E1, E2>;
 
-		#define constant_import_greater_than_or_equal()								\
+		#define grammaric_Constant_import_greater_than_or_equal()						\
 															\
 			template<typename E1, typename E2>								\
 			using greater_than_or_equal = typename Constant::FS::template greater_than_or_equal<E1, E2>;
 
-		#define constant_import_empty()										\
+		#define grammaric_Constant_import_empty()								\
 															\
 			template<typename... E>										\
 			using empty = typename Constant::FS::template empty<E...>;
 
-		#define constant_import_is_constant()									\
+		#define grammaric_Constant_import_is_constant()								\
 															\
 			template<typename E1>										\
 			using is_constant = typename Constant::FS::template is_constant<E1>;
 
 /***********************************************************************************************************************/
 
-		#define constant_import_Not()										\
+		#define grammaric_Constant_import_Not()									\
 															\
 			template<typename E1>										\
 			using Not = typename Constant::FS::template Not<E1>;
 
-		#define constant_import_And()										\
+		#define grammaric_Constant_import_And()									\
 															\
 			template<typename E1, typename E2, typename... E>						\
 			using And = typename Constant::FS::template And<E1, E2, E...>;
 
-		#define constant_import_Or()										\
+		#define grammaric_Constant_import_Or()									\
 															\
 			template<typename E1, typename E2, typename... E>						\
 			using Or = typename Constant::FS::template Or<E1, E2, E...>;

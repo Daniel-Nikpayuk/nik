@@ -15,11 +15,58 @@
 **
 ************************************************************************************************************************/
 
-struct MUL
+struct add
 {
-	using is_primitive = boolean<true>;
+	template<typename...> struct lambda;
 
-	template<typename Type, Type x>
-	struct lambda { static constexpr Type value = x*x; };
+	template<typename Type, Type Value1, Type Value2>
+	struct lambda<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = constant<Type, Value1 + Value2>;
+	};
+};
+
+struct sub
+{
+	template<typename...> struct lambda;
+
+	template<typename Type, Type Value1, Type Value2>
+	struct lambda<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = constant<Type, Value1 - Value2>;
+	};
+};
+
+struct mul
+{
+	template<typename...> struct lambda;
+
+	template<typename Type, Type Value1, Type Value2>
+	struct lambda<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = constant<Type, Value1 * Value2>;
+	};
+};
+
+struct div
+{
+	template<typename...> struct lambda;
+
+	template<typename Type, Type Value1, Type Value2>
+	struct lambda<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = constant<Type, Value1 / Value2>;
+	};
+};
+
+struct mod
+{
+	template<typename...> struct lambda;
+
+	template<typename Type, Type Value1, Type Value2>
+	struct lambda<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = constant<Type, Value1 % Value2>;
+	};
 };
 

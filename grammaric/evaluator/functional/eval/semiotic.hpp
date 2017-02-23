@@ -15,36 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<bool Value>
-struct static_error
+template<typename Expression, typename Environment>
+struct eval
 {
-	static_assert(Value, "EVAL fail!");
-
-	using rtn = void;
-};
-
-template<typename Expression, typename... Expressions, typename... Frames>
-struct EVAL<tuple<Expression, Expressions...>, environment<Frames...>>
-{
-	using Environment = environment<Frames...>;
-
 	using rtn = typename block
 	<
 		if_then
 		<
-			is_begin<Expression>,
-			BEGIN<Expression, Environment>
-
-		>, else_then
-		<
-			is_application<Expression>,
-			APPLY<Expression, Environment>
+			boolean<true>,//is_self_evaluating<Expression>,
+			Expression
 
 		>, then
 		<
-			static_error<true>
+			undefined
 		>
 
-	>::rtn::rtn;
+	>::rtn;
 };
 

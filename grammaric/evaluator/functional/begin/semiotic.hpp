@@ -17,30 +17,16 @@
 
 template<typename, typename> struct BEGIN;
 
-template<typename Expression, typename... Expressions, typename... Frames>
-struct BEGIN<expression<Expression, Expressions...>, environment<Frames...>>
+template<typename Exp, typename... Exps, typename... Frames>
+struct BEGIN<expression<Exp, Exps...>, environment<Frames...>>
 {
-	using Environment = environment<Frames...>;
+	using Env = environment<Frames...>;
 
 	using rtn = typename cons
 	<
-		EVAL<Expression, Environment>,
-		BEGIN<expression<Expressions...>, Environment>
+		EVAL<Exp, Env>,
+		BEGIN<expression<Exps...>, Env>
 
 	>::rtn;
-};
-
-//
-
-template<typename>
-struct is_begin
-{
-	using rtn = boolean<false>;
-};
-
-template<typename... Expressions>
-struct is_begin<BEGIN<Expressions...>>
-{
-	using rtn = boolean<true>;
 };
 

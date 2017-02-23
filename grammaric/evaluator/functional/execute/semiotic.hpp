@@ -15,28 +15,27 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+template<typename, typename> struct EXECUTE;
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
+template<typename Primitive, typename... Arguments, typename... Frames>
+struct EXECUTE<expression<Primitive, Arguments...>, environment<Frames...>>
 {
-	using Binding = binding<Variable, Type, Value...>;
+	using Env = environment<Frames...>;
 
 	using rtn = typename conditional
 	<
-		match<variable, Binding>,
-		Binding,
-		active
+		typename Function::is_primitive,
+		typename Function::template lambda<Parameters...>,
 		<
-			find<Bindings..., variable>
+			typename Function::body,
+			extend
+			<
+				Environment,
+				typename Function::variables,
+				typename Function::constants
+			>
 		>
 
-	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
+	>::rtn::rtn;
 };
 

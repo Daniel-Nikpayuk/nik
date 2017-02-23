@@ -18,183 +18,31 @@
 template<typename expression>
 struct printer
 {
-	template<typename T, typename Filler = void>
-	struct strict;
+	template<typename E1> struct strict;
 
-	template<typename Filler>
-	struct strict<char, Filler>
+	template<typename Type>
+	struct strict<constant<Type>>
 	{
-		static void print() { nik::display << "char"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "char" << u; }
+		static void print()
+		{
+			type_printer<Type>::print();
+		};
 	};
 
-	template<typename Filler>
-	struct strict<signed char, Filler>
+	template<typename Type, Type Value>
+	struct strict<constant<Type, Value>>
 	{
-		static void print() { nik::display << "signed char"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "signed char" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<unsigned char, Filler>
-	{
-		static void print() { nik::display << "unsigned char"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "unsigned char" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<wchar_t, Filler>
-	{
-		static void print() { nik::display << "wchar_t"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "wchar_t" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<char16_t, Filler>
-	{
-		static void print() { nik::display << "char16_t"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "char16_t" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<char32_t, Filler>
-	{
-		static void print() { nik::display << "char32_t"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "char32_t" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<short, Filler>
-	{
-		static void print() { nik::display << "short"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "short" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<unsigned short, Filler>
-	{
-		static void print() { nik::display << "unsigned short"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "unsigned short" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<int, Filler>
-	{
-		static void print() { nik::display << "int"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "int" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<unsigned int, Filler>
-	{
-		static void print() { nik::display << "unsigned int"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "unsigned int" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<long, Filler>
-	{
-		static void print() { nik::display << "long"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "long" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<unsigned long, Filler>
-	{
-		static void print() { nik::display << "unsigned long"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "unsigned long" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<long long, Filler>
-	{
-		static void print() { nik::display << "long long"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "long long" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<unsigned long long, Filler>
-	{
-		static void print() { nik::display << "unsigned long long"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "unsigned long long" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<float, Filler>
-	{
-		static void print() { nik::display << "float"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "float" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<double, Filler>
-	{
-		static void print() { nik::display << "double"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "double" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<long double, Filler>
-	{
-		static void print() { nik::display << "long double"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "long double" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<bool, Filler>
-	{
-		static void print() { nik::display << "bool"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "bool" << u; }
-	};
-
-	template<typename Filler>
-	struct strict<const char*, Filler>
-	{
-		static void print() { nik::display << "const char*"; }
-
-		template<typename U>
-		static void print(U u) { nik::display << "const char*" << u; }
+		static void print()
+		{
+			type_printer<Type>::print();
+			builtin_printer::print(": ");
+			builtin_printer::print(Value);
+		};
 	};
 
 	static void print()
 	{
-		strict<typename expression::rtn::type>::print();
+		strict<typename expression::rtn>::print();
 	}
 };
 

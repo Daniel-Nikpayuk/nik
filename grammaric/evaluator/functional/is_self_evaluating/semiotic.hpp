@@ -15,3 +15,9 @@
 **
 ************************************************************************************************************************/
 
+template<typename E>
+struct is_self_evaluating
+{
+	using rtn = typename is_constant<E>::rtn;
+};
+

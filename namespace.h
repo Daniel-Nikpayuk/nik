@@ -59,7 +59,7 @@ namespace nik
 
 	namespace grammaric
 	{
-		template<typename> struct eval { };
+		template<typename> struct active { };
 
 		template
 		<
@@ -83,10 +83,10 @@ namespace nik
 			);
 		};
 
-		#define grammaric_import_eval()										\
+		#define grammaric_import_active()									\
 															\
 			template<typename E1>										\
-			using eval = grammaric::eval<E1>;
+			using active = nik::grammaric::active<E1>;
 	}
 
 	namespace numeric

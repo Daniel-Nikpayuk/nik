@@ -15,28 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+template<typename, typename> struct VALUE;
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
+template<typename Variable, typename... Frames>
+struct VALUE<expression<Variable>, environment<Frames...>>
 {
-	using Binding = binding<Variable, Type, Value...>;
+	using Env = environment<Frames...>;
 
-	using rtn = typename conditional
-	<
-		match<variable, Binding>,
-		Binding,
-		active
-		<
-			find<Bindings..., variable>
-		>
-
-	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
+	using rtn = typename lookup<Env, Variable>::rtn;
 };
 

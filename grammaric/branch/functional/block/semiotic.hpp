@@ -47,7 +47,7 @@ struct sub_block<else_then<P, E1>, E...>
 	};
 
 	template<typename e1, typename... e>
-	struct strict<boolean<true>, eval<e1>, sub_block<e...>>
+	struct strict<boolean<true>, active<e1>, sub_block<e...>>
 	{
 		using rtn = typename e1::rtn;
 	};
@@ -74,7 +74,7 @@ struct sub_block<then<E1>>
 };
 
 template<typename E1>
-struct sub_block<then<eval<E1>>>
+struct sub_block<then<active<E1>>>
 {
 	using rtn = typename E1::rtn;
 };
@@ -97,7 +97,7 @@ struct block<if_then<P, E1>, E...>
 	};
 
 	template<typename e1, typename... e>
-	struct strict<boolean<true>, eval<e1>, sub_block<e...>>
+	struct strict<boolean<true>, active<e1>, sub_block<e...>>
 	{
 		using rtn = typename e1::rtn;
 	};

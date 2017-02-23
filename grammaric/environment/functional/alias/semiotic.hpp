@@ -15,21 +15,22 @@
 **
 ************************************************************************************************************************/
 
-import(constant, constant)
-import(constant, boolean)
+nik_import(grammaric, Constant, constant)
+nik_import(grammaric, Constant, boolean)
+nik_import(grammaric, Constant, equal)
 
 //
 
-import(branch, conditional)
+nik_import(grammaric, Branch, conditional)
 
 //
 
-import(tuple, tuple)
+nik_import(grammaric, Tuple, tuple)
 
 //
 
-import(environment, binding)
-import(environment, storage)
-import(environment, frame)
-import(environment, environment)
+nik_import(grammaric, Environment, binding)
+nik_import(grammaric, Environment, storage)
+nik_import(grammaric, Environment, frame)
+nik_import(grammaric, Environment, environment)
 

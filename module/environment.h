@@ -36,7 +36,7 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define environment_import_binding()									\
+		#define grammaric_Environment_import_binding()								\
 															\
 			template<typename Variable, typename Type, Type... Value>					\
 			using binding = typename Environment::SS::template binding<Variable, Type, Value...>;		\
@@ -45,7 +45,7 @@ namespace grammaric	{
 
 /***********************************************************************************************************************/
 
-		#define environment_import_storage()									\
+		#define grammaric_Environment_import_storage()								\
 															\
 			template<typename... Variables>									\
 			using storage = typename Environment::SS::template storage<Variables...>;			\
@@ -54,7 +54,7 @@ namespace grammaric	{
 
 /***********************************************************************************************************************/
 
-		#define environment_import_frame()									\
+		#define grammaric_Environment_import_frame()								\
 															\
 			template<typename... Bindings>									\
 			using frame = typename Environment::SS::template frame<Bindings...>;				\
@@ -63,7 +63,7 @@ namespace grammaric	{
 
 /***********************************************************************************************************************/
 
-		#define environment_import_environment()								\
+		#define grammaric_Environment_import_environment()							\
 															\
 			template<typename... Frames>									\
 			using environment = typename Environment::SS::template environment<Frames...>;			\
@@ -79,10 +79,37 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define environment_import_extend()									\
+		#define grammaric_Environment_import_match()								\
 															\
-			template<typename Environment, typename Variables, typename Constants>				\
-			using extend = typename Environment::FS::template extend<Environment, Variables, Constants>;
+			template<typename variable, typename Binding>							\
+			using match = typename Environment::FS::template match<variable, Binding>;
+
+		#define grammaric_Environment_import_find()								\
+															\
+			template<typename Frame, typename variable>							\
+			using find = typename Environment::FS::template find<Frame, variable>;
+
+		#define grammaric_Environment_import_lookup()								\
+															\
+			template<typename Env, typename variable>							\
+			using lookup = typename Environment::FS::template lookup<Env, variable>;
+
+/***********************************************************************************************************************/
+
+		#define grammaric_Environment_import_add()								\
+															\
+			template<typename Binding, typename Frame>							\
+			using add = typename Environment::FS::template add<Binding, Frame>;
+
+		#define grammaric_Environment_import_make()								\
+															\
+			template<typename Variables, typename Constants>						\
+			using make = typename Environment::FS::template make<Variables, Constants>;
+
+		#define grammaric_Environment_import_extend()								\
+															\
+			template<typename Env, typename Variables, typename Constants>					\
+			using extend = typename Environment::FS::template extend<Env, Variables, Constants>;
 	};
 
 }}

@@ -56,6 +56,125 @@ namespace nik
 
 	} builtin;
 
+	//
+
+	template<typename T, typename Filler = void> struct type_printer;
+
+	template<typename Filler>
+	struct type_printer<char, Filler>
+	{
+		static void print() { builtin_printer::print("char"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<signed char, Filler>
+	{
+		static void print() { builtin_printer::print("signed char"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<unsigned char, Filler>
+	{
+		static void print() { builtin_printer::print("unsigned char"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<wchar_t, Filler>
+	{
+		static void print() { builtin_printer::print("wchar_t"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<char16_t, Filler>
+	{
+		static void print() { builtin_printer::print("char16_t"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<char32_t, Filler>
+	{
+		static void print() { builtin_printer::print("char32_t"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<short, Filler>
+	{
+		static void print() { builtin_printer::print("short"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<unsigned short, Filler>
+	{
+		static void print() { builtin_printer::print("unsigned short"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<int, Filler>
+	{
+		static void print() { builtin_printer::print("int"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<unsigned int, Filler>
+	{
+		static void print() { builtin_printer::print("unsigned int"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<long, Filler>
+	{
+		static void print() { builtin_printer::print("long"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<unsigned long, Filler>
+	{
+		static void print() { builtin_printer::print("unsigned long"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<long long, Filler>
+	{
+		static void print() { builtin_printer::print("long long"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<unsigned long long, Filler>
+	{
+		static void print() { builtin_printer::print("unsigned long long"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<float, Filler>
+	{
+		static void print() { builtin_printer::print("float"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<double, Filler>
+	{
+		static void print() { builtin_printer::print("double"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<long double, Filler>
+	{
+		static void print() { builtin_printer::print("long double"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<bool, Filler>
+	{
+		static void print() { builtin_printer::print("bool"); }
+	};
+
+	template<typename Filler>
+	struct type_printer<const char*, Filler>
+	{
+		static void print() { builtin_printer::print("const char*"); }
+	};
+
+/*
 	struct parameter_printer
 	{
 		template<typename enum_type, enum_type... params> struct unroll;
@@ -86,6 +205,7 @@ namespace nik
 			unroll<enum_type, params...>::print();
 		}
 	};
+*/
 
 	struct verbatim_printer : public builtin_printer
 	{

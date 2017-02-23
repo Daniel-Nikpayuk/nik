@@ -15,28 +15,30 @@
 **
 ************************************************************************************************************************/
 
-template<typename...> struct BODY;
+template<typename...> struct body { };
+struct Define { };
 
 //
 
 template<typename... Expressions>
 struct DEFINE
 {
-	template<typename, typename Tuple = null_tuple, size_type Value = 0> struct parse;
+/*
+	template<typename, typename Tuple = null_expression, size_type Value = 0> struct parse;
 
 	template<typename Variable, typename... Variables, typename... items, size_type Value>
-	struct parse<tuple<variable, vars...>, tuple<items...>, Value>
+	struct parse<expression<variable, vars...>, expression<items...>, Value>
 	{
-		using rtn = parse<tuple<vars...>, tuple<items..., index<variable, value>>>;
+		using rtn = parse<expression<vars...>, expression<items..., index<variable, value>>>;
 
 		using variables = typename rtn::variables;
 		using body = typename rtn::body;
 	};
 
 	template<typename... exp, typename... items, size_type value>
-	struct parse<tuple<BODY<exp...>>, tuple<items...>, value>
+	struct parse<expression<BODY<exp...>>, expression<items...>, value>
 	{
-		using variables = tuple<items...>;
+		using variables = expression<items...>;
 		using body = BODY<exp...>;
 	};
 
@@ -46,10 +48,11 @@ struct DEFINE
 	{
 		using is_primitive = boolean<false>;
 
-		using parsed = parse<tuple<Expressions...>>;
+		using parsed = parse<expression<Expressions...>>;
 
 		using variables = typename parsed::variables;
 		using body = typename parsed::body;
 	};
+*/
 };
 

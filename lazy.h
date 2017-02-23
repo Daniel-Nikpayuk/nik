@@ -26,17 +26,17 @@
 #define LAZY
 
 
-#define stringify(string)												\
+#define nik_stringify(string)												\
 															\
 	#string
 
 
-#define compile(name, path)												\
+#define nik_source(name, path)												\
 															\
-	stringify(path/nik/module/name.cpp)
+	nik_stringify(path/nik/module/name.cpp)
 
 
-#define module(name, path)												\
+#define nik_header(name, path)												\
 															\
 	stringify(path/nik/module/name.h)
 

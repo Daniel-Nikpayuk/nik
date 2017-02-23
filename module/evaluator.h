@@ -35,7 +35,7 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define evaluator_import_expression()									\
+		#define grammaric_Evaluator_import_expression()								\
 															\
 			template<typename... Expressions>								\
 			using expression = typename Evaluator::SS::template expression<Expressions...>;			\
@@ -53,10 +53,49 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define evaluator_import_EVAL()										\
+		#define grammaric_Evaluator_import_variables()								\
 															\
-			template<typename Expression, typename Environment>						\
-			using EVAL = typename Evaluator::FS::template EVAL<Expression, Environment>;
+			using a = typename Evaluator::FS::a;								\
+			using b = typename Evaluator::FS::b;								\
+			using c = typename Evaluator::FS::c;								\
+			using d = typename Evaluator::FS::d;								\
+			using e = typename Evaluator::FS::e;								\
+							        							\
+			using f = typename Evaluator::FS::f;								\
+			using g = typename Evaluator::FS::g;								\
+			using h = typename Evaluator::FS::h;								\
+			using i = typename Evaluator::FS::i;								\
+			using j = typename Evaluator::FS::j;								\
+							        							\
+			using k = typename Evaluator::FS::k;								\
+			using l = typename Evaluator::FS::l;								\
+			using m = typename Evaluator::FS::m;								\
+			using n = typename Evaluator::FS::n;								\
+			using o = typename Evaluator::FS::o;								\
+							        							\
+			using p = typename Evaluator::FS::p;								\
+			using q = typename Evaluator::FS::q;								\
+			using r = typename Evaluator::FS::r;								\
+			using s = typename Evaluator::FS::s;								\
+			using t = typename Evaluator::FS::t;								\
+							        							\
+			using u = typename Evaluator::FS::u;								\
+			using v = typename Evaluator::FS::v;								\
+			using w = typename Evaluator::FS::w;								\
+			using x = typename Evaluator::FS::x;								\
+			using y = typename Evaluator::FS::y;								\
+															\
+			using z = typename Evaluator::FS::z;
+
+		#define grammaric_Evaluator_import_keywords()								\
+															\
+			using Define = typename Evaluator::FS::Define;							\
+			using If = typename Evaluator::FS::If;
+
+		#define grammaric_Evaluator_import_eval()								\
+															\
+			template<typename... E>										\
+			using eval = typename Evaluator::FS::template eval<E...>;
 	};
 
 }}

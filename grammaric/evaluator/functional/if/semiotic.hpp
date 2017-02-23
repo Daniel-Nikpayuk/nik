@@ -15,17 +15,5 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename Filler = void> struct is_null;
-
-template<typename Variable, typename Type, Type... Value, typename Filler>
-struct is_null<binding<Variable, Type, Value...>, Filler>
-{
-	using rtn = boolean<false>;
-};
-
-template<typename Filler>
-struct is_null<null_binding, Filler>
-{
-	using rtn = boolean<true>;
-};
+struct If { };
 

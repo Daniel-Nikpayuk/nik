@@ -15,28 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
-
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
+struct undefined
 {
-	using Binding = binding<Variable, Type, Value...>;
+	using rtn = undefined;
 
-	using rtn = typename conditional
-	<
-		match<variable, Binding>,
-		Binding,
-		active
-		<
-			find<Bindings..., variable>
-		>
-
-	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
+	static void print() { builtin_printer::print("undefined"); }
 };
 

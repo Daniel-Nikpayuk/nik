@@ -22,11 +22,6 @@ namespace grammaric	{
 	struct module<Module::constant, Orientation::functional, Interface::media, SizeType>
 	{
 		typedef SizeType size_type;
-
-		#include"compare/media.hpp"
-		#include"empty/media.hpp"
-
-//		#include"printer/media.hpp"
 	};
 
 }}

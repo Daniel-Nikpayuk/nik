@@ -23,6 +23,8 @@ struct constant<Type>
 	using rtn = constant;
 
 	using type = Type;
+
+	static void print() { Constant::FS::template printer<rtn>::print(); }
 };
 
 template<typename Type, Type Value>
@@ -33,6 +35,8 @@ struct constant<Type, Value>
 	using type = Type;
 
 	static constexpr Type value = Value;
+
+	static void print() { Constant::FS::template printer<rtn>::print(); }
 };
 
 template<bool Value>

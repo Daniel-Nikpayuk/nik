@@ -18,11 +18,12 @@
 template<typename...>
 struct empty
 {
-	using rtn = typename equal
-	<
-		empty,
-		empty<>
+	using rtn = boolean<true>;
+};
 
-	>::rtn;
+template<typename E1, typename... E>
+struct empty<E1, E...>
+{
+	using rtn = boolean<false>;
 };
 

@@ -48,8 +48,8 @@ struct is_application
 	using rtn = boolean<false>;
 };
 
-template<typename... Expressions>
-struct is_application<APPLY<Expressions...>>
+template<typename E1, typename Env>
+struct is_application<APPLY<E1, Env>>
 {
 	using rtn = boolean<true>;
 };

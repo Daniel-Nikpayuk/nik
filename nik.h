@@ -36,9 +36,14 @@
 /***********************************************************************************************************************/
 
 
-#define import(module, name)												\
+#define nik_using(space, Name)												\
 															\
-	module##_import_##name()
+	using Name = nik::space::Name##Module<size_type>;
+
+
+#define nik_import(space, module, name)											\
+															\
+	space##_##module##_import_##name()
 
 
 /***********************************************************************************************************************/
@@ -48,17 +53,17 @@
 #ifndef LAZY
 
 
-#define stringify(string)												\
+#define nik_stringify(string)												\
 															\
 	#string
 
 
-#define nik(name)													\
+#define nik_module(name)												\
 															\
-	stringify(module/name.h)
+	nik_stringify(module/name.h)
 
 
-#include nik(evaluator)
+#include nik_module(evaluator)
 
 
 #endif

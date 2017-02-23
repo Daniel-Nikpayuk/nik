@@ -15,28 +15,16 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+// begin:
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
-{
-	using Binding = binding<Variable, Type, Value...>;
+struct variable { };
 
-	using rtn = typename conditional
-	<
-		match<variable, Binding>,
-		Binding,
-		active
-		<
-			find<Bindings..., variable>
-		>
+// begin:
 
-	>::rtn;
-};
+struct begin { };
 
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
-};
+// application:
+
+struct primitive { };
+struct compound { };
 

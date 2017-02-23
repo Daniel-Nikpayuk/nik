@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-import(constant, boolean)
-import(constant, empty)
-import(constant, Not)
+nik_import(grammaric, Constant, boolean)
+nik_import(grammaric, Constant, empty)
+nik_import(grammaric, Constant, Not)
 

@@ -24,8 +24,8 @@ struct lookup<environment<Frame, Frames...>, variable>
 
 	using rtn = typename conditional
 	<
-		is_null<found>,
-		eval
+		equal<found, null_binding>,
+		active
 		<
 			lookup<environment<Frames...>, variable>
 		>,

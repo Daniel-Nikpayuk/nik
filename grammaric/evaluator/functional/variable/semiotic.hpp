@@ -15,28 +15,35 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+struct a { };
+struct b { };
+struct c { };
+struct d { };
+struct e { };
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Type, Value...>, Bindings...>, variable>
-{
-	using Binding = binding<Variable, Type, Value...>;
+struct f { };
+struct g { };
+struct h { };
+struct i { };
+struct j { };
 
-	using rtn = typename conditional
-	<
-		match<variable, Binding>,
-		Binding,
-		active
-		<
-			find<Bindings..., variable>
-		>
+struct k { };
+struct l { };
+struct m { };
+struct n { };
+struct o { };
 
-	>::rtn;
-};
+struct p { };
+struct q { };
+struct r { };
+struct s { };
+struct t { };
 
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = null_binding;
-};
+struct u { };
+struct v { };
+struct w { };
+struct x { };
+struct y { };
+
+struct z { };
 

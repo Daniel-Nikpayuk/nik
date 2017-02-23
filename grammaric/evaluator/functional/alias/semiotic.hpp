@@ -15,24 +15,24 @@
 **
 ************************************************************************************************************************/
 
-import(constant, boolean)
+nik_import(grammaric, Constant, constant)
+nik_import(grammaric, Constant, boolean)
+
+nik_import(grammaric, Constant, equal)
+nik_import(grammaric, Constant, is_constant)
 
 //
 
-import(branch, conditional)
-import(branch, block)
+nik_import(grammaric, Branch, conditional)
+nik_import(grammaric, Branch, block)
 
 //
 
-import(tuple, tuple)
-import(tuple, cons)
+nik_import(grammaric, Environment, environment)
+nik_import(grammaric, Environment, lookup)
+nik_import(grammaric, Environment, extend)
 
 //
 
-import(environment, environment)
-import(environment, extend)
-
-//
-
-import(evaluator, expression)
+nik_import(grammaric, Evaluator, expression)
 

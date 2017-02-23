@@ -23,20 +23,29 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
-		using Constant		= ConstantModule<size_type>;
-		using Branch		= BranchModule<size_type>;
-		using Tuple		= TupleModule<size_type>;
-		using Environment	= EnvironmentModule<size_type>;
-		using Evaluator		= EvaluatorModule<size_type>;
+		nik_using(grammaric, Constant)
+		nik_using(grammaric, Branch)
+		nik_using(grammaric, Tuple)
+		nik_using(grammaric, Environment)
+		nik_using(grammaric, Evaluator)
 
 		#include"alias/semiotic.hpp"
 
 		//
 
-		template<typename, typename> struct EVAL;
+		#include"undefined/semiotic.hpp"
+		#include"variable/semiotic.hpp"
+		#include"primitive/semiotic.hpp"
 
-		#include"begin/semiotic.hpp"
-		#include"apply/semiotic.hpp"
+		#include"is_self_evaluating/semiotic.hpp"
+
+		template<typename, typename Environment = null_environment> struct eval;
+
+		#include"define/semiotic.hpp"
+		#include"if/semiotic.hpp"
+//		#include"begin/semiotic.hpp"
+//		#include"execute/semiotic.hpp"
+//		#include"apply/semiotic.hpp"
 
 		#include"eval/semiotic.hpp"
 
