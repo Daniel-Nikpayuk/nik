@@ -38,8 +38,8 @@ namespace grammaric	{
 
 		#define grammaric_Environment_import_binding()								\
 															\
-			template<typename Variable, typename Type, Type... Value>					\
-			using binding = typename Environment::SS::template binding<Variable, Type, Value...>;		\
+			template<typename Variable, typename Value>							\
+			using binding = typename Environment::SS::template binding<Variable, Value>;			\
 															\
 			using null_binding = typename Environment::SS::null_binding;
 
@@ -78,11 +78,6 @@ namespace grammaric	{
 
 			SizeType
 		>;
-
-		#define grammaric_Environment_import_match()								\
-															\
-			template<typename variable, typename Binding>							\
-			using match = typename Environment::FS::template match<variable, Binding>;
 
 		#define grammaric_Environment_import_find()								\
 															\

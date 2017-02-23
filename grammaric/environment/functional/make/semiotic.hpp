@@ -17,21 +17,23 @@
 
 template<typename, typename> struct make;
 
-// Assumes length<Variables> == length<Constants>
+// Assumes length<Variables> == length<Values>
 
-template<typename Variable, typename... Variables, typename Type, Type... Value, typename... Constants>
-struct make<storage<Variable, Variables...>, tuple<constant<Type, Value...>, Constants...>>
+template<typename Variable, typename... Variables, typename Value, typename... Values>
+struct make<storage<Variable, Variables...>, storage<Value, Values...>>
 {
+	using Frame = typename make<storage<Variables...>, storage<Values...>>::rtn;
+
 	using rtn = typename add
 	<
-		binding<Variable, Type, Value...>,
-		make<storage<Variables...>, tuple<Constants...>>
+		binding<Variable, Value>,
+		Frame
 
 	>::rtn;
 };
 
-template<typename... Constants>
-struct make<null_storage, tuple<Constants...>>
+template<typename... Values>
+struct make<null_storage, storage<Values...>>
 {
 	using rtn = null_frame;
 };

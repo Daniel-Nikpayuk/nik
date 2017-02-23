@@ -25,14 +25,12 @@ namespace grammaric	{
 
 		nik_using(grammaric, Constant)
 		nik_using(grammaric, Branch)
-		nik_using(grammaric, Tuple)
 		nik_using(grammaric, Environment)
 
 		#include"alias/semiotic.hpp"
 
 		//
 
-		#include"match/semiotic.hpp"
 		#include"find/semiotic.hpp"
 		#include"lookup/semiotic.hpp"
 

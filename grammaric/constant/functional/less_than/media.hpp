@@ -15,26 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
-
-template<typename Variable, typename Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Value>, Bindings...>, variable>
-{
-	using rtn = typename conditional
-	<
-		equal<Variable, variable>,
-		Value,
-		act
-		<
-			find<frame<Bindings...>, variable>
-		>
-
-	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = undefined;
-};
-

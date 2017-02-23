@@ -18,8 +18,9 @@
 nik_import(grammaric, Constant, constant)
 nik_import(grammaric, Constant, boolean)
 
-nik_import(grammaric, Constant, equal)
 nik_import(grammaric, Constant, is_constant)
+nik_import(grammaric, Constant, equal)
+nik_import(grammaric, Constant, Or)
 
 //
 
@@ -28,7 +29,10 @@ nik_import(grammaric, Branch, block)
 
 //
 
+nik_import(grammaric, Environment, binding)
+nik_import(grammaric, Environment, frame)
 nik_import(grammaric, Environment, environment)
+
 nik_import(grammaric, Environment, lookup)
 nik_import(grammaric, Environment, extend)
 

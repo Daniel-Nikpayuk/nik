@@ -20,16 +20,16 @@ template<typename, typename> struct lookup;
 template<typename Frame, typename... Frames, typename variable>
 struct lookup<environment<Frame, Frames...>, variable>
 {
-	using found = typename find<Frame, variable>::rtn;
+	using Value = typename find<Frame, variable>::rtn;
 
 	using rtn = typename conditional
 	<
-		equal<found, null_binding>,
-		active
+		equal<Value, undefined>,
+		act
 		<
 			lookup<environment<Frames...>, variable>
 		>,
-		found
+		Value
 
 	>::rtn;
 };
@@ -37,6 +37,6 @@ struct lookup<environment<Frame, Frames...>, variable>
 template<typename variable>
 struct lookup<null_environment, variable>
 {
-	using rtn = null_binding;
+	using rtn = undefined;
 };
 

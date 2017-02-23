@@ -59,7 +59,15 @@ namespace nik
 
 	namespace grammaric
 	{
-		template<typename> struct active { };
+		struct undefined
+		{
+			using rtn = undefined;
+
+			static void print() { builtin_printer::print("undefined"); }
+		};
+
+		template<typename> struct act { };
+		template<typename> struct pass { };
 
 		template
 		<
@@ -83,10 +91,15 @@ namespace nik
 			);
 		};
 
-		#define grammaric_import_active()									\
+		#define grammaric_import_act()										\
 															\
-			template<typename E1>										\
-			using active = nik::grammaric::active<E1>;
+			template<typename Exp>										\
+			using act = nik::grammaric::act<Exp>;
+
+		#define grammaric_import_pass()										\
+															\
+			template<typename Exp>										\
+			using pass = nik::grammaric::pass<Exp>;
 	}
 
 	namespace numeric

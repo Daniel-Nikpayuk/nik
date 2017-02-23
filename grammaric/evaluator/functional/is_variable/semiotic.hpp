@@ -15,10 +15,43 @@
 **
 ************************************************************************************************************************/
 
-struct undefined
+template<typename Exp>
+struct is_variable
 {
-	using rtn = undefined;
+	using rtn = typename Or
+	<
+		equal<Exp, a>,
+		equal<Exp, b>,
+		equal<Exp, c>,
+		equal<Exp, d>,
+		equal<Exp, e>,
 
-	static void print() { builtin_printer::print("undefined"); }
+		equal<Exp, f>,
+		equal<Exp, g>,
+		equal<Exp, h>,
+		equal<Exp, i>,
+		equal<Exp, j>,
+
+		equal<Exp, k>,
+		equal<Exp, l>,
+		equal<Exp, m>,
+		equal<Exp, n>,
+		equal<Exp, o>,
+
+		equal<Exp, p>,
+		equal<Exp, q>,
+		equal<Exp, r>,
+		equal<Exp, s>,
+		equal<Exp, t>,
+
+		equal<Exp, u>,
+		equal<Exp, v>,
+		equal<Exp, w>,
+		equal<Exp, x>,
+		equal<Exp, y>,
+
+		equal<Exp, z>
+
+	>::rtn;
 };
 

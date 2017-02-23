@@ -25,7 +25,6 @@ namespace grammaric	{
 
 		nik_using(grammaric, Constant)
 		nik_using(grammaric, Branch)
-		nik_using(grammaric, Tuple)
 		nik_using(grammaric, Environment)
 		nik_using(grammaric, Evaluator)
 
@@ -33,11 +32,11 @@ namespace grammaric	{
 
 		//
 
-		#include"undefined/semiotic.hpp"
 		#include"variable/semiotic.hpp"
 		#include"primitive/semiotic.hpp"
 
 		#include"is_self_evaluating/semiotic.hpp"
+		#include"is_variable/semiotic.hpp"
 
 		template<typename, typename Environment = null_environment> struct eval;
 

@@ -15,27 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename E1, typename E2, typename... E>
+template<typename Exp1, typename Exp2, typename... Exps>
 struct Or
 {
 	template<typename, typename...> struct strict;
-
-	template<typename e2, typename... e>
-	struct strict<boolean<true>, e2, e...>
-	{
-		using rtn = boolean<true>;
-	};
-
-	template<typename e2, typename... e>
-	struct strict<boolean<false>, e2, e...>
-	{
-		using rtn = typename strict
-		<
-			typename e2::rtn,
-			e...
-
-		>::rtn;
-	};
 
 	template<bool Value>
 	struct strict<boolean<Value>>
@@ -43,11 +26,23 @@ struct Or
 		using rtn = boolean<Value>;
 	};
 
+	template<typename exp, typename... exps>
+	struct strict<boolean<true>, exp, exps...>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename exp, typename... exps>
+	struct strict<boolean<false>, exp, exps...>
+	{
+		using rtn = typename strict<typename exp::rtn, exps...>::rtn;
+	};
+
 	using rtn = typename strict
 	<
-		typename E1::rtn,
-		E2,
-		E...
+		typename Exp1::rtn,
+		Exp2,
+		Exps...
 
 	>::rtn;
 };

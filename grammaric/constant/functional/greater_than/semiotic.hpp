@@ -15,26 +15,24 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct find;
+// Assumes "Type" has an implicit equals operator:
 
-template<typename Variable, typename Value, typename... Bindings, typename variable>
-struct find<frame<binding<Variable, Value>, Bindings...>, variable>
+template<typename Exp1, typename Exp2>
+struct greater_than
 {
-	using rtn = typename conditional
+	template<typename, typename> struct strict;
+
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = boolean<(Value1 > Value2)>;
+	};
+
+	using rtn = typename strict
 	<
-		equal<Variable, variable>,
-		Value,
-		act
-		<
-			find<frame<Bindings...>, variable>
-		>
+		typename Exp1::rtn,
+		typename Exp2::rtn
 
 	>::rtn;
-};
-
-template<typename variable>
-struct find<null_frame, variable>
-{
-	using rtn = undefined;
 };
 

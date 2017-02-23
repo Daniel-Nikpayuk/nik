@@ -21,8 +21,8 @@ struct empty
 	using rtn = boolean<true>;
 };
 
-template<typename E1, typename... E>
-struct empty<E1, E...>
+template<typename Exp, typename... Exps>
+struct empty<Exp, Exps...>
 {
 	using rtn = boolean<false>;
 };

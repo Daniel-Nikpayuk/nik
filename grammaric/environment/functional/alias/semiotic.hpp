@@ -25,10 +25,6 @@ nik_import(grammaric, Branch, conditional)
 
 //
 
-nik_import(grammaric, Tuple, tuple)
-
-//
-
 nik_import(grammaric, Environment, binding)
 nik_import(grammaric, Environment, storage)
 nik_import(grammaric, Environment, frame)

@@ -15,16 +15,24 @@
 **
 ************************************************************************************************************************/
 
-// begin:
+// Assumes "Type" has an implicit equals operator:
 
-struct variable { };
+template<typename Exp1, typename Exp2>
+struct less_than_or_equal
+{
+	template<typename, typename> struct strict;
 
-// begin:
+	template<typename Type, Type Value1, Type Value2>
+	struct strict<constant<Type, Value1>, constant<Type, Value2>>
+	{
+		using rtn = boolean<(Value1 <= Value2)>;
+	};
 
-struct begin { };
+	using rtn = typename strict
+	<
+		typename Exp1::rtn,
+		typename Exp2::rtn
 
-// application:
-
-struct primitive { };
-struct compound { };
+	>::rtn;
+};
 

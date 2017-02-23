@@ -15,10 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename expression>
+template<typename Exp>
 struct printer
 {
-	template<typename E1> struct strict;
+	template<typename> struct strict;
 
 	template<typename Type>
 	struct strict<constant<Type>>
@@ -42,7 +42,7 @@ struct printer
 
 	static void print()
 	{
-		strict<typename expression::rtn>::print();
+		strict<typename Exp::rtn>::print();
 	}
 };
 

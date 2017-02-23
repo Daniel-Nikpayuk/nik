@@ -15,13 +15,35 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct VALUE;
-
-template<typename Variable, typename... Frames>
-struct VALUE<expression<Variable>, environment<Frames...>>
+template<typename Type1, typename Type2>
+struct equal
 {
-	using Env = environment<Frames...>;
+	using rtn = boolean<false>;
+};
 
-	using rtn = typename lookup<Env, Variable>::rtn;
+template<typename Type>
+struct equal<Type, Type>
+{
+	using rtn = boolean<true>;
+};
+
+//
+
+template<typename Type, typename Exp>
+struct equal<Type, act<Exp>>
+{
+	using rtn = typename equal<Type, typename Exp::rtn>::rtn;
+};
+
+template<typename Exp, typename Type>
+struct equal<act<Exp>, Type>
+{
+	using rtn = typename equal<typename Exp::rtn, Type>::rtn;
+};
+
+template<typename Exp1, typename Exp2>
+struct equal<act<Exp1>, act<Exp2>>
+{
+	using rtn = typename equal<typename Exp1::rtn, typename Exp2::rtn>::rtn;
 };
 

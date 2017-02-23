@@ -15,17 +15,3 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct match;
-
-template<typename variable, typename Variable, typename Type, Type... Value>
-struct match<variable, binding<Variable, Type, Value...>>
-{
-	using rtn = boolean<false>;
-};
-
-template<typename variable, typename Type, Type... Value>
-struct match<variable, binding<variable, Type, Value...>>
-{
-	using rtn = boolean<true>;
-};
-

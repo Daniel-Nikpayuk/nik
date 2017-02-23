@@ -23,11 +23,11 @@
 /***********************************************************************************************************************/
 
 
+#include"printer.h"
+
 #include"namespace.h"
 
 //#include"error.h"
-
-#include"printer.h"
 
 //#include"user.h"
 

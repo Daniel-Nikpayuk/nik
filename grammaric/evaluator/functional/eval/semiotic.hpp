@@ -15,15 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template<typename Expression, typename Environment>
+template<typename Exp, typename Env>
 struct eval
 {
 	using rtn = typename block
 	<
 		if_then
 		<
-			boolean<true>,//is_self_evaluating<Expression>,
-			Expression
+			is_self_evaluating<Exp>,
+			Exp
+
+		>, else_then
+		<
+			is_variable<Exp>,
+			act
+			<
+				lookup<Env, Exp>
+			>
 
 		>, then
 		<

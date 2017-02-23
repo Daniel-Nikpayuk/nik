@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename E1>
+template<typename Exp>
 struct Not
 {
 	template<typename> struct strict;
@@ -28,7 +28,7 @@ struct Not
 
 	using rtn = typename strict
 	<
-		typename E1::rtn
+		typename Exp::rtn
 
 	>::rtn;
 };

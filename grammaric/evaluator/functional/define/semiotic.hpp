@@ -15,16 +15,40 @@
 **
 ************************************************************************************************************************/
 
-template<typename...> struct body { };
-struct Define { };
+template<typename...> struct body_ { };
 
 //
 
-template<typename... Expressions>
-struct DEFINE
+template<typename...> struct define_;
+
+template<typename Variable, typename Value>
+struct define_<Variable, Value>
 {
+	using rtn = environment
+	<
+		frame
+		<
+			binding<Variable, Value>
+		>
+	>;
+};
+
+template<typename Variable, typename Value, typename... Frames>
+struct define_<Variable, Value, environment<Frames...>>
+{
+	using rtn = environment
+	<
+		frame
+		<
+			binding<Variable, Value>
+		>,
+
+		Frames...
+	>;
+};
+
 /*
-	template<typename, typename Tuple = null_expression, size_type Value = 0> struct parse;
+	template<typename, typename Exp = null_expression, size_type Value = 0> struct parse;
 
 	template<typename Variable, typename... Variables, typename... items, size_type Value>
 	struct parse<expression<variable, vars...>, expression<items...>, Value>
@@ -36,10 +60,10 @@ struct DEFINE
 	};
 
 	template<typename... exp, typename... items, size_type value>
-	struct parse<expression<BODY<exp...>>, expression<items...>, value>
+	struct parse<expression<body_<exp...>>, expression<items...>, value>
 	{
 		using variables = expression<items...>;
-		using body = BODY<exp...>;
+		using body = body_<exp...>;
 	};
 
 	//
@@ -54,5 +78,4 @@ struct DEFINE
 		using body = typename parsed::body;
 	};
 */
-};
 

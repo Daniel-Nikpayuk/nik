@@ -15,25 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template<typename E1>
+template<typename>
 struct is_constant
 {
-	template<typename>
-	struct strict
-	{
-		using rtn = boolean<false>;
-	};
+	using rtn = boolean<false>;
+};
 
-	template<typename Type, Type... Value>
-	struct strict<constant<Type, Value...>>
-	{
-		using rtn = boolean<true>;
-	};
+template<typename Type, Type... Value>
+struct is_constant<constant<Type, Value...>>
+{
+	using rtn = boolean<true>;
+};
 
-	using rtn = typename strict
-	<
-		typename E1::rtn
-
-	>::rtn;
+template<typename Exp>
+struct is_constant<act<Exp>>
+{
+	using rtn = typename is_constant<typename Exp::rtn>::rtn;
 };
 

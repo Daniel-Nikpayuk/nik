@@ -29,9 +29,14 @@ namespace grammaric	{
 
 		//
 
-		#include"is_constant/semiotic.hpp"
-		#include"compare/semiotic.hpp"
 		#include"empty/semiotic.hpp"
+		#include"is_constant/semiotic.hpp"
+
+		#include"equal/semiotic.hpp"
+		#include"less_than/semiotic.hpp"
+		#include"less_than_or_equal/semiotic.hpp"
+		#include"greater_than/semiotic.hpp"
+		#include"greater_than_or_equal/semiotic.hpp"
 
 		#include"Not/semiotic.hpp"
 		#include"And/semiotic.hpp"

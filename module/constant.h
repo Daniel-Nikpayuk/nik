@@ -52,57 +52,57 @@ namespace grammaric	{
 			SizeType
 		>;
 
-		#define grammaric_Constant_import_equal()								\
-															\
-			template<typename E1, typename E2>								\
-			using equal = typename Constant::FS::template equal<E1, E2>;
-
-		#define grammaric_Constant_import_less_than()								\
-															\
-			template<typename E1, typename E2>								\
-			using less_than = typename Constant::FS::template less_than<E1, E2>;
-
-		#define grammaric_Constant_import_less_than_or_equal()							\
-															\
-			template<typename E1, typename E2>								\
-			using less_than_or_equal = typename Constant::FS::template less_than_or_equal<E1, E2>;
-
-		#define grammaric_Constant_import_greater_than()							\
-															\
-			template<typename E1, typename E2>								\
-			using greater_than = typename Constant::FS::template greater_than<E1, E2>;
-
-		#define grammaric_Constant_import_greater_than_or_equal()						\
-															\
-			template<typename E1, typename E2>								\
-			using greater_than_or_equal = typename Constant::FS::template greater_than_or_equal<E1, E2>;
-
 		#define grammaric_Constant_import_empty()								\
 															\
-			template<typename... E>										\
-			using empty = typename Constant::FS::template empty<E...>;
+			template<typename... Exps>									\
+			using empty = typename Constant::FS::template empty<Exps...>;
 
 		#define grammaric_Constant_import_is_constant()								\
 															\
-			template<typename E1>										\
-			using is_constant = typename Constant::FS::template is_constant<E1>;
+			template<typename Exp>										\
+			using is_constant = typename Constant::FS::template is_constant<Exp>;
+
+		#define grammaric_Constant_import_equal()								\
+															\
+			template<typename Exp1, typename Exp2>								\
+			using equal = typename Constant::FS::template equal<Exp1, Exp2>;
+
+		#define grammaric_Constant_import_less_than()								\
+															\
+			template<typename Exp1, typename Exp2>								\
+			using less_than = typename Constant::FS::template less_than<Exp1, Exp2>;
+
+		#define grammaric_Constant_import_less_than_or_equal()							\
+															\
+			template<typename Exp1, typename Exp2>								\
+			using less_than_or_equal = typename Constant::FS::template less_than_or_equal<Exp1, Exp2>;
+
+		#define grammaric_Constant_import_greater_than()							\
+															\
+			template<typename Exp1, typename Exp2>								\
+			using greater_than = typename Constant::FS::template greater_than<Exp1, Exp2>;
+
+		#define grammaric_Constant_import_greater_than_or_equal()						\
+															\
+			template<typename Exp1, typename Exp2>								\
+			using greater_than_or_equal = typename Constant::FS::template greater_than_or_equal<Exp1, Exp2>;
 
 /***********************************************************************************************************************/
 
 		#define grammaric_Constant_import_Not()									\
 															\
-			template<typename E1>										\
-			using Not = typename Constant::FS::template Not<E1>;
+			template<typename Exp>										\
+			using Not = typename Constant::FS::template Not<Exp>;
 
 		#define grammaric_Constant_import_And()									\
 															\
-			template<typename E1, typename E2, typename... E>						\
-			using And = typename Constant::FS::template And<E1, E2, E...>;
+			template<typename Exp1, typename Exp2, typename... Exps>					\
+			using And = typename Constant::FS::template And<Exp1, Exp2, Exps...>;
 
 		#define grammaric_Constant_import_Or()									\
 															\
-			template<typename E1, typename E2, typename... E>						\
-			using Or = typename Constant::FS::template Or<E1, E2, E...>;
+			template<typename Exp1, typename Exp2, typename... Exps>					\
+			using Or = typename Constant::FS::template Or<Exp1, Exp2, Exps...>;
 	};
 
 }}

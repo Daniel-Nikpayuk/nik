@@ -17,9 +17,9 @@
 
 template<typename, typename> struct add;
 
-template<typename Variable, typename Type, Type... Value, typename... Bindings>
-struct add<binding<Variable, Type, Value...>, frame<Bindings...>>
+template<typename Variable, typename Value, typename... Bindings>
+struct add<binding<Variable, Value>, frame<Bindings...>>
 {
-	using rtn = frame<binding<Variable, Type, Value...>, Bindings...>;
+	using rtn = frame<binding<Variable, Value>, Bindings...>;
 };
 

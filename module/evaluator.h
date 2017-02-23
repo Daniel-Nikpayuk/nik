@@ -87,10 +87,10 @@ namespace grammaric	{
 															\
 			using z = typename Evaluator::FS::z;
 
-		#define grammaric_Evaluator_import_keywords()								\
+		#define grammaric_Evaluator_import_define()								\
 															\
-			using Define = typename Evaluator::FS::Define;							\
-			using If = typename Evaluator::FS::If;
+			template<typename... E>										\
+			using define_ = typename Evaluator::FS::template define_<E...>;
 
 		#define grammaric_Evaluator_import_eval()								\
 															\

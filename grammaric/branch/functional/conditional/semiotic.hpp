@@ -33,7 +33,7 @@ struct conditional
 	};
 
 	template<typename e1, typename e2>
-	struct strict<boolean<true>, active<e1>, e2>
+	struct strict<boolean<true>, act<e1>, e2>
 	{
 		using rtn = typename e1::rtn;
 	};
@@ -45,7 +45,7 @@ struct conditional
 	};
 
 	template<typename e1, typename e2>
-	struct strict<boolean<false>, e1, active<e2>>
+	struct strict<boolean<false>, e1, act<e2>>
 	{
 		using rtn = typename e2::rtn;
 	};
