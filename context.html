@@ -1,6 +1,31 @@
 Design
 ======
 
+Design is based off of several orthogonal yet interlocking paradigms, both on specification side as well on implementation side.
+
+Specification side:
+
+1. narrative interface design: A polymorphic space is narratively constructed through the use of template definitions as generic
+combinatorial specifications. As the full space has at least a partially described structure, we can then specify subspaces
+by declaring substructures, how to compress their representations, and how to navigate these compressions relative to each other.
+2. with these compressed navigable subspaces as our interfaces, we are able to additively extend the filter, or dually,
+restrict the interface as type. In doing so we have access to the navigators of the extended filter or restricted type. 
+3. given the nature of the language we're applying this design to, we take advantage of its natural efficiencies and optimizations
+and dispatch partial specializations which fit the front end interface but might differ from the generic internals for optimization
+purposes.
+
+Implementation side:
+
+1. we modularize our narratives by tethering them to hardware abstractions. For each hardware module, we use the constructive
+narrative to further modularize any given narrative path into constructive objects.
+2. classify the code for each object as structure, navigation, filters, instances (optimizations).
+3. the filters and instances have both semiotic and media versions: Semiotic code has requirement to be elegant, efficient,
+reusable, but otherwise has no requirement to be safe. Media code has requirement to be safe, and is usually just a safe
+version (built from the semiotic code) for general users.
+4. instances are the partial specializations that match efficiencies of the language with the narrative interface design.
+
+----------------------------------------------
+
 How to compress a long string of instructions:
 ----------------------------------------------
 
