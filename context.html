@@ -1,7 +1,17 @@
 Design
 ======
 
-Design is based off of several orthogonal yet interlocking paradigms, both on specification side as well on implementation side.
+This paradigm of design is split into specification side and implementation side, each of which are decomposed into simpler
+paradigms.
+
+The inspiration for this paradigm is that of mathematically defined spaces: Each such space is given a constructive grammar
+(say R^2 which uses the constructive subgrammars of R, Q, Z, N, along with the product verb, etc). Once the space is constructed,
+the grammars along with basic (usually monoidal) functions will offer us ways to navigate these spaces. From there, we privilege
+spaces which possess a multitude of easily definable subspaces and subnavigators as they allow us to model many applications. 
+Such spaces are thus called *navigably complex*. Subspaces are structural types. Any subspace as model requires us to reinterpret
+that subspace by means of functional types. Thus, using predicate logic, we create an algebra of filters (dual concept of a type)
+where we can interpret and reinterpret the *type* of the subspace, equipping and reequipping it with alternative interfaces.
+Functional typology is perspective of type.
 
 Specification side:
 
