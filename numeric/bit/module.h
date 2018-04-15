@@ -19,40 +19,25 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<Module::bit, SizeType>
+	struct module<Module::bit, Permission::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-		#include"interface/navigator.hpp"
-		#include"interface/structure.hpp"
+		#include"interface/navigator/semiotic.hpp"
 
-		//
+		#include"interface/structure/semiotic.hpp"
+		#include"interface/structure/boolean/semiotic.hpp"
+	};
 
-		template<Permission permission_enum, typename Filler = void>
-		struct perspective // <Permission::semiotic, Filler>
-		{
-//			#include"perspective//semiotic.hpp"
-		};
+	template<typename SizeType>
+	struct module<Module::bit, Permission::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-		template<typename Filler>
-		struct perspective<Permission::media, Filler>
-		{
-//			#include"perspective//media.hpp"
-		};
+//		#include"interface/navigator/semiotic.hpp"
 
-		//
-
-		template<Permission permission_enum, typename Filler = void>
-		struct instance // <Permission::semiotic, Filler>
-		{
-			#include"instance/boolean/semiotic.hpp"
-		};
-
-		template<typename Filler>
-		struct instance<Permission::media, Filler>
-		{
-//			#include"instance/boolean/media.hpp"
-		};
+//		#include"interface/structure/semiotic.hpp"
+//		#include"interface/structure/boolean/semiotic.hpp"
 	};
 
 }}

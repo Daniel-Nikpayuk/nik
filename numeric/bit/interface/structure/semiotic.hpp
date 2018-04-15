@@ -16,14 +16,46 @@
 ************************************************************************************************************************/
 
 /*
-	There's no type t as every other instance of BinaryInterp::type not f is t.
+	BinaryInterp
 */
 
-struct boolean
+template<typename BinaryInterp, typename Filler = void>
+struct bit
 {
-	typedef bool type;
+	typedef typename BinaryInterp::type binary_type;
+	typedef bit_navigator<BinaryInterp, Filler> iterator;
 
-	static const type f = false;
-	static const type t = true;
+	binary_type value;
+
+	bit() { }
+
+	bit(const binary_type & b) : value(b)
+	{
+		static_assert
+		(
+			b == BinaryInterp::f || b == BinaryInterp::t,
+			"does not match the specified binary types!"
+		);
+	}
+
+	~bit() { }
+
+	const bit & operator = (const binary_type & b)
+	{
+		static_assert
+		(
+			b == BinaryInterp::f || b == BinaryInterp::t,
+			"does not match the specified binary types!"
+		);
+
+		value = b;
+
+		return *this;
+	}
+
+	iterator name()
+	{
+		return iterator(value);
+	}
 };
 

@@ -63,6 +63,7 @@ namespace nik
 		template
 		<
 			Module module_enum,
+			Permission permission_enum,
 
 			typename SizeType = global_size_type
 		>
@@ -96,6 +97,7 @@ namespace nik
 		template
 		<
 			Module module_enum,
+			Permission permission_enum,
 
 			typename SizeType = global_size_type
 		>
