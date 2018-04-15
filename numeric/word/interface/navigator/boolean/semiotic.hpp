@@ -21,6 +21,23 @@
 
 #define GREATER_THAN false
 
+/*
+	size_type location, value, can be optimized given the length to different int types.
+
+template<typename T, unsigned char size>
+struct size_assert
+{
+	static_assert(sizeof(T) == size, "uint size_assert mismatch!");
+
+	typedef T return_type;
+};
+
+typedef typename size_assert<unsigned char	, 1>::return_type identity8; 
+typedef typename size_assert<unsigned short	, 2>::return_type identity16;
+typedef typename size_assert<unsigned int	, 4>::return_type identity32;
+typedef typename size_assert<unsigned long	, 8>::return_type identity64;
+*/
+
 template<size_type length>
 struct word_navigator<bit<boolean>, length, GREATER_THAN>
 {

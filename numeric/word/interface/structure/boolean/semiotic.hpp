@@ -33,7 +33,7 @@ struct word<bit<boolean>, length, GREATER_THAN>
 
 	typedef word_navigator<bit<boolean>, length, GREATER_THAN> iterator;
 
-	size_type value;
+	size_type bit_array;
 
 	word() { }
 
@@ -41,7 +41,7 @@ struct word<bit<boolean>, length, GREATER_THAN>
 
 	iterator begin()
 	{
-		return iterator(1, value);
+		return iterator(1, bit_array);
 	}
 };
 

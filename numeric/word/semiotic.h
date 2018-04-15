@@ -37,6 +37,9 @@ namespace numeric	{
 
 		#include"interface/structure/semiotic.hpp"
 		#include"interface/structure/boolean/semiotic.hpp"
+
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/identity/boolean/semiotic.hpp"
 	};
 
 }}

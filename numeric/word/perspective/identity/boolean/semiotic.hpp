@@ -15,27 +15,36 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+/*
+	Given the special nature of WordInterp, we can unencapsulate the binary_type and optimize.
+*/
 
-	template<typename SizeType>
-	struct module<Module::uint, Orientation::structural, Interface::semiotic, SizeType>
+#define GREATER_THAN false
+
+template<size_type length>
+struct identity<word<bit<boolean>, length, GREATER_THAN>>
+{
+	typedef word<bit<boolean>, length, GREATER_THAN> word_type;
+	typedef typename word_type::binary_type binary_type;
+
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef identity* identity_ptr;
+	typedef identity& identity_ref;
+
+	//
+
+	static bool equals(const word_type & u, const word_type & v)
 	{
-		typedef SizeType size_type;
+		return (u.bit_array == v.bit_array);
+	}
 
-		template<Orientation orientation_enum, Interface interface_enum>
-		using variadic = grammaric::module<Module::variadic, orientation_enum, interface_enum, size_type>;
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		return (u.bit_array != v.bit_array);
+	}
+};
 
-		template<typename enum_type>
-		using parameter = typename variadic<Orientation::structural, Interface::semiotic>::template parameter<enum_type>;
-
-		template<typename L, size_type i>
-		using at = typename variadic<Orientation::functional, Interface::semiotic>::template at<L, i>;
-
-		#include"adjective/semiotic.hpp"
-
-		#include"identity/semiotic.hpp"
-	};
-
-}}
+#undef GREATER_THAN
 
