@@ -23,6 +23,13 @@ template<typename BinaryInterp, typename Filler = void>
 struct bit
 {
 	typedef typename BinaryInterp::type binary_type;
+
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef bit* bit_ptr;
+	typedef bit& bit_ref;
+
 	typedef bit_navigator<BinaryInterp, Filler> iterator;
 
 	binary_type value;
@@ -40,7 +47,7 @@ struct bit
 
 	~bit() { }
 
-	const bit & operator = (const binary_type & b)
+	const bit_ref operator = (const binary_type & b)
 	{
 		static_assert
 		(

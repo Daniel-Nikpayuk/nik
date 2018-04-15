@@ -23,16 +23,27 @@ struct bit_navigator
 {
 	typedef typename BinaryInterp::type binary_type;
 
-	binary_type *location;
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef bit_navigator* bit_navigator_ptr;
+	typedef bit_navigator& bit_navigator_ref;
+
+	binary_type_ptr location;
 
 	bit_navigator(binary_type & b)
 	{
 		location = &b;
 	}
 
-	binary_type & operator * () const
+	binary_type_ref operator * () const
 	{
 		return *location;
+	}
+
+	binary_type_ptr operator & () const
+	{
+		return &location;
 	}
 
 	~bit_navigator() { }

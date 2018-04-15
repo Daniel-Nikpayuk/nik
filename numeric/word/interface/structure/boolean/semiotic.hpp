@@ -15,18 +15,43 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_UINT_H
-#define NUMERIC_UINT_H
+/*
+*/
 
-#include"variadic.h"
+#define GREATER_THAN false
 
-#include"../numeric/word/uint/structural/semiotic.h"
-//#include"../numeric/word/uint/structural/media.h"
+template<size_type length>
+struct word<bit<boolean>, length, GREATER_THAN>
+{
+	typedef typename boolean::type binary_type;
 
-//#include"../numeric/word/uint/functional/semiotic.h"
-//#include"../numeric/word/uint/functional/media.h"
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
 
-//#include"../numeric/word/uint/procedural/semiotic.h"
-//#include"../numeric/word/uint/procedural/media.h"
+	typedef word* word_ptr;
+	typedef word& word_ref;
 
-#endif
+	typedef word_navigator<bit<boolean>, length, GREATER_THAN> iterator;
+
+	size_type value;
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
+	{
+		return iterator(1, value);
+	}
+};
+
+#undef GREATER_THAN
+#define GREATER_THAN true
+
+template<size_type length>
+struct word<bit<boolean>, length, GREATER_THAN>
+{
+};
+
+#undef GREATER_THAN
+

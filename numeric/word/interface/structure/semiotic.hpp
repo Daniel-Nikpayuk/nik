@@ -15,16 +15,32 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_SINT_H
-#define NUMERIC_SINT_H
+/*
+	Given the special nature of bit_type, we can unencapsulate the binary_type and optimize.
+*/
 
-#include"../numeric/word/sint/structural/semiotic.h"
-#include"../numeric/word/sint/structural/media.h"
+template<typename BitInterp, size_type length, bool greaterThan = (length > 8*sizeof(size_type))>
+struct word
+{
+	typedef typename BitInterp::binary_type binary_type;
 
-#include"../numeric/word/sint/functional/semiotic.h"
-#include"../numeric/word/sint/functional/media.h"
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
 
-#include"../numeric/word/sint/procedural/semiotic.h"
-#include"../numeric/word/sint/procedural/media.h"
+	typedef word* word_ptr;
+	typedef word& word_ref;
 
-#endif
+	typedef word_navigator<BitInterp, length, greaterThan> iterator;
+
+	binary_type value[length];
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
+	{
+		return iterator(value);
+	}
+};
+

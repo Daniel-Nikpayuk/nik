@@ -29,16 +29,5 @@ namespace numeric	{
 		#include"interface/structure/boolean/semiotic.hpp"
 	};
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::media, SizeType>
-	{
-		typedef SizeType size_type;
-
-//		#include"interface/navigator/semiotic.hpp"
-
-//		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
-	};
-
 }}
 

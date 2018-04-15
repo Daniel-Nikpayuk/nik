@@ -15,10 +15,19 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_BIT_H
-#define NUMERIC_BIT_H
+namespace nik		{
+namespace numeric	{
 
-#include"../numeric/bit/semiotic.h"
-#include"../numeric/bit/media.h"
+	template<typename SizeType>
+	struct module<Module::bit, Permission::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-#endif
+//		#include"interface/navigator/semiotic.hpp"
+
+//		#include"interface/structure/semiotic.hpp"
+//		#include"interface/structure/boolean/semiotic.hpp"
+	};
+
+}}
+
