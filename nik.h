@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2018, 2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -36,9 +36,9 @@
 /***********************************************************************************************************************/
 
 
-#define nik_using(space, Name)												\
+#define nik_using(space, name)												\
 															\
-	using Name = nik::space::Name##Module<size_type>;
+	using name = nik::space::name##Module<size_type>;
 
 
 #define nik_import(space, module, name)											\
@@ -63,7 +63,7 @@
 	nik_stringify(module/name.h)
 
 
-#include nik_module(evaluator)
+#include nik_module(bit)
 
 
 #endif

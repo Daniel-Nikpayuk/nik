@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015, 2016, 2017 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -29,9 +29,9 @@ namespace nik
 		environment,
 		evaluator,
 
-		boolean,
-		uint,
-		sint,
+		bit,
+		word,
+		address,
 
 		range,
 		iterator, // iterative ?
@@ -40,16 +40,7 @@ namespace nik
 		dimension // filler
 	};
 
-	enum struct Orientation : global_size_type
-	{
-		structural,
-		functional,
-		procedural,
-
-		dimension // filler
-	};
-
-	enum struct Interface : global_size_type
+	enum struct Permission : global_size_type
 	{
 		semiotic,
 		media,
@@ -72,8 +63,6 @@ namespace nik
 		template
 		<
 			Module module_enum,
-			Orientation orientation_enum,
-			Interface interface_enum,
 
 			typename SizeType = global_size_type
 		>
@@ -107,8 +96,6 @@ namespace nik
 		template
 		<
 			Module module_enum,
-			Orientation orientation_enum,
-			Interface interface_enum,
 
 			typename SizeType = global_size_type
 		>
@@ -116,9 +103,9 @@ namespace nik
 		{
 			static_assert
 			(
-				module_enum != Module::range		||
-				module_enum != Module::iterator		||
-				module_enum != Module::list		,
+				module_enum != Module::bit		||
+				module_enum != Module::word		||
+				module_enum != Module::address		,
 
 				"This module is not yet implemented!"
 			);
