@@ -15,26 +15,20 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of BitInterp, we can unencapsulate the binary_type and optimize.
-*/
-
-template<typename BitInterp, size_type length, bool greaterThan = (length > 8*sizeof(size_type))>
+template<typename Bit, size_type length, typename Filler>
 struct word
 {
-	typedef typename BitInterp::binary_type binary_type;
+	typedef word type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	typedef Bit bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
 
-	typedef word* word_ptr;
-	typedef word& word_ref;
+	typedef word_navigator<Bit, length, Filler> iterator;
 
-	typedef word_navigator<BitInterp, length, greaterThan> iterator;
-
-	static constexpr size_type word_length = length;
-
-	binary_type bit_array[word_length];
+	bit_type product[length];
 
 	word() { }
 
@@ -42,7 +36,12 @@ struct word
 
 	iterator begin()
 	{
-		return iterator(bit_array);
+		return iterator(product);
+	}
+
+	iterator end()
+	{
+		return iterator(product + length);
 	}
 };
 

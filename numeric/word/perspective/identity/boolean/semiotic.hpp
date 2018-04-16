@@ -15,25 +15,37 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of WordInterp, we can unencapsulate the binary_type and optimize.
-*/
+#define ONE_BYTE	8 << 0
+#define TWO_BYTES	8 << 1
+#define FOUR_BYTES	8 << 2
+#define EIGHT_BYTES	8 << 3
 
-#define GREATER_THAN false
+#define ONE_BYTE_TYPE		unsigned char
+#define TWO_BYTES_TYPE		unsigned short
+#define FOUR_BYTES_TYPE		unsigned int
+#define EIGHT_BYTES_TYPE	unsigned long
 
-template<size_type length>
-struct identity<word<bit<boolean>, length, GREATER_THAN>>
+template<typename Filler>
+struct identity<word<bit<boolean>, ONE_BYTES, Filler>>
 {
-	typedef word<bit<boolean>, length, GREATER_THAN> word_type;
-	typedef typename word_type::binary_type binary_type;
+	typedef identity type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
+	typedef word<bit<boolean>, ONE_BYTES, Filler> word_type;
+	typedef word_type* word_type_ptr;
+	typedef word_type& word_type_ref;
+
+	typedef bit<boolean> bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
+
+	typedef typename bit_type::binary_type binary_type;
 	typedef binary_type* binary_type_ptr;
 	typedef binary_type& binary_type_ref;
 
-	typedef identity* identity_ptr;
-	typedef identity& identity_ref;
 
-	//
+	// if they're of the same word_type it is assumed they have the same word_length.
 
 	static bool equals(const word_type & u, const word_type & v)
 	{
@@ -46,5 +58,13 @@ struct identity<word<bit<boolean>, length, GREATER_THAN>>
 	}
 };
 
-#undef GREATER_THAN
+#undef ONE_BYTE
+#undef TWO_BYTES
+#undef FOUR_BYTES
+#undef EIGHT_BYTES
+
+#undef ONE_BYTE_TYPE
+#undef TWO_BYTES_TYPE
+#undef FOUR_BYTES_TYPE
+#undef EIGHT_BYTES_TYPE
 

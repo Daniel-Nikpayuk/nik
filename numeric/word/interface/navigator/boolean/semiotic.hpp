@@ -15,121 +15,387 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of bit_type, we can unencapsulate the binary_type and optimize.
-*/
+#define ONE_BYTE	8 << 0
+#define TWO_BYTES	8 << 1
+#define FOUR_BYTES	8 << 2
+#define EIGHT_BYTES	8 << 3
 
-#define GREATER_THAN false
+#define ONE_BYTE_TYPE		unsigned char
+#define TWO_BYTES_TYPE		unsigned short
+#define FOUR_BYTES_TYPE		unsigned int
+#define EIGHT_BYTES_TYPE	unsigned long
 
-/*
-	size_type location, value, can be optimized given the length to different int types.
-
-template<typename T, unsigned char size>
-struct size_assert
+template<typename Filler>
+struct word_navigator<bit<boolean>, ONE_BYTE, Filler>
 {
-	static_assert(sizeof(T) == size, "uint size_assert mismatch!");
+	typedef word_navigator type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	typedef T return_type;
-};
+	typedef bit<boolean> bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
 
-typedef typename size_assert<unsigned char	, 1>::return_type identity8; 
-typedef typename size_assert<unsigned short	, 2>::return_type identity16;
-typedef typename size_assert<unsigned int	, 4>::return_type identity32;
-typedef typename size_assert<unsigned long	, 8>::return_type identity64;
-*/
-
-template<size_type length>
-struct word_navigator<bit<boolean>, length, GREATER_THAN>
-{
-	typedef typename boolean::type binary_type;
-
+	typedef typename bit_type::binary_type binary_type;
 	typedef binary_type* binary_type_ptr;
 	typedef binary_type& binary_type_ref;
 
-	typedef word_navigator* word_navigator_ptr;
-	typedef word_navigator& word_navigator_ref;
+	typedef ONE_BYTE_TYPE byte_type;
 
-	size_type location;
-	size_type *value;
+	byte_type location;
+	byte_type *name;
 
-	word_navigator(size_type l, size_type & b) : location(l)
+	word_navigator(byte_type l, byte_type & n) : location(l)
 	{
-		value = &b;
-	}
-
-	binary_type operator * () const
-	{
-		return *value & location;
-	}
-
-	void operator + ()
-	{
-		*value ^= location;
-	}
-
-	void operator - ()
-	{
-		*value &= ~location;
+		name = &b;
 	}
 
 	~word_navigator() { }
 
-	word_navigator_ref operator ++ ()
+	const bit_type operator * () const
+	{
+		return *name & location;
+	}
+
+	void operator + ()
+	{
+		*name ^= location;
+	}
+
+	void operator - ()
+	{
+		*name &= ~location;
+	}
+
+	type_ref operator ++ ()
 	{
 		location<<=1;
 
 		return *this;
 	}
 
-	word_navigator operator ++ (int)
+	type operator ++ (int)
 	{
-		return word_navigator(location<<1, value);
+		return word_navigator(location<<1, name);
 	}
 
-	word_navigator_ref operator += (size_type n)
+	type_ref operator += (byte_type n)
 	{
 		location<<=n;
 
 		return *this;
 	}
 
-	word_navigator operator + (size_type n) const
+	type operator + (byte_type n) const
 	{
-		return word_navigator(location<<n, value);
+		return word_navigator(location<<n, name);
 	}
 
-	word_navigator_ref operator -- ()
+	type_ref operator -- ()
 	{
 		location>>=1;
 
 		return *this;
 	}
 
-	word_navigator operator -- (int)
+	type operator -- (int)
 	{
-		return word_navigator(location>>1, value);
+		return word_navigator(location>>1, name);
 	}
 
-	word_navigator_ref operator -= (size_type n)
+	type_ref operator -= (byte_type n)
 	{
 		location>>=n;
 
 		return *this;
 	}
 
-	word_navigator operator - (size_type n) const
+	type operator - (byte_type n) const
 	{
-		return word_navigator(location>>n, value);
+		return word_navigator(location>>n, name);
 	}
 };
 
-#undef GREATER_THAN
-#define GREATER_THAN true
-
-template<size_type length>
-struct word_navigator<bit<boolean>, length, GREATER_THAN>
+template<typename Filler>
+struct word_navigator<bit<boolean>, TWO_BYTES, Filler>
 {
+	typedef word_navigator type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef bit<boolean> bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
+
+	typedef typename bit_type::binary_type binary_type;
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef TWO_BYTES_TYPE byte_type;
+
+	byte_type location;
+	byte_type *name;
+
+	word_navigator(byte_type l, byte_type & n) : location(l)
+	{
+		name = &b;
+	}
+
+	~word_navigator() { }
+
+	const bit_type operator * () const
+	{
+		return *name & location;
+	}
+
+	void operator + ()
+	{
+		*name ^= location;
+	}
+
+	void operator - ()
+	{
+		*name &= ~location;
+	}
+
+	type_ref operator ++ ()
+	{
+		location<<=1;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return word_navigator(location<<1, name);
+	}
+
+	type_ref operator += (byte_type n)
+	{
+		location<<=n;
+
+		return *this;
+	}
+
+	type operator + (byte_type n) const
+	{
+		return word_navigator(location<<n, name);
+	}
+
+	type_ref operator -- ()
+	{
+		location>>=1;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return word_navigator(location>>1, name);
+	}
+
+	type_ref operator -= (byte_type n)
+	{
+		location>>=n;
+
+		return *this;
+	}
+
+	type operator - (byte_type n) const
+	{
+		return word_navigator(location>>n, name);
+	}
 };
 
-#undef GREATER_THAN
+template<typename Filler>
+struct word_navigator<bit<boolean>, FOUR_BYTES, Filler>
+{
+	typedef word_navigator type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef bit<boolean> bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
+
+	typedef typename bit_type::binary_type binary_type;
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef FOUR_BYTES_TYPE byte_type;
+
+	byte_type location;
+	byte_type *name;
+
+	word_navigator(byte_type l, byte_type & n) : location(l)
+	{
+		name = &b;
+	}
+
+	~word_navigator() { }
+
+	const bit_type operator * () const
+	{
+		return *name & location;
+	}
+
+	void operator + ()
+	{
+		*name ^= location;
+	}
+
+	void operator - ()
+	{
+		*name &= ~location;
+	}
+
+	type_ref operator ++ ()
+	{
+		location<<=1;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return word_navigator(location<<1, name);
+	}
+
+	type_ref operator += (byte_type n)
+	{
+		location<<=n;
+
+		return *this;
+	}
+
+	type operator + (byte_type n) const
+	{
+		return word_navigator(location<<n, name);
+	}
+
+	type_ref operator -- ()
+	{
+		location>>=1;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return word_navigator(location>>1, name);
+	}
+
+	type_ref operator -= (byte_type n)
+	{
+		location>>=n;
+
+		return *this;
+	}
+
+	type operator - (byte_type n) const
+	{
+		return word_navigator(location>>n, name);
+	}
+};
+
+template<typename Filler>
+struct word_navigator<bit<boolean>, EIGHT_BYTES, Filler>
+{
+	typedef word_navigator type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef bit<boolean> bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
+
+	typedef typename bit_type::binary_type binary_type;
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef EIGHT_BYTES_TYPE byte_type;
+
+	byte_type location;
+	byte_type *name;
+
+	word_navigator(byte_type l, byte_type & n) : location(l)
+	{
+		name = &b;
+	}
+
+	~word_navigator() { }
+
+	const bit_type operator * () const
+	{
+		return *name & location;
+	}
+
+	void operator + ()
+	{
+		*name ^= location;
+	}
+
+	void operator - ()
+	{
+		*name &= ~location;
+	}
+
+	type_ref operator ++ ()
+	{
+		location<<=1;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return word_navigator(location<<1, name);
+	}
+
+	type_ref operator += (byte_type n)
+	{
+		location<<=n;
+
+		return *this;
+	}
+
+	type operator + (byte_type n) const
+	{
+		return word_navigator(location<<n, name);
+	}
+
+	type_ref operator -- ()
+	{
+		location>>=1;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return word_navigator(location>>1, name);
+	}
+
+	type_ref operator -= (byte_type n)
+	{
+		location>>=n;
+
+		return *this;
+	}
+
+	type operator - (byte_type n) const
+	{
+		return word_navigator(location>>n, name);
+	}
+};
+
+#undef ONE_BYTE
+#undef TWO_BYTES
+#undef FOUR_BYTES
+#undef EIGHT_BYTES
+
+#undef ONE_BYTE_TYPE
+#undef TWO_BYTES_TYPE
+#undef FOUR_BYTES_TYPE
+#undef EIGHT_BYTES_TYPE
 

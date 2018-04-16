@@ -15,42 +15,35 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of WordInterp, we can unencapsulate the binary_type and optimize.
-*/
-
-template<typename WordInterp>
+template<typename Word>
 struct identity
 {
-	typedef WordInterp word_type;
-	typedef typename word_type::binary_type binary_type;
+	typedef identity type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	typedef Word word_type;
+	typedef word_type* word_type_ptr;
+	typedef word_type& word_type_ref;
 
-	typedef identity* identity_ptr;
-	typedef identity& identity_ref;
-
-	//
+	// if they're of the same word_type it is assumed they have the same length.
 
 	static bool equals(const word_type & u, const word_type & v)
-		// if they're of the same word_type it is assumed they have the same word_length.
 	{
-		const binary_type *k = u.bit_array;
-		const binary_type *e = k + word_type::word_length;
+		word_type::const_iterator k = u.begin();
+		word_type::const_iterator e = u.end();
 
-		for (const binary_type *l = v.bit_array; k != e; ++k, ++l) if (*k != *l) return false;
+		for (word_type::const_iterator l = v.end(); k != e; ++k, ++l) if (*k != *l) return false;
 
 		return true;
 	}
 
 	static bool not_equals(const word_type & u, const word_type & v)
-		// if they're of the same word_type it is assumed they have the same word_length.
 	{
-		const binary_type *k = u.bit_array;
-		const binary_type *e = k + word_type::word_length;
+		binary_type::const_iterator k = u.begin();
+		binary_type::const_iterator e = u.end();
 
-		for (const binary_type *l = v.bit_array; k != e; ++k, ++l) if (*k != *l) return true;
+		for (binary_type::const_iterator l = v.begin(); k != e; ++k, ++l) if (*k != *l) return true;
 
 		return false;
 	}

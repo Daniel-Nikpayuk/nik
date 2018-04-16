@@ -15,25 +15,28 @@
 **
 ************************************************************************************************************************/
 
-/*
-*/
+#define ONE_BYTE	8 << 0
+#define TWO_BYTES	8 << 1
+#define FOUR_BYTES	8 << 2
+#define EIGHT_BYTES	8 << 3
 
-#define GREATER_THAN false
+#define ONE_BYTE_TYPE		unsigned char
+#define TWO_BYTES_TYPE		unsigned short
+#define FOUR_BYTES_TYPE		unsigned int
+#define EIGHT_BYTES_TYPE	unsigned long
 
-template<size_type length>
-struct word<bit<boolean>, length, GREATER_THAN>
+template<typename Filler>
+struct word<bit<boolean>, ONE_BYTE, Filler>
 {
-	typedef typename boolean::type binary_type;
+	typedef word type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	typedef word_navigator<bit<boolean>, ONE_BYTE, Filler> iterator;
 
-	typedef word* word_ptr;
-	typedef word& word_ref;
+	typedef ONE_BYTE_TYPE byte_type;
 
-	typedef word_navigator<bit<boolean>, length, GREATER_THAN> iterator;
-
-	size_type bit_array;
+	byte_type product;
 
 	word() { }
 
@@ -41,17 +44,106 @@ struct word<bit<boolean>, length, GREATER_THAN>
 
 	iterator begin()
 	{
-		return iterator(1, bit_array);
+		return iterator(1, product);
+	}
+
+	iterator end()
+	{
+		return iterator(1 << ONE_BYTE, product);
 	}
 };
 
-#undef GREATER_THAN
-#define GREATER_THAN true
-
-template<size_type length>
-struct word<bit<boolean>, length, GREATER_THAN>
+template<typename Filler>
+struct word<bit<boolean>, TWO_BYTES, Filler>
 {
+	typedef word type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef word_navigator<bit<boolean>, TWO_BYTES, Filler> iterator;
+
+	typedef TWO_BYTES_TYPE byte_type;
+
+	byte_type product;
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
+	{
+		return iterator(1, product);
+	}
+
+	iterator end()
+	{
+		return iterator(1 << TWO_BYTES, product);
+	}
 };
 
-#undef GREATER_THAN
+template<typename Filler>
+struct word<bit<boolean>, FOUR_BYTES, Filler>
+{
+	typedef word type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef word_navigator<bit<boolean>, FOUR_BYTES, Filler> iterator;
+
+	typedef FOUR_BYTES_TYPE byte_type;
+
+	byte_type product;
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
+	{
+		return iterator(1, product);
+	}
+
+	iterator end()
+	{
+		return iterator(1 << FOUR_BYTES, product);
+	}
+};
+
+template<typename Filler>
+struct word<bit<boolean>, EIGHT_BYTES, Filler>
+{
+	typedef word type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
+
+	typedef word_navigator<bit<boolean>, EIGHT_BYTES, Filler> iterator;
+
+	typedef EIGHT_BYTES_TYPE byte_type;
+
+	byte_type product;
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
+	{
+		return iterator(1, product);
+	}
+
+	iterator end()
+	{
+		return iterator(1 << EIGHT_BYTES, product);
+	}
+};
+
+#undef ONE_BYTE
+#undef TWO_BYTES
+#undef FOUR_BYTES
+#undef EIGHT_BYTES
+
+#undef ONE_BYTE_TYPE
+#undef TWO_BYTES_TYPE
+#undef FOUR_BYTES_TYPE
+#undef EIGHT_BYTES_TYPE
 

@@ -15,37 +15,96 @@
 **
 ************************************************************************************************************************/
 
+template<typename Binary, typename Filler>
+class const_bit_navigator;
+
 /*
+	bit type	:= 0 + 1;
+	bit instance	:= s^1, s^2;
+
+	binary type assumes operators: &, *;
 */
 
-template<typename BinaryInterp, typename Filler = void>
-struct bit_navigator
+template<typename Binary, typename Filler = void>
+class bit_navigator
 {
-	typedef typename BinaryInterp::type binary_type;
+	public:
+		typedef bit_navigator type;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	protected:
+		typedef type* type_ptr;
+		typedef type& type_ref;
 
-	typedef bit_navigator* bit_navigator_ptr;
-	typedef bit_navigator& bit_navigator_ref;
+		typedef typename Binary::type binary_type;
+		typedef binary_type* binary_type_ptr;
+		typedef binary_type& binary_type_ref;
 
-	binary_type_ptr location;
+		typedef const_bit_navigator<Binary, Filler> const_type;
 
-	bit_navigator(binary_type & b)
-	{
-		location = &b;
-	}
+		binary_type_ptr name;
+	public:
+		bit_navigator(binary_type_ref l) : name(&l) { }
 
-	binary_type_ref operator * () const
-	{
-		return *location;
-	}
+		~bit_navigator() { }
 
-	binary_type_ptr operator & () const
-	{
-		return &location;
-	}
+		operator const_type () const
+		{
+			return (const_type) this;
+		}
 
-	~bit_navigator() { }
+		// navigators may be optimized as they have limited perspectives.
+
+		bool operator == (const type_ref b) const
+		{
+			return name == b.name;
+		}
+
+		bool operator != (const type_ref b) const
+		{
+			return name != b.name;
+		}
+
+		binary_type_ref operator * () const
+		{
+			return *name;
+		}
+};
+
+template<typename Binary, typename Filler = void>
+class const_bit_navigator
+{
+	public:
+		typedef const_bit_navigator type;
+
+	protected:
+		typedef type* type_ptr;
+		typedef type& type_ref;
+
+		typedef typename Binary::type const binary_type;
+		typedef binary_type* binary_type_ptr;
+		typedef binary_type& binary_type_ref;
+
+		binary_type_ptr name;
+	public:
+		const_bit_navigator(binary_type_ref l) : name(&l) { }
+
+		~const_bit_navigator() { }
+
+		// navigators may be optimized as they have limited perspectives.
+
+		bool operator == (const type_ref b) const
+		{
+			return name == b.name;
+		}
+
+		bool operator != (const type_ref b) const
+		{
+			return name != b.name;
+		}
+
+		binary_type_ref operator * () const
+		{
+			return *name;
+		}
 };
 

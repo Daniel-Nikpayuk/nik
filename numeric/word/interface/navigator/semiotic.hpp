@@ -15,96 +15,74 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of bit_type, we can unencapsulate the binary_type and optimize.
-*/
-
-template<typename BitInterp, size_type length, bool greaterThan = (length > 8*sizeof(size_type))>
+template<typename Bit, size_type length, typename Filler = void>
 struct word_navigator
 {
-	typedef typename BitInterp::binary_type binary_type;
+	typedef word_navigator type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	typedef Bit bit_type;
+	typedef bit_type* bit_type_ptr;
+	typedef bit_type& bit_type_ref;
 
-	typedef word_navigator* word_navigator_ptr;
-	typedef word_navigator& word_navigator_ref;
+	bit_type_ptr location;
 
-	binary_type_ptr location;
+	word_navigator(bit_type *l) : location(l) { }
 
-	word_navigator(binary_type *b) : location(b) { }
+	~word_navigator() { }
 
-	binary_type_ref operator * () const
+	bit_type_ref operator * () const
 	{
 		return *location;
 	}
 
-	~word_navigator() { }
-
-	word_navigator_ref operator ++ ()
+	type_ref operator ++ ()
 	{
-		return ++location;
-	}
-
-	word_navigator operator ++ (int)
-	{
-		return location++;
-	}
-
-	word_navigator_ref operator += (size_type n)
-	{
-		while (n)
-		{
-			++location;
-			--n;
-		}
+		++location;
 
 		return *this;
 	}
 
-	word_navigator operator + (size_type n) const
+	type operator ++ (int)
 	{
-		word_navigator out(*this);
-		while (n)
-		{
-			++out;
-			--n;
-		}
-
-		return out;
+		return location++;
 	}
 
-	word_navigator_ref operator -- ()
+	type_ref operator += (size_type n)
 	{
-		return --location;
+		location += n;
+
+		return *this;
 	}
 
-	word_navigator operator -- (int)
+	type operator + (size_type n) const
+	{
+		return location + n;
+	}
+
+	type_ref operator -- ()
+	{
+		--location;
+
+		return *this;
+	}
+
+	type operator -- (int)
 	{
 		return location--;
 	}
 
-	word_navigator_ref operator -= (size_type n)
+	type_ref operator -= (size_type n)
 	{
-		while (n)
-		{
-			--location;
-			--n;
-		}
+		location -= n;
 
 		return *this;
 	}
 
 	word_navigator operator - (size_type n) const
 	{
-		word_navigator out(*this);
-		while (n)
-		{
-			--out;
-			--n;
-		}
-
-		return out;
+		return location - n;
 	}
 };
 

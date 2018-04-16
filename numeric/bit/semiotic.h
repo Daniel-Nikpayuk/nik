@@ -23,6 +23,8 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+
 		#include"interface/navigator/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"

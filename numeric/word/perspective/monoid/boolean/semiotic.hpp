@@ -16,63 +16,45 @@
 ************************************************************************************************************************/
 
 /*
-	bit type	:= 0 + 1;
-	bit instance	:= s^1, s^2;
-
-	binary type assumes operators: copy constructor, =, ==;
-	binary type assumes operands: f, t;
+	Given the special nature of WordInterp, we can unencapsulate the binary_type and optimize.
 */
 
-template<typename Binary, typename Filler = void>
-struct bit
-{
-	typedef bit type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+#define GREATER_THAN false
 
-	typedef typename Binary::type binary_type;
+template<size_type length>
+struct proximity<word<bit<boolean>, length, GREATER_THAN>>
+{
+	typedef word<bit<boolean>, length, GREATER_THAN> word_type;
+	typedef typename word_type::binary_type binary_type;
+
 	typedef binary_type* binary_type_ptr;
 	typedef binary_type& binary_type_ref;
 
-	typedef bit_navigator<Binary, Filler> iterator;
-	typedef const_bit_navigator<Binary, Filler> const_iterator;
+	typedef proximity* proximity_ptr;
+	typedef proximity& proximity_ref;
 
-	binary_type location;
+	// if they're of the same word_type it is assumed they have the same word_length.
 
-	bit() { }
-
-	bit(const binary_type_ref l) : location(l)
+	static bool less_than(const word_type & u, const word_type & v)
 	{
-		static_assert
-		(
-			l == Binary::f || l == Binary::t,
-			"does not match the specified binary types!"
-		);
+		return (u.bit_array < v.bit_array);
 	}
 
-	~bit() { }
-
-	const type_ref operator = (const binary_type_ref l)
+	static bool less_than_or_equal(const word_type & u, const word_type & v)
 	{
-		static_assert
-		(
-			l == Binary::f || l == Binary::t,
-			"does not match the specified binary types!"
-		);
-
-		location = l;
-
-		return *this;
+		return (u.bit_array <= v.bit_array);
 	}
 
-	iterator name()
+	static bool greater_than(const word_type & u, const word_type & v)
 	{
-		return location;
+		return (u.bit_array > v.bit_array);
 	}
 
-	const_iterator name() const
+	static bool greater_than_or_equal(const word_type & u, const word_type & v)
 	{
-		return location;
+		return (u.bit_array >= v.bit_array);
 	}
 };
+
+#undef GREATER_THAN
 

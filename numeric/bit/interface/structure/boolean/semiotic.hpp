@@ -16,15 +16,14 @@
 ************************************************************************************************************************/
 
 /*
-	There's no type t as every other instance of BinaryInterp::type not f is t.
 */
 
 struct boolean
 {
 	typedef bool type;
 
-	static const type f = false;
-	static const type t = true;
+	static constexpr type f = false;
+	static constexpr type t = true;
 };
 
 //
@@ -32,40 +31,40 @@ struct boolean
 template<typename Filler>
 struct bit<boolean, Filler>
 {
-	typedef typename boolean::type binary_type;
-	typedef bit_navigator<boolean, Filler> iterator;
+	typedef bit type;
+	typedef type* type_ptr;
+	typedef type& type_ref;
 
-	binary_type value;
+	typedef typename boolean::type binary_type;
+	typedef binary_type* binary_type_ptr;
+	typedef binary_type& binary_type_ref;
+
+	typedef bit_navigator<boolean, Filler> iterator;
+	typedef const_bit_navigator<boolean, Filler> const_iterator;
+
+	binary_type location;
 
 	bit() { }
 
-	bit(binary_type b) : value(b)
-	{
-		static_assert
-		(
-			b == boolean::f || b == boolean::t,
-			"does not match the specified binary types!"
-		);
-	}
+	bit(binary_type l) : location(l) { }
 
 	~bit() { }
 
-	const bit & operator = (binary_type b)
+	const type_ref operator = (binary_type l)
 	{
-		static_assert
-		(
-			b == boolean::f || b == boolean::t,
-			"does not match the specified binary types!"
-		);
-
-		value = b;
+		location = l;
 
 		return *this;
 	}
 
 	iterator name()
 	{
-		return iterator(value);
+		return location;
+	}
+
+	const_iterator name() const
+	{
+		return location;
 	}
 };
 
