@@ -38,17 +38,17 @@ struct product
 
 	~product() { }
 
-	iterator begin()
+	iterator begin() const
 	{
 		return iterator(value);
 	}
 
-	iterator end()
+	iterator end() const
 	{
 		return iterator(value + length);
 	}
 
-	selector range()
+	selector range() const
 	{
 		return selector(value, value + length);
 	}

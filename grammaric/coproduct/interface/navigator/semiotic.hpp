@@ -17,7 +17,101 @@
 
 /*
 	Navigators may be optimized as they have limited perspectives.
-
-	Coproduct does not require a separate navigator, as its arithmetic overload operators are its navigator.
 */
+
+template<typename Type, Access access = Access::readwrite>
+class coproduct_navigator
+{
+	public:
+		using type		= coproduct_navigator;
+
+	protected:
+		using type_ptr		= type*;
+		using type_ref		= type&;
+
+		using value_type	= typename read_type<Type, access>::rtn;
+		using value_type_ptr	= value_type*;
+		using value_type_ref	= value_type&;
+
+		using const_type	= coproduct<Type, Access::readonly>;
+
+		value_type location;
+	public:
+		coproduct(const value_type_ref l) : location(l) { }
+
+		~coproduct() { }
+
+		operator const_type () const
+		{
+			return (const_type) this;
+		}
+
+		bool operator == (const type_ref n) const
+		{
+			return location == n.location;
+		}
+
+		bool operator != (const type_ref n) const
+		{
+			return location != n.location;
+		}
+
+		value_type_ref operator * () const
+		{
+			return location;
+		}
+
+		type_ref operator ++ ()
+		{
+			++location;
+
+			return *this;
+		}
+
+		type operator ++ (int)
+		{
+			return location++;
+		}
+
+		type_ref operator += (size_type n)
+		{
+			location += n;
+
+			return *this;
+		}
+
+		type operator + (size_type n) const
+		{
+			return location + n;
+		}
+
+		type_ref operator -- ()
+		{
+			--location;
+
+			return *this;
+		}
+
+		type operator -- (int)
+		{
+			return location--;
+		}
+
+		type_ref operator -= (size_type n)
+		{
+			location -= n;
+
+			return *this;
+		}
+
+		type operator - (size_type n) const
+		{
+			return location - n;
+		}
+
+		size_type operator - (const type_ref n) const
+		{
+			return location - n.location;
+		}
+};
 

@@ -16,92 +16,33 @@
 ************************************************************************************************************************/
 
 /*
-	Coproduct assumes overloaded arithmetic operators as navigational operators of Type.
+	Coproduct assumes alternatives.
+	This is implemented through overloaded arithmetic as navigational operators of Type.
 */
 
-template<typename Type, Access access = Access::readwrite>
-class coproduct
+template<typename Type>
+struct coproduct
 {
-	public:
-		using type		= coproduct;
+	using type		= coproduct;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	protected:
-		using type_ptr		= type*;
-		using type_ref		= type&;
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-		using value_type	= typename read_type<Type, access>::rtn;
-		using value_type_ptr	= value_type*;
-		using value_type_ref	= value_type&;
+	using iterator		= coproduct_navigator<Type>;
+	using const_iterator	= coproduct_navigator<Type, Access::readonly>;
 
-		using const_type	= coproduct<Type, Access::readonly>;
+	value_type value;
 
-		value_type value;
-	public:
-		coproduct(const value_type_ref v) : value(v) { }
+	coproduct(const value_type_ref v) : value(v) { }
 
-		~coproduct() { }
+	~coproduct() { }
 
-		operator const_type () const
-		{
-			return (const_type) this;
-		}
-
-		bool operator == (const type_ref c) const
-		{
-			return value == c.value;
-		}
-
-		bool operator != (const type_ref c) const
-		{
-			return value != c.value;
-		}
-
-		type_ref operator ++ ()
-		{
-			++value;
-
-			return *this;
-		}
-
-		type operator ++ (int)
-		{
-			return value++;
-		}
-
-		type_ref operator += (size_type n)
-		{
-			value += n;
-
-			return *this;
-		}
-
-		type operator + (size_type n) const
-		{
-			return value + n;
-		}
-
-		type_ref operator -- ()
-		{
-			--value;
-
-			return *this;
-		}
-
-		type operator -- (int)
-		{
-			return value--;
-		}
-
-		type_ref operator -= (size_type n)
-		{
-			value -= n;
-
-			return *this;
-		}
-
-		type operator - (size_type n) const
-		{
-			return value - n;
-		}
+	iterator name() const
+	{
+		return iterator(value);
+	}
 };
 
