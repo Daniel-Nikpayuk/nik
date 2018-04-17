@@ -25,16 +25,9 @@ namespace grammaric	{
 
 		//
 
-		#include"interface/navigator/iterator/semiotic.hpp"
-		#include"interface/navigator/selector/semiotic.hpp"
+		#include"interface/navigator/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
-
-		//
-
-//		#include"perspective/identity/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
 	};
 
 }}

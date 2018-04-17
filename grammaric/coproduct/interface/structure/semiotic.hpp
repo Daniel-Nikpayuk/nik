@@ -15,34 +15,93 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type>
-struct coproduct
+/*
+	Coproduct assumes overloaded arithmetic operators as navigational operators of Type.
+*/
+
+template<typename Type, Access access = Access::readwrite>
+class coproduct
 {
-	using type		= coproduct;
-	using type_ptr		= type*;
-	using type_ref		= type&;
+	public:
+		using type		= coproduct;
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
+	protected:
+		using type_ptr		= type*;
+		using type_ref		= type&;
 
-	using iterator		= coproduct_iterator<Type>;
-	using const_iterator	= coproduct_iterator<Type, Access::readonly>;
+		using value_type	= typename read_type<Type, access>::rtn;
+		using value_type_ptr	= value_type*;
+		using value_type_ref	= value_type&;
 
-	value_type value;
+		using const_type	= coproduct<Type, Access::readonly>;
 
-	coproduct() { }
+		value_type value;
+	public:
+		coproduct(const value_type_ref v) : value(v) { }
 
-	~coproduct() { }
+		~coproduct() { }
 
-	iterator begin()
-	{
-		return iterator(value);
-	}
+		operator const_type () const
+		{
+			return (const_type) this;
+		}
 
-	iterator end()
-	{
-		return iterator(value + length);
-	}
+		bool operator == (const type_ref c) const
+		{
+			return value == c.value;
+		}
+
+		bool operator != (const type_ref c) const
+		{
+			return value != c.value;
+		}
+
+		type_ref operator ++ ()
+		{
+			++value;
+
+			return *this;
+		}
+
+		type operator ++ (int)
+		{
+			return value++;
+		}
+
+		type_ref operator += (size_type n)
+		{
+			value += n;
+
+			return *this;
+		}
+
+		type operator + (size_type n) const
+		{
+			return value + n;
+		}
+
+		type_ref operator -- ()
+		{
+			--value;
+
+			return *this;
+		}
+
+		type operator -- (int)
+		{
+			return value--;
+		}
+
+		type_ref operator -= (size_type n)
+		{
+			value -= n;
+
+			return *this;
+		}
+
+		type operator - (size_type n) const
+		{
+			return value - n;
+		}
 };
 
