@@ -15,42 +15,27 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, size_type length>
-struct product
-{
-	using type		= product;
-	using type_ptr		= type*;
-	using type_ref		= type&;
+namespace nik		{
+namespace grammaric	{
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
-
-	using iterator		= product_iterator<Type, length>;
-	using const_iterator	= product_iterator<Type, length, Access::readonly>;
-
-	using selector		= product_selector<Type, length>;
-	using const_selector	= product_selector<Type, length, Access::readonly>;
-
-	value_type value[length];
-
-	product() { }
-
-	~product() { }
-
-	iterator begin()
+	template<typename SizeType>
+	struct module<Module::coproduct, Permission::semiotic, SizeType>
 	{
-		return iterator(value);
-	}
+		typedef SizeType size_type;
 
-	iterator end()
-	{
-		return iterator(value + length);
-	}
+		//
 
-	selector range()
-	{
-		return selector(value, value + length);
-	}
-};
+		#include"interface/navigator/iterator/semiotic.hpp"
+		#include"interface/navigator/selector/semiotic.hpp"
+
+		#include"interface/structure/semiotic.hpp"
+
+		//
+
+//		#include"perspective/identity/semiotic.hpp"
+
+//		#include"perspective/proximity/semiotic.hpp"
+	};
+
+}}
 

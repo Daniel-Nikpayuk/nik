@@ -15,42 +15,39 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, size_type length>
-struct product
+template<typename Word, typename Filler = void>
+struct identity
 {
-	using type		= product;
+	using type		= identity;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
+	using word_type		= Word;
+	using word_type_ptr	= word_type*;
+	using word_type_ref	= word_type&;
 
-	using iterator		= product_iterator<Type, length>;
-	using const_iterator	= product_iterator<Type, length, Access::readonly>;
+		// if they're of the same word_type it is assumed they have the same word_length.
 
-	using selector		= product_selector<Type, length>;
-	using const_selector	= product_selector<Type, length, Access::readonly>;
-
-	value_type value[length];
-
-	product() { }
-
-	~product() { }
-
-	iterator begin()
+	static bool equals(const word_type & u, const word_type & v)
 	{
-		return iterator(value);
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
+
+		for (; k != e; ++k, ++l) if (*k != *l) return false;
+
+		return true;
 	}
 
-	iterator end()
+	static bool not_equals(const word_type & u, const word_type & v)
 	{
-		return iterator(value + length);
-	}
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
 
-	selector range()
-	{
-		return selector(value, value + length);
+		for (; k != e; ++k, ++l) if (*k != *l) return true;
+
+		return false;
 	}
 };
 

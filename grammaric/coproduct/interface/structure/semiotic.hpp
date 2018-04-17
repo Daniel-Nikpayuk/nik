@@ -15,10 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, size_type length>
-struct product
+template<typename Type>
+struct coproduct
 {
-	using type		= product;
+	using type		= coproduct;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
@@ -26,17 +26,14 @@ struct product
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= product_iterator<Type, length>;
-	using const_iterator	= product_iterator<Type, length, Access::readonly>;
+	using iterator		= coproduct_iterator<Type>;
+	using const_iterator	= coproduct_iterator<Type, Access::readonly>;
 
-	using selector		= product_selector<Type, length>;
-	using const_selector	= product_selector<Type, length, Access::readonly>;
+	value_type value;
 
-	value_type value[length];
+	coproduct() { }
 
-	product() { }
-
-	~product() { }
+	~coproduct() { }
 
 	iterator begin()
 	{
@@ -46,11 +43,6 @@ struct product
 	iterator end()
 	{
 		return iterator(value + length);
-	}
-
-	selector range()
-	{
-		return selector(value, value + length);
 	}
 };
 
