@@ -15,74 +15,103 @@
 **
 ************************************************************************************************************************/
 
-template<typename Bit, size_type length, typename Filler = void>
-struct word_navigator
+/*
+	word type	:= (0 + 1)^n;
+	word instance	:= m^j/s^k = m^j/s^l -> k = l;
+
+	binary type assumes operators: ;
+
+	Navigators may be optimized as they have limited perspectives.
+*/
+
+template<typename Bit, size_type length, Access access = Access::readwrite>
+class word_navigator
 {
-	typedef word_navigator type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+	public:
+		using type		= word_navigator;
 
-	typedef Bit bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
+	protected:
+		using type_ptr		= type*;
+		using type_ref		= type&;
 
-	bit_type_ptr location;
+		using bit_type		= typename read_type<Bit, access>::rtn;
+		using bit_type_ptr	= bit_type*;
+		using bit_type_ref	= bit_type&;
 
-	word_navigator(bit_type *l) : location(l) { }
+		using const_type	= word_navigator<Bit, length, Access::readonly>;
 
-	~word_navigator() { }
+		bit_type_ptr location;
+	public:
+		word_navigator(bit_type_ptr l) : location(l) { }
 
-	bit_type_ref operator * () const
-	{
-		return *location;
-	}
+		~word_navigator() { }
 
-	type_ref operator ++ ()
-	{
-		++location;
+		operator const_type () const
+		{
+			return (const_type) this;
+		}
 
-		return *this;
-	}
+		bool operator == (const type_ref w) const
+		{
+			return location == w.location;
+		}
 
-	type operator ++ (int)
-	{
-		return location++;
-	}
+		bool operator != (const type_ref w) const
+		{
+			return location != w.location;
+		}
 
-	type_ref operator += (size_type n)
-	{
-		location += n;
+		bit_type_ref operator * () const
+		{
+			return *location;
+		}
 
-		return *this;
-	}
+		type_ref operator ++ ()
+		{
+			++location;
 
-	type operator + (size_type n) const
-	{
-		return location + n;
-	}
+			return *this;
+		}
 
-	type_ref operator -- ()
-	{
-		--location;
+		type operator ++ (int)
+		{
+			return location++;
+		}
 
-		return *this;
-	}
+		type_ref operator += (size_type n)
+		{
+			location += n;
 
-	type operator -- (int)
-	{
-		return location--;
-	}
+			return *this;
+		}
 
-	type_ref operator -= (size_type n)
-	{
-		location -= n;
+		type operator + (size_type n) const
+		{
+			return location + n;
+		}
 
-		return *this;
-	}
+		type_ref operator -- ()
+		{
+			--location;
 
-	word_navigator operator - (size_type n) const
-	{
-		return location - n;
-	}
+			return *this;
+		}
+
+		type operator -- (int)
+		{
+			return location--;
+		}
+
+		type_ref operator -= (size_type n)
+		{
+			location -= n;
+
+			return *this;
+		}
+
+		type operator - (size_type n) const
+		{
+			return location - n;
+		}
 };
 

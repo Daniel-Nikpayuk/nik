@@ -15,14 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
 namespace nik
 {
-	constexpr void *null_ptr=0; // use builtin "nullptr" instead!
-
-	constexpr char endl='\n';
-
 	template<typename S, typename T>
 	const S & operator << (const S & s, const T & v)
 	{

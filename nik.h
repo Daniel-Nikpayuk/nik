@@ -23,9 +23,11 @@
 /***********************************************************************************************************************/
 
 
-#include"printer.h"
+#include"keyword.h"
 
 #include"namespace.h"
+
+#include"printer.h"
 
 //#include"error.h"
 
@@ -63,7 +65,7 @@
 	nik_stringify(module/name.h)
 
 
-#include nik_module(bit)
+#include nik_module(word)
 
 
 #endif

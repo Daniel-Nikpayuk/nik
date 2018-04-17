@@ -20,7 +20,7 @@
 
 struct boolean
 {
-	typedef bool type;
+	using type = bool;
 
 	static constexpr type f = false;
 	static constexpr type t = true;
@@ -31,16 +31,16 @@ struct boolean
 template<typename Filler>
 struct bit<boolean, Filler>
 {
-	typedef bit type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+	using type		= bit;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	typedef typename boolean::type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	using binary_type	= typename boolean::type;
+	using binary_type_ptr	= binary_type*;
+	using binary_type_ref	= binary_type&;
 
-	typedef bit_navigator<boolean, Filler> iterator;
-	typedef const_bit_navigator<boolean, Filler> const_iterator;
+	using iterator		= bit_navigator<boolean>;
+	using const_iterator	= bit_navigator<boolean, Access::readonly>;
 
 	binary_type location;
 

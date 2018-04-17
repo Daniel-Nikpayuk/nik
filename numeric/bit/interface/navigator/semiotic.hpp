@@ -15,16 +15,67 @@
 **
 ************************************************************************************************************************/
 
-template<typename Binary, typename Filler>
-class const_bit_navigator;
-
 /*
 	bit type	:= 0 + 1;
 	bit instance	:= s^1, s^2;
 
 	binary type assumes operators: &, *;
+
+	Navigators may be optimized as they have limited perspectives.
 */
 
+template<typename Binary, Access access = Access::readwrite>
+class bit_navigator
+{
+	public:
+		using type = bit_navigator;
+
+	protected:
+		using type_ptr = type *;
+		using type_ref = type &;
+
+		using binary_type = typename read_type<typename Binary::type, access>::rtn;
+		using binary_type_ptr = binary_type *;
+		using binary_type_ref = binary_type &;
+
+		using const_type = bit_navigator<Binary, Access::readonly>;
+
+		binary_type_ptr name;
+	public:
+		bit_navigator(binary_type_ref l) : name(&l) { }
+
+		~bit_navigator() { }
+
+			// Exists to convert readwrite to readonly.
+			// Is redundant when already readonly.
+
+		operator const_type () const
+		{
+			return (const_type) this;
+		}
+
+		bool operator == (const type_ref b) const
+		{
+			return name == b.name;
+		}
+
+		bool operator != (const type_ref b) const
+		{
+			return name != b.name;
+		}
+
+		binary_type_ref operator * () const
+		{
+			return *name;
+		}
+};
+
+/*
+template<typename Binary, typename Filler>
+class const_bit_navigator;
+*/
+
+/*
 template<typename Binary, typename Filler = void>
 class bit_navigator
 {
@@ -51,8 +102,6 @@ class bit_navigator
 		{
 			return (const_type) this;
 		}
-
-		// navigators may be optimized as they have limited perspectives.
 
 		bool operator == (const type_ref b) const
 		{
@@ -90,8 +139,6 @@ class const_bit_navigator
 
 		~const_bit_navigator() { }
 
-		// navigators may be optimized as they have limited perspectives.
-
 		bool operator == (const type_ref b) const
 		{
 			return name == b.name;
@@ -107,4 +154,5 @@ class const_bit_navigator
 			return *name;
 		}
 };
+*/
 

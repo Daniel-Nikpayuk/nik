@@ -15,35 +15,37 @@
 **
 ************************************************************************************************************************/
 
-template<typename Word>
+template<typename Word, typename Filler = void>
 struct identity
 {
-	typedef identity type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+	using type		= identity;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	typedef Word word_type;
-	typedef word_type* word_type_ptr;
-	typedef word_type& word_type_ref;
+	using word_type		= Word;
+	using word_type_ptr	= word_type*;
+	using word_type_ref	= word_type&;
 
-	// if they're of the same word_type it is assumed they have the same length.
+		// if they're of the same word_type it is assumed they have the same word_length.
 
 	static bool equals(const word_type & u, const word_type & v)
 	{
-		word_type::const_iterator k = u.begin();
-		word_type::const_iterator e = u.end();
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
 
-		for (word_type::const_iterator l = v.end(); k != e; ++k, ++l) if (*k != *l) return false;
+		for (; k != e; ++k, ++l) if (*k != *l) return false;
 
 		return true;
 	}
 
 	static bool not_equals(const word_type & u, const word_type & v)
 	{
-		binary_type::const_iterator k = u.begin();
-		binary_type::const_iterator e = u.end();
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
 
-		for (binary_type::const_iterator l = v.begin(); k != e; ++k, ++l) if (*k != *l) return true;
+		for (; k != e; ++k, ++l) if (*k != *l) return true;
 
 		return false;
 	}

@@ -15,135 +15,43 @@
 **
 ************************************************************************************************************************/
 
-#define ONE_BYTE	8 << 0
-#define TWO_BYTES	8 << 1
-#define FOUR_BYTES	8 << 2
-#define EIGHT_BYTES	8 << 3
+#define define_word(int_length, int_type)										\
+															\
+template<typename Filler>												\
+struct word<bit<boolean>, (int_length), Filler>										\
+{															\
+	using type		= word;											\
+	using type_ptr		= type*;										\
+	using type_ref		= type&;										\
+															\
+	using iterator		= word_navigator<bit<boolean>, (int_length)>;						\
+	using const_iterator	= word_navigator<bit<boolean>, (int_length), Access::readonly>;				\
+															\
+	using byte_type		= int_type;										\
+															\
+	byte_type product;												\
+															\
+	word() { }													\
+															\
+	~word() { }													\
+															\
+	iterator begin()												\
+	{														\
+		return iterator(1, product);										\
+	}														\
+															\
+	iterator end()													\
+	{														\
+		return iterator(1 << (int_length), product);								\
+	}														\
+};															\
 
-#define ONE_BYTE_TYPE		unsigned char
-#define TWO_BYTES_TYPE		unsigned short
-#define FOUR_BYTES_TYPE		unsigned int
-#define EIGHT_BYTES_TYPE	unsigned long
 
-template<typename Filler>
-struct word<bit<boolean>, ONE_BYTE, Filler>
-{
-	typedef word type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+define_word(8 << 0, unsigned char)
+define_word(8 << 1, unsigned short)
+define_word(8 << 2, unsigned int)
+define_word(8 << 3, unsigned long)
 
-	typedef word_navigator<bit<boolean>, ONE_BYTE, Filler> iterator;
 
-	typedef ONE_BYTE_TYPE byte_type;
-
-	byte_type product;
-
-	word() { }
-
-	~word() { }
-
-	iterator begin()
-	{
-		return iterator(1, product);
-	}
-
-	iterator end()
-	{
-		return iterator(1 << ONE_BYTE, product);
-	}
-};
-
-template<typename Filler>
-struct word<bit<boolean>, TWO_BYTES, Filler>
-{
-	typedef word type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef word_navigator<bit<boolean>, TWO_BYTES, Filler> iterator;
-
-	typedef TWO_BYTES_TYPE byte_type;
-
-	byte_type product;
-
-	word() { }
-
-	~word() { }
-
-	iterator begin()
-	{
-		return iterator(1, product);
-	}
-
-	iterator end()
-	{
-		return iterator(1 << TWO_BYTES, product);
-	}
-};
-
-template<typename Filler>
-struct word<bit<boolean>, FOUR_BYTES, Filler>
-{
-	typedef word type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef word_navigator<bit<boolean>, FOUR_BYTES, Filler> iterator;
-
-	typedef FOUR_BYTES_TYPE byte_type;
-
-	byte_type product;
-
-	word() { }
-
-	~word() { }
-
-	iterator begin()
-	{
-		return iterator(1, product);
-	}
-
-	iterator end()
-	{
-		return iterator(1 << FOUR_BYTES, product);
-	}
-};
-
-template<typename Filler>
-struct word<bit<boolean>, EIGHT_BYTES, Filler>
-{
-	typedef word type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef word_navigator<bit<boolean>, EIGHT_BYTES, Filler> iterator;
-
-	typedef EIGHT_BYTES_TYPE byte_type;
-
-	byte_type product;
-
-	word() { }
-
-	~word() { }
-
-	iterator begin()
-	{
-		return iterator(1, product);
-	}
-
-	iterator end()
-	{
-		return iterator(1 << EIGHT_BYTES, product);
-	}
-};
-
-#undef ONE_BYTE
-#undef TWO_BYTES
-#undef FOUR_BYTES
-#undef EIGHT_BYTES
-
-#undef ONE_BYTE_TYPE
-#undef TWO_BYTES_TYPE
-#undef FOUR_BYTES_TYPE
-#undef EIGHT_BYTES_TYPE
+#undef define_word
 

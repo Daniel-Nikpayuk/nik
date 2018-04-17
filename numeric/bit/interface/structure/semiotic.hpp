@@ -26,16 +26,16 @@
 template<typename Binary, typename Filler = void>
 struct bit
 {
-	typedef bit type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+	using type		= bit;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	typedef typename Binary::type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	using binary_type	= typename Binary::type;
+	using binary_type_ptr	= binary_type*;
+	using binary_type_ref	= binary_type&;
 
-	typedef bit_navigator<Binary, Filler> iterator;
-	typedef const_bit_navigator<Binary, Filler> const_iterator;
+	using iterator		= bit_navigator<Binary>;
+	using const_iterator	= bit_navigator<Binary, Access::readonly>;
 
 	binary_type location;
 

@@ -15,12 +15,13 @@
 **
 ************************************************************************************************************************/
 
+/*
+#include<stdio.h>
 #include<stddef.h>
+*/
 
 namespace nik
 {
-	using global_size_type = size_t;
-
 	enum struct Module : global_size_type
 	{
 		constant,
@@ -50,12 +51,14 @@ namespace nik
 
 	namespace grammaric
 	{
+/*
 		struct undefined
 		{
 			using rtn = undefined;
 
 			static void print() { builtin_printer::print("undefined"); }
 		};
+*/
 
 		template<typename> struct act { };
 		template<typename> struct pass { };

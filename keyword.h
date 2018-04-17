@@ -15,37 +15,39 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+#include<stdio.h>
+//#include<stddef.h>
 
-	template<typename SizeType>
-	struct module<Module::word, Permission::semiotic, SizeType>
+namespace nik
+{
+	using global_size_type = size_t;
+
+	constexpr void *null_ptr=0; // use builtin "nullptr" instead!
+
+	constexpr char endl='\n';
+
+	enum struct Access : global_size_type
 	{
-		typedef SizeType size_type;
+		readonly,
+		readwrite,
 
-		using bit_s = module<Module::bit, Permission::semiotic, size_type>;
-
-		using boolean = typename bit_s::boolean;
-
-		template<typename Binary>
-		using bit = typename bit_s::template bit<Binary>;
-
-		//
-
-		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/boolean/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		//
-
-		#include"perspective/identity/semiotic.hpp"
-		#include"perspective/identity/boolean/semiotic.hpp"
-
-		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
+		dimension // filler
 	};
 
-}}
+	template<typename Type, Access = Access::readwrite>
+	struct read_type
+		{ using rtn = Type; };
+
+	template<typename Type>
+	struct read_type<Type const, Access::readwrite>
+		{ using rtn = Type; };
+
+	template<typename Type>
+	struct read_type<Type, Access::readonly>
+		{ using rtn = Type const; };
+
+	template<typename Type>
+	struct read_type<Type const, Access::readonly>
+		{ using rtn = Type const; };
+}
 

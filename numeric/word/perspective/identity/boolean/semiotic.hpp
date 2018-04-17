@@ -15,56 +15,150 @@
 **
 ************************************************************************************************************************/
 
-#define ONE_BYTE	8 << 0
-#define TWO_BYTES	8 << 1
-#define FOUR_BYTES	8 << 2
-#define EIGHT_BYTES	8 << 3
+#define define_identity(int_length)											\
+															\
+template<typename Filler>												\
+struct identity<word<bit<boolean>, (int_length)>, Filler>								\
+{															\
+	using type			= identity;									\
+	using type_ptr			= type*;									\
+	using type_ref			= type&;									\
+															\
+	using word_type			= word<bit<boolean>, (int_length)>;						\
+	using word_type_ptr		= word_type*;									\
+	using word_type_ref		= word_type&;									\
+															\
+		// if they're of the same word_type it is assumed they have the same word_length.			\
+															\
+	static bool equals(const word_type & u, const word_type & v)							\
+	{														\
+		return u.product == v.product;										\
+	}														\
+															\
+	static bool not_equals(const word_type & u, const word_type & v)						\
+	{														\
+		return u.product != v.product;										\
+	}														\
+};															\
 
-#define ONE_BYTE_TYPE		unsigned char
-#define TWO_BYTES_TYPE		unsigned short
-#define FOUR_BYTES_TYPE		unsigned int
-#define EIGHT_BYTES_TYPE	unsigned long
+
+//define_identity(8 << 0)
+//define_identity(8 << 1)
+//define_identity(8 << 2)
+//define_identity(8 << 3)
+
+
+#undef define_identity
+
+// For whatever reason the above macro function doesn't compile,
+// so until it does each case must be handled separately:
+
+#define INT_LENGTH 8
 
 template<typename Filler>
-struct identity<word<bit<boolean>, ONE_BYTES, Filler>>
+struct identity<word<bit<boolean>, INT_LENGTH>, Filler>
 {
-	typedef identity type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
+	using type			= identity;
+	using type_ptr			= type*;
+	using type_ref			= type&;
 
-	typedef word<bit<boolean>, ONE_BYTES, Filler> word_type;
-	typedef word_type* word_type_ptr;
-	typedef word_type& word_type_ref;
+	using word_type			= word<bit<boolean>, INT_LENGTH>;
+	using word_type_ptr		= word_type*;
+	using word_type_ref		= word_type&;
 
-	typedef bit<boolean> bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
-
-	typedef typename bit_type::binary_type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
-
-
-	// if they're of the same word_type it is assumed they have the same word_length.
+		// if they're of the same word_type it is assumed they have the same word_length.
 
 	static bool equals(const word_type & u, const word_type & v)
 	{
-		return (u.bit_array == v.bit_array);
+		return u.product == v.product;
 	}
 
 	static bool not_equals(const word_type & u, const word_type & v)
 	{
-		return (u.bit_array != v.bit_array);
+		return u.product != v.product;
 	}
 };
 
-#undef ONE_BYTE
-#undef TWO_BYTES
-#undef FOUR_BYTES
-#undef EIGHT_BYTES
+#undef INT_LENGTH
+#define INT_LENGTH 16
 
-#undef ONE_BYTE_TYPE
-#undef TWO_BYTES_TYPE
-#undef FOUR_BYTES_TYPE
-#undef EIGHT_BYTES_TYPE
+template<typename Filler>
+struct identity<word<bit<boolean>, INT_LENGTH>, Filler>
+{
+	using type			= identity;
+	using type_ptr			= type*;
+	using type_ref			= type&;
+
+	using word_type			= word<bit<boolean>, INT_LENGTH>;
+	using word_type_ptr		= word_type*;
+	using word_type_ref		= word_type&;
+
+		// if they're of the same word_type it is assumed they have the same word_length.
+
+	static bool equals(const word_type & u, const word_type & v)
+	{
+		return u.product == v.product;
+	}
+
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		return u.product != v.product;
+	}
+};
+
+#undef INT_LENGTH
+#define INT_LENGTH 32
+
+template<typename Filler>
+struct identity<word<bit<boolean>, INT_LENGTH>, Filler>
+{
+	using type			= identity;
+	using type_ptr			= type*;
+	using type_ref			= type&;
+
+	using word_type			= word<bit<boolean>, INT_LENGTH>;
+	using word_type_ptr		= word_type*;
+	using word_type_ref		= word_type&;
+
+		// if they're of the same word_type it is assumed they have the same word_length.
+
+	static bool equals(const word_type & u, const word_type & v)
+	{
+		return u.product == v.product;
+	}
+
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		return u.product != v.product;
+	}
+};
+
+#undef INT_LENGTH
+#define INT_LENGTH 64
+
+template<typename Filler>
+struct identity<word<bit<boolean>, INT_LENGTH>, Filler>
+{
+	using type			= identity;
+	using type_ptr			= type*;
+	using type_ref			= type&;
+
+	using word_type			= word<bit<boolean>, INT_LENGTH>;
+	using word_type_ptr		= word_type*;
+	using word_type_ref		= word_type&;
+
+		// if they're of the same word_type it is assumed they have the same word_length.
+
+	static bool equals(const word_type & u, const word_type & v)
+	{
+		return u.product == v.product;
+	}
+
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		return u.product != v.product;
+	}
+};
+
+#undef INT_LENGTH
 

@@ -15,387 +15,112 @@
 **
 ************************************************************************************************************************/
 
-#define ONE_BYTE	8 << 0
-#define TWO_BYTES	8 << 1
-#define FOUR_BYTES	8 << 2
-#define EIGHT_BYTES	8 << 3
+#define define_word_navigator(int_length, int_type)									\
+															\
+template<Access access>													\
+class word_navigator<bit<boolean>, (int_length), access>								\
+{															\
+	public:														\
+		using type		= word_navigator;								\
+															\
+	protected:													\
+		using type_ptr		= type*;									\
+		using type_ref		= type&;									\
+															\
+		using bit_type		= typename read_type<bit<boolean>, access>::rtn;				\
+		using bit_type_ptr	= bit_type*;									\
+		using bit_type_ref	= bit_type&;									\
+															\
+		using const_type	= word_navigator<bit<boolean>, (int_length), Access::readonly>;			\
+															\
+		using byte_type		= typename read_type<int_type, access>::rtn;					\
+															\
+		byte_type location;											\
+		byte_type *name;											\
+	public:														\
+															\
+		word_navigator(byte_type l, byte_type & n) : location(l)						\
+		{													\
+			name = &n;											\
+		}													\
+															\
+		~word_navigator() { }											\
+															\
+		operator const_type () const										\
+		{													\
+			return (const_type) this;									\
+		}													\
+															\
+		const bit_type operator * () const									\
+		{													\
+			return *name & location;									\
+		}													\
+															\
+		void operator + ()											\
+		{													\
+			*name ^= location;										\
+		}													\
+															\
+		void operator - ()											\
+		{													\
+			*name &= ~location;										\
+		}													\
+															\
+		type_ref operator ++ ()											\
+		{													\
+			location<<=1;											\
+															\
+			return *this;											\
+		}													\
+															\
+		type operator ++ (int)											\
+		{													\
+			return word_navigator(location<<1, name);							\
+		}													\
+															\
+		type_ref operator += (byte_type n)									\
+		{													\
+			location<<=n;											\
+															\
+			return *this;											\
+		}													\
+															\
+		type operator + (byte_type n) const									\
+		{													\
+			return word_navigator(location<<n, name);							\
+		}													\
+															\
+		type_ref operator -- ()											\
+		{													\
+			location>>=1;											\
+															\
+			return *this;											\
+		}													\
+															\
+		type operator -- (int)											\
+		{													\
+			return word_navigator(location>>1, name);							\
+		}													\
+															\
+		type_ref operator -= (byte_type n)									\
+		{													\
+			location>>=n;											\
+															\
+			return *this;											\
+		}													\
+															\
+		type operator - (byte_type n) const									\
+		{													\
+			return word_navigator(location>>n, name);							\
+		}													\
+};															\
+
+
+define_word_navigator(8 << 0, unsigned char)
+define_word_navigator(8 << 1, unsigned short)
+define_word_navigator(8 << 2, unsigned int)
+define_word_navigator(8 << 3, unsigned long)
 
-#define ONE_BYTE_TYPE		unsigned char
-#define TWO_BYTES_TYPE		unsigned short
-#define FOUR_BYTES_TYPE		unsigned int
-#define EIGHT_BYTES_TYPE	unsigned long
 
-template<typename Filler>
-struct word_navigator<bit<boolean>, ONE_BYTE, Filler>
-{
-	typedef word_navigator type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef bit<boolean> bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
-
-	typedef typename bit_type::binary_type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
-
-	typedef ONE_BYTE_TYPE byte_type;
-
-	byte_type location;
-	byte_type *name;
-
-	word_navigator(byte_type l, byte_type & n) : location(l)
-	{
-		name = &b;
-	}
-
-	~word_navigator() { }
-
-	const bit_type operator * () const
-	{
-		return *name & location;
-	}
-
-	void operator + ()
-	{
-		*name ^= location;
-	}
-
-	void operator - ()
-	{
-		*name &= ~location;
-	}
-
-	type_ref operator ++ ()
-	{
-		location<<=1;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return word_navigator(location<<1, name);
-	}
-
-	type_ref operator += (byte_type n)
-	{
-		location<<=n;
-
-		return *this;
-	}
-
-	type operator + (byte_type n) const
-	{
-		return word_navigator(location<<n, name);
-	}
-
-	type_ref operator -- ()
-	{
-		location>>=1;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return word_navigator(location>>1, name);
-	}
-
-	type_ref operator -= (byte_type n)
-	{
-		location>>=n;
-
-		return *this;
-	}
-
-	type operator - (byte_type n) const
-	{
-		return word_navigator(location>>n, name);
-	}
-};
-
-template<typename Filler>
-struct word_navigator<bit<boolean>, TWO_BYTES, Filler>
-{
-	typedef word_navigator type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef bit<boolean> bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
-
-	typedef typename bit_type::binary_type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
-
-	typedef TWO_BYTES_TYPE byte_type;
-
-	byte_type location;
-	byte_type *name;
-
-	word_navigator(byte_type l, byte_type & n) : location(l)
-	{
-		name = &b;
-	}
-
-	~word_navigator() { }
-
-	const bit_type operator * () const
-	{
-		return *name & location;
-	}
-
-	void operator + ()
-	{
-		*name ^= location;
-	}
-
-	void operator - ()
-	{
-		*name &= ~location;
-	}
-
-	type_ref operator ++ ()
-	{
-		location<<=1;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return word_navigator(location<<1, name);
-	}
-
-	type_ref operator += (byte_type n)
-	{
-		location<<=n;
-
-		return *this;
-	}
-
-	type operator + (byte_type n) const
-	{
-		return word_navigator(location<<n, name);
-	}
-
-	type_ref operator -- ()
-	{
-		location>>=1;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return word_navigator(location>>1, name);
-	}
-
-	type_ref operator -= (byte_type n)
-	{
-		location>>=n;
-
-		return *this;
-	}
-
-	type operator - (byte_type n) const
-	{
-		return word_navigator(location>>n, name);
-	}
-};
-
-template<typename Filler>
-struct word_navigator<bit<boolean>, FOUR_BYTES, Filler>
-{
-	typedef word_navigator type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef bit<boolean> bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
-
-	typedef typename bit_type::binary_type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
-
-	typedef FOUR_BYTES_TYPE byte_type;
-
-	byte_type location;
-	byte_type *name;
-
-	word_navigator(byte_type l, byte_type & n) : location(l)
-	{
-		name = &b;
-	}
-
-	~word_navigator() { }
-
-	const bit_type operator * () const
-	{
-		return *name & location;
-	}
-
-	void operator + ()
-	{
-		*name ^= location;
-	}
-
-	void operator - ()
-	{
-		*name &= ~location;
-	}
-
-	type_ref operator ++ ()
-	{
-		location<<=1;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return word_navigator(location<<1, name);
-	}
-
-	type_ref operator += (byte_type n)
-	{
-		location<<=n;
-
-		return *this;
-	}
-
-	type operator + (byte_type n) const
-	{
-		return word_navigator(location<<n, name);
-	}
-
-	type_ref operator -- ()
-	{
-		location>>=1;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return word_navigator(location>>1, name);
-	}
-
-	type_ref operator -= (byte_type n)
-	{
-		location>>=n;
-
-		return *this;
-	}
-
-	type operator - (byte_type n) const
-	{
-		return word_navigator(location>>n, name);
-	}
-};
-
-template<typename Filler>
-struct word_navigator<bit<boolean>, EIGHT_BYTES, Filler>
-{
-	typedef word_navigator type;
-	typedef type* type_ptr;
-	typedef type& type_ref;
-
-	typedef bit<boolean> bit_type;
-	typedef bit_type* bit_type_ptr;
-	typedef bit_type& bit_type_ref;
-
-	typedef typename bit_type::binary_type binary_type;
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
-
-	typedef EIGHT_BYTES_TYPE byte_type;
-
-	byte_type location;
-	byte_type *name;
-
-	word_navigator(byte_type l, byte_type & n) : location(l)
-	{
-		name = &b;
-	}
-
-	~word_navigator() { }
-
-	const bit_type operator * () const
-	{
-		return *name & location;
-	}
-
-	void operator + ()
-	{
-		*name ^= location;
-	}
-
-	void operator - ()
-	{
-		*name &= ~location;
-	}
-
-	type_ref operator ++ ()
-	{
-		location<<=1;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return word_navigator(location<<1, name);
-	}
-
-	type_ref operator += (byte_type n)
-	{
-		location<<=n;
-
-		return *this;
-	}
-
-	type operator + (byte_type n) const
-	{
-		return word_navigator(location<<n, name);
-	}
-
-	type_ref operator -- ()
-	{
-		location>>=1;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return word_navigator(location>>1, name);
-	}
-
-	type_ref operator -= (byte_type n)
-	{
-		location>>=n;
-
-		return *this;
-	}
-
-	type operator - (byte_type n) const
-	{
-		return word_navigator(location>>n, name);
-	}
-};
-
-#undef ONE_BYTE
-#undef TWO_BYTES
-#undef FOUR_BYTES
-#undef EIGHT_BYTES
-
-#undef ONE_BYTE_TYPE
-#undef TWO_BYTES_TYPE
-#undef FOUR_BYTES_TYPE
-#undef EIGHT_BYTES_TYPE
+#undef define_word_navigator
 

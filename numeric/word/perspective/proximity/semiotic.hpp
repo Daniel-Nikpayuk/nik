@@ -15,70 +15,61 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Given the special nature of WordInterp, we can unencapsulate the binary_type and optimize.
-*/
-
-template<typename WordInterp>
+template<typename Word, typename Filler = void>
 struct proximity
 {
-	typedef WordInterp word_type;
-	typedef typename word_type::binary_type binary_type;
+	using type		= proximity;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	typedef binary_type* binary_type_ptr;
-	typedef binary_type& binary_type_ref;
+	using word_type		= Word;
+	using word_type_ptr	= word_type*;
+	using word_type_ref	= word_type&;
 
-	typedef proximity* proximity_ptr;
-	typedef proximity& proximity_ref;
-
-	// if they're of the same word_type it is assumed they have the same word_length.
+		// if they're of the same word_type it is assumed they have the same word_length.
 
 	static bool less_than(const word_type & u, const word_type & v)
 	{
-		size_type last_position = word_type::word_length - 1;
+		typename word_type::const_iterator b = u.begin();
+		typename word_type::const_iterator k = u.end();
+		typename word_type::const_iterator l = v.end();
 
-		const binary_type *b = u.bit_array;
-		const binary_type *k = b + last_position;
+		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
 
-		for (const binary_type *l = v.bit_array + last_position; k != b; --k, --l) if (*k > *l) return false;
-
-		return (*k < *v.bit_array);
+		return (*k < *v.begin());
 	}
 
 	static bool less_than_or_equal(const word_type & u, const word_type & v)
 	{
-		size_type last_position = word_type::word_length - 1;
+		typename word_type::const_iterator b = u.begin();
+		typename word_type::const_iterator k = u.end();
+		typename word_type::const_iterator l = v.end();
 
-		const binary_type *b = u.bit_array;
-		const binary_type *k = b + last_position;
+		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
 
-		for (const binary_type *l = v.bit_array + last_position; k != b; --k, --l) if (*k > *l) return false;
-
-		return (*k <= *v.bit_array);
+		return (*k <= *v.begin());
 	}
 
 	static bool greater_than(const word_type & u, const word_type & v)
 	{
-		size_type last_position = word_type::word_length - 1;
+		typename word_type::const_iterator b = u.begin();
+		typename word_type::const_iterator k = u.end();
+		typename word_type::const_iterator l = v.end();
 
-		const binary_type *b = u.bit_array;
-		const binary_type *k = b + last_position;
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
 
-		for (const binary_type *l = v.bit_array + last_position; k != b; --k, --l) if (*k < *l) return false;
-
-		return (*k > *v.bit_array);
+		return (*k > *v.begin());
 	}
 
 	static bool greater_than_or_equal(const word_type & u, const word_type & v)
 	{
-		size_type last_position = word_type::word_length - 1;
+		typename word_type::const_iterator b = u.begin();
+		typename word_type::const_iterator k = u.end();
+		typename word_type::const_iterator l = v.end();
 
-		const binary_type *b = u.bit_array;
-		const binary_type *k = b + last_position;
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
 
-		for (const binary_type *l = v.bit_array + last_position; k != b; --k, --l) if (*k < *l) return false;
-
-		return (*k >= *v.bit_array);
+		return (*k >= *v.begin());
 	}
 };
 
