@@ -15,21 +15,24 @@
 **
 ************************************************************************************************************************/
 
-template<typename Bit, size_type length, typename Filler = void>
-struct word
+template<typename Type, size_type length>
+struct product
 {
-	using type		= word;
+	using type		= product;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using bit_type		= Bit;
-	using bit_type_ptr	= bit_type*;
-	using bit_type_ref	= bit_type&;
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-	using iterator		= word_navigator<Bit, length>;
-	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
+	using iterator		= product_iterator<Type, length>;
+	using const_iterator	= product_iterator<Type, length, Access::readonly>;
 
-	bit_type product[length];
+	using selector		= product_selector<Type, length>;
+	using const_selector	= product_selector<Type, length, Access::readonly>;
+
+	value_type product[length];
 
 	word() { }
 
@@ -43,6 +46,11 @@ struct word
 	iterator end()
 	{
 		return iterator(product + length);
+	}
+
+	selector range()
+	{
+		return selector(product, product + length);
 	}
 };
 

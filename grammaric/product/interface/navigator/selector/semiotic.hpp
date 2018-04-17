@@ -35,8 +35,12 @@ class product_selector
 
 		using const_type	= product_selector<Type, Access::readonly>;
 
-		value_type_ptr initial;
-		value_type_ptr terminal;
+		using iterator		= product_iterator<Type, access>;
+		using iterator_ptr	= iterator*;
+		using iterator_ref	= iterator&;
+
+		iterator initial;
+		iterator terminal;
 	public:
 		product_selector(value_type_ptr i, value_type_ptr t) : initial(i), terminal(t) { }
 
@@ -57,14 +61,14 @@ class product_selector
 			return initial != s.initial || terminal != s.terminal;
 		}
 
-		value_type_ref operator * () const
+		iterator_ref operator - () const
 		{
-			return *initial;
+			return initial;
 		}
 
-		value_type_ref operator & () const
+		iterator_ref operator + () const
 		{
-			return *terminal;
+			return terminal;
 		}
 
 		type_ref operator ++ ()

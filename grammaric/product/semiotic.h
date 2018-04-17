@@ -25,7 +25,8 @@ namespace grammaric	{
 
 		//
 
-		#include"interface/navigator/semiotic.hpp"
+		#include"interface/navigator/iterator/semiotic.hpp"
+		#include"interface/navigator/selector/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
 
