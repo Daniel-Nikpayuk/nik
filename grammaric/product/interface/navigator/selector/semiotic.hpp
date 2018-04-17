@@ -62,52 +62,61 @@ class product_selector
 			return *initial;
 		}
 
+		value_type_ref operator & () const
+		{
+			return *terminal;
+		}
+
 		type_ref operator ++ ()
 		{
 			++initial;
+			++terminal;
 
 			return *this;
 		}
 
 		type operator ++ (int)
 		{
-			return product_selector(initial++, terminal);
+			return product_selector(initial++, terminal++);
 		}
 
 		type_ref operator += (size_type n)
 		{
 			initial += n;
+			terminal += n;
 
 			return *this;
 		}
 
 		type operator + (size_type n) const
 		{
-			return product_selector(initial + n, terminal);
+			return product_selector(initial + n, terminal + n);
 		}
 
 		type_ref operator -- ()
 		{
 			--initial;
+			--terminal;
 
 			return *this;
 		}
 
 		type operator -- (int)
 		{
-			return product_selector(initial--, terminal);
+			return product_selector(initial--, terminal--);
 		}
 
 		type_ref operator -= (size_type n)
 		{
 			initial -= n;
+			terminal -= n;
 
 			return *this;
 		}
 
 		type operator - (size_type n) const
 		{
-			return product_selector(initial - n, terminal);
+			return product_selector(initial - n, terminal - n);
 		}
 };
 
