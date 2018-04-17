@@ -15,23 +15,36 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+struct discrete
+{
+	/*
+		Terms:
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+		unit::semiotic::length
+
+		Constraints:
+
+		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+		Dispatch:
+
+		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
+		[3]	(n == 0)						->	x
+		[2]	(0 < -n < length) && (x != 0)				->	>>
+		[2]	(0 < n < length) && (x != 0)				->	<<
+	*/
+
+	struct shift
 	{
-		typedef SizeType size_type;
+		static size_type with_return(size_type x, size_type n)
+		{
+			static constexpr size_type length = f_semiotic::unit::length;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+			if (0 < n && n < length && x)		return semiotic::over::left_shift::with_return(x, n);
+			else if (0 > n && n > -length && x)	return semiotic::over::right_shift::with_return(x, -n);
+			else if (!n)				return x;
+			else					return 0;
+		}
 	};
-
-}}
+};
 

@@ -15,23 +15,18 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+template<typename Bit, typename Filler = void>
+struct constant
+{
+	using type		= constant;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+	using bit_type		= Bit;
+	using bit_type_ptr	= bit_type*;
+	using bit_type_ref	= bit_type&;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
-	};
-
-}}
+	static constexpr bit_type f(typename bit_type::binary_type::f);
+	static constexpr bit_type t(typename bit_type::binary_type::t);
+};
 

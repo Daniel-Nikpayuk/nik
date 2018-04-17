@@ -44,7 +44,9 @@ namespace numeric	{
 		#include"perspective/identity/boolean/semiotic.hpp"
 
 		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
+		#include"perspective/proximity/boolean/semiotic.hpp"
+
+		#include"perspective/logic/semiotic.hpp"
 	};
 
 }}

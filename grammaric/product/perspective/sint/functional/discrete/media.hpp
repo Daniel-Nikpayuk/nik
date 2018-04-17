@@ -15,23 +15,45 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+struct discrete
+{
+	/*
+		Terms:
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+		semiotic::unit::length
+
+		Constraints:
+
+		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+		Dispatch:
+
+		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
+		[3]	(n == 0)						->	x
+		[2]	(0 < -n < length) && (x != 0)				->	>>
+		[2]	(0 < n < length) && (x != 0)				->	<<
+	*/
+
+	template<size_type x, size_type n>
+	class shift
 	{
-		typedef SizeType size_type;
+		static constexpr size_type sx = !x ? 0 : x;
+		static constexpr size_type sn = !n
+						|| n <= -semiotic::unit::length
+						|| n >= semiotic::unit::length ? 0 :
+						n < 0 ? -n : n;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		static constexpr size_type right = semiotic::overload::template right_shift<sx, sn>::value;
+		static constexpr size_type left = semiotic::overload::template left_shift<sx, sn>::value;
 
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		public: enum : size_type
+		{
+			value = !n ? x :
+				n <= -semiotic::unit::length
+					|| n >= semiotic::unit::length
+					|| !x ? 0 :
+				n < 0 ? right : left
+		};
 	};
-
-}}
+};
 

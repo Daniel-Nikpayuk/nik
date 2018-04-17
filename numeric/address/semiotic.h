@@ -19,18 +19,34 @@ namespace nik		{
 namespace numeric	{
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct module<Module::address, Permission::semiotic, SizeType>
 	{
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		using word_s = module<Module::word, Permission::semiotic, size_type>;
 
-		#include"interface/navigator/semiotic.hpp"
+		using boolean = typename bit_s::boolean;
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
+		template<typename Binary>
+		using bit = typename bit_s::template bit<Binary>;
 
-		#include"perspective/constant/semiotic.hpp"
+		//
+
+//		#include"interface/navigator/semiotic.hpp"
+//		#include"interface/navigator/boolean/semiotic.hpp"
+
+//		#include"interface/structure/semiotic.hpp"
+//		#include"interface/structure/boolean/semiotic.hpp"
+
+		//
+
+//		#include"perspective/identity/semiotic.hpp"
+//		#include"perspective/identity/boolean/semiotic.hpp"
+
+//		#include"perspective/proximity/semiotic.hpp"
+//		#include"perspective/proximity/boolean/semiotic.hpp"
+
+//		#include"perspective/logic/semiotic.hpp"
 	};
 
 }}

@@ -15,23 +15,29 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+struct meta
+{
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
 	{
-		typedef SizeType size_type;
+		static constexpr size_type mid = (left + right) >> 1;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		public: enum : size_type
+		{
+			value = gcf_media::template
+			if_then_else
+			<
+				guess_and_check::template test<mid>::value,
+				midpoint<guess_and_check, mid, right>,
+				midpoint<guess_and_check, left, mid>
+			>::return_type::value
+		};
 	};
 
-}}
+	template<typename guess_and_check, size_type left, size_type right>
+	class midpoint<guess_and_check, left, right, 1>
+	{
+		public: enum : size_type { value = left };
+	};
+};
 

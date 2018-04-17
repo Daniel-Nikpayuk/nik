@@ -17,21 +17,27 @@
 
 namespace nik		{
 namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace procedural	{
+
+	template<typename SizeType> struct media;
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct semiotic
 	{
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		typedef functional::semiotic<size_type> f_semiotic;
 
-		#include"interface/navigator/semiotic.hpp"
+		typedef functional::media<size_type> media;
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		#include"overload/semiotic.hpp"
+		#include"discrete/semiotic.hpp"
+//		#include"math/semiotic.hpp"
+		#include"sift/semiotic.hpp"
 	};
 
-}}
+}}}}}
 

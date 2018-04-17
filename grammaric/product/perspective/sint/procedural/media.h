@@ -17,21 +17,27 @@
 
 namespace nik		{
 namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace procedural	{
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct media
 	{
+		static_assert(functional::limits<SizeType>::min, "sint function argument unsigned!");
+
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		typedef functional::semiotic<size_type> f_semiotic;
 
-		#include"interface/navigator/semiotic.hpp"
+		typedef functional::semiotic<size_type> semiotic;
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		#include"overload/media.hpp"
+		#include"discrete/media.hpp"
+//		#include"math/media.hpp"
+		#include"sift/media.hpp"
 	};
 
-}}
+}}}}}
 

@@ -15,23 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+struct math
+{
+	template<size_type a, size_type b>
+	class gcd
 	{
-		typedef SizeType size_type;
-
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		public: enum : size_type { value = gcd<b, a%b>::value };
 	};
 
-}}
+	template<size_type a>
+	class gcd<a, 0> { public: enum : size_type { value = a }; };
+
+	template<size_type rtn, size_type b, size_type n>
+	class exp
+	{
+		static constexpr size_type sq = media::template square<b>::value;
+
+		public: enum : size_type
+		{
+			value = gcf_media::template
+			if_then_else
+			<
+				(1 & n),
+				exp<rtn*b, b, n-1>,
+				exp<rtn, sq, (n>>1)>
+			>::return_type::value
+		};
+	};
+
+	template<size_type rtn, size_type b>
+	class exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
+};
 

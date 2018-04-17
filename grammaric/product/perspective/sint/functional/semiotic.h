@@ -15,23 +15,38 @@
 **
 ************************************************************************************************************************/
 
+#include<stdint.h>
+#include<climits>
+#include<cfloat>
+#include<math.h>
+
 namespace nik		{
 namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace functional	{
+
+	#include"limits.hh"
+
+	template<typename SizeType> struct media;
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct semiotic
 	{
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		typedef functional::limits<size_type> limits;
 
-		#include"interface/navigator/semiotic.hpp"
+		typedef functional::media<size_type> media;
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		#include"meta/semiotic.hpp"
+		#include"unit/semiotic.hpp"
+		#include"overload/semiotic.hpp"
+		#include"discrete/semiotic.hpp"
+		#include"math/semiotic.hpp"
+		#include"sift/semiotic.hpp"
 	};
 
-}}
+}}}}}
 

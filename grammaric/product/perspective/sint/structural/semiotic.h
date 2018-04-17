@@ -17,21 +17,17 @@
 
 namespace nik		{
 namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace structural	{
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct semiotic
 	{
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		#include"identity/semiotic.hpp"
 	};
 
-}}
+}}}}}
 

@@ -15,23 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+struct overload
+{
+	/*
+		Constraints:
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+		(0 < n < length) && (x != 0)
+	*/
+
+	template<size_type x, size_type n>
+	struct left_shift
 	{
-		typedef SizeType size_type;
-
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		enum : size_type { value = x << n };
 	};
 
-}}
+	/*
+		Constraints:
+
+		(0 < n < length) && (x != 0)
+	*/
+
+	template<size_type x, size_type n>
+	struct right_shift
+	{
+		enum : size_type
+		{
+			value = x < 0 ?
+				-(-x >> n) :
+				x >> n
+		};
+	};
+};
 

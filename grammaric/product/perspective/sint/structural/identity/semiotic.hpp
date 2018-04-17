@@ -15,23 +15,18 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+struct base;
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+template<typename T, unsigned char size>
+struct size_assert
+{
+	static_assert(sizeof(T) == size, "sint size_assert mismatch!");
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+	typedef T return_type;
+};
 
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
-	};
-
-}}
+typedef typename size_assert<signed char	, 1>::return_type identity8; 
+typedef typename size_assert<signed short	, 2>::return_type identity16;
+typedef typename size_assert<signed int		, 4>::return_type identity32;
+typedef typename size_assert<signed long	, 8>::return_type identity64;
 

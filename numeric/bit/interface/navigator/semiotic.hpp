@@ -28,17 +28,17 @@ template<typename Binary, Access access = Access::readwrite>
 class bit_navigator
 {
 	public:
-		using type = bit_navigator;
+		using type			= bit_navigator;
 
 	protected:
-		using type_ptr = type *;
-		using type_ref = type &;
+		using type_ptr			= type *;
+		using type_ref			= type &;
 
-		using binary_type = typename read_type<typename Binary::type, access>::rtn;
-		using binary_type_ptr = binary_type *;
-		using binary_type_ref = binary_type &;
+		using binary_type		= typename read_type<typename Binary::type, access>::rtn;
+		using binary_type_ptr		= binary_type *;
+		using binary_type_ref		= binary_type &;
 
-		using const_type = bit_navigator<Binary, Access::readonly>;
+		using const_type		= bit_navigator<Binary, Access::readonly>;
 
 		binary_type_ptr name;
 	public:
@@ -69,90 +69,4 @@ class bit_navigator
 			return *name;
 		}
 };
-
-/*
-template<typename Binary, typename Filler>
-class const_bit_navigator;
-*/
-
-/*
-template<typename Binary, typename Filler = void>
-class bit_navigator
-{
-	public:
-		typedef bit_navigator type;
-
-	protected:
-		typedef type* type_ptr;
-		typedef type& type_ref;
-
-		typedef typename Binary::type binary_type;
-		typedef binary_type* binary_type_ptr;
-		typedef binary_type& binary_type_ref;
-
-		typedef const_bit_navigator<Binary, Filler> const_type;
-
-		binary_type_ptr name;
-	public:
-		bit_navigator(binary_type_ref l) : name(&l) { }
-
-		~bit_navigator() { }
-
-		operator const_type () const
-		{
-			return (const_type) this;
-		}
-
-		bool operator == (const type_ref b) const
-		{
-			return name == b.name;
-		}
-
-		bool operator != (const type_ref b) const
-		{
-			return name != b.name;
-		}
-
-		binary_type_ref operator * () const
-		{
-			return *name;
-		}
-};
-
-template<typename Binary, typename Filler = void>
-class const_bit_navigator
-{
-	public:
-		typedef const_bit_navigator type;
-
-	protected:
-		typedef type* type_ptr;
-		typedef type& type_ref;
-
-		typedef typename Binary::type const binary_type;
-		typedef binary_type* binary_type_ptr;
-		typedef binary_type& binary_type_ref;
-
-		binary_type_ptr name;
-	public:
-		const_bit_navigator(binary_type_ref l) : name(&l) { }
-
-		~const_bit_navigator() { }
-
-		bool operator == (const type_ref b) const
-		{
-			return name == b.name;
-		}
-
-		bool operator != (const type_ref b) const
-		{
-			return name != b.name;
-		}
-
-		binary_type_ref operator * () const
-		{
-			return *name;
-		}
-};
-*/
 

@@ -15,23 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+template<typename Bit, size_type length, typename Filler = void>
+struct word
+{
+	using type		= word;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	using bit_type		= Bit;
+	using bit_type_ptr	= bit_type*;
+	using bit_type_ref	= bit_type&;
+
+	using iterator		= word_navigator<Bit, length>;
+	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
+
+	bit_type product[length];
+
+	word() { }
+
+	~word() { }
+
+	iterator begin()
 	{
-		typedef SizeType size_type;
+		return iterator(product);
+	}
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
-	};
-
-}}
+	iterator end()
+	{
+		return iterator(product + length);
+	}
+};
 

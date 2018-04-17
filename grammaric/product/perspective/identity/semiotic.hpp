@@ -15,23 +15,39 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
+template<typename Word, typename Filler = void>
+struct identity
+{
+	using type		= identity;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	using word_type		= Word;
+	using word_type_ptr	= word_type*;
+	using word_type_ref	= word_type&;
+
+		// if they're of the same word_type it is assumed they have the same word_length.
+
+	static bool equals(const word_type & u, const word_type & v)
 	{
-		typedef SizeType size_type;
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+		for (; k != e; ++k, ++l) if (*k != *l) return false;
 
-		#include"interface/navigator/semiotic.hpp"
+		return true;
+	}
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
 
-		#include"perspective/constant/semiotic.hpp"
-	};
+		for (; k != e; ++k, ++l) if (*k != *l) return true;
 
-}}
+		return false;
+	}
+};
 

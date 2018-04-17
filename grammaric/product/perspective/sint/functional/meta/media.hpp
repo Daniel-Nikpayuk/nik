@@ -15,23 +15,17 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
-	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+struct meta
+{
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
 	{
-		typedef SizeType size_type;
-
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
-
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+		public: enum : size_type
+		{
+			value = !diff
+					|| left > right ? left :
+				semiotic::template midpoint<guess_and_check, left, right, diff>::value
+		};
 	};
-
-}}
+};
 

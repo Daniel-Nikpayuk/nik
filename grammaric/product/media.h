@@ -16,21 +16,16 @@
 ************************************************************************************************************************/
 
 namespace nik		{
-namespace numeric	{
+namespace grammaric	{
 
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct module<Module::product, Permission::media, SizeType>
 	{
 		typedef SizeType size_type;
 
-//		using = grammaric::module<Module::, Permission::semiotic, size_type>;
+//		#include"interface/navigator/semiotic.hpp"
 
-		#include"interface/navigator/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
-
-		#include"perspective/constant/semiotic.hpp"
+//		#include"interface/structure/semiotic.hpp"
 	};
 
 }}
