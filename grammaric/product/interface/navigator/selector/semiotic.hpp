@@ -16,111 +16,114 @@
 ************************************************************************************************************************/
 
 /*
-	Navigators may be optimized as they have limited perspectives.
+	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
 template<typename Type, Access access = Access::readwrite>
-class product_selector
+struct product_selector
 {
-	public:
-		using type		= product_selector;
+	using type		= product_selector;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	protected:
-		using type_ptr		= type*;
-		using type_ref		= type&;
+	using const_type	= product_selector<Type, Access::readonly>;
 
-		using value_type	= typename read_type<Type, access>::rtn;
-		using value_type_ptr	= value_type*;
-		using value_type_ref	= value_type&;
+	using iterator		= product_iterator<Type, access>;
+	using iterator_ptr	= iterator*;
+	using iterator_ref	= iterator&;
 
-		using const_type	= product_selector<Type, Access::readonly>;
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-		using iterator		= product_iterator<Type, access>;
-		using iterator_ptr	= iterator*;
-		using iterator_ref	= iterator&;
+	using pointer_type	= value_type_ptr;
 
-		iterator initial;
-		iterator terminal;
-	public:
-		product_selector(value_type_ptr i, value_type_ptr t) : initial(i), terminal(t) { }
+	pointer_type initial;
+	pointer_type terminal;
 
-		~product_selector() { }
+		// type:
 
-		operator const_type () const
-		{
-			return (const_type) this;
-		}
+	product_selector(pointer_type i, pointer_type t) : initial(i), terminal(t) { }
 
-		bool operator == (const type_ref s) const
-		{
-			return initial == s.initial && terminal == s.terminal;
-		}
+	~product_selector() { }
 
-		bool operator != (const type_ref s) const
-		{
-			return initial != s.initial || terminal != s.terminal;
-		}
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
 
-		iterator_ref operator - () const
-		{
-			return initial;
-		}
+		// iterator:
 
-		iterator_ref operator + () const
-		{
-			return terminal;
-		}
+	bool operator == (const type_ref s) const
+	{
+		return initial == s.initial && terminal == s.terminal;
+	}
 
-		type_ref operator ++ ()
-		{
-			++initial;
-			++terminal;
+	bool operator != (const type_ref s) const
+	{
+		return initial != s.initial || terminal != s.terminal;
+	}
 
-			return *this;
-		}
+	iterator_ref operator - () const
+	{
+		return initial;
+	}
 
-		type operator ++ (int)
-		{
-			return product_selector(initial++, terminal++);
-		}
+	iterator_ref operator + () const
+	{
+		return terminal;
+	}
 
-		type_ref operator += (size_type n)
-		{
-			initial += n;
-			terminal += n;
+	type_ref operator ++ ()
+	{
+		++initial;
+		++terminal;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator + (size_type n) const
-		{
-			return product_selector(initial + n, terminal + n);
-		}
+	type operator ++ (int)
+	{
+		return product_selector(initial++, terminal++);
+	}
 
-		type_ref operator -- ()
-		{
-			--initial;
-			--terminal;
+	type_ref operator += (size_type n)
+	{
+		initial += n;
+		terminal += n;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator -- (int)
-		{
-			return product_selector(initial--, terminal--);
-		}
+	type operator + (size_type n) const
+	{
+		return product_selector(initial + n, terminal + n);
+	}
 
-		type_ref operator -= (size_type n)
-		{
-			initial -= n;
-			terminal -= n;
+	type_ref operator -- ()
+	{
+		--initial;
+		--terminal;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator - (size_type n) const
-		{
-			return product_selector(initial - n, terminal - n);
-		}
+	type operator -- (int)
+	{
+		return product_selector(initial--, terminal--);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		initial -= n;
+		terminal -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return product_selector(initial - n, terminal - n);
+	}
 };
 

@@ -39,13 +39,13 @@ struct coproduct_navigator
 
 	using const_type	= coproduct_navigator<Type, Access::readonly>;
 
-	using iterator		= Type;
+	using pointer_type	= Type;
 
 	using focus_type	= typename read_type<Type, access>::rtn;
 	using focus_type_ptr	= focus_type*;
 	using focus_type_ref	= focus_type&;
 
-	iterator location;
+	pointer_type location;
 
 	focus_type_ptr focus;
 
@@ -55,7 +55,7 @@ struct coproduct_navigator
 
 	~coproduct_navigator() { }
 
-		// iterator:
+		// pointer:
 
 		// Interpreted by location instead of focus as two focuses are otherwise indicative
 		// of two unrelated coproducts. Locations on the other hand relate back to the same focus.

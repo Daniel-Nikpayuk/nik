@@ -22,35 +22,56 @@ struct product
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
+	using selector		= product_selector<Type>;
+	using const_selector	= product_selector<Type, Access::readonly>;
 
 	using iterator		= product_iterator<Type>;
 	using const_iterator	= product_iterator<Type, Access::readonly>;
 
-	using selector		= product_selector<Type>;
-	using const_selector	= product_selector<Type, Access::readonly>;
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
 	value_type value[length];
+
+		// type:
 
 	product() { }
 
 	~product() { }
 
-	iterator begin() const
-	{
-		return iterator(value);
-	}
+		// selector:
 
-	iterator end() const
-	{
-		return iterator(value + length);
-	}
-
-	selector range() const
+	selector range()
 	{
 		return selector(value, value + length);
+	}
+
+	const_selector range() const
+	{
+		return const_selector(value, value + length);
+	}
+
+		// iterator:
+
+	iterator begin()
+	{
+		return value;
+	}
+
+	const_iterator begin() const
+	{
+		return value;
+	}
+
+	iterator end()
+	{
+		return value + length;
+	}
+
+	const_iterator end() const
+	{
+		return value + length;
 	}
 };
 

@@ -16,102 +16,105 @@
 ************************************************************************************************************************/
 
 /*
-	Navigators may be optimized as they have limited perspectives.
+	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
 template<typename Type, Access access = Access::readwrite>
-class product_iterator
+struct product_iterator
 {
-	public:
-		using type		= product_iterator;
+	using type		= product_iterator;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	protected:
-		using type_ptr		= type*;
-		using type_ref		= type&;
+	using const_type	= product_iterator<Type, Access::readonly>;
 
-		using value_type	= typename read_type<Type, access>::rtn;
-		using value_type_ptr	= value_type*;
-		using value_type_ref	= value_type&;
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-		using const_type	= product_iterator<Type, Access::readonly>;
+	using pointer_type	= value_type_ptr;
 
-		value_type_ptr location;
-	public:
-		product_iterator(value_type_ptr l) : location(l) { }
+	pointer_type location;
 
-		~product_iterator() { }
+		// type:
 
-		operator const_type () const
-		{
-			return (const_type) this;
-		}
+	product_iterator(pointer_type l) : location(l) { }
 
-		bool operator == (const type_ref i) const
-		{
-			return location == i.location;
-		}
+	~product_iterator() { }
 
-		bool operator != (const type_ref i) const
-		{
-			return location != i.location;
-		}
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
 
-		value_type_ref operator * () const
-		{
-			return *location;
-		}
+		// pointer:
 
-		type_ref operator ++ ()
-		{
-			++location;
+	bool operator == (const type_ref i) const
+	{
+		return location == i.location;
+	}
 
-			return *this;
-		}
+	bool operator != (const type_ref i) const
+	{
+		return location != i.location;
+	}
 
-		type operator ++ (int)
-		{
-			return location++;
-		}
+	value_type_ref operator * () const
+	{
+		return *location;
+	}
 
-		type_ref operator += (size_type n)
-		{
-			location += n;
+	type_ref operator ++ ()
+	{
+		++location;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator + (size_type n) const
-		{
-			return location + n;
-		}
+	type operator ++ (int)
+	{
+		return location++;
+	}
 
-		type_ref operator -- ()
-		{
-			--location;
+	type_ref operator += (size_type n)
+	{
+		location += n;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator -- (int)
-		{
-			return location--;
-		}
+	type operator + (size_type n) const
+	{
+		return location + n;
+	}
 
-		type_ref operator -= (size_type n)
-		{
-			location -= n;
+	type_ref operator -- ()
+	{
+		--location;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator - (size_type n) const
-		{
-			return location - n;
-		}
+	type operator -- (int)
+	{
+		return location--;
+	}
 
-		size_type operator - (const type_ref i) const
-		{
-			return location - i.location;
-		}
+	type_ref operator -= (size_type n)
+	{
+		location -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return location - n;
+	}
+
+	size_type operator - (const type_ref i) const
+	{
+		return location - i.location;
+	}
 };
 
