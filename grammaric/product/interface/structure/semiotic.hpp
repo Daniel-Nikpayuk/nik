@@ -26,11 +26,11 @@ struct product
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= product_iterator<Type, length>;
-	using const_iterator	= product_iterator<Type, length, Access::readonly>;
+	using iterator		= product_iterator<Type>;
+	using const_iterator	= product_iterator<Type, Access::readonly>;
 
-	using selector		= product_selector<Type, length>;
-	using const_selector	= product_selector<Type, length, Access::readonly>;
+	using selector		= product_selector<Type>;
+	using const_selector	= product_selector<Type, Access::readonly>;
 
 	value_type value[length];
 

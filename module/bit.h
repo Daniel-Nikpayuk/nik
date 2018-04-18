@@ -18,6 +18,9 @@
 #ifndef NUMERIC_BIT_H
 #define NUMERIC_BIT_H
 
+#include"coproduct.h"
+#include"product.h"
+
 #include"../numeric/bit/semiotic.h"
 #include"../numeric/bit/media.h"
 

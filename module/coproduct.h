@@ -15,34 +15,10 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Coproducts aren't mutable, they only describe the current focus of an otherwise predetermined set of alternatives.
+#ifndef GRAMMARIC_COPRODUCT_H
+#define GRAMMARIC_COPRODUCT_H
 
-	This is implemented through overloaded arithmetic as navigational operators of Type.
-*/
+#include"../grammaric/coproduct/semiotic.h"
+#include"../grammaric/coproduct/media.h"
 
-template<typename Type>
-struct coproduct
-{
-	using type		= coproduct;
-	using type_ptr		= type*;
-	using type_ref		= type&;
-
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
-
-	using iterator		= coproduct_navigator<Type>;
-
-	value_type value;
-
-	coproduct(const value_type_ref v) : value(v) { }
-
-	~coproduct() { }
-
-	iterator name() const
-	{
-		return iterator(value);
-	}
-};
-
+#endif

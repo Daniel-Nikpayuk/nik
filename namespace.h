@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-/*
-#include<stdio.h>
-#include<stddef.h>
-*/
-
 namespace nik
 {
 	enum struct Module : global_size_type
@@ -29,6 +24,9 @@ namespace nik
 		tuple,
 		environment,
 		evaluator,
+
+		coproduct,
+		product,
 
 		bit,
 		word,
@@ -49,7 +47,7 @@ namespace nik
 		dimension // filler
 	};
 
-	namespace grammaric
+	namespace metaric
 	{
 /*
 		struct undefined
@@ -84,15 +82,37 @@ namespace nik
 			);
 		};
 
-		#define grammaric_import_act()										\
+		#define metaric_import_act()										\
 															\
 			template<typename Exp>										\
 			using act = nik::grammaric::act<Exp>;
 
-		#define grammaric_import_pass()										\
+		#define metaric_import_pass()										\
 															\
 			template<typename Exp>										\
 			using pass = nik::grammaric::pass<Exp>;
+	}
+
+
+	namespace grammaric
+	{
+		template
+		<
+			Module module_enum,
+			Permission permission_enum,
+
+			typename SizeType = global_size_type
+		>
+		struct module
+		{
+			static_assert
+			(
+				module_enum != Module::coproduct	||
+				module_enum != Module::product		,
+
+				"This module is not yet implemented!"
+			);
+		};
 	}
 
 	namespace numeric

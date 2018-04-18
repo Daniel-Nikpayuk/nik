@@ -16,110 +16,116 @@
 ************************************************************************************************************************/
 
 /*
-	Navigators may be optimized as they have limited perspectives.
+	Navigators may be optimized in their methods as they have limited perspectives.
 
 	Coproducts aren't mutable, they only describe the current focus of an otherwise predetermined set of alternatives.
+	Each alternative is enumeratively indexed, thus an indexing system is the medium for universal navigation. We do not
+	know the properties of the parameter type in advance so we cannot rely on its internal properties to generate our index:
+	We must rely on external construction. As no assumption is made to the concurrency (in memory) of the coproduct alternatives
+        our index system will not rely on an external array. In this case the only remaining possibility is that the index system
+        relies on a successor function, which for convenience can be generalized to an arithmetic.
+
+	For these reasons it is assumed the parameter type has either builtin or overloaded support for basic arithmetic.
+
+	Effectively, coproducts represent variables, but with a standardized product-like interfaces.
 */
 
 template<typename Type>
-class coproduct_navigator
+struct coproduct_navigator
 {
-	public:
-		using type		= coproduct_navigator;
+	using type		= coproduct_navigator;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	protected:
-		using type_ptr		= type*;
-		using type_ref		= type&;
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-		using value_type	= Type;
-		using value_type_ptr	= value_type*;
-		using value_type_ref	= value_type&;
+	value_type_ptr *location;
+	value_type index;
 
-		value_type_ptr *location;
-		value_type index;
-	public:
-		coproduct(value_type_ref v) : location(&v), index(v) { }
+	coproduct_navigator(value_type_ref v) : location(&v), index(v) { }
 
-		~coproduct() { }
+	~coproduct_navigator() { }
 
-			// Interpreted by index instead of location as two locations are otherwise indicative
-			// of two unrelated coproducts. Indices on the other hand relate back to the same index.
+		// Interpreted by index instead of location as two locations are otherwise indicative
+		// of two unrelated coproducts. Indices on the other hand relate back to the same index.
 
-		bool operator == (const type_ref n) const
-		{
-			return index == n.index;
-		}
+	bool operator == (const type_ref n) const
+	{
+		return index == n.index;
+	}
 
-		bool operator != (const type_ref n) const
-		{
-			return index != n.index;
-		}
+	bool operator != (const type_ref n) const
+	{
+		return index != n.index;
+	}
 
-			// Shows you what value you're currently on.
+		// Shows you what value you're currently on.
 
-		const value_type_ref operator * () const
-		{
-			return index;
-		}
+	const value_type_ref operator * () const
+	{
+		return index;
+	}
 
-			// Changes the focus of the coproduct to the current index.
+		// Changes the focus of the coproduct to the current index.
 
-		void operator ! ()
-		{
-			*location = index;
-		}
+	void operator ! ()
+	{
+		*location = index;
+	}
 
-		type_ref operator ++ ()
-		{
-			++index;
+	type_ref operator ++ ()
+	{
+		++index;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator ++ (int)
-		{
-			return index++;
-		}
+	type operator ++ (int)
+	{
+		return index++;
+	}
 
-		type_ref operator += (size_type n)
-		{
-			index += n;
+	type_ref operator += (size_type n)
+	{
+		index += n;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator + (size_type n) const
-		{
-			return index + n;
-		}
+	type operator + (size_type n) const
+	{
+		return index + n;
+	}
 
-		type_ref operator -- ()
-		{
-			--index;
+	type_ref operator -- ()
+	{
+		--index;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator -- (int)
-		{
-			return index--;
-		}
+	type operator -- (int)
+	{
+		return index--;
+	}
 
-		type_ref operator -= (size_type n)
-		{
-			index -= n;
+	type_ref operator -= (size_type n)
+	{
+		index -= n;
 
-			return *this;
-		}
+		return *this;
+	}
 
-		type operator - (size_type n) const
-		{
-			return index - n;
-		}
+	type operator - (size_type n) const
+	{
+		return index - n;
+	}
 
-		size_type operator - (const type_ref n) const
-		{
-			return index - n.index;
-		}
+	size_type operator - (const type_ref n) const
+	{
+		return index - n.index;
+	}
 };
 
