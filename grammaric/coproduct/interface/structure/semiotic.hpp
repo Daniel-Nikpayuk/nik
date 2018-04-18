@@ -16,7 +16,8 @@
 ************************************************************************************************************************/
 
 /*
-	Coproduct assumes alternatives.
+	Coproducts aren't mutable, they only describe the current focus of an otherwise predetermined set of alternatives.
+
 	This is implemented through overloaded arithmetic as navigational operators of Type.
 */
 

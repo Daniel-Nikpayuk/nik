@@ -30,6 +30,12 @@ struct bit
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
+/*
+	using coproduct_type		= coproduct<Binary>;
+	using coproduct_type_ptr	= coproduct_type*;
+	using coproduct_type_ref	= coproduct_type&;
+*/
+
 	using binary_type		= typename Binary::type;
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
@@ -37,6 +43,7 @@ struct bit
 	using iterator			= bit_navigator<Binary>;
 	using const_iterator		= bit_navigator<Binary, Access::readonly>;
 
+//	coproduct_type value;
 	binary_type location;
 
 	bit() { }

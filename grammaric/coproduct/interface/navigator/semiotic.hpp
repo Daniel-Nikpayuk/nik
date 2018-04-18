@@ -17,9 +17,11 @@
 
 /*
 	Navigators may be optimized as they have limited perspectives.
+
+	Coproducts aren't mutable, they only describe the current focus of an otherwise predetermined set of alternatives.
 */
 
-template<typename Type, Access access = Access::readwrite>
+template<typename Type>
 class coproduct_navigator
 {
 	public:
@@ -29,89 +31,95 @@ class coproduct_navigator
 		using type_ptr		= type*;
 		using type_ref		= type&;
 
-		using value_type	= typename read_type<Type, access>::rtn;
+		using value_type	= Type;
 		using value_type_ptr	= value_type*;
 		using value_type_ref	= value_type&;
 
-		using const_type	= coproduct<Type, Access::readonly>;
-
-		value_type location;
+		value_type_ptr *location;
+		value_type index;
 	public:
-		coproduct(const value_type_ref l) : location(l) { }
+		coproduct(value_type_ref v) : location(&v), index(v) { }
 
 		~coproduct() { }
 
-		operator const_type () const
-		{
-			return (const_type) this;
-		}
+			// Interpreted by index instead of location as two locations are otherwise indicative
+			// of two unrelated coproducts. Indices on the other hand relate back to the same index.
 
 		bool operator == (const type_ref n) const
 		{
-			return location == n.location;
+			return index == n.index;
 		}
 
 		bool operator != (const type_ref n) const
 		{
-			return location != n.location;
+			return index != n.index;
 		}
 
-		value_type_ref operator * () const
+			// Shows you what value you're currently on.
+
+		const value_type_ref operator * () const
 		{
-			return location;
+			return index;
+		}
+
+			// Changes the focus of the coproduct to the current index.
+
+		void operator ! ()
+		{
+			*location = index;
 		}
 
 		type_ref operator ++ ()
 		{
-			++location;
+			++index;
 
 			return *this;
 		}
 
 		type operator ++ (int)
 		{
-			return location++;
+			return index++;
 		}
 
 		type_ref operator += (size_type n)
 		{
-			location += n;
+			index += n;
 
 			return *this;
 		}
 
 		type operator + (size_type n) const
 		{
-			return location + n;
+			return index + n;
 		}
 
 		type_ref operator -- ()
 		{
-			--location;
+			--index;
 
 			return *this;
 		}
 
 		type operator -- (int)
 		{
-			return location--;
+			return index--;
 		}
 
 		type_ref operator -= (size_type n)
 		{
-			location -= n;
+			index -= n;
 
 			return *this;
 		}
 
 		type operator - (size_type n) const
 		{
-			return location - n;
+			return index - n;
 		}
 
 		size_type operator - (const type_ref n) const
 		{
-			return location - n.location;
+			return index - n.index;
 		}
 };
 
