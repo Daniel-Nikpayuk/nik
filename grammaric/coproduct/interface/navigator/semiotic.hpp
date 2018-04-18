@@ -23,109 +23,125 @@
 	know the properties of the parameter type in advance so we cannot rely on its internal properties to generate our index:
 	We must rely on external construction. As no assumption is made to the concurrency (in memory) of the coproduct alternatives
         our index system will not rely on an external array. In this case the only remaining possibility is that the index system
-        relies on a successor function, which for convenience can be generalized to an arithmetic.
+        is decompressed by means of a successor function, which for convenience can be generalized to an arithmetic.
 
 	For these reasons it is assumed the parameter type has either builtin or overloaded support for basic arithmetic.
 
 	Effectively, coproducts represent variables, but with a standardized product-like interfaces.
 */
 
-template<typename Type>
+template<typename Type, Access access = Access::readwrite>
 struct coproduct_navigator
 {
 	using type		= coproduct_navigator;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
+	using const_type	= coproduct_navigator<Type, Access::readonly>;
 
-	value_type_ptr *location;
-	value_type index;
+	using iterator		= Type;
 
-	coproduct_navigator(value_type_ref v) : location(&v), index(v) { }
+	using focus_type	= typename read_type<Type, access>::rtn;
+	using focus_type_ptr	= focus_type*;
+	using focus_type_ref	= focus_type&;
+
+	iterator location;
+
+	focus_type_ptr focus;
+
+		// type:
+
+	coproduct_navigator(focus_type_ref f) : location(f), focus(&f) { }
 
 	~coproduct_navigator() { }
 
-		// Interpreted by index instead of location as two locations are otherwise indicative
-		// of two unrelated coproducts. Indices on the other hand relate back to the same index.
+		// iterator:
+
+		// Interpreted by location instead of focus as two focuses are otherwise indicative
+		// of two unrelated coproducts. Locations on the other hand relate back to the same focus.
 
 	bool operator == (const type_ref n) const
 	{
-		return index == n.index;
+		return location == n.location;
 	}
 
 	bool operator != (const type_ref n) const
 	{
-		return index != n.index;
+		return location != n.location;
 	}
 
-		// Shows you what value you're currently on.
-
-	const value_type_ref operator * () const
+	operator const_type () const
 	{
-		return index;
+		return (const_type) this;
 	}
 
-		// Changes the focus of the coproduct to the current index.
+		// Shows you what location you're currently at.
 
-	void operator ! ()
+	const focus_type_ref operator * () const
 	{
-		*location = index;
+		return location;
 	}
 
 	type_ref operator ++ ()
 	{
-		++index;
+		++location;
 
 		return *this;
 	}
 
 	type operator ++ (int)
 	{
-		return index++;
+		return location++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		index += n;
+		location += n;
 
 		return *this;
 	}
 
 	type operator + (size_type n) const
 	{
-		return index + n;
+		return location + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--index;
+		--location;
 
 		return *this;
 	}
 
 	type operator -- (int)
 	{
-		return index--;
+		return location--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		index -= n;
+		location -= n;
 
 		return *this;
 	}
 
 	type operator - (size_type n) const
 	{
-		return index - n;
+		return location - n;
 	}
 
 	size_type operator - (const type_ref n) const
 	{
-		return index - n.index;
+		return location - n.location;
+	}
+
+		// focus:
+
+		// Changes the focus of the coproduct to the current location.
+
+	void operator ! ()
+	{
+		*focus = location;
 	}
 };
 
