@@ -32,36 +32,36 @@ struct bit<boolean, Filler>
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
+	using iterator		= bit_navigator<boolean>;
+	using const_iterator	= bit_navigator<boolean, Access::readonly>;
+
 	using binary_type	= typename boolean::type;
 	using binary_type_ptr	= binary_type*;
 	using binary_type_ref	= binary_type&;
 
-	using iterator		= bit_navigator<boolean>;
-	using const_iterator	= bit_navigator<boolean, Access::readonly>;
-
-	binary_type location;
+	binary_type value;
 
 	bit() { }
 
-	bit(binary_type l) : location(l) { }
+	bit(binary_type v) : value(v) { }
 
 	~bit() { }
 
-	const type_ref operator = (binary_type l)
+	const type_ref operator = (binary_type v)
 	{
-		location = l;
+		value = v;
 
 		return *this;
 	}
 
 	iterator name()
 	{
-		return location;
+		return value;
 	}
 
 	const_iterator name() const
 	{
-		return location;
+		return value;
 	}
 };
 

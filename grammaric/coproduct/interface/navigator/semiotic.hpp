@@ -39,13 +39,13 @@ struct coproduct_navigator
 
 	using const_type	= coproduct_navigator<Type, Access::readonly>;
 
-	using pointer_type	= Type;
+	using sub_navigator	= Type;
 
 	using focus_type	= typename read_type<Type, access>::rtn;
 	using focus_type_ptr	= focus_type*;
 	using focus_type_ref	= focus_type&;
 
-	pointer_type location;
+	sub_navigator location;
 
 	focus_type_ptr focus;
 
@@ -54,8 +54,6 @@ struct coproduct_navigator
 	coproduct_navigator(focus_type_ref f) : location(f), focus(&f) { }
 
 	~coproduct_navigator() { }
-
-		// pointer:
 
 		// Interpreted by location instead of focus as two focuses are otherwise indicative
 		// of two unrelated coproducts. Locations on the other hand relate back to the same focus.
@@ -75,12 +73,7 @@ struct coproduct_navigator
 		return (const_type) this;
 	}
 
-		// Shows you what location you're currently at.
-
-	const focus_type_ref operator * () const
-	{
-		return location;
-	}
+		// navigator:
 
 	type_ref operator ++ ()
 	{
@@ -135,7 +128,14 @@ struct coproduct_navigator
 		return location - n.location;
 	}
 
-		// focus:
+		// value:
+
+		// Shows you what location you're currently at.
+
+	const focus_type_ref operator * () const
+	{
+		return location;
+	}
 
 		// Changes the focus of the coproduct to the current location.
 

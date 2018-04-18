@@ -24,8 +24,8 @@
 	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
-template<typename Binary, Access access = Access::readwrite>
-struct bit_navigator
+template<Access access>
+struct bit_navigator<boolean, access>
 {
 	using type			= bit_navigator;
 	using type_ptr			= type*;
@@ -33,22 +33,20 @@ struct bit_navigator
 
 	using const_type		= bit_navigator<Binary, Access::readonly>;
 
-	using sub_navigator		= typename coproduct_s::template coproduct_navigator<typename Binary::type, access>;
-	using sub_navigator_ptr		= sub_navigator*;
-	using sub_navigator_ref		= sub_navigator&;
+	using sub_navigator		= typename read_type<typename Binary::type, access>::rtn*;
 
 	using binary_type		= typename read_type<typename Binary::type, access>::rtn;
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
 
-	static constexpr binary_type f(typename Binary::f);
-	static constexpr binary_type t(typename Binary::t);
+	static constexpr binary_type f(false);
+	static constexpr binary_type t(true);
 
 	sub_navigator location;
 
 		// type:
 
-	bit_navigator(sub_navigator_ref l) : location(*l) { }
+	bit_navigator(binary_type_ref b) : location(&b) { }
 
 	~bit_navigator() { }
 
@@ -74,12 +72,12 @@ struct bit_navigator
 
 	void operator - ()
 	{
-		*location.focus = f;
+		*location = false;
 	}
 
 	void operator + ()
 	{
-		*location.focus = t;
+		*location = true;
 	}
 
 		// value:

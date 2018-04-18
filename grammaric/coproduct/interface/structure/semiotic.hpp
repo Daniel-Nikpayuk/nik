@@ -50,9 +50,14 @@ struct coproduct
 
 	~coproduct() { }
 
-		// iterator:
+		// navigator:
 
-	iterator name() const
+	iterator name()
+	{
+		return focus;
+	}
+
+	const_iterator name() const
 	{
 		return focus;
 	}

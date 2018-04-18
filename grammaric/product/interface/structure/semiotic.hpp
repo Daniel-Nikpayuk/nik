@@ -40,7 +40,7 @@ struct product
 
 	~product() { }
 
-		// selector:
+		// navigator:
 
 	selector range()
 	{
@@ -51,8 +51,6 @@ struct product
 	{
 		return const_selector(value, value + length);
 	}
-
-		// iterator:
 
 	iterator begin()
 	{

@@ -20,7 +20,8 @@
 	bit instance	:= s^1, s^2;
 
 	A bit is a coproduct of a Binary type. The binary type is assumed to have at least two instances,
-	and basic arithmetic to navigate from one to the other.
+	and basic arithmetic to navigate from one to the other. As the user of the bit type has no interest
+        in coproducts, direct construction from the Binary type is necessitated.
 
 	binary type assumes operators: copy constructor, =, ==;
 	binary type assumes operands: f, t;
@@ -33,31 +34,33 @@ struct bit
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using binary_type		= Binary;
-	using binary_type_ptr		= binary_type*;
-	using binary_type_ref		= binary_type&;
+	using iterator			= bit_navigator<Binary>;
+	using const_iterator		= bit_navigator<Binary, Access::readonly>;
 
-	using coproduct_type		= coproduct<Binary>;
+	using coproduct_type		= coproduct<typename Binary::type>;
 	using coproduct_type_ptr	= coproduct_type*;
 	using coproduct_type_ref	= coproduct_type&;
 
-	using iterator			= bit_navigator<Binary>;
-	using const_iterator		= bit_navigator<Binary, Access::readonly>;
+	using binary_type		= typename Binary::type;
+	using binary_type_ptr		= binary_type*;
+	using binary_type_ref		= binary_type&;
 
 	coproduct_type value;
 
 	bit() { }
 
+	bit(const binary_type_ref b) : value(b) { }
+
 	~bit() { }
 
 	iterator name()
 	{
-		return value;
+		return value.name();
 	}
 
 	const_iterator name() const
 	{
-		return value;
+		return value.name();
 	}
 };
 

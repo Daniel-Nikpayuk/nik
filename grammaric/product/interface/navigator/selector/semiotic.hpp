@@ -32,27 +32,20 @@ struct product_selector
 	using iterator_ptr	= iterator*;
 	using iterator_ref	= iterator&;
 
+	using sub_navigator	= typename read_type<Type, access>::rtn*;
+
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using pointer_type	= value_type_ptr;
-
-	pointer_type initial;
-	pointer_type terminal;
+	sub_navigator initial;
+	sub_navigator terminal;
 
 		// type:
 
-	product_selector(pointer_type i, pointer_type t) : initial(i), terminal(t) { }
+	product_selector(sub_navigator i, sub_navigator t) : initial(i), terminal(t) { }
 
 	~product_selector() { }
-
-	operator const_type () const
-	{
-		return (const_type) this;
-	}
-
-		// iterator:
 
 	bool operator == (const type_ref s) const
 	{
@@ -63,6 +56,13 @@ struct product_selector
 	{
 		return initial != s.initial || terminal != s.terminal;
 	}
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// navigator:
 
 	iterator_ref operator - () const
 	{

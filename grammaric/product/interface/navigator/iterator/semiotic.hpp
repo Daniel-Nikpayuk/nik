@@ -28,26 +28,19 @@ struct product_iterator
 
 	using const_type	= product_iterator<Type, Access::readonly>;
 
+	using sub_navigator	= typename read_type<Type, access>::rtn*;
+
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using pointer_type	= value_type_ptr;
-
-	pointer_type location;
+	sub_navigator location;
 
 		// type:
 
-	product_iterator(pointer_type l) : location(l) { }
+	product_iterator(sub_navigator l) : location(l) { }
 
 	~product_iterator() { }
-
-	operator const_type () const
-	{
-		return (const_type) this;
-	}
-
-		// pointer:
 
 	bool operator == (const type_ref i) const
 	{
@@ -59,10 +52,12 @@ struct product_iterator
 		return location != i.location;
 	}
 
-	value_type_ref operator * () const
+	operator const_type () const
 	{
-		return *location;
+		return (const_type) this;
 	}
+
+		// navigator:
 
 	type_ref operator ++ ()
 	{
@@ -115,6 +110,13 @@ struct product_iterator
 	size_type operator - (const type_ref i) const
 	{
 		return location - i.location;
+	}
+
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return *location;
 	}
 };
 
