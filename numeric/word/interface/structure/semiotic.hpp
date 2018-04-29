@@ -22,14 +22,18 @@ struct word
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
+	using iterator		= word_navigator<Bit, length>;
+	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
+
+	using product_type	= product<typename Bit::coproduct_type, length>;
+	using product_type_ptr	= product_type*;
+	using product_type_ref	= product_type&;
+
 	using bit_type		= Bit;
 	using bit_type_ptr	= bit_type*;
 	using bit_type_ref	= bit_type&;
 
-	using iterator		= word_navigator<Bit, length>;
-	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
-
-	bit_type product[length];
+	product_type value;
 
 	word() { }
 
@@ -37,12 +41,22 @@ struct word
 
 	iterator begin()
 	{
-		return iterator(product);
+		return value.begin();
+	}
+
+	const_iterator begin() const
+	{
+		return value.begin();
 	}
 
 	iterator end()
 	{
-		return iterator(product + length);
+		return value.end();
+	}
+
+	const_iterator end() const
+	{
+		return value.end();
 	}
 };
 

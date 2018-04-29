@@ -25,6 +25,7 @@ namespace nik
 		environment,
 		evaluator,
 
+		copair,
 		coproduct,
 		product,
 
@@ -107,6 +108,7 @@ namespace nik
 		{
 			static_assert
 			(
+				module_enum != Module::copair		||
 				module_enum != Module::coproduct	||
 				module_enum != Module::product		,
 

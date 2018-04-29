@@ -43,16 +43,9 @@ struct bit<boolean, Filler>
 
 	bit() { }
 
-	bit(binary_type v) : value(v) { }
+	bit(binary_type b) : value(b) { }
 
 	~bit() { }
-
-	const type_ref operator = (binary_type v)
-	{
-		value = v;
-
-		return *this;
-	}
 
 	iterator name()
 	{

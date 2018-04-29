@@ -16,13 +16,12 @@
 ************************************************************************************************************************/
 
 #include<stdio.h>
-//#include<stddef.h>
 
 namespace nik
 {
 	using global_size_type = size_t;
 
-	constexpr void *null_ptr=0; // use builtin "nullptr" instead!
+	constexpr void *null_ptr = 0; // use builtin "nullptr" instead!
 
 	constexpr char endl='\n';
 
@@ -34,6 +33,18 @@ namespace nik
 		dimension // filler
 	};
 
+	//
+
+	template<typename Type>
+	struct dereference_type
+		{ using rtn = Type; };
+
+	template<typename Type>
+	struct dereference_type<Type*>
+		{ using rtn = Type; };
+
+	//
+
 	template<typename Type, Access = Access::readwrite>
 	struct read_type
 		{ using rtn = Type; };
@@ -43,8 +54,18 @@ namespace nik
 		{ using rtn = Type; };
 
 	template<typename Type>
+	struct read_type<Type const *, Access::readwrite>
+		{ using rtn = Type*; };
+
+	//
+
+	template<typename Type>
 	struct read_type<Type, Access::readonly>
 		{ using rtn = Type const; };
+
+	template<typename Type>
+	struct read_type<Type*, Access::readonly>
+		{ using rtn = Type const *; };
 
 	template<typename Type>
 	struct read_type<Type const, Access::readonly>

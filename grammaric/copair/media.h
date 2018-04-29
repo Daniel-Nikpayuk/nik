@@ -15,13 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_PRODUCT_H
-#define GRAMMARIC_PRODUCT_H
+namespace nik		{
+namespace grammaric	{
 
-#include"copair.h"
-#include"coproduct.h"
+	template<typename SizeType>
+	struct module<Module::copair, Permission::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-#include"../grammaric/product/semiotic.h"
-#include"../grammaric/product/media.h"
+//		#include"interface/navigator/semiotic.hpp"
 
-#endif
+//		#include"interface/structure/semiotic.hpp"
+	};
+
+}}
+

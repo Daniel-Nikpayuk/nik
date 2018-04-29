@@ -15,61 +15,10 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, size_type length>
-struct product
-{
-	using type		= product;
-	using type_ptr		= type*;
-	using type_ref		= type&;
+#ifndef GRAMMARIC_COPAIR_H
+#define GRAMMARIC_COPAIR_H
 
-	using selector		= product_selector<Type>;
-	using const_selector	= product_selector<Type, Access::readonly>;
+#include"../grammaric/copair/semiotic.h"
+#include"../grammaric/copair/media.h"
 
-	using iterator		= product_iterator<Type>;
-	using const_iterator	= product_iterator<Type, Access::readonly>;
-
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
-
-	value_type value[length];
-
-		// type:
-
-	product() { }
-
-	~product() { }
-
-		// navigator:
-
-	selector range()
-	{
-		return selector(value, value + length);
-	}
-
-	const_selector range() const
-	{
-		return const_selector(value, value + length);
-	}
-
-	iterator begin()
-	{
-		return value;
-	}
-
-	const_iterator begin() const
-	{
-		return value;
-	}
-
-	iterator end()
-	{
-		return value + length;
-	}
-
-	const_iterator end() const
-	{
-		return value + length;
-	}
-};
-
+#endif

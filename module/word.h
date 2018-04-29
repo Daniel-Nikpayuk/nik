@@ -19,6 +19,7 @@
 #define NUMERIC_WORD_H
 
 #include"bit.h"
+#include"product.h"
 
 #include"../numeric/word/semiotic.h"
 #include"../numeric/word/media.h"

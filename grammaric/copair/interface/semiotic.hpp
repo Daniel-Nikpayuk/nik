@@ -20,32 +20,26 @@
 */
 
 template<typename Type, Access access = Access::readwrite>
-struct product_selector
+struct copair
 {
-	using type		= product_selector;
+	using type		= copair;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using const_type	= product_selector<Type, Access::readonly>;
-
-	using iterator		= product_iterator<Type, access>;
-	using iterator_ptr	= iterator*;
-	using iterator_ref	= iterator&;
-
-	using sub_navigator	= typename read_type<Type, access>::rtn*;
+	using const_type	= copair<Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	sub_navigator initial;
-	sub_navigator terminal;
+	value_type initial;
+	value_type terminal;
 
 		// type:
 
-	product_selector(sub_navigator i, sub_navigator t) : initial(i), terminal(t) { }
+	copair(const value_type_ref & i, const value_type_ref & t) : initial(i), terminal(t) { }
 
-	~product_selector() { }
+	~copair() { }
 
 	bool operator == (const type_ref s) const
 	{
@@ -64,12 +58,12 @@ struct product_selector
 
 		// navigator:
 
-	iterator_ref operator - () const
+	value_type_ref operator - () const
 	{
 		return initial;
 	}
 
-	iterator_ref operator + () const
+	value_type_ref operator + () const
 	{
 		return terminal;
 	}
@@ -84,7 +78,7 @@ struct product_selector
 
 	type operator ++ (int)
 	{
-		return product_selector(initial++, terminal++);
+		return copair(initial++, terminal++);
 	}
 
 	type_ref operator += (size_type n)
@@ -97,7 +91,7 @@ struct product_selector
 
 	type operator + (size_type n) const
 	{
-		return product_selector(initial + n, terminal + n);
+		return copair(initial + n, terminal + n);
 	}
 
 	type_ref operator -- ()
@@ -110,7 +104,7 @@ struct product_selector
 
 	type operator -- (int)
 	{
-		return product_selector(initial--, terminal--);
+		return copair(initial--, terminal--);
 	}
 
 	type_ref operator -= (size_type n)
@@ -123,7 +117,7 @@ struct product_selector
 
 	type operator - (size_type n) const
 	{
-		return product_selector(initial - n, terminal - n);
+		return copair(initial - n, terminal - n);
 	}
 };
 

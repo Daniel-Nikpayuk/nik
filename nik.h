@@ -65,7 +65,7 @@
 	nik_stringify(module/name.h)
 
 
-#include nik_module(word)
+#include nik_module(product)
 
 
 #endif

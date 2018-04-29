@@ -41,9 +41,6 @@ struct bit_navigator
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
 
-	static constexpr binary_type f(typename Binary::f);
-	static constexpr binary_type t(typename Binary::t);
-
 	sub_navigator location;
 
 		// type:
@@ -74,12 +71,12 @@ struct bit_navigator
 
 	void operator - ()
 	{
-		*location.focus = f;
+		*location.focus = Binary::f;
 	}
 
 	void operator + ()
 	{
-		*location.focus = t;
+		*location.focus = Binary::t;
 	}
 
 		// value:

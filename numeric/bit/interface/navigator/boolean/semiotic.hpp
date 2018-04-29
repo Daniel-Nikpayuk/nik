@@ -31,16 +31,13 @@ struct bit_navigator<boolean, access>
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= bit_navigator<Binary, Access::readonly>;
+	using const_type		= bit_navigator<boolean, Access::readonly>;
 
-	using sub_navigator		= typename read_type<typename Binary::type, access>::rtn*;
+	using sub_navigator		= typename read_type<typename boolean::type, access>::rtn*;
 
-	using binary_type		= typename read_type<typename Binary::type, access>::rtn;
+	using binary_type		= typename read_type<typename boolean::type, access>::rtn;
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
-
-	static constexpr binary_type f(false);
-	static constexpr binary_type t(true);
 
 	sub_navigator location;
 

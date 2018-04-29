@@ -15,13 +15,67 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_PRODUCT_H
-#define GRAMMARIC_PRODUCT_H
+template<typename Type, size_type length>
+struct product
+{
+	using type		= product;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-#include"copair.h"
-#include"coproduct.h"
+	using selector		= copair<Type*>;
+	using const_selector	= copair<Type*, Access::readonly>;
 
-#include"../grammaric/product/semiotic.h"
-#include"../grammaric/product/media.h"
+	using iterator		= coproduct<Type*>;
+	using const_iterator	= coproduct<Type*, Access::readonly>;
 
-#endif
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
+
+	value_type value[length];
+
+		// type:
+
+		// identity:
+		// logic:
+		// proximity:
+
+	product() { }
+
+	~product() { }
+
+		// navigator:
+
+	selector range()
+	{
+		return selector(value, value + length);
+	}
+
+	const_selector range() const
+	{
+		return const_selector(value, value + length);
+	}
+
+	iterator begin()
+	{
+		return value;
+	}
+
+	const_iterator begin() const
+	{
+		return value;
+	}
+
+	iterator end()
+	{
+		return value + length;
+	}
+
+	const_iterator end() const
+	{
+		return value + length;
+	}
+
+		// value:
+};
+

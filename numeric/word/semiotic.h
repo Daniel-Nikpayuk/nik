@@ -23,6 +23,13 @@ namespace numeric	{
 	{
 		typedef SizeType size_type;
 
+		using product_s = grammaric::module<Module::product, Permission::semiotic, size_type>;
+
+		template<typename Type, size_type length>
+		using product = typename product_s::template product<Type, length>;
+
+		//
+
 		using bit_s = module<Module::bit, Permission::semiotic, size_type>;
 
 		using boolean = typename bit_s::boolean;

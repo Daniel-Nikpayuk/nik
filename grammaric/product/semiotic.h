@@ -23,12 +23,19 @@ namespace grammaric	{
 	{
 		typedef SizeType size_type;
 
+		using copair_s = grammaric::module<Module::copair, Permission::semiotic, size_type>;
+
+		template<typename Type, Access access = Access::readwrite>
+		using copair = typename copair_s::template copair<Type, access>;
+
+		using coproduct_s = grammaric::module<Module::coproduct, Permission::semiotic, size_type>;
+
+		template<typename Type, Access access = Access::readwrite>
+		using coproduct = typename coproduct_s::template coproduct<Type, access>;
+
 		//
 
-		#include"interface/navigator/iterator/semiotic.hpp"
-		#include"interface/navigator/selector/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
+		#include"interface/semiotic.hpp"
 
 		//
 

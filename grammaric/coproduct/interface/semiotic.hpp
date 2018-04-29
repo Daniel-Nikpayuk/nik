@@ -17,39 +17,44 @@
 
 /*
 	Navigators may be optimized in their methods as they have limited perspectives.
+
+	Although the template parameter allows for arbitrary types, coproduct is meant specifically for:
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
 */
 
 template<typename Type, Access access = Access::readwrite>
-struct product_iterator
+struct coproduct
 {
-	using type		= product_iterator;
+	using type		= coproduct;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using const_type	= product_iterator<Type, Access::readonly>;
-
-	using sub_navigator	= typename read_type<Type, access>::rtn*;
+	using const_type	= coproduct<Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	sub_navigator location;
+	value_type focus;
 
 		// type:
 
-	product_iterator(sub_navigator l) : location(l) { }
+	coproduct(const value_type_ref & f) : focus(f) { }
 
-	~product_iterator() { }
+	~coproduct() { }
 
-	bool operator == (const type_ref i) const
+	bool operator == (const type_ref c) const
 	{
-		return location == i.location;
+		return focus == c.focus;
 	}
 
-	bool operator != (const type_ref i) const
+	bool operator != (const type_ref c) const
 	{
-		return location != i.location;
+		return focus != c.focus;
 	}
 
 	operator const_type () const
@@ -61,62 +66,55 @@ struct product_iterator
 
 	type_ref operator ++ ()
 	{
-		++location;
+		++focus;
 
 		return *this;
 	}
 
 	type operator ++ (int)
 	{
-		return location++;
+		return focus++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		location += n;
+		focus += n;
 
 		return *this;
 	}
 
 	type operator + (size_type n) const
 	{
-		return location + n;
+		return focus + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--location;
+		--focus;
 
 		return *this;
 	}
 
 	type operator -- (int)
 	{
-		return location--;
+		return focus--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		location -= n;
+		focus -= n;
 
 		return *this;
 	}
 
 	type operator - (size_type n) const
 	{
-		return location - n;
+		return focus - n;
 	}
 
-	size_type operator - (const type_ref i) const
+	size_type operator - (const type_ref c) const
 	{
-		return location - i.location;
-	}
-
-		// value:
-
-	value_type_ref operator * () const
-	{
-		return *location;
+		return focus - c.focus;
 	}
 };
 

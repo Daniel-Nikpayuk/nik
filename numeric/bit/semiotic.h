@@ -28,11 +28,6 @@ namespace numeric	{
 		template<typename Type>
 		using coproduct = typename coproduct_s::template coproduct<Type>;
 
-		using product_s = grammaric::module<Module::product, Permission::semiotic, size_type>;
-
-		template<typename Type, size_type length>
-		using product = typename product_s::template product<Type, length>;
-
 		#include"interface/navigator/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
