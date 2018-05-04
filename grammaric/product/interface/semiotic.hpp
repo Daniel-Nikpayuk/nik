@@ -15,6 +15,21 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Although the template parameter allows for arbitrary types, product is meant specifically for register sizes:
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
+
+	8 << 3, void*
+
+	In the context of this library, products are the disjoint union of concurrent instances of the same type.
+	As this generic code is only intended for a fixed number of similar types, the basic methods for the objects
+        of this class are builtin rather than being called as external static functions.
+*/
+
 template<typename Type, size_type length>
 struct product
 {
@@ -36,13 +51,85 @@ struct product
 
 		// type:
 
-		// identity:
-		// logic:
-		// proximity:
-
 	product() { }
 
 	~product() { }
+
+		// identity:
+
+			// if they're of the same Type it is assumed they have the same length.
+
+	bool operator == (const type_ref p) const
+	{
+		value_type_ptr const k = value;
+		value_type_ptr const e = value + length;
+		value_type_ptr const l = p.value;
+
+		for (; k != e; ++k, ++l) if (*k != *l) return false;
+
+		return true;
+	}
+
+	bool operator != (const type_ref p) const
+	{
+		value_type_ptr const k = value;
+		value_type_ptr const e = value + length;
+		value_type_ptr const l = p.value;
+
+		for (; k != e; ++k, ++l) if (*k != *l) return true;
+
+		return false;
+	}
+
+		// proximity:
+
+			// if they're of the same Type it is assumed they have the same length.
+
+	bool operator < (const type_ref p) const
+	{
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
+
+		return (*k < *p.value);
+	}
+
+	bool operator <= (const type_ref p) const
+	{
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
+
+		return (*k <= *p.value);
+	}
+
+	bool operator > (const type_ref p) const
+	{
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
+
+		return (*k > *p.value);
+	}
+
+	bool operator >= (const type_ref p) const
+	{
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
+
+		return (*k >= *p.value);
+	}
+
+		// shape:
 
 		// navigator:
 

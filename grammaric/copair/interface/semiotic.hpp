@@ -16,7 +16,18 @@
 ************************************************************************************************************************/
 
 /*
-	Navigators may be optimized in their methods as they have limited perspectives.
+	Although the template parameter allows for arbitrary types, copair is meant specifically for register sizes:
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
+
+	8 << 3, void*
+
+	In the context of this library, copairs are pairs of disjoint unions of alternative instances of the same type.
+	They are intended to represent ranges. As this generic code is only intended for a fixed number of similar types,
+	the basic methods for the objects of this class are builtin rather than being called as external static functions.
 */
 
 template<typename Type, Access access = Access::readwrite>
@@ -41,14 +52,14 @@ struct copair
 
 	~copair() { }
 
-	bool operator == (const type_ref s) const
+	bool operator == (const type_ref c) const
 	{
-		return initial == s.initial && terminal == s.terminal;
+		return initial == c.initial && terminal == c.terminal;
 	}
 
-	bool operator != (const type_ref s) const
+	bool operator != (const type_ref c) const
 	{
-		return initial != s.initial || terminal != s.terminal;
+		return initial != c.initial || terminal != c.terminal;
 	}
 
 	operator const_type () const

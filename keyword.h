@@ -57,7 +57,7 @@ namespace nik
 	struct read_type<Type const *, Access::readwrite>
 		{ using rtn = Type*; };
 
-	//
+	// const const => const
 
 	template<typename Type>
 	struct read_type<Type, Access::readonly>
@@ -66,9 +66,5 @@ namespace nik
 	template<typename Type>
 	struct read_type<Type*, Access::readonly>
 		{ using rtn = Type const *; };
-
-	template<typename Type>
-	struct read_type<Type const, Access::readonly>
-		{ using rtn = Type const; };
 }
 
