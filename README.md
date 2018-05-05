@@ -7,6 +7,43 @@ A personal C++ library, designed as a partially compatible alternative to the ST
 
 Nowhere near release yet.
 
+      <ul>
+        <li> There is often a trade off between efficiency and function composability.
+
+          <p>
+            As example, 16-bits&mdash;as a weak type&mdash;can be temporarily equipped with methods of an integer, or temporarily
+            re-equipped with the methods of a unicode character, either of which contextually extends its type. The object model
+            of C++ doesn't design for this style of coding: Methods are tethered to their respective classes, meaning they are
+            implicitly given structural types. This restricts their potential composability unnecessarily.
+          </p>
+
+        <li> There is often a trade off between efficiency and structure modularity.
+
+          <p>
+            
+          </p>
+
+          <p>
+            The reasoning here comes from information theory: Information with greater structural details has lower entropy,
+            and so there is every reason you should be able to get a higher rate of compression out of it. Compression and
+            optimization aren't identical, but they certainly overlap and are informative of each other.
+          </p>
+
+        <li> There is often a trade off between efficiency and type safety.
+
+          <p>
+            Classes allow you to restrict access to their internals increasing their type safety during compile time,
+            but they also restrict access to optimizations, including---in a carefully controlled setting---side effects.
+            Yes, as a rule, side effects are bad, but only when they create unknown results. If they're not part of the
+            grammar or design of the language itself, and are only justifiably used as tail end optimizations,
+            I argue they should be permissible.
+          </p>
+
+          <p>
+          </p>
+
+      </ul>
+
 # Intentions
 
 The intentions of reinventing such a large time-consuming wheel are manifold:
