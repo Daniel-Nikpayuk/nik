@@ -31,63 +31,40 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-template<typename Type, size_type length>
-struct product
+struct identity
 {
-	using type		= product;
-	using type_ptr		= type*;
-	using type_ref		= type&;
+		// closed, forward, closed, forward:
 
-	using selector		= copair<Type*>;
-	using const_selector	= copair<Type*, Access::readonly>;
-
-	using iterator		= coproduct<Type*>;
-	using const_iterator	= coproduct<Type*, Access::readonly>;
-
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
-
-	value_type value[length];
-
-		// type:
-
-	product() { }
-
-	~product() { }
-
-		// navigator:
-
-	selector range()
+	template
+	<
+		Interval in_interval, Direction in_direction,
+		Interval out_interval, Direction out_direction,
+		typename in_iterator, typename out_iterator
+	>
+	static bool equals(in_iterator in_b, out_iterator out_b, out_iterator out_e)
 	{
-		return selector(value, value + length);
+		while (out_b != out_e)
+		{
+			if (*in_b != *out_b) return false;
+			++in_b, ++out_b;
+		}
+
+		return true;
 	}
 
-	const_selector range() const
-	{
-		return const_selector(value, value + length);
-	}
+		// closed, forward, closed, forward:
 
-	iterator begin()
-	{
-		return value;
-	}
 
-	const_iterator begin() const
+	template<typename in_iterator, typename out_iterator>
+	static bool not_equals(in_iterator in_b, out_iterator out_b, out_iterator out_e)
 	{
-		return value;
-	}
+		while (out_b != out_e)
+		{
+			if (*in_b != *out_b) return true;
+			++in_b, ++out_b;
+		}
 
-	iterator end()
-	{
-		return value + length;
+		return false;
 	}
-
-	const_iterator end() const
-	{
-		return value + length;
-	}
-
-		// value:
 };
 

@@ -31,63 +31,54 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-template<typename Type, size_type length>
-struct product
+struct proximity
 {
-	using type		= product;
-	using type_ptr		= type*;
-	using type_ref		= type&;
-
-	using selector		= copair<Type*>;
-	using const_selector	= copair<Type*, Access::readonly>;
-
-	using iterator		= coproduct<Type*>;
-	using const_iterator	= coproduct<Type*, Access::readonly>;
-
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
-
-	value_type value[length];
-
-		// type:
-
-	product() { }
-
-	~product() { }
-
-		// navigator:
-
-	selector range()
+	template<typename in_iterator, typename out_iterator>
+	static bool less_than(in_iterator in_e, out_iterator out_b, out_iterator out_e)
 	{
-		return selector(value, value + length);
+		--in_e; --out_e;
+
+		for (--k, --l; k != b; --k, --l)
+		while (out_e != out_b)
+		{
+			if (*in_b > *out_b) return false;
+			--in_b; --out_b;
+		}
+
+		return (*k < *p.value);
 	}
 
-	const_selector range() const
+	bool operator <= (const type_ref p) const
 	{
-		return const_selector(value, value + length);
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
+
+		return (*k <= *p.value);
 	}
 
-	iterator begin()
+	bool operator > (const type_ref p) const
 	{
-		return value;
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
+
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
+
+		return (*k > *p.value);
 	}
 
-	const_iterator begin() const
+	bool operator >= (const type_ref p) const
 	{
-		return value;
-	}
+		value_type_ptr b = value;
+		value_type_ptr k = value + length;
+		value_type_ptr l = p.value + length;
 
-	iterator end()
-	{
-		return value + length;
-	}
+		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
 
-	const_iterator end() const
-	{
-		return value + length;
+		return (*k >= *p.value);
 	}
-
-		// value:
 };
 

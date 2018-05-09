@@ -40,8 +40,8 @@ namespace grammaric	{
 		//
 
 //		#include"perspective/identity/semiotic.hpp"
-
 //		#include"perspective/proximity/semiotic.hpp"
+//		#include"perspective/shape/semiotic.hpp"
 	};
 
 }}

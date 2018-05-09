@@ -31,63 +31,33 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-template<typename Type, size_type length>
-struct product
+struct shape
 {
-	using type		= product;
-	using type_ptr		= type*;
-	using type_ref		= type&;
+		// repeat:
 
-	using selector		= copair<Type*>;
-	using const_selector	= copair<Type*, Access::readonly>;
+		// morph:
 
-	using iterator		= coproduct<Type*>;
-	using const_iterator	= coproduct<Type*, Access::readonly>;
+		// map:
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
-	using value_type_ref	= value_type&;
+			// closed:
 
-	value_type value[length];
-
-		// type:
-
-	product() { }
-
-	~product() { }
-
-		// navigator:
-
-	selector range()
+	template
+	<
+		Interval in_interval, Direction in_direction,
+		Interval out_interval, Direction out_direction,
+		typename in_iterator, typename out_iterator
+	>
+	static in_iterator map(in_iterator in, out_iterator out, out_iterator end)
 	{
-		return selector(value, value + length);
+		while (out != end)
+		{
+			if (*in != *out_b) return false;
+			++in_b, ++out_b;
+		}
+
+		return true;
 	}
 
-	const_selector range() const
-	{
-		return const_selector(value, value + length);
-	}
-
-	iterator begin()
-	{
-		return value;
-	}
-
-	const_iterator begin() const
-	{
-		return value;
-	}
-
-	iterator end()
-	{
-		return value + length;
-	}
-
-	const_iterator end() const
-	{
-		return value + length;
-	}
-
-		// value:
+		// assign:
 };
 

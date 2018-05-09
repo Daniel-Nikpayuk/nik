@@ -48,7 +48,7 @@ struct copair
 
 		// type:
 
-	copair(const value_type_ref & i, const value_type_ref & t) : initial(i), terminal(t) { }
+	copair(const value_type_ref i, const value_type_ref t) : initial(i), terminal(t) { }
 
 	~copair() { }
 

@@ -47,7 +47,7 @@ struct coproduct
 
 		// type:
 
-	coproduct(const value_type_ref & f) : focus(f) { }
+	coproduct(const value_type_ref f) : focus(f) { }
 
 	~coproduct() { }
 
