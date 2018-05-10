@@ -31,40 +31,49 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-struct identity
+template
+<
+	Interval in_interval, Direction in_direction,
+	Interval out_interval, Direction out_direction
+>
+struct shape
 {
-		// closed, forward, closed, forward:
+		// repeat:
 
-	template
-	<
-		Interval in_interval, Direction in_direction,
-		Interval out_interval, Direction out_direction,
-		typename in_iterator, typename out_iterator
-	>
-	static bool equals(in_iterator in_b, out_iterator out_b, out_iterator out_e)
+		// morph:
+
+		// map:
+
+			// closed:
+
+	template<typename in_iterator, typename out_iterator>
+	static in_iterator map(in_iterator in, out_iterator out, out_iterator end)
 	{
-		while (out_b != out_e)
+		while (out != end)
 		{
-			if (*in_b != *out_b) return false;
+			if (*in != *out_b) return false;
 			++in_b, ++out_b;
 		}
 
 		return true;
 	}
 
-		// closed, forward, closed, forward:
-
-
-	template<typename in_iterator, typename out_iterator>
-	static bool not_equals(in_iterator in_b, out_iterator out_b, out_iterator out_e)
+	template<typename Type, Access in_access, Access out_access>
+	static in_iterator map(coproduct<Type*, in_access> in, coproduct<Type*, out_access> out, coproduct<Type*, out_access> end)
 	{
-		while (out_b != out_e)
+		in.focus;
+		out.focus;
+		end.focus;
+
+		while (out != end)
 		{
-			if (*in_b != *out_b) return true;
+			if (*in != *out_b) return false;
 			++in_b, ++out_b;
 		}
 
-		return false;
+		return true;
 	}
+
+		// assign:
 };
 

@@ -31,33 +31,81 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-struct shape
+struct identity
 {
-		// repeat:
+	enum struct Operator : size_type
+	{
+		equals,
+		not_equals,
 
-		// morph:
+		dimension
+	};
 
-		// map:
+	enum struct Interval : size_type
+	{
+		closed,
+		closing,
+		opening,
+		open,
 
-			// closed:
+		dimension
+	};
+
+	enum struct Direction : size_type
+	{
+		forward,
+		backward,
+
+		dimension
+	};
+ 
+	template<Interval interval, Direction direction>
+	struct normalize
+	{
+		using value_type = coproduct<Type*>::value_type;
+		using value_type_ref = value_type&:
+
+		static void evaluate(value_type_ref focus)
+		{
+		}
+	};
 
 	template
 	<
-		Interval in_interval, Direction in_direction,
+		Operator op,
+
 		Interval out_interval, Direction out_direction,
-		typename in_iterator, typename out_iterator
+		Interval in_interval, Direction in_direction,
+
+		typename Type
 	>
-	static in_iterator map(in_iterator in, out_iterator out, out_iterator end)
+	static coproduct<Type*> compare(bool & result, coproduct<Type*> co_out, coproduct<Type*> co_in, coproduct<Type*> co_end)
 	{
-		while (out != end)
+			// unpack:
+
+		coproduct<Type*>::value_type out	= co_out.focus;
+		coproduct<Type*>::value_type in		= co_in.focus;
+		coproduct<Type*>::value_type end	= co_end.focus;
+
+			// compute:
+
+		normalize<out_interval, out_direction>::evaluate(out);
+		normalize<in_interval, in_direction>::evaluate(in);
+
+		while (in != end)
 		{
-			if (*in != *out_b) return false;
-			++in_b, ++out_b;
+			if (*out != *in) result = (op != Operator::equals);
+
+			iterate<out_direction>::evaluate(out);
+			iterate<in_direction>::evaluate(in);
 		}
 
-		return true;
-	}
+		finalize<out_interval, out_direction>::evaluate(out);
+		finalize<in_interval, in_direction>::evaluate(in);
 
-		// assign:
+		result = (op == Operator::equals);
+
+		return out;
+	}
 };
 
