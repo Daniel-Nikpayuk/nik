@@ -27,6 +27,8 @@
 	Here (a) implies iterate, while [b] implies act.
 */
 
+struct generic														{
+
 template<Interval sub_interval, Direction sub_direction>
 struct subject														{
 
@@ -73,5 +75,5 @@ static type_ptr compare(verb_type & verb, type_ptr sub, type_ptr ob, type_ptr en
 	return sub;
 }
 
-};};
+};};};
 

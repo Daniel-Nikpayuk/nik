@@ -17,22 +17,11 @@
 
 struct identity
 {
-	using method = typename subject
-	<
-		Interval::opening,
-		Direction::backward
-
-	>::template object
-	<
-		Interval::opening,
-		Direction::backward
-	>;
-
-	struct equals_verb
+	struct eq_verb
 	{
 		bool rtn;
 
-		equals_verb() : rtn(false) { }
+		eq_verb() : rtn(false) { }
 
 		template<typename type_ptr>
 		bool closing_pattern(type_ptr sub, type_ptr ob)
@@ -49,14 +38,57 @@ struct identity
 		}
 	};
 
+	struct neq_verb
+	{
+		bool rtn;
+
+		neq_verb() : rtn(true) { }
+
+		template<typename type_ptr>
+		bool closing_pattern(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub != *ob);
+
+			return rtn;
+		}
+
+		template<typename type_ptr>
+		void closed_pattern(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub != *ob);
+		}
+	};
+
+template<Interval sub_interval, Direction sub_direction>
+struct subject														{
+
+template<Interval ob_interval, Direction ob_direction>
+struct object														{
+
+	using method =	typename generic::template
+			subject<sub_interval, sub_direction>::template
+			object<ob_interval, ob_direction>;
+
 	template<typename type_ptr>
 	static bool equals(type_ptr sub, type_ptr ob, type_ptr end)
 	{
-		equals_verb verb;
+		eq_verb eq;
 
-		method::compare(verb, sub, ob, end);
+		method::compare(eq, sub, ob, end);
 
-		return verb.rtn;
+		return eq.rtn;
 	}
-};
 
+	template<typename type_ptr>
+	static bool not_equals(type_ptr sub, type_ptr ob, type_ptr end)
+	{
+		neq_verb neq;
+
+		method::compare(neq, sub, ob, end);
+
+		return neq.rtn;
+	}
+
+};};
+
+};
