@@ -15,12 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_COPRODUCT_H
-#define GRAMMARIC_COPRODUCT_H
+#ifndef GRAMMARIC_POINTER_H
+#define GRAMMARIC_POINTER_H
 
-#include"pointer.h"
-
-#include"../grammaric/coproduct/semiotic.h"
-#include"../grammaric/coproduct/media.h"
+#include"../grammaric/pointer/semiotic.h"
+#include"../grammaric/pointer/media.h"
 
 #endif

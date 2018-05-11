@@ -31,81 +31,97 @@
         static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
-struct identity
+struct identity														{
+
+enum struct Operator : size_type
 {
-	enum struct Operator : size_type
+	equals,
+	not_equals,
+
+	dimension
+};
+
+enum struct Interval : size_type
+{
+	closed,
+	closing,
+	opening,
+	open,
+
+	dimension
+};
+
+enum struct Direction : size_type
+{
+	forward,
+	backward,
+
+	dimension
+};
+
+	//
+
+template<Interval interval, Direction direction>
+struct initialize
+{
+	template<typename Type>
+	static void apply(Type *focus)
 	{
-		equals,
-		not_equals,
-
-		dimension
-	};
-
-	enum struct Interval : size_type
-	{
-		closed,
-		closing,
-		opening,
-		open,
-
-		dimension
-	};
-
-	enum struct Direction : size_type
-	{
-		forward,
-		backward,
-
-		dimension
-	};
- 
-	template<Interval interval, Direction direction>
-	struct normalize
-	{
-		using value_type = coproduct<Type*>::value_type;
-		using value_type_ref = value_type&:
-
-		static void evaluate(value_type_ref focus)
-		{
-		}
-	};
-
-	template
-	<
-		Operator op,
-
-		Interval out_interval, Direction out_direction,
-		Interval in_interval, Direction in_direction,
-
-		typename Type
-	>
-	static coproduct<Type*> compare(bool & result, coproduct<Type*> co_out, coproduct<Type*> co_in, coproduct<Type*> co_end)
-	{
-			// unpack:
-
-		coproduct<Type*>::value_type out	= co_out.focus;
-		coproduct<Type*>::value_type in		= co_in.focus;
-		coproduct<Type*>::value_type end	= co_end.focus;
-
-			// compute:
-
-		normalize<out_interval, out_direction>::evaluate(out);
-		normalize<in_interval, in_direction>::evaluate(in);
-
-		while (in != end)
-		{
-			if (*out != *in) result = (op != Operator::equals);
-
-			iterate<out_direction>::evaluate(out);
-			iterate<in_direction>::evaluate(in);
-		}
-
-		finalize<out_interval, out_direction>::evaluate(out);
-		finalize<in_interval, in_direction>::evaluate(in);
-
-		result = (op == Operator::equals);
-
-		return out;
 	}
+};
+
+template<Interval interval, Direction direction>
+struct iterate
+{
+	template<typename Type>
+	static void apply(Type *focus)
+	{
+	}
+};
+
+template<Interval interval, Direction direction>
+struct terminalize
+{
+	template<typename Type>
+	static void apply(Type *focus)
+	{
+	}
+};
+
+	//
+
+template<Operator verb_operator>
+struct verb														{
+
+template<Interval sub_interval, Direction sub_direction>
+struct subject														{
+
+template<Interval ob_interval, Direction ob_direction>
+struct object														{
+
+template<typename Type>
+static Type* compare(bool & result, Type *sub, Type *ob, Type *end)
+{
+	initialize<sub_interval, sub_direction>::apply<Type>(sub);
+	initialize<ob_interval, ob_direction>::apply<Type>(ob);
+
+	while (ob != end)
+	{
+		if (*sub != *ob) result = (verb_operator != Operator::equals);
+
+		iterate<sub_direction>::apply<Type>(sub);
+		iterate<ob_direction>::apply<Type>(ob);
+	}
+
+	terminalize<sub_interval, sub_direction>::apply<Type>(sub);
+	terminalize<ob_interval, ob_direction>::apply<Type>(ob);
+
+	result = (verb_operator == Operator::equals);
+
+	return sub;
+}
+
+};};};
+
 };
 
