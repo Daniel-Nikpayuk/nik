@@ -15,48 +15,48 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Although the template parameter allows for arbitrary types, identity methods are meant specifically for pointers
-	of the following register sizes:
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned int
-	8 << 3, unsigned long
-*/
-
-struct identity														{
-
-template<Operator verb_operator>
-struct verb														{
-
-template<Interval sub_interval, Direction sub_direction>
-struct subject														{
-
-template<Interval ob_interval, Direction ob_direction>
-struct object														{
-
-template<typename Type>
-static Type* compare(bool & result, Type *sub, Type *ob, Type *end)
+struct identity
 {
-	initialize<sub_interval, sub_direction>::apply<Type>(sub);
-	initialize<ob_interval, ob_direction>::apply<Type>(ob);
+	using method = typename subject
+	<
+		Interval::opening,
+		Direction::backward
 
-	while (ob != end)
+	>::template object
+	<
+		Interval::opening,
+		Direction::backward
+	>;
+
+	struct equals_verb
 	{
-		if (*sub != *ob) result = (verb_operator != Operator::equals);
+		bool rtn;
 
-		iterate<sub_direction>::apply<Type>(sub);
-		iterate<ob_direction>::apply<Type>(ob);
+		equals_verb() : rtn(false) { }
+
+		template<typename type_ptr>
+		bool closing_pattern(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub == *ob);
+
+			return !rtn;
+		}
+
+		template<typename type_ptr>
+		void closed_pattern(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub == *ob);
+		}
+	};
+
+	template<typename type_ptr>
+	static bool equals(type_ptr sub, type_ptr ob, type_ptr end)
+	{
+		equals_verb verb;
+
+		method::compare(verb, sub, ob, end);
+
+		return verb.rtn;
 	}
-
-	terminalize<sub_interval, sub_direction>::apply<Type>(sub);
-	terminalize<ob_interval, ob_direction>::apply<Type>(ob);
-
-	result = (verb_operator == Operator::equals);
-
-	return sub;
-}
-
-};};};};
+};
 

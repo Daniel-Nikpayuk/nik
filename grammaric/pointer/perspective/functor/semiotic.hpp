@@ -77,3 +77,93 @@ struct shape
 		// assign:
 };
 
+/*
+	We tether the interval decomposition to the while loop,
+	meaning [) is most natural, so then our decomposition is as follows:
+
+	closing	|a <= b|:	[a, b)		= [a, b)
+	closed	|a <= b|:	[a, b]		= [a, b)	-> [b]
+	open	|a <  b|:	(a, b)		= (a)		-> [a+1, b)
+	opening	|a <  b|:	(a, b]		= (a)		-> [a+1, b)	-> [b]
+
+	Here (a) implies iterate, while [b] implies act.
+*/
+
+template<Interval sub_interval, Direction sub_direction>
+struct subject														{
+
+template<Interval ob_interval, Direction ob_direction>
+struct object														{
+
+	// False conditionals are expected to be optimized out at compile time.
+
+template<typename verb_type, typename type_ptr, typename const_type_ptr>
+static type_ptr compare(verb_type & verb, type_ptr sub, const_type_ptr ob, const_type_ptr end)
+{
+	if (sub_interval == Interval::opening || sub_interval == Interval::open)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+	}
+
+	if (ob_interval == Interval::opening || ob_interval == Interval::open)
+	{
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	while (ob != end)
+	{
+		if (verb.is_pattern(sub, ob)) return sub;
+
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+	{
+		verb.is_pattern(sub, ob);
+	}
+
+	return sub;
+}
+
+template<typename verb_type, typename type_ptr, typename const_type_ptr>
+static type_ptr map(const verb_type & verb, type_ptr sub, const_type_ptr ob, const_type_ptr end)
+{
+	if (sub_interval == Interval::opening || sub_interval == Interval::open)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+	}
+
+	if (ob_interval == Interval::opening || ob_interval == Interval::open)
+	{
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	while (ob != end)
+	{
+		verb.functor(sub, ob);
+
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+	{
+		verb.functor(sub, ob);
+	}
+
+	return sub;
+}
+
+};};
+
