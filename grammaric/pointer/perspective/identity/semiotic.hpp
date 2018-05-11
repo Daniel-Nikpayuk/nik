@@ -16,79 +16,16 @@
 ************************************************************************************************************************/
 
 /*
-	Although the template parameter allows for arbitrary types, product is meant specifically for register sizes:
+	Although the template parameter allows for arbitrary types, identity methods are meant specifically for pointers
+	of the following register sizes:
 
 	8 << 0, unsigned char
 	8 << 1, unsigned short
 	8 << 2, unsigned int
 	8 << 3, unsigned long
-
-	8 << 3, void*
-
-	In the context of this library, products are the disjoint union of concurrent instances of the same type.
-	This generic code is only intended for a fixed number of similar types, but the length parameter generates
-        further possibilities. As such, the basic methods for the objects of this class are called as external
-        static functions allowing for identity, proximity, and shape methods between various lengths.
 */
 
 struct identity														{
-
-enum struct Operator : size_type
-{
-	equals,
-	not_equals,
-
-	dimension
-};
-
-enum struct Interval : size_type
-{
-	closed,
-	closing,
-	opening,
-	open,
-
-	dimension
-};
-
-enum struct Direction : size_type
-{
-	forward,
-	backward,
-
-	dimension
-};
-
-	//
-
-template<Interval interval, Direction direction>
-struct initialize
-{
-	template<typename Type>
-	static void apply(Type *focus)
-	{
-	}
-};
-
-template<Interval interval, Direction direction>
-struct iterate
-{
-	template<typename Type>
-	static void apply(Type *focus)
-	{
-	}
-};
-
-template<Interval interval, Direction direction>
-struct terminalize
-{
-	template<typename Type>
-	static void apply(Type *focus)
-	{
-	}
-};
-
-	//
 
 template<Operator verb_operator>
 struct verb														{
@@ -121,7 +58,5 @@ static Type* compare(bool & result, Type *sub, Type *ob, Type *end)
 	return sub;
 }
 
-};};};
-
-};
+};};};};
 
