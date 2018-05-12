@@ -15,13 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::copair, Permission::semiotic, SizeType>
+	struct space<Branch::grammaric, Module::copair, Permission::semiotic, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type	= SizeType;
 
 		//
 
@@ -30,9 +29,7 @@ namespace grammaric	{
 		//
 
 //		#include"perspective/identity/semiotic.hpp"
-
 //		#include"perspective/proximity/semiotic.hpp"
 	};
-
-}}
+}
 

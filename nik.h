@@ -65,7 +65,7 @@
 	nik_stringify(module/name.h)
 
 
-#include nik_module(product)
+#include nik_module(bit)
 
 
 #endif

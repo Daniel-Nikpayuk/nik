@@ -15,16 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<policy>
-struct functor
+template<typename Bit, typename Filler = void>
+struct constant
 {
-	static constexpr Interval sub_interval		= policy::subject_interval;
-	static constexpr Direction sub_direction	= policy::subject_direction;
+	using type		= constant;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	static constexpr Interval ob_interval		= policy::object_interval;
-	static constexpr Direction ob_direction		= policy::object_direction;
+	using bit_type		= Bit;
+	using bit_type_ptr	= bit_type*;
+	using bit_type_ref	= bit_type&;
 
-		// assign:
-
+	static constexpr bit_type f(typename bit_type::binary_type::f);
+	static constexpr bit_type t(typename bit_type::binary_type::t);
 };
 

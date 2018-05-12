@@ -18,7 +18,7 @@
 #ifndef GRAMMARIC_COPRODUCT_H
 #define GRAMMARIC_COPRODUCT_H
 
-#include"pointer.h"
+#include"iterator.h"
 
 #include"../grammaric/coproduct/semiotic.h"
 #include"../grammaric/coproduct/media.h"

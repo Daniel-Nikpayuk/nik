@@ -15,15 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::pointer, Permission::media, SizeType>
+	struct space<Branch::grammaric, Module::iterator, Permission::media, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type	= SizeType;
 
 	};
-
-}}
+}
 

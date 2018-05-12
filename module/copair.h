@@ -18,7 +18,7 @@
 #ifndef GRAMMARIC_COPAIR_H
 #define GRAMMARIC_COPAIR_H
 
-#include"pointer.h"
+#include"iterator.h"
 
 #include"../grammaric/copair/semiotic.h"
 #include"../grammaric/copair/media.h"

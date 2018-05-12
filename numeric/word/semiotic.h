@@ -15,27 +15,28 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::word, Permission::semiotic, SizeType>
+	struct space<Branch::numeric, Module::word, Permission::semiotic, SizeType>
 	{
-		typedef SizeType size_type;
-
-		using product_s = grammaric::module<Module::product, Permission::semiotic, size_type>;
-
-		template<typename Type, size_type length>
-		using product = typename product_s::template product<Type, length>;
+		using size_type		= SizeType;
 
 		//
 
-		using bit_s = module<Module::bit, Permission::semiotic, size_type>;
+		using product_s		= grammaric<Module::product, Permission::semiotic, size_type>;
 
-		using boolean = typename bit_s::boolean;
+					  template<typename Type, size_type length>
+		using product		= typename product_s::template product<Type, length>;
 
-		template<typename Binary>
-		using bit = typename bit_s::template bit<Binary>;
+		//
+
+		using bit_s		= numeric<Module::bit, Permission::semiotic, size_type>;
+
+		using boolean		= typename bit_s::boolean;
+
+					  template<typename Binary>
+		using bit		= typename bit_s::template bit<Binary>;
 
 		//
 
@@ -55,6 +56,5 @@ namespace numeric	{
 
 		#include"perspective/logic/semiotic.hpp"
 	};
-
-}}
+}
 

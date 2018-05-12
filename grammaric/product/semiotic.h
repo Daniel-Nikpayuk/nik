@@ -15,23 +15,26 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::product, Permission::semiotic, SizeType>
+	struct space<Branch::grammaric, Module::product, Permission::semiotic, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type		= SizeType;
 
-		using copair_s = grammaric::module<Module::copair, Permission::semiotic, size_type>;
+		//
 
-		template<typename Type, Access access = Access::readwrite>
-		using copair = typename copair_s::template copair<Type, access>;
+		using coproduct_s	= grammaric<Module::coproduct, Permission::semiotic, size_type>;
 
-		using coproduct_s = grammaric::module<Module::coproduct, Permission::semiotic, size_type>;
+					  template<typename Type, Access access = Access::readwrite>
+		using coproduct		= typename coproduct_s::template coproduct<Type, access>;
 
-		template<typename Type, Access access = Access::readwrite>
-		using coproduct = typename coproduct_s::template coproduct<Type, access>;
+		//
+
+		using copair_s		= grammaric<Module::copair, Permission::semiotic, size_type>;
+
+					  template<typename Type, Access access>
+		using copair		= typename copair_s::template copair<Type, access>;
 
 		//
 
@@ -43,6 +46,5 @@ namespace grammaric	{
 //		#include"perspective/proximity/semiotic.hpp"
 //		#include"perspective/shape/semiotic.hpp"
 	};
-
-}}
+}
 

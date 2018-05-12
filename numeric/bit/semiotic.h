@@ -15,26 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::bit, Permission::semiotic, SizeType>
+	struct space<Branch::numeric, Module::bit, Permission::semiotic, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type		= SizeType;
 
-		using coproduct_s = grammaric::module<Module::coproduct, Permission::semiotic, size_type>;
+		//
 
-		template<typename Type>
-		using coproduct = typename coproduct_s::template coproduct<Type>;
+		using coproduct_s	= grammaric<Module::coproduct, Permission::semiotic, size_type>;
 
-		#include"interface/navigator/semiotic.hpp"
+					  template<typename Type, Access access>
+		using coproduct		= typename coproduct_s::template coproduct<Type>;
 
-		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
+		#include"interface/semiotic.hpp"
+		#include"interface/boolean/semiotic.hpp"
 
-		#include"perspective/constant/semiotic.hpp"
+//		#include"perspective/constant/semiotic.hpp"
 	};
-
-}}
+}
 

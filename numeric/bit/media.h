@@ -15,19 +15,17 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::bit, Permission::media, SizeType>
+	struct space<Branch::numeric, Module::bit, Permission::media, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type	= SizeType;
 
 //		#include"interface/navigator/semiotic.hpp"
 
 //		#include"interface/structure/semiotic.hpp"
 //		#include"interface/structure/boolean/semiotic.hpp"
 	};
-
-}}
+}
 

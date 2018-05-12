@@ -61,6 +61,9 @@ struct coproduct
 		return focus != c.focus;
 	}
 
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
+
 	operator const_type () const
 	{
 		return (const_type) this;
@@ -119,6 +122,13 @@ struct coproduct
 	size_type operator - (const type_ref c) const
 	{
 		return focus - c.focus;
+	}
+
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return focus;
 	}
 };
 

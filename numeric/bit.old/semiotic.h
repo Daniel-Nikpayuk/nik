@@ -15,38 +15,26 @@
 **
 ************************************************************************************************************************/
 
-enum struct Interval : size_type
-{
-	closed,
-	closing,
-	opening,
-	open,
+namespace nik		{
+namespace numeric	{
 
-	dimension
-};
+	template<typename SizeType>
+	struct module<Module::bit, Permission::semiotic, SizeType>
+	{
+		typedef SizeType size_type;
 
-enum struct Direction : size_type
-{
-	forward,
-	backward,
+		using coproduct_s = grammaric::module<Module::coproduct, Permission::semiotic, size_type>;
 
-	dimension
-};
+		template<typename Type>
+		using coproduct = typename coproduct_s::template coproduct<Type>;
 
-template<Interval ob_interval, Direction ob_direction>
-struct object
-{
-	static constexpr Interval interval	= ob_interval;
-	static constexpr Direction direction	= ob_direction;
-};
+		#include"interface/navigator/semiotic.hpp"
 
-	// generic:
+		#include"interface/structure/semiotic.hpp"
+		#include"interface/structure/boolean/semiotic.hpp"
 
-enum struct Operator : size_type
-{
-	compare,
-	map,
+		#include"perspective/constant/semiotic.hpp"
+	};
 
-	dimension
-};
+}}
 

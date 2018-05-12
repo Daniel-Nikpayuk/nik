@@ -15,15 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_ITERATOR_H
-#define NUMERIC_ITERATOR_H
+#ifndef GRAMMARIC_ITERATOR_H
+#define GRAMMARIC_ITERATOR_H
 
-#include"range.h"
-
-#include"../numeric/address/iterator/structural/semiotic.h"
-#include"../numeric/address/iterator/structural/media.h"
-
-#include"../numeric/address/iterator/procedural/semiotic.h"
-#include"../numeric/address/iterator/procedural/media.h"
+#include"../grammaric/iterator/semiotic.h"
+#include"../grammaric/iterator/media.h"
 
 #endif

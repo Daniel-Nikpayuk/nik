@@ -15,10 +15,19 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_POINTER_H
-#define GRAMMARIC_POINTER_H
+namespace nik		{
+namespace numeric	{
 
-#include"../grammaric/pointer/semiotic.h"
-#include"../grammaric/pointer/media.h"
+	template<typename SizeType>
+	struct module<Module::bit, Permission::media, SizeType>
+	{
+		typedef SizeType size_type;
 
-#endif
+//		#include"interface/navigator/semiotic.hpp"
+
+//		#include"interface/structure/semiotic.hpp"
+//		#include"interface/structure/boolean/semiotic.hpp"
+	};
+
+}}
+

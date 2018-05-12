@@ -17,17 +17,26 @@
 
 namespace nik
 {
+	enum struct Branch : global_size_type
+	{
+		metaric,
+		grammaric,
+		numeric,
+
+		dimension // filler
+	};
+
 	enum struct Module : global_size_type
 	{
 		constant,
-		branch,
+		conditional,
 		tuple,
 		environment,
 		evaluator,
 
-		pointer,
-		copair,
+		iterator,
 		coproduct,
+		copair,
 		product,
 
 		bit,
@@ -35,7 +44,6 @@ namespace nik
 		address,
 
 		range,
-		iterator, // iterative ?
 		list,
 
 		dimension // filler
@@ -49,40 +57,50 @@ namespace nik
 		dimension // filler
 	};
 
+	template
+	<
+		Branch branch_enum,
+		Module module_enum,
+		Permission permission_enum,
+
+		typename SizeType = global_size_type
+	>
+	struct space { static_assert(true, "This module is not yet implemented!"); };
+
+	//
+
+				  template<Module module, Permission permission, typename SizeType = global_size_type>
+	using grammaric		= space<Branch::grammaric, module, permission, SizeType>;
+
+				  template<Module module, Permission permission, typename SizeType = global_size_type>
+	using numeric		= space<Branch::numeric, module, permission, SizeType>;
+}
+
+/*
 	namespace metaric
 	{
-/*
+		Currently deprecrated, will likely be restored once Branch::metaric is restored.
+
 		struct undefined
 		{
 			using rtn = undefined;
 
 			static void print() { builtin_printer::print("undefined"); }
 		};
-*/
 
 		template<typename> struct act { };
 		template<typename> struct pass { };
 
-		template
-		<
-			Module module_enum,
-			Permission permission_enum,
+		static_assert
+		(
+			module_enum != Module::constant		||
+			module_enum != Module::conditional	||
+			module_enum != Module::tuple		||
+			module_enum != Module::environment	||
+			module_enum != Module::evaluator	,
 
-			typename SizeType = global_size_type
-		>
-		struct module
-		{
-			static_assert
-			(
-				module_enum != Module::constant		||
-				module_enum != Module::branch		||
-				module_enum != Module::tuple		||
-				module_enum != Module::environment	||
-				module_enum != Module::evaluator	,
-
-				"This module is not yet implemented!"
-			);
-		};
+			"This module is not yet implemented!"
+		);
 
 		#define metaric_import_act()										\
 															\
@@ -94,51 +112,5 @@ namespace nik
 			template<typename Exp>										\
 			using pass = nik::grammaric::pass<Exp>;
 	}
-
-
-	namespace grammaric
-	{
-		template
-		<
-			Module module_enum,
-			Permission permission_enum,
-
-			typename SizeType = global_size_type
-		>
-		struct module
-		{
-			static_assert
-			(
-				module_enum != Module::pointer		||
-				module_enum != Module::copair		||
-				module_enum != Module::coproduct	||
-				module_enum != Module::product		,
-
-				"This module is not yet implemented!"
-			);
-		};
-	}
-
-	namespace numeric
-	{
-		template
-		<
-			Module module_enum,
-			Permission permission_enum,
-
-			typename SizeType = global_size_type
-		>
-		struct module
-		{
-			static_assert
-			(
-				module_enum != Module::bit		||
-				module_enum != Module::word		||
-				module_enum != Module::address		,
-
-				"This module is not yet implemented!"
-			);
-		};
-	}
-}
+*/
 

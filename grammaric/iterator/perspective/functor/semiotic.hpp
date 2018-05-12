@@ -15,22 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename sub_policy, typename ob_policy>
+struct functor
+{
+	using method					= generic<sub_policy, ob_policy>;
 
-	template<typename SizeType>
-	struct module<Module::pointer, Permission::semiotic, SizeType>
+	static constexpr Interval sub_interval		= sub_policy::interval;
+	static constexpr Direction sub_direction	= sub_policy::direction;
+
+	static constexpr Interval ob_interval		= ob_policy::interval;
+	static constexpr Direction ob_direction		= ob_policy::direction;
+
+	struct asn_verb
 	{
-		typedef SizeType size_type;
-
-		//
-
-		#include"interface/semiotic.hpp"
-
-		#include"perspective/generic/semiotic.hpp"
-		#include"perspective/identity/semiotic.hpp"
-		#include"perspective/proximity/semiotic.hpp"
+		template<typename sub_type, typename ob_type>
+		void functor(sub_type sub, ob_type ob)
+		{
+			*sub = *ob;
+		}
 	};
 
-}}
+		// assign:
+
+	template<typename sub_type, typename ob_type>
+	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
+	{
+		asn_verb asn;
+
+		return method::map(asn, sub, ob, end);
+	}
+};
 
