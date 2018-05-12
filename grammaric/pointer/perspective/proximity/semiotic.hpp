@@ -15,14 +15,16 @@
 **
 ************************************************************************************************************************/
 
-template<typename policy>
+template<typename sub_policy, typename ob_policy>
 struct proximity
 {
-	static constexpr Interval sub_interval		= policy::subject_interval;
-	static constexpr Direction sub_direction	= policy::subject_direction;
+	using method					= generic<sub_policy, ob_policy>;
 
-	static constexpr Interval ob_interval		= policy::object_interval;
-	static constexpr Direction ob_direction		= policy::object_direction;
+	static constexpr Interval sub_interval		= sub_policy::interval;
+	static constexpr Direction sub_direction	= sub_policy::direction;
+
+	static constexpr Interval ob_interval		= ob_policy::interval;
+	static constexpr Direction ob_direction		= ob_policy::direction;
 
 	struct lt_verb
 	{
@@ -30,16 +32,16 @@ struct proximity
 
 		lt_verb() : rtn(false) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub < *ob);
 
 			return (*sub != *ob);
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub < *ob);
 		}
@@ -51,16 +53,16 @@ struct proximity
 
 		lte_verb() : rtn(false) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub < *ob);
 
 			return (*sub != *ob);
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub <= *ob);
 		}
@@ -72,16 +74,16 @@ struct proximity
 
 		gt_verb() : rtn(false) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub > *ob);
 
 			return (*sub != *ob);
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub > *ob);
 		}
@@ -93,59 +95,65 @@ struct proximity
 
 		gte_verb() : rtn(false) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub > *ob);
 
 			return (*sub != *ob);
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub >= *ob);
 		}
 	};
 
-		//
+		// less than:
 
-	template<typename type_ptr>
-	static bool less_than(type_ptr sub, type_ptr ob, type_ptr end)
+	template<typename sub_type, typename ob_type>
+	static bool less_than(sub_type sub, ob_type ob, ob_type end)
 	{
 		lt_verb lt;
 
-		generic<policy>::compare(lt, sub, ob, end);
+		method::compare(lt, sub, ob, end);
 
 		return lt.rtn;
 	}
 
-	template<typename type_ptr>
-	static bool less_than_or_equal(type_ptr sub, type_ptr ob, type_ptr end)
+		// less than or equal:
+
+	template<typename sub_type, typename ob_type>
+	static bool less_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
 		lte_verb lte;
 
-		generic<policy>::compare(lte, sub, ob, end);
+		method::compare(lte, sub, ob, end);
 
 		return lte.rtn;
 	}
 
-	template<typename type_ptr>
-	static bool greater_than(type_ptr sub, type_ptr ob, type_ptr end)
+		// greater than:
+
+	template<typename sub_type, typename ob_type>
+	static bool greater_than(sub_type sub, ob_type ob, ob_type end)
 	{
 		gt_verb gt;
 
-		generic<policy>::compare(gt, sub, ob, end);
+		method::compare(gt, sub, ob, end);
 
 		return gt.rtn;
 	}
 
-	template<typename type_ptr>
-	static bool greater_than_or_equal(type_ptr sub, type_ptr ob, type_ptr end)
+		// greater than or equal:
+
+	template<typename sub_type, typename ob_type>
+	static bool greater_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
 		gte_verb gte;
 
-		generic<policy>::compare(gte, sub, ob, end);
+		method::compare(gte, sub, ob, end);
 
 		return gte.rtn;
 	}

@@ -27,14 +27,7 @@
 	Here (a) implies iterate, while [b] implies act.
 */
 
-template<typename policy>
-struct generic
-{
-	static constexpr Interval sub_interval		= policy::subject_interval;
-	static constexpr Direction sub_direction	= policy::subject_direction;
-
-	static constexpr Interval ob_interval		= policy::object_interval;
-	static constexpr Direction ob_direction		= policy::object_direction;
+template<typename...> struct generic;
 
 /*
 	Does not test sub, ob, for matching interior closed interval lengths or right ends.
@@ -42,8 +35,56 @@ struct generic
 	False conditionals are expected to be optimized out at compile time.
 */
 
-	template<typename verb_type, typename type_ptr>
-	static type_ptr compare(verb_type & verb, type_ptr sub, type_ptr ob, type_ptr end)
+template
+<
+	Interval sub_interval, Direction sub_direction
+>
+struct generic
+<
+	object<sub_interval, sub_direction>
+>
+{
+		// repeat:
+
+	template<typename vb_type, typename sub_type>
+	static void repeat(vb_type & vb, sub_type sub, sub_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		while (sub != end)
+		{
+			vb.functor(sub);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			vb.functor(sub);
+		}
+	}
+};
+
+template
+<
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction
+>
+struct generic
+<
+	object<sub_interval, sub_direction>,
+	object<ob_interval, ob_direction>
+>
+{
+		// compare:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type compare(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
 	{
 		if (sub_interval == Interval::opening || sub_interval == Interval::open)
 		{
@@ -59,7 +100,7 @@ struct generic
 
 		while (ob != end)
 		{
-			if (verb.break_match(sub, ob)) return sub;
+			if (vb.break_match(sub, ob)) return sub;
 
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;
@@ -70,10 +111,86 @@ struct generic
 
 		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
 		{
-			verb.last_match(sub, ob);
+			vb.last_match(sub, ob);
+		}
+
+		return sub;
+	}
+
+		// (morph,) map:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			vb.functor(sub, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.functor(sub, ob);
 		}
 
 		return sub;
 	}
 };
+
+/*
+		// compare, morph, map:
+
+	template<Operator vb_operator, typename vb_type, typename sub_type, typename ob_type>
+	static sub_type apply(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			if	(vb_operator == Operator::compare)	if (vb.break_match(sub, ob)) return sub;
+			else if	(vb_operator == Operator::map)		vb.functor(sub, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			if	(vb_operator == Operator::compare)	vb.last_match(sub, ob);
+			else if	(vb_operator == Operator::map)		vb.functor(sub, ob);
+		}
+
+		return sub;
+	}
+*/
 

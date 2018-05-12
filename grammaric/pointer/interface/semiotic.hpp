@@ -33,17 +33,20 @@ enum struct Direction : size_type
 	dimension
 };
 
-template<Interval sub_interval, Direction sub_direction>
-struct subject														{
-
 template<Interval ob_interval, Direction ob_direction>
-struct object														{
+struct object
+{
+	static constexpr Interval interval	= ob_interval;
+	static constexpr Direction direction	= ob_direction;
+};
 
-	static constexpr Interval subject_interval	= sub_interval;
-	static constexpr Direction subject_direction	= sub_direction;
+	// generic:
 
-	static constexpr Interval object_interval	= ob_interval;
-	static constexpr Direction object_direction	= ob_direction;
+enum struct Operator : size_type
+{
+	compare,
+	map,
 
-};};
+	dimension
+};
 

@@ -15,14 +15,16 @@
 **
 ************************************************************************************************************************/
 
-template<typename policy>
+template<typename sub_policy, typename ob_policy>
 struct identity
 {
-	static constexpr Interval sub_interval		= policy::subject_interval;
-	static constexpr Direction sub_direction	= policy::subject_direction;
+	using method					= generic<sub_policy, ob_policy>;
 
-	static constexpr Interval ob_interval		= policy::object_interval;
-	static constexpr Direction ob_direction		= policy::object_direction;
+	static constexpr Interval sub_interval		= sub_policy::interval;
+	static constexpr Direction sub_direction	= sub_policy::direction;
+
+	static constexpr Interval ob_interval		= ob_policy::interval;
+	static constexpr Direction ob_direction		= ob_policy::direction;
 
 	struct eq_verb
 	{
@@ -30,16 +32,16 @@ struct identity
 
 		eq_verb() : rtn(false) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub == *ob);
 
 			return !rtn;
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub == *ob);
 		}
@@ -51,40 +53,43 @@ struct identity
 
 		neq_verb() : rtn(true) { }
 
-		template<typename type_ptr>
-		bool break_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub != *ob);
 
 			return rtn;
 		}
 
-		template<typename type_ptr>
-		void last_match(type_ptr sub, type_ptr ob)
+		template<typename sub_type, typename ob_type>
+		void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub != *ob);
 		}
 	};
 
-		//
+		// equals:
 
-	template<typename type_ptr>
-	static bool equals(type_ptr sub, type_ptr ob, type_ptr end)
+	template<typename sub_type, typename ob_type>
+	static bool equals(sub_type sub, ob_type ob, ob_type end)
 	{
 		eq_verb eq;
 
-		generic<policy>::compare(eq, sub, ob, end);
+		method::compare(eq, sub, ob, end);
 
 		return eq.rtn;
 	}
 
-	template<typename type_ptr>
-	static bool not_equals(type_ptr sub, type_ptr ob, type_ptr end)
+		// not equals:
+
+	template<typename sub_type, typename ob_type>
+	static bool not_equals(sub_type sub, ob_type ob, ob_type end)
 	{
 		neq_verb neq;
 
-		generic<policy>::compare(neq, sub, ob, end);
+		method::compare(neq, sub, ob, end);
 
 		return neq.rtn;
 	}
 };
+
