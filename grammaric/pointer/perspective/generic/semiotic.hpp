@@ -27,13 +27,14 @@
 	Here (a) implies iterate, while [b] implies act.
 */
 
-struct generic														{
+template<typename policy>
+struct generic
+{
+	static constexpr Interval sub_interval		= policy::subject_interval;
+	static constexpr Direction sub_direction	= policy::subject_direction;
 
-template<Interval sub_interval, Direction sub_direction>
-struct subject														{
-
-template<Interval ob_interval, Direction ob_direction>
-struct object														{
+	static constexpr Interval ob_interval		= policy::object_interval;
+	static constexpr Direction ob_direction		= policy::object_direction;
 
 /*
 	Does not test sub, ob, for matching interior closed interval lengths or right ends.
@@ -41,39 +42,38 @@ struct object														{
 	False conditionals are expected to be optimized out at compile time.
 */
 
-template<typename verb_type, typename type_ptr>
-static type_ptr compare(verb_type & verb, type_ptr sub, type_ptr ob, type_ptr end)
-{
-	if (sub_interval == Interval::opening || sub_interval == Interval::open)
+	template<typename verb_type, typename type_ptr>
+	static type_ptr compare(verb_type & verb, type_ptr sub, type_ptr ob, type_ptr end)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			if (verb.break_match(sub, ob)) return sub;
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			verb.last_match(sub, ob);
+		}
+
+		return sub;
 	}
-
-	if (ob_interval == Interval::opening || ob_interval == Interval::open)
-	{
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
-	}
-
-	while (ob != end)
-	{
-		if (verb.closing_pattern(sub, ob)) return sub;
-
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
-	}
-
-	if (ob_interval == Interval::closed || ob_interval == Interval::opening)
-	{
-		verb.closed_pattern(sub, ob);
-	}
-
-	return sub;
-}
-
-};};};
+};
 

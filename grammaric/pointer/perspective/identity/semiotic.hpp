@@ -15,8 +15,15 @@
 **
 ************************************************************************************************************************/
 
+template<typename policy>
 struct identity
 {
+	static constexpr Interval sub_interval		= policy::subject_interval;
+	static constexpr Direction sub_direction	= policy::subject_direction;
+
+	static constexpr Interval ob_interval		= policy::object_interval;
+	static constexpr Direction ob_direction		= policy::object_direction;
+
 	struct eq_verb
 	{
 		bool rtn;
@@ -24,7 +31,7 @@ struct identity
 		eq_verb() : rtn(false) { }
 
 		template<typename type_ptr>
-		bool closing_pattern(type_ptr sub, type_ptr ob)
+		bool break_match(type_ptr sub, type_ptr ob)
 		{
 			rtn = (*sub == *ob);
 
@@ -32,7 +39,7 @@ struct identity
 		}
 
 		template<typename type_ptr>
-		void closed_pattern(type_ptr sub, type_ptr ob)
+		void last_match(type_ptr sub, type_ptr ob)
 		{
 			rtn = (*sub == *ob);
 		}
@@ -45,7 +52,7 @@ struct identity
 		neq_verb() : rtn(true) { }
 
 		template<typename type_ptr>
-		bool closing_pattern(type_ptr sub, type_ptr ob)
+		bool break_match(type_ptr sub, type_ptr ob)
 		{
 			rtn = (*sub != *ob);
 
@@ -53,28 +60,20 @@ struct identity
 		}
 
 		template<typename type_ptr>
-		void closed_pattern(type_ptr sub, type_ptr ob)
+		void last_match(type_ptr sub, type_ptr ob)
 		{
 			rtn = (*sub != *ob);
 		}
 	};
 
-template<Interval sub_interval, Direction sub_direction>
-struct subject														{
-
-template<Interval ob_interval, Direction ob_direction>
-struct object														{
-
-	using method =	typename generic::template
-			subject<sub_interval, sub_direction>::template
-			object<ob_interval, ob_direction>;
+		//
 
 	template<typename type_ptr>
 	static bool equals(type_ptr sub, type_ptr ob, type_ptr end)
 	{
 		eq_verb eq;
 
-		method::compare(eq, sub, ob, end);
+		generic<policy>::compare(eq, sub, ob, end);
 
 		return eq.rtn;
 	}
@@ -84,11 +83,8 @@ struct object														{
 	{
 		neq_verb neq;
 
-		method::compare(neq, sub, ob, end);
+		generic<policy>::compare(neq, sub, ob, end);
 
 		return neq.rtn;
 	}
-
-};};
-
 };

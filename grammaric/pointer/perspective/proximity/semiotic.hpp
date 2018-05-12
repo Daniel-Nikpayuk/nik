@@ -15,70 +15,139 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Although the template parameter allows for arbitrary types, product is meant specifically for register sizes:
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned int
-	8 << 3, unsigned long
-
-	8 << 3, void*
-
-	In the context of this library, products are the disjoint union of concurrent instances of the same type.
-	This generic code is only intended for a fixed number of similar types, but the length parameter generates
-        further possibilities. As such, the basic methods for the objects of this class are called as external
-        static functions allowing for identity, proximity, and shape methods between various lengths.
-*/
-
+template<typename policy>
 struct proximity
 {
-	template<typename in_iterator, typename out_iterator>
-	static bool less_than(in_iterator in_e, out_iterator out_b, out_iterator out_e)
-	{
-		--in_e; --out_e;
+	static constexpr Interval sub_interval		= policy::subject_interval;
+	static constexpr Direction sub_direction	= policy::subject_direction;
 
-		for (--k, --l; k != b; --k, --l)
-		while (out_e != out_b)
+	static constexpr Interval ob_interval		= policy::object_interval;
+	static constexpr Direction ob_direction		= policy::object_direction;
+
+	struct lt_verb
+	{
+		bool rtn;
+
+		lt_verb() : rtn(false) { }
+
+		template<typename type_ptr>
+		bool break_match(type_ptr sub, type_ptr ob)
 		{
-			if (*in_b > *out_b) return false;
-			--in_b; --out_b;
+			rtn = (*sub < *ob);
+
+			return (*sub != *ob);
 		}
 
-		return (*k < *p.value);
+		template<typename type_ptr>
+		void last_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub < *ob);
+		}
+	};
+
+	struct lte_verb
+	{
+		bool rtn;
+
+		lte_verb() : rtn(false) { }
+
+		template<typename type_ptr>
+		bool break_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub < *ob);
+
+			return (*sub != *ob);
+		}
+
+		template<typename type_ptr>
+		void last_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub <= *ob);
+		}
+	};
+
+	struct gt_verb
+	{
+		bool rtn;
+
+		gt_verb() : rtn(false) { }
+
+		template<typename type_ptr>
+		bool break_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub > *ob);
+
+			return (*sub != *ob);
+		}
+
+		template<typename type_ptr>
+		void last_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub > *ob);
+		}
+	};
+
+	struct gte_verb
+	{
+		bool rtn;
+
+		gte_verb() : rtn(false) { }
+
+		template<typename type_ptr>
+		bool break_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub > *ob);
+
+			return (*sub != *ob);
+		}
+
+		template<typename type_ptr>
+		void last_match(type_ptr sub, type_ptr ob)
+		{
+			rtn = (*sub >= *ob);
+		}
+	};
+
+		//
+
+	template<typename type_ptr>
+	static bool less_than(type_ptr sub, type_ptr ob, type_ptr end)
+	{
+		lt_verb lt;
+
+		generic<policy>::compare(lt, sub, ob, end);
+
+		return lt.rtn;
 	}
 
-	bool operator <= (const type_ref p) const
+	template<typename type_ptr>
+	static bool less_than_or_equal(type_ptr sub, type_ptr ob, type_ptr end)
 	{
-		value_type_ptr b = value;
-		value_type_ptr k = value + length;
-		value_type_ptr l = p.value + length;
+		lte_verb lte;
 
-		for (--k, --l; k != b; --k, --l) if (*k > *l) return false;
+		generic<policy>::compare(lte, sub, ob, end);
 
-		return (*k <= *p.value);
+		return lte.rtn;
 	}
 
-	bool operator > (const type_ref p) const
+	template<typename type_ptr>
+	static bool greater_than(type_ptr sub, type_ptr ob, type_ptr end)
 	{
-		value_type_ptr b = value;
-		value_type_ptr k = value + length;
-		value_type_ptr l = p.value + length;
+		gt_verb gt;
 
-		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
+		generic<policy>::compare(gt, sub, ob, end);
 
-		return (*k > *p.value);
+		return gt.rtn;
 	}
 
-	bool operator >= (const type_ref p) const
+	template<typename type_ptr>
+	static bool greater_than_or_equal(type_ptr sub, type_ptr ob, type_ptr end)
 	{
-		value_type_ptr b = value;
-		value_type_ptr k = value + length;
-		value_type_ptr l = p.value + length;
+		gte_verb gte;
 
-		for (--k, --l; k != b; --k, --l) if (*k < *l) return false;
+		generic<policy>::compare(gte, sub, ob, end);
 
-		return (*k >= *p.value);
+		return gte.rtn;
 	}
 };
 

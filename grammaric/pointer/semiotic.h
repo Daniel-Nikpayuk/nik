@@ -29,6 +29,7 @@ namespace grammaric	{
 
 		#include"perspective/generic/semiotic.hpp"
 		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
 	};
 
 }}
