@@ -20,24 +20,14 @@
 	of their internal structures, only their external interfaces.
 */
 
-struct boolean
-{
-	using builtin_type = bool;
-
-	static constexpr builtin_type f = false;
-	static constexpr builtin_type t = true;
-};
-
-//
-
 template<Access access>
-struct cobit<boolean, access>
+struct dicobit<boolean, access>
 {
-	using type			= cobit;
+	using type			= dicobit;
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= cobit<boolean, Access::readonly>;
+	using const_type		= dicobit<boolean, Access::readonly>;
 
 	using binary_type		= typename boolean::builtin_type;
 	using binary_type_ptr		= binary_type*;
@@ -47,24 +37,27 @@ struct cobit<boolean, access>
 	using coproduct_type_ptr	= coproduct_type*;
 	using coproduct_type_ref	= coproduct_type&;
 
-	binary_type value;
+	binary_type initial;
+	binary_type terminal;
 
 		// type:
 
-	cobit() { }
+	dicobit() { }
 
-	cobit(binary_type b) : value(b) { }
+	dicobit(binary_type b) : value(b) { }
 
-	~cobit() { }
+	dicobit(binary_type i, binary_type t) : initial(i), terminal(t) { }
 
-	bool operator == (const type_ref n) const
+	~dicobit() { }
+
+	bool operator == (const type_ref c) const
 	{
-		return value == n.value;
+		return initial == c.initial && terminal == c.terminal;
 	}
 
-	bool operator != (const type_ref n) const
+	bool operator != (const type_ref c) const
 	{
-		return value != n.value;
+		return initial != c.initial || terminal != c.terminal;
 	}
 
 		// Exists to convert readwrite to readonly.
@@ -77,21 +70,68 @@ struct cobit<boolean, access>
 
 		// value:
 
-	const binary_type operator * () const
-	{
-		return value;
-	}
-
 		// navigator:
 
-	void operator + ()
+	coproduct_type_ref operator - () const
 	{
-		value = boolean::t;
+		return initial;
 	}
 
-	void operator - ()
+	coproduct_type_ref operator + () const
 	{
-		value = boolean::f;
+		return terminal;
+	}
+
+	type_ref operator ++ ()
+	{
+		++initial;
+		++terminal;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return dicoproduct(initial++, terminal++);
+	}
+
+	type_ref operator += (size_type n)
+	{
+		initial += n;
+		terminal += n;
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return dicoproduct(initial + n, terminal + n);
+	}
+
+	type_ref operator -- ()
+	{
+		--initial;
+		--terminal;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return dicoproduct(initial--, terminal--);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		initial -= n;
+		terminal -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return dicoproduct(initial - n, terminal - n);
 	}
 };
 

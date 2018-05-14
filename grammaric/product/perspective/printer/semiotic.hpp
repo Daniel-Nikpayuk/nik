@@ -15,34 +15,36 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_policy, typename ob_policy>
-struct functor
+template<typename sub_policy>
+struct printer
 {
-	using method = generic<sub_policy, ob_policy>;
+	using method = generic<sub_policy>;
 
-	struct as_verb
+	struct pr_verb
 	{
-		template<typename sub_type, typename ob_type>
-		inline void main_action(sub_type sub, ob_type ob)
+		template<typename sub_type>
+		inline void main_action(sub_type sub)
 		{
-			*sub = *ob;
+			builtin_printer::print(*sub);
+			builtin_printer::print(' ');
 		}
 
-		template<typename sub_type, typename ob_type>
-		inline void last_action(sub_type sub, ob_type ob)
+		template<typename sub_type>
+		inline void last_action(sub_type sub)
 		{
-			*sub = *ob;
+			builtin_printer::print(*sub);
+			builtin_printer::print('\n');
 		}
 	};
 
-		// assign:
+		// print:
 
-	template<typename sub_type, typename ob_type>
-	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
+	template<typename sub_type>
+	static void print(sub_type sub, sub_type end)
 	{
-		as_verb as;
+		pr_verb pr;
 
-		return method::map(as, sub, ob, end);
+		method::repeat(pr, sub, end);
 	}
 };
 

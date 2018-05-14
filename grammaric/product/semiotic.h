@@ -24,8 +24,8 @@ namespace nik
 
 		//
 
-		#include"interface/navigator/co/semiotic.hpp"
-		#include"interface/navigator/dico/semiotic.hpp"
+		#include"interface/navigator/semiotic.hpp"
+		#include"interface/navigator/range/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
 
@@ -35,6 +35,7 @@ namespace nik
 		#include"perspective/identity/semiotic.hpp"
 		#include"perspective/proximity/semiotic.hpp"
 		#include"perspective/functor/semiotic.hpp"
+		#include"perspective/printer/semiotic.hpp"
 	};
 }
 

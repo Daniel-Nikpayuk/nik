@@ -18,7 +18,7 @@
 template<typename sub_policy, typename ob_policy>
 struct identity
 {
-	using method	= generic<sub_policy, ob_policy>;
+	using method = generic<sub_policy, ob_policy>;
 
 	struct eq_verb
 	{

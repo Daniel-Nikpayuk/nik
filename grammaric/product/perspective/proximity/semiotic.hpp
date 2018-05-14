@@ -18,7 +18,7 @@
 template<typename sub_policy, typename ob_policy>
 struct proximity
 {
-	using method	= generic<sub_policy, ob_policy>;
+	using method = generic<sub_policy, ob_policy>;
 
 	struct lt_verb
 	{

@@ -15,23 +15,14 @@
 **
 ************************************************************************************************************************/
 
-/*
-	bit type	:= 0 + 1;
-	bit instance	:= s^1, s^2;
-
-	A cobit is a coproduct of BinaryType. We reimplement as its method interface can be optimized.
-	The binary type is assumed to have at least two instances, and basic arithmetic to navigate from one to the other.
-*/
-
-
 template<typename BinaryType, Access access = Access::readwrite>
-struct cobit
+struct dicobit
 {
-	using type			= cobit;
+	using type			= dicobit;
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= cobit<BinaryType, Access::readonly>;
+	using const_type		= dicobit<BinaryType, Access::readonly>;
 
 	using binary_type		= typename BinaryType::builtin_type;
 	using binary_type_ptr		= binary_type*;
@@ -41,24 +32,25 @@ struct cobit
 	using coproduct_type_ptr	= coproduct_type*;
 	using coproduct_type_ref	= coproduct_type&;
 
-	coproduct_type location;
+	coproduct_type initial;
+	coproduct_type terminal;
 
 		// type:
 
-	cobit() { }
+	dicobit() { }
 
-	cobit(const binary_type_ref b) : location(b) { }
+	dicobit(const binary_type_ref i, const binary_type_ref t) : initial(i), terminal(t) { }
 
-	~cobit() { }
+	~dicobit() { }
 
-	bool operator == (const type_ref n) const
+	bool operator == (const type_ref c) const
 	{
-		return location == n.location;
+		return initial == c.initial && terminal == c.terminal;
 	}
 
-	bool operator != (const type_ref n) const
+	bool operator != (const type_ref c) const
 	{
-		return location != n.location;
+		return initial != c.initial || terminal != c.terminal;
 	}
 
 		// Exists to convert readwrite to readonly.
@@ -71,21 +63,68 @@ struct cobit
 
 		// value:
 
-	const binary_type_ref operator * () const
-	{
-		return *location;
-	}
-
 		// navigator:
 
-	void operator + ()
+	coproduct_type_ref operator - () const
 	{
-		*location = BinaryType::t;
+		return initial;
 	}
 
-	void operator - ()
+	coproduct_type_ref operator + () const
 	{
-		*location = BinaryType::f;
+		return terminal;
+	}
+
+	type_ref operator ++ ()
+	{
+		++initial;
+		++terminal;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return dicoproduct(initial++, terminal++);
+	}
+
+	type_ref operator += (size_type n)
+	{
+		initial += n;
+		terminal += n;
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return dicoproduct(initial + n, terminal + n);
+	}
+
+	type_ref operator -- ()
+	{
+		--initial;
+		--terminal;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return dicoproduct(initial--, terminal--);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		initial -= n;
+		terminal -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return dicoproduct(initial - n, terminal - n);
 	}
 };
 

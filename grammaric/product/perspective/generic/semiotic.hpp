@@ -96,7 +96,7 @@ struct generic
 
 		while (sub != end)
 		{
-			vb.functor(sub);
+			vb.main_action(sub);
 
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;
@@ -104,7 +104,7 @@ struct generic
 
 		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
 		{
-			vb.functor(sub);
+			vb.last_action(sub);
 		}
 	}
 };
@@ -175,7 +175,7 @@ struct generic
 
 		while (ob != end)
 		{
-			vb.functor(sub, ob);
+			vb.main_action(sub, ob);
 
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;
@@ -186,7 +186,7 @@ struct generic
 
 		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
 		{
-			vb.functor(sub, ob);
+			vb.last_action(sub, ob);
 		}
 
 		return sub;

@@ -28,7 +28,7 @@
 	In the context of this library, products are the disjoint union of concurrent instances of the same type.
 	This generic code is only intended for a fixed number of similar types, but the length parameter generates
         further possibilities. As such, the basic methods for the objects of this class are called as external
-        static functions allowing for identity, proximity, and shape methods between various lengths.
+        static functions allowing for identity, proximity, and functor methods between various lengths.
 */
 
 template<typename Type, size_type length>

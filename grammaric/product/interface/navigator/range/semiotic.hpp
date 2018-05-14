@@ -28,6 +28,13 @@
 	In the context of this library, dicoproducts are pairs of disjoint unions of alternative instances of the same type.
 	They are intended to represent ranges. As this generic code is only intended for a fixed number of similar types,
 	the basic methods for the objects of this class are builtin rather than being called as external static functions.
+
+	When building more complex navigators out of simpler ones,
+	the only reasons to reimplement dicoproducts are as follows:
+
+	1. Optimizing the method interface.
+	2. Optimization by unrolling. This is necessary if the context
+	   requires frequently moving between levels of navigational complexity.
 */
 
 template<typename Type, Access access = Access::readwrite>

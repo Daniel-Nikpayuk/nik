@@ -24,13 +24,19 @@ namespace nik
 
 		//
 
-		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
+		using Product		= grammaric<Module::product, Permission::semiotic, size_type>;
 
 					  template<typename Type, Access access>
-		using coproduct		= typename Coproduct::template coproduct<Type>;
+		using coproduct		= typename Product::template coproduct<Type>;
+
+					  template<typename Type, Access access>
+		using dicoproduct	= typename Product::template dicoproduct<Type>;
 
 		#include"interface/navigator/semiotic.hpp"
 		#include"interface/navigator/boolean/semiotic.hpp"
+
+//		#include"interface/navigator/range/semiotic.hpp"
+//		#include"interface/navigator/range/boolean/semiotic.hpp"
 
 //		#include"perspective/constant/semiotic.hpp"
 	};
