@@ -24,27 +24,17 @@ namespace nik
 
 		//
 
-		using coproduct_s	= grammaric<Module::coproduct, Permission::semiotic, size_type>;
+		#include"interface/navigator/co/semiotic.hpp"
+		#include"interface/navigator/dico/semiotic.hpp"
 
-					  template<typename Type, Access access = Access::readwrite>
-		using coproduct		= typename coproduct_s::template coproduct<Type, access>;
-
-		//
-
-		using copair_s		= grammaric<Module::copair, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access>
-		using copair		= typename copair_s::template copair<Type, access>;
+		#include"interface/structure/semiotic.hpp"
 
 		//
 
-		#include"interface/semiotic.hpp"
-
-		//
-
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/shape/semiotic.hpp"
+		#include"perspective/generic/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
 	};
 }
 

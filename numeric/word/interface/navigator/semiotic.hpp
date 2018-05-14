@@ -16,10 +16,11 @@
 ************************************************************************************************************************/
 
 /*
-	word type	:= (0 + 1)^n;
-	word instance	:= m^j/s^k = m^j/s^l -> k = l;
+	1. The only reason to unroll composite navigators is to optimize.
+	2. The only reason to optimize composite navigators by unrolling
+	   is if the context requires frequently moving between levels of complexity.
 
-	binary type assumes operators: ;
+	coword = coproduct
 
 	Navigators may be optimized in their methods as they have limited perspectives.
 */
@@ -33,7 +34,7 @@ struct word_navigator
 
 	using const_type		= word_navigator<Bit, length, Access::readonly>;
 
-	using sub_navigator		= typename product_s::template product_navigator<typename Bit::coproduct_type, access>;
+	using sub_navigator		= coproduct<Bit, access>;
 	using sub_navigator_ptr		= sub_navigator*;
 	using sub_navigator_ref		= sub_navigator&;
 
@@ -45,7 +46,7 @@ struct word_navigator
 
 		// type:
 
-	word_navigator(sub_navigator l) : location(*l) { }
+	word_navigator(const sub_navigator_ref l) : location(l) { }
 
 	~word_navigator() { }
 

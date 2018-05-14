@@ -22,9 +22,6 @@ namespace nik
 	{
 		using size_type	= SizeType;
 
-//		#include"interface/navigator/semiotic.hpp"
-
-//		#include"interface/structure/semiotic.hpp"
 	};
 }
 

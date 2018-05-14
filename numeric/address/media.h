@@ -18,21 +18,10 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::numeric, Module::bit, Permission::semiotic, SizeType>
+	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
 	{
 		using size_type		= SizeType;
 
-		//
-
-		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access>
-		using coproduct		= typename Coproduct::template coproduct<Type>;
-
-		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/boolean/semiotic.hpp"
-
-//		#include"perspective/constant/semiotic.hpp"
 	};
 }
 

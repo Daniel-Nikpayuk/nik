@@ -19,7 +19,6 @@ namespace nik
 {
 	enum struct Branch : global_size_type
 	{
-		metaric,
 		grammaric,
 		numeric,
 
@@ -33,10 +32,6 @@ namespace nik
 		tuple,
 		environment,
 		evaluator,
-
-		iterator,
-		coproduct,
-		copair,
 		product,
 
 		bit,
@@ -75,42 +70,4 @@ namespace nik
 				  template<Module module, Permission permission, typename SizeType = global_size_type>
 	using numeric		= space<Branch::numeric, module, permission, SizeType>;
 }
-
-/*
-	namespace metaric
-	{
-		Currently deprecrated, will likely be restored once Branch::metaric is restored.
-
-		struct undefined
-		{
-			using rtn = undefined;
-
-			static void print() { builtin_printer::print("undefined"); }
-		};
-
-		template<typename> struct act { };
-		template<typename> struct pass { };
-
-		static_assert
-		(
-			module_enum != Module::constant		||
-			module_enum != Module::conditional	||
-			module_enum != Module::tuple		||
-			module_enum != Module::environment	||
-			module_enum != Module::evaluator	,
-
-			"This module is not yet implemented!"
-		);
-
-		#define metaric_import_act()										\
-															\
-			template<typename Exp>										\
-			using act = nik::grammaric::act<Exp>;
-
-		#define metaric_import_pass()										\
-															\
-			template<typename Exp>										\
-			using pass = nik::grammaric::pass<Exp>;
-	}
-*/
 

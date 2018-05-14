@@ -24,19 +24,38 @@ namespace nik
 
 		//
 
-		using word_s		= numeric<Module::word, Permission::semiotic, size_type>;
+		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
 
-		using boolean		= typename bit_s::boolean;
+					  template<typename Type, Access access = Access::readwrite>
+		using coproduct		= typename Coproduct::template coproduct<Type, access>;
 
-					  template<typename Binary>
-		using bit		= typename bit_s::template bit<Binary>;
+		using Copair		= grammaric<Module::copair, Permission::semiotic, size_type>;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using copair		= typename Copair::template copair<Type, access>;
+
+		using Product		= grammaric<Module::product, Permission::semiotic, size_type>;
+
+					  template<typename Type, size_type length>
+		using product		= typename Product::template product<Type, length>;
 
 		//
 
-//		#include"interface/navigator/semiotic.hpp"
+		using Bit		= numeric<Module::bit, Permission::semiotic, size_type>;
+
+		using boolean		= typename Bit::boolean;
+
+					  template<typename Binary>
+		using bit		= typename Bit::template bit<Binary>;
+
+		using Word		= numeric<Module::word, Permission::semiotic, size_type>;
+
+		//
+
+		#include"interface/navigator/semiotic.hpp"
 //		#include"interface/navigator/boolean/semiotic.hpp"
 
-//		#include"interface/structure/semiotic.hpp"
+		#include"interface/structure/semiotic.hpp"
 //		#include"interface/structure/boolean/semiotic.hpp"
 
 		//

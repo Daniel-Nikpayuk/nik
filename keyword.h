@@ -66,5 +66,31 @@ namespace nik
 	template<typename Type>
 	struct read_type<Type*, Access::readonly>
 		{ using rtn = Type const *; };
+
+	//
+
+/*
+	Currently deprecrated, parts of this will likely be restored once Branch::grammaric is restored.
+
+	struct undefined
+	{
+		using rtn = undefined;
+
+		static void print() { builtin_printer::print("undefined"); }
+	};
+
+	template<typename> struct act { };
+	template<typename> struct pass { };
+
+	#define grammaric_import_act()										\
+														\
+		template<typename Exp>										\
+		using act = nik::grammaric::act<Exp>;
+
+	#define grammaric_import_pass()										\
+														\
+		template<typename Exp>										\
+		using pass = nik::grammaric::pass<Exp>;
+*/
 }
 

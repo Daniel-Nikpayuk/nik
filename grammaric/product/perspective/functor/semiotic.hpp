@@ -15,24 +15,28 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+template<typename sub_policy, typename ob_policy>
+struct functor
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::bit, Permission::semiotic, SizeType>
+	using method	= generic<sub_policy, ob_policy>;
+
+	struct asn_verb
 	{
-		using size_type		= SizeType;
-
-		//
-
-		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access>
-		using coproduct		= typename Coproduct::template coproduct<Type>;
-
-		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/boolean/semiotic.hpp"
-
-//		#include"perspective/constant/semiotic.hpp"
+		template<typename sub_type, typename ob_type>
+		inline void functor(sub_type sub, ob_type ob)
+		{
+			*sub = *ob;
+		}
 	};
-}
+
+		// assign:
+
+	template<typename sub_type, typename ob_type>
+	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
+	{
+		asn_verb asn;
+
+		return method::map(asn, sub, ob, end);
+	}
+};
 

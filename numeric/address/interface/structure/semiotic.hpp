@@ -15,55 +15,27 @@
 **
 ************************************************************************************************************************/
 
-/*
-	word type	:= (0 + 1)^n;
-	word instance	:= m^j/s^k, m^j/s^l in (0 + 1)^n -> k = l;
-
-	bit type assumes operators: ;
-*/
-
-template<typename BitType, size_type length, typename Filler = void>
+template<typename Bit, size_type length, typename Filler = void>
 struct word
 {
 	using type		= word;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using navigator		= word_navigator<BitType, length>;
-	using const_navigator	= word_navigator<BitType, length, Access::readonly>;
+	using iterator		= word_navigator<Bit, length>;
+	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
 
-	using product_type	= product<BitType, length>;
+	using product_type	= product<Bit, length>;
 	using product_type_ptr	= product_type*;
 	using product_type_ref	= product_type&;
 
-	using bit_type		= BitType;
+	using bit_type		= Bit;
 	using bit_type_ptr	= bit_type*;
 	using bit_type_ref	= bit_type&;
-
-	//
-
-	using policy		= typename Iterator::template object
-				<
-					Interval::closing,
-					Direction::forward
-				>;
-
-	using functor		= typename Iterator::template functor
-				<
-					policy,
-					policy
-				>;
-
-	//
 
 	product_type value;
 
 	word() { }
-	
-	word(const type_ref w)
-	{
-		functor::assign(value.begin(), w.begin(), w.end());
-	}
 
 	~word() { }
 

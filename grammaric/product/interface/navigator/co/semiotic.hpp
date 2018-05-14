@@ -16,115 +16,119 @@
 ************************************************************************************************************************/
 
 /*
-	address type		:= (0 + 1)^np;
-	address instance	:= m^i/m^j/s^k, m^i/m^j/s^l in (0 + 1)^np -> k = l;
+	Although the template parameter allows for arbitrary types, coproduct is meant specifically for register sizes:
 
-	binary type assumes operators: ;
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
 
-	Navigators may be optimized in their methods as they have limited perspectives.
+	8 << 3, void*
+
+	In the context of this library, coproducts are the disjoint union of alternative instances of the same type.
+	As this generic code is only intended for a fixed number of similar types, the basic methods for the objects
+        of this class are builtin rather than being called as external static functions.
 */
 
-/*
-	1. The only reason to unroll composite navigators is to optimize.
-	2. The only reason to optimize composite navigators by unrolling
-	   is if the context requires frequently moving between levels of complexity.
-*/
-
-template<typename Word, size_type length, Access access = Access::readwrite>
-struct address_navigator
+template<typename Type, Access access = Access::readwrite>
+struct coproduct
 {
-	using type			= address_navigator;
-	using type_ptr			= type*;
-	using type_ref			= type&;
+	using type		= coproduct;
+	using type_ptr		= type*;
+	using type_ref		= type&;
 
-	using const_type		= address_navigator<Word, length, Access::readonly>;
+	using const_type	= coproduct<Type, Access::readonly>;
 
-	using sub_navigator		= coproduct<Word, access>;
-	using sub_navigator_ptr		= sub_navigator*;
-	using sub_navigator_ref		= sub_navigator&;
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
 
-	using word_type			= typename read_type<Word, access>::rtn;
-	using word_type_ptr		= word_type*;
-	using word_type_ref		= word_type&;
-
-	sub_navigator location;
+	value_type focus;
 
 		// type:
 
-	address_navigator(const sub_navigator_ref l) : location(l) { }
+	coproduct(const value_type_ref f) : focus(f) { }
 
-	~address_navigator() { }
+	~coproduct() { }
 
-	bool operator == (const type_ref w) const
+	bool operator == (const type_ref c) const
 	{
-		return location == w.location;
+		return focus == c.focus;
 	}
 
-	bool operator != (const type_ref w) const
+	bool operator != (const type_ref c) const
 	{
-		return location != w.location;
+		return focus != c.focus;
 	}
+
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
 
 	operator const_type () const
 	{
 		return (const_type) this;
 	}
 
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return focus;
+	}
+
 		// navigator:
 
 	type_ref operator ++ ()
 	{
-		++location;
+		++focus;
 
 		return *this;
 	}
 
 	type operator ++ (int)
 	{
-		return location++;
+		return focus++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		location += n;
+		focus += n;
 
 		return *this;
 	}
 
 	type operator + (size_type n) const
 	{
-		return location + n;
+		return focus + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--location;
+		--focus;
 
 		return *this;
 	}
 
 	type operator -- (int)
 	{
-		return location--;
+		return focus--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		location -= n;
+		focus -= n;
 
 		return *this;
 	}
 
 	type operator - (size_type n) const
 	{
-		return location - n;
+		return focus - n;
 	}
 
-		// value:
-
-	word_type_ref operator * () const
+	size_type operator - (const type_ref c) const
 	{
-		return *location;
+		return focus - c.focus;
 	}
 };
 

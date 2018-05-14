@@ -24,37 +24,50 @@ namespace nik
 
 		//
 
-		using product_s		= grammaric<Module::product, Permission::semiotic, size_type>;
+		using Iterator		= grammaric<Module::iterator, Permission::semiotic, size_type>;
+
+		using Interval		= typename Iterator::Interval;
+		using Direction		= typename Iterator::Direction;
+
+		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using coproduct		= typename Coproduct::template coproduct<Type, access>;
+
+		using Copair		= grammaric<Module::copair, Permission::semiotic, size_type>;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using copair		= typename Copair::template copair<Type, access>;
+
+		using Product		= grammaric<Module::product, Permission::semiotic, size_type>;
 
 					  template<typename Type, size_type length>
-		using product		= typename product_s::template product<Type, length>;
+		using product		= typename Product::template product<Type, length>;
 
 		//
 
-		using bit_s		= numeric<Module::bit, Permission::semiotic, size_type>;
+		using Bit		= numeric<Module::bit, Permission::semiotic, size_type>;
 
-		using boolean		= typename bit_s::boolean;
+		using boolean		= typename Bit::boolean;
 
 					  template<typename Binary>
-		using bit		= typename bit_s::template bit<Binary>;
+		using bit		= typename Bit::template bit<Binary>;
 
 		//
 
 		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/boolean/semiotic.hpp"
+//		#include"interface/navigator/boolean/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
+//		#include"interface/structure/boolean/semiotic.hpp"
 
 		//
 
-		#include"perspective/identity/semiotic.hpp"
-		#include"perspective/identity/boolean/semiotic.hpp"
+//		#include"perspective/identity/semiotic.hpp"
+//		#include"perspective/identity/boolean/semiotic.hpp"
 
-		#include"perspective/proximity/semiotic.hpp"
-		#include"perspective/proximity/boolean/semiotic.hpp"
-
-		#include"perspective/logic/semiotic.hpp"
+//		#include"perspective/proximity/semiotic.hpp"
+//		#include"perspective/proximity/boolean/semiotic.hpp"
 	};
 }
 

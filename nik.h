@@ -37,15 +37,18 @@
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+/*
+	Currently deprecated, needs updating:
 
-#define nik_using(space, name)												\
+#define nik_using(branch, name)												\
 															\
-	using name = nik::space::name##Module<size_type>;
+	using name = nik::branch::name##Module<size_type>;
 
 
-#define nik_import(space, module, name)											\
+#define nik_import(branch, module, name)										\
 															\
-	space##_##module##_import_##name()
+	branch##_##module##_import_##name()
+*/
 
 
 /***********************************************************************************************************************/
@@ -62,10 +65,10 @@
 
 #define nik_module(name)												\
 															\
-	nik_stringify(module/name.h)
+	nik_stringify(dependencies/name.h)
 
 
-#include nik_module(bit)
+#include nik_module(product)
 
 
 #endif
