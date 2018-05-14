@@ -19,10 +19,14 @@
 	bit type	:= 0 + 1;
 	bit instance	:= s^1, s^2;
 
-	A cobit is a coproduct of BinaryType. We reimplement as its method interface can be optimized.
+	A cobit is a copower of BinaryType. We reimplement as its method interface can be optimized.
+
+	Although the template parameter allows for arbitrary types, cobit is meant specifically for register sizes:
+
+	2 << 0, bool
+
 	The binary type is assumed to have at least two instances, and basic arithmetic to navigate from one to the other.
 */
-
 
 template<typename BinaryType, Access access = Access::readwrite>
 struct cobit
@@ -37,11 +41,11 @@ struct cobit
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
 
-	using coproduct_type		= coproduct<binary_type, access>;
-	using coproduct_type_ptr	= coproduct_type*;
-	using coproduct_type_ref	= coproduct_type&;
+	using copower_type		= copower<binary_type, access>;
+	using copower_type_ptr		= copower_type*;
+	using copower_type_ref		= copower_type&;
 
-	coproduct_type location;
+	copower_type location;
 
 		// type:
 

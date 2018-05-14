@@ -16,35 +16,24 @@
 ************************************************************************************************************************/
 
 /*
-	Although the template parameter allows for arbitrary types, coproduct is meant specifically for register sizes:
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned int
-	8 << 3, unsigned long
-
-	8 << 3, void*
-
-	In the context of this library, coproducts are the disjoint union of alternative instances of the same type.
-	As this generic code is only intended for a fixed number of similar types, the basic methods for the objects
-        of this class are builtin rather than being called as external static functions.
+	In the context of this library, copowers are the disjoint union of alternative instances of the same type.
 
 	When building more complex navigators out of simpler ones,
-	the only reasons to reimplement coproducts are as follows:
+	the only reasons to reimplement copowers are as follows:
 
 	1. Optimizing the method interface.
-	2. Optimization by unrolling. This is necessary if the context
+	2. Optimization by unraveling. This is necessary if the context
 	   requires frequently moving between levels of navigational complexity.
 */
 
 template<typename Type, Access access = Access::readwrite>
-struct coproduct
+struct copower
 {
-	using type		= coproduct;
+	using type		= copower;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using const_type	= coproduct<Type, Access::readonly>;
+	using const_type	= copower<Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
@@ -54,9 +43,9 @@ struct coproduct
 
 		// type:
 
-	coproduct(const value_type_ref f) : focus(f) { }
+	copower(const value_type_ref f) : focus(f) { }
 
-	~coproduct() { }
+	~copower() { }
 
 	bool operator == (const type_ref c) const
 	{
@@ -81,6 +70,113 @@ struct coproduct
 	value_type_ref operator * () const
 	{
 		return focus;
+	}
+
+		// navigator:
+
+	type_ref operator ++ ()
+	{
+		++focus;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return focus++;
+	}
+
+	type_ref operator += (size_type n)
+	{
+		focus += n;
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return focus + n;
+	}
+
+	type_ref operator -- ()
+	{
+		--focus;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return focus--;
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		focus -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return focus - n;
+	}
+
+	size_type operator - (const type_ref c) const
+	{
+		return focus - c.focus;
+	}
+};
+
+/*
+	Copowers are meant as an alternative to pointers. When instantiated with a pointer as parameter,
+	they should be partially specialized to interface directly with their dereferenced value types.
+*/
+
+template<typename Type, Access access>
+struct copower<Type*, access>
+{
+	using type		= copower;
+	using type_ptr		= type*;
+	using type_ref		= type&;
+
+	using const_type	= copower<Type*, Access::readonly>;
+
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
+
+	value_type_ptr focus;
+
+		// type:
+
+	copower(value_type_ptr f) : focus(f) { }
+
+	~copower() { }
+
+	bool operator == (const type_ref c) const
+	{
+		return focus == c.focus;
+	}
+
+	bool operator != (const type_ref c) const
+	{
+		return focus != c.focus;
+	}
+
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return *focus;
 	}
 
 		// navigator:

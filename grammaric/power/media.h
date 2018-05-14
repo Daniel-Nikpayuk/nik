@@ -15,10 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_PRODUCT_H
-#define GRAMMARIC_PRODUCT_H
+namespace nik
+{
+	template<typename SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::media, SizeType>
+	{
+		using size_type	= SizeType;
 
-#include"../grammaric/product/semiotic.h"
-#include"../grammaric/product/media.h"
+	};
+}
 
-#endif

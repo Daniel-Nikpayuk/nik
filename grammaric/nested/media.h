@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::media, SizeType>
+	struct space<Branch::grammaric, Module::nested, Permission::media, SizeType>
 	{
 		using size_type	= SizeType;
 

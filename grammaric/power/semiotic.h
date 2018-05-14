@@ -15,10 +15,24 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Semantic note:
+
+	The operators in this module act on abstract iterator types.
+
+	On the one hand, iterators only exist to navigate specific data structures, which means by extension
+	the operators in this module are effectively acting on data structures instead of iterators.
+	This raises the question: Where do we categorize these operators, with structures or their navigators?
+
+	The specification I have taken is that we categorize such operators with the navigators of structures.
+	The idea is these operators are acting on iterators: It just so happens that these iterators maintain
+	relationships with each other that coincide with particular data structures.
+*/
+
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::grammaric, Module::product, Permission::semiotic, SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::semiotic, SizeType>
 	{
 		using size_type		= SizeType;
 

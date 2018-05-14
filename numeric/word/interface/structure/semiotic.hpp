@@ -19,6 +19,16 @@
 	word type	:= (0 + 1)^n;
 	word instance	:= m^j/s^k, m^j/s^l in (0 + 1)^n -> k = l;
 
+	A word is a power of BitType.
+
+	Although the template parameter allows for arbitrary types, word is meant specifically for register sizes:
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
+
+	The bit type is assumed to have at least two instances, and basic arithmetic to navigate from one to the other.
 	bit type assumes operators: ;
 */
 
@@ -32,9 +42,9 @@ struct word
 	using navigator		= word_navigator<BitType, length>;
 	using const_navigator	= word_navigator<BitType, length, Access::readonly>;
 
-	using product_type	= product<BitType, length>;
-	using product_type_ptr	= product_type*;
-	using product_type_ref	= product_type&;
+	using power_type	= power<BitType, length>;
+	using power_type_ptr	= power_type*;
+	using power_type_ref	= power_type&;
 
 	using bit_type		= BitType;
 	using bit_type_ptr	= bit_type*;
@@ -42,13 +52,13 @@ struct word
 
 	//
 
-	using policy		= typename Iterator::template object
+	using policy		= object
 				<
 					Interval::closing,
 					Direction::forward
 				>;
 
-	using functor		= typename Iterator::template functor
+	using method		= functor
 				<
 					policy,
 					policy
@@ -56,13 +66,13 @@ struct word
 
 	//
 
-	product_type value;
+	power_type value;
 
 	word() { }
 	
 	word(const type_ref w)
 	{
-		functor::assign(value.begin(), w.begin(), w.end());
+		method::assign(value.begin(), w.begin(), w.end());
 	}
 
 	~word() { }

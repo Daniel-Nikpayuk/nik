@@ -32,7 +32,8 @@ namespace nik
 		tuple,
 		environment,
 		evaluator,
-		product,
+		nested,
+		power,
 
 		bit,
 		word,

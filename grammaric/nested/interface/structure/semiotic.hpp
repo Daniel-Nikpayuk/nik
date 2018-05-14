@@ -16,25 +16,15 @@
 ************************************************************************************************************************/
 
 /*
-	Although the template parameter allows for arbitrary types, product is meant specifically for register sizes:
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned int
-	8 << 3, unsigned long
-
-	8 << 3, void*
-
-	In the context of this library, products are the disjoint union of concurrent instances of the same type.
-	This generic code is only intended for a fixed number of similar types, but the length parameter generates
-        further possibilities. As such, the basic methods for the objects of this class are called as external
-        static functions allowing for identity, proximity, and functor methods between various lengths.
+	In the context of this library, powers are the products of concurrent instances of the same type.
+        The basic methods for the objects of this class are called as external static functions
+	allowing for identity, proximity, and functor methods between various lengths.
 */
 
 template<typename Type, size_type length>
-struct product
+struct power
 {
-	using type		= product;
+	using type		= power;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
@@ -42,19 +32,19 @@ struct product
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= coproduct<value_type_ptr>;
-	using const_iterator	= coproduct<value_type_ptr, Access::readonly>;
+	using iterator		= copower<value_type_ptr>;
+	using const_iterator	= copower<value_type_ptr, Access::readonly>;
 
-	using selector		= dicoproduct<value_type_ptr>;
-	using const_selector	= dicoproduct<value_type_ptr, Access::readonly>;
+	using selector		= dicopower<value_type_ptr>;
+	using const_selector	= dicopower<value_type_ptr, Access::readonly>;
 
 	value_type value[length];
 
 		// type:
 
-	product() { }
+	power() { }
 
-	~product() { }
+	~power() { }
 
 		// value:
 

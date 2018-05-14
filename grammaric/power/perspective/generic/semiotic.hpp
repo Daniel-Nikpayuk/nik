@@ -16,17 +16,15 @@
 ************************************************************************************************************************/
 
 /*
-	Semantic note:
+	We tether the interval decomposition to the while loop,
+	meaning [) is most natural, so then our decomposition is as follows:
 
-	The operators in this module act on abstract iterator types.
+	closing	|a <= b|:	[a, b)		= [a, b)
+	closed	|a <= b|:	[a, b]		= [a, b)	-> [b]
+	open	|a <  b|:	(a, b)		= (a)		-> [a+1, b)
+	opening	|a <  b|:	(a, b]		= (a)		-> [a+1, b)	-> [b]
 
-	On the one hand, iterators only exist to navigate specific data structures, which means by extension
-	the operators in this module are effectively acting on data structures instead of iterators.
-	This raises the question: Where do we categorize these operators, with structures or their navigators?
-
-	The specification I have taken is that we categorize such operators with the navigators of structures.
-	The idea is these operators are acting on iterators: It just so happens that these iterators maintain
-	relationships with each other that coincide with particular data structures.
+	Here (a) implies iterate, while [b] implies act.
 */
 
 enum struct Interval : size_type
@@ -53,18 +51,6 @@ struct object
 	static constexpr Interval interval	= ob_interval;
 	static constexpr Direction direction	= ob_direction;
 };
-
-/*
-	We tether the interval decomposition to the while loop,
-	meaning [) is most natural, so then our decomposition is as follows:
-
-	closing	|a <= b|:	[a, b)		= [a, b)
-	closed	|a <= b|:	[a, b]		= [a, b)	-> [b]
-	open	|a <  b|:	(a, b)		= (a)		-> [a+1, b)
-	opening	|a <  b|:	(a, b]		= (a)		-> [a+1, b)	-> [b]
-
-	Here (a) implies iterate, while [b] implies act.
-*/
 
 template<typename...> struct generic;
 

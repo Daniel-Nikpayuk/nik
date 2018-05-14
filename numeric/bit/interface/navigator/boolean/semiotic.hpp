@@ -43,9 +43,9 @@ struct cobit<boolean, access>
 	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
 
-	using coproduct_type		= coproduct<binary_type, access>;
-	using coproduct_type_ptr	= coproduct_type*;
-	using coproduct_type_ref	= coproduct_type&;
+	using copower_type		= copower<binary_type, access>;
+	using copower_type_ptr		= copower_type*;
+	using copower_type_ref		= copower_type&;
 
 	binary_type value;
 

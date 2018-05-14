@@ -15,12 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_BIT_H
-#define NUMERIC_BIT_H
+#ifndef GRAMMARIC_NESTED_H
+#define GRAMMARIC_NESTED_H
 
-#include"product.h"
-
-#include"../numeric/bit/semiotic.h"
-#include"../numeric/bit/media.h"
+#include"../grammaric/nested/semiotic.h"
+#include"../grammaric/nested/media.h"
 
 #endif

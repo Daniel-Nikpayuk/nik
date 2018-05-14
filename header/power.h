@@ -15,13 +15,10 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+#ifndef GRAMMARIC_POWER_H
+#define GRAMMARIC_POWER_H
 
-	};
-}
+#include"../grammaric/power/semiotic.h"
+#include"../grammaric/power/media.h"
 
+#endif

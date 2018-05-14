@@ -65,7 +65,7 @@
 
 #define nik_module(name)												\
 															\
-	nik_stringify(dependencies/name.h)
+	nik_stringify(header/name.h)
 
 
 #include nik_module(bit)

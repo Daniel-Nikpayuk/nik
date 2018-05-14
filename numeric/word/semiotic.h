@@ -24,25 +24,25 @@ namespace nik
 
 		//
 
-		using Iterator		= grammaric<Module::iterator, Permission::semiotic, size_type>;
-
-		using Interval		= typename Iterator::Interval;
-		using Direction		= typename Iterator::Direction;
-
-		using Coproduct		= grammaric<Module::coproduct, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using coproduct		= typename Coproduct::template coproduct<Type, access>;
-
-		using Copair		= grammaric<Module::copair, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using copair		= typename Copair::template copair<Type, access>;
-
-		using Product		= grammaric<Module::product, Permission::semiotic, size_type>;
+		using Power		= grammaric<Module::power, Permission::semiotic, size_type>;
 
 					  template<typename Type, size_type length>
-		using product		= typename Product::template product<Type, length>;
+		using power		= typename Power::template power<Type, length>;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using copower		= typename Power::template copower<Type, access>;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using dicopower		= typename Power::template dicopower<Type, access>;
+
+		using Interval		= typename Power::Interval;
+		using Direction		= typename Power::Direction;
+
+					  template<Interval interval, Direction direction>
+		using object		= typename Power::template<interval, direction>;
+
+					  template<typename... policies>
+		using functor		= typename Power::template functor<policies...>;
 
 		//
 
@@ -50,8 +50,8 @@ namespace nik
 
 		using boolean		= typename Bit::boolean;
 
-					  template<typename Binary>
-		using bit		= typename Bit::template bit<Binary>;
+					  template<typename BinaryType, Access access = Access::readwrite>
+		using bit		= typename Bit::template bit<BinaryType, access>;
 
 		//
 

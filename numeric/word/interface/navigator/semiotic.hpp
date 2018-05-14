@@ -16,48 +16,70 @@
 ************************************************************************************************************************/
 
 /*
-	1. The only reason to unroll composite navigators is to optimize.
-	2. The only reason to optimize composite navigators by unrolling
-	   is if the context requires frequently moving between levels of complexity.
-
-	coword = coproduct
-
 	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
-template<typename Bit, size_type length, Access access = Access::readwrite>
-struct word_navigator
+template<typename BinaryType, Access access = Access::readwrite>
+struct coword
 {
-	using type			= word_navigator;
+	using type			= coword;
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= word_navigator<Bit, length, Access::readonly>;
+	using const_type		= coword<BinaryType, Access::readonly>;
 
-	using sub_navigator		= coproduct<Bit, access>;
-	using sub_navigator_ptr		= sub_navigator*;
-	using sub_navigator_ref		= sub_navigator&;
+	using binary_type		= typename BinaryType::builtin_type;
+	using binary_type_ptr		= binary_type*;
+	using binary_type_ref		= binary_type&;
 
-	using bit_type			= typename read_type<Bit, access>::rtn;
+	using bit_type			= cobit<binary_type, access>;
 	using bit_type_ptr		= bit_type*;
 	using bit_type_ref		= bit_type&;
 
-	sub_navigator location;
+	using bit_iterator		= bit_type;
+	using bit_iterator_ptr		= bit_iterator*;
+	using bit_iterator_ref		= bit_iterator&;
+
+	using word_iterator		= copower<bit_type_ptr, access>;
+	using word_iterator_ptr		= word_iterator*;
+	using word_iterator_ref		= word_iterator&;
+
+	enum struct State
+	{
+		word,
+		bit,
+
+		dimension
+	};
+
+	word_iterator word_location;
+	State state;
 
 		// type:
 
-	word_navigator(const sub_navigator_ref l) : location(l) { }
+	coword(const word_iterator_ref l) : location(l) { }
 
-	~word_navigator() { }
+	~coword() { }
 
-	bool operator == (const type_ref w) const
+	struct bit
 	{
-		return location == w.location;
+		bool operator == (const type_ref c) const
+		{
+			if (state == State::word)	return word_location == c.word_location;
+			else				return bit_location == c.bit_location;
+		}
+	};
+
+	bool operator == (const type_ref c) const
+	{
+		if (state == State::word)	return word_location == c.word_location;
+		else				return bit_location == c.bit_location;
 	}
 
-	bool operator != (const type_ref w) const
+	bool operator != (const type_ref c) const
 	{
-		return location != w.location;
+		if (state == State::word)	return word_location != c.word_location;
+		else				return bit_location != c.bit_location;
 	}
 
 	operator const_type () const
@@ -65,61 +87,195 @@ struct word_navigator
 		return (const_type) this;
 	}
 
+		// value:
+
+	const binary_type_ref operator * () const
+	{
+		return *bit_location;
+	}
+
 		// navigator:
+
+	void operator + ()
+	{
+		+bit_location;
+	}
+
+	void operator - ()
+	{
+		-bit_location;
+	}
 
 	type_ref operator ++ ()
 	{
-		++location;
+		++word_location;
 
 		return *this;
 	}
 
 	type operator ++ (int)
 	{
-		return location++;
+		return word_location++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		location += n;
+		word_location += n;
 
 		return *this;
 	}
 
 	type operator + (size_type n) const
 	{
-		return location + n;
+		return word_location + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--location;
+		--word_location;
 
 		return *this;
 	}
 
 	type operator -- (int)
 	{
-		return location--;
+		return word_location--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		location -= n;
+		word_location -= n;
 
 		return *this;
 	}
 
 	type operator - (size_type n) const
 	{
-		return location - n;
+		return word_location - n;
+	}
+};
+
+/*
+template<size_type N, typename Type, Access access = Access::readwrite>
+struct mobile_copower
+{
+	using type		= mobile_copower;
+	using type_ptr		= type*;
+	using type_ref		= type&;
+
+	using const_type	= mobile_copower<N, Type, Access::readonly>;
+
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
+
+	using nested_type	= nested_copower<N, Type, access>;
+	using nested_type_ptr	= nested_type*;
+	using nested_type_ref	= nested_type&;
+
+	nested_type_ptr path[N+1];
+	nested_type_ptr *location;
+
+		// type:
+
+	mobile_copower() : location(path) { }
+
+	~mobile_copower()
+	{
+		// deallocate location componentwise.
+	}
+
+	bool operator == (const type_ref c) const
+	{
+		return *location == *c.location;
+	}
+
+	bool operator != (const type_ref c) const
+	{
+		return *location != *c.location;
+	}
+
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
+
+	operator const_type () const
+	{
+		return (const_type) this;
 	}
 
 		// value:
 
-	bit_type_ref operator * () const
+	value_type_ref operator * () const
 	{
-		return *location;
+		return *path[N-1];
+	}
+
+		// meta:
+
+	void operator + ()
+	{
+		++location;
+	}
+	
+	void operator - ()
+	{
+		--location;
+	}
+
+		// navigator:
+
+	type_ref operator ++ ()
+	{
+		(*location)->operator++();
+
+		return *this;
+	}
+
+	type operator ++ (int int_value)
+	{
+		return (*location)->operator++(int_value);
+	}
+
+	type_ref operator += (size_type n)
+	{
+		(*location)->operator+=(n);
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return (*location)->operator+(n);
+	}
+
+	type_ref operator -- ()
+	{
+		(*location)->operator--();
+
+		return *this;
+	}
+
+	type operator -- (int int_value)
+	{
+		return (*location)->operator--(int_value);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		(*location)->operator-=(n);
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return (*location)->operator-(n);
+	}
+
+	size_type operator - (const type_ref c) const
+	{
+		return *location - *c.location;
 	}
 };
+*/
 

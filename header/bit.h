@@ -15,13 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+#ifndef NUMERIC_BIT_H
+#define NUMERIC_BIT_H
 
-	};
-}
+#include"power.h"
 
+#include"../numeric/bit/semiotic.h"
+#include"../numeric/bit/media.h"
+
+#endif
