@@ -21,10 +21,10 @@
 	allowing for identity, proximity, and functor methods between various lengths.
 */
 
-template<typename Type, size_type length>
-struct power
+template<size_type N, typename Type, size_type length>
+struct nested_power : public nested_power<N-1, Type, length>
 {
-	using type		= power;
+	using type		= nested_power;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
@@ -32,19 +32,81 @@ struct power
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= copower<value_type_ptr>;
-	using const_iterator	= copower<value_type_ptr, Access::readonly>;
+	using iterator		= nested_copower<N, value_type_ptr>;
+	using const_iterator	= nested_copower<N, value_type_ptr, Access::readonly>;
 
-	using selector		= dicopower<value_type_ptr>;
-	using const_selector	= dicopower<value_type_ptr, Access::readonly>;
+	using selector		= nested_dicopower<N, value_type_ptr>;
+	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
 
 	value_type value[length];
 
 		// type:
 
-	power() { }
+	nested_power() { }
 
-	~power() { }
+	~nested_power() { }
+
+		// value:
+
+		// navigator:
+
+	iterator begin()
+	{
+		return value;
+	}
+
+	const_iterator begin() const
+	{
+		return value;
+	}
+
+	iterator end()
+	{
+		return value + length;
+	}
+
+	const_iterator end() const
+	{
+		return value + length;
+	}
+
+	selector range()
+	{
+		return selector(value, value + length);
+	}
+
+	const_selector range() const
+	{
+		return const_selector(value, value + length);
+	}
+};
+
+	// N = 0:
+
+template<size_type N, typename Type, size_type length>
+struct nested_power : public nested_power<N-1, Type, length>
+{
+	using type		= nested_power;
+	using type_ptr		= type*;
+	using type_ref		= type&;
+
+	using value_type	= Type;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
+
+	using iterator		= nested_copower<N, value_type_ptr>;
+	using const_iterator	= nested_copower<N, value_type_ptr, Access::readonly>;
+
+	using selector		= nested_dicopower<N, value_type_ptr>;
+	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
+
+	value_type value[length];
+
+		// type:
+
+	nested_power() { }
+
+	~nested_power() { }
 
 		// value:
 
