@@ -15,6 +15,9 @@
 **
 ************************************************************************************************************************/
 
+template<typename Type, Access access = Access::readwrite>
+struct multi_copower;
+
 /*
 	In the context of this library, copowers are the disjoint union of alternative instances of the same type.
 
@@ -26,27 +29,39 @@
 	   requires frequently moving between levels of navigational complexity.
 */
 
-template<size_type N, typename Type, Access access = Access::readwrite>
+template
+<
+	size_type N,
+	typename Type,
+	size_type length,
+	template<size_type, class, size_type> typename NestedPower,
+
+	Access access
+>
 struct multi_copower
+<
+	NestedPower<N, Type, length>,
+	access
+>
 {
 	using type			= multi_copower;
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= multi_copower<N, Type, Access::readonly>;
+	using const_type		= multi_copower<NestedPower<N, Type, length>, Access::readonly>;
 
 	using value_type		= typename read_type<Type, access>::rtn;
 	using value_type_ptr		= value_type*;
 	using value_type_ref		= value_type&;
 
-	using copower_type		= nested_copower<Zero::value, Type, access>;
+	using copower_type		= copower<NestedPower<Zero::value, Type, length>*, access>;
 	using copower_type_ptr		= copower_type*;
 	using copower_type_ref		= copower_type&;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
-	copower_type_ptr path[N];
+	copower_type_ptr path[N+1];
 
 	copower_type_ptr *location;
 
@@ -93,11 +108,13 @@ struct multi_copower
 
 	void operator + ()
 	{
+		*location = null_ptr;
 		++location;
 	}
 
 	void operator - ()
 	{
+		*(location-1) = (*location).focus;
 		--location;
 	}
 

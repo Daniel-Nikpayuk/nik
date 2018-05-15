@@ -32,8 +32,8 @@ struct nested_power
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= nested_copower<N, value_type_ptr>;
-	using const_iterator	= nested_copower<N, value_type_ptr, Access::readonly>;
+	using iterator		= copower<value_type_ptr>;
+	using const_iterator	= copower<value_type_ptr, Access::readonly>;
 
 //	using selector		= nested_dicopower<N, value_type_ptr>;
 //	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
@@ -96,8 +96,8 @@ struct nested_power<Zero::value, Type, length>
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= nested_copower<Zero::value, value_type_ptr>;
-	using const_iterator	= nested_copower<Zero::value, value_type_ptr, Access::readonly>;
+	using iterator		= copower<value_type_ptr>;
+	using const_iterator	= copower<value_type_ptr, Access::readonly>;
 
 //	using selector		= nested_dicopower<Zero::value, value_type_ptr>;
 //	using const_selector	= nested_dicopower<Zero::value, value_type_ptr, Access::readonly>;

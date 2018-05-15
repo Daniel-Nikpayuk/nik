@@ -18,6 +18,8 @@
 #ifndef GRAMMARIC_NESTED_H
 #define GRAMMARIC_NESTED_H
 
+#include"constant.h"
+
 #include"../grammaric/nested/semiotic.h"
 #include"../grammaric/nested/media.h"
 

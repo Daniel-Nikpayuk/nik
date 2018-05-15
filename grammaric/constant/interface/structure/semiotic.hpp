@@ -55,27 +55,27 @@ using three					= constant<size_type, 3>;
 using nibble					= constant<size_type, 4>;
 using byte					= constant<size_type, 8>;
 
-using length					= constant<size_type, byte * sizeof(size_type)>;
-using order					= constant<size_type, length - 1>;
+using length					= constant<size_type, byte::value * sizeof(size_type)>;
+using order					= constant<size_type, length::value - 1>;
 
 using tail					= constant<size_type, 0>;
-using head					= constant<size_type, (size_type) 1 << order>;
+using head					= constant<size_type, (size_type) 1 << order::value>;
 
 struct half
 {
-	using length				= constant<size_type, space::length >> 1>;
-	using order				= constant<size_type, space::order >> 1>;
+	using length				= constant<size_type, (space::length::value >> 1)>;
+	using order				= constant<size_type, (space::order::value >> 1)>;
 
-	using max				= constant<size_type, ((size_type) 1 << length) - 1>;
-	using min				= constant<size_type, -max - 1>;
+	using max				= constant<size_type, ((size_type) 1 << length::value) - 1>;
+	using min				= constant<size_type, -max::value - 1>;
 
 	using tail				= constant<size_type, 0>;
-	using head				= constant<size_type, (size_type) 1 << order>;
+	using head				= constant<size_type, (size_type) 1 << order::value>;
 };
 
 struct filter
 {
-	using low_pass				= constant<size_type, half::max>;
+	using low_pass				= constant<size_type, half::max::value>;
 //	using high_pass				= constant<size_type, space::max & ~low_pass>;
 };
 
@@ -83,7 +83,7 @@ struct overflow
 {
 	struct square
 	{
-		using upper			= constant<size_type, half::max + 1>;
+		using upper			= constant<size_type, half::max::value + 1>;
 //		using lower			= constant<size_type, space::max>;
 	};
 };
