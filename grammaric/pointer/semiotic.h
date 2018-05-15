@@ -15,50 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
 namespace nik
 {
-	using global_size_type = size_t;
-
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead!
-
-	constexpr char endl='\n';
-
-	//
-
-	template<typename Type>
-	struct dereference_type
-		{ using rtn = Type; };
-
-	template<typename Type>
-	struct dereference_type<Type*>
-		{ using rtn = Type; };
-
-	//
-
-/*
-	Currently deprecrated, parts of this will likely be restored once Branch::grammaric is restored.
-
-	struct undefined
+	template<typename SizeType>
+	struct space<Branch::grammaric, Module::pointer, Permission::semiotic, SizeType>
 	{
-		using rtn = undefined;
+		using size_type = SizeType;
 
-		static void print() { builtin_printer::print("undefined"); }
+		//
+
+		#include"interface/structure/semiotic.hpp"
 	};
-
-	template<typename> struct act { };
-	template<typename> struct pass { };
-
-	#define grammaric_import_act()										\
-														\
-		template<typename Exp>										\
-		using act = nik::grammaric::act<Exp>;
-
-	#define grammaric_import_pass()										\
-														\
-		template<typename Exp>										\
-		using pass = nik::grammaric::pass<Exp>;
-*/
 }
 
