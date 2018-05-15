@@ -15,16 +15,39 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+/*
+	static void print() { Constant::FS::template printer<rtn>::print(); }
+	static void print() { Constant::FS::template printer<rtn>::print(); }
+*/
 
-	template<typename SizeType>
-	struct module<Module::constant, Orientation::structural, Interface::media, SizeType>
+template<typename Exp>
+struct printer
+{
+	template<typename> struct strict;
+
+	template<typename Type>
+	struct strict<constant<Type>>
 	{
-		typedef SizeType size_type;
-
-		#include"base/media.hpp"
+		static void print()
+		{
+			type_printer<Type>::print();
+		};
 	};
 
-}}
+	template<typename Type, Type Value>
+	struct strict<constant<Type, Value>>
+	{
+		static void print()
+		{
+			type_printer<Type>::print();
+			builtin_printer::print(": ");
+			builtin_printer::print(Value);
+		};
+	};
+
+	static void print()
+	{
+		strict<typename Exp::rtn>::print();
+	}
+};
 

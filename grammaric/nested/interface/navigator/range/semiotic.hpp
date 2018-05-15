@@ -27,14 +27,129 @@
 	   requires frequently moving between levels of navigational complexity.
 */
 
-template<typename Type, Access access = Access::readwrite>
-struct dicopower
+template<size_type N, typename Type, Access access = Access::readwrite>
+struct nested_dicopower
 {
-	using type		= dicopower;
+	using type		= nested_dicopower;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using const_type	= dicopower<Type, Access::readonly>;
+	using const_type	= nested_dicopower<N, Type, Access::readonly>;
+
+	using value_type	= multi_copower<N, Type, access>;
+	using value_type_ptr	= value_type*;
+	using value_type_ref	= value_type&;
+
+	value_type initial;
+	value_type terminal;
+
+		// type:
+
+	nested_dicopower() { }
+
+	nested_dicopower(const value_type_ref i, const value_type_ref t) : initial(i), terminal(t) { }
+
+	~nested_dicopower() { }
+
+	bool operator == (const type_ref c) const
+	{
+		return initial == c.initial && terminal == c.terminal;
+	}
+
+	bool operator != (const type_ref c) const
+	{
+		return initial != c.initial || terminal != c.terminal;
+	}
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// meta:
+
+	void operator + ()
+	{
+		+initial;
+		+terminal;
+	}
+
+	void operator - ()
+	{
+		-initial;
+		-terminal;
+	}
+
+		// navigator:
+
+	type_ref operator ++ ()
+	{
+		++initial;
+		++terminal;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return nested_dicopower(initial++, terminal++);
+	}
+
+	type_ref operator += (size_type n)
+	{
+		initial += n;
+		terminal += n;
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return nested_dicopower(initial + n, terminal + n);
+	}
+
+	type_ref operator -- ()
+	{
+		--initial;
+		--terminal;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return nested_dicopower(initial--, terminal--);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		initial -= n;
+		terminal -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return nested_dicopower(initial - n, terminal - n);
+	}
+};
+
+/*
+	N = 0, we partially specialize two variants:
+
+	1. Non-pointer Types
+	2. Pointer Types
+*/
+
+template<typename Type, Access access>
+struct nested_dicopower<Zero::value, Type, access>
+{
+	using type		= nested_dicopower;
+	using type_ptr		= type*;
+	using type_ref		= type&;
+
+	using const_type	= nested_dicopower<Zero::value, Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
@@ -45,9 +160,11 @@ struct dicopower
 
 		// type:
 
-	dicopower(const value_type_ref i, const value_type_ref t) : initial(i), terminal(t) { }
+	nested_dicopower() { }
 
-	~dicopower() { }
+	nested_dicopower(value_type i, value_type t) : initial(i), terminal(t) { }
+
+	~nested_dicopower() { }
 
 	bool operator == (const type_ref c) const
 	{
@@ -64,17 +181,19 @@ struct dicopower
 		return (const_type) this;
 	}
 
-		// navigator:
+		// meta:
+
+	value_type_ref operator + () const
+	{
+		return terminal;
+	}
 
 	value_type_ref operator - () const
 	{
 		return initial;
 	}
 
-	value_type_ref operator + () const
-	{
-		return terminal;
-	}
+		// navigator:
 
 	type_ref operator ++ ()
 	{
@@ -86,7 +205,7 @@ struct dicopower
 
 	type operator ++ (int)
 	{
-		return dicopower(initial++, terminal++);
+		return nested_dicopower(initial++, terminal++);
 	}
 
 	type_ref operator += (size_type n)
@@ -99,7 +218,7 @@ struct dicopower
 
 	type operator + (size_type n) const
 	{
-		return dicopower(initial + n, terminal + n);
+		return nested_dicopower(initial + n, terminal + n);
 	}
 
 	type_ref operator -- ()
@@ -112,7 +231,7 @@ struct dicopower
 
 	type operator -- (int)
 	{
-		return dicopower(initial--, terminal--);
+		return nested_dicopower(initial--, terminal--);
 	}
 
 	type_ref operator -= (size_type n)
@@ -125,7 +244,7 @@ struct dicopower
 
 	type operator - (size_type n) const
 	{
-		return dicopower(initial - n, terminal - n);
+		return nested_dicopower(initial - n, terminal - n);
 	}
 };
 
@@ -135,13 +254,13 @@ struct dicopower
 */
 
 template<typename Type, Access access>
-struct dicopower<Type*, access>
+struct nested_dicopower<Zero::value, Type*, access>
 {
-	using type		= dicopower;
+	using type		= nested_dicopower;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using const_type	= dicopower<Type, Access::readonly>;
+	using const_type	= nested_dicopower<Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ptr	= value_type*;
@@ -152,9 +271,11 @@ struct dicopower<Type*, access>
 
 		// type:
 
-	dicopower(value_type_ptr i, value_type_ptr t) : initial(i), terminal(t) { }
+	nested_dicopower() { }
 
-	~dicopower() { }
+	nested_dicopower(value_type_ptr i, value_type_ptr t) : initial(i), terminal(t) { }
+
+	~nested_dicopower() { }
 
 	bool operator == (const type_ref c) const
 	{
@@ -171,17 +292,19 @@ struct dicopower<Type*, access>
 		return (const_type) this;
 	}
 
-		// navigator:
+		// meta:
+
+	value_type_ptr & operator + () const
+	{
+		return terminal;
+	}
 
 	value_type_ptr & operator - () const
 	{
 		return initial;
 	}
 
-	value_type_ptr & operator + () const
-	{
-		return terminal;
-	}
+		// navigator:
 
 	type_ref operator ++ ()
 	{
@@ -193,7 +316,7 @@ struct dicopower<Type*, access>
 
 	type operator ++ (int)
 	{
-		return dicopower(initial++, terminal++);
+		return nested_dicopower(initial++, terminal++);
 	}
 
 	type_ref operator += (size_type n)
@@ -206,7 +329,7 @@ struct dicopower<Type*, access>
 
 	type operator + (size_type n) const
 	{
-		return dicopower(initial + n, terminal + n);
+		return nested_dicopower(initial + n, terminal + n);
 	}
 
 	type_ref operator -- ()
@@ -219,7 +342,7 @@ struct dicopower<Type*, access>
 
 	type operator -- (int)
 	{
-		return dicopower(initial--, terminal--);
+		return nested_dicopower(initial--, terminal--);
 	}
 
 	type_ref operator -= (size_type n)
@@ -232,7 +355,7 @@ struct dicopower<Type*, access>
 
 	type operator - (size_type n) const
 	{
-		return dicopower(initial - n, terminal - n);
+		return nested_dicopower(initial - n, terminal - n);
 	}
 };
 

@@ -15,8 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#include"recursive/semiotic.hpp"
-
 /*
 	In the context of this library, copowers are the disjoint union of alternative instances of the same type.
 
@@ -29,36 +27,36 @@
 */
 
 template<size_type N, typename Type, Access access = Access::readwrite>
-struct nested_copower
+struct multi_copower
 {
-	using type			= nested_copower;
+	using type			= multi_copower;
 	using type_ptr			= type*;
 	using type_ref			= type&;
 
-	using const_type		= nested_copower<N, Type, Access::readonly>;
+	using const_type		= multi_copower<N, Type, Access::readonly>;
 
 	using value_type		= typename read_type<Type, access>::rtn;
 	using value_type_ptr		= value_type*;
 	using value_type_ref		= value_type&;
 
-	using base_copower_type		= recursive_copower<0, Type, access>;
-	using base_copower_type_ptr	= base_copower_type*;
-	using base_copower_type_ref	= base_copower_type&;
+	using copower_type		= nested_copower<Zero::value, Type, access>;
+	using copower_type_ptr		= copower_type*;
+	using copower_type_ref		= copower_type&;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
-	base_copower_type_ptr path[N+1];
+	copower_type_ptr path[N];
 
-	base_copower_type_ptr *location;
+	copower_type_ptr *location;
 
 		// type:
 
-	nested_copower() : location(path) { }
+	multi_copower() : location(path + (N-1)) { }
 
-	~nested_copower()
+	~multi_copower()
 	{
-		// deallocate location componentwise.
+		// Do nothing: A multi_copower, although complex, is still just an iterator.
 	}
 
 	bool operator == (const type_ref c) const
@@ -81,9 +79,14 @@ struct nested_copower
 
 		// value:
 
-	base_copower_type_ptr & operator * () const
+	copower_type_ptr & operator * () const
 	{
 		return *location;
+	}
+
+	copower_type_ptr operator -> () const
+	{
+		return & (copower_type_ref) *location;
 	}
 
 		// meta:
@@ -92,7 +95,7 @@ struct nested_copower
 	{
 		++location;
 	}
-	
+
 	void operator - ()
 	{
 		--location;

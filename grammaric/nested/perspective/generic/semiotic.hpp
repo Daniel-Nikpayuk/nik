@@ -15,34 +15,52 @@
 **
 ************************************************************************************************************************/
 
-template<typename Exp>
-struct printer
+/*
+	We tether the interval decomposition to the while loop,
+	meaning [) is most natural, so then our decomposition is as follows:
+
+	closing	|a <= b|:	[a, b)		= [a, b)
+	closed	|a <= b|:	[a, b]		= [a, b)	-> [b]
+	open	|a <  b|:	(a, b)		= (a)		-> [a+1, b)
+	opening	|a <  b|:	(a, b]		= (a)		-> [a+1, b)	-> [b]
+
+	Here (a) implies iterate, while [b] implies act.
+*/
+
+enum struct Interval : size_type
 {
-	template<typename> struct strict;
+	closed,
+	closing,
+	opening,
+	open,
 
-	template<typename Type>
-	struct strict<constant<Type>>
-	{
-		static void print()
-		{
-			type_printer<Type>::print();
-		};
-	};
-
-	template<typename Type, Type Value>
-	struct strict<constant<Type, Value>>
-	{
-		static void print()
-		{
-			type_printer<Type>::print();
-			builtin_printer::print(": ");
-			builtin_printer::print(Value);
-		};
-	};
-
-	static void print()
-	{
-		strict<typename Exp::rtn>::print();
-	}
+	dimension
 };
+
+enum struct Direction : size_type
+{
+	forward,
+	backward,
+
+	dimension
+};
+
+template<Interval ob_interval, Direction ob_direction>
+struct object
+{
+	static constexpr Interval interval	= ob_interval;
+	static constexpr Direction direction	= ob_direction;
+};
+
+/*
+	Does not test sub, ob, for matching interior closed interval lengths or right ends.
+
+	False conditionals are expected to be optimized out at compile time.
+*/
+
+template<size_type N, typename...> struct generic;
+
+#include"unary/semiotic.hpp"
+
+#include"binary/semiotic.hpp"
 

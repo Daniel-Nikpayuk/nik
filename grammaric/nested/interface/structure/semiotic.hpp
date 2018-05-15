@@ -22,21 +22,21 @@
 */
 
 template<size_type N, typename Type, size_type length>
-struct nested_power : public nested_power<N-1, Type, length>
+struct nested_power
 {
 	using type		= nested_power;
 	using type_ptr		= type*;
 	using type_ref		= type&;
 
-	using value_type	= Type;
+	using value_type	= nested_power<N-1, Type, length>;
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
 	using iterator		= nested_copower<N, value_type_ptr>;
 	using const_iterator	= nested_copower<N, value_type_ptr, Access::readonly>;
 
-	using selector		= nested_dicopower<N, value_type_ptr>;
-	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
+//	using selector		= nested_dicopower<N, value_type_ptr>;
+//	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
 
 	value_type value[length];
 
@@ -70,6 +70,7 @@ struct nested_power : public nested_power<N-1, Type, length>
 		return value + length;
 	}
 
+/*
 	selector range()
 	{
 		return selector(value, value + length);
@@ -79,12 +80,13 @@ struct nested_power : public nested_power<N-1, Type, length>
 	{
 		return const_selector(value, value + length);
 	}
+*/
 };
 
 	// N = 0:
 
-template<size_type N, typename Type, size_type length>
-struct nested_power : public nested_power<N-1, Type, length>
+template<typename Type, size_type length>
+struct nested_power<Zero::value, Type, length>
 {
 	using type		= nested_power;
 	using type_ptr		= type*;
@@ -94,11 +96,11 @@ struct nested_power : public nested_power<N-1, Type, length>
 	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
 
-	using iterator		= nested_copower<N, value_type_ptr>;
-	using const_iterator	= nested_copower<N, value_type_ptr, Access::readonly>;
+	using iterator		= nested_copower<Zero::value, value_type_ptr>;
+	using const_iterator	= nested_copower<Zero::value, value_type_ptr, Access::readonly>;
 
-	using selector		= nested_dicopower<N, value_type_ptr>;
-	using const_selector	= nested_dicopower<N, value_type_ptr, Access::readonly>;
+//	using selector		= nested_dicopower<Zero::value, value_type_ptr>;
+//	using const_selector	= nested_dicopower<Zero::value, value_type_ptr, Access::readonly>;
 
 	value_type value[length];
 
@@ -132,6 +134,7 @@ struct nested_power : public nested_power<N-1, Type, length>
 		return value + length;
 	}
 
+/*
 	selector range()
 	{
 		return selector(value, value + length);
@@ -141,5 +144,13 @@ struct nested_power : public nested_power<N-1, Type, length>
 	{
 		return const_selector(value, value + length);
 	}
+*/
 };
+
+/*
+	The special case where N = 0 is used often in this library and gets its own alias:
+*/
+
+		template<typename Type, Access access = Access::readwrite>
+using power = nested_power<Zero::value, Type, access>;
 

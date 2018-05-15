@@ -15,35 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename sub_policy, typename ob_policy>
+struct functor
+{
+	using method = generic<sub_policy, ob_policy>;
 
-	template<typename SizeType>
-	struct module<Module::constant, Orientation::functional, Interface::semiotic, SizeType>
+	struct as_verb
 	{
-		typedef SizeType size_type;
+		template<typename sub_type, typename ob_type>
+		inline void main_action(sub_type sub, ob_type ob)
+		{
+			*sub = *ob;
+		}
 
-		nik_using(grammaric, Constant)
-
-		#include"alias/semiotic.hpp"
-
-		//
-
-		#include"empty/semiotic.hpp"
-		#include"is_constant/semiotic.hpp"
-
-		#include"equal/semiotic.hpp"
-		#include"less_than/semiotic.hpp"
-		#include"less_than_or_equal/semiotic.hpp"
-		#include"greater_than/semiotic.hpp"
-		#include"greater_than_or_equal/semiotic.hpp"
-
-		#include"Not/semiotic.hpp"
-		#include"And/semiotic.hpp"
-		#include"Or/semiotic.hpp"
-
-		#include"printer/semiotic.hpp"
+		template<typename sub_type, typename ob_type>
+		inline void last_action(sub_type sub, ob_type ob)
+		{
+			*sub = *ob;
+		}
 	};
 
-}}
+		// assign:
+
+	template<typename sub_type, typename ob_type>
+	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
+	{
+		as_verb as;
+
+		return method::map(as, sub, ob, end);
+	}
+};
 

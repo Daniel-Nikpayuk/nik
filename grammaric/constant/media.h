@@ -15,18 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::constant, Orientation::structural, Interface::semiotic, SizeType>
+	struct space<Branch::grammaric, Module::constant, Permission::media, SizeType>
 	{
-		typedef SizeType size_type;
+		using size_type = SizeType;
 
-		using Constant = ConstantModule<size_type>;
-
-		#include"base/semiotic.hpp"
 	};
-
-}}
+}
 

@@ -15,14 +15,36 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+template<typename sub_policy>
+struct printer
+{
+	using method = generic<sub_policy>;
 
-	template<typename SizeType>
-	struct module<Module::constant, Orientation::functional, Interface::media, SizeType>
+	struct pr_verb
 	{
-		typedef SizeType size_type;
+		template<typename sub_type>
+		inline void main_action(sub_type sub)
+		{
+			builtin_printer::print(*sub);
+			builtin_printer::print(' ');
+		}
+
+		template<typename sub_type>
+		inline void last_action(sub_type sub)
+		{
+			builtin_printer::print(*sub);
+			builtin_printer::print('\n');
+		}
 	};
 
-}}
+		// print:
+
+	template<typename sub_type>
+	static void print(sub_type sub, sub_type end)
+	{
+		pr_verb pr;
+
+		method::repeat(pr, sub, end);
+	}
+};
 

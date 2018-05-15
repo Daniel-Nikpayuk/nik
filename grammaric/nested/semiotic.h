@@ -24,10 +24,25 @@ namespace nik
 
 		//
 
-		#include"interface/navigator/semiotic.hpp"
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
+
+		using Zero		= typename Constant::zero;
+
+		//
+
+		#include"interface/navigator/nested/semiotic.hpp"
+//		#include"interface/navigator/multi/semiotic.hpp"
 //		#include"interface/navigator/range/semiotic.hpp"
 
 //		#include"interface/structure/semiotic.hpp"
+
+		//
+
+//		#include"perspective/generic/semiotic.hpp"
+//		#include"perspective/identity/semiotic.hpp"
+//		#include"perspective/proximity/semiotic.hpp"
+//		#include"perspective/functor/semiotic.hpp"
+//		#include"perspective/printer/semiotic.hpp"
 	};
 }
 

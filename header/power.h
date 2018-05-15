@@ -18,6 +18,8 @@
 #ifndef GRAMMARIC_POWER_H
 #define GRAMMARIC_POWER_H
 
+#include"constant.h"
+
 #include"../grammaric/power/semiotic.h"
 #include"../grammaric/power/media.h"
 
