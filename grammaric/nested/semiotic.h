@@ -26,7 +26,7 @@ namespace nik
 
 		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
 
-		using Zero		= typename Constant::zero;
+		using One		= typename Constant::one;
 
 		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
 

@@ -58,7 +58,12 @@ struct object
 	False conditionals are expected to be optimized out at compile time.
 */
 
-template<size_type N, typename...> struct generic;
+template
+<
+	size_type N,
+	typename...
+
+> struct generic;
 
 #include"unary/semiotic.hpp"
 

@@ -16,36 +16,58 @@
 ************************************************************************************************************************/
 
 /*
-	Copowers recursively extend their use as pointers to interact directly with the power grammar:
+	Copowers are also intended to be used as iterators to nested powers:
 
-	The initial case:
+	nested_power<N+1, Type, length>					:= nested_power<N, Type, length>[length]
+	nested_power<N+1, Type, length>::iterator			:= copower<nested_power<N, Type, length>, Notation::pointer>
 
-	copower<power<1>>
+	copower<nested_power<N, Type, length>, Notation::pointer>	contains/inherits
+									copower<nested_power<N-1, Type, length>, Notation::pointer>
+
+	In this case, we both recursively contain and inherit copowers from their predecessors.
+	This allows us to implement multi_copowers using dynamic polymorphism.
 */
 
 template
 <
+	size_type N,
 	typename Type,
 	size_type length,
-	template<class, size_type, size_type> typename Power,
+	template<size_type, class, size_type> typename NestedPower,
 
 	Access access
 
 > struct copower
 <
-	Power<Type, length, One::value>,
+	NestedPower<N, Type, length>,
+	Notation::pointer,
+	access
+
+> : public copower
+<
+	NestedPower<N-1, Type, length>,
+	Notation::pointer,
 	access
 >
 {
-	using type		= copower;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+	using type			= copower;
+	using type_ref			= type&;
+	using type_ptr			= type*;
 
-	using const_type	= copower<Power<Type, length, One::value>, Access::readonly>;
+	using const_type		= copower<NestedPower<N, Type, length>, Notation::pointer, Access::readonly>;
 
-	using value_type	= typename read_type<Type, access>::rtn;
-	using value_type_ref	= value_type&;
-	using value_type_ptr	= value_type*;
+	using sub_type			= copower<NestedPower<N-1, Type, length>, Notation::pointer, access>;
+	using sub_type_ref		= sub_type&;
+	using sub_type_ptr		= sub_type*;
+
+	using value_type		= typename read_type<NestedPower<N, Type, length>, access>::rtn;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
+
+		// sub_copowers aren't updated at this level
+		// as there's no guarantee they'll even be accessed.
+
+	sub_type sub_copower;
 
 	value_type_ptr focus;
 
@@ -141,49 +163,37 @@ template
 };
 
 /*
-	The recursive case:
+	The initial case:
 
-	power<N>				~= power<N-1>[length]
-	power<N>::iterator			~= copower<power<N-1>>
+	copower<nested_power<0, Type, length>, Notation::pointer>
 
-	copower<power<N>>			~= *power<N>[length]
-
-	In this case, we both recursively contain and inherit copowers from their predecessors.
-	This allows us to implement multi_copowers using dynamic polymorphism.
+	We optimize in our ability to dereference more directly.
 */
 
 template
 <
 	typename Type,
 	size_type length,
-	size_type N,
-	template<class, size_type, size_type> typename Power,
+	template<size_type, class, size_type> typename NestedPower,
 
 	Access access
 
 > struct copower
 <
-	Power<Type, length, N>,
-	access
-
-> : public copower
-<
-	Power<Type, length, N-1>,
+	NestedPower<Zero::value, Type, length>,
+	Notation::pointer,
 	access
 >
 {
-	using type			= copower;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type		= copower;
+	using type_ref		= type&;
+	using type_ptr		= type*;
 
-	using const_type		= copower<Power<Type, length, N>, Access::readonly>;
+	using const_type	= copower<NestedPower<Zero::value, Type, length>, Notation::pointer, Access::readonly>;
 
-	using value_type		= typename read_type<Power<Type, length, N-1>, access>::rtn;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
-
-		// sub_copowers aren't updated at this level
-		// as there's no guarantee they'll even be accessed.
+	using value_type	= typename read_type<Type, access>::rtn;
+	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	value_type_ptr focus;
 

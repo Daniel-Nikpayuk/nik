@@ -19,16 +19,23 @@
 	In the context of this library, powers are the products of concurrent instances of the same type.
         The basic methods for the objects of this class are called as external static functions
 	allowing for identity, proximity, and functor methods between various lengths.
+
+	The general case:
 */
 
-template<size_type N, typename Type, size_type length>
-struct nested_power
+template
+<
+	typename Type,
+	size_type length,
+	size_type N = One::value
+
+> struct power
 {
-	using type			= nested_power;
+	using type			= power;
 	using type_ref			= type&;
 	using type_ptr			= type*;
 
-	using value_type		= nested_power<N-1, Type, length>;
+	using value_type		= power<Type, length, N-1>;
 	using value_type_ref		= value_type&;
 	using value_type_ptr		= value_type*;
 
@@ -39,58 +46,9 @@ struct nested_power
 
 		// type:
 
-	nested_power() { }
+	power() { }
 
-	~nested_power() { }
-
-		// value:
-
-		// navigator:
-
-	iterator begin()
-	{
-		return value;
-	}
-
-	const_iterator begin() const
-	{
-		return value;
-	}
-
-	iterator end()
-	{
-		return value + length;
-	}
-
-	const_iterator end() const
-	{
-		return value + length;
-	}
-};
-
-	// N = 0:
-
-template<typename Type, size_type length>
-struct nested_power<Zero::value, Type, length>
-{
-	using type			= nested_power;
-	using type_ref			= type&;
-	using type_ptr			= type*;
-
-	using value_type		= Type;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
-
-	using iterator			= copower<value_type>;
-	using const_iterator		= copower<value_type, Access::readonly>;
-
-	value_type value[length];
-
-		// type:
-
-	nested_power() { }
-
-	~nested_power() { }
+	~power() { }
 
 		// value:
 
@@ -118,9 +76,62 @@ struct nested_power<Zero::value, Type, length>
 };
 
 /*
-	The special case where N = 0 is used often in this library and gets its own alias:
+	The initial case:
 */
 
-		template<typename Type, Access access = Access::readwrite>
-using power = nested_power<Zero::value, Type, access>;
+template
+<
+	typename Type,
+	size_type length
+
+> struct power
+<
+	Type,
+	length
+	One::value
+>
+{
+	using type			= power;
+	using type_ref			= type&;
+	using type_ptr			= type*;
+
+	using value_type		= Type;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
+
+	using iterator			= copower<value_type>;
+	using const_iterator		= copower<value_type, Access::readonly>;
+
+	value_type value[length];
+
+		// type:
+
+	power() { }
+
+	~power() { }
+
+		// value:
+
+		// navigator:
+
+	iterator begin()
+	{
+		return value;
+	}
+
+	const_iterator begin() const
+	{
+		return value;
+	}
+
+	iterator end()
+	{
+		return value + length;
+	}
+
+	const_iterator end() const
+	{
+		return value + length;
+	}
+};
 

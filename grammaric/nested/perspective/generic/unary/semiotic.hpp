@@ -20,8 +20,8 @@ template
 	size_type N,
 
 	Interval sub_interval, Direction sub_direction
->
-struct nested_generic
+
+> struct nested_generic
 <
 	N,
 
