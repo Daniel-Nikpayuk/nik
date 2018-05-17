@@ -32,18 +32,18 @@ template<typename BinaryType, Access access = Access::readwrite>
 struct cobit
 {
 	using type			= cobit;
-	using type_ptr			= type*;
 	using type_ref			= type&;
+	using type_ptr			= type*;
 
 	using const_type		= cobit<BinaryType, Access::readonly>;
 
 	using binary_type		= typename BinaryType::builtin_type;
-	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
+	using binary_type_ptr		= binary_type*;
 
 	using copower_type		= copower<binary_type, access>;
-	using copower_type_ptr		= copower_type*;
 	using copower_type_ref		= copower_type&;
+	using copower_type_ptr		= copower_type*;
 
 	copower_type location;
 

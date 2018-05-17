@@ -34,18 +34,18 @@ template<Access access>
 struct cobit<boolean, access>
 {
 	using type			= cobit;
-	using type_ptr			= type*;
 	using type_ref			= type&;
+	using type_ptr			= type*;
 
 	using const_type		= cobit<boolean, Access::readonly>;
 
 	using binary_type		= typename boolean::builtin_type;
-	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
+	using binary_type_ptr		= binary_type*;
 
 	using copower_type		= copower<binary_type, access>;
-	using copower_type_ptr		= copower_type*;
 	using copower_type_ref		= copower_type&;
+	using copower_type_ptr		= copower_type*;
 
 	binary_type value;
 

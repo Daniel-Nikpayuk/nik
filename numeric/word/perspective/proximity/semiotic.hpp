@@ -19,12 +19,12 @@ template<typename Word, typename Filler = void>
 struct proximity
 {
 	using type		= proximity;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= Word;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 		// if they're of the same word_type it is assumed they have the same word_length.
 

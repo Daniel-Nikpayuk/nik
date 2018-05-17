@@ -23,26 +23,26 @@ template<typename BinaryType, Access access = Access::readwrite>
 struct coword
 {
 	using type			= coword;
-	using type_ptr			= type*;
 	using type_ref			= type&;
+	using type_ptr			= type*;
 
 	using const_type		= coword<BinaryType, Access::readonly>;
 
 	using binary_type		= typename BinaryType::builtin_type;
-	using binary_type_ptr		= binary_type*;
 	using binary_type_ref		= binary_type&;
+	using binary_type_ptr		= binary_type*;
 
 	using bit_type			= cobit<binary_type, access>;
-	using bit_type_ptr		= bit_type*;
 	using bit_type_ref		= bit_type&;
+	using bit_type_ptr		= bit_type*;
 
 	using bit_iterator		= bit_type;
-	using bit_iterator_ptr		= bit_iterator*;
 	using bit_iterator_ref		= bit_iterator&;
+	using bit_iterator_ptr		= bit_iterator*;
 
 	using word_iterator		= copower<bit_type_ptr, access>;
-	using word_iterator_ptr		= word_iterator*;
 	using word_iterator_ref		= word_iterator&;
+	using word_iterator_ptr		= word_iterator*;
 
 	enum struct State
 	{

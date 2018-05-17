@@ -15,48 +15,12 @@
 **
 ************************************************************************************************************************/
 
-template<typename Bit, size_type length, typename Filler = void>
-struct word
-{
-	using type		= word;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+#ifndef GRAMMARIC_POINTER_H
+#define GRAMMARIC_POINTER_H
 
-	using iterator		= word_navigator<Bit, length>;
-	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
+#include"constant.h"
 
-	using product_type	= product<Bit, length>;
-	using product_type_ref	= product_type&;
-	using product_type_ptr	= product_type*;
+#include"../grammaric/pointer/semiotic.h"
+#include"../grammaric/pointer/media.h"
 
-	using bit_type		= Bit;
-	using bit_type_ref	= bit_type&;
-	using bit_type_ptr	= bit_type*;
-
-	product_type value;
-
-	word() { }
-
-	~word() { }
-
-	iterator begin()
-	{
-		return value.begin();
-	}
-
-	const_iterator begin() const
-	{
-		return value.begin();
-	}
-
-	iterator end()
-	{
-		return value.end();
-	}
-
-	const_iterator end() const
-	{
-		return value.end();
-	}
-};
-
+#endif

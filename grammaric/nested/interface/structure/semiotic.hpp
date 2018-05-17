@@ -25,12 +25,12 @@ template<size_type N, typename Type, size_type length>
 struct nested_power
 {
 	using type		= nested_power;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using value_type	= nested_power<N-1, Type, length>;
-	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	using iterator		= copower<value_type_ptr>;
 	using const_iterator	= copower<value_type_ptr, Access::readonly>;
@@ -89,12 +89,12 @@ template<typename Type, size_type length>
 struct nested_power<Zero::value, Type, length>
 {
 	using type		= nested_power;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using value_type	= Type;
-	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	using iterator		= copower<value_type_ptr>;
 	using const_iterator	= copower<value_type_ptr, Access::readonly>;

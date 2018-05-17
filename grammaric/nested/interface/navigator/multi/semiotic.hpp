@@ -40,23 +40,27 @@ template
 >
 struct multi_copower
 <
-	NestedPower<N, Type, length>,
+	NestedPower<N, Type, length>*,
 	access
 >
 {
 	using type			= multi_copower;
-	using type_ptr			= type*;
 	using type_ref			= type&;
+	using type_ptr			= type*;
 
-	using const_type		= multi_copower<NestedPower<N, Type, length>, Access::readonly>;
+	using const_type		= multi_copower<NestedPower<N, Type, length>*, Access::readonly>;
 
 	using value_type		= typename read_type<Type, access>::rtn;
-	using value_type_ptr		= value_type*;
 	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
 
-	using copower_type		= copower<NestedPower<Zero::value, Type, length>*, access>;
-	using copower_type_ptr		= copower_type*;
+	using power_type		= NestedPower<Zero::value, value_type, length>;
+	using power_type_ref		= power_type&;
+	using power_type_ptr		= power_type*;
+
+	using copower_type		= copower<power_type_ptr, access>;
 	using copower_type_ref		= copower_type&;
+	using copower_type_ptr		= copower_type*;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
@@ -67,12 +71,21 @@ struct multi_copower
 
 		// type:
 
-	multi_copower() : location(path + (N-1)) { }
+	multi_copower() : location(path + N) { }
 
-	~multi_copower()
+		// initialize location to the initial position in the array.
+		// this aligns with the use of operators +,-  ().
+
+	multi_copower(power_type_ptr p) : location(path)
 	{
-		// Do nothing: A multi_copower, although complex, is still just an iterator.
+		*location = p;
 	}
+
+		// Destructor: Do nothing. A multi_copower, although complex, is still just an iterator.
+
+	~multi_copower() { }
+
+		// identity comparisons stay within the local level of complexity.
 
 	bool operator == (const type_ref c) const
 	{
@@ -94,6 +107,9 @@ struct multi_copower
 
 		// value:
 
+		// returning a copower_type_ptr is valuable,
+		// as the different power specializations return different types.
+
 	copower_type_ptr & operator * () const
 	{
 		return *location;
@@ -108,13 +124,14 @@ struct multi_copower
 
 	void operator + ()
 	{
-		*location = null_ptr;
+		*(location+1) = (***location).begin();
 		++location;
 	}
 
+		// does not null out the child location before moving up.
+
 	void operator - ()
 	{
-		*(location-1) = (*location).focus;
 		--location;
 	}
 

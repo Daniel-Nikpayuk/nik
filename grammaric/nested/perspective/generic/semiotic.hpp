@@ -34,7 +34,7 @@ enum struct Interval : size_type
 	opening,
 	open,
 
-	dimension
+	dimension // filler
 };
 
 enum struct Direction : size_type
@@ -42,7 +42,7 @@ enum struct Direction : size_type
 	forward,
 	backward,
 
-	dimension
+	dimension // filler
 };
 
 template<Interval ob_interval, Direction ob_direction>

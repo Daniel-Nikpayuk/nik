@@ -27,11 +27,11 @@ struct proximity<word<bit<boolean>, length, GREATER_THAN>>
 	typedef word<bit<boolean>, length, GREATER_THAN> word_type;
 	typedef typename word_type::binary_type binary_type;
 
-	typedef binary_type* binary_type_ptr;
 	typedef binary_type& binary_type_ref;
+	typedef binary_type* binary_type_ptr;
 
-	typedef proximity* proximity_ptr;
 	typedef proximity& proximity_ref;
+	typedef proximity* proximity_ptr;
 
 	// if they're of the same word_type it is assumed they have the same word_length.
 

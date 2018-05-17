@@ -31,14 +31,14 @@ template<size_type N, typename Type, Access access = Access::readwrite>
 struct nested_dicopower
 {
 	using type		= nested_dicopower;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using const_type	= nested_dicopower<N, Type, Access::readonly>;
 
 	using value_type	= multi_copower<N, Type, access>;
-	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	value_type initial;
 	value_type terminal;
@@ -146,14 +146,14 @@ template<typename Type, Access access>
 struct nested_dicopower<Zero::value, Type, access>
 {
 	using type		= nested_dicopower;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using const_type	= nested_dicopower<Zero::value, Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
-	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	value_type initial;
 	value_type terminal;
@@ -257,14 +257,14 @@ template<typename Type, Access access>
 struct nested_dicopower<Zero::value, Type*, access>
 {
 	using type		= nested_dicopower;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using const_type	= nested_dicopower<Type, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
-	using value_type_ptr	= value_type*;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
 	value_type_ptr initial;
 	value_type_ptr terminal;

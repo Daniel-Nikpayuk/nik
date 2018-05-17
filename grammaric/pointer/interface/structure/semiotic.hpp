@@ -28,11 +28,12 @@ enum struct Access : size_type
 template<size_type N, typename Type, Access access = Access::readwrite>
 struct pointer
 {
-	using rtn = pointer<N-1, Type, access>::rtn *;
+	using rtn = typename pointer<N-1, Type, access>::rtn *;
 };
 
 /*
-	zero, readwrite:
+	N	= zero,
+	access	= readwrite:
 
 	1. Type
 	2. Type const
@@ -58,9 +59,10 @@ struct pointer<Zero::value, Type const *, Access::readwrite>
 };
 
 /*
-	zero, readonly:
+	N	= zero,
+	access	= readony:
 
-	1. Type const : special case of (3.) as (const const) == const
+	1. Type const --- special case of (3.) as (const const) == const
 	2. Type*
 	3. Type
 */
@@ -78,7 +80,7 @@ struct pointer<Zero::value, Type, Access::readonly>
 };
 
 /*
-	The zero case occurs often enough in this library its worth creating a convenience class.
+	The zero case occurs often enough in this library to merit an alias
 */
 
 		  template<typename Type, Access access = Access::readwrite>

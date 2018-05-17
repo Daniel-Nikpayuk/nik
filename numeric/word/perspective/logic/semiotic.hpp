@@ -20,12 +20,12 @@ template<typename Word, typename Filler = void>
 struct logic
 {
 	using type		= logic;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= Word;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 	using bit_constant	= typename bit_s::template constant<typename word_type::bit_type>;
 

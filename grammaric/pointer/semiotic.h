@@ -24,6 +24,12 @@ namespace nik
 
 		//
 
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
+
+		using Zero		= typename Constant::zero;
+
+		//
+
 		#include"interface/structure/semiotic.hpp"
 	};
 }

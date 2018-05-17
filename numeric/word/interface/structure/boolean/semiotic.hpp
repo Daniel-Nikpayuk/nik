@@ -21,8 +21,8 @@ template<typename Filler>												\
 struct word<bit<boolean>, (int_length), Filler>										\
 {															\
 	using type		= word;											\
-	using type_ptr		= type*;										\
 	using type_ref		= type&;										\
+	using type_ptr		= type*;										\
 															\
 	using iterator		= word_navigator<bit<boolean>, (int_length)>;						\
 	using const_iterator	= word_navigator<bit<boolean>, (int_length), Access::readonly>;				\

@@ -32,7 +32,9 @@ namespace nik
 		tuple,
 		environment,
 		evaluator,
-		nested,
+
+		nested, // deprecated
+		pointer,
 		power,
 
 		bit,

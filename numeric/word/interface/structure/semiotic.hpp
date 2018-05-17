@@ -36,19 +36,19 @@ template<typename BitType, size_type length, typename Filler = void>
 struct word
 {
 	using type		= word;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using navigator		= word_navigator<BitType, length>;
 	using const_navigator	= word_navigator<BitType, length, Access::readonly>;
 
 	using power_type	= power<BitType, length>;
-	using power_type_ptr	= power_type*;
 	using power_type_ref	= power_type&;
+	using power_type_ptr	= power_type*;
 
 	using bit_type		= BitType;
-	using bit_type_ptr	= bit_type*;
 	using bit_type_ref	= bit_type&;
+	using bit_type_ptr	= bit_type*;
 
 	//
 

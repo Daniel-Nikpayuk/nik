@@ -34,18 +34,18 @@ template<typename Word, size_type length, Access access = Access::readwrite>
 struct address_navigator
 {
 	using type			= address_navigator;
-	using type_ptr			= type*;
 	using type_ref			= type&;
+	using type_ptr			= type*;
 
 	using const_type		= address_navigator<Word, length, Access::readonly>;
 
 	using sub_navigator		= coproduct<Word, access>;
-	using sub_navigator_ptr		= sub_navigator*;
 	using sub_navigator_ref		= sub_navigator&;
+	using sub_navigator_ptr		= sub_navigator*;
 
 	using word_type			= typename read_type<Word, access>::rtn;
-	using word_type_ptr		= word_type*;
 	using word_type_ref		= word_type&;
+	using word_type_ptr		= word_type*;
 
 	sub_navigator location;
 

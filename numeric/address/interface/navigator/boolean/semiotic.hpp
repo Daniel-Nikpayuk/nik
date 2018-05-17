@@ -21,18 +21,18 @@ template<Access access>													\
 struct word_navigator<bit<boolean>, (int_length), access>								\
 {															\
 	using type			= word_navigator;								\
-	using type_ptr			= type*;									\
 	using type_ref			= type&;									\
+	using type_ptr			= type*;									\
 															\
 	using const_type		= word_navigator<bit<boolean>, (int_length), Access::readonly>;			\
 															\
 	using sub_navigator		= coproduct<Bit, access>;							\
-	using sub_navigator_ptr		= sub_navigator*;								\
 	using sub_navigator_ref		= sub_navigator&;								\
+	using sub_navigator_ptr		= sub_navigator*;								\
 															\
 	using bit_type			= typename read_type<bit<boolean>, access>::rtn;				\
-	using bit_type_ptr		= bit_type*;									\
 	using bit_type_ref		= bit_type&;									\
+	using bit_type_ptr		= bit_type*;									\
 															\
 	using byte_type			= typename read_type<int_type, access>::rtn;					\
 															\

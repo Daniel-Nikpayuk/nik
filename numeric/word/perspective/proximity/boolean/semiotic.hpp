@@ -21,12 +21,12 @@ template<typename Filler>												\
 struct proximity<word<bit<boolean>, int_length>, Filler>								\
 {															\
 	using type		= proximity;										\
-	using type_ptr		= type*;										\
 	using type_ref		= type&;										\
+	using type_ptr		= type*;										\
 															\
 	using word_type		= word<bit<boolean>, int_length>;							\
-	using word_type_ptr	= word_type*;										\
 	using word_type_ref	= word_type&;										\
+	using word_type_ptr	= word_type*;										\
 															\
 		// if they're of the same word_type it is assumed they have the same word_length.			\
 															\
@@ -70,12 +70,12 @@ template<typename Filler>
 struct proximity<word<bit<boolean>, INT_LENGTH>, Filler>
 {
 	using type		= proximity;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= word<bit<boolean>, INT_LENGTH>;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 		// if they're of the same word_type it is assumed they have the same word_length.
 
@@ -107,12 +107,12 @@ template<typename Filler>
 struct proximity<word<bit<boolean>, INT_LENGTH>, Filler>
 {
 	using type		= proximity;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= word<bit<boolean>, INT_LENGTH>;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 		// if they're of the same word_type it is assumed they have the same word_length.
 
@@ -144,12 +144,12 @@ template<typename Filler>
 struct proximity<word<bit<boolean>, INT_LENGTH>, Filler>
 {
 	using type		= proximity;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= word<bit<boolean>, INT_LENGTH>;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 		// if they're of the same word_type it is assumed they have the same word_length.
 
@@ -181,12 +181,12 @@ template<typename Filler>
 struct proximity<word<bit<boolean>, INT_LENGTH>, Filler>
 {
 	using type		= proximity;
-	using type_ptr		= type*;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
 	using word_type		= word<bit<boolean>, INT_LENGTH>;
-	using word_type_ptr	= word_type*;
 	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
 
 		// if they're of the same word_type it is assumed they have the same word_length.
 
