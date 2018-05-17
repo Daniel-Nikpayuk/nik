@@ -15,18 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename Type, Access access = Access::readwrite>
+template
+<
+	typename Type,
+	Access access = Access::readwrite
+>
 struct multi_copower;
 
 /*
-	In the context of this library, copowers are the disjoint union of alternative instances of the same type.
+	? Implementation lacks modularity:
 
-	When building more complex navigators out of simpler ones,
-	the only reasons to reimplement copowers are as follows:
-
-	1. Optimizing the method interface.
-	2. Optimization by unraveling. This is necessary if the context
-	   requires frequently moving between levels of navigational complexity.
+	Is optimized to work directly with nested powers,
+	which is to say it references the internals of the nested power specification.
 */
 
 template
@@ -40,61 +40,65 @@ template
 >
 struct multi_copower
 <
-	NestedPower<N, Type, length>*,
+	NestedPower<N, Type, length>,
 	access
 >
 {
-	using type			= multi_copower;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type				= multi_copower;
+	using type_ref				= type&;
+	using type_ptr				= type*;
 
-	using const_type		= multi_copower<NestedPower<N, Type, length>*, Access::readonly>;
+	using const_type			= multi_copower<NestedPower<N, Type, length>, Access::readonly>;
 
-	using value_type		= typename read_type<Type, access>::rtn;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
+	using value_type			= typename read_type<NestedPower<N, Type, length>, access>::rtn;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
 
-	using power_type		= NestedPower<Zero::value, value_type, length>;
-	using power_type_ref		= power_type&;
-	using power_type_ptr		= power_type*;
+	using copower_type			= copower<NestedPower<N, Type, length>, Notation::pointer, access>;
+	using copower_type_ref			= copower_type&;
+	using copower_type_ptr			= copower_type*;
 
-	using copower_type		= copower<power_type_ptr, access>;
-	using copower_type_ref		= copower_type&;
-	using copower_type_ptr		= copower_type*;
+	using polymorphic_type			= copower<NestedPower<Zero::value, Type, length>, Notation::pointer, access>;
+	using polymorphic_type_ref		= polymorphic_type&;
+	using polymorphic_type_ptr		= polymorphic_type*;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
-	copower_type_ptr path[N+1];
+	polymorphic_type_ptr path[N+1];
 
-	copower_type_ptr *location;
+	polymorphic_type_ptr *location;
+
+	copower_type focus;
 
 		// type:
 
-	multi_copower() : location(path + N) { }
+	multi_copower() { }
 
 		// initialize location to the initial position in the array.
 		// this aligns with the use of operators +,-  ().
 
-	multi_copower(power_type_ptr p) : location(path)
+	multi_copower(value_type_ptr p) : location(path), focus(p)
 	{
-		*location = p;
+		*location = &focus;
 	}
 
-		// Destructor: Do nothing. A multi_copower, although complex, is still just an iterator.
+		// Destructor: Does nothing. Iterators can (de)allocate,
+		// but otherwise default to passive interaction.
 
 	~multi_copower() { }
 
-		// identity comparisons stay within the local level of complexity.
+		// identity comparisons are applied to copowers,
+		// and otherwise stay within the local level of complexity.
 
 	bool operator == (const type_ref c) const
 	{
-		return *location == *c.location;
+		return **location == **c.location;
 	}
 
 	bool operator != (const type_ref c) const
 	{
-		return *location != *c.location;
+		return **location != **c.location;
 	}
 
 		// Exists to convert readwrite to readonly.
@@ -107,28 +111,29 @@ struct multi_copower
 
 		// value:
 
-		// returning a copower_type_ptr is valuable,
-		// as the different power specializations return different types.
+		// Here multi_copowers return copower pointers instead of dereferences.
+		// This is valuable as different copower specializations return different types.
 
-	copower_type_ptr & operator * () const
+	polymorphic_type_ptr & operator * () const
 	{
 		return *location;
 	}
 
+/*
 	copower_type_ptr operator -> () const
 	{
-		return & (copower_type_ref) *location;
+		return location;
 	}
+*/
 
 		// meta:
 
 	void operator + ()
 	{
-		*(location+1) = (***location).begin();
+		(*location)->sub_copower = (*location)->focus->value;
+		*(location+1) = (*location)->sub_copower;
 		++location;
 	}
-
-		// does not null out the child location before moving up.
 
 	void operator - ()
 	{

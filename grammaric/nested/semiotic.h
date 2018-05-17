@@ -39,7 +39,7 @@ namespace nik
 
 		#include"interface/navigator/semiotic.hpp"
 		#include"interface/navigator/multi/semiotic.hpp"
-//		#include"interface/navigator/range/semiotic.hpp"
+		#include"interface/navigator/range/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
 

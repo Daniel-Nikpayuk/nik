@@ -15,9 +15,24 @@
 **
 ************************************************************************************************************************/
 
+/*
+	At the grammaric level, register types and pointers are intended to be indistinguishable.
+	Copowers are a grammatical class which represents both, but also recursively extends
+	its use as a pointer to interact directly with the nested power grammar.
+
+	In the context of this library, copowers are the disjoint union of alternative instances of the same type.
+
+	When building more complex navigators out of simpler ones,
+	the only reasons to reimplement copowers are as follows:
+
+	1. Optimizing the method interface.
+	2. Optimization by unraveling. This is necessary if the context
+	   requires frequently moving between levels of navigational complexity.
+*/
+
 enum struct Notation : size_type
 {
-	reference,
+	reference, // "register" is already a keyword in C++
 	pointer,
 
 	dimension // filler
@@ -103,10 +118,12 @@ struct copower
 		return focus;
 	}
 
+/*
 	value_type_ptr operator -> () const
 	{
 		return &focus;
 	}
+*/
 
 		// navigator:
 
@@ -231,10 +248,12 @@ struct copower
 		return *focus;
 	}
 
+/*
 	value_type_ptr operator -> () const
 	{
 		return focus;
 	}
+*/
 
 		// navigator:
 
@@ -298,11 +317,11 @@ struct copower
 	nested_power<N+1, Type, length>					:= nested_power<N, Type, length>[length]
 	nested_power<N+1, Type, length>::iterator			:= copower<nested_power<N, Type, length>, Notation::pointer>
 
-	copower<nested_power<N, Type, length>, Notation::pointer>	inherits
+	copower<nested_power<N, Type, length>, Notation::pointer>	contains/inherits
 									copower<nested_power<N-1, Type, length>, Notation::pointer>
 
-	In this case, we recursively inherit copower from their predecessors. This allows us to implement
-	multi_copowers using dynamic polymorphism.
+	In this case, we both recursively contain and inherit copowers from their predecessors.
+	This allows us to implement multi_copowers using dynamic polymorphism.
 */
 
 template
@@ -327,15 +346,24 @@ struct copower
 	access
 >
 {
-	using type		= copower;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+	using type			= copower;
+	using type_ref			= type&;
+	using type_ptr			= type*;
 
-	using const_type	= copower<NestedPower<N, Type, length>, Notation::pointer, Access::readonly>;
+	using const_type		= copower<NestedPower<N, Type, length>, Notation::pointer, Access::readonly>;
 
-	using value_type	= typename read_type<NestedPower<N, Type, length>, access>::rtn;
-	using value_type_ref	= value_type&;
-	using value_type_ptr	= value_type*;
+	using sub_type			= copower<NestedPower<N-1, Type, length>, Notation::pointer, access>;
+	using sub_type_ref		= sub_type&;
+	using sub_type_ptr		= sub_type*;
+
+	using value_type		= typename read_type<NestedPower<N, Type, length>, access>::rtn;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
+
+		// sub_copowers aren't updated at this level
+		// as there's no guarantee they'll even be accessed.
+
+	sub_type sub_copower;
 
 	value_type_ptr focus;
 
