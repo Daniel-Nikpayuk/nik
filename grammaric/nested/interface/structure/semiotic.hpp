@@ -42,10 +42,10 @@ template
 	using iterator				= copower<value_type>;
 	using const_iterator			= copower<value_type, Access::readonly>;
 
-/*
 	using nested_iterator			= nested_copower<value_type>;
 	using const_nested_iterator		= nested_copower<value_type, Access::readonly>;
 
+/*
 	using multi_iterator			= multi_copower<value_type>;
 	using const_multi_iterator		= multi_copower<value_type, Access::readonly>;
 */
@@ -61,6 +61,8 @@ template
 		// value:
 
 		// navigator:
+
+		// iterator:
 
 	iterator begin()
 	{
@@ -78,6 +80,28 @@ template
 	}
 
 	const_iterator end() const
+	{
+		return value + length;
+	}
+
+		// nested_iterator:
+
+	nested_iterator nested_begin()
+	{
+		return value;
+	}
+
+	const_nested_iterator nested_begin() const
+	{
+		return value;
+	}
+
+	nested_iterator nested_end()
+	{
+		return value + length;
+	}
+
+	const_nested_iterator nested_end() const
 	{
 		return value + length;
 	}
@@ -110,10 +134,10 @@ template
 	using iterator				= copower<value_type>;
 	using const_iterator			= copower<value_type, Access::readonly>;
 
-/*
 	using nested_iterator			= nested_copower<value_type>;
 	using const_nested_iterator		= nested_copower<value_type, Access::readonly>;
 
+/*
 	using multi_iterator			= multi_copower<value_type>;
 	using const_multi_iterator		= multi_copower<value_type, Access::readonly>;
 */
@@ -129,6 +153,8 @@ template
 		// value:
 
 		// navigator:
+
+		// iterator:
 
 	iterator begin()
 	{
@@ -146,6 +172,28 @@ template
 	}
 
 	const_iterator end() const
+	{
+		return value + length;
+	}
+
+		// nested_iterator:
+
+	nested_iterator nested_begin()
+	{
+		return value;
+	}
+
+	const_nested_iterator nested_begin() const
+	{
+		return value;
+	}
+
+	nested_iterator nested_end()
+	{
+		return value + length;
+	}
+
+	const_nested_iterator nested_end() const
 	{
 		return value + length;
 	}

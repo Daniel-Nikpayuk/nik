@@ -23,7 +23,7 @@ template
 > struct nested_copower;
 
 /*
-	? Implementation lacks modularity:
+	Implementation lacks modularity:
 
 	Is optimized to work directly with nested powers,
 	which is to say it references the internals of the nested power specification.
@@ -58,18 +58,18 @@ template
 	using copower_type_ref			= copower_type&;
 	using copower_type_ptr			= copower_type*;
 
-	using polymorphic_type			= copower<value_type, Orientation::nested, access>;
+	using polymorphic_type			= copower<Power<Type, length, One::value>, Orientation::nested, access>;
 	using polymorphic_type_ref		= polymorphic_type&;
 	using polymorphic_type_ptr		= polymorphic_type*;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
+	copower_type focus;
+
 	polymorphic_type_ptr path[N];
 
 	polymorphic_type_ptr *location;
-
-	copower_type focus;
 
 		// type:
 
@@ -78,7 +78,7 @@ template
 		// initialize location to the initial position in the array.
 		// this aligns with the use of operators +,-  ().
 
-	nested_copower(value_type_ptr p) : location(path), focus(p)
+	nested_copower(value_type_ptr p) : focus(p), location(path)
 	{
 		*location = &focus;
 	}
@@ -123,8 +123,8 @@ template
 
 	void operator + ()
 	{
-		(*location)->sub_copower = (*location)->focus->value;
-		*(location+1) = (*location)->sub_copower;
+		(*location)->location = (*location)->focus->value;
+		*(location+1) = (*location)->location;
 		++location;
 	}
 

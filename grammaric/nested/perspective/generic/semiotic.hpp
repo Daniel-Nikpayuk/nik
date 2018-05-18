@@ -60,12 +60,426 @@ struct object
 
 template
 <
-	size_type N,
 	typename...
 
 > struct generic;
 
-#include"unary/semiotic.hpp"
+/*
+	unary:
+*/
 
-#include"binary/semiotic.hpp"
+template
+<
+	Interval sub_interval, Direction sub_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Object<sub_interval, sub_direction>
+>
+{
+		// repeat:
+
+	template<typename vb_type, typename sub_type>
+	static void repeat(vb_type & vb, sub_type sub, sub_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		while (sub != end)
+		{
+			vb.main_action(sub);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			vb.last_action(sub);
+		}
+	}
+
+/*
+	There are methods meant specifically for use with copowers<multi>.
+
+	initial case:
+*/
+
+	template<typename vb_type, typename Type, size_type length>
+	static void repeat
+	(
+		vb_type & vb,
+		copower<power<Type, length, Two::value>, Orientation::multi> sub,
+		copower<power<Type, length, Two::value>, Orientation::multi> end
+	)
+	{
+		// ideally:
+
+		while (sub != end)
+		{
+			repeat(vb, sub[k], (*end).value);
+		}
+	}
+
+/*
+	recursive case:
+*/
+
+	template<typename vb_type, typename Type, size_type length>
+	static void repeat
+	(
+		vb_type & vb,
+		copower<power<Type, length, Two::value>, Orientation::multi> sub,
+		copower<power<Type, length, Two::value>, Orientation::multi> end
+	)
+	{
+		// ideally:
+
+		while (sub != end)
+		{
+			repeat(vb, *sub, *end);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+	}
+};
+
+/*
+	recursive case:
+*/
+
+/*
+template
+<
+	typename Type,
+	size_type length,
+	size_type N,
+	template<class, size_type, size_type> typename Power,
+
+	Interval sub_interval, Direction sub_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Power<Type, length, N>,
+	Object<sub_interval, sub_direction>
+>
+{
+	using sub_generic	= generic
+				<
+					Power<Type, length, N-1>,
+					Object<sub_interval, sub_interval>
+				>;
+
+		// repeat:
+
+	template<typename vb_type, typename sub_type>
+	static void repeat(vb_type & vb, sub_type sub, sub_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		while (sub != end)
+		{
+			sub_generic::repeat(vb, *sub, *sub + length);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			sub_generic::repeat(vb, *sub, *sub + length);
+		}
+	}
+};
+*/
+
+/*
+	binary:
+*/
+
+template
+<
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Object<sub_interval, sub_direction>,
+	Object<ob_interval, ob_direction>
+>
+{
+		// compare:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type compare(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			if (vb.break_match(sub, ob)) return sub;
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_match(sub, ob);
+		}
+
+		return sub;
+	}
+
+		// (morph,) map:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			vb.main_action(sub, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_action(sub, ob);
+		}
+
+		return sub;
+	}
+};
+
+/*
+	There are methods meant specifically for use with powers.
+
+	initial case:
+*/
+
+template
+<
+	typename Type,
+	size_type length,
+	template<class, size_type, size_type> typename Power,
+
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Power<Type, length, One::value>,
+	Object<sub_interval, sub_direction>,
+	Object<ob_interval, ob_direction>
+>
+{
+		// compare:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type compare(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			if (vb.break_match(sub, ob)) return sub;
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_match(sub, ob);
+		}
+
+		return sub;
+	}
+
+		// (morph,) map:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			vb.main_action(sub, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_action(sub, ob);
+		}
+
+		return sub;
+	}
+};
+
+/*
+	recursive case:
+*/
+
+template
+<
+	typename Type,
+	size_type length,
+	size_type N,
+	template<class, size_type, size_type> typename Power,
+
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Power<Type, length, N>,
+	Object<sub_interval, sub_direction>,
+	Object<ob_interval, ob_direction>
+>
+{
+		// compare:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type compare(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			if (vb.break_match(sub, ob)) return sub;
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_match(sub, ob);
+		}
+
+		return sub;
+	}
+
+		// (morph,) map:
+
+	template<typename vb_type, typename sub_type, typename ob_type>
+	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			vb.main_action(sub, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_action(sub, ob);
+		}
+
+		return sub;
+	}
+};
 
