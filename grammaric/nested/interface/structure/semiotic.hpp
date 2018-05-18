@@ -31,16 +31,24 @@ template
 
 > struct power
 {
-	using type			= power;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type				= power;
+	using type_ref				= type&;
+	using type_ptr				= type*;
 
-	using value_type		= power<Type, length, N-1>;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
+	using value_type			= power<Type, length, N-1>;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
 
-	using iterator			= copower<value_type>;
-	using const_iterator		= copower<value_type, Access::readonly>;
+	using iterator				= copower<value_type>;
+	using const_iterator			= copower<value_type, Access::readonly>;
+
+/*
+	using nested_iterator			= nested_copower<value_type>;
+	using const_nested_iterator		= nested_copower<value_type, Access::readonly>;
+
+	using multi_iterator			= multi_copower<value_type>;
+	using const_multi_iterator		= multi_copower<value_type, Access::readonly>;
+*/
 
 	value_type value[length];
 
@@ -87,20 +95,28 @@ template
 > struct power
 <
 	Type,
-	length
+	length,
 	One::value
 >
 {
-	using type			= power;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type				= power;
+	using type_ref				= type&;
+	using type_ptr				= type*;
 
-	using value_type		= Type;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
+	using value_type			= Type;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
 
-	using iterator			= copower<value_type>;
-	using const_iterator		= copower<value_type, Access::readonly>;
+	using iterator				= copower<value_type>;
+	using const_iterator			= copower<value_type, Access::readonly>;
+
+/*
+	using nested_iterator			= nested_copower<value_type>;
+	using const_nested_iterator		= nested_copower<value_type, Access::readonly>;
+
+	using multi_iterator			= multi_copower<value_type>;
+	using const_multi_iterator		= multi_copower<value_type, Access::readonly>;
+*/
 
 	value_type value[length];
 

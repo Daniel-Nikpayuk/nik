@@ -16,12 +16,11 @@
 ************************************************************************************************************************/
 
 /*
-	Copower ranges are a convenience class. They allow for greater expressivity when interacting with powers.
-	In their use, they should unpack their immediate internal copowers and those should be passed directly
-	to any perspectives operating on them.
+	current status: experimental.
 
-	As a convenience class, they are most portable as numeric values,
-	which can be used in application to relocate pointers.
+	Copower ranges are a convenience class. They allow for greater expressivity when interacting with powers.
+	As a convenience class, they are most portable as numeric values, which in application would be used
+	to relocate pointers.
 */
 
 template
@@ -79,122 +78,7 @@ template
 		return initial;
 	}
 
-		// navigator:
-
-	type_ref operator ++ ()
-	{
-		++initial;
-		++terminal;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return copower_range(initial++, terminal++);
-	}
-
-	type_ref operator += (size_type n)
-	{
-		initial += n;
-		terminal += n;
-
-		return *this;
-	}
-
-	type operator + (size_type n) const
-	{
-		return copower_range(initial + n, terminal + n);
-	}
-
-	type_ref operator -- ()
-	{
-		--initial;
-		--terminal;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return copower_range(initial--, terminal--);
-	}
-
-	type_ref operator -= (size_type n)
-	{
-		initial -= n;
-		terminal -= n;
-
-		return *this;
-	}
-
-	type operator - (size_type n) const
-	{
-		return copower_range(initial - n, terminal - n);
-	}
-};
-
-/*
-*/
-
-template
-<
-	size_type N,
-	typename Type,
-	size_type length,
-	template<size_type, class, size_type> typename NestedPower,
-
-	Access access
-
-> struct copower_range
-{
-	using type			= copower_range;
-	using type_ref			= type&;
-	using type_ptr			= type*;
-
-	using const_type		= copower_range<Power<Type, length, N>, Access::readonly>;
-
-	using value_type		= copower<Power<Type, length, N-1>, access>;
-	using value_type_ref		= sub_type&;
-	using value_type_ptr		= sub_type*;
-
-	value_type initial[length];
-	value_type terminal[length];
-
-		// type:
-
-	copower_range() { }
-
-	copower_range(value_type i, value_type t) : initial(i), terminal(t) { }
-
-	~copower_range() { }
-
-	bool operator == (const type_ref c) const
-	{
-		return initial == c.initial && terminal == c.terminal;
-	}
-
-	bool operator != (const type_ref c) const
-	{
-		return initial != c.initial || terminal != c.terminal;
-	}
-
-	operator const_type () const
-	{
-		return (const_type) this;
-	}
-
-		// meta:
-
-	value_type_ref operator + () const
-	{
-		return terminal;
-	}
-
-	value_type_ref operator - () const
-	{
-		return initial;
-	}
+		// value:
 
 		// navigator:
 
@@ -208,7 +92,7 @@ template
 
 	type operator ++ (int)
 	{
-		return copower_range(initial++, terminal++);
+		return type(initial++, terminal++);
 	}
 
 	type_ref operator += (size_type n)
@@ -221,7 +105,7 @@ template
 
 	type operator + (size_type n) const
 	{
-		return copower_range(initial + n, terminal + n);
+		return type(initial + n, terminal + n);
 	}
 
 	type_ref operator -- ()
@@ -234,7 +118,7 @@ template
 
 	type operator -- (int)
 	{
-		return copower_range(initial--, terminal--);
+		return type(initial--, terminal--);
 	}
 
 	type_ref operator -= (size_type n)
@@ -247,7 +131,7 @@ template
 
 	type operator - (size_type n) const
 	{
-		return copower_range(initial - n, terminal - n);
+		return type(initial - n, terminal - n);
 	}
 };
 

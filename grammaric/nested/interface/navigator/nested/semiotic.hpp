@@ -20,7 +20,7 @@ template
 	typename Type,
 	Access access = Access::readwrite
 
-> struct multi_copower;
+> struct nested_copower;
 
 /*
 	? Implementation lacks modularity:
@@ -31,41 +31,41 @@ template
 
 template
 <
-	size_type N,
 	typename Type,
 	size_type length,
-	template<size_type, class, size_type> typename NestedPower,
+	size_type N,
+	template<class, size_type, size_type> typename Power,
 
 	Access access
 
-> struct multi_copower
+> struct nested_copower
 <
-	NestedPower<N, Type, length>,
+	Power<Type, length, N>,
 	access
 >
 {
-	using type				= multi_copower;
+	using type				= nested_copower;
 	using type_ref				= type&;
 	using type_ptr				= type*;
 
-	using const_type			= multi_copower<NestedPower<N, Type, length>, Access::readonly>;
+	using const_type			= nested_copower<Power<Type, length, N>, Access::readonly>;
 
-	using value_type			= typename read_type<NestedPower<N, Type, length>, access>::rtn;
+	using value_type			= typename read_type<Power<Type, length, N>, access>::rtn;
 	using value_type_ref			= value_type&;
 	using value_type_ptr			= value_type*;
 
-	using copower_type			= copower<NestedPower<N, Type, length>, Notation::pointer, access>;
+	using copower_type			= copower<value_type, Orientation::nested, access>;
 	using copower_type_ref			= copower_type&;
 	using copower_type_ptr			= copower_type*;
 
-	using polymorphic_type			= copower<NestedPower<Zero::value, Type, length>, Notation::pointer, access>;
+	using polymorphic_type			= copower<value_type, Orientation::nested, access>;
 	using polymorphic_type_ref		= polymorphic_type&;
 	using polymorphic_type_ptr		= polymorphic_type*;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
-	polymorphic_type_ptr path[N+1];
+	polymorphic_type_ptr path[N];
 
 	polymorphic_type_ptr *location;
 
@@ -73,12 +73,12 @@ template
 
 		// type:
 
-	multi_copower() { }
+	nested_copower() { }
 
 		// initialize location to the initial position in the array.
 		// this aligns with the use of operators +,-  ().
 
-	multi_copower(value_type_ptr p) : location(path), focus(p)
+	nested_copower(value_type_ptr p) : location(path), focus(p)
 	{
 		*location = &focus;
 	}
@@ -86,7 +86,7 @@ template
 		// Destructor: Does nothing. Iterators can (de)allocate,
 		// but otherwise default to passive interaction.
 
-	~multi_copower() { }
+	~nested_copower() { }
 
 		// identity comparisons are applied to copowers,
 		// and otherwise stay within the local level of complexity.
@@ -111,7 +111,7 @@ template
 
 		// value:
 
-		// Here multi_copowers return copower pointers instead of dereferences.
+		// Here nested_copowers return copower pointers instead of dereferences.
 		// This is valuable as different copower specializations return different types.
 
 	polymorphic_type_ptr & operator * () const
@@ -186,279 +186,6 @@ template
 	size_type operator - (const type_ref c) const
 	{
 		return *location - *c.location;
-	}
-};
-
-/*
-	Copowers are also intended to be used as iterators to nested powers:
-
-	nested_power<N+1, Type, length>					:= nested_power<N, Type, length>[length]
-	nested_power<N+1, Type, length>::iterator			:= copower<nested_power<N, Type, length>, Notation::pointer>
-
-	copower<nested_power<N, Type, length>, Notation::pointer>	contains/inherits
-									copower<nested_power<N-1, Type, length>, Notation::pointer>
-
-	In this case, we both recursively contain and inherit copowers from their predecessors.
-	This allows us to implement multi_copowers using dynamic polymorphism.
-*/
-
-template
-<
-	size_type N,
-	typename Type,
-	size_type length,
-	template<size_type, class, size_type> typename NestedPower,
-
-	Access access
-
-> struct copower
-<
-	NestedPower<N, Type, length>,
-	Notation::pointer,
-	access
-
-> : public copower
-<
-	NestedPower<N-1, Type, length>,
-	Notation::pointer,
-	access
->
-{
-	using type			= copower;
-	using type_ref			= type&;
-	using type_ptr			= type*;
-
-	using const_type		= copower<NestedPower<N, Type, length>, Notation::pointer, Access::readonly>;
-
-	using sub_type			= copower<NestedPower<N-1, Type, length>, Notation::pointer, access>;
-	using sub_type_ref		= sub_type&;
-	using sub_type_ptr		= sub_type*;
-
-	using value_type		= typename read_type<NestedPower<N, Type, length>, access>::rtn;
-	using value_type_ref		= value_type&;
-	using value_type_ptr		= value_type*;
-
-		// sub_copowers aren't updated at this level
-		// as there's no guarantee they'll even be accessed.
-
-	sub_type sub_copower;
-
-	value_type_ptr focus;
-
-		// type:
-
-	copower() { }
-
-	copower(value_type_ptr f) : focus(f) { }
-
-	copower(const type_ref c) : focus(c.focus) { }
-
-	~copower() { }
-
-	bool operator == (const type_ref c) const
-	{
-		return focus == c.focus;
-	}
-
-	bool operator != (const type_ref c) const
-	{
-		return focus != c.focus;
-	}
-
-		// Exists to convert readwrite to readonly.
-		// Is redundant when already readonly.
-
-	operator const_type () const
-	{
-		return (const_type) this;
-	}
-
-		// value:
-
-	value_type_ref operator * () const
-	{
-		return *focus;
-	}
-
-		// navigator:
-
-	type_ref operator ++ ()
-	{
-		++focus;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return focus++;
-	}
-
-	type_ref operator += (size_type n)
-	{
-		focus += n;
-
-		return *this;
-	}
-
-	type operator + (size_type n) const
-	{
-		return focus + n;
-	}
-
-	type_ref operator -- ()
-	{
-		--focus;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return focus--;
-	}
-
-	type_ref operator -= (size_type n)
-	{
-		focus -= n;
-
-		return *this;
-	}
-
-	type operator - (size_type n) const
-	{
-		return focus - n;
-	}
-
-	size_type operator - (const type_ref c) const
-	{
-		return focus - c.focus;
-	}
-};
-
-/*
-	The initial case:
-
-	copower<nested_power<0, Type, length>, Notation::pointer>
-
-	We optimize in our ability to dereference more directly.
-*/
-
-template
-<
-	typename Type,
-	size_type length,
-	template<size_type, class, size_type> typename NestedPower,
-
-	Access access
-
-> struct copower
-<
-	NestedPower<Zero::value, Type, length>,
-	Notation::pointer,
-	access
->
-{
-	using type		= copower;
-	using type_ref		= type&;
-	using type_ptr		= type*;
-
-	using const_type	= copower<NestedPower<Zero::value, Type, length>, Notation::pointer, Access::readonly>;
-
-	using value_type	= typename read_type<Type, access>::rtn;
-	using value_type_ref	= value_type&;
-	using value_type_ptr	= value_type*;
-
-	value_type_ptr focus;
-
-		// type:
-
-	copower() { }
-
-	copower(value_type_ptr f) : focus(f) { }
-
-	copower(const type_ref c) : focus(c.focus) { }
-
-	~copower() { }
-
-	bool operator == (const type_ref c) const
-	{
-		return focus == c.focus;
-	}
-
-	bool operator != (const type_ref c) const
-	{
-		return focus != c.focus;
-	}
-
-		// Exists to convert readwrite to readonly.
-		// Is redundant when already readonly.
-
-	operator const_type () const
-	{
-		return (const_type) this;
-	}
-
-		// value:
-
-	value_type_ref operator * () const
-	{
-		return *focus;
-	}
-
-		// navigator:
-
-	type_ref operator ++ ()
-	{
-		++focus;
-
-		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return focus++;
-	}
-
-	type_ref operator += (size_type n)
-	{
-		focus += n;
-
-		return *this;
-	}
-
-	type operator + (size_type n) const
-	{
-		return focus + n;
-	}
-
-	type_ref operator -- ()
-	{
-		--focus;
-
-		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return focus--;
-	}
-
-	type_ref operator -= (size_type n)
-	{
-		focus -= n;
-
-		return *this;
-	}
-
-	type operator - (size_type n) const
-	{
-		return focus - n;
-	}
-
-	size_type operator - (const type_ref c) const
-	{
-		return focus - c.focus;
 	}
 };
 
