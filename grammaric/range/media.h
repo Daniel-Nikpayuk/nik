@@ -15,12 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_NESTED_H
-#define GRAMMARIC_NESTED_H
+namespace nik
+{
+	template<typename SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::media, SizeType>
+	{
+		using size_type	= SizeType;
 
-#include"pointer.h"
+	};
+}
 
-#include"../grammaric/nested/semiotic.h"
-#include"../grammaric/nested/media.h"
-
-#endif

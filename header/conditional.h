@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_BRANCH_H
-#define GRAMMARIC_BRANCH_H
+#ifndef GRAMMARIC_CONDITIONAL_H
+#define GRAMMARIC_CONDITIONAL_H
 
 #include"constant.h"
 

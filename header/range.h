@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_RANGE_H
-#define NUMERIC_RANGE_H
+#ifndef GRAMMARIC_RANGE_H
+#define GRAMMARIC_RANGE_H
 
-#include"variadic.h"
+#include"power.h"
 
-#include"../numeric/address/range/structural/semiotic.h"
-#include"../numeric/address/range/structural/media.h"
+#include"../grammaric/range/semiotic.h"
+#include"../grammaric/range/media.h"
 
 #endif

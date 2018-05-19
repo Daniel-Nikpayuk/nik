@@ -20,6 +20,8 @@ struct identity
 {
 	using method = generic<sub_policy, ob_policy>;
 
+		// eq_verb:
+
 	struct eq_verb
 	{
 		bool rtn;
@@ -27,7 +29,7 @@ struct identity
 		eq_verb() : rtn(false) { }
 
 		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
+		inline bool break_match(sub_type sub, ob_type ob, ob_type end)
 		{
 			rtn = (*sub == *ob);
 
@@ -35,11 +37,13 @@ struct identity
 		}
 
 		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
+		inline void last_match(sub_type sub, ob_type ob, ob_type end)
 		{
 			rtn = (*sub == *ob);
 		}
 	};
+
+		// neq_verb:
 
 	struct neq_verb
 	{
@@ -48,7 +52,7 @@ struct identity
 		neq_verb() : rtn(true) { }
 
 		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
+		inline bool break_match(sub_type sub, ob_type ob, ob_type end)
 		{
 			rtn = (*sub != *ob);
 
@@ -56,7 +60,7 @@ struct identity
 		}
 
 		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
+		inline void last_match(sub_type sub, ob_type ob, ob_type end)
 		{
 			rtn = (*sub != *ob);
 		}

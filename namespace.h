@@ -28,20 +28,14 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 		constant,
-		conditional,
-		tuple,
-		environment,
-		evaluator,
-
-		nested, // deprecated
 		pointer,
 		power,
+		range,
 
 		bit,
 		word,
 		address,
 
-		range,
 		list,
 
 		dimension // filler

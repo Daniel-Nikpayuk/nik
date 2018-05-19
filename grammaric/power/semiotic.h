@@ -15,20 +15,6 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Semantic note:
-
-	The operators in this module act on abstract iterator types.
-
-	On the one hand, iterators only exist to navigate specific data structures, which means by extension
-	the operators in this module are effectively acting on data structures instead of iterators.
-	This raises the question: Where do we categorize these operators, with structures or their navigators?
-
-	The specification I have taken is that we categorize such operators with the navigators of structures.
-	The idea is these operators are acting on iterators: It just so happens that these iterators maintain
-	relationships with each other that coincide with particular data structures.
-*/
-
 namespace nik
 {
 	template<typename SizeType>
@@ -38,8 +24,23 @@ namespace nik
 
 		//
 
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
+
+		using Zero		= typename Constant::zero;
+		using One		= typename Constant::one;
+		using Two		= typename Constant::two;
+
+		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
+
+		using Access		= typename Pointer::Access;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using read_type		= typename Pointer::template read_type<Type, access>;
+
+		//
+
 		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/range/semiotic.hpp"
+		#include"interface/navigator/mobile/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
 
