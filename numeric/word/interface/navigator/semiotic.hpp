@@ -16,70 +16,80 @@
 ************************************************************************************************************************/
 
 /*
+	Design specifications privilege modularization. Only in specializations do we unpack and optimize.
+*/
+
+enum struct Depth
+{
+	bit,
+	word,
+
+	dimension
+};
+
+template
+<
+	typename WordType,
+	Access access = Access::readwrite
+
+> struct coword;
+
+/*
 	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
-template<typename BinaryType, Access access = Access::readwrite>
-struct coword
+template
+<
+	typename BitType,
+	size_type length,
+	template<class, size_type> typename Word,
+
+	Access access
+
+> struct coword
+<
+	Word<BitType, length>,
+	access
+>
 {
-	using type			= coword;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type				= coword;
+	using type_ref				= type&;
+	using type_ptr				= type*;
 
-	using const_type		= coword<BinaryType, Access::readonly>;
+	using const_type			= coword<Word<BitType, length>, Access::readonly>;
 
-	using binary_type		= typename BinaryType::builtin_type;
-	using binary_type_ref		= binary_type&;
-	using binary_type_ptr		= binary_type*;
+	using value_type			= typename read_type<typename Word<BitType, length>::value_type>::rtn;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
 
-	using bit_type			= cobit<binary_type, access>;
-	using bit_type_ref		= bit_type&;
-	using bit_type_ptr		= bit_type*;
+	using bit_iterator			= typename BitType::iterator;
+	using const_bit_iterator		= typename BitType::const_iterator;
 
-	using bit_iterator		= bit_type;
-	using bit_iterator_ref		= bit_iterator&;
-	using bit_iterator_ptr		= bit_iterator*;
+	using word_iterator			= typename Word<BitType, length>::iterator;
+	using const_word_iterator		= typename Word<BitType, length>::const_iterator;
 
-	using word_iterator		= copower<bit_type_ptr, access>;
-	using word_iterator_ref		= word_iterator&;
-	using word_iterator_ptr		= word_iterator*;
+	Depth depth;
 
-	enum struct State
-	{
-		word,
-		bit,
+	bit_iterator bit_focus;
 
-		dimension
-	};
-
-	word_iterator word_location;
-	State state;
+	word_iterator word_focus;
 
 		// type:
 
-	coword(const word_iterator_ref l) : location(l) { }
+	coword(power<BitType, length> & l) : depth(Depth::word), word_focus(l.value) { }
 
 	~coword() { }
 
-	struct bit
+	bool operator == (const type & c) const
 	{
-		bool operator == (const type_ref c) const
-		{
-			if (state == State::word)	return word_location == c.word_location;
-			else				return bit_location == c.bit_location;
-		}
-	};
-
-	bool operator == (const type_ref c) const
-	{
-		if (state == State::word)	return word_location == c.word_location;
-		else				return bit_location == c.bit_location;
+		if (depth == Depth::word)	return word_focus == c.word_focus;
+		else				return bit_focus == c.bit_focus;
 	}
 
-	bool operator != (const type_ref c) const
+	bool operator != (const type & c) const
 	{
-		if (state == State::word)	return word_location != c.word_location;
-		else				return bit_location != c.bit_location;
+		if (depth == Depth::word)	return word_focus != c.word_focus;
+		else				return bit_focus != c.bit_focus;
 	}
 
 	operator const_type () const
@@ -89,69 +99,53 @@ struct coword
 
 		// value:
 
-	const binary_type_ref operator * () const
+	typename BitType::value_type_ref operator * () const
 	{
-		return *bit_location;
+		return *bit_focus;
 	}
 
 		// navigator:
 
 	void operator + ()
 	{
-		+bit_location;
+		depth = Depth::bit;
 	}
 
 	void operator - ()
 	{
-		-bit_location;
+		depth = Depth::word;
 	}
 
 	type_ref operator ++ ()
 	{
-		++word_location;
+		if (depth == Depth::word)	++word_focus;
+		else				++bit_focus;
 
 		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return word_location++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		word_location += n;
+		if (depth == Depth::word)	word_focus += n;
+		else				bit_focus += n;
 
 		return *this;
-	}
-
-	type operator + (size_type n) const
-	{
-		return word_location + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--word_location;
+		if (depth == Depth::word)	--word_focus;
+		else				--bit_focus;
 
 		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return word_location--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		word_location -= n;
+		if (depth == Depth::word)	word_focus -= n;
+		else				bit_focus -= n;
 
 		return *this;
-	}
-
-	type operator - (size_type n) const
-	{
-		return word_location - n;
 	}
 };
 

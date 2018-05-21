@@ -15,18 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename Bit, typename Filler = void>
-struct constant
+namespace nik
 {
-	using type		= constant;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+	template<typename SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::media, SizeType>
+	{
+		using size_type	= SizeType;
 
-	using bit_type		= Bit;
-	using bit_type_ref	= bit_type&;
-	using bit_type_ptr	= bit_type*;
-
-	static constexpr bit_type f(typename bit_type::binary_type::f);
-	static constexpr bit_type t(typename bit_type::binary_type::t);
-};
+	};
+}
 

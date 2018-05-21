@@ -29,22 +29,21 @@
 */
 
 /*
-	copower<RegType>	~:= RegType
+	copower<Type>	~:= Type
 
-	Within this initial specialization, RegType is arbitrary but intended for builtin register sizes:
+	Within this initial specialization, Type is arbitrary but intended for builtin register sizes:
 
 	8 << 0, unsigned char
 	8 << 1, unsigned short
 	8 << 2, unsigned int
 	8 << 3, unsigned long
 
-	It is optimized as such. Finally, as a copower is otherwise meant to be a pointer,
-	when taking in a reference it acts as a reference, meaning it only acts on external objects.
+	It is optimized as such.
 */
 
 template
 <
-	typename RegType,
+	typename Type,
 	Access access = Access::readwrite
 
 > struct copower
@@ -53,19 +52,19 @@ template
 	using type_ref		= type&;
 	using type_ptr		= type*;
 
-	using const_type	= copower<RegType, Access::readonly>;
+	using const_type	= copower<Type, Access::readonly>;
 
-	using value_type	= typename read_type<RegType, access>::rtn;
+	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ref	= value_type&;
 	using value_type_ptr	= value_type*;
 
-	value_type & focus;
+	value_type focus;
 
 		// type:
 
 	copower() { }
 
-	copower(value_type & f) : focus(f) { }
+	copower(value_type f) : focus(f) { }
 
 	copower(const type & c) : focus(c.focus) { }
 
@@ -110,11 +109,21 @@ template
 		return *this;
 	}
 
+	type operator ++ (int)
+	{
+		return focus++;
+	}
+
 	type_ref operator += (size_type n)
 	{
 		focus += n;
 
 		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return focus + n;
 	}
 
 	type_ref operator -- ()
@@ -124,30 +133,45 @@ template
 		return *this;
 	}
 
+	type operator -- (int)
+	{
+		return focus--;
+	}
+
 	type_ref operator -= (size_type n)
 	{
 		focus -= n;
 
 		return *this;
 	}
+
+	type operator - (size_type n) const
+	{
+		return focus - n;
+	}
+
+	size_type operator - (const type & c) const
+	{
+		return focus - c.focus;
+	}
 };
 
 /*
 	Beyond register sizes, copowers are intended to be used as an alternative to pointers:
 
-	copower<RegType>		~:= RegType*
+	copower<Type>		~:= Type*
 
 	We optimize in our ability to dereference more directly.
 */
 
 template
 <
-	typename RegType,
+	typename Type,
 	Access access
 
 > struct copower
 <
-	RegType*,
+	Type*,
 	access
 >
 {
@@ -155,9 +179,9 @@ template
 	using type_ref		= type&;
 	using type_ptr		= type*;
 
-	using const_type	= copower<RegType*, Access::readonly>;
+	using const_type	= copower<Type*, Access::readonly>;
 
-	using value_type	= typename read_type<RegType, access>::rtn;
+	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ref	= value_type&;
 	using value_type_ptr	= value_type*;
 
@@ -260,30 +284,32 @@ template
 };
 
 /*
-	I haven't decided if I want to specialize for copowers of copowers.
+	Copowers recursively extend their use as pointers to interact directly with the power grammar:
 
-	At the very least, copowers are intended to be the iterators of powers:
+	The initial case:
+
+	copower<power<1>>
 */
 
 template
 <
 	typename Type,
 	size_type length,
-	template<class, size_type> typename Power,
+	template<class, size_type, size_type> typename Power,
 
 	Access access
 
 > struct copower
 <
-	Power<Type, length>,
+	Power<Type, length, One::value>,
 	access
 >
 {
-	using type		= copower<Power<Type, length>, access>;
+	using type		= copower<Power<Type, length, One::value>, access>;
 	using type_ref		= type&;
 	using type_ptr		= type*;
 
-	using const_type	= copower<Power<Type, length>, Access::readonly>;
+	using const_type	= copower<Power<Type, length, One::value>, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ref	= value_type&;
@@ -298,6 +324,139 @@ template
 	copower(value_type_ptr f) : focus(f) { }
 
 	copower(const type & c) : focus(c.focus) { }
+
+	~copower() { }
+
+	bool operator == (const type & c) const
+	{
+		return focus == c.focus;
+	}
+
+	bool operator != (const type & c) const
+	{
+		return focus != c.focus;
+	}
+
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return *focus;
+	}
+
+		// navigator:
+
+	type_ref operator ++ ()
+	{
+		++focus;
+
+		return *this;
+	}
+
+	type operator ++ (int)
+	{
+		return focus++;
+	}
+
+	type_ref operator += (size_type n)
+	{
+		focus += n;
+
+		return *this;
+	}
+
+	type operator + (size_type n) const
+	{
+		return focus + n;
+	}
+
+	type_ref operator -- ()
+	{
+		--focus;
+
+		return *this;
+	}
+
+	type operator -- (int)
+	{
+		return focus--;
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		focus -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return focus - n;
+	}
+
+	size_type operator - (const type & c) const
+	{
+		return focus - c.focus;
+	}
+};
+
+/*
+	The recursive case:
+
+	power<N>				~= power<N-1>[length]
+	power<N>::iterator			~= copower<power<N-1>>
+
+	copower<power<N>>			~= *power<N>[length]
+*/
+
+template
+<
+	typename Type,
+	size_type length,
+	size_type N,
+	template<class, size_type, size_type> typename Power,
+
+	Access access
+
+> struct copower
+<
+	Power<Type, length, N>,
+	access
+
+>
+{
+	using type			= copower;
+	using type_ref			= type&;
+	using type_ptr			= type*;
+
+	using const_type		= copower<Power<Type, length, N>, Access::readonly>;
+
+	using value_type		= typename read_type<Power<Type, length, N-1>, access>::rtn;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
+
+	value_type_ptr focus;
+
+		// type:
+
+	copower() { }
+
+	copower(value_type_ptr f) : focus(f) { }
+
+	copower(const type & c) : focus(c.focus) { }
+
+	const type & operator = (const type & c)
+	{
+		focus = c.focus;
+	}
 
 	~copower() { }
 

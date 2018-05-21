@@ -34,7 +34,7 @@ enum struct Interval : size_type
 	opening,
 	open,
 
-	dimension
+	dimension // filler
 };
 
 enum struct Direction : size_type
@@ -42,7 +42,7 @@ enum struct Direction : size_type
 	forward,
 	backward,
 
-	dimension
+	dimension // filler
 };
 
 template<Interval ob_interval, Direction ob_direction>
@@ -52,8 +52,6 @@ struct object
 	static constexpr Direction direction	= ob_direction;
 };
 
-template<typename...> struct generic;
-
 /*
 	Does not test sub, ob, for matching interior closed interval lengths or right ends.
 
@@ -62,11 +60,22 @@ template<typename...> struct generic;
 
 template
 <
-	Interval sub_interval, Direction sub_direction
->
-struct generic
+	typename...
+
+> struct generic;
+
+/*
+	unary:
+*/
+
+template
 <
-	object<sub_interval, sub_direction>
+	Interval sub_interval, Direction sub_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Object<sub_interval, sub_direction>
 >
 {
 		// repeat:
@@ -93,17 +102,67 @@ struct generic
 			vb.last_action(sub);
 		}
 	}
+
+/*
+	There are methods meant specifically for use with copowers<multi>.
+
+	initial case:
+
+	template<typename vb_type, typename Type, size_type length, Access access>
+	static void repeat
+	(
+		vb_type & vb,
+		mobile_copower<power<Type, length, One::value>, access> sub,
+		mobile_copower<power<Type, length, One::value>, access> end
+	)
+	{
+		// ideally:
+
+		while (sub != end)
+		{
+			repeat(vb, sub[k], (*end).value);
+		}
+	}
+*/
+
+/*
+	recursive case:
+
+	template<typename vb_type, typename Type, size_type length, size_type N, Access access>
+	static void repeat
+	(
+		vb_type & vb,
+		mobile_copower<power<Type, length, N>, access> sub,
+		mobile_copower<power<Type, length, N>, access> end
+	)
+	{
+		// ideally:
+
+		while (sub != end)
+		{
+			repeat(vb, *sub, *end);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+	}
+*/
 };
+
+/*
+	binary:
+*/
 
 template
 <
 	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
->
-struct generic
+	Interval ob_interval, Direction ob_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
 <
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
+	Object<sub_interval, sub_direction>,
+	Object<ob_interval, ob_direction>
 >
 {
 		// compare:

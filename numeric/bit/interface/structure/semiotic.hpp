@@ -16,61 +16,70 @@
 ************************************************************************************************************************/
 
 /*
-	In the context of this library, powers are the products of concurrent instances of the same type.
-        The basic methods for the objects of this class are called as external static functions
-	allowing for identity, proximity, and functor methods between various lengths.
+	bit type	:= 0 + 1;
+	bit instance	:= s^1, s^2;
 
-	The general case:
+	A bit is a copower of RegType.
+
+	Although the template parameter allows for arbitrary types, cobit is meant specifically for the register size:
+
+	2 << 0, bool
 */
 
 template
 <
-	typename Type,
-	size_type length
+	typename RegType,
+	typename Filler = void
 
-> struct power
+> struct bit
 {
-	using type				= power;
+	using type				= bit;
 	using type_ref				= type&;
 	using type_ptr				= type*;
 
-	using value_type			= Type;
+	using value_type			= RegType;
 	using value_type_ref			= value_type&;
 	using value_type_ptr			= value_type*;
 
-	using iterator				= copower<type>;
-	using const_iterator			= copower<type, Access::readonly>;
+		// In this special case, the iterator
+		// of the grammatical construct is itself.
 
-	value_type value[length];
+	using iterator				= copower<value_type>;
+	using const_iterator			= copower<value_type, Access::readonly>;
+
+	using navigator				= cobit<type>;
+	using const_navigator			= cobit<type, Access::readonly>;
+
+	value_type value;
 
 		// type:
 
-	power() { }
+	bit() : value(Zero::value) { }
 
-	~power() { }
+	~bit() { }
 
 		// value:
 
 		// navigator:
 
-	iterator begin()
+	navigator begin()
 	{
 		return value;
 	}
 
-	const_iterator begin() const
+	const_navigator begin() const
 	{
 		return value;
 	}
 
-	iterator end()
+	navigator end()
 	{
-		return value + length;
+		return value = One::value;
 	}
 
-	const_iterator end() const
+	const_navigator end() const
 	{
-		return value + length;
+		return value = One::value;
 	}
 };
 

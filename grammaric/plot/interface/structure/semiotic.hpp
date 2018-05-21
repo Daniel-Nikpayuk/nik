@@ -26,7 +26,8 @@
 template
 <
 	typename Type,
-	size_type length
+	size_type length,
+	size_type N = One::value
 
 > struct power
 {
@@ -34,12 +35,15 @@ template
 	using type_ref				= type&;
 	using type_ptr				= type*;
 
-	using value_type			= Type;
+	using value_type			= power<Type, length, N-1>;
 	using value_type_ref			= value_type&;
 	using value_type_ptr			= value_type*;
 
 	using iterator				= copower<type>;
 	using const_iterator			= copower<type, Access::readonly>;
+
+	using enumerator			= mobile_copower<type>;
+	using const_enumerator			= mobile_copower<type, Access::readonly>;
 
 	value_type value[length];
 
@@ -52,6 +56,8 @@ template
 		// value:
 
 		// navigator:
+
+		// iterator:
 
 	iterator begin()
 	{
@@ -69,6 +75,115 @@ template
 	}
 
 	const_iterator end() const
+	{
+		return value + length;
+	}
+
+		// enumerator:
+
+	enumerator mobile_begin()
+	{
+		return value;
+	}
+
+	const_enumerator mobile_begin() const
+	{
+		return value;
+	}
+
+	enumerator mobile_end()
+	{
+		return value + length;
+	}
+
+	const_enumerator mobile_end() const
+	{
+		return value + length;
+	}
+};
+
+/*
+	The initial case:
+*/
+
+template
+<
+	typename Type,
+	size_type length
+
+> struct power
+<
+	Type,
+	length,
+	One::value
+>
+{
+	using type				= power;
+	using type_ref				= type&;
+	using type_ptr				= type*;
+
+	using value_type			= Type;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
+
+	using iterator				= copower<type>;
+	using const_iterator			= copower<type, Access::readonly>;
+
+	using enumerator			= mobile_copower<type>;
+	using const_enumerator			= mobile_copower<type, Access::readonly>;
+
+	value_type value[length];
+
+		// type:
+
+	power() { }
+
+	~power() { }
+
+		// value:
+
+		// navigator:
+
+		// iterator:
+
+	iterator begin()
+	{
+		return value;
+	}
+
+	const_iterator begin() const
+	{
+		return value;
+	}
+
+	iterator end()
+	{
+		return value + length;
+	}
+
+	const_iterator end() const
+	{
+		return value + length;
+	}
+
+		// enumerator:
+
+	enumerator mobile_begin()
+	{
+		return value;
+	}
+
+	const_enumerator mobile_begin() const
+	{
+		return value;
+	}
+
+	enumerator mobile_end()
+	{
+		return value + length;
+	}
+
+	const_enumerator mobile_end() const
 	{
 		return value + length;
 	}

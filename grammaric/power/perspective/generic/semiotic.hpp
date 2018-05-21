@@ -102,51 +102,6 @@ template
 			vb.last_action(sub);
 		}
 	}
-
-/*
-	There are methods meant specifically for use with copowers<multi>.
-
-	initial case:
-
-	template<typename vb_type, typename Type, size_type length, Access access>
-	static void repeat
-	(
-		vb_type & vb,
-		mobile_copower<power<Type, length, One::value>, access> sub,
-		mobile_copower<power<Type, length, One::value>, access> end
-	)
-	{
-		// ideally:
-
-		while (sub != end)
-		{
-			repeat(vb, sub[k], (*end).value);
-		}
-	}
-*/
-
-/*
-	recursive case:
-
-	template<typename vb_type, typename Type, size_type length, size_type N, Access access>
-	static void repeat
-	(
-		vb_type & vb,
-		mobile_copower<power<Type, length, N>, access> sub,
-		mobile_copower<power<Type, length, N>, access> end
-	)
-	{
-		// ideally:
-
-		while (sub != end)
-		{
-			repeat(vb, *sub, *end);
-
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-	}
-*/
 };
 
 /*

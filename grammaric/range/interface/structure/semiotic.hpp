@@ -16,68 +16,122 @@
 ************************************************************************************************************************/
 
 /*
-	In the context of this library, powers are the products of concurrent instances of the same type.
-        The basic methods for the objects of this class are called as external static functions
-	allowing for identity, proximity, and functor methods between various lengths.
+	current status: experimental.
+
+	Copower ranges are a convenience class. They allow for greater expressivity when interacting with powers.
+	As a convenience class, they are most portable as numeric values, which in application would be used
+	to relocate pointers.
 */
 
-template<typename Type, size_type length>
-struct power
+template
+<
+	typename Type,
+	Access access = Access::readwrite
+
+> struct copower_range
 {
-	using type		= power;
-	using type_ptr		= type*;
+	using type		= copower_range;
 	using type_ref		= type&;
+	using type_ptr		= type*;
 
-	using value_type	= Type;
-	using value_type_ptr	= value_type*;
+	using const_type	= copower_range<Type, Access::readonly>;
+
+	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ref	= value_type&;
+	using value_type_ptr	= value_type*;
 
-	using iterator		= copower<value_type_ptr>;
-	using const_iterator	= copower<value_type_ptr, Access::readonly>;
-
-	using selector		= dicopower<value_type_ptr>;
-	using const_selector	= dicopower<value_type_ptr, Access::readonly>;
-
-	value_type value[length];
+	value_type initial;
+	value_type terminal;
 
 		// type:
 
-	power() { }
+	copower_range() { }
 
-	~power() { }
+	copower_range(value_type i, value_type t) : initial(i), terminal(t) { }
+
+	~copower_range() { }
+
+	bool operator == (const type & c) const
+	{
+		return initial == c.initial && terminal == c.terminal;
+	}
+
+	bool operator != (const type & c) const
+	{
+		return initial != c.initial || terminal != c.terminal;
+	}
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// meta:
+
+	value_type_ref operator + () const
+	{
+		return terminal;
+	}
+
+	value_type_ref operator - () const
+	{
+		return initial;
+	}
 
 		// value:
 
 		// navigator:
 
-	iterator begin()
+	type_ref operator ++ ()
 	{
-		return value;
+		++initial;
+		++terminal;
+
+		return *this;
 	}
 
-	const_iterator begin() const
+	type operator ++ (int)
 	{
-		return value;
+		return type(initial++, terminal++);
 	}
 
-	iterator end()
+	type_ref operator += (size_type n)
 	{
-		return value + length;
+		initial += n;
+		terminal += n;
+
+		return *this;
 	}
 
-	const_iterator end() const
+	type operator + (size_type n) const
 	{
-		return value + length;
+		return type(initial + n, terminal + n);
 	}
 
-	selector range()
+	type_ref operator -- ()
 	{
-		return selector(value, value + length);
+		--initial;
+		--terminal;
+
+		return *this;
 	}
 
-	const_selector range() const
+	type operator -- (int)
 	{
-		return const_selector(value, value + length);
+		return type(initial--, terminal--);
+	}
+
+	type_ref operator -= (size_type n)
+	{
+		initial -= n;
+		terminal -= n;
+
+		return *this;
+	}
+
+	type operator - (size_type n) const
+	{
+		return type(initial - n, terminal - n);
 	}
 };
 

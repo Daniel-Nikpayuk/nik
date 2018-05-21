@@ -24,12 +24,6 @@ namespace nik
 
 		//
 
-		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
-
-		using Zero		= typename Constant::zero;
-		using One		= typename Constant::one;
-		using Two		= typename Constant::two;
-
 		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
 
 		using Access		= typename Pointer::Access;
@@ -40,8 +34,6 @@ namespace nik
 		//
 
 		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/mobile/semiotic.hpp"
-
 		#include"interface/structure/semiotic.hpp"
 
 		//

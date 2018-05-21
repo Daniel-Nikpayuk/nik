@@ -16,53 +16,66 @@
 ************************************************************************************************************************/
 
 /*
-	bit type	:= 0 + 1;
-	bit instance	:= s^1, s^2;
+	Cobit as a specification holds the copower used to construct the bit structure.
 
-	A cobit is a copower of BinaryType. We reimplement as its method interface can be optimized.
-
-	Although the template parameter allows for arbitrary types, cobit is meant specifically for register sizes:
-
-	2 << 0, bool
-
-	The binary type is assumed to have at least two instances, and basic arithmetic to navigate from one to the other.
+	This would be redundant except the additional specification information
+	offered by a bit means we can optimize the navigational interface here.
 */
 
-template<typename BinaryType, Access access = Access::readwrite>
-struct cobit
+template
+<
+	typename BitType,
+	Access access = Access::readwrite
+
+> struct cobit;
+
+/*
+*/
+
+template
+<
+	typename RegType,
+	template<class> typename Bit,
+
+	Access access
+
+> struct cobit
+<
+	Bit<RegType>,
+	access
+>
 {
 	using type			= cobit;
 	using type_ref			= type&;
 	using type_ptr			= type*;
 
-	using const_type		= cobit<BinaryType, Access::readonly>;
+	using const_type		= cobit<Bit<RegType>, Access::readonly>;
 
-	using binary_type		= typename BinaryType::builtin_type;
-	using binary_type_ref		= binary_type&;
-	using binary_type_ptr		= binary_type*;
+	using value_type		= typename read_type<RegType, access>::rtn;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
 
-	using copower_type		= copower<binary_type, access>;
-	using copower_type_ref		= copower_type&;
-	using copower_type_ptr		= copower_type*;
+	using bit_iterator		= typename Bit<RegType>::iterator;
+	using const_bit_iterator	= typename Bit<RegType>::const_iterator;
 
-	copower_type location;
+	bit_iterator focus;
 
 		// type:
 
 	cobit() { }
 
-	cobit(const binary_type_ref b) : location(b) { }
+	cobit(value_type & b) : focus(b) { }
 
 	~cobit() { }
 
-	bool operator == (const type_ref n) const
+	bool operator == (const type & n) const
 	{
-		return location == n.location;
+		return focus == n.focus;
 	}
 
-	bool operator != (const type_ref n) const
+	bool operator != (const type & n) const
 	{
-		return location != n.location;
+		return focus != n.focus;
 	}
 
 		// Exists to convert readwrite to readonly.
@@ -75,21 +88,21 @@ struct cobit
 
 		// value:
 
-	const binary_type_ref operator * () const
+	value_type_ref operator * () const
 	{
-		return *location;
+		return *focus;
 	}
 
 		// navigator:
 
 	void operator + ()
 	{
-		*location = BinaryType::t;
+		*focus = One::value;
 	}
 
 	void operator - ()
 	{
-		*location = BinaryType::f;
+		*focus = Zero::value;
 	}
 };
 

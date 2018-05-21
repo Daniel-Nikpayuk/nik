@@ -68,7 +68,7 @@
 	nik_stringify(header/name.h)
 
 
-#include nik_module(power)
+#include nik_module(word)
 
 
 #endif

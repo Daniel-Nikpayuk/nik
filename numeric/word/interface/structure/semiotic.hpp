@@ -20,35 +20,24 @@
 	word instance	:= m^j/s^k, m^j/s^l in (0 + 1)^n -> k = l;
 
 	A word is a power of BitType.
-
-	Although the template parameter allows for arbitrary types, word is meant specifically for register sizes:
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned int
-	8 << 3, unsigned long
-
-	The bit type is assumed to have at least two instances, and basic arithmetic to navigate from one to the other.
-	bit type assumes operators: ;
 */
 
 template<typename BitType, size_type length, typename Filler = void>
 struct word
 {
-	using type		= word;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+	using type			= word;
+	using type_ref			= type&;
+	using type_ptr			= type*;
 
-	using navigator		= word_navigator<BitType, length>;
-	using const_navigator	= word_navigator<BitType, length, Access::readonly>;
+	using value_type		= power<BitType, length>;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
 
-	using power_type	= power<BitType, length>;
-	using power_type_ref	= power_type&;
-	using power_type_ptr	= power_type*;
+	using iterator			= typename power<BitType, length>::iterator;
+	using const_iterator		= typename power<BitType, length>::const_iterator;
 
-	using bit_type		= BitType;
-	using bit_type_ref	= bit_type&;
-	using bit_type_ptr	= bit_type*;
+	using navigator			= coword<type>;
+	using const_navigator		= coword<type, Access::readonly>;
 
 	//
 
@@ -66,35 +55,35 @@ struct word
 
 	//
 
-	power_type value;
+	value_type value;
 
 	word() { }
 	
-	word(const type_ref w)
+	word(const type & w)
 	{
 		method::assign(value.begin(), w.begin(), w.end());
 	}
 
 	~word() { }
 
-	iterator begin()
+	navigator begin()
 	{
-		return value.begin();
+		return value;
 	}
 
-	const_iterator begin() const
+	const_navigator begin() const
 	{
-		return value.begin();
+		return value;
 	}
 
-	iterator end()
+	navigator end()
 	{
-		return value.end();
+		return value;
 	}
 
-	const_iterator end() const
+	const_navigator end() const
 	{
-		return value.end();
+		return value;
 	}
 };
 

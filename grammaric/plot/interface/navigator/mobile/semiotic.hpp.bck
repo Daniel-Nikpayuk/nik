@@ -16,10 +16,19 @@
 ************************************************************************************************************************/
 
 /*
-	To minimize memory use, we would implement dynamic polymorhism. Internally, a single base pointer would be sufficient.
-	dereferencing the power offers enough information to retrieve the appropriate sub power and move to the next copower.
-	Unfortunately there is no way to retrieve the super power to move back up. This means we need to keep record of
-	a path of parents. This is the intuition behind nested copowers.
+	To minimize memory use, we would implement dynamic polymorhism: Internally, a single base pointer would be sufficient.
+	Unfortunately, this approach requires allocating and deallocating memory, which is a strategy we're trying to avoid.
+
+	The next best alternative if such strict memory constraints aren't required is to create fixed memory locations
+	for reuse. Conceptually for each copower, we need heap allocated fixed memory for a parent copower and a child
+	copower. As for the recursive definition, it contains enough information to dereference a power and that can
+	be used to create a sub_copower temporary, for which we can then raise its status to persistent by passing
+	it to the heap allocated fixed child copower. The question becomes: Where do we locate this memory?
+
+	I have chosen to embed child memory directly into a recursive definition. As for parent memory, this can
+	be achieved through an external array of polymorphic copower pointers, the previous location in the array
+	being the parent. It uses only a constant difference of memory than embedding parents into the recursive
+	definition.
 */
 
 template
@@ -56,16 +65,7 @@ template
 	using value_type_ref		= value_type&;
 	using value_type_ptr		= value_type*;
 
-	using super_type		= linked_copower<Power<Type, length, Two::value>, access>;
-	using super_type_ref		= super_type&;
-	using super_type_ptr		= super_type*;
-
 	value_type_ptr focus;
-
-		// super_copowers aren't updated at this level as there's no way to predict.
-		// This information will be updated by the mobile copower.
-
-	super_type_ptr parent;
 
 		// type:
 
@@ -73,16 +73,16 @@ template
 
 	linked_copower(value_type_ptr f) : focus(f) { }
 
-	linked_copower(const type_ref c) : focus(c.focus) { }
+	linked_copower(const type & c) : focus(c.focus) { }
 
 	~linked_copower() { }
 
-	bool operator == (const type_ref c) const
+	bool operator == (const type & c) const
 	{
 		return focus == c.focus;
 	}
 
-	bool operator != (const type_ref c) const
+	bool operator != (const type & c) const
 	{
 		return focus != c.focus;
 	}
@@ -152,7 +152,7 @@ template
 		return focus - n;
 	}
 
-	size_type operator - (const type_ref c) const
+	size_type operator - (const type & c) const
 	{
 		return focus - c.focus;
 	}
@@ -200,16 +200,13 @@ template
 	using value_type_ref		= value_type&;
 	using value_type_ptr		= value_type*;
 
-	using super_type		= linked_copower<Power<Type, length, N+1>, access>;
-	using super_type_ref		= super_type&;
-	using super_type_ptr		= super_type*;
+	using sub_type			= linked_copower<Power<Type, length, N-1>, access>;
+	using sub_type_ref		= sub_type&;
+	using sub_type_ptr		= sub_type*;
 
 	value_type_ptr focus;
 
-		// sub_copowers aren't updated at this level as there's
-		// no guarantee they'll even be accessed in a given cycle.
-
-	super_type_ptr parent;
+	sub_type location;
 
 		// type:
 
@@ -217,16 +214,16 @@ template
 
 	linked_copower(value_type_ptr f) : focus(f) { }
 
-	linked_copower(const type_ref c) : focus(c.focus) { }
+	linked_copower(const type & c) : focus(c.focus) { }
 
 	~linked_copower() { }
 
-	bool operator == (const type_ref c) const
+	bool operator == (const type & c) const
 	{
 		return focus == c.focus;
 	}
 
-	bool operator != (const type_ref c) const
+	bool operator != (const type & c) const
 	{
 		return focus != c.focus;
 	}
@@ -244,6 +241,15 @@ template
 	value_type_ref operator * () const
 	{
 		return *focus;
+	}
+
+		// meta:
+
+	sub_type_ptr operator + ()
+	{
+		location = sub_type((*focus)->value);
+
+		return &location;
 	}
 
 		// navigator:
@@ -296,7 +302,7 @@ template
 		return focus - n;
 	}
 
-	size_type operator - (const type_ref c) const
+	size_type operator - (const type & c) const
 	{
 		return focus - c.focus;
 	}
@@ -358,24 +364,33 @@ template
 
 	using const_type			= mobile_copower<Power<Type, length, N>, Access::readonly>;
 
-	using value_type			= typename read_type<Power<Type, length, N>, access>::rtn;
+	using value_type			= typename read_type<Power<Type, length, N-1>, access>::rtn;
 	using value_type_ref			= value_type&;
 	using value_type_ptr			= value_type*;
 
-	using copower_type			= linked_copower<value_type, access>;
+	using copower_type			= linked_copower<Power<Type, length, N>, access>;
 	using copower_type_ref			= copower_type&;
 	using copower_type_ptr			= copower_type*;
 
-	using polymorphic_type			= linked_copower<Power<Type, length, One::value>, access>;
-	using polymorphic_type_ref		= polymorphic_type&;
-	using polymorphic_type_ptr		= polymorphic_type*;
+		// Two::value is required for dynamic polymorphism.
+
+	using copower_base			= linked_copower<Power<Type, length, Two::value>, access>;
+	using copower_base_ref			= copower_base&;
+	using copower_base_ptr			= copower_base*;
+
+	using copower_prime			= linked_copower<Power<Type, length, One::value>, access>;
+	using copower_prime_ref			= copower_prime&;
+	using copower_prime_ptr			= copower_prime*;
 
 		// defined as an array of pointers of the initial (N = 0) recursive copower,
 		// as this allows for dynamic polymorphism.
 
 	copower_type focus;
 
-	polymorphic_type_ptr *location;
+	copower_base_ptr path[N-1];
+	copower_base_ptr *location;
+
+	copower_prime_ptr position;
 
 		// type:
 
@@ -384,10 +399,10 @@ template
 		// initialize location to the initial position in the array.
 		// this aligns with the use of operators +,-  ().
 
-	mobile_copower(value_type_ptr p) : focus(p)
+	mobile_copower(value_type_ptr p) : focus(p), location(path)
 	{
-		focus.parent = null_ptr;
 		*location = &focus;
+		position = *location;
 	}
 
 		// Destructor: Does nothing. Iterators can (de)allocate,
@@ -398,12 +413,12 @@ template
 		// identity comparisons are applied to copowers,
 		// and otherwise stay within the local level of complexity.
 
-	bool operator == (const type_ref c) const
+	bool operator == (const type & c) const
 	{
 		return **location == **c.location;
 	}
 
-	bool operator != (const type_ref c) const
+	bool operator != (const type & c) const
 	{
 		return **location != **c.location;
 	}
@@ -421,7 +436,7 @@ template
 		// Here mobile_copowers return copower pointers instead of dereferences.
 		// This is valuable as different copower specializations return different types.
 
-	polymorphic_type_ptr & operator * () const
+	copower_base_ptr & operator * () const
 	{
 		return *location;
 	}
@@ -430,65 +445,63 @@ template
 
 	void operator + ()
 	{
-		location = (*location)->focus->value;
 	}
 
 	void operator - ()
 	{
-		location = (*location)->parent;
 	}
 
 		// navigator:
 
 	type_ref operator ++ ()
 	{
-		(*location)->operator++();
+		position->operator++();
 
 		return *this;
 	}
 
 	type operator ++ (int int_value)
 	{
-		return (*location)->operator++(int_value);
+		return position->operator++(int_value);
 	}
 
 	type_ref operator += (size_type n)
 	{
-		(*location)->operator+=(n);
+		position->operator+=(n);
 
 		return *this;
 	}
 
 	type operator + (size_type n) const
 	{
-		return (*location)->operator+(n);
+		return position->operator+(n);
 	}
 
 	type_ref operator -- ()
 	{
-		(*location)->operator--();
+		position->operator--();
 
 		return *this;
 	}
 
 	type operator -- (int int_value)
 	{
-		return (*location)->operator--(int_value);
+		return position->operator--(int_value);
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		(*location)->operator-=(n);
+		position->operator-=(n);
 
 		return *this;
 	}
 
 	type operator - (size_type n) const
 	{
-		return (*location)->operator-(n);
+		return position->operator-(n);
 	}
 
-	size_type operator - (const type_ref c) const
+	size_type operator - (const type & c) const
 	{
 		return *location - *c.location;
 	}

@@ -24,15 +24,31 @@ namespace nik
 
 		//
 
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
+
+		using Zero		= typename Constant::Zero;
+		using One		= typename Constant::One;
+
+		//
+
+		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
+
+		using Access		= typename Pointer::Access;
+
+					  template<typename Type, Access access = Access::readwrite>
+		using read_type		= typename Pointer::template read_type<Type, access>;
+
+		//
+
 		using Power		= grammaric<Module::power, Permission::semiotic, size_type>;
 
-					  template<typename Type, Access access>
+					  template<typename Type, Access access = Access::readwrite>
 		using copower		= typename Power::template copower<Type>;
 
 		#include"interface/navigator/semiotic.hpp"
-		#include"interface/navigator/boolean/semiotic.hpp"
 
-//		#include"perspective/constant/semiotic.hpp"
+		#include"interface/structure/semiotic.hpp"
+		#include"interface/structure/boolean/semiotic.hpp"
 	};
 }
 

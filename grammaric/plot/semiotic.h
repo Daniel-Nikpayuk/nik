@@ -18,11 +18,17 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::semiotic, SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::semiotic, SizeType>
 	{
 		using size_type		= SizeType;
 
 		//
+
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
+
+		using Zero		= typename Constant::zero;
+		using One		= typename Constant::one;
+		using Two		= typename Constant::two;
 
 		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
 
@@ -33,48 +39,18 @@ namespace nik
 
 		//
 
-		using Power		= grammaric<Module::power, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using copower		= typename Power::template copower<Type, access>;
-
-					  template<typename Type, size_type length>
-		using power		= typename Power::template power<Type, length>;
-
-		using Interval		= typename Power::Interval;
-		using Direction		= typename Power::Direction;
-
-					  template<Interval interval, Direction direction>
-		using object		= typename Power::template object<interval, direction>;
-
-					  template<typename... Objects>
-		using functor		= typename Power::template functor<Objects...>;
-
-		//
-
-		using Bit		= numeric<Module::bit, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using cobit		= typename Bit::template cobit<Type, access>;
-
-					  template<typename RegType>
-		using bit		= typename Bit::template bit<RegType>;
-
-		//
-
 		#include"interface/navigator/semiotic.hpp"
-//		#include"interface/navigator/boolean/semiotic.hpp"
+		#include"interface/navigator/mobile/semiotic.hpp"
 
 		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
 
 		//
 
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/identity/boolean/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
+		#include"perspective/generic/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
+		#include"perspective/printer/semiotic.hpp"
 	};
 }
 
