@@ -15,13 +15,42 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct math
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+	/*
+		multiply:
+	*/
 
+	struct multiply
+	{
 	};
-}
+
+	/*
+		divide:
+
+		These algorithms are highly optimized and only work (semantically) if (in1|in2 >= d) where (in1 != 0), and (in1 < d).
+
+		The cases d == 0 , d == 1 are not covered as no optimized algorithms are required.
+	*/
+
+	struct divide
+	{
+	/*
+		return_quotient:
+
+		The return value is the quotient of the division.
+		out is the remainder from the division.
+		in1 is the first digit of the dividend and is such that in1 != 0.
+		in2 is the second digit of the dividend.
+		d is the divisor and is such that in1 < d. Given in1 != 0, this implies 2 <= d.
+				template<typename size_type>
+				static size_type return_quotient(size_type & out, size_type in1, size_type in2, size_type d)
+				{
+					if (d == (size_type) 2) return divisor_equals_2(out, in2);
+					else if (d < shift_up((size_type) 1)) return half::with_return(out, in1, in2, d);
+					else return with_return(out, in1, in2, d);
+				}
+	*/
+	};
+};
 

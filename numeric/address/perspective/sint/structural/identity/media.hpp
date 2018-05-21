@@ -15,13 +15,7 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
-
-	};
-}
+/*
+	Test against self-assignment!
+*/
 

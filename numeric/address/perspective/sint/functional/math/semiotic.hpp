@@ -15,13 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct math
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
+	template<size_type a, size_type b>
+	class gcd
 	{
-		using size_type	= SizeType;
-
+		public: enum : size_type { value = gcd<b, a%b>::value };
 	};
-}
+
+	template<size_type a>
+	class gcd<a, 0> { public: enum : size_type { value = a }; };
+
+	template<size_type rtn, size_type b, size_type n>
+	class exp
+	{
+		static constexpr size_type sq = media::template square<b>::value;
+
+		public: enum : size_type
+		{
+			value = gcf_media::template
+			if_then_else
+			<
+				(1 & n),
+				exp<rtn*b, b, n-1>,
+				exp<rtn, sq, (n>>1)>
+			>::return_type::value
+		};
+	};
+
+	template<size_type rtn, size_type b>
+	class exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
+};
 

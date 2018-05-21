@@ -15,13 +15,17 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct meta
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
 	{
-		using size_type	= SizeType;
-
+		public: enum : size_type
+		{
+			value = !diff
+					|| left > right ? left :
+				semiotic::template midpoint<guess_and_check, left, right, diff>::value
+		};
 	};
-}
+};
 

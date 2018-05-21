@@ -15,13 +15,29 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct meta
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
+	template<typename guess_and_check, size_type left, size_type right, size_type diff=right-left>
+	class midpoint
 	{
-		using size_type	= SizeType;
+		static constexpr size_type mid = (left + right) >> 1;
 
+		public: enum : size_type
+		{
+			value = gcf_media::template
+			if_then_else
+			<
+				guess_and_check::template test<mid>::value,
+				midpoint<guess_and_check, mid, right>,
+				midpoint<guess_and_check, left, mid>
+			>::return_type::value
+		};
 	};
-}
+
+	template<typename guess_and_check, size_type left, size_type right>
+	class midpoint<guess_and_check, left, right, 1>
+	{
+		public: enum : size_type { value = left };
+	};
+};
 

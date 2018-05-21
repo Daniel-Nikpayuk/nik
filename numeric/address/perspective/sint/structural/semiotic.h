@@ -15,13 +15,19 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+namespace nik		{
+namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace structural	{
 
+	template<typename SizeType>
+	struct semiotic
+	{
+		typedef SizeType size_type;
+
+		#include"identity/semiotic.hpp"
 	};
-}
+
+}}}}}
 

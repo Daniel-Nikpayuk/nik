@@ -16,53 +16,96 @@
 ************************************************************************************************************************/
 
 /*
-	address type		:= (0 + 1)^np;
-	address instance	:= m^i/m^j/s^k, m^i/m^j/s^l in (0 + 1)^np -> k = l;
+	Design specifications privilege modularization. Only in specializations do we unpack and optimize.
+*/
 
-	binary type assumes operators: ;
+enum struct Depth
+{
+	bit,
+	word,
+	address,
 
+	dimension
+};
+
+template
+<
+	typename AddressType,
+	Access access = Access::readwrite
+
+> struct coaddress;
+
+/*
 	Navigators may be optimized in their methods as they have limited perspectives.
 */
 
-/*
-	1. The only reason to unroll composite navigators is to optimize.
-	2. The only reason to optimize composite navigators by unrolling
-	   is if the context requires frequently moving between levels of complexity.
-*/
+template
+<
+	typename BitType, size_type word_length,
+	template<class, size_type> typename Word,
 
-template<typename Word, size_type length, Access access = Access::readwrite>
-struct address_navigator
+	size_type length,
+	template<class, size_type> typename Address,
+
+	Access access
+
+> struct coaddress
+<
+	Address<Word<BitType, word_length>, length>,
+	access
+>
 {
-	using type			= address_navigator;
-	using type_ref			= type&;
-	using type_ptr			= type*;
+	using type				= coaddress;
+	using type_ref				= type&;
+	using type_ptr				= type*;
 
-	using const_type		= address_navigator<Word, length, Access::readonly>;
+	using const_type			= coaddress<Address<Word<BitType, word_length>, length>, Access::readonly>;
 
-	using sub_navigator		= coproduct<Word, access>;
-	using sub_navigator_ref		= sub_navigator&;
-	using sub_navigator_ptr		= sub_navigator*;
+	using bit_type				= typename read_type<BitType, access>::rtn;
+	using bit_type_ref			= bit_type&;
+	using bit_type_ptr			= bit_type*;
 
-	using word_type			= typename read_type<Word, access>::rtn;
-	using word_type_ref		= word_type&;
-	using word_type_ptr		= word_type*;
+	using word_type				= Word<bit_type, word_length>;
+	using word_type_ref			= word_type&;
+	using word_type_ptr			= word_type*;
 
-	sub_navigator location;
+	using address_type			= Address<word_type, length>;
+	using address_type_ref			= address_type&;
+	using address_type_ptr			= address_type*;
+
+	using bit_iterator			= typename bit_type::iterator;
+	using const_bit_iterator		= typename bit_type::const_iterator;
+
+	using word_iterator			= typename word_type::iterator;
+	using const_word_iterator		= typename word_type::const_iterator;
+
+	using address_iterator			= typename address_type::iterator;
+	using const_address_iterator		= typename address_type::const_iterator;
+
+	Depth depth;
+
+	address_iterator address_focus;
+	word_iterator word_focus;
+	bit_iterator bit_focus;
 
 		// type:
 
-	address_navigator(const sub_navigator_ref l) : location(l) { }
+	coaddress(power<word_type, length> & l) : depth(Depth::address), address_focus(l.value) { }
 
-	~address_navigator() { }
+	~coaddress() { }
 
-	bool operator == (const type_ref w) const
+	bool operator == (const type & c) const
 	{
-		return location == w.location;
+		if (depth == Depth::address)	return address_focus == c.address_focus;
+		else if (depth == Depth::word)	return word_focus == c.word_focus;
+		else				return bit_focus == c.bit_focus;
 	}
 
-	bool operator != (const type_ref w) const
+	bool operator != (const type & c) const
 	{
-		return location != w.location;
+		if (depth == Depth::address)	return address_focus != c.address_focus;
+		else if (depth == Depth::word)	return word_focus != c.word_focus;
+		else				return bit_focus != c.bit_focus;
 	}
 
 	operator const_type () const
@@ -70,61 +113,63 @@ struct address_navigator
 		return (const_type) this;
 	}
 
+		// value:
+
+	bit_type_ref operator * () const
+	{
+		return *bit_focus;
+	}
+
 		// navigator:
+
+	void operator + ()
+	{
+		depth = (depth == Depth::address) ?
+			Depth::word :
+			Depth::bit;
+	}
+
+	void operator - ()
+	{
+		depth = (depth == Depth::bit) ?
+			Depth::word :
+			Depth::address;
+	}
 
 	type_ref operator ++ ()
 	{
-		++location;
+		if (depth == Depth::address)	++address_focus;
+		else if (depth == Depth::word)	++word_focus;
+		else				++bit_focus;
 
 		return *this;
-	}
-
-	type operator ++ (int)
-	{
-		return location++;
 	}
 
 	type_ref operator += (size_type n)
 	{
-		location += n;
+		if (depth == Depth::address)	address_focus += n;
+		else if (depth == Depth::word)	word_focus += n;
+		else				bit_focus += n;
 
 		return *this;
-	}
-
-	type operator + (size_type n) const
-	{
-		return location + n;
 	}
 
 	type_ref operator -- ()
 	{
-		--location;
+		if (depth == Depth::address)	--address_focus;
+		else if (depth == Depth::word)	--word_focus;
+		else				--bit_focus;
 
 		return *this;
-	}
-
-	type operator -- (int)
-	{
-		return location--;
 	}
 
 	type_ref operator -= (size_type n)
 	{
-		location -= n;
+		if (depth == Depth::address)	address_focus -= n;
+		else if (depth == Depth::word)	word_focus -= n;
+		else				bit_focus -= n;
 
 		return *this;
-	}
-
-	type operator - (size_type n) const
-	{
-		return location - n;
-	}
-
-		// value:
-
-	word_type_ref operator * () const
-	{
-		return *location;
 	}
 };
 

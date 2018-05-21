@@ -15,13 +15,45 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct discrete
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+	/*
+		Terms:
 
+		semiotic::unit::length
+
+		Constraints:
+
+		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+		Dispatch:
+
+		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
+		[3]	(n == 0)						->	x
+		[2]	(0 < -n < length) && (x != 0)				->	>>
+		[2]	(0 < n < length) && (x != 0)				->	<<
+	*/
+
+	template<size_type x, size_type n>
+	class shift
+	{
+		static constexpr size_type sx = !x ? 0 : x;
+		static constexpr size_type sn = !n
+						|| n <= -semiotic::unit::length
+						|| n >= semiotic::unit::length ? 0 :
+						n < 0 ? -n : n;
+
+		static constexpr size_type right = semiotic::overload::template right_shift<sx, sn>::value;
+		static constexpr size_type left = semiotic::overload::template left_shift<sx, sn>::value;
+
+		public: enum : size_type
+		{
+			value = !n ? x :
+				n <= -semiotic::unit::length
+					|| n >= semiotic::unit::length
+					|| !x ? 0 :
+				n < 0 ? right : left
+		};
 	};
-}
+};
 

@@ -15,13 +15,29 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+namespace nik		{
+namespace numeric	{
+namespace word		{
+namespace uint		{
+namespace procedural	{
 
+	template<typename SizeType>
+	struct media
+	{
+		static_assert(!functional::limits<SizeType>::min, "uint function argument signed!");
+
+		typedef SizeType size_type;
+
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		typedef functional::semiotic<size_type> f_semiotic;
+
+		typedef functional::semiotic<size_type> semiotic;
+
+		#include"overload/media.hpp"
+		#include"discrete/media.hpp"
+//		#include"math/media.hpp"
+		#include"sift/media.hpp"
 	};
-}
+
+}}}}}
 

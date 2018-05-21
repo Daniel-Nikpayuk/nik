@@ -15,48 +15,75 @@
 **
 ************************************************************************************************************************/
 
-template<typename Bit, size_type length, typename Filler = void>
-struct word
+/*
+	address type		:= (0 + 1)^np;
+	address instance	:= m^i/m^j/s^k, m^i/m^j/s^l in (0 + 1)^np -> k = l;
+
+	An address is a power of WordType.
+*/
+
+template<typename WordType, size_type length, typename Filler = void>
+struct address
 {
-	using type		= word;
-	using type_ref		= type&;
-	using type_ptr		= type*;
+	using type			= address;
+	using type_ref			= type&;
+	using type_ptr			= type*;
 
-	using iterator		= word_navigator<Bit, length>;
-	using const_iterator	= word_navigator<Bit, length, Access::readonly>;
+	using value_type		= power<WordType, length>;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
 
-	using product_type	= product<Bit, length>;
-	using product_type_ref	= product_type&;
-	using product_type_ptr	= product_type*;
+	using iterator			= typename power<WordType, length>::iterator;
+	using const_iterator		= typename power<WordType, length>::const_iterator;
 
-	using bit_type		= Bit;
-	using bit_type_ref	= bit_type&;
-	using bit_type_ptr	= bit_type*;
+	using navigator			= coaddress<type>;
+	using const_navigator		= coaddress<type, Access::readonly>;
 
-	product_type value;
+	//
 
-	word() { }
+	using policy		= object
+				<
+					Interval::closing,
+					Direction::forward
+				>;
 
-	~word() { }
+	using method		= functor
+				<
+					policy,
+					policy
+				>;
 
-	iterator begin()
+	//
+
+	value_type value;
+
+	address() { }
+	
+	address(const type & w)
 	{
-		return value.begin();
+		method::assign(value.begin(), w.begin(), w.end());
 	}
 
-	const_iterator begin() const
+	~address() { }
+
+	navigator begin()
 	{
-		return value.begin();
+		return value;
 	}
 
-	iterator end()
+	const_navigator begin() const
 	{
-		return value.end();
+		return value;
 	}
 
-	const_iterator end() const
+	navigator end()
 	{
-		return value.end();
+		return value;
+	}
+
+	const_navigator end() const
+	{
+		return value;
 	}
 };
 

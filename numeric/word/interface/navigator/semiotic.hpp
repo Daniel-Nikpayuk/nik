@@ -58,9 +58,13 @@ template
 
 	using const_type			= coword<Word<BitType, length>, Access::readonly>;
 
-	using value_type			= typename read_type<typename Word<BitType, length>::value_type>::rtn;
-	using value_type_ref			= value_type&;
-	using value_type_ptr			= value_type*;
+	using bit_type				= typename read_type<BitType, access>::rtn;
+	using bit_type_ref			= bit_type&;
+	using bit_type_ptr			= bit_type*;
+
+	using word_type				= Word<bit_type, length>;
+	using word_type_ref			= word_type&;
+	using word_type_ptr			= word_type*;
 
 	using bit_iterator			= typename BitType::iterator;
 	using const_bit_iterator		= typename BitType::const_iterator;
@@ -70,13 +74,12 @@ template
 
 	Depth depth;
 
-	bit_iterator bit_focus;
-
 	word_iterator word_focus;
+	bit_iterator bit_focus;
 
 		// type:
 
-	coword(power<BitType, length> & l) : depth(Depth::word), word_focus(l.value) { }
+	coword(power<bit_type, length> & l) : depth(Depth::word), word_focus(l.value) { }
 
 	~coword() { }
 
@@ -99,7 +102,7 @@ template
 
 		// value:
 
-	typename BitType::value_type_ref operator * () const
+	bit_type_ref operator * () const
 	{
 		return *bit_focus;
 	}

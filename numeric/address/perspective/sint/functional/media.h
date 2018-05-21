@@ -15,13 +15,31 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+namespace nik		{
+namespace numeric	{
+namespace word		{
+namespace sint		{
+namespace functional	{
 
+	template<typename SizeType>
+	struct media
+	{
+		static_assert(limits<SizeType>::min, "sint template parameter unsigned!");
+
+		typedef SizeType size_type;
+
+		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
+		typedef functional::limits<size_type> limits;
+
+		typedef functional::semiotic<size_type> semiotic;
+
+		#include"meta/media.hpp"
+		#include"unit/media.hpp"
+		#include"overload/media.hpp"
+		#include"discrete/media.hpp"
+		#include"math/media.hpp"
+		#include"sift/media.hpp"
 	};
-}
+
+}}}}}
 

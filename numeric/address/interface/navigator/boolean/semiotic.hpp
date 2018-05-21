@@ -15,36 +15,51 @@
 **
 ************************************************************************************************************************/
 
-#define define_word_navigator(int_length, int_type)									\
+#define define_coword(int_length, int_type)										\
 															\
-template<Access access>													\
-struct word_navigator<bit<boolean>, (int_length), access>								\
+template														\
+<															\
+	template<class, size_type> typename Word,									\
+															\
+	Access access													\
+															\
+> struct coword														\
+<															\
+	Word<bit<bool>, (int_length)>,											\
+	access														\
+>															\
 {															\
-	using type			= word_navigator;								\
-	using type_ref			= type&;									\
-	using type_ptr			= type*;									\
+	using type				= coword;								\
+	using type_ref				= type&;								\
+	using type_ptr				= type*;								\
 															\
-	using const_type		= word_navigator<bit<boolean>, (int_length), Access::readonly>;			\
+	using const_type			= coword<Word<bit<bool>, (int_length)>, Access::readonly>;		\
 															\
-	using sub_navigator		= coproduct<Bit, access>;							\
-	using sub_navigator_ref		= sub_navigator&;								\
-	using sub_navigator_ptr		= sub_navigator*;								\
+	using value_type			= typename read_type<typename Word<bit<bool>, length>::value_type>::rtn;\
+	using value_type_ref			= value_type&;								\
+	using value_type_ptr			= value_type*;								\
 															\
-	using bit_type			= typename read_type<bit<boolean>, access>::rtn;				\
-	using bit_type_ref		= bit_type&;									\
-	using bit_type_ptr		= bit_type*;									\
+	using bit_iterator			= typename bit<bool>::iterator;						\
+	using const_bit_iterator		= typename bit<bool>::const_iterator;					\
 															\
-	using byte_type			= typename read_type<int_type, access>::rtn;					\
+	using word_iterator			= typename Word<bit<bool>, length>::iterator;				\
+	using const_word_iterator		= typename Word<bit<bool>, length>::const_iterator;			\
+															\
+	Depth depth;													\
+															\
+	bit_iterator bit_focus;												\
+															\
+	word_iterator word_focus;											\
 															\
 	byte_type location;												\
 	byte_type *name;												\
 															\
-	word_navigator(byte_type l, byte_type & n) : location(l)							\
+	coword(byte_type l, byte_type & n) : location(l)								\
 	{														\
 		name = &n;												\
 	}														\
 															\
-	~word_navigator() { }												\
+	~coword() { }													\
 															\
 	operator const_type () const											\
 	{														\
@@ -75,7 +90,7 @@ struct word_navigator<bit<boolean>, (int_length), access>								\
 															\
 	type operator ++ (int)												\
 	{														\
-		return word_navigator(location<<1, name);								\
+		return coword(location<<1, name);									\
 	}														\
 															\
 	type_ref operator += (byte_type n)										\
@@ -87,7 +102,7 @@ struct word_navigator<bit<boolean>, (int_length), access>								\
 															\
 	type operator + (byte_type n) const										\
 	{														\
-		return word_navigator(location<<n, name);								\
+		return coword(location<<n, name);									\
 	}														\
 															\
 	type_ref operator -- ()												\
@@ -99,7 +114,7 @@ struct word_navigator<bit<boolean>, (int_length), access>								\
 															\
 	type operator -- (int)												\
 	{														\
-		return word_navigator(location>>1, name);								\
+		return coword(location>>1, name);									\
 	}														\
 															\
 	type_ref operator -= (byte_type n)										\
@@ -111,16 +126,16 @@ struct word_navigator<bit<boolean>, (int_length), access>								\
 															\
 	type operator - (byte_type n) const										\
 	{														\
-		return word_navigator(location>>n, name);								\
+		return coword(location>>n, name);									\
 	}														\
 };															\
 
 
-define_word_navigator(8 << 0, unsigned char)
-define_word_navigator(8 << 1, unsigned short)
-define_word_navigator(8 << 2, unsigned int)
-define_word_navigator(8 << 3, unsigned long)
+define_coword(8 << 0, unsigned char)
+define_coword(8 << 1, unsigned short)
+define_coword(8 << 2, unsigned int)
+define_coword(8 << 3, unsigned long)
 
 
-#undef define_word_navigator
+#undef define_coword
 

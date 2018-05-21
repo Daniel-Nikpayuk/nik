@@ -15,13 +15,18 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+struct base;
 
-	};
-}
+template<typename T, unsigned char size>
+struct size_assert
+{
+	static_assert(sizeof(T) == size, "sint size_assert mismatch!");
+
+	typedef T return_type;
+};
+
+typedef typename size_assert<signed char	, 1>::return_type identity8; 
+typedef typename size_assert<signed short	, 2>::return_type identity16;
+typedef typename size_assert<signed int		, 4>::return_type identity32;
+typedef typename size_assert<signed long	, 8>::return_type identity64;
 

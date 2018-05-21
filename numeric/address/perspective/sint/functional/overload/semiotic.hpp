@@ -15,13 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct overload
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+	/*
+		Constraints:
 
+		(0 < n < length) && (x != 0)
+	*/
+
+	template<size_type x, size_type n>
+	struct left_shift
+	{
+		enum : size_type { value = x << n };
 	};
-}
+
+	/*
+		Constraints:
+
+		(0 < n < length) && (x != 0)
+	*/
+
+	template<size_type x, size_type n>
+	struct right_shift
+	{
+		enum : size_type
+		{
+			value = x < 0 ?
+				-(-x >> n) :
+				x >> n
+		};
+	};
+};
 

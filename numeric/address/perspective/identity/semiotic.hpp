@@ -15,13 +15,39 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+template<typename Word, typename Filler = void>
+struct identity
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+	using type		= identity;
+	using type_ref		= type&;
+	using type_ptr		= type*;
 
-	};
-}
+	using word_type		= Word;
+	using word_type_ref	= word_type&;
+	using word_type_ptr	= word_type*;
+
+		// if they're of the same word_type it is assumed they have the same word_length.
+
+	static bool equals(const word_type & u, const word_type & v)
+	{
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
+
+		for (; k != e; ++k, ++l) if (*k != *l) return false;
+
+		return true;
+	}
+
+	static bool not_equals(const word_type & u, const word_type & v)
+	{
+		typename word_type::const_iterator k = u.begin();
+		typename word_type::const_iterator e = u.end();
+		typename word_type::const_iterator l = v.begin();
+
+		for (; k != e; ++k, ++l) if (*k != *l) return true;
+
+		return false;
+	}
+};
 

@@ -15,13 +15,36 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct discrete
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::media, SizeType>
-	{
-		using size_type	= SizeType;
+	/*
+		Terms:
 
+		unit::semiotic::length
+
+		Constraints:
+
+		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+
+		Dispatch:
+
+		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
+		[3]	(n == 0)						->	x
+		[2]	(0 < -n < length) && (x != 0)				->	>>
+		[2]	(0 < n < length) && (x != 0)				->	<<
+	*/
+
+	struct shift
+	{
+		static size_type with_return(size_type x, size_type n)
+		{
+			static constexpr size_type length = f_semiotic::unit::length;
+
+			if (0 < n && n < length && x)		return semiotic::over::left_shift::with_return(x, n);
+			else if (0 > n && n > -length && x)	return semiotic::over::right_shift::with_return(x, -n);
+			else if (!n)				return x;
+			else					return 0;
+		}
 	};
-}
+};
 
