@@ -15,36 +15,80 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+/*
+*/
+
+template
+<
+	size_type N,
+	typename Filler = void
+>
+struct builtin;
+
+/*
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
+*/
+
+template
+<
+	typename Filler
+>
+struct builtin
+<
+	Byte::value << Zero::value,
+	Filler
+>
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::semiotic, SizeType>
-	{
-		using size_type		= SizeType;
+	using rtn = unsigned char;
+};
 
-		//
+template
+<
+	typename Filler
+>
+struct builtin
+<
+	Byte::value << One::value,
+	Filler
+>
+{
+	using rtn = unsigned short;
+};
 
-		nik_unpack(pointer)
-		nik_unpack(power)
 
-		nik_unpack(bit)
-		nik_unpack(word)
+template
+<
+	typename Filler
+>
+struct builtin
+<
+	Byte::value << Two::value,
+	Filler
+>
+{
+	using rtn = unsigned int;
+};
 
-		//
 
-		#include"interface/navigator/semiotic.hpp"
-//		#include"interface/navigator/boolean/semiotic.hpp"
+template
+<
+	typename Filler
+>
+struct builtin
+<
+	Byte::value << Three::value,
+	Filler
+>
+{
+	using rtn = unsigned long;
+};
 
-		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
+/*
+*/
 
-		//
-
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/identity/boolean/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
-	};
-}
+		  template<size_type N>
+using byte_type = builtin<N>;
 

@@ -43,12 +43,12 @@
 #define nik_using(branch, name)												\
 															\
 	using name = nik::branch::name##Module<size_type>;
-
-
-#define nik_import(branch, module, name)										\
-															\
-	branch##_##module##_import_##name()
 */
+
+
+#define nik_unpack(module)												\
+															\
+	unpack##_##module()
 
 
 /***********************************************************************************************************************/

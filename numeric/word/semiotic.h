@@ -24,41 +24,10 @@ namespace nik
 
 		//
 
-		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;
+		nik_unpack(pointer)
+		nik_unpack(power)
 
-		using Access		= typename Pointer::Access;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using read_type		= typename Pointer::template read_type<Type, access>;
-
-		//
-
-		using Power		= grammaric<Module::power, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using copower		= typename Power::template copower<Type, access>;
-
-					  template<typename Type, size_type length>
-		using power		= typename Power::template power<Type, length>;
-
-		using Interval		= typename Power::Interval;
-		using Direction		= typename Power::Direction;
-
-					  template<Interval interval, Direction direction>
-		using object		= typename Power::template object<interval, direction>;
-
-					  template<typename... Objects>
-		using functor		= typename Power::template functor<Objects...>;
-
-		//
-
-		using Bit		= numeric<Module::bit, Permission::semiotic, size_type>;
-
-					  template<typename Type, Access access = Access::readwrite>
-		using cobit		= typename Bit::template cobit<Type, access>;
-
-					  template<typename RegType>
-		using bit		= typename Bit::template bit<RegType>;
+		nik_unpack(bit)
 
 		//
 

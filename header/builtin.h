@@ -15,36 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::address, Permission::semiotic, SizeType>
-	{
-		using size_type		= SizeType;
+#ifndef GRAMMARIC_BUILTIN_H
+#define GRAMMARIC_BUILTIN_H
 
-		//
+#include"constant.h"
 
-		nik_unpack(pointer)
-		nik_unpack(power)
+#include"../grammaric/builtin/semiotic.h"
+#include"../grammaric/builtin/media.h"
 
-		nik_unpack(bit)
-		nik_unpack(word)
-
-		//
-
-		#include"interface/navigator/semiotic.hpp"
-//		#include"interface/navigator/boolean/semiotic.hpp"
-
-		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
-
-		//
-
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/identity/boolean/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
-	};
-}
-
+#endif

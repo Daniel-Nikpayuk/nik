@@ -28,6 +28,7 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 		constant,
+		builtin,
 		pointer,
 		power,
 		range,
@@ -66,97 +67,86 @@ namespace nik
 
 				  template<Module module, Permission permission, typename SizeType = global_size_type>
 	using numeric		= space<Branch::numeric, module, permission, SizeType>;
-}
-
-/*
-	Deprecated from Module::constant. Saved here for future potential repurposing.
-
-	template<typename SizeType>
-	struct ConstantModule
-	{
-		using SS = module
-		<
-			Module::	constant,
-			Orientation::	structural,
-			Interface::	semiotic,
-
-			SizeType
-		>;
-
-		#define grammaric_Constant_import_constant()								\
-															\
-			template<typename Type, Type... Value>								\
-			using constant = typename Constant::SS::template constant<Type, Value...>;
-
-		#define grammaric_Constant_import_boolean()								\
-															\
-			template<bool Value>										\
-			using boolean = typename Constant::SS::template boolean<Value>;
-
-		using FS = module
-		<
-			Module::	constant,
-			Orientation::	functional,
-			Interface::	semiotic,
-
-			SizeType
-		>;
-
-		#define grammaric_Constant_import_empty()								\
-															\
-			template<typename... Exps>									\
-			using empty = typename Constant::FS::template empty<Exps...>;
-
-		#define grammaric_Constant_import_is_constant()								\
-															\
-			template<typename Exp>										\
-			using is_constant = typename Constant::FS::template is_constant<Exp>;
-
-		#define grammaric_Constant_import_equal()								\
-															\
-			template<typename Exp1, typename Exp2>								\
-			using equal = typename Constant::FS::template equal<Exp1, Exp2>;
-
-		#define grammaric_Constant_import_less_than()								\
-															\
-			template<typename Exp1, typename Exp2>								\
-			using less_than = typename Constant::FS::template less_than<Exp1, Exp2>;
-
-		#define grammaric_Constant_import_less_than_or_equal()							\
-															\
-			template<typename Exp1, typename Exp2>								\
-			using less_than_or_equal = typename Constant::FS::template less_than_or_equal<Exp1, Exp2>;
-
-		#define grammaric_Constant_import_greater_than()							\
-															\
-			template<typename Exp1, typename Exp2>								\
-			using greater_than = typename Constant::FS::template greater_than<Exp1, Exp2>;
-
-		#define grammaric_Constant_import_greater_than_or_equal()						\
-															\
-			template<typename Exp1, typename Exp2>								\
-			using greater_than_or_equal = typename Constant::FS::template greater_than_or_equal<Exp1, Exp2>;
-*/
 
 /***********************************************************************************************************************/
 
-/*
-		#define grammaric_Constant_import_Not()									\
+	#define unpack_constant()											\
 															\
-			template<typename Exp>										\
-			using Not = typename Constant::FS::template Not<Exp>;
-
-		#define grammaric_Constant_import_And()									\
+		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;			\
 															\
-			template<typename Exp1, typename Exp2, typename... Exps>					\
-			using And = typename Constant::FS::template And<Exp1, Exp2, Exps...>;
-
-		#define grammaric_Constant_import_Or()									\
+		using Zero		= typename Constant::zero;							\
+		using One		= typename Constant::one;							\
+		using Two		= typename Constant::two;							\
+		using Three		= typename Constant::three;							\
 															\
-			template<typename Exp1, typename Exp2, typename... Exps>					\
-			using Or = typename Constant::FS::template Or<Exp1, Exp2, Exps...>;
-	};
+		using Nibble		= typename Constant::nibble;							\
+		using Byte		= typename Constant::byte;							\
 
-}}
-*/
+	//
+
+	#define unpack_builtin()											\
+															\
+		using Builtin		= grammaric<Module::builtin, Permission::semiotic, size_type>;			\
+															\
+					  template<size_type N>								\
+		using byte_type		= typename Builtin::template byte_type<N>;					\
+
+	//
+
+	#define unpack_pointer()											\
+															\
+		using Pointer		= grammaric<Module::pointer, Permission::semiotic, size_type>;			\
+															\
+		using Access		= typename Pointer::Access;							\
+															\
+					  template<typename Type, Access access = Access::readwrite>			\
+		using read_type		= typename Pointer::template read_type<Type, access>;				\
+
+	//
+
+	#define unpack_power()												\
+															\
+		using Power		= grammaric<Module::power, Permission::semiotic, size_type>;			\
+															\
+					  template<typename Type, Access access = Access::readwrite>			\
+		using copower		= typename Power::template copower<Type, access>;				\
+															\
+					  template<typename Type, size_type length>					\
+		using power		= typename Power::template power<Type, length>;					\
+															\
+		using Interval		= typename Power::Interval;							\
+															\
+		using Direction		= typename Power::Direction;							\
+															\
+					  template<Interval interval, Direction direction>				\
+		using object		= typename Power::template object<interval, direction>;				\
+															\
+					  template<typename... Objects>							\
+		using functor		= typename Power::template functor<Objects...>;					\
+
+	//
+
+	#define unpack_bit()												\
+															\
+		using Bit		= numeric<Module::bit, Permission::semiotic, size_type>;			\
+															\
+					  template<typename Type, Access access = Access::readwrite>			\
+		using cobit		= typename Bit::template cobit<Type, access>;					\
+															\
+					  template<typename RegType>							\
+		using bit		= typename Bit::template bit<RegType>;						\
+
+	//
+
+	#define unpack_word()												\
+															\
+		using Word		= numeric<Module::word, Permission::semiotic, size_type>;			\
+															\
+					  template<typename Type, Access access = Access::readwrite>			\
+		using coword		= typename Word::template coword<Type, access>;					\
+															\
+					  template<typename BitType, size_type length>					\
+		using word		= typename Word::template word<BitType, length>;				\
+
+}
 

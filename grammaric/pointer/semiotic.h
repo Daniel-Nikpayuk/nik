@@ -24,9 +24,7 @@ namespace nik
 
 		//
 
-		using Constant		= grammaric<Module::constant, Permission::semiotic, size_type>;
-
-		using Zero		= typename Constant::zero;
+		nik_unpack(constant)
 
 		//
 
