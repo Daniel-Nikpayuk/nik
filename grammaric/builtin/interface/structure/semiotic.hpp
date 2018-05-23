@@ -16,6 +16,13 @@
 ************************************************************************************************************************/
 
 /*
+	bits: (taken from: https://en.wikipedia.org/wiki/C_data_types)
+	limits: (taken from: http://en.cppreference.com/w/cpp/types/numeric_limits)
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned long
+	8 << 3, unsigned long long
 */
 
 enum struct Sign : size_type
@@ -50,6 +57,19 @@ template
 >
 {
 	using rtn = unsigned char;
+
+	using min					= constant<size_type, Zero::value>;
+	using max					= constant<size_type, UCHAR_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
+	using order					= constant<size_type, length::value - One::value>;
+
+	using tail					= constant<size_type, Zero::value>;
+	using head					= constant<size_type, One::value << order::value>;
+
+	// half implementation does not exist.
 };
 
 template
@@ -64,6 +84,11 @@ template
 >
 {
 	using rtn = signed char;
+
+	using min					= constant<size_type, SCHAR_MIN>;
+	using max					= constant<size_type, SCHAR_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -82,6 +107,25 @@ template
 >
 {
 	using rtn = unsigned short;
+
+	using min					= constant<size_type, Zero::value>;
+	using max					= constant<size_type, USHRT_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
+	using order					= constant<size_type, length::value - One::value>;
+
+	using tail					= constant<size_type, Zero::value>;
+	using head					= constant<size_type, One::value << order::value>;
+
+	using half					= builtin<Byte::value << Zero::value, Sign::natural>;
+
+	using low_pass					= constant<size_type, half::max::value>;
+	using high_pass					= constant<size_type, max::value & ~low_pass>;
+
+	using upper					= constant<size_type, half::max::value + One::value>;
+	using lower					= constant<size_type, max::value>;
 };
 
 template
@@ -96,6 +140,11 @@ template
 >
 {
 	using rtn = signed short;
+
+	using min					= constant<size_type, SSHRT_MIN>;
+	using max					= constant<size_type, SSHRT_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -113,7 +162,26 @@ template
 	Filler
 >
 {
-	using rtn = unsigned int;
+	using rtn = unsigned long;
+
+	using min					= constant<size_type, Zero::value>;
+	using max					= constant<size_type, ULONG_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
+	using order					= constant<size_type, length::value - One::value>;
+
+	using tail					= constant<size_type, Zero::value>;
+	using head					= constant<size_type, One::value << order::value>;
+
+	using half					= builtin<Byte::value << One::value, Sign::natural>;
+
+	using low_pass					= constant<size_type, half::max::value>;
+	using high_pass					= constant<size_type, max::value & ~low_pass>;
+
+	using upper					= constant<size_type, half::max::value + One::value>;
+	using lower					= constant<size_type, max::value>;
 };
 
 template
@@ -127,7 +195,12 @@ template
 	Filler
 >
 {
-	using rtn = signed int;
+	using rtn = signed long;
+
+	using min					= constant<size_type, LONG_MIN>;
+	using max					= constant<size_type, LONG_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -145,45 +218,26 @@ template
 	Filler
 >
 {
-	using rtn = unsigned long;
+	using rtn = unsigned long long;
 
-	using is_unsigned				= constant<bool, !min>;
+	using min					= constant<size_type, Zero::value>;
+	using max					= constant<size_type, ULLONG_MAX>;
 
-	using min					= constant<size_type, limits::min>;
-	using max					= constant<size_type, limits::max>;
+	using is_natural				= constant<bool, !min::value>;
 
-	using length					= constant<size_type, byte::value * sizeof(size_type)>;
-	using order					= constant<size_type, length::value - 1>;
+	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
+	using order					= constant<size_type, length::value - One::value>;
 
-	using tail					= constant<size_type, 0>;
-	using head					= constant<size_type, (size_type) 1 << order::value>;
+	using tail					= constant<size_type, Zero::value>;
+	using head					= constant<size_type, One::value << order::value>;
 
-	struct half
-	{
-		using length				= constant<size_type, (space::length::value >> 1)>;
-		using order				= constant<size_type, (space::order::value >> 1)>;
+	using half					= builtin<Byte::value << Two::value, Sign::natural>;
 
-		using max				= constant<size_type, ((size_type) 1 << length::value) - 1>;
-		using min				= constant<size_type, -max::value - 1>;
+	using low_pass					= constant<size_type, half::max::value>;
+	using high_pass					= constant<size_type, max::value & ~low_pass>;
 
-		using tail				= constant<size_type, 0>;
-		using head				= constant<size_type, (size_type) 1 << order::value>;
-	};
-
-	struct filter
-	{
-		using low_pass				= constant<size_type, half::max::value>;
-		using high_pass				= constant<size_type, space::max & ~low_pass>;
-	};
-
-	struct overflow
-	{
-		struct square
-		{
-			using upper			= constant<size_type, half::max::value + 1>;
-			using lower			= constant<size_type, space::max>;
-		};
-	};
+	using upper					= constant<size_type, half::max::value + One::value>;
+	using lower					= constant<size_type, max::value>;
 };
 
 template
@@ -197,7 +251,12 @@ template
 	Filler
 >
 {
-	using rtn = signed long;
+	using rtn = signed long long;
+
+	using min					= constant<size_type, LLONG_MIN>;
+	using max					= constant<size_type, LLONG_MAX>;
+
+	// not yet implemented!
 };
 
 /*
