@@ -53,32 +53,34 @@ template
 	Policy::specification
 >
 {
-	using reg_type = typename byte_type<length>::rtn;
+	using reg_type		= typename byte_type<length>::rtn;
+	using half_length	= typename byte_type<length>::half::length;
+	using low_pass		= typename byte_type<length>::low_pass;
 
 /*
-	Let	in1=|w3|w2|
-	and	in2=|w1|w0|
-	with	  d=|y1|y0|
+	Let	n1=|w3|w2|
+	and	n0=|w1|w0|
+	with	 d=|y1|y0|
 
-	out	is the remainder and is offered for runtime optimization.
+	rem	is the remainder and is offered for runtime optimization.
 */
 
-	static reg_type divide(reg_type & out, reg_type in1, reg_type in2, reg_type d)
+	static reg_type divide(reg_type & rem, reg_type n1, reg_type n0, reg_type d)
 	{
-		reg_type	little_in2	= (f_semiotic::unit::filter::low_pass & in2),
-				big_in2		= (in2 >> f_semiotic::unit::half::length);
+		reg_type	upper_n0	= (n0 >> half_length::value),
+				lower_n0	= (low_pass::value & n0);
 
-		// in2 is now free.
-		in2 = (in1 << f_semiotic::unit::half::length) + big_in2;
-		// in1, big_in2 are now free.
-		in1 = in2/d; big_in2 = in2%d;
+		// n0 is now free.
+		n0 = (n1 << half_length::value) + upper_n0;
+		// n1, upper_n0 are now free.
+		n1 = n0 / d; upper_n0 = n0 % d;
 
-		(big_in2 <<= f_semiotic::unit::half::length) += little_in2;
-		// little_in2 is now free.
+		(upper_n0 <<= half_length::value) += lower_n0;
+		// lower_n0 is now free.
 
-		little_in2 = big_in2/d; out = big_in2%d;
+		lower_n0 = upper_n0 / d; rem = upper_n0 % d;
 
-		return (in1 <<= f_semiotic::unit::half::length) + little_in2;
+		return (n1 <<= half_length::value) + lower_n0;
 	}
 };
 
@@ -96,30 +98,6 @@ template
 	Policy::optimization
 >
 {
-	using reg_type = typename byte_type<length>::rtn;
 
-/*
-	Let	in1=|w3|w2|
-	and	in2=|w1|w0|
-	with	  d=|y1|y0|
-*/
-
-	static reg_type divide(reg_type & out, reg_type in1, reg_type in2, reg_type d)
-	{
-		reg_type	little_in2	= (f_semiotic::unit::filter::low_pass & in2),
-				big_in2		= (in2 >> f_semiotic::unit::half::length);
-
-		// in2 is now free.
-		in2 = (in1 << f_semiotic::unit::half::length) + big_in2;
-		// in1, big_in2 are now free.
-		in1 = in2/d; big_in2 = in2%d;
-
-		(big_in2 <<= f_semiotic::unit::half::length) += little_in2;
-		// little_in2 is now free.
-
-		little_in2 = big_in2/d; out = big_in2%d;
-
-		return (in1 <<= f_semiotic::unit::half::length) + little_in2;
-	}
 };
 

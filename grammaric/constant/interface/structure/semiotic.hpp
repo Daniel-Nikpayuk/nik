@@ -35,8 +35,11 @@ struct constant<Type, Value>
 	static constexpr value_type value	= Value;
 };
 
-template<bool Value>
-using boolean = constant<bool, Value>;
+/*
+*/
+
+						  template<bool Value>
+using boolean					= constant<bool, Value>;
 
 /*
 	We include here a list of commonly used literal constants:

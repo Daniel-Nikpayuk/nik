@@ -15,20 +15,11 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Bit		= nik::numeric<Module::bit, Permission::semiotic, size_type>;
 
-		//
+			  template<typename Type, Access access = Access::readwrite>
+using cobit		= typename Bit::template cobit<Type, access>;
 
-		#include nik_unpack(constant)
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+			  template<typename RegType>
+using bit		= typename Bit::template bit<RegType>;
 

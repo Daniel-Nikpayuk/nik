@@ -15,20 +15,10 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Builtin		= nik::grammaric<Module::builtin, Permission::semiotic, size_type>;
 
-		//
+using Sign		= typename Builtin::Sign;
 
-		#include nik_unpack(constant)
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+			  template<size_type N, Sign sign = Sign::natural>
+using byte_type		= typename Builtin::template byte_type<N, sign>;
 

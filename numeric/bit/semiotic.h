@@ -24,9 +24,9 @@ namespace nik
 
 		//
 
-		nik_unpack(constant)
-		nik_unpack(pointer)
-		nik_unpack(power)
+		#include nik_unpack(constant)
+		#include nik_unpack(pointer)
+		#include nik_unpack(power)
 
 		//
 

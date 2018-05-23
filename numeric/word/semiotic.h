@@ -24,11 +24,11 @@ namespace nik
 
 		//
 
-		nik_unpack(builtin)
-		nik_unpack(pointer)
-		nik_unpack(power)
+		#include nik_unpack(builtin)
+		#include nik_unpack(pointer)
+		#include nik_unpack(power)
 
-		nik_unpack(bit)
+		#include nik_unpack(bit)
 
 		//
 
@@ -40,11 +40,7 @@ namespace nik
 
 		//
 
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/identity/boolean/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
+		#include"perspective/uint/three_halves/semiotic.hpp"
 	};
 }
 

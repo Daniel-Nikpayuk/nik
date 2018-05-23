@@ -18,6 +18,7 @@
 #ifndef NUMERIC_WORD_H
 #define NUMERIC_WORD_H
 
+#include"builtin.h"
 #include"bit.h"
 
 #include"../numeric/word/semiotic.h"

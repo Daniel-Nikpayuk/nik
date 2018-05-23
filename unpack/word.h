@@ -15,20 +15,11 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Word		= nik::numeric<Module::word, Permission::semiotic, size_type>;
 
-		//
+			  template<typename Type, Access access = Access::readwrite>
+using coword		= typename Word::template coword<Type, access>;
 
-		#include nik_unpack(constant)
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+			  template<typename BitType, size_type length>
+using word		= typename Word::template word<BitType, length>;
 

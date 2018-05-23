@@ -15,20 +15,21 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Power		= nik::grammaric<Module::power, Permission::semiotic, size_type>;
 
-		//
+			  template<typename Type, Access access = Access::readwrite>
+using copower		= typename Power::template copower<Type, access>;
 
-		#include nik_unpack(constant)
+			  template<typename Type, size_type length>
+using power		= typename Power::template power<Type, length>;
 
-		//
+using Interval		= typename Power::Interval;
 
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+using Direction		= typename Power::Direction;
+
+			  template<Interval interval, Direction direction>
+using object		= typename Power::template object<interval, direction>;
+
+			  template<typename... Objects>
+using functor		= typename Power::template functor<Objects...>;
 

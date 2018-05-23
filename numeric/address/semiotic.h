@@ -24,11 +24,11 @@ namespace nik
 
 		//
 
-		nik_unpack(pointer)
-		nik_unpack(power)
+		#include nik_unpack(pointer)
+		#include nik_unpack(power)
 
-		nik_unpack(bit)
-		nik_unpack(word)
+		#include nik_unpack(bit)
+		#include nik_unpack(word)
 
 		//
 

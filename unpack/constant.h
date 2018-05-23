@@ -15,20 +15,16 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Constant		= nik::grammaric<Module::constant, Permission::semiotic, size_type>;
 
-		//
+			  template<typename Type, Type... params>
+using constant		= typename Constant::template constant<Type, params...>;
 
-		#include nik_unpack(constant)
+using Zero		= typename Constant::zero;
+using One		= typename Constant::one;
+using Two		= typename Constant::two;
+using Three		= typename Constant::three;
 
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+using Nibble		= typename Constant::nibble;
+using Byte		= typename Constant::byte;
 

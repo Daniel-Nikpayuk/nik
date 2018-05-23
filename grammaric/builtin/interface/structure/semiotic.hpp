@@ -16,8 +16,8 @@
 ************************************************************************************************************************/
 
 /*
-	bits: (taken from: https://en.wikipedia.org/wiki/C_data_types)
-	limits: (taken from: http://en.cppreference.com/w/cpp/types/numeric_limits)
+	bit info taken from:	https://en.wikipedia.org/wiki/C_data_types
+	limit info taken from:	http://en.cppreference.com/w/cpp/types/numeric_limits
 
 	8 << 0, unsigned char
 	8 << 1, unsigned short
@@ -36,7 +36,7 @@ enum struct Sign : size_type
 template
 <
 	size_type N,
-	Sign sign = natural,
+	Sign sign = Sign::natural,
 	typename Filler = void
 
 > struct builtin;
@@ -59,7 +59,7 @@ template
 	using rtn = unsigned char;
 
 	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, UCHAR_MAX>;
+	using max					= constant<size_type, (size_type) UCHAR_MAX>;
 
 	using is_natural				= constant<bool, !min::value>;
 
@@ -83,12 +83,12 @@ template
 	Filler
 >
 {
+	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+
 	using rtn = signed char;
 
-	using min					= constant<size_type, SCHAR_MIN>;
-	using max					= constant<size_type, SCHAR_MAX>;
-
-	// not yet implemented!
+	using min					= constant<size_type, (size_type) SCHAR_MIN>;
+	using max					= constant<size_type, (size_type) SCHAR_MAX>;
 };
 
 /*
@@ -109,7 +109,7 @@ template
 	using rtn = unsigned short;
 
 	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, USHRT_MAX>;
+	using max					= constant<size_type, (size_type) USHRT_MAX>;
 
 	using is_natural				= constant<bool, !min::value>;
 
@@ -122,7 +122,7 @@ template
 	using half					= builtin<Byte::value << Zero::value, Sign::natural>;
 
 	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass>;
+	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
 
 	using upper					= constant<size_type, half::max::value + One::value>;
 	using lower					= constant<size_type, max::value>;
@@ -139,12 +139,12 @@ template
 	Filler
 >
 {
+	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+
 	using rtn = signed short;
 
-	using min					= constant<size_type, SSHRT_MIN>;
-	using max					= constant<size_type, SSHRT_MAX>;
-
-	// not yet implemented!
+	using min					= constant<size_type, (size_type) SHRT_MIN>;
+	using max					= constant<size_type, (size_type) SHRT_MAX>;
 };
 
 /*
@@ -165,7 +165,7 @@ template
 	using rtn = unsigned long;
 
 	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, ULONG_MAX>;
+	using max					= constant<size_type, (size_type) ULONG_MAX>;
 
 	using is_natural				= constant<bool, !min::value>;
 
@@ -178,7 +178,7 @@ template
 	using half					= builtin<Byte::value << One::value, Sign::natural>;
 
 	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass>;
+	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
 
 	using upper					= constant<size_type, half::max::value + One::value>;
 	using lower					= constant<size_type, max::value>;
@@ -195,12 +195,12 @@ template
 	Filler
 >
 {
+	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+
 	using rtn = signed long;
 
-	using min					= constant<size_type, LONG_MIN>;
-	using max					= constant<size_type, LONG_MAX>;
-
-	// not yet implemented!
+	using min					= constant<size_type, (size_type) LONG_MIN>;
+	using max					= constant<size_type, (size_type) LONG_MAX>;
 };
 
 /*
@@ -221,7 +221,7 @@ template
 	using rtn = unsigned long long;
 
 	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, ULLONG_MAX>;
+	using max					= constant<size_type, (size_type) ULLONG_MAX>;
 
 	using is_natural				= constant<bool, !min::value>;
 
@@ -234,7 +234,7 @@ template
 	using half					= builtin<Byte::value << Two::value, Sign::natural>;
 
 	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass>;
+	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
 
 	using upper					= constant<size_type, half::max::value + One::value>;
 	using lower					= constant<size_type, max::value>;
@@ -251,12 +251,12 @@ template
 	Filler
 >
 {
+	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+
 	using rtn = signed long long;
 
-	using min					= constant<size_type, LLONG_MIN>;
-	using max					= constant<size_type, LLONG_MAX>;
-
-	// not yet implemented!
+	using min					= constant<size_type, (size_type) LLONG_MIN>;
+	using max					= constant<size_type, (size_type) LLONG_MAX>;
 };
 
 /*

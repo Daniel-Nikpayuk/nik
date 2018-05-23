@@ -37,18 +37,15 @@
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-/*
-	Currently deprecated, needs updating:
 
-#define nik_using(branch, name)												\
+#define nik_using(path, name)												\
 															\
-	using name = nik::branch::name##Module<size_type>;
-*/
+	nik_stringify(path/unpack/name.h)
 
 
-#define nik_unpack(module)												\
+#define nik_unpack(name)												\
 															\
-	unpack##_##module()
+	nik_stringify(../../unpack/name.h)
 
 
 /***********************************************************************************************************************/
@@ -68,7 +65,7 @@
 	nik_stringify(header/name.h)
 
 
-#include nik_module(address)
+#include nik_module(word)
 
 
 #endif

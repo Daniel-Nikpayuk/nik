@@ -18,6 +18,8 @@
 #ifndef GRAMMARIC_BUILTIN_H
 #define GRAMMARIC_BUILTIN_H
 
+#include<climits>
+
 #include"constant.h"
 
 #include"../grammaric/builtin/semiotic.h"

@@ -15,20 +15,3 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
-
-		//
-
-		#include nik_unpack(constant)
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
-

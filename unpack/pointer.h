@@ -15,20 +15,10 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::grammaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+using Pointer		= nik::grammaric<Module::pointer, Permission::semiotic, size_type>;
 
-		//
+using Access		= typename Pointer::Access;
 
-		#include nik_unpack(constant)
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+			  template<typename Type, Access access = Access::readwrite>
+using read_type		= typename Pointer::template read_type<Type, access>;
 
