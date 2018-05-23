@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+//	Unpack dependencies: <pointer>
+
 using Bit		= nik::numeric<Module::bit, Permission::semiotic, size_type>;
 
 			  template<typename Type, Access access = Access::readwrite>

@@ -83,8 +83,8 @@ template														\
 
 define_word(8 << 0, unsigned char)
 define_word(8 << 1, unsigned short)
-define_word(8 << 2, unsigned int)
-define_word(8 << 3, unsigned long)
+define_word(8 << 2, unsigned long)
+define_word(8 << 3, unsigned long long)
 
 
 #undef define_word

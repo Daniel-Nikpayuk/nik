@@ -42,14 +42,21 @@ template
 /*
 */
 
+template<size_type length>
+struct debug			// temporary to test these functions.
+{
+};
+
 template
 <
-	size_type length,
-	template<class, size_type> typename Word
+	size_type length
+//	size_type length,
+//	template<class, size_type> typename Word
 
 > struct three_halves
 <
-	Word<bit<bool>, length>,
+	debug<length>,
+//	Word<bit<bool>, length>,
 	Policy::specification
 >
 {
@@ -89,15 +96,45 @@ template
 
 template
 <
-	size_type length,
-	template<class, size_type> typename Word
+	size_type length
+//	size_type length,
+//	template<class, size_type> typename Word
 
 > struct three_halves
 <
-	Word<bit<bool>, length>,
+	debug<length>,
+//	Word<bit<bool>, length>,
 	Policy::optimization
 >
 {
+	using reg_type		= typename byte_type<length>::rtn;
+	using half_length	= typename byte_type<length>::half::length;
+	using low_pass		= typename byte_type<length>::low_pass;
 
+/*
+	Let	n1=|w3|w2|
+	and	n0=|w1|w0|
+	with	 d=|y1|y0|
+
+	rem	is the remainder and is offered for runtime optimization.
+*/
+
+	static reg_type divide(reg_type & rem, reg_type n1, reg_type n0, reg_type d)
+	{
+		reg_type	upper_n0	= (n0 >> half_length::value),
+				lower_n0	= (low_pass::value & n0);
+
+		// n0 is now free.
+		n0 = (n1 << half_length::value) + upper_n0;
+		// n1, upper_n0 are now free.
+		n1 = n0 / d; upper_n0 = n0 % d;
+
+		(upper_n0 <<= half_length::value) += lower_n0;
+		// lower_n0 is now free.
+
+		lower_n0 = upper_n0 / d; rem = upper_n0 % d;
+
+		return (n1 <<= half_length::value) + lower_n0;
+	}
 };
 

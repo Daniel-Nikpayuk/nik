@@ -133,8 +133,8 @@ template														\
 
 define_coword(8 << 0, unsigned char)
 define_coword(8 << 1, unsigned short)
-define_coword(8 << 2, unsigned int)
-define_coword(8 << 3, unsigned long)
+define_coword(8 << 2, unsigned long)
+define_coword(8 << 3, unsigned long long)
 
 
 #undef define_coword

@@ -16,13 +16,14 @@
 ************************************************************************************************************************/
 
 /*
-	bit info taken from:	https://en.wikipedia.org/wiki/C_data_types
 	limit info taken from:	http://en.cppreference.com/w/cpp/types/numeric_limits
 
 	8 << 0, unsigned char
 	8 << 1, unsigned short
 	8 << 2, unsigned long
 	8 << 3, unsigned long long
+
+	This code has been tested for GCC.
 */
 
 enum struct Sign : size_type
@@ -56,20 +57,29 @@ template
 	Filler
 >
 {
-	using rtn = unsigned char;
+	using rtn					= unsigned char;
 
-	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, (size_type) UCHAR_MAX>;
+							// half implementation does not exist.
+
+	//
+
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, zero::value>;
+	using max					= constant<rtn, (rtn) UCHAR_MAX>;
 
 	using is_natural				= constant<bool, !min::value>;
 
-	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
-	using order					= constant<size_type, length::value - One::value>;
+	using length					= constant<rtn, byte::value * sizeof(rtn)>;
+	using order					= constant<rtn, length::value - one::value>;
 
-	using tail					= constant<size_type, Zero::value>;
-	using head					= constant<size_type, One::value << order::value>;
-
-	// half implementation does not exist.
+	using tail					= constant<rtn, zero::value>;
+	using head					= constant<rtn, one::value << order::value>;
 };
 
 template
@@ -83,12 +93,21 @@ template
 	Filler
 >
 {
-	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+	using rtn					= signed char;
 
-	using rtn = signed char;
+	//
 
-	using min					= constant<size_type, (size_type) SCHAR_MIN>;
-	using max					= constant<size_type, (size_type) SCHAR_MAX>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, (rtn) SCHAR_MIN>;
+	using max					= constant<rtn, (rtn) SCHAR_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -106,26 +125,37 @@ template
 	Filler
 >
 {
-	using rtn = unsigned short;
+	using rtn					= unsigned short;
 
-	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, (size_type) USHRT_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
-	using order					= constant<size_type, length::value - One::value>;
-
-	using tail					= constant<size_type, Zero::value>;
-	using head					= constant<size_type, One::value << order::value>;
+							// constants are size_type for builtin.
 
 	using half					= builtin<Byte::value << Zero::value, Sign::natural>;
 
-	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
+	//
 
-	using upper					= constant<size_type, half::max::value + One::value>;
-	using lower					= constant<size_type, max::value>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, zero::value>;
+	using max					= constant<rtn, (rtn) USHRT_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<rtn, byte::value * sizeof(rtn)>;
+	using order					= constant<rtn, length::value - one::value>;
+
+	using tail					= constant<rtn, zero::value>;
+	using head					= constant<rtn, one::value << order::value>;
+
+	using low_pass					= constant<rtn, half::max::value>;
+	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
+
+	using upper					= constant<rtn, half::max::value + one::value>;
+	using lower					= constant<rtn, max::value>;
 };
 
 template
@@ -139,12 +169,21 @@ template
 	Filler
 >
 {
-	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+	using rtn					= signed short;
 
-	using rtn = signed short;
+	//
 
-	using min					= constant<size_type, (size_type) SHRT_MIN>;
-	using max					= constant<size_type, (size_type) SHRT_MAX>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, (rtn) SHRT_MIN>;
+	using max					= constant<rtn, (rtn) SHRT_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -162,26 +201,37 @@ template
 	Filler
 >
 {
-	using rtn = unsigned long;
+	using rtn					= unsigned int;
 
-	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, (size_type) ULONG_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
-	using order					= constant<size_type, length::value - One::value>;
-
-	using tail					= constant<size_type, Zero::value>;
-	using head					= constant<size_type, One::value << order::value>;
+							// constants are size_type for builtin.
 
 	using half					= builtin<Byte::value << One::value, Sign::natural>;
 
-	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
+	//
 
-	using upper					= constant<size_type, half::max::value + One::value>;
-	using lower					= constant<size_type, max::value>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, zero::value>;
+	using max					= constant<rtn, (rtn) UINT_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<rtn, byte::value * sizeof(rtn)>;
+	using order					= constant<rtn, length::value - one::value>;
+
+	using tail					= constant<rtn, zero::value>;
+	using head					= constant<rtn, one::value << order::value>;
+
+	using low_pass					= constant<rtn, half::max::value>;
+	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
+
+	using upper					= constant<rtn, half::max::value + one::value>;
+	using lower					= constant<rtn, max::value>;
 };
 
 template
@@ -195,12 +245,21 @@ template
 	Filler
 >
 {
-	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+	using rtn					= signed long;
 
-	using rtn = signed long;
+	//
 
-	using min					= constant<size_type, (size_type) LONG_MIN>;
-	using max					= constant<size_type, (size_type) LONG_MAX>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, (rtn) INT_MIN>;
+	using max					= constant<rtn, (rtn) INT_MAX>;
+
+	// not yet implemented!
 };
 
 /*
@@ -218,26 +277,37 @@ template
 	Filler
 >
 {
-	using rtn = unsigned long long;
+	using rtn					= unsigned long;
 
-	using min					= constant<size_type, Zero::value>;
-	using max					= constant<size_type, (size_type) ULLONG_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<size_type, Byte::value * sizeof(rtn)>;
-	using order					= constant<size_type, length::value - One::value>;
-
-	using tail					= constant<size_type, Zero::value>;
-	using head					= constant<size_type, One::value << order::value>;
+							// constants are size_type for builtin.
 
 	using half					= builtin<Byte::value << Two::value, Sign::natural>;
 
-	using low_pass					= constant<size_type, half::max::value>;
-	using high_pass					= constant<size_type, max::value & ~low_pass::value>;
+	//
 
-	using upper					= constant<size_type, half::max::value + One::value>;
-	using lower					= constant<size_type, max::value>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, zero::value>;
+	using max					= constant<rtn, (rtn) ULONG_MAX>;
+
+	using is_natural				= constant<bool, !min::value>;
+
+	using length					= constant<rtn, byte::value * sizeof(rtn)>;
+	using order					= constant<rtn, length::value - one::value>;
+
+	using tail					= constant<rtn, zero::value>;
+	using head					= constant<rtn, one::value << order::value>;
+
+	using low_pass					= constant<rtn, half::max::value>;
+	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
+
+	using upper					= constant<rtn, half::max::value + one::value>;
+	using lower					= constant<rtn, max::value>;
 };
 
 template
@@ -251,12 +321,21 @@ template
 	Filler
 >
 {
-	// not properly implemented yet! Notably, size_type is unsigned which invalidates minimum values.
+	using rtn					= signed long;
 
-	using rtn = signed long long;
+	//
 
-	using min					= constant<size_type, (size_type) LLONG_MIN>;
-	using max					= constant<size_type, (size_type) LLONG_MAX>;
+	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
+	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
+
+	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+
+	//
+
+	using min					= constant<rtn, (rtn) LONG_MIN>;
+	using max					= constant<rtn, (rtn) LONG_MAX>;
+
+	// not yet implemented!
 };
 
 /*

@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+//	Unpack dependencies: <pointer>
+
 using Word		= nik::numeric<Module::word, Permission::semiotic, size_type>;
 
 			  template<typename Type, Access access = Access::readwrite>
