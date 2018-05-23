@@ -24,6 +24,7 @@ namespace nik
 
 		//
 
+		nik_unpack(builtin)
 		nik_unpack(pointer)
 		nik_unpack(power)
 

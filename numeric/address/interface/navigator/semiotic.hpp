@@ -19,7 +19,7 @@
 	Design specifications privilege modularization. Only in specializations do we unpack and optimize.
 */
 
-enum struct Depth
+enum struct Depth : size_type
 {
 	bit,
 	word,

@@ -42,11 +42,6 @@ using boolean = constant<bool, Value>;
 	We include here a list of commonly used literal constants:
 */
 
-//using min					= constant<size_type, limits::min>;
-//using max					= constant<size_type, limits::max>;
-
-//using is_unsigned				= constant<bool, !min>;
-
 using zero					= constant<size_type, 0>;
 using one					= constant<size_type, 1>;
 using two					= constant<size_type, 2>;
@@ -54,37 +49,4 @@ using three					= constant<size_type, 3>;
 
 using nibble					= constant<size_type, 4>;
 using byte					= constant<size_type, 8>;
-
-using length					= constant<size_type, byte::value * sizeof(size_type)>;
-using order					= constant<size_type, length::value - 1>;
-
-using tail					= constant<size_type, 0>;
-using head					= constant<size_type, (size_type) 1 << order::value>;
-
-struct half
-{
-	using length				= constant<size_type, (space::length::value >> 1)>;
-	using order				= constant<size_type, (space::order::value >> 1)>;
-
-	using max				= constant<size_type, ((size_type) 1 << length::value) - 1>;
-	using min				= constant<size_type, -max::value - 1>;
-
-	using tail				= constant<size_type, 0>;
-	using head				= constant<size_type, (size_type) 1 << order::value>;
-};
-
-struct filter
-{
-	using low_pass				= constant<size_type, half::max::value>;
-//	using high_pass				= constant<size_type, space::max & ~low_pass>;
-};
-
-struct overflow
-{
-	struct square
-	{
-		using upper			= constant<size_type, half::max::value + 1>;
-//		using lower			= constant<size_type, space::max>;
-	};
-};
 

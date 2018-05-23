@@ -16,28 +16,21 @@
 ************************************************************************************************************************/
 
 /*
-	address type		:= (0 + 1)^np;
-	address instance	:= m^i/m^j/s^k, m^i/m^j/s^l in (0 + 1)^np -> k = l;
-
-	An address is a power of WordType.
 */
 
-template<typename WordType, size_type length, typename Filler = void>
-struct address
+template<size_type length>
+struct uint
 {
-	using type			= address;
+	using type			= uint;
 	using type_ref			= type&;
 	using type_ptr			= type*;
 
-	using value_type		= power<WordType, length>;
+	using value_type		= power<size_type, length>;
 	using value_type_ref		= value_type&;
 	using value_type_ptr		= value_type*;
 
-	using iterator			= typename power<WordType, length>::iterator;
-	using const_iterator		= typename power<WordType, length>::const_iterator;
-
-	using navigator			= coaddress<type>;
-	using const_navigator		= coaddress<type, Access::readonly>;
+	using iterator			= typename power<size_type, length>::iterator;
+	using const_iterator		= typename power<size_type, length>::const_iterator;
 
 	//
 
@@ -66,24 +59,9 @@ struct address
 
 	~address() { }
 
-	navigator begin()
+	void print()
 	{
-		return value;
-	}
-
-	const_navigator begin() const
-	{
-		return value;
-	}
-
-	navigator end()
-	{
-		return value;
-	}
-
-	const_navigator end() const
-	{
-		return value;
+		Word::division::half();
 	}
 };
 

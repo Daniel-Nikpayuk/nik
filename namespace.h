@@ -88,8 +88,10 @@ namespace nik
 															\
 		using Builtin		= grammaric<Module::builtin, Permission::semiotic, size_type>;			\
 															\
-					  template<size_type N>								\
-		using byte_type		= typename Builtin::template byte_type<N>;					\
+		using Sign		= typename Builtin::Sign;							\
+															\
+					  template<size_type N, Sign sign = Sign::natural>				\
+		using byte_type		= typename Builtin::template byte_type<N, sign>;				\
 
 	//
 
