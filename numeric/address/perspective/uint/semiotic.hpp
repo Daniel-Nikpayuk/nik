@@ -15,15 +15,19 @@
 **
 ************************************************************************************************************************/
 
-//	Unpack dependencies: <pointer>
+struct addition
+{
+};
 
-using Word		= nik::numeric<Module::word, Permission::semiotic, size_type>;
+struct subtraction
+{
+};
 
-			  template<typename Type, Access access = Access::readwrite>
-using coword		= typename Word::template coword<Type, access>;
+struct multiplication
+{
+};
 
-			  template<typename BitType, size_type length>
-using word		= typename Word::template word<BitType, length>;
-
-using Performance	= typename Word::Performance;
-
+struct division
+{
+	#include"division/half/semiotic.hpp"
+};

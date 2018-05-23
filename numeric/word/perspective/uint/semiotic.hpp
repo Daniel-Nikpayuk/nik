@@ -15,15 +15,36 @@
 **
 ************************************************************************************************************************/
 
-//	Unpack dependencies: <pointer>
+template<size_type length>
+struct debug			// temporary for testing these functions.
+{
+};
 
-using Word		= nik::numeric<Module::word, Permission::semiotic, size_type>;
+enum struct Performance : size_type
+{
+	specification,
+	optimization,
 
-			  template<typename Type, Access access = Access::readwrite>
-using coword		= typename Word::template coword<Type, access>;
+	dimension // filler
+};
 
-			  template<typename BitType, size_type length>
-using word		= typename Word::template word<BitType, length>;
+/*
+*/
 
-using Performance	= typename Word::Performance;
+struct addition
+{
+};
+
+struct subtraction
+{
+};
+
+struct multiplication
+{
+};
+
+struct division
+{
+	#include"division/three_halves/semiotic.hpp"
+};
 

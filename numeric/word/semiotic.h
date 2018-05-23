@@ -40,7 +40,7 @@ namespace nik
 
 		//
 
-		#include"perspective/uint/three_halves/semiotic.hpp"
+		#include"perspective/uint/semiotic.hpp"
 	};
 }
 

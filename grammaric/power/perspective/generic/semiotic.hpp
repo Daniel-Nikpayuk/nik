@@ -193,3 +193,67 @@ template
 	}
 };
 
+/*
+	trinary:
+*/
+
+template
+<
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction,
+	template<Interval, Direction> typename Object
+
+> struct generic
+<
+	Object<sub_interval, sub_direction>,
+	Object<ob1_interval, ob1_direction>,
+	Object<ob_interval, ob_direction>
+>
+{
+		// (morph,) map:
+
+	template<typename vb_type, typename sub_type, typename ob1_type, typename ob_type>
+	static sub_type map(vb_type & vb, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
+		{
+			if	(ob1_direction == Direction::forward)	++ob1;
+			else if	(ob1_direction == Direction::backward)	--ob1;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		while (ob != end)
+		{
+			vb.main_action(sub, ob1, ob);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+
+			if	(ob1_direction == Direction::forward)	++ob1;
+			else if	(ob1_direction == Direction::backward)	--ob1;
+
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			vb.last_action(sub, ob1, ob);
+		}
+
+		return sub;
+	}
+};
+

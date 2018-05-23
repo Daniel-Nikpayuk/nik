@@ -24,6 +24,7 @@ namespace nik
 
 		//
 
+//		#include nik_unpack(constant)
 		#include nik_unpack(pointer)
 		#include nik_unpack(power)
 
@@ -40,11 +41,7 @@ namespace nik
 
 		//
 
-//		#include"perspective/identity/semiotic.hpp"
-//		#include"perspective/identity/boolean/semiotic.hpp"
-
-//		#include"perspective/proximity/semiotic.hpp"
-//		#include"perspective/proximity/boolean/semiotic.hpp"
+		#include"perspective/uint/semiotic.hpp"
 	};
 }
 
