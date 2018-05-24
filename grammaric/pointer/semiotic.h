@@ -28,6 +28,7 @@ namespace nik
 
 		//
 
+		#include"interface/alias/semiotic.hpp"
 		#include"interface/structure/semiotic.hpp"
 	};
 }

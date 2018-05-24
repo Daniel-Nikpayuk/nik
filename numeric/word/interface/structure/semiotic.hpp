@@ -22,8 +22,13 @@
 	A word is a power of BitType.
 */
 
-template<typename BitType, size_type length, typename Filler = void>
-struct word
+template
+<
+	typename BitType,
+	size_type length,
+	typename Filler
+
+> struct word
 {
 	using type			= word;
 	using type_ref			= type&;
@@ -47,7 +52,7 @@ struct word
 					Direction::forward
 				>;
 
-	using method		= functor
+	using method		= typename Power::template functor
 				<
 					policy,
 					policy

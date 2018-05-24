@@ -15,15 +15,8 @@
 **
 ************************************************************************************************************************/
 
-enum struct Access : size_type
-{
-	readonly,
-	readwrite,
-
-	dimension // filler
-};
-
-	//
+/*
+*/
 
 template<size_type N, typename Type, Access access = Access::readwrite>
 struct pointer

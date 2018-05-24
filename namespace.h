@@ -19,6 +19,7 @@ namespace nik
 {
 	enum struct Branch : global_size_type
 	{
+		metaric,
 		grammaric,
 		numeric,
 
@@ -28,16 +29,15 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 		constant,
+		conditional,
 		builtin,
+
 		pointer,
 		power,
-		range,
 
 		bit,
 		word,
 		address,
-
-		list,
 
 		dimension // filler
 	};
@@ -61,6 +61,9 @@ namespace nik
 	> struct space { static_assert(true, "This module is not yet implemented!"); };
 
 /***********************************************************************************************************************/
+
+				  template<Module module, Permission permission, typename SizeType = global_size_type>
+	using metaric		= space<Branch::metaric, module, permission, SizeType>;
 
 				  template<Module module, Permission permission, typename SizeType = global_size_type>
 	using grammaric		= space<Branch::grammaric, module, permission, SizeType>;

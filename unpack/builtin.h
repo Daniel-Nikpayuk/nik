@@ -15,9 +15,16 @@
 **
 ************************************************************************************************************************/
 
-using Builtin		= nik::grammaric<Module::builtin, Permission::semiotic, size_type>;
+using Builtin		= nik::metaric<Module::builtin, Permission::semiotic, size_type>;
+
+//
 
 using Sign		= typename Builtin::Sign;
+
+//
+
+			  template<typename RegType>
+using builtin		= typename Builtin::template builtin<RegType>;
 
 			  template<size_type N, Sign sign = Sign::natural>
 using byte_type		= typename Builtin::template byte_type<N, sign>;

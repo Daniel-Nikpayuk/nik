@@ -65,7 +65,7 @@
 	nik_stringify(header/name.h)
 
 
-#include nik_module(address)
+#include nik_module(word)
 
 
 #endif

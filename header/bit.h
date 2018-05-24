@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_BIT_H
-#define NUMERIC_BIT_H
+#ifndef BIT_H
+#define BIT_H
 
 #include"power.h"
 

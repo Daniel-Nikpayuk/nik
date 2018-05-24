@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_ADDRESS_H
-#define NUMERIC_ADDRESS_H
+#ifndef ADDRESS_H
+#define ADDRESS_H
 
 #include"word.h"
 

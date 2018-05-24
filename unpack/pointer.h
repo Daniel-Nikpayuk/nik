@@ -17,7 +17,11 @@
 
 using Pointer		= nik::grammaric<Module::pointer, Permission::semiotic, size_type>;
 
+//
+
 using Access		= typename Pointer::Access;
+
+//
 
 			  template<typename Type, Access access = Access::readwrite>
 using read_type		= typename Pointer::template read_type<Type, access>;

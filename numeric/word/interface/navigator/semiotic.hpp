@@ -19,14 +19,6 @@
 	Design specifications privilege modularization. Only in specializations do we unpack and optimize.
 */
 
-enum struct Depth : size_type
-{
-	bit,
-	word,
-
-	dimension
-};
-
 template
 <
 	typename WordType,
@@ -42,13 +34,12 @@ template
 <
 	typename BitType,
 	size_type length,
-	template<class, size_type> typename Word,
 
 	Access access
 
 > struct coword
 <
-	Word<BitType, length>,
+	word<BitType, length>,
 	access
 >
 {
@@ -56,21 +47,21 @@ template
 	using type_ref				= type&;
 	using type_ptr				= type*;
 
-	using const_type			= coword<Word<BitType, length>, Access::readonly>;
+	using const_type			= coword<word<BitType, length>, Access::readonly>;
 
 	using bit_type				= typename read_type<BitType, access>::rtn;
 	using bit_type_ref			= bit_type&;
 	using bit_type_ptr			= bit_type*;
 
-	using word_type				= Word<bit_type, length>;
+	using word_type				= word<bit_type, length>;
 	using word_type_ref			= word_type&;
 	using word_type_ptr			= word_type*;
 
 	using bit_iterator			= typename BitType::iterator;
 	using const_bit_iterator		= typename BitType::const_iterator;
 
-	using word_iterator			= typename Word<BitType, length>::iterator;
-	using const_word_iterator		= typename Word<BitType, length>::const_iterator;
+	using word_iterator			= typename word<BitType, length>::iterator;
+	using const_word_iterator		= typename word<BitType, length>::const_iterator;
 
 	Depth depth;
 

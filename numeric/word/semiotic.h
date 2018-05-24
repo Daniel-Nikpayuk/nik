@@ -32,14 +32,15 @@ namespace nik
 
 		//
 
+		#include"interface/alias/semiotic.hpp"
 		#include"interface/navigator/semiotic.hpp"
 //		#include"interface/navigator/boolean/semiotic.hpp"
-
 		#include"interface/structure/semiotic.hpp"
 //		#include"interface/structure/boolean/semiotic.hpp"
 
 		//
 
+		#include"perspective/alias/semiotic.hpp"
 		#include"perspective/uint/semiotic.hpp"
 	};
 }

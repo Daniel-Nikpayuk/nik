@@ -19,11 +19,15 @@
 
 using Word		= nik::numeric<Module::word, Permission::semiotic, size_type>;
 
+//
+
+using Performance	= typename Word::Performance;
+
+//
+
 			  template<typename Type, Access access = Access::readwrite>
 using coword		= typename Word::template coword<Type, access>;
 
 			  template<typename BitType, size_type length>
 using word		= typename Word::template word<BitType, length>;
-
-using Performance	= typename Word::Performance;
 

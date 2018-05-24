@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_POWER_H
-#define GRAMMARIC_POWER_H
+#ifndef POWER_H
+#define POWER_H
 
 #include"pointer.h"
 

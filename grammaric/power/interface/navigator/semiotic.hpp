@@ -269,21 +269,20 @@ template
 <
 	typename Type,
 	size_type length,
-	template<class, size_type> typename Power,
 
 	Access access
 
 > struct copower
 <
-	Power<Type, length>,
+	power<Type, length>,
 	access
 >
 {
-	using type		= copower<Power<Type, length>, access>;
+	using type		= copower<power<Type, length>, access>;
 	using type_ref		= type&;
 	using type_ptr		= type*;
 
-	using const_type	= copower<Power<Type, length>, Access::readonly>;
+	using const_type	= copower<power<Type, length>, Access::readonly>;
 
 	using value_type	= typename read_type<Type, access>::rtn;
 	using value_type_ref	= value_type&;

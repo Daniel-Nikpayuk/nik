@@ -15,16 +15,25 @@
 **
 ************************************************************************************************************************/
 
-using Constant		= nik::grammaric<Module::constant, Permission::semiotic, size_type>;
+using Constant		= nik::metaric<Module::constant, Permission::semiotic, size_type>;
 
 			  template<typename Type, Type... params>
 using constant		= typename Constant::template constant<Type, params...>;
 
-using Zero		= typename Constant::zero;
-using One		= typename Constant::one;
-using Two		= typename Constant::two;
-using Three		= typename Constant::three;
+			  template<bool value>
+using boolean		= typename Constant::template boolean<value>;
 
-using Nibble		= typename Constant::nibble;
-using Byte		= typename Constant::byte;
+//
+
+using Zero		= typename Constant::template zero<size_type>;
+
+using One		= typename Constant::template one<size_type>;
+
+using Two		= typename Constant::template two<size_type>;
+
+using Three		= typename Constant::template three<size_type>;
+
+using Nibble		= typename Constant::template nibble<size_type>;
+
+using Byte		= typename Constant::template byte<size_type>;
 

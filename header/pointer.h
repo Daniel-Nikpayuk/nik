@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_POINTER_H
-#define GRAMMARIC_POINTER_H
+#ifndef POINTER_H
+#define POINTER_H
 
 #include"constant.h"
 

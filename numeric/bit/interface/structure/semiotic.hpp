@@ -29,7 +29,7 @@
 template
 <
 	typename RegType,
-	typename Filler = void
+	typename Filler
 
 > struct bit
 {

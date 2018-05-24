@@ -28,11 +28,13 @@ namespace nik
 
 		//
 
+		#include"interface/alias/semiotic.hpp"
 		#include"interface/navigator/semiotic.hpp"
 		#include"interface/structure/semiotic.hpp"
 
 		//
 
+		#include"perspective/alias/semiotic.hpp"
 		#include"perspective/generic/semiotic.hpp"
 		#include"perspective/identity/semiotic.hpp"
 		#include"perspective/proximity/semiotic.hpp"

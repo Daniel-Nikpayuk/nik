@@ -15,10 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_CONSTANT_H
-#define GRAMMARIC_CONSTANT_H
+#ifndef CONSTANT_H
+#define CONSTANT_H
 
-#include"../grammaric/constant/semiotic.h"
-#include"../grammaric/constant/media.h"
+#include"../metaric/constant/semiotic.h"
+#include"../metaric/constant/media.h"
 
 #endif

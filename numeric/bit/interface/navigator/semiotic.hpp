@@ -35,13 +35,12 @@ template
 template
 <
 	typename RegType,
-	template<class> typename Bit,
 
 	Access access
 
 > struct cobit
 <
-	Bit<RegType>,
+	bit<RegType>,
 	access
 >
 {
@@ -49,14 +48,14 @@ template
 	using type_ref			= type&;
 	using type_ptr			= type*;
 
-	using const_type		= cobit<Bit<RegType>, Access::readonly>;
+	using const_type		= cobit<bit<RegType>, Access::readonly>;
 
 	using value_type		= typename read_type<RegType, access>::rtn;
 	using value_type_ref		= value_type&;
 	using value_type_ptr		= value_type*;
 
-	using bit_iterator		= typename Bit<RegType>::iterator;
-	using const_bit_iterator	= typename Bit<RegType>::const_iterator;
+	using bit_iterator		= typename bit<RegType>::iterator;
+	using const_bit_iterator	= typename bit<RegType>::const_iterator;
 
 	bit_iterator focus;
 

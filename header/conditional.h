@@ -15,49 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAMMARIC_CONDITIONAL_H
-#define GRAMMARIC_CONDITIONAL_H
+#ifndef CONDITIONAL_H
+#define CONDITIONAL_H
 
 #include"constant.h"
 
-namespace nik		{
-namespace grammaric	{
-
-	template<typename SizeType>
-	struct BranchModule
-	{
-		using FS = module
-		<
-			Module::	branch,
-			Orientation::	functional,
-			Interface::	semiotic,
-
-			SizeType
-		>;
-
-		#define grammaric_Branch_import_conditional()								\
-															\
-			template<typename P, typename E1, typename E2>							\
-			using conditional = typename Branch::FS::template conditional<P, E1, E2>;
-
-		#define grammaric_Branch_import_block()									\
-															\
-			template<typename P, typename E>								\
-			using if_then = typename Branch::FS::template if_then<P, E>;					\
-															\
-			template<typename P, typename E>								\
-			using else_then = typename Branch::FS::template else_then<P, E>;				\
-															\
-			template<typename E>										\
-			using then = typename Branch::FS::template then<E>;						\
-															\
-			template<typename... E>										\
-			using block = typename Branch::FS::template block<E...>;
-	};
-
-}}
-
-#include"../grammaric/branch/functional/semiotic.h"
-#include"../grammaric/branch/functional/media.h"
+#include"../metaric/conditional/semiotic.h"
+#include"../metaric/conditional/media.h"
 
 #endif

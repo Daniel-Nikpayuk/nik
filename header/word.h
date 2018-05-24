@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_WORD_H
-#define NUMERIC_WORD_H
+#ifndef WORD_H
+#define WORD_H
 
 #include"builtin.h"
 #include"bit.h"

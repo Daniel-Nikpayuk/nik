@@ -16,43 +16,6 @@
 ************************************************************************************************************************/
 
 /*
-	We tether the interval decomposition to the while loop,
-	meaning [) is most natural, so then our decomposition is as follows:
-
-	closing	|a <= b|:	[a, b)		= [a, b)
-	closed	|a <= b|:	[a, b]		= [a, b)	-> [b]
-	open	|a <  b|:	(a, b)		= (a)		-> [a+1, b)
-	opening	|a <  b|:	(a, b]		= (a)		-> [a+1, b)	-> [b]
-
-	Here (a) implies iterate, while [b] implies act.
-*/
-
-enum struct Interval : size_type
-{
-	closed,
-	closing,
-	opening,
-	open,
-
-	dimension // filler
-};
-
-enum struct Direction : size_type
-{
-	forward,
-	backward,
-
-	dimension // filler
-};
-
-template<Interval ob_interval, Direction ob_direction>
-struct object
-{
-	static constexpr Interval interval	= ob_interval;
-	static constexpr Direction direction	= ob_direction;
-};
-
-/*
 	Does not test sub, ob, for matching interior closed interval lengths or right ends.
 
 	False conditionals are expected to be optimized out at compile time.
@@ -70,12 +33,11 @@ template
 
 template
 <
-	Interval sub_interval, Direction sub_direction,
-	template<Interval, Direction> typename Object
+	Interval sub_interval, Direction sub_direction
 
 > struct generic
 <
-	Object<sub_interval, sub_direction>
+	object<sub_interval, sub_direction>
 >
 {
 		// compare:
@@ -138,13 +100,12 @@ template
 template
 <
 	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction//,
-//	template<Interval, Direction> typename Object
+	Interval ob_interval, Direction ob_direction
 
 > struct generic
 <
-	/*O*/object<sub_interval, sub_direction>,
-	/*O*/object<ob_interval, ob_direction>
+	object<sub_interval, sub_direction>,
+	object<ob_interval, ob_direction>
 >
 {
 		// compare:
@@ -230,19 +191,19 @@ template
 
 /*
 	trinary:
+*/
 
 template
 <
 	Interval sub_interval, Direction sub_direction,
 	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction,
-	template<Interval, Direction> typename Object
+	Interval ob_interval, Direction ob_direction
 
 > struct generic
 <
-	Object<sub_interval, sub_direction>,
-	Object<ob1_interval, ob1_direction>,
-	Object<ob_interval, ob_direction>
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>
 >
 {
 		// (morph,) map:
@@ -290,5 +251,4 @@ template
 		return sub;
 	}
 };
-*/
 
