@@ -15,16 +15,20 @@
 **
 ************************************************************************************************************************/
 
-struct uint
+enum struct Depth : size_type
 {
-		// addition:
+	bit,
+	word,
+	address,
 
-		// subtraction:
-
-		// multiplication:
-
-		// division:
-
-	#include"half/semiotic.hpp"
+	dimension
 };
+
+template
+<
+	typename WordType,
+	size_type length,
+	typename Filler = void
+
+> struct address;
 

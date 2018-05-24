@@ -22,8 +22,13 @@
 	An address is a power of WordType.
 */
 
-template<typename WordType, size_type length, typename Filler = void>
-struct address
+template
+<
+	typename WordType,
+	size_type length,
+	typename Filler
+
+> struct address
 {
 	using type			= address;
 	using type_ref			= type&;
@@ -47,7 +52,7 @@ struct address
 					Direction::forward
 				>;
 
-	using method		= functor
+	using method		= typename Power::template functor
 				<
 					policy,
 					policy

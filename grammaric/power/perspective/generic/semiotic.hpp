@@ -149,23 +149,18 @@ template
 	template<typename vb_type, typename sub_type, typename ob_type>
 	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
 	{
-/*
 		if (sub_interval == Interval::opening || sub_interval == Interval::open)
 		{
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;
 		}
-*/
 
-/*
 		if (ob_interval == Interval::opening || ob_interval == Interval::open)
 		{
 			if	(ob_direction == Direction::forward)	++ob;
 			else if	(ob_direction == Direction::backward)	--ob;
 		}
-*/
 
-/*
 		while (ob != end)
 		{
 			vb.main_action(sub, ob);
@@ -176,14 +171,11 @@ template
 			if	(ob_direction == Direction::forward)	++ob;
 			else if	(ob_direction == Direction::backward)	--ob;
 		}
-*/
 
-/*
 		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
 		{
 			vb.last_action(sub, ob);
 		}
-*/
 
 		return sub;
 	}

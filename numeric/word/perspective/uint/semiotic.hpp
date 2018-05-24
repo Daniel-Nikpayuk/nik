@@ -23,60 +23,12 @@ struct uint
 
 		// addition:
 
-	template<typename WordType, Performance performance = Performance::specification>
-	struct addition
-	{
-	};
-
-	template<typename WordType>
-	struct addition<WordType, Performance::optimization>
-	{
-	};
-
 		// subtraction:
-
-	template<typename WordType, Performance performance = Performance::specification>
-	struct subtraction
-	{
-	};
-
-	template<typename WordType>
-	struct subtraction<WordType, Performance::optimization>
-	{
-	};
 
 		// multiplication:
 
-	template<typename WordType, Performance performance = Performance::specification>
-	struct multiplication
-	{
-	};
-
-	template<typename WordType>
-	struct multiplication<WordType, Performance::optimization>
-	{
-	};
-
 		// division:
 
-	template<size_type length, Performance performance = Performance::specification> /* typename WordType,*/
-	struct division
-	{
-		using reg_type		= typename byte_type<length>::reg_type;
-		using half_length	= typename byte_type<length>::half_type::length;
-		using low_pass		= typename byte_type<length>::low_pass;
-
-		#include"division/specification/three_halves/semiotic.hpp"
-	};
-
-	template<size_type length> /* typename WordType */
-	struct division<length, Performance::optimization>
-	{
-		using reg_type		= typename byte_type<length>::reg_type;
-		using half_length	= typename byte_type<length>::half_type::length;
-		using low_pass		= typename byte_type<length>::low_pass;
-
-		#include"division/optimization/three_halves/semiotic.hpp"
-	};
+	#include"three_halves/semiotic.hpp"
 };
 

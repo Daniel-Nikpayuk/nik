@@ -57,9 +57,9 @@ template
 	Performance::specification
 >
 {
-	using reg_type		= typename byte_type<length>::rtn;
+	using reg_type		= typename byte_type<length>::reg_type;
 
-	using zero		= typename byte_type<length>::zero;
+	using zero		= typename Constant::template zero<reg_type>;
 
 	using generic		= typename Power::template generic<sub_policy, ob_policy>;
 
@@ -86,14 +86,14 @@ template
 		template<typename sub_type, typename ob_type>
 		inline void main_action(sub_type sub, ob_type ob)
 		{
-//			*sub = three_halves::divide(lead, lead, *ob, divisor);
+			*sub = three_halves::divide(lead, reg_type(lead), *ob, divisor);
 		}
 
 		template<typename sub_type, typename ob_type>
 		inline void last_action(sub_type sub, ob_type ob)
-		{
-//			*sub		= three_halves::divide(lead, lead, *ob, divisor);
-//			remainder	= lead;
+
+			*sub		= three_halves::divide(lead, reg_type(lead), *ob, divisor);
+			remainder	= lead;
 		}
 	};
 

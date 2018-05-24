@@ -19,15 +19,6 @@
 	Design specifications privilege modularization. Only in specializations do we unpack and optimize.
 */
 
-enum struct Depth : size_type
-{
-	bit,
-	word,
-	address,
-
-	dimension
-};
-
 template
 <
 	typename AddressType,
@@ -42,16 +33,12 @@ template
 template
 <
 	typename BitType, size_type word_length,
-	template<class, size_type> typename Word,
-
 	size_type length,
-	template<class, size_type> typename Address,
-
 	Access access
 
 > struct coaddress
 <
-	Address<Word<BitType, word_length>, length>,
+	address<word<BitType, word_length>, length>,
 	access
 >
 {
@@ -59,17 +46,17 @@ template
 	using type_ref				= type&;
 	using type_ptr				= type*;
 
-	using const_type			= coaddress<Address<Word<BitType, word_length>, length>, Access::readonly>;
+	using const_type			= coaddress<address<word<BitType, word_length>, length>, Access::readonly>;
 
 	using bit_type				= typename read_type<BitType, access>::rtn;
 	using bit_type_ref			= bit_type&;
 	using bit_type_ptr			= bit_type*;
 
-	using word_type				= Word<bit_type, word_length>;
+	using word_type				= word<bit_type, word_length>;
 	using word_type_ref			= word_type&;
 	using word_type_ptr			= word_type*;
 
-	using address_type			= Address<word_type, length>;
+	using address_type			= address<word_type, length>;
 	using address_type_ref			= address_type&;
 	using address_type_ptr			= address_type*;
 
