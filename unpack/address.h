@@ -15,3 +15,13 @@
 **
 ************************************************************************************************************************/
 
+//	Unpack dependencies: <pointer>
+
+using Address		= nik::numeric<Module::address, Permission::semiotic, size_type>;
+
+			  template<typename Type, Access access = Access::readwrite>
+using coaddress		= typename Address::template coaddress<Type, access>;
+
+			  template<typename WordType, size_type length>
+using address		= typename Address::template address<WordType, length>;
+

@@ -26,7 +26,8 @@
 
 template
 <
-	typename WordType,
+	size_type length, // temporary, for testing/debugging.
+//	typename WordType,
 	Performance performance = Performance::specification
 
 > struct three_halves;
@@ -42,7 +43,7 @@ template
 
 > struct three_halves
 <
-	debug<length>,
+	length,
 //	Word<bit<bool>, length>,
 	Performance::specification
 >
@@ -95,7 +96,7 @@ template
 
 > struct three_halves
 <
-	debug<length>,
+	length,
 //	Word<bit<bool>, length>,
 	Performance::optimization
 >

@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template<size_type length>
-struct debug			// temporary for testing these functions.
-{
-};
-
 enum struct Performance : size_type
 {
 	specification,
@@ -31,19 +26,7 @@ enum struct Performance : size_type
 /*
 */
 
-struct addition
-{
-};
-
-struct subtraction
-{
-};
-
-struct multiplication
-{
-};
-
-struct division
+struct uint
 {
 	#include"division/three_halves/semiotic.hpp"
 };

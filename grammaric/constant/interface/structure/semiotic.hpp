@@ -39,17 +39,30 @@ struct constant<Type, Value>
 */
 
 						  template<bool Value>
-using boolean					= constant<bool, Value>;
+using boolean					= constant<bool, (bool) Value>;
 
 /*
-	We include here a list of commonly used literal constants:
+	We include here a list of commonly used literal constants,
+	parameterized for different register sizes:
 */
 
-using zero					= constant<size_type, 0>;
-using one					= constant<size_type, 1>;
-using two					= constant<size_type, 2>;
-using three					= constant<size_type, 3>;
+						  template<typename RegType>
+using zero					= constant<RegType, (RegType) 0>;
 
-using nibble					= constant<size_type, 4>;
-using byte					= constant<size_type, 8>;
+						  template<typename RegType>
+using one					= constant<RegType, (RegType) 1>;
+
+						  template<typename RegType>
+using two					= constant<RegType, (RegType) 2>;
+
+						  template<typename RegType>
+using three					= constant<RegType, (RegType) 3>;
+
+//
+
+						  template<typename RegType>
+using nibble					= constant<RegType, (RegType) 4>;
+
+						  template<typename RegType>
+using byte					= constant<RegType, (RegType) 8>;
 

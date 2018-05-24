@@ -15,8 +15,77 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_policy, typename ob_policy>
-struct identity
+template
+<
+	typename...
+
+> struct identity;
+
+/*
+	unary:
+*/
+
+template
+<
+	typename sub_policy
+
+> struct identity
+<
+	sub_policy
+>
+{
+	using method = generic<sub_policy>;
+
+		// zr_verb:
+
+	struct zr_verb
+	{
+		bool rtn;
+
+		zr_verb() : rtn(false) { }
+
+		template<typename sub_type>
+		inline bool break_match(sub_type sub)
+		{
+			rtn = (*sub == 0); // use a constant<>::zero in the long run.
+
+			return !rtn;
+		}
+
+		template<typename sub_type>
+		inline void last_match(sub_type sub)
+		{
+			rtn = (*sub == 0); // use a constant<>::zero in the long run.
+		}
+	};
+
+		// zero:
+
+	template<typename sub_type>
+	static bool zero(sub_type sub, sub_type end)
+	{
+		zr_verb zr;
+
+		method::compare(zr, sub, end);
+
+		return zr.rtn;
+	}
+};
+
+/*
+	binary:
+*/
+
+template
+<
+	typename sub_policy,
+	typename ob_policy
+
+> struct identity
+<
+	sub_policy,
+	ob_policy
+>
 {
 	using method = generic<sub_policy, ob_policy>;
 
@@ -29,7 +98,7 @@ struct identity
 		eq_verb() : rtn(false) { }
 
 		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob, ob_type end)
+		inline bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub == *ob);
 
@@ -37,7 +106,7 @@ struct identity
 		}
 
 		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob, ob_type end)
+		inline void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub == *ob);
 		}
@@ -52,7 +121,7 @@ struct identity
 		neq_verb() : rtn(true) { }
 
 		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob, ob_type end)
+		inline bool break_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub != *ob);
 
@@ -60,7 +129,7 @@ struct identity
 		}
 
 		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob, ob_type end)
+		inline void last_match(sub_type sub, ob_type ob)
 		{
 			rtn = (*sub != *ob);
 		}

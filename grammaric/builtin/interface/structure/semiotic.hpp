@@ -15,16 +15,7 @@
 **
 ************************************************************************************************************************/
 
-/*
-	limit info taken from:	http://en.cppreference.com/w/cpp/types/numeric_limits
-
-	8 << 0, unsigned char
-	8 << 1, unsigned short
-	8 << 2, unsigned long
-	8 << 3, unsigned long long
-
-	This code has been tested for GCC.
-*/
+#include"limits/semiotic.hpp"
 
 enum struct Sign : size_type
 {
@@ -34,313 +25,89 @@ enum struct Sign : size_type
 	dimension // filler
 };
 
+/*
+*/
+
+template<typename RegType>
+struct builtin
+{
+	using reg_type					= RegType;
+
+	//
+
+	using zero					= typename Constant::template zero<reg_type>;
+	using one					= typename Constant::template one<reg_type>;
+
+	using byte					= typename Constant::template byte<reg_type>;
+
+	//
+
+	using min					= constant<reg_type, limits<reg_type>::min>;
+	using max					= constant<reg_type, limits<reg_type>::max>;
+
+	using length					= constant<reg_type, byte::value * sizeof(reg_type)>;
+	using sign					= constant<Sign, !min::value ? Sign::natural : Sign::integer>;
+};
+
+/*
+*/
+
 template
 <
 	size_type N,
-	Sign sign = Sign::natural,
-	typename Filler = void
+	Sign sign = Sign::natural
 
-> struct builtin;
+> struct byte_type;
 
 /*
-	8 << 0
+	unsigned:
 */
 
 template
 <
-	typename Filler
+	size_type N
 
-> struct builtin
+> struct byte_type
 <
-	Byte::value << Zero::value, // 8
-	Sign::natural,
-	Filler
+	N,
+	Sign::natural
 >
 {
-	using rtn					= unsigned char;
+	using builtin_type				= typename if_then
+							<
+								builtin<unsigned char>::length::value == N, unsigned char,
 
-							// half implementation does not exist.
+							>::rtn;
 
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
+	using reg_type					= typename builtin_type::reg_type;
+	using half_type					= byte_type<(N >> One::value), Sign::natural>;
 
 	//
 
-	using min					= constant<rtn, zero::value>;
-	using max					= constant<rtn, (rtn) UCHAR_MAX>;
+	using zero					= typename builtin_type::zero;
+	using one					= typename builtin_type::one;
 
-	using is_natural				= constant<bool, !min::value>;
+	using byte					= typename builtin_type::byte;
 
-	using length					= constant<rtn, byte::value * sizeof(rtn)>;
-	using order					= constant<rtn, length::value - one::value>;
+	//
 
-	using tail					= constant<rtn, zero::value>;
-	using head					= constant<rtn, one::value << order::value>;
+	using min					= typename builtin_type::min;
+	using max					= typename builtin_type::max;
+
+	using length					= typename builtin_type::length;
+	using sign					= typename builtin_type::sign;
+
+	//
+
+	using order					= constant<reg_type, length::value - one::value>;
+
+	using tail					= constant<reg_type, zero::value>;
+	using head					= constant<reg_type, one::value << order::value>;
+
+	using low_pass					= constant<reg_type, half_type::max>;
+	using high_pass					= constant<reg_type, max::value & ~low_pass::value>;
+
+	using upper					= constant<reg_type, half_type::max + one::value>;
+	using lower					= constant<reg_type, max::value>;
 };
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << Zero::value, // 8
-	Sign::integer,
-	Filler
->
-{
-	using rtn					= signed char;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, (rtn) SCHAR_MIN>;
-	using max					= constant<rtn, (rtn) SCHAR_MAX>;
-
-	// not yet implemented!
-};
-
-/*
-	8 << 1
-*/
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << One::value, // 16
-	Sign::natural,
-	Filler
->
-{
-	using rtn					= unsigned short;
-
-							// constants are size_type for builtin.
-
-	using half					= builtin<Byte::value << Zero::value, Sign::natural>;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, zero::value>;
-	using max					= constant<rtn, (rtn) USHRT_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<rtn, byte::value * sizeof(rtn)>;
-	using order					= constant<rtn, length::value - one::value>;
-
-	using tail					= constant<rtn, zero::value>;
-	using head					= constant<rtn, one::value << order::value>;
-
-	using low_pass					= constant<rtn, half::max::value>;
-	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
-
-	using upper					= constant<rtn, half::max::value + one::value>;
-	using lower					= constant<rtn, max::value>;
-};
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << One::value, // 16
-	Sign::integer,
-	Filler
->
-{
-	using rtn					= signed short;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, (rtn) SHRT_MIN>;
-	using max					= constant<rtn, (rtn) SHRT_MAX>;
-
-	// not yet implemented!
-};
-
-/*
-	8 << 2
-*/
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << Two::value, // 32
-	Sign::natural,
-	Filler
->
-{
-	using rtn					= unsigned int;
-
-							// constants are size_type for builtin.
-
-	using half					= builtin<Byte::value << One::value, Sign::natural>;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, zero::value>;
-	using max					= constant<rtn, (rtn) UINT_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<rtn, byte::value * sizeof(rtn)>;
-	using order					= constant<rtn, length::value - one::value>;
-
-	using tail					= constant<rtn, zero::value>;
-	using head					= constant<rtn, one::value << order::value>;
-
-	using low_pass					= constant<rtn, half::max::value>;
-	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
-
-	using upper					= constant<rtn, half::max::value + one::value>;
-	using lower					= constant<rtn, max::value>;
-};
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << Two::value, // 32
-	Sign::integer,
-	Filler
->
-{
-	using rtn					= signed long;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, (rtn) INT_MIN>;
-	using max					= constant<rtn, (rtn) INT_MAX>;
-
-	// not yet implemented!
-};
-
-/*
-	8 << 3
-*/
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << Three::value, // 64
-	Sign::natural,
-	Filler
->
-{
-	using rtn					= unsigned long;
-
-							// constants are size_type for builtin.
-
-	using half					= builtin<Byte::value << Two::value, Sign::natural>;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, zero::value>;
-	using max					= constant<rtn, (rtn) ULONG_MAX>;
-
-	using is_natural				= constant<bool, !min::value>;
-
-	using length					= constant<rtn, byte::value * sizeof(rtn)>;
-	using order					= constant<rtn, length::value - one::value>;
-
-	using tail					= constant<rtn, zero::value>;
-	using head					= constant<rtn, one::value << order::value>;
-
-	using low_pass					= constant<rtn, half::max::value>;
-	using high_pass					= constant<rtn, max::value & ~low_pass::value>;
-
-	using upper					= constant<rtn, half::max::value + one::value>;
-	using lower					= constant<rtn, max::value>;
-};
-
-template
-<
-	typename Filler
-
-> struct builtin
-<
-	Byte::value << Three::value, // 64
-	Sign::integer,
-	Filler
->
-{
-	using rtn					= signed long;
-
-	//
-
-	using zero					= typename grammaric<Module::constant, Permission::semiotic, rtn>::zero;
-	using one					= typename grammaric<Module::constant, Permission::semiotic, rtn>::one;
-
-	using byte					= typename grammaric<Module::constant, Permission::semiotic, rtn>::byte;
-
-	//
-
-	using min					= constant<rtn, (rtn) LONG_MIN>;
-	using max					= constant<rtn, (rtn) LONG_MAX>;
-
-	// not yet implemented!
-};
-
-/*
-*/
-
-		  template<size_type N, Sign sign = Sign::natural>
-using byte_type = builtin<N, sign>;
 

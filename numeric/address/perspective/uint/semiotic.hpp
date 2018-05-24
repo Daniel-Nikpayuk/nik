@@ -15,19 +15,8 @@
 **
 ************************************************************************************************************************/
 
-struct addition
-{
-};
-
-struct subtraction
-{
-};
-
-struct multiplication
-{
-};
-
-struct division
+struct uint
 {
 	#include"division/half/semiotic.hpp"
 };
+

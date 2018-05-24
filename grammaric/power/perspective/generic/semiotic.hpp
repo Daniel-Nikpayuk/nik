@@ -78,6 +78,33 @@ template
 	Object<sub_interval, sub_direction>
 >
 {
+		// compare:
+
+	template<typename vb_type, typename sub_type>
+	static sub_type compare(vb_type & vb, sub_type sub, sub_type end)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		while (sub != end)
+		{
+			if (vb.break_match(sub)) return sub;
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			vb.last_match(sub);
+		}
+
+		return sub;
+	}
+
 		// repeat:
 
 	template<typename vb_type, typename sub_type>
@@ -111,13 +138,13 @@ template
 template
 <
 	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction,
-	template<Interval, Direction> typename Object
+	Interval ob_interval, Direction ob_direction//,
+//	template<Interval, Direction> typename Object
 
 > struct generic
 <
-	Object<sub_interval, sub_direction>,
-	Object<ob_interval, ob_direction>
+	/*O*/object<sub_interval, sub_direction>,
+	/*O*/object<ob_interval, ob_direction>
 >
 {
 		// compare:
@@ -161,18 +188,23 @@ template
 	template<typename vb_type, typename sub_type, typename ob_type>
 	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
 	{
+/*
 		if (sub_interval == Interval::opening || sub_interval == Interval::open)
 		{
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;
 		}
+*/
 
+/*
 		if (ob_interval == Interval::opening || ob_interval == Interval::open)
 		{
 			if	(ob_direction == Direction::forward)	++ob;
 			else if	(ob_direction == Direction::backward)	--ob;
 		}
+*/
 
+/*
 		while (ob != end)
 		{
 			vb.main_action(sub, ob);
@@ -183,11 +215,14 @@ template
 			if	(ob_direction == Direction::forward)	++ob;
 			else if	(ob_direction == Direction::backward)	--ob;
 		}
+*/
 
+/*
 		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
 		{
 			vb.last_action(sub, ob);
 		}
+*/
 
 		return sub;
 	}
@@ -195,7 +230,6 @@ template
 
 /*
 	trinary:
-*/
 
 template
 <
@@ -256,4 +290,5 @@ template
 		return sub;
 	}
 };
+*/
 
