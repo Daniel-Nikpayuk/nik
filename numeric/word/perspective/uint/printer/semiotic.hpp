@@ -17,10 +17,6 @@
 
 /*
 	Concept:
-
-	The number of digits required for the numeral character array.
-
-	log(2^64N) == 64N*lg(2)/lg(10) == 64N/(1+lg(5)) < 20N
 */
 
 template
@@ -97,6 +93,11 @@ template
 
 		dgt_verb(ob_type o1, ob_type o, reg_type div) : ob1(o1), ob(o), d(div) { }
 
+		template<typename sub_type>
+		inline bool condition(sub_type sub)
+		{
+		}
+
 /*
 	By the time main_action is called, end1, end are now closed intervals.
 */
@@ -125,40 +126,22 @@ template
 		}
 	};
 
-	struct pr_verb // print
-	{
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-			builtin_printer::print('\n');
-		}
-	};
-
 		// print:
 
 		// sub_type	is restricted to forward closing.
 		// ob_type	is restricted to backward opening.
 		//		is assumed as temporary memory.
 
-	template<typename sub_type, typename ob_type>
-	static void print(sub_type sub, ob_type end1, ob_type end, ob_type ob, reg_type d = 10)
+	template<typename sub_type>
+	static void print(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		ob_type ob1 = end1 - (end-ob);
+		dgt_verb dgt(ob, d);
 
-		dgt_verb<ob_type> dgt(ob1, ob, d);
-
-		sub_type end0 = trinary_generic::map(dgt, sub, end1, end, ob);
+		sub_type end = unary_generic::repeat(dgt, sub);
 
 		pr_verb pr;
 
-		unary_generic::repeat(pr, end0, sub);
+		unary_generic::repeat(pr, end, sub);
 	}
 };
 

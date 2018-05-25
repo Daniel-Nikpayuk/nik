@@ -59,8 +59,6 @@ template
 {
 	using reg_type		= typename byte_type<length>::reg_type;
 
-	using zero		= typename Constant::template zero<reg_type>;
-
 	using generic		= typename Power::template generic<sub_policy, ob_policy>;
 
 	using three_halves	= typename Word::uint::template three_halves<length, Performance::specification>;
@@ -75,25 +73,20 @@ template
 	struct div_verb
 	{
 		reg_type & remainder;
-
 		reg_type divisor;
-		reg_type lead;
 
-		div_verb(reg_type & r, reg_type d) :
-
-			remainder(r), divisor(d), lead(zero::value) { }
+		div_verb(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
 
 		template<typename sub_type, typename ob_type>
 		inline void main_action(sub_type sub, ob_type ob)
 		{
-			*sub = three_halves::divide(lead, reg_type(lead), *ob, divisor);
+			*sub = three_halves::divide(remainder, remainder, *ob, divisor);
 		}
 
 		template<typename sub_type, typename ob_type>
 		inline void last_action(sub_type sub, ob_type ob)
-
-			*sub		= three_halves::divide(lead, reg_type(lead), *ob, divisor);
-			remainder	= lead;
+		{
+			*sub = three_halves::divide(remainder, remainder, *ob, divisor);
 		}
 	};
 

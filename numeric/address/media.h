@@ -22,6 +22,20 @@ namespace nik
 	{
 		using size_type	= SizeType;
 
+		//
+
+		#include nik_unpack(constant)
+		#include nik_unpack(builtin)
+
+		#include nik_unpack(pointer)
+		#include nik_unpack(power)
+
+		#include nik_unpack(bit)
+		#include nik_unpack(word)
+
+		//
+
+		#include"perspective/uint/media.hpp"
 	};
 }
 

@@ -40,7 +40,7 @@ struct uint
 					Direction::forward
 				>;
 
-	using method		= functor
+	using binary		= typename Power::template functor
 				<
 					policy,
 					policy
@@ -50,18 +50,38 @@ struct uint
 
 	value_type value;
 
-	address() { }
+	uint() { }
 	
-	address(const type & w)
+	uint(const type & w)
 	{
-		method::assign(value.begin(), w.begin(), w.end());
+		binary::assign(value.begin(), w.begin(), w.end());
 	}
 
-	~address() { }
+	~uint() { }
 
 	void print()
 	{
-		Word::division::half();
+/*
+		unsigned char digits[20*N];
+		unsigned char *i = digits;
+
+		reg_type r;
+		reg_type d = 10;
+		reg_type tmp0[N];
+		reg_type tmp1[N];
+
+		functor::assign(tmp0 + N, sub, end);
+
+		while (!identity::zero(tmp1 + N, tmp1))
+		{
+			r = 0;
+			division::divide(r, tmp1 + N, tmp0 + N, tmp0, d);
+			*i = (unsigned char) r;
+
+			functor::assign(tmp0 + N, tmp1 + N, tmp1);
+			++i;
+		}
+*/
 	}
 };
 

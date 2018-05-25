@@ -91,6 +91,31 @@ template
 			vb.last_action(sub);
 		}
 	}
+
+	template<typename vb_type, typename sub_type>
+	static sub_type repeat(vb_type & vb, sub_type sub)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		while (vb.condition(sub))
+		{
+			vb.main_action(sub);
+
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			vb.last_action(sub);
+		}
+
+		return sub;
+	}
 };
 
 /*
@@ -185,6 +210,8 @@ template
 	trinary:
 */
 
+template<typename> struct printer; // debugging
+
 template
 <
 	Interval sub_interval, Direction sub_direction,
@@ -198,6 +225,9 @@ template
 	object<ob_interval, ob_direction>
 >
 {
+	using ob1_loop_printer	= printer<object<ob1_interval, ob1_direction>>;	// debugging
+	using ob_loop_printer	= printer<object<ob_interval, ob_direction>>;	// debugging
+
 		// (morph,) map:
 
 	template<typename vb_type, typename sub_type, typename ob1_type, typename ob_type>
@@ -221,9 +251,23 @@ template
 			else if	(ob_direction == Direction::backward)	--ob;
 		}
 
+		ob1_type end1 = ob1 + (end - ob);		// debugging
+
 		while (ob != end)
 		{
+			nik::display << "ob1: ";		// debugging
+			ob1_loop_printer::print(ob1, end1);	// debugging
+			nik::display << "ob: ";			// debugging
+			ob_loop_printer::print(ob, end);	// debugging
+			nik::display << nik::endl;		// debugging
+
 			vb.main_action(sub, ob1, ob);
+
+			nik::display << "ob1: ";		// debugging
+			ob1_loop_printer::print(ob1, end1);	// debugging
+			nik::display << "ob: ";			// debugging
+			ob_loop_printer::print(ob, end);	// debugging
+			nik::display << nik::endl;		// debugging
 
 			if	(sub_direction == Direction::forward)	++sub;
 			else if	(sub_direction == Direction::backward)	--sub;

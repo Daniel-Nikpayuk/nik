@@ -26,5 +26,9 @@ struct uint
 		// division:
 
 	#include"half/semiotic.hpp"
+
+		// printer:
+
+	#include"printer/semiotic.hpp"
 };
 

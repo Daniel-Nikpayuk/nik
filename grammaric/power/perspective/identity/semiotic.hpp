@@ -47,7 +47,7 @@ template
 		template<typename sub_type>
 		inline bool break_match(sub_type sub)
 		{
-			rtn = (*sub == 0); // use a constant<>::zero in the long run.
+			rtn = (*sub == 0); // using a zero::value requires knowing its type.
 
 			return !rtn;
 		}
@@ -55,7 +55,7 @@ template
 		template<typename sub_type>
 		inline void last_match(sub_type sub)
 		{
-			rtn = (*sub == 0); // use a constant<>::zero in the long run.
+			rtn = (*sub == 0); // using a zero::value requires knowing its type.
 		}
 	};
 

@@ -30,5 +30,9 @@ struct uint
 		// division:
 
 	#include"three_halves/semiotic.hpp"
+
+		// printer:
+
+	#include"printer/semiotic.hpp"
 };
 
