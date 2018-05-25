@@ -20,100 +20,16 @@ struct proximity
 {
 	using method = generic<sub_policy, ob_policy>;
 
-	struct lt_verb
-	{
-		bool rtn;
-
-		lt_verb() : rtn(false) { }
-
-		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub < *ob);
-
-			return (*sub != *ob);
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub < *ob);
-		}
-	};
-
-	struct lte_verb
-	{
-		bool rtn;
-
-		lte_verb() : rtn(false) { }
-
-		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub < *ob);
-
-			return (*sub != *ob);
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub <= *ob);
-		}
-	};
-
-	struct gt_verb
-	{
-		bool rtn;
-
-		gt_verb() : rtn(false) { }
-
-		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub > *ob);
-
-			return (*sub != *ob);
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub > *ob);
-		}
-	};
-
-	struct gte_verb
-	{
-		bool rtn;
-
-		gte_verb() : rtn(false) { }
-
-		template<typename sub_type, typename ob_type>
-		inline bool break_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub > *ob);
-
-			return (*sub != *ob);
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_match(sub_type sub, ob_type ob)
-		{
-			rtn = (*sub >= *ob);
-		}
-	};
-
 		// less than:
 
 	template<typename sub_type, typename ob_type>
 	static bool less_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		lt_verb lt;
+		proximity_less_than_verb plt;
 
-		method::compare(lt, sub, ob, end);
+		method::compare(plt, sub, ob, end);
 
-		return lt.rtn;
+		return plt.rtn;
 	}
 
 		// less than or equal:
@@ -121,11 +37,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		lte_verb lte;
+		proximity_less_than_or_equal_verb pltoe;
 
-		method::compare(lte, sub, ob, end);
+		method::compare(pltoe, sub, ob, end);
 
-		return lte.rtn;
+		return pltoe.rtn;
 	}
 
 		// greater than:
@@ -133,11 +49,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		gt_verb gt;
+		proximity_greater_than_verb pgt;
 
-		method::compare(gt, sub, ob, end);
+		method::compare(pgt, sub, ob, end);
 
-		return gt.rtn;
+		return pgt.rtn;
 	}
 
 		// greater than or equal:
@@ -145,11 +61,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		gte_verb gte;
+		proximity_greater_than_or_equal_verb pgtoe;
 
-		method::compare(gte, sub, ob, end);
+		method::compare(pgtoe, sub, ob, end);
 
-		return gte.rtn;
+		return pgtoe.rtn;
 	}
 };
 

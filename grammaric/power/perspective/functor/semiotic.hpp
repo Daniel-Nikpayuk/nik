@@ -36,34 +36,14 @@ template
 {
 	using method = generic<sub_policy>;
 
-	template<typename ob_type>
-	struct st_verb
-	{
-		ob_type ob;
-
-		st_verb(ob_type o) : ob(o) { }
-
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			*sub = ob;
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-			*sub = ob;
-		}
-	};
-
 		// set:
 
 	template<typename sub_type, typename ob_type>
 	static void set(sub_type sub, sub_type end, ob_type ob)
 	{
-		st_verb<ob_type> st(ob);
+		functor_set_verb<ob_type> fs(ob);
 
-		method::repeat(st, sub, end);
+		method::repeat(fs, sub, end);
 	}
 };
 
@@ -84,29 +64,14 @@ template
 {
 	using method = generic<sub_policy, ob_policy>;
 
-	struct as_verb
-	{
-		template<typename sub_type, typename ob_type>
-		inline void main_action(sub_type sub, ob_type ob)
-		{
-			*sub = *ob;
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_action(sub_type sub, ob_type ob)
-		{
-			*sub = *ob;
-		}
-	};
-
 		// assign:
 
 	template<typename sub_type, typename ob_type>
 	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
 	{
-		as_verb as;
+		functor_assign_verb fa;
 
-		return method::map(as, sub, ob, end);
+		return method::map(fa, sub, ob, end);
 	}
 };
 

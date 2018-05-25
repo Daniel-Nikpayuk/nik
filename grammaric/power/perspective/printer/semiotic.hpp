@@ -20,31 +20,22 @@ struct printer
 {
 	using method = generic<sub_policy>;
 
-	struct pr_verb
-	{
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-			builtin_printer::print(' ');
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-			builtin_printer::print('\n');
-		}
-	};
-
 		// print:
 
 	template<typename sub_type>
-	static void print(sub_type sub, sub_type end)
+	static void digit_print(sub_type sub, sub_type end)
 	{
-		pr_verb pr;
+		printer_digit_verb pd;
 
-		method::repeat(pr, sub, end);
+		method::repeat(pd, sub, end);
+	}
+
+	template<typename sub_type>
+	static void space_print(sub_type sub, sub_type end)
+	{
+		printer_space_verb ps;
+
+		method::repeat(ps, sub, end);
 	}
 };
 

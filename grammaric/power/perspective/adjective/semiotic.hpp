@@ -52,19 +52,3 @@ struct object
 	static constexpr Direction direction	= ob_direction;
 };
 
-	struct pr_verb // print
-	{
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-			builtin_printer::print('\n');
-		}
-	};
-

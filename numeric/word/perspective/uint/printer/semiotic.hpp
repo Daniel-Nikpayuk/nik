@@ -43,59 +43,24 @@ template
 
 	using zero			= typename Constant::template zero<reg_type>;
 
-	//
-
-	using sub_policy		= object
-					<
-						Interval::closing,
-						Direction::forward
-					>;
-
-	using ob_policy			= object
-					<
-						Interval::opening,
-						Direction::backward
-					>;
-
-	using unary_generic		= typename Power::template generic<ob_policy>;
-	using trinary_generic		= typename Power::template generic<sub_policy, ob_policy, ob_policy>;
+	using pd_verb			= typename Power::printer_digit_verb;
 
 	//
 
-	using loop_policy		= object
-					<
-						Interval::closed,
-						Direction::backward
-					>;
+					  template<Interval interval, Direction direction>
+	using unary_generic		= typename Power::template generic<object<interval, direction>>;
 
-	using loop_unary_generic	= typename Power::template generic<loop_policy>;
-
-	using loop_identity		= typename Power::template identity<loop_policy>;
-	using zr_verb			= typename loop_identity::zr_verb;
-
-	using loop_unary_functor	= typename Power::template functor<loop_policy>;
-	using loop_binary_functor	= typename Power::template functor<loop_policy, loop_policy>;
-
-	using loop_division		= half<length, loop_policy, loop_policy>;
-
-	using loop_printer		= typename Power::template printer<loop_policy>; // debugging
-
-	template<typename ob_type>
 	struct dgt_verb
 	{
-		ob_type ob1;
-		ob_type ob;
-
-		reg_type r;
+		reg_type ob;
 		reg_type d;
 
-		zr_verb zr;
-
-		dgt_verb(ob_type o1, ob_type o, reg_type div) : ob1(o1), ob(o), d(div) { }
+		dgt_verb(reg_type o, reg_type div) : ob(o), d(div) { }
 
 		template<typename sub_type>
 		inline bool condition(sub_type sub)
 		{
+			return ob != zero::value;
 		}
 
 /*
@@ -103,25 +68,16 @@ template
 */
 
 		template<typename sub_type>
-		inline void main_action(sub_type sub, ob_type & end1, ob_type & end)
+		inline void main_action(sub_type sub)
 		{
-			ob_type	e	= loop_unary_generic::compare(zr, end, ob);
-			ob_type e1	= end1 - (end - e);
+			reg_type q	= ob / d;
+			*sub		= ob % d;
 
-			loop_unary_functor::set(end1, e1, zero::value);
-
-			end1 = e1;
-			end = e;
-
-			r = zero::value;
-			loop_division::divide(r, end1, end, ob, d);
-			*sub = r;
-
-			loop_binary_functor::assign(end, end1, ob1);
+			ob = q;
 		}
 
 		template<typename sub_type>
-		inline void last_action(sub_type sub, ob_type end1, ob_type end)
+		inline void last_action(sub_type sub)
 		{
 		}
 	};
@@ -137,11 +93,21 @@ template
 	{
 		dgt_verb dgt(ob, d);
 
-		sub_type end = unary_generic::repeat(dgt, sub);
+		sub_type end	= unary_generic
+				<
+					Interval::closing,
+					Direction::forward
 
-		pr_verb pr;
+				>::repeat(dgt, sub);
 
-		unary_generic::repeat(pr, end, sub);
+		pd_verb esp;
+
+		unary_generic
+		<
+			Interval::opening,
+			Direction::backward
+
+		>::repeat(esp, end, sub);
 	}
 };
 

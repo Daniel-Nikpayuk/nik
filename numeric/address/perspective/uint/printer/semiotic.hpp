@@ -47,6 +47,10 @@ template
 
 	using zero			= typename Constant::template zero<reg_type>;
 
+	using iz_verb			= typename Power::identity_zero_verb;
+
+	using word_uint_printer		= typename Word::uint::template printer<length, Performance::specification>;
+
 	//
 
 	using sub_policy		= object
@@ -61,8 +65,8 @@ template
 						Direction::backward
 					>;
 
-	using unary_generic		= typename Power::template generic<ob_policy>;
 	using trinary_generic		= typename Power::template generic<sub_policy, ob_policy, ob_policy>;
+	using digit_printer		= typename Power::template printer<ob_policy>;
 
 	//
 
@@ -74,14 +78,12 @@ template
 
 	using loop_unary_generic	= typename Power::template generic<loop_policy>;
 
-	using loop_identity		= typename Power::template identity<loop_policy>;
-	using zr_verb			= typename loop_identity::zr_verb;
-
 	using loop_unary_functor	= typename Power::template functor<loop_policy>;
 	using loop_binary_functor	= typename Power::template functor<loop_policy, loop_policy>;
 
 	using loop_division		= half<length, loop_policy, loop_policy>;
 
+	using ob_printer		= typename Power::template printer<ob_policy>; // debugging
 	using loop_printer		= typename Power::template printer<loop_policy>; // debugging
 
 	template<typename ob_type>
@@ -93,7 +95,7 @@ template
 		reg_type r;
 		reg_type d;
 
-		zr_verb zr;
+		iz_verb iz;
 
 		dgt_verb(ob_type o1, ob_type o, reg_type div) : ob1(o1), ob(o), d(div) { }
 
@@ -104,8 +106,14 @@ template
 		template<typename sub_type>
 		inline void main_action(sub_type sub, ob_type & end1, ob_type & end)
 		{
-			ob_type	e	= loop_unary_generic::compare(zr, end, ob);
-			ob_type e1	= end1 - (end - e);
+			nik::display << "end-ob: ";		// debugging
+			loop_printer::space_print(end, ob);	// debugging
+			nik::display << "end1-ob1: ";		// debugging
+			loop_printer::space_print(end1, ob1);	// debugging
+			nik::display << nik::endl;		// debugging
+
+			ob_type	e	= loop_unary_generic::compare(iz, end, ob);
+			ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
 
 			loop_unary_functor::set(end1, e1, zero::value);
 
@@ -117,27 +125,17 @@ template
 			*sub = r;
 
 			loop_binary_functor::assign(end, end1, ob1);
+
+			nik::display << "end-ob: ";		// debugging
+			loop_printer::space_print(end, ob);	// debugging
+			nik::display << "end1-ob1: ";		// debugging
+			loop_printer::space_print(end1, ob1);	// debugging
+			nik::display << nik::endl;		// debugging
 		}
 
 		template<typename sub_type>
 		inline void last_action(sub_type sub, ob_type end1, ob_type end)
 		{
-		}
-	};
-
-	struct pr_verb // print
-	{
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-			builtin_printer::print(*sub);
-			builtin_printer::print('\n');
 		}
 	};
 
@@ -154,11 +152,21 @@ template
 
 		dgt_verb<ob_type> dgt(ob1, ob, d);
 
-		sub_type end0 = trinary_generic::map(dgt, sub, end1, end, ob);
+//		sub_type end0 = trinary_generic::map(dgt, sub, end1, end, ob);
 
-		pr_verb pr;
+		sub_type end0 = sub;
 
-		unary_generic::repeat(pr, end0, sub);
+		--end1; --end;
+		while (end != ob)
+		{
+			dgt.main_action(end0, end1, end);
+
+			++end0;
+		}
+
+		word_uint_printer::print(end0, *end, d);
+
+		digit_printer::digit_print(end0, sub);
 	}
 };
 

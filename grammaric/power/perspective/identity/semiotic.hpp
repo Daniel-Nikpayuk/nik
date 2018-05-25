@@ -36,39 +36,16 @@ template
 {
 	using method = generic<sub_policy>;
 
-		// zr_verb:
-
-	struct zr_verb
-	{
-		bool rtn;
-
-		zr_verb() : rtn(false) { }
-
-		template<typename sub_type>
-		inline bool break_match(sub_type sub)
-		{
-			rtn = (*sub == 0); // using a zero::value requires knowing its type.
-
-			return !rtn;
-		}
-
-		template<typename sub_type>
-		inline void last_match(sub_type sub)
-		{
-			rtn = (*sub == 0); // using a zero::value requires knowing its type.
-		}
-	};
-
 		// zero:
 
 	template<typename sub_type>
 	static bool zero(sub_type sub, sub_type end)
 	{
-		zr_verb zr;
+		identity_zero_verb iz;
 
-		method::compare(zr, sub, end);
+		method::compare(iz, sub, end);
 
-		return zr.rtn;
+		return iz.rtn;
 	}
 };
 
