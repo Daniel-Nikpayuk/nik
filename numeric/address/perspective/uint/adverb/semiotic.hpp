@@ -15,21 +15,32 @@
 **
 ************************************************************************************************************************/
 
+
 template<typename...> struct uint_change_of_base;
 
-/*
-	Concept:
 
-	The number of digits required for the numeral character array.
+/***********************************************************************************************************************/
 
-	log(2^64N) == 64N*lg(2)/lg(10) == 64N/(1+lg(5)) < 20N
-*/
 
-/*
-*/
+struct uint_half_division
+{
+	reg_type & remainder;
+	reg_type divisor;
 
-template<typename ob_type>
-struct uint_change_of_base
+	div_verb(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+
+	template<typename sub_type, typename ob_type>
+	inline void main_action(sub_type sub, ob_type ob)
+	{
+		*sub = three_halves::divide(remainder, remainder, *ob, divisor);
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void last_action(sub_type sub, ob_type ob)
+	{
+		*sub = three_halves::divide(remainder, remainder, *ob, divisor);
+	}
+};
 
 template
 <
@@ -37,8 +48,7 @@ template
 	Interval ob1_interval, Direction ob1_direction,
 	Interval ob_interval, Direction ob_direction,
 
-	typename ob1_type,
-	typename ob_type
+	typename ob1_type, typename ob_type
 
 > struct uint_change_of_base
 <
@@ -48,48 +58,30 @@ template
 	ob1_type,
 	ob_type
 >
-
 {
 	using zero			= typename Constant::template zero<reg_type>;
 
-	using iz_verb			= typename Power::identity_zero_verb;
-
-	using word_uint_printer		= typename Word::uint::template printer<length, Performance::specification>;
-
-	//
-
-	using sub_policy		= object
-					<
-						Interval::closing,
-						Direction::forward
-					>;
-
-	using ob_policy			= object
-					<
-						Interval::opening,
-						Direction::backward
-					>;
-
-	using trinary_generic		= typename Power::template generic<sub_policy, ob_policy, ob_policy>;
-	using digit_printer		= typename Power::template printer<ob_policy>;
+	using identity_zero_first	= typename Power::template identity_zero<object<ob_interval, ob_direction>>;
+	using identity_zero_main	= typename Power::template identity_zero<object<Interval::closed, ob_direction>>;
 
 	//
 
-	using loop_policy		= object
+	using generic			= typename Power::template generic;
+
+	using functor_first		= typename Power::template functor<object<ob1_interval, ob1_direction>>;
+	using functor_main		= typename Power::template functor<object<Interval::closed, ob1_direction>>;
+	using binary_main		= typename Power::template functor
 					<
-						Interval::closed,
-						Direction::backward
+						object<Interval::closed, ob_direction>
+						object<Interval::closed, ob1_direction>,
 					>;
 
-	using loop_unary_generic	= typename Power::template generic<loop_policy>;
-
-	using loop_unary_functor	= typename Power::template functor<loop_policy>;
-	using loop_binary_functor	= typename Power::template functor<loop_policy, loop_policy>;
-
-	using loop_division		= half<length, loop_policy, loop_policy>;
-
-	using ob_printer		= typename Power::template printer<ob_policy>; // debugging
-	using loop_printer		= typename Power::template printer<loop_policy>; // debugging
+	using division_main		= half_division
+					<
+						length,
+						object<Interval::closed, ob1_direction>,
+						object<Interval::closed, ob_direction>
+					>;
 
 	//
 
@@ -99,7 +91,8 @@ template
 	reg_type r;
 	reg_type d;
 
-	iz_verb iz;
+	identity_zero_first izf;
+	identity_zero_main izm;
 
 	dgt_verb(ob1_type e1, ob_type e, reg_type od) : end1(e1), end(e), d(od) { }
 
@@ -112,13 +105,13 @@ template
 			else if	(sub_direction == Direction::backward)	--sub;
 		}
 
-		ob_type	e	= first_unary_generic::compare(iz, end, ob);
-		ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
+		ob_type	o	= generic::compare(izf, ob, end);
+		ob_type o1	= ob1 - (ob - o); // ? will it make a difference with unsigned or not?
 
-		loop_unary_functor::set(end1, e1, zero::value);
+		functor_first::set(ob1, o1, zero::value);
 
-		end1 = e1;
-		end = e;
+		ob1 = o1;
+		ob = o;
 	}
 
 /*
@@ -129,10 +122,10 @@ template
 	inline void main_action(sub_type sub, ob1_type & ob1, ob_type & ob)
 	{
 		r = zero::value;
-		loop_division::divide(r, end1, end, ob, d);
+		division_main::divide(r, ob1, ob, end, d);
 		*sub = r;
 
-		loop_binary_functor::assign(end, end1, ob1);
+		binary_main::assign(ob, ob1, end1);
 	}
 
 	template<typename sub_type>
@@ -141,13 +134,13 @@ template
 		if	(sub_direction == Direction::forward)	++sub;
 		else if	(sub_direction == Direction::backward)	--sub;
 
-		ob_type	e	= loop_unary_generic::compare(iz, end, ob);
-		ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
+		ob_type	o	= generic::compare(izm, ob, end);
+		ob_type o1	= ob1 - (ob - o); // ? will it make a difference with unsigned or not?
 
-		loop_unary_functor::set(end1, e1, zero::value);
+		functor_main::set(ob1, o1, zero::value);
 
-		end1 = e1;
-		end = e;
+		ob1 = o1;
+		ob = o;
 	}
 
 	template<typename sub_type>

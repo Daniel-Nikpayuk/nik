@@ -62,25 +62,13 @@ struct uint
 	void print()
 	{
 /*
-		unsigned char digits[20*N];
-		unsigned char *i = digits;
+	Concept:
 
-		reg_type r;
-		reg_type d = 10;
-		reg_type tmp0[N];
-		reg_type tmp1[N];
+	The number of digits required for the numeral character array.
 
-		functor::assign(tmp0 + N, sub, end);
+	log(2^64N) == 64N*lg(2)/lg(10) == 64N/(1+lg(5)) < 20N
 
-		while (!identity::zero(tmp1 + N, tmp1))
-		{
-			r = 0;
-			division::divide(r, tmp1 + N, tmp0 + N, tmp0, d);
-			*i = (unsigned char) r;
-
-			functor::assign(tmp0 + N, tmp1 + N, tmp1);
-			++i;
-		}
+	unsigned char digits[20*N];
 */
 	}
 };

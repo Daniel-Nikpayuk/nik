@@ -19,6 +19,9 @@
 	Concept:
 
 	|wn|...|w0| / |y1|y0|, where y1 == 0.
+
+	Don't assume sub_type == ob_type. Their dereferenced reg_types need to match,
+	but otherwise higher entropy is maintained by allowing their containers to differ.
 */
 
 template
@@ -69,26 +72,6 @@ template
 	As such, by adding a "lead" initialized as 0---which also carries the remainder forward,
 	we can guarantee the leading digit is always less than the divisor.
 */
-
-	struct div_verb
-	{
-		reg_type & remainder;
-		reg_type divisor;
-
-		div_verb(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
-
-		template<typename sub_type, typename ob_type>
-		inline void main_action(sub_type sub, ob_type ob)
-		{
-			*sub = three_halves::divide(remainder, remainder, *ob, divisor);
-		}
-
-		template<typename sub_type, typename ob_type>
-		inline void last_action(sub_type sub, ob_type ob)
-		{
-			*sub = three_halves::divide(remainder, remainder, *ob, divisor);
-		}
-	};
 
 	template<typename sub_type, typename ob_type>
 	static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
