@@ -25,7 +25,7 @@ struct printer
 	template<typename sub_type>
 	static void digit_print(sub_type sub, sub_type end)
 	{
-		printer_digit_verb pd;
+		printer_digit<sub_policy> pd;
 
 		method::repeat(pd, sub, end);
 	}
@@ -33,7 +33,7 @@ struct printer
 	template<typename sub_type>
 	static void space_print(sub_type sub, sub_type end)
 	{
-		printer_space_verb ps;
+		printer_space<sub_policy> ps;
 
 		method::repeat(ps, sub, end);
 	}

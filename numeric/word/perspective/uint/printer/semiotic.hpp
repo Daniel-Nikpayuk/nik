@@ -22,6 +22,7 @@
 template
 <
 	size_type length,
+	typename sub_policy,
 	Performance performance = Performance::specification
 
 > struct printer;
@@ -32,10 +33,12 @@ template
 template
 <
 	size_type length
+	typename sub_policy,
 
 > struct printer
 <
 	length,
+	sub_policy,
 	Performance::specification
 >
 {
@@ -43,44 +46,11 @@ template
 
 	using zero			= typename Constant::template zero<reg_type>;
 
-	using pd_verb			= typename Power::printer_digit_verb;
+	using printer_digit		= typename Power::printer_digit;
 
 	//
 
-					  template<Interval interval, Direction direction>
-	using unary_generic		= typename Power::template generic<object<interval, direction>>;
-
-	struct dgt_verb
-	{
-		reg_type ob;
-		reg_type d;
-
-		dgt_verb(reg_type o, reg_type div) : ob(o), d(div) { }
-
-		template<typename sub_type>
-		inline bool condition(sub_type sub)
-		{
-			return ob != zero::value;
-		}
-
-/*
-	By the time main_action is called, end1, end are now closed intervals.
-*/
-
-		template<typename sub_type>
-		inline void main_action(sub_type sub)
-		{
-			reg_type q	= ob / d;
-			*sub		= ob % d;
-
-			ob = q;
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub)
-		{
-		}
-	};
+	using generic			= typename Power::template generic;
 
 		// print:
 
@@ -91,23 +61,13 @@ template
 	template<typename sub_type>
 	static void print(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		dgt_verb dgt(ob, d);
+		uint_change_of_base<length, sub_policy> ucob(d);
 
-		sub_type end	= unary_generic
-				<
-					Interval::closing,
-					Direction::forward
+		generic::map(ucob, sub, ob, zero::value);
 
-				>::repeat(dgt, sub);
+		printer_digit pd;
 
-		pd_verb esp;
-
-		unary_generic
-		<
-			Interval::opening,
-			Direction::backward
-
-		>::repeat(esp, end, sub);
+		generic::repeat(pd, ucob.sub, sub);
 	}
 };
 

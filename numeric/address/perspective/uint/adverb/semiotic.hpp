@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+template<typename...> struct uint_change_of_base;
+
 /*
 	Concept:
 
@@ -23,28 +25,31 @@
 	log(2^64N) == 64N*lg(2)/lg(10) == 64N/(1+lg(5)) < 20N
 */
 
-template
-<
-	size_type length,
-	Performance performance = Performance::specification
-
-> struct printer;
-
 /*
 */
 
+template<typename ob_type>
+struct uint_change_of_base
+
 template
 <
-	size_type length
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction,
 
-> struct printer
+	typename ob1_type,
+	typename ob_type
+
+> struct uint_change_of_base
 <
-	length,
-	Performance::specification
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>,
+	ob1_type,
+	ob_type
 >
-{
-	using reg_type			= typename byte_type<length>::reg_type;
 
+{
 	using zero			= typename Constant::template zero<reg_type>;
 
 	using iz_verb			= typename Power::identity_zero_verb;
@@ -86,92 +91,68 @@ template
 	using ob_printer		= typename Power::template printer<ob_policy>; // debugging
 	using loop_printer		= typename Power::template printer<loop_policy>; // debugging
 
-	template<typename ob_type>
-	struct dgt_verb
+	//
+
+	ob1_type end1;
+	ob_type end;
+
+	reg_type r;
+	reg_type d;
+
+	iz_verb iz;
+
+	dgt_verb(ob1_type e1, ob_type e, reg_type od) : end1(e1), end(e), d(od) { }
+
+	template<typename sub_type>
+	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		ob_type ob1;
-		ob_type ob;
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
 
-		reg_type r;
-		reg_type d;
+		ob_type	e	= first_unary_generic::compare(iz, end, ob);
+		ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
 
-		iz_verb iz;
+		loop_unary_functor::set(end1, e1, zero::value);
 
-		dgt_verb(ob_type o1, ob_type o, reg_type div) : ob1(o1), ob(o), d(div) { }
+		end1 = e1;
+		end = e;
+	}
 
 /*
 	By the time main_action is called, end1, end are now closed intervals.
 */
 
-		template<typename sub_type>
-		inline void main_action(sub_type sub, ob_type & end1, ob_type & end)
-		{
-			ob_type	e	= loop_unary_generic::compare(iz, end, ob);
-			ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
-
-			loop_unary_functor::set(end1, e1, zero::value);
-
-			end1 = e1;
-			end = e;
-
-			r = zero::value;
-			loop_division::divide(r, end1, end, ob, d);
-			*sub = r;
-
-			loop_binary_functor::assign(end, end1, ob1);
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub, ob_type end1, ob_type end)
-		{
-		}
-	};
-
-		// print:
-
-		// sub_type	is restricted to forward closing.
-		// ob_type	is restricted to backward opening.
-		//		is assumed as temporary memory.
-
-	template<typename sub_type, typename ob_type>
-	static void print(sub_type sub, ob_type end1, ob_type end, ob_type ob, reg_type d = 10)
+	template<typename sub_type>
+	inline void main_action(sub_type sub, ob1_type & ob1, ob_type & ob)
 	{
-		ob_type ob1 = end1 - (end-ob);
+		r = zero::value;
+		loop_division::divide(r, end1, end, ob, d);
+		*sub = r;
 
-		dgt_verb<ob_type> dgt(ob1, ob, d);
-
-//		sub_type end0 = trinary_generic::map(dgt, sub, end1, end, ob);
-
-		sub_type end0 = sub;
-
-		--end1; --end;
-		while (end != ob)
-		{
-			dgt.main_action(end0, end1, end);
-
-			++end0;
-		}
-
-		word_uint_printer::print(end0, *end, d);
-
-		digit_printer::digit_print(end0, sub);
+		loop_binary_functor::assign(end, end1, ob1);
 	}
-};
 
-/***********************************************************************************************************************/
+	template<typename sub_type>
+	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
 
-/*
-*/
+		ob_type	e	= loop_unary_generic::compare(iz, end, ob);
+		ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
 
-template
-<
-	size_type length
+		loop_unary_functor::set(end1, e1, zero::value);
 
-> struct printer
-<
-	length,
-	Performance::optimization
->
-{
+		end1 = e1;
+		end = e;
+	}
+
+	template<typename sub_type>
+	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+	}
 };
 

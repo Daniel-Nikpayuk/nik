@@ -15,79 +15,58 @@
 **
 ************************************************************************************************************************/
 
-template
-<
-	typename...
-
-> struct identity;
+template<size_type, typename...> struct uint_change_of_base;
 
 /*
-	unary:
 */
 
 template
 <
-	typename sub_policy
+	size_type length,
+	Interval sub_interval, Direction sub_direction
 
-> struct identity
+> struct uint_change_of_base
 <
-	sub_policy
+	length,
+	object<sub_interval, sub_direction>
 >
 {
-	using method = generic<sub_policy>;
+	using reg_type = typename byte_type<length>::reg_type;
 
-		// zero:
+	reg_type q;
+	reg_type d;
+
+	uint_change_of_base(reg_type od) : d(od) { }
 
 	template<typename sub_type>
-	static bool zero(sub_type sub, sub_type end)
+	inline void first_iteration(sub_type & sub, reg_type & ob)
 	{
-		identity_zero<sub_policy> iz;
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
 
-		method::compare(iz, sub, end);
-
-		return iz.rtn;
-	}
-};
-
-/*
-	binary:
-*/
-
-template
-<
-	typename sub_policy,
-	typename ob_policy
-
-> struct identity
-<
-	sub_policy,
-	ob_policy
->
-{
-	using method = generic<sub_policy, ob_policy>;
-
-		// equals:
-
-	template<typename sub_type, typename ob_type>
-	static bool equals(sub_type sub, ob_type ob, ob_type end)
-	{
-		identity_equal<sub_policy, ob_policy> ie;
-
-		method::compare(ie, sub, ob, end);
-
-		return ie.rtn;
+		// ob_type is reg_type.
 	}
 
-		// not equals:
-
-	template<typename sub_type, typename ob_type>
-	static bool not_equals(sub_type sub, ob_type ob, ob_type end)
+	template<typename sub_type>
+	inline void main_action(sub_type sub, reg_type ob)
 	{
-		identity_not_equal<sub_policy, ob_policy> ine;
+		   q = ob / d;
+		*sub = ob % d;
+	}
 
-		method::compare(ine, sub, ob, end);
+	template<typename sub_type>
+	inline void main_iteration(sub_type & sub, reg_type & ob)
+	{
+		++sub;
+		ob = q;
+	}
 
-		return ine.rtn;
+	template<typename sub_type>
+	inline void last_action(sub_type sub, reg_type ob)
+	{
 	}
 };
 

@@ -21,249 +21,103 @@
 	False conditionals are expected to be optimized out at compile time.
 */
 
-template
-<
-	typename...
-
-> struct generic;
-
-/*
-	unary:
-*/
-
-template
-<
-	Interval sub_interval, Direction sub_direction
-
-> struct generic
-<
-	object<sub_interval, sub_direction>
->
+struct generic
 {
-		// compare:
+		// unary:
 
-	template<typename vb_type, typename sub_type>
-	static sub_type compare(vb_type & vb, sub_type sub, sub_type end)
+			// compare:
+
+	template<typename adv_type, typename sub_type>
+	static sub_type compare(adv_type & adv, sub_type sub, sub_type end)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		adv.first_iteration(sub);
 
 		while (sub != end)
 		{
-			if (vb.break_match(sub)) return sub;
+			if (adv.break_match(sub)) return sub;
 
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
+			adv.main_iteration(sub);
 		}
 
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
-		{
-			vb.last_match(sub);
-		}
+		adv.last_match(sub);
 
 		return sub;
 	}
 
-		// repeat:
+			// repeat:
 
-	template<typename vb_type, typename sub_type>
-	static void repeat(vb_type & vb, sub_type sub, sub_type end)
+	template<typename adv_type, typename sub_type>
+	static void repeat(adv_type & adv, sub_type sub, sub_type end)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		adv.first_iteration(sub);
 
 		while (sub != end)
 		{
-			vb.main_action(sub);
+			adv.main_action(sub);
 
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
+			adv.main_iteration(sub);
 		}
 
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
-		{
-			vb.last_action(sub);
-		}
+		adv.last_action(sub);
 	}
 
-	template<typename vb_type, typename sub_type>
-	static sub_type repeat(vb_type & vb, sub_type sub)
+		// binary:
+
+			// compare:
+
+	template<typename adv_type, typename sub_type, typename ob_type>
+	static sub_type compare(adv_type & adv, sub_type sub, ob_type ob, ob_type end)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		while (vb.condition(sub))
-		{
-			vb.main_action(sub);
-
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
-		{
-			vb.last_action(sub);
-		}
-
-		return sub;
-	}
-};
-
-/*
-	binary:
-*/
-
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct generic
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
-{
-		// compare:
-
-	template<typename vb_type, typename sub_type, typename ob_type>
-	static sub_type compare(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
-	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		adv.first_iteration(sub, ob);
 
 		while (ob != end)
 		{
-			if (vb.break_match(sub, ob)) return sub;
+			if (adv.break_match(sub, ob)) return sub;
 
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
+			adv.main_iteration(sub, ob);
 		}
 
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
-		{
-			vb.last_match(sub, ob);
-		}
+		adv.last_match<ob_interval>(sub, ob);
 
 		return sub;
 	}
 
-		// (morph,) map:
+			// (morph,) map:
 
-	template<typename vb_type, typename sub_type, typename ob_type>
-	static sub_type map(vb_type & vb, sub_type sub, ob_type ob, ob_type end)
+	template<typename adv_type, typename sub_type, typename ob_type>
+	static sub_type map(adv_type & adv, sub_type sub, ob_type ob, ob_type end)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		adv.first_iteration(sub, ob);
 
 		while (ob != end)
 		{
-			vb.main_action(sub, ob);
+			adv.main_action(sub, ob);
 
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
+			adv.main_iteration(sub, ob);
 		}
 
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
-		{
-			vb.last_action(sub, ob);
-		}
+		adv.last_action(sub, ob);
 
 		return sub;
 	}
-};
 
-/*
-	trinary:
-*/
+		// trinary:
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction
+			// (morph,) map:
 
-> struct generic
-<
-	object<sub_interval, sub_direction>,
-	object<ob1_interval, ob1_direction>,
-	object<ob_interval, ob_direction>
->
-{
-		// (morph,) map:
-
-	template<typename vb_type, typename sub_type, typename ob1_type, typename ob_type>
-	static sub_type map(vb_type & vb, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
+	template<typename adv_type, typename sub_type, typename ob1_type, typename ob_type>
+	static sub_type map(adv_type & adv, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
-		{
-			if	(ob1_direction == Direction::forward)	++ob1;
-			else if	(ob1_direction == Direction::backward)	--ob1;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		adv.first_iteration(sub, ob1, ob);
 
 		while (ob != end)
 		{
-			vb.main_action(sub, ob1, ob);
+			adv.main_action(sub, ob1, ob);
 
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-
-			if	(ob1_direction == Direction::forward)	++ob1;
-			else if	(ob1_direction == Direction::backward)	--ob1;
-
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
+			adv.main_iteration(sub, ob1, ob);
 		}
 
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
-		{
-			vb.last_action(sub, ob1, ob);
-		}
+		adv.last_action(sub, ob1, ob);
 
 		return sub;
 	}

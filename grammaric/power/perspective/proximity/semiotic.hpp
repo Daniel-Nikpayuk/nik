@@ -25,7 +25,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_less_than_verb plt;
+		proximity_less_than<sub_policy, ob_policy> plt;
 
 		method::compare(plt, sub, ob, end);
 
@@ -37,7 +37,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_less_than_or_equal_verb pltoe;
+		proximity_less_than_or_equal<sub_policy, ob_policy> pltoe;
 
 		method::compare(pltoe, sub, ob, end);
 
@@ -49,7 +49,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_greater_than_verb pgt;
+		proximity_greater_than<sub_policy, ob_policy> pgt;
 
 		method::compare(pgt, sub, ob, end);
 
@@ -61,7 +61,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_greater_than_or_equal_verb pgtoe;
+		proximity_greater_than_or_equal<sub_policy, ob_policy> pgtoe;
 
 		method::compare(pgtoe, sub, ob, end);
 

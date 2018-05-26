@@ -41,7 +41,7 @@ template
 	template<typename sub_type, typename ob_type>
 	static void set(sub_type sub, sub_type end, ob_type ob)
 	{
-		functor_set_verb<ob_type> fs(ob);
+		functor_set<sub_policy, ob_type> fs(ob);
 
 		method::repeat(fs, sub, end);
 	}
@@ -69,7 +69,7 @@ template
 	template<typename sub_type, typename ob_type>
 	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
 	{
-		functor_assign_verb fa;
+		functor_assign<sub_policy, ob_policy> fa;
 
 		return method::map(fa, sub, ob, end);
 	}

@@ -35,7 +35,7 @@ namespace nik
 		//
 
 		#include"perspective/adjective/semiotic.hpp"
-		#include"perspective/verb/semiotic.hpp"
+		#include"perspective/adverb/semiotic.hpp"
 
 		#include"perspective/generic/semiotic.hpp"
 		#include"perspective/identity/semiotic.hpp"
