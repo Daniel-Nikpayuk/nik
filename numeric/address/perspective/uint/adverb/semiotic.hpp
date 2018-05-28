@@ -18,6 +18,8 @@
 
 template<size_type, typename...> struct map_half_division;
 template<size_type, typename...> struct map_change_of_base;
+template<size_type, typename...> struct map_addition;
+template<size_type, typename...> struct map_subtraction;
 
 
 /***********************************************************************************************************************/
@@ -83,6 +85,8 @@ template
 		*sub = word_half_division::divide(remainder, remainder, *ob, divisor);
 	}
 };
+
+/***********************************************************************************************************************/
 
 /*
 	We keep ob_type, ob1_type independent for higher entropy:
@@ -172,7 +176,7 @@ template
 */
 
 	template<typename sub_type>
-	inline void main_action(sub_type sub, ob1_type & ob1, ob_type & ob)
+	inline void main_action(sub_type sub, ob1_type ob1, ob_type ob)
 	{
 		remainder = zero::value;
 		division_main::divide(remainder, ob1, ob, end, divisor);
@@ -199,6 +203,187 @@ template
 	}
 
 	template<typename sub_type>
+	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+	}
+};
+
+/***********************************************************************************************************************/
+
+/*
+	We keep ob_type, ob1_type independent for higher entropy:
+	They allow for different containers. reg_type is what their dereference type.
+
+	carry needs to be set to 0 for the "normal" interpretation.
+*/
+
+template
+<
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
+
+> struct map_addition
+<
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>
+>
+{
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	//
+
+	reg_type carry;
+
+	map_addition(reg_type c) : carry(c) { }
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
+		{
+			if	(ob1_direction == Direction::forward)	++ob1;
+			else if	(ob1_direction == Direction::backward)	--ob1;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+	}
+
+/*
+	By the time main_action is called, end1, end are now closed intervals.
+
+	If *ob1 + *ob causes an arithmetic overflow, then *ob1 + *ob < *ob1, *ob.
+	If *ob1 + *ob causes an arithmetic overflow, then *ob1 + *ob + 1 will not cause a second such overflow.
+*/
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void main_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+		carry	+= *ob1;
+		*sub	 = carry + *ob;
+		carry	 = (carry < *ob1 || *sub < *ob);
+	}
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob1_direction == Direction::forward)	++ob1;
+		else if	(ob1_direction == Direction::backward)	--ob1;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+	}
+};
+
+/***********************************************************************************************************************/
+
+/*
+	We keep ob_type, ob1_type independent for higher entropy:
+	They allow for different containers. reg_type is what their dereference type.
+
+	carry needs to be set to 0 for the "normal" interpretation.
+*/
+
+template
+<
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
+
+> struct map_subtraction
+<
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>
+>
+{
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	//
+
+	reg_type carry;
+
+	map_subtraction(reg_type c) : carry(c) { }
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
+		{
+			if	(ob1_direction == Direction::forward)	++ob1;
+			else if	(ob1_direction == Direction::backward)	--ob1;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+	}
+
+/*
+	By the time main_action is called, end1, end are now closed intervals.
+
+	Regarding arithmetic overflow, there are a few considerations:
+	*out = *in1 - (carry + *in2) ==> *out + (carry + *in2) = *in1 
+	It's possible (carry + *in2) is an overflow, but this implies carry == 1 and *in2 == b-1.
+	As such, with an assumed overflow, the new carry would be true, and we need not worry about a "double carry"
+	as (carry + *in2) would equal zero, and so *out == *in1 - (carry + *in2) == *in1.
+	Otherwise, if (*in2+carry) has no overflow, then *in1 == carry + *out,
+	and so we check for an overflow there by means of the test (*in1 < *out).
+*/
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void main_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+		carry	+= *ob;
+		*sub	 = *ob1 - carry;
+		carry	 = (carry < *ob || *ob1 < *sub);
+	}
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob1_direction == Direction::forward)	++ob1;
+		else if	(ob1_direction == Direction::backward)	--ob1;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
 	{
 	}

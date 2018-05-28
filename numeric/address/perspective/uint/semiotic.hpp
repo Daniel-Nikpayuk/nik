@@ -22,7 +22,11 @@ struct uint
 
 		// addition:
 
+	#include"addition/semiotic.hpp"
+
 		// subtraction:
+
+	#include"subtraction/semiotic.hpp"
 
 		// multiplication:
 
