@@ -25,7 +25,11 @@
 
 template
 <
-	size_type length,
+	size_type reg_length,
+	typename sub_policy,
+	typename ob1_policy,
+	typename ob_policy,
+
 	Performance performance = Performance::specification
 
 > struct printer;
@@ -35,126 +39,111 @@ template
 
 template
 <
-	size_type length
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
 
 > struct printer
 <
-	length,
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>,
 	Performance::specification
 >
 {
-	using reg_type			= typename byte_type<length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using zero			= typename Constant::template zero<reg_type>;
-
-	using iz_verb			= typename Power::identity_zero_verb;
-
-	using word_uint_printer		= typename Word::uint::template printer<length, Performance::specification>;
+	using zero				= typename Constant::template zero<reg_type>;
 
 	//
 
-	using sub_policy		= object
-					<
-						Interval::closing,
-						Direction::forward
-					>;
+	using reverse_sub_interval		= typename block
+						<
+							if_then
+							<
+								boolean<sub_interval == Interval::closing>,
+								constant<Interval, Interval::opening>
 
-	using ob_policy			= object
-					<
-						Interval::opening,
-						Direction::backward
-					>;
+							>, else_then
+							<
+								boolean<sub_interval == Interval::opening>,
+								constant<Interval, Interval::closing>
 
-	using trinary_generic		= typename Power::template generic<sub_policy, ob_policy, ob_policy>;
-	using digit_printer		= typename Power::template printer<ob_policy>;
+							>, then
+							<
+								constant<Interval, sub_interval>
+							>
+
+						>::rtn;
+
+	using reverse_sub_direction		= typename block
+						<
+							if_then
+							<
+								boolean<sub_direction == Direction::forward>,
+								constant<Direction, Direction::backward>
+							>, then
+							<
+								constant<Direction, Direction::forward>
+							>
+
+						>::rtn;
+
+	using printer_digit			= typename Power::template repeat_digit
+						<
+							object<reverse_sub_interval::value, reverse_sub_direction::value>
+						>;
 
 	//
 
-	using loop_policy		= object
-					<
-						Interval::closed,
-						Direction::backward
-					>;
+	using word_map_change_of_base		= typename Word::uint::template map_change_of_base
+						<
+							reg_length,
+							object<sub_interval, sub_direction>
+						>;
 
-	using loop_unary_generic	= typename Power::template generic<loop_policy>;
+						  template<typename ob1_type, typename ob_type>
+	using uint_map_change_of_base		= map_change_of_base
+						<
+							reg_length,
+							object<sub_interval, sub_direction>,
+							object<ob1_interval, ob1_direction>,
+							object<ob_interval, ob_direction>,
+							ob1_type,
+							ob_type
+						>;
 
-	using loop_unary_functor	= typename Power::template functor<loop_policy>;
-	using loop_binary_functor	= typename Power::template functor<loop_policy, loop_policy>;
+	//
 
-	using loop_division		= half<length, loop_policy, loop_policy>;
-
-	using ob_printer		= typename Power::template printer<ob_policy>; // debugging
-	using loop_printer		= typename Power::template printer<loop_policy>; // debugging
-
-	template<typename ob_type>
-	struct dgt_verb
-	{
-		ob_type ob1;
-		ob_type ob;
-
-		reg_type r;
-		reg_type d;
-
-		iz_verb iz;
-
-		dgt_verb(ob_type o1, ob_type o, reg_type div) : ob1(o1), ob(o), d(div) { }
-
-/*
-	By the time main_action is called, end1, end are now closed intervals.
-*/
-
-		template<typename sub_type>
-		inline void main_action(sub_type sub, ob_type & end1, ob_type & end)
-		{
-			ob_type	e	= loop_unary_generic::compare(iz, end, ob);
-			ob_type e1	= end1 - (end - e); // ? will it make a difference with unsigned or not?
-
-			loop_unary_functor::set(end1, e1, zero::value);
-
-			end1 = e1;
-			end = e;
-
-			r = zero::value;
-			loop_division::divide(r, end1, end, ob, d);
-			*sub = r;
-
-			loop_binary_functor::assign(end, end1, ob1);
-		}
-
-		template<typename sub_type>
-		inline void last_action(sub_type sub, ob_type end1, ob_type end)
-		{
-		}
-	};
+	using generic				= typename Power::generic;
 
 		// print:
 
-		// sub_type	is restricted to forward closing.
-		// ob_type	is restricted to backward opening.
-		//		is assumed as temporary memory.
+		// ob_type is assumed as temporary memory.
 
-	template<typename sub_type, typename ob_type>
-	static void print(sub_type sub, ob_type end1, ob_type end, ob_type ob, reg_type d = 10)
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	static void print(sub_type sub, ob1_type ob1, ob_type ob, ob_type end, reg_type d = 10)
 	{
-		ob_type ob1 = end1 - (end-ob);
+		size_type l	= (ob_direction == Direction::forward) ? (end - ob) : (ob - end);
+		ob_type end1	= (ob1_direction == Direction::forward) ? ob1 + l : ob1 - l;
 
-		dgt_verb<ob_type> dgt(ob1, ob, d);
+		uint_map_change_of_base<ob1_type, ob_type> uint_mcob(end1, end, d);
 
-//		sub_type end0 = trinary_generic::map(dgt, sub, end1, end, ob);
+		sub_type sub_end = generic::map(uint_mcob, sub, ob1, ob, end);
 
-		sub_type end0 = sub;
+			// this can be optimized to use the compiler's change of base / printer algorithms.
 
-		--end1; --end;
-		while (end != ob)
-		{
-			dgt.main_action(end0, end1, end);
+		word_map_change_of_base word_mcob(d);
 
-			++end0;
-		}
+		sub_type word_end = generic::map(word_mcob, sub_end, *end, zero::value);
 
-		word_uint_printer::print(end0, *end, d);
+			//
 
-		digit_printer::digit_print(end0, sub);
+		printer_digit pd;
+
+		generic::repeat(pd, word_end, sub);
 	}
 };
 
@@ -165,13 +154,107 @@ template
 
 template
 <
-	size_type length
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
 
 > struct printer
 <
-	length,
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>,
 	Performance::optimization
 >
 {
+	using reg_type				= typename byte_type<reg_length>::reg_type;
+
+	using zero				= typename Constant::template zero<reg_type>;
+
+	//
+
+	using reverse_sub_interval		= typename block
+						<
+							if_then
+							<
+								boolean<sub_interval == Interval::closing>,
+								constant<Interval, Interval::opening>
+
+							>, else_then
+							<
+								boolean<sub_interval == Interval::opening>,
+								constant<Interval, Interval::closing>
+
+							>, then
+							<
+								constant<Interval, sub_interval>
+							>
+
+						>::rtn;
+
+	using reverse_sub_direction		= typename block
+						<
+							if_then
+							<
+								boolean<sub_direction == Direction::forward>,
+								constant<Direction, Direction::backward>
+							>, then
+							<
+								constant<Direction, Direction::forward>
+							>
+
+						>::rtn;
+
+	using printer_digit			= typename Power::template repeat_digit
+						<
+							object<reverse_sub_interval::value, reverse_sub_direction::value>
+						>;
+
+	//
+
+	using word_map_change_of_base		= typename Word::uint::template map_change_of_base
+						<
+							reg_length,
+							object<sub_interval, sub_direction>
+						>;
+
+						  template<typename ob1_type, typename ob_type>
+	using uint_map_change_of_base		= map_change_of_base
+						<
+							reg_length,
+							object<sub_interval, sub_direction>,
+							object<ob1_interval, ob1_direction>,
+							object<ob_interval, ob_direction>,
+							ob1_type,
+							ob_type
+						>;
+
+	//
+
+	using generic				= typename Power::generic;
+
+		// print:
+
+		// ob_type is assumed as temporary memory.
+
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	static void print(sub_type sub, ob1_type ob1, ob_type ob, ob_type end, reg_type d = 10)
+	{
+		size_type l	= (ob_direction == Direction::forward) ? (end - ob) : (ob - end);
+		ob_type end1	= (ob1_direction == Direction::forward) ? ob1 + l : ob1 - l;
+
+		uint_map_change_of_base<ob1_type, ob_type> uint_mcob(end1, end, d);
+
+		sub_type sub_end = generic::map(uint_mcob, sub, ob1, ob, end);
+
+			//
+
+		printer_digit pd;
+
+		builtin_printer::print(*end);
+
+		generic::repeat(pd, sub_end, sub);
+	}
 };
 

@@ -34,16 +34,14 @@ template
 	sub_policy
 >
 {
-	using method = generic<sub_policy>;
-
 		// set:
 
 	template<typename sub_type, typename ob_type>
 	static void set(sub_type sub, sub_type end, ob_type ob)
 	{
-		functor_set<sub_policy, ob_type> fs(ob);
+		repeat_set<sub_policy, ob_type> rs(ob);
 
-		method::repeat(fs, sub, end);
+		generic::repeat(rs, sub, end);
 	}
 };
 
@@ -62,16 +60,14 @@ template
 	ob_policy
 >
 {
-	using method = generic<sub_policy, ob_policy>;
-
 		// assign:
 
 	template<typename sub_type, typename ob_type>
 	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
 	{
-		functor_assign<sub_policy, ob_policy> fa;
+		map_assign<sub_policy, ob_policy> ma;
 
-		return method::map(fa, sub, ob, end);
+		return generic::map(ma, sub, ob, end);
 	}
 };
 

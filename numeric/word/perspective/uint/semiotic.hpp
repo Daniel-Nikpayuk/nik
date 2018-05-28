@@ -30,7 +30,7 @@ struct uint
 
 		// division:
 
-	#include"three_halves/semiotic.hpp"
+	#include"half_division/semiotic.hpp"
 
 		// printer:
 

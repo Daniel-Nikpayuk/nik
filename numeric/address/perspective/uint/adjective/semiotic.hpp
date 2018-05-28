@@ -15,25 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_policy>
-struct printer
-{
-		// print:
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
 
-	template<typename sub_type>
-	static void digit_print(sub_type sub, sub_type end)
-	{
-		repeat_digit<sub_policy> rd;
+	Performance performance = Performance::specification
 
-		generic::repeat(rd, sub, end);
-	}
-
-	template<typename sub_type>
-	static void space_print(sub_type sub, sub_type end)
-	{
-		repeat_space<sub_policy> rs;
-
-		generic::repeat(rs, sub, end);
-	}
-};
+> struct half_division;
 

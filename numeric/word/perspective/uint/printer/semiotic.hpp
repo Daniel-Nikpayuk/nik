@@ -21,7 +21,7 @@
 
 template
 <
-	size_type length,
+	size_type reg_length,
 	typename sub_policy,
 	Performance performance = Performance::specification
 
@@ -32,25 +32,25 @@ template
 
 template
 <
-	size_type length
-	typename sub_policy,
+	size_type reg_length,
+	typename sub_policy
 
 > struct printer
 <
-	length,
+	reg_length,
 	sub_policy,
 	Performance::specification
 >
 {
-	using reg_type			= typename byte_type<length>::reg_type;
+	using reg_type			= typename byte_type<reg_length>::reg_type;
 
 	using zero			= typename Constant::template zero<reg_type>;
 
-	using printer_digit		= typename Power::printer_digit;
+	using printer_digit		= typename Power::repeat_digit;
 
 	//
 
-	using generic			= typename Power::template generic;
+	using generic			= typename Power::generic;
 
 		// print:
 
@@ -61,13 +61,13 @@ template
 	template<typename sub_type>
 	static void print(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		uint_change_of_base<length, sub_policy> ucob(d);
+		map_change_of_base<reg_length, sub_policy> mcob(d);
 
-		generic::map(ucob, sub, ob, zero::value);
+		sub_type end = generic::map(mcob, sub, ob, zero::value);
 
 		printer_digit pd;
 
-		generic::repeat(pd, ucob.sub, sub);
+		generic::repeat(pd, end, sub);
 	}
 };
 
@@ -78,11 +78,13 @@ template
 
 template
 <
-	size_type length
+	size_type reg_length,
+	typename sub_policy
 
 > struct printer
 <
-	length,
+	reg_length,
+	sub_policy,
 	Performance::optimization
 >
 {

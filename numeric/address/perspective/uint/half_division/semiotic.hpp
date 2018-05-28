@@ -24,16 +24,6 @@
 	but otherwise higher entropy is maintained by allowing their containers to differ.
 */
 
-template
-<
-	size_type length,
-	typename sub_policy,
-	typename ob_policy,
-
-	Performance performance = Performance::specification
-
-> struct half;
-
 /*
 	We tether the interval decomposition to the while loop,
 	meaning [) is most natural, so then our decomposition is as follows:
@@ -48,23 +38,25 @@ template
 
 template
 <
-	size_type length,
+	size_type reg_length,
 	typename sub_policy,
 	typename ob_policy
 
-> struct half
+> struct half_division
 <
-	length,
+	reg_length,
 	sub_policy,
 	ob_policy,
 	Performance::specification
 >
 {
-	using reg_type		= typename byte_type<length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using generic		= typename Power::template generic<sub_policy, ob_policy>;
+	using uint_map_half_division		= map_half_division<reg_length, sub_policy, ob_policy>;
 
-	using three_halves	= typename Word::uint::template three_halves<length, Performance::specification>;
+	//
+
+	using generic				= typename Power::generic;
 
 /*
 	With the exception of the very first digit, all successor first digits are the remainder
@@ -76,9 +68,9 @@ template
 	template<typename sub_type, typename ob_type>
 	static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
 	{
-		div_verb div(r, d);
+		uint_map_half_division umhd(r, d);
 
-		return generic::map(div, sub, ob, end);
+		return generic::map(umhd, sub, ob, end);
 	}
 };
 
@@ -87,13 +79,13 @@ template
 
 template
 <
-	size_type length,
+	size_type reg_length,
 	typename sub_policy,
 	typename ob_policy
 
-> struct half
+> struct half_division
 <
-	length,
+	reg_length,
 	sub_policy,
 	ob_policy,
 	Performance::optimization

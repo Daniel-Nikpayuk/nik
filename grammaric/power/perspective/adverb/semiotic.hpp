@@ -19,10 +19,10 @@
 	unary:
 */
 
-template<typename...> struct identity_zero;
-template<typename...> struct functor_set;
-template<typename...> struct printer_digit;
-template<typename...> struct printer_space;
+template<typename...> struct compare_zero;
+template<typename...> struct repeat_set;
+template<typename...> struct repeat_digit;
+template<typename...> struct repeat_space;
 
 /***********************************************************************************************************************/
 
@@ -32,14 +32,14 @@ template
 <
 	Interval sub_interval, Direction sub_direction
 
-> struct identity_zero
+> struct compare_zero
 <
 	object<sub_interval, sub_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	identity_zero() : rtn(false) { }
+	compare_zero() : value(false) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
@@ -54,9 +54,9 @@ template
 	template<typename sub_type>
 	inline bool break_match(sub_type sub)
 	{
-		rtn = (*sub == 0); // using a zero::value requires knowing its type.
+		value = (*sub == 0); // using a zero::value requires knowing its type.
 
-		return !rtn;
+		return !value;
 	}
 
 	template<typename sub_type>
@@ -71,7 +71,7 @@ template
 	{
 		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
 		{
-			rtn = (*sub == 0); // using a zero::value requires knowing its type.
+			value = (*sub == 0); // using a zero::value requires knowing its type.
 		}
 	}
 };
@@ -83,15 +83,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	typename ob_type
 
-> struct functor_set
+> struct repeat_set
 <
 	object<sub_interval, sub_direction>,
 	ob_type
 >
 {
-	ob_type ob;
+	ob_type value;
 
-	functor_set(ob_type o) : ob(o) { }
+	repeat_set(ob_type ob) : value(ob) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
@@ -106,7 +106,7 @@ template
 	template<typename sub_type>
 	inline void main_action(sub_type sub)
 	{
-		*sub = ob;
+		*sub = value;
 	}
 
 	template<typename sub_type>
@@ -119,7 +119,7 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		*sub = ob;
+		*sub = value;
 	}
 };
 
@@ -129,7 +129,7 @@ template
 <
 	Interval sub_interval, Direction sub_direction
 
-> struct printer_digit
+> struct repeat_digit
 <
 	object<sub_interval, sub_direction>
 >
@@ -169,7 +169,7 @@ template
 <
 	Interval sub_interval, Direction sub_direction
 
-> struct printer_space
+> struct repeat_space
 <
 	object<sub_interval, sub_direction>
 >
@@ -212,13 +212,13 @@ template
 	binary:
 */
 
-template<typename...> struct proximity_less_than;
-template<typename...> struct proximity_less_than_or_equal;
-template<typename...> struct proximity_greater_than;
-template<typename...> struct proximity_greater_than_or_equal;
-template<typename...> struct functor_assign;
-template<typename...> struct identity_equal;
-template<typename...> struct identity_not_equal;
+template<typename...> struct compare_equal;
+template<typename...> struct compare_not_equal;
+template<typename...> struct compare_less_than;
+template<typename...> struct compare_less_than_or_equal;
+template<typename...> struct compare_greater_than;
+template<typename...> struct compare_greater_than_or_equal;
+template<typename...> struct map_assign;
 
 /***********************************************************************************************************************/
 
@@ -229,15 +229,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct identity_equal
+> struct compare_equal
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	identity_equal() : rtn(false) { }
+	compare_equal() : value(false) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -258,9 +258,9 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub == *ob);
+		value = (*sub == *ob);
 
-		return !rtn;
+		return !value;
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -276,7 +276,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub == *ob);
+		value = (*sub == *ob);
 	}
 };
 
@@ -285,15 +285,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct identity_not_equal
+> struct compare_not_equal
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	identity_not_equal() : rtn(true) { }
+	compare_not_equal() : value(true) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -314,9 +314,9 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub != *ob);
+		value = (*sub != *ob);
 
-		return rtn;
+		return value;
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -332,7 +332,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub != *ob);
+		value = (*sub != *ob);
 	}
 };
 
@@ -343,15 +343,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct proximity_less_than
+> struct compare_less_than
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	proximity_less_than() : rtn(false) { }
+	compare_less_than() : value(false) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -372,7 +372,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub < *ob);
+		value = (*sub < *ob);
 
 		return (*sub != *ob);
 	}
@@ -390,7 +390,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub < *ob);
+		value = (*sub < *ob);
 	}
 };
 
@@ -399,15 +399,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct proximity_less_than_or_equal
+> struct compare_less_than_or_equal
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	proximity_less_than_or_equal() : rtn(false) { }
+	compare_less_than_or_equal() : value(false) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -428,7 +428,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub < *ob);
+		value = (*sub < *ob);
 
 		return (*sub != *ob);
 	}
@@ -446,7 +446,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub <= *ob);
+		value = (*sub <= *ob);
 	}
 };
 
@@ -455,15 +455,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct proximity_greater_than
+> struct compare_greater_than
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	proximity_greater_than() : rtn(false) { }
+	compare_greater_than() : value(false) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -484,7 +484,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub > *ob);
+		value = (*sub > *ob);
 
 		return (*sub != *ob);
 	}
@@ -502,7 +502,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub > *ob);
+		value = (*sub > *ob);
 	}
 };
 
@@ -511,15 +511,15 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct proximity_greater_than_or_equal
+> struct compare_greater_than_or_equal
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>
 >
 {
-	bool rtn;
+	bool value;
 
-	proximity_greater_than_or_equal() : rtn(false) { }
+	compare_greater_than_or_equal() : value(false) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -540,7 +540,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline bool break_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub > *ob);
+		value = (*sub > *ob);
 
 		return (*sub != *ob);
 	}
@@ -558,7 +558,7 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		rtn = (*sub >= *ob);
+		value = (*sub >= *ob);
 	}
 };
 
@@ -569,7 +569,7 @@ template
 	Interval sub_interval, Direction sub_direction,
 	Interval ob_interval, Direction ob_direction
 
-> struct functor_assign
+> struct map_assign
 <
 	object<sub_interval, sub_direction>,
 	object<ob_interval, ob_direction>

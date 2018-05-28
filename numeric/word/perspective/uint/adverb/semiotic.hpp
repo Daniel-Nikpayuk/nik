@@ -15,28 +15,28 @@
 **
 ************************************************************************************************************************/
 
-template<size_type, typename...> struct uint_change_of_base;
+template<size_type, typename...> struct map_change_of_base;
 
 /*
 */
 
 template
 <
-	size_type length,
+	size_type reg_length,
 	Interval sub_interval, Direction sub_direction
 
-> struct uint_change_of_base
+> struct map_change_of_base
 <
-	length,
+	reg_length,
 	object<sub_interval, sub_direction>
 >
 {
-	using reg_type = typename byte_type<length>::reg_type;
+	using reg_type = typename byte_type<reg_length>::reg_type;
 
-	reg_type q;
-	reg_type d;
+	reg_type quotient;
+	reg_type divisor;
 
-	uint_change_of_base(reg_type od) : d(od) { }
+	map_change_of_base(reg_type d) : divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, reg_type & ob)
@@ -53,15 +53,15 @@ template
 	template<typename sub_type>
 	inline void main_action(sub_type sub, reg_type ob)
 	{
-		   q = ob / d;
-		*sub = ob % d;
+		quotient = ob / divisor;
+		*sub	 = ob % divisor;
 	}
 
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub, reg_type & ob)
 	{
 		++sub;
-		ob = q;
+		ob = quotient;
 	}
 
 	template<typename sub_type>

@@ -18,18 +18,16 @@
 template<typename sub_policy, typename ob_policy>
 struct proximity
 {
-	using method = generic<sub_policy, ob_policy>;
-
 		// less than:
 
 	template<typename sub_type, typename ob_type>
 	static bool less_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_less_than<sub_policy, ob_policy> plt;
+		compare_less_than<sub_policy, ob_policy> clt;
 
-		method::compare(plt, sub, ob, end);
+		generic::compare(clt, sub, ob, end);
 
-		return plt.rtn;
+		return clt.value;
 	}
 
 		// less than or equal:
@@ -37,11 +35,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_less_than_or_equal<sub_policy, ob_policy> pltoe;
+		compare_less_than_or_equal<sub_policy, ob_policy> cltoe;
 
-		method::compare(pltoe, sub, ob, end);
+		generic::compare(cltoe, sub, ob, end);
 
-		return pltoe.rtn;
+		return cltoe.value;
 	}
 
 		// greater than:
@@ -49,11 +47,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_greater_than<sub_policy, ob_policy> pgt;
+		compare_greater_than<sub_policy, ob_policy> cgt;
 
-		method::compare(pgt, sub, ob, end);
+		generic::compare(cgt, sub, ob, end);
 
-		return pgt.rtn;
+		return cgt.value;
 	}
 
 		// greater than or equal:
@@ -61,11 +59,11 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		proximity_greater_than_or_equal<sub_policy, ob_policy> pgtoe;
+		compare_greater_than_or_equal<sub_policy, ob_policy> cgtoe;
 
-		method::compare(pgtoe, sub, ob, end);
+		generic::compare(cgtoe, sub, ob, end);
 
-		return pgtoe.rtn;
+		return cgtoe.value;
 	}
 };
 

@@ -17,6 +17,7 @@
 
 struct uint
 {
+	#include"adjective/semiotic.hpp"
 	#include"adverb/semiotic.hpp"
 
 		// addition:
@@ -27,7 +28,7 @@ struct uint
 
 		// division:
 
-	#include"half/semiotic.hpp"
+	#include"half_division/semiotic.hpp"
 
 		// printer:
 

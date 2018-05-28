@@ -16,42 +16,91 @@
 ************************************************************************************************************************/
 
 
-template<typename...> struct uint_change_of_base;
+template<size_type, typename...> struct map_half_division;
+template<size_type, typename...> struct map_change_of_base;
 
 
 /***********************************************************************************************************************/
 
 
-struct uint_half_division
+template
+<
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction
+
+> struct map_half_division
+<
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob_interval, ob_direction>
+>
 {
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	using word_half_division	= typename Word::uint::template half_division<reg_length, Performance::specification>;
+
 	reg_type & remainder;
 	reg_type divisor;
 
-	div_verb(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+	map_half_division(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+
+	template<typename sub_type, typename ob_type>
+	inline void first_iteration(sub_type & sub, ob_type & ob)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+	}
 
 	template<typename sub_type, typename ob_type>
 	inline void main_action(sub_type sub, ob_type ob)
 	{
-		*sub = three_halves::divide(remainder, remainder, *ob, divisor);
+		*sub = word_half_division::divide(remainder, remainder, *ob, divisor);
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void main_iteration(sub_type & sub, ob_type & ob)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		*sub = three_halves::divide(remainder, remainder, *ob, divisor);
+		*sub = word_half_division::divide(remainder, remainder, *ob, divisor);
 	}
 };
 
+/*
+	We keep ob_type, ob1_type independent for higher entropy:
+	They allow for different containers. reg_type is what their dereference type.
+*/
+
 template
 <
+	size_type reg_length,
 	Interval sub_interval, Direction sub_direction,
 	Interval ob1_interval, Direction ob1_direction,
 	Interval ob_interval, Direction ob_direction,
 
 	typename ob1_type, typename ob_type
 
-> struct uint_change_of_base
+> struct map_change_of_base
 <
+	reg_length,
 	object<sub_interval, sub_direction>,
 	object<ob1_interval, ob1_direction>,
 	object<ob_interval, ob_direction>,
@@ -59,26 +108,28 @@ template
 	ob_type
 >
 {
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
 	using zero			= typename Constant::template zero<reg_type>;
 
-	using identity_zero_first	= typename Power::template identity_zero<object<ob_interval, ob_direction>>;
-	using identity_zero_main	= typename Power::template identity_zero<object<Interval::closed, ob_direction>>;
+	using compare_zero_first	= typename Power::template compare_zero<object<ob_interval, ob_direction>>;
+	using compare_zero_main		= typename Power::template compare_zero<object<Interval::closed, ob_direction>>;
 
 	//
 
-	using generic			= typename Power::template generic;
+	using generic			= typename Power::generic;
 
 	using functor_first		= typename Power::template functor<object<ob1_interval, ob1_direction>>;
 	using functor_main		= typename Power::template functor<object<Interval::closed, ob1_direction>>;
 	using binary_main		= typename Power::template functor
 					<
-						object<Interval::closed, ob_direction>
-						object<Interval::closed, ob1_direction>,
+						object<Interval::closed, ob_direction>,
+						object<Interval::closed, ob1_direction>
 					>;
 
 	using division_main		= half_division
 					<
-						length,
+						reg_length,
 						object<Interval::closed, ob1_direction>,
 						object<Interval::closed, ob_direction>
 					>;
@@ -88,13 +139,13 @@ template
 	ob1_type end1;
 	ob_type end;
 
-	reg_type r;
-	reg_type d;
+	reg_type remainder;
+	reg_type divisor;
 
-	identity_zero_first izf;
-	identity_zero_main izm;
+	compare_zero_first czf;
+	compare_zero_main czm;
 
-	dgt_verb(ob1_type e1, ob_type e, reg_type od) : end1(e1), end(e), d(od) { }
+	map_change_of_base(ob1_type e1, ob_type e, reg_type d) : end1(e1), end(e), divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
@@ -105,8 +156,10 @@ template
 			else if	(sub_direction == Direction::backward)	--sub;
 		}
 
-		ob_type	o	= generic::compare(izf, ob, end);
-		ob_type o1	= ob1 - (ob - o); // ? will it make a difference with unsigned or not?
+		ob_type	o	= generic::compare(czf, ob, end);
+
+		size_type d	= (ob_direction == Direction::forward) ? (o - ob) : (ob - o);
+		ob_type o1	= (ob1_direction == Direction::forward) ? ob1 + d : ob1 - d;
 
 		functor_first::set(ob1, o1, zero::value);
 
@@ -121,9 +174,9 @@ template
 	template<typename sub_type>
 	inline void main_action(sub_type sub, ob1_type & ob1, ob_type & ob)
 	{
-		r = zero::value;
-		division_main::divide(r, ob1, ob, end, d);
-		*sub = r;
+		remainder = zero::value;
+		division_main::divide(remainder, ob1, ob, end, divisor);
+		*sub = remainder;
 
 		binary_main::assign(ob, ob1, end1);
 	}
@@ -134,8 +187,10 @@ template
 		if	(sub_direction == Direction::forward)	++sub;
 		else if	(sub_direction == Direction::backward)	--sub;
 
-		ob_type	o	= generic::compare(izm, ob, end);
-		ob_type o1	= ob1 - (ob - o); // ? will it make a difference with unsigned or not?
+		ob_type	o	= generic::compare(czm, ob, end);
+
+		size_type d	= (ob_direction == Direction::forward) ? (o - ob) : (ob - o);
+		ob_type o1	= (ob1_direction == Direction::forward) ? ob1 + d : ob1 - d;
 
 		functor_main::set(ob1, o1, zero::value);
 

@@ -34,18 +34,16 @@ template
 	sub_policy
 >
 {
-	using method = generic<sub_policy>;
-
 		// zero:
 
 	template<typename sub_type>
 	static bool zero(sub_type sub, sub_type end)
 	{
-		identity_zero<sub_policy> iz;
+		compare_zero<sub_policy> cz;
 
-		method::compare(iz, sub, end);
+		generic::compare(cz, sub, end);
 
-		return iz.rtn;
+		return cz.value;
 	}
 };
 
@@ -64,18 +62,16 @@ template
 	ob_policy
 >
 {
-	using method = generic<sub_policy, ob_policy>;
-
 		// equals:
 
 	template<typename sub_type, typename ob_type>
 	static bool equals(sub_type sub, ob_type ob, ob_type end)
 	{
-		identity_equal<sub_policy, ob_policy> ie;
+		compare_equal<sub_policy, ob_policy> ce;
 
-		method::compare(ie, sub, ob, end);
+		generic::compare(ce, sub, ob, end);
 
-		return ie.rtn;
+		return ce.value;
 	}
 
 		// not equals:
@@ -83,11 +79,11 @@ template
 	template<typename sub_type, typename ob_type>
 	static bool not_equals(sub_type sub, ob_type ob, ob_type end)
 	{
-		identity_not_equal<sub_policy, ob_policy> ine;
+		compare_not_equal<sub_policy, ob_policy> cne;
 
-		method::compare(ine, sub, ob, end);
+		generic::compare(cne, sub, ob, end);
 
-		return ine.rtn;
+		return cne.value;
 	}
 };
 

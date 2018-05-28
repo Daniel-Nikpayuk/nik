@@ -34,12 +34,12 @@
 	r	is the remainder and is offered for runtime optimization.
 */
 
-template<size_type length, Performance performance = Performance::specification> /* typename WordType,*/
-struct three_halves
+template<size_type reg_length, Performance performance = Performance::specification> /* typename WordType,*/
+struct half_division
 {
-	using reg_type		= typename byte_type<length>::reg_type;
-	using half_length	= typename byte_type<length>::half_type::length;
-	using low_pass		= typename byte_type<length>::low_pass;
+	using reg_type		= typename byte_type<reg_length>::reg_type;
+	using half_length	= typename byte_type<reg_length>::half_type::length;
+	using low_pass		= typename byte_type<reg_length>::low_pass;
 
 	static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 	{
@@ -82,12 +82,12 @@ struct three_halves
 	there's no difference in reducing memory or processor cycles.
 */
 
-template<size_type length> /* typename WordType */
-struct three_halves<length, Performance::optimization>
+template<size_type reg_length> /* typename WordType */
+struct half_division<reg_length, Performance::optimization>
 {
-	using reg_type		= typename byte_type<length>::reg_type;
-	using half_length	= typename byte_type<length>::half_type::length;
-	using low_pass		= typename byte_type<length>::low_pass;
+	using reg_type		= typename byte_type<reg_length>::reg_type;
+	using half_length	= typename byte_type<reg_length>::half_type::length;
+	using low_pass		= typename byte_type<reg_length>::low_pass;
 
 	static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 	{

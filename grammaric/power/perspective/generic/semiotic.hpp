@@ -77,7 +77,7 @@ struct generic
 			adv.main_iteration(sub, ob);
 		}
 
-		adv.last_match<ob_interval>(sub, ob);
+		adv.last_match(sub, ob);
 
 		return sub;
 	}
