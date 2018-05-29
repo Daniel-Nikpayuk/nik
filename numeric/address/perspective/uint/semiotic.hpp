@@ -30,6 +30,8 @@ struct uint
 
 		// multiplication:
 
+	#include"scale/semiotic.hpp"
+
 		// division:
 
 	#include"half_division/semiotic.hpp"

@@ -18,8 +18,11 @@
 
 template<size_type, typename...> struct map_half_division;
 template<size_type, typename...> struct map_change_of_base;
+
 template<size_type, typename...> struct map_addition;
 template<size_type, typename...> struct map_subtraction;
+
+template<size_type, typename...> struct map_scale;
 
 
 /***********************************************************************************************************************/
@@ -385,6 +388,87 @@ template
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
+	{
+	}
+};
+
+/***********************************************************************************************************************/
+
+/*
+	We keep ob_type, ob1_type independent for higher entropy:
+	They allow for different containers. reg_type is what their dereference type.
+
+	carry needs to be set to 0 for the "normal" interpretation.
+*/
+
+template
+<
+	size_type reg_length,
+	Interval sub_interval, Direction sub_direction,
+	Interval ob_interval, Direction ob_direction
+
+> struct map_scale
+<
+	reg_length,
+	object<sub_interval, sub_direction>,
+	object<ob_interval, ob_direction>
+>
+{
+	using reg_type					= typename byte_type<reg_length>::reg_type;
+	using half_length				= typename byte_type<reg_length>::half_type::length;
+	using low_pass					= typename byte_type<reg_length>::low_pass;
+
+	//
+
+	using word_half_multiplication			= typename Word::uint::template half_multiplication<reg_length>;
+
+	//
+
+	reg_type & carry;
+	reg_type upper;
+	reg_type scalar;
+
+	map_scale(reg_type & c, reg_type s) : carry(c), scalar(s) { }
+
+	template<typename sub_type, typename ob_type>
+	inline void first_iteration(sub_type & sub, ob_type & ob)
+	{
+		if (sub_interval == Interval::opening || sub_interval == Interval::open)
+		{
+			if	(sub_direction == Direction::forward)	++sub;
+			else if	(sub_direction == Direction::backward)	--sub;
+		}
+
+		if (ob_interval == Interval::opening || ob_interval == Interval::open)
+		{
+			if	(ob_direction == Direction::forward)	++ob;
+			else if	(ob_direction == Direction::backward)	--ob;
+		}
+	}
+
+/*
+	By the time main_action is called, end1, end are now closed intervals.
+*/
+
+	template<typename sub_type, typename ob_type>
+	inline void main_action(sub_type sub, ob_type ob)
+	{
+		*sub	= word_half_multiplication::multiply(upper, scalar, *ob) + carry;
+		carry	= (*sub < carry) + upper;
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void main_iteration(sub_type & sub, ob_type & ob)
+	{
+		if	(sub_direction == Direction::forward)	++sub;
+		else if	(sub_direction == Direction::backward)	--sub;
+
+		if	(ob_direction == Direction::forward)	++ob;
+		else if	(ob_direction == Direction::backward)	--ob;
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void last_action(sub_type sub, ob_type ob)
 	{
 	}
 };

@@ -15,27 +15,71 @@
 **
 ************************************************************************************************************************/
 
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
+
+	Performance performance = Performance::specification
+
+> struct scale;
+
 /*
 */
 
-struct uint
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
+
+> struct scale
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::specification
+>
 {
-	#include"adverb/semiotic.hpp"
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-		// addition:
+	using zero				= typename Constant::template zero<reg_type>;
 
-		// subtraction:
+	using uint_map_scale			= map_scale<reg_length, sub_policy, ob_policy>;
 
-		// multiplication:
+	//
 
-	#include"half_multiplication/semiotic.hpp"
+	using generic				= typename Power::generic;
 
-		// division:
+/*
+*/
 
-	#include"half_division/semiotic.hpp"
+	template<typename sub_type, typename ob_type>
+	static sub_type multiply(reg_type & c, sub_type sub, ob_type ob, ob_type end, reg_type s)
+	{
+		uint_map_scale ums(c, s);
 
-		// printer:
+		return generic::map(ums, sub, ob, end);
+	}
+};
 
-	#include"printer/semiotic.hpp"
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
+
+> struct scale
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::optimization
+>
+{
 };
 
