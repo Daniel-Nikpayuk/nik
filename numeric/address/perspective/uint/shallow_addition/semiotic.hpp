@@ -15,29 +15,69 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace numeric	{
-namespace word		{
-namespace sint		{
-namespace procedural	{
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
 
-	template<typename SizeType> struct media;
+	Performance performance = Performance::specification
 
-	template<typename SizeType>
-	struct semiotic
+> struct shallow_addition;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
+
+> struct shallow_addition
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::specification
+>
+{
+	using reg_type				= typename byte_type<reg_length>::reg_type;
+
+	using uint_map_shallow_addition		= map_shallow_addition<reg_length, sub_policy, ob_policy>;
+
+	//
+
+	using generic				= typename Power::generic;
+
+/*
+*/
+
+	template<typename sub_type, typename ob_type>
+	static sub_type add(reg_type & c, sub_type sub, ob_type ob, ob_type end)
 	{
-		typedef SizeType size_type;
+		uint_map_shallow_addition umsa(c);
 
-		typedef grammaric::control_flow::functional::media<size_type> gcf_media;
-		typedef functional::semiotic<size_type> f_semiotic;
+		return generic::map(umsa, sub, ob, end);
+	}
+};
 
-		typedef functional::media<size_type> media;
+/*
+*/
 
-		#include"overload/semiotic.hpp"
-		#include"discrete/semiotic.hpp"
-//		#include"math/semiotic.hpp"
-		#include"sift/semiotic.hpp"
-	};
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
 
-}}}}}
+> struct shallow_addition
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::optimization
+>
+{
+};
 

@@ -24,7 +24,7 @@ template
 
 	Performance performance = Performance::specification
 
-> struct addition;
+> struct multiplication;
 
 /*
 */
@@ -36,7 +36,7 @@ template
 	typename ob1_policy,
 	typename ob_policy
 
-> struct addition
+> struct multiplication
 <
 	reg_length,
 	sub_policy,
@@ -45,23 +45,23 @@ template
 	Performance::specification
 >
 {
-	using reg_type			= typename byte_type<reg_length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_addition		= map_addition<reg_length, sub_policy, ob1_policy, ob_policy>;
+	using uint_map_multiplication		= map_multiplication<reg_length, sub_policy, ob1_policy, ob_policy>;
 
 	//
 
-	using generic			= typename Power::generic;
+	using generic				= typename Power::generic;
 
 /*
 */
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
-	static sub_type add(reg_type & c, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
+	static sub_type multiply(reg_type & c, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
 	{
-		uint_map_addition uma(c);
+		uint_map_multiplication umm(c);
 
-		return generic::map(uma, sub, ob1, ob, end);
+		return generic::map(umm, sub, ob1, ob, end);
 	}
 };
 
@@ -75,7 +75,7 @@ template
 	typename ob1_policy,
 	typename ob_policy
 
-> struct addition
+> struct multiplication
 <
 	reg_length,
 	sub_policy,

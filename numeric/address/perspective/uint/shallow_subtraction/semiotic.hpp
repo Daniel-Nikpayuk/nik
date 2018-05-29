@@ -15,35 +15,69 @@
 **
 ************************************************************************************************************************/
 
-struct math
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
+
+	Performance performance = Performance::specification
+
+> struct shallow_subtraction;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
+
+> struct shallow_subtraction
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::specification
+>
 {
-	template<size_type a, size_type b>
-	class gcd
+	using reg_type					= typename byte_type<reg_length>::reg_type;
+
+	using uint_map_shallow_subtraction		= map_shallow_subtraction<reg_length, sub_policy, ob_policy>;
+
+	//
+
+	using generic					= typename Power::generic;
+
+/*
+*/
+
+	template<typename sub_type, typename ob_type>
+	static sub_type subtract(reg_type & c, sub_type sub, ob_type ob, ob_type end)
 	{
-		public: enum : size_type { value = gcd<b, a%b>::value };
-	};
+		uint_map_shallow_subtraction umss(c);
 
-	template<size_type a>
-	class gcd<a, 0> { public: enum : size_type { value = a }; };
+		return generic::map(umss, sub, ob, end);
+	}
+};
 
-	template<size_type rtn, size_type b, size_type n>
-	class exp
-	{
-		static constexpr size_type sq = media::template square<b>::value;
+/*
+*/
 
-		public: enum : size_type
-		{
-			value = gcf_media::template
-			if_then_else
-			<
-				(1 & n),
-				exp<rtn*b, b, n-1>,
-				exp<rtn, sq, (n>>1)>
-			>::return_type::value
-		};
-	};
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy
 
-	template<size_type rtn, size_type b>
-	class exp<rtn, b, 0> { public: enum : size_type { value = rtn }; };
+> struct shallow_subtraction
+<
+	reg_length,
+	sub_policy,
+	ob_policy,
+	Performance::optimization
+>
+{
 };
 

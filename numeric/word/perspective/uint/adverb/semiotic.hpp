@@ -67,6 +67,7 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type sub, reg_type ob)
 	{
+		// no last action is required regardless of interval type.
 	}
 };
 

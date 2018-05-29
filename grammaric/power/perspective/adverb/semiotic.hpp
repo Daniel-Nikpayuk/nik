@@ -119,7 +119,10 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		*sub = value;
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			*sub = value;
+		}
 	}
 };
 
@@ -160,8 +163,10 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		builtin_printer::print(*sub);
-		builtin_printer::print('\n');
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			builtin_printer::print(*sub);
+		}
 	}
 };
 
@@ -201,8 +206,10 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		builtin_printer::print(*sub);
-		builtin_printer::print('\n');
+		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		{
+			builtin_printer::print(*sub);
+		}
 	}
 };
 
@@ -276,7 +283,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub == *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub == *ob);
+		}
 	}
 };
 
@@ -332,7 +342,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub != *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub != *ob);
+		}
 	}
 };
 
@@ -390,7 +403,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub < *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub < *ob);
+		}
 	}
 };
 
@@ -446,7 +462,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub <= *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub <= *ob);
+		}
 	}
 };
 
@@ -502,7 +521,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub > *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub > *ob);
+		}
 	}
 };
 
@@ -558,7 +580,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		value = (*sub >= *ob);
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			value = (*sub >= *ob);
+		}
 	}
 };
 
@@ -610,7 +635,10 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		*sub = *ob;
+		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		{
+			*sub = *ob;
+		}
 	}
 };
 

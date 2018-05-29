@@ -23,7 +23,7 @@ template
 
 	Performance performance = Performance::specification
 
-> struct scale;
+> struct scalar_multiplication;
 
 /*
 */
@@ -34,7 +34,7 @@ template
 	typename sub_policy,
 	typename ob_policy
 
-> struct scale
+> struct scalar_multiplication
 <
 	reg_length,
 	sub_policy,
@@ -42,15 +42,13 @@ template
 	Performance::specification
 >
 {
-	using reg_type				= typename byte_type<reg_length>::reg_type;
+	using reg_type					= typename byte_type<reg_length>::reg_type;
 
-	using zero				= typename Constant::template zero<reg_type>;
-
-	using uint_map_scale			= map_scale<reg_length, sub_policy, ob_policy>;
+	using uint_map_scalar_multiplication		= map_scalar_multiplication<reg_length, sub_policy, ob_policy>;
 
 	//
 
-	using generic				= typename Power::generic;
+	using generic					= typename Power::generic;
 
 /*
 */
@@ -58,9 +56,9 @@ template
 	template<typename sub_type, typename ob_type>
 	static sub_type multiply(reg_type & c, sub_type sub, ob_type ob, ob_type end, reg_type s)
 	{
-		uint_map_scale ums(c, s);
+		uint_map_scalar_multiplication umsm(c, s);
 
-		return generic::map(ums, sub, ob, end);
+		return generic::map(umsm, sub, ob, end);
 	}
 };
 
@@ -73,7 +71,7 @@ template
 	typename sub_policy,
 	typename ob_policy
 
-> struct scale
+> struct scalar_multiplication
 <
 	reg_length,
 	sub_policy,

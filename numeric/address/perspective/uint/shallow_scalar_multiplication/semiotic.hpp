@@ -15,36 +15,64 @@
 **
 ************************************************************************************************************************/
 
-struct discrete
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+
+	Performance performance = Performance::specification
+
+> struct shallow_scalar_multiplication;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy
+
+> struct shallow_scalar_multiplication
+<
+	reg_length,
+	sub_policy,
+	Performance::specification
+>
 {
-	/*
-		Terms:
+	using reg_type						= typename byte_type<reg_length>::reg_type;
 
-		unit::semiotic::length
+	using uint_map_shallow_scalar_multiplication		= map_shallow_scalar_multiplication<reg_length, sub_policy>;
 
-		Constraints:
+	//
 
-		{ x < 0, x == 0, x > 0 } x { n <= -length, -length < n < 0, n == 0, 0 < n < length, n >= length }
+	using generic						= typename Power::generic;
 
-		Dispatch:
+/*
+*/
 
-		[8]	(n <= -length) || (n >= length) || (n != 0 && x == 0)	->	0
-		[3]	(n == 0)						->	x
-		[2]	(0 < -n < length) && (x != 0)				->	>>
-		[2]	(0 < n < length) && (x != 0)				->	<<
-	*/
-
-	struct shift
+	template<typename sub_type>
+	static void multiply(reg_type & c, sub_type sub, sub_type end, reg_type s)
 	{
-		static size_type with_return(size_type x, size_type n)
-		{
-			static constexpr size_type length = f_semiotic::unit::length;
+		uint_map_shallow_scalar_multiplication umssm(c, s);
 
-			if (0 < n && n < length && x)		return semiotic::over::left_shift::with_return(x, n);
-			else if (0 > n && n > -length && x)	return semiotic::over::right_shift::with_return(x, -n);
-			else if (!n)				return x;
-			else					return 0;
-		}
-	};
+		generic::repeat(umssm, sub, end);
+	}
+};
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy
+
+> struct shallow_scalar_multiplication
+<
+	reg_length,
+	sub_policy,
+	Performance::optimization
+>
+{
 };
 

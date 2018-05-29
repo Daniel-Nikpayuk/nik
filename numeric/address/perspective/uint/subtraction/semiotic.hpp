@@ -47,8 +47,6 @@ template
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using zero				= typename Constant::template zero<reg_type>;
-
 	using uint_map_subtraction		= map_subtraction<reg_length, sub_policy, ob1_policy, ob_policy>;
 
 	//
@@ -59,9 +57,9 @@ template
 */
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
-	static sub_type subtract(sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
+	static sub_type subtract(reg_type & c, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
 	{
-		uint_map_subtraction ums(zero::value);
+		uint_map_subtraction ums(c);
 
 		return generic::map(ums, sub, ob1, ob, end);
 	}

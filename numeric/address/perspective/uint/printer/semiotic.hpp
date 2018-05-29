@@ -91,12 +91,12 @@ template
 
 						>::rtn;
 
+	//
+
 	using printer_digit			= typename Power::template repeat_digit
 						<
 							object<reverse_sub_interval::value, reverse_sub_direction::value>
 						>;
-
-	//
 
 	using word_map_change_of_base		= typename Word::uint::template map_change_of_base
 						<
@@ -121,7 +121,11 @@ template
 
 		// print:
 
-		// ob_type is assumed as temporary memory.
+/*
+	ob1_type, ob_type are assumed to be temporary memory.
+
+	Specification requires ob to have a right closed interval to work properly.
+*/
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	static void print(sub_type sub, ob1_type ob1, ob_type ob, ob_type end, reg_type d = 10)
@@ -133,17 +137,11 @@ template
 
 		sub_type sub_end = generic::map(uint_mcob, sub, ob1, ob, end);
 
-			// this can be optimized to use the compiler's change of base / printer algorithms.
-
-		word_map_change_of_base word_mcob(d);
-
-		sub_type word_end = generic::map(word_mcob, sub_end, *end, zero::value);
-
 			//
 
 		printer_digit pd;
 
-		generic::repeat(pd, word_end, sub);
+		generic::repeat(pd, sub_end, sub);
 	}
 };
 
@@ -206,12 +204,12 @@ template
 
 						>::rtn;
 
+	//
+
 	using printer_digit			= typename Power::template repeat_digit
 						<
 							object<reverse_sub_interval::value, reverse_sub_direction::value>
 						>;
-
-	//
 
 	using word_map_change_of_base		= typename Word::uint::template map_change_of_base
 						<
@@ -236,7 +234,11 @@ template
 
 		// print:
 
-		// ob_type is assumed as temporary memory.
+/*
+	ob1_type, ob_type are assumed to be temporary memory.
+
+	Optimization requires ob to have a right open interval to work properly.
+*/
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	static void print(sub_type sub, ob1_type ob1, ob_type ob, ob_type end, reg_type d = 10)

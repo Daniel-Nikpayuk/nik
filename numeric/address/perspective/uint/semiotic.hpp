@@ -22,15 +22,19 @@ struct uint
 
 		// addition:
 
+	#include"shallow_addition/semiotic.hpp"
 	#include"addition/semiotic.hpp"
 
 		// subtraction:
 
+	#include"shallow_subtraction/semiotic.hpp"
 	#include"subtraction/semiotic.hpp"
 
 		// multiplication:
 
-	#include"scale/semiotic.hpp"
+	#include"shallow_scalar_multiplication/semiotic.hpp"
+	#include"scalar_multiplication/semiotic.hpp"
+	#include"multiplication/semiotic.hpp"
 
 		// division:
 
