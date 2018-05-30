@@ -19,14 +19,14 @@
 */
 
 template<size_type reg_length, typename sub_adjective>
-struct map_change_of_base
+struct map_change_base
 {
 	using reg_type = typename byte_type<reg_length>::reg_type;
 
 	reg_type quotient;
 	reg_type divisor;
 
-	map_change_of_base(reg_type d) : divisor(d) { }
+	map_change_base(reg_type d) : divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, reg_type & ob)

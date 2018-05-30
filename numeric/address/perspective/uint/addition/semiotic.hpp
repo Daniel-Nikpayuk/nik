@@ -15,16 +15,42 @@
 **
 ************************************************************************************************************************/
 
+/*
+*/
+
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob1_policy,
-	typename ob_policy,
+	typename sub_adjective,
+	typename ob_adjective
 
-	Performance performance = Performance::specification
+> struct addition
+<
+	reg_length,
+	Performance::specification,
+	sub_adjective,
+	ob_adjective
+>
+{
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-> struct addition;
+	using uint_map_add_assign		= map_add_assign<reg_length, sub_adjective, ob_adjective>;
+
+	//
+
+	using generic				= typename Power::generic;
+
+/*
+*/
+
+	template<typename sub_type, typename ob_type>
+	static sub_type add(reg_type & c, sub_type sub, ob_type ob, ob_type end)
+	{
+		uint_map_add_assign umaa(c);
+
+		return generic::map(umaa, sub, ob, end);
+	}
+};
 
 /*
 */
@@ -32,22 +58,43 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob1_policy,
-	typename ob_policy
+	typename sub_adjective,
+	typename ob_adjective
 
 > struct addition
 <
 	reg_length,
-	sub_policy,
-	ob1_policy,
-	ob_policy,
-	Performance::specification
+	Performance::optimization,
+	sub_adjective,
+	ob_adjective
+>
+{
+};
+
+/***********************************************************************************************************************/
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective,
+	typename ob1_adjective,
+	typename ob_adjective
+
+> struct addition
+<
+	reg_length,
+	Performance::specification,
+	sub_adjective,
+	ob1_adjective,
+	ob_adjective
 >
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_addition		= map_addition<reg_length, sub_policy, ob1_policy, ob_policy>;
+	using uint_map_add		= map_add<reg_length, sub_adjective, ob1_adjective, ob_adjective>;
 
 	//
 
@@ -59,7 +106,7 @@ template
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	static sub_type add(reg_type & c, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
 	{
-		uint_map_addition uma(c);
+		uint_map_add uma(c);
 
 		return generic::map(uma, sub, ob1, ob, end);
 	}
@@ -71,17 +118,17 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob1_policy,
-	typename ob_policy
+	typename sub_adjective,
+	typename ob1_adjective,
+	typename ob_adjective
 
 > struct addition
 <
 	reg_length,
-	sub_policy,
-	ob1_policy,
-	ob_policy,
-	Performance::optimization
+	Performance::optimization,
+	sub_adjective,
+	ob1_adjective,
+	ob_adjective
 >
 {
 };

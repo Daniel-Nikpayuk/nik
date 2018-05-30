@@ -23,62 +23,6 @@
 	log(2^64N) == 64N*lg(2)/lg(10) == 64N/(1+lg(5)) < 20N
 */
 
-/*
-*/
-
-template
-<
-	size_type reg_length,
-	typename sub_adjective,
-	typename ob_adjective
-
-> struct printer
-<
-	reg_length,
-	Performance::specification,
-	sub_adjective,
-	ob_adjective
->
-{
-	using reg_type				= typename byte_type<reg_length>::reg_type;
-
-	//
-
-	using power_printer			= typename Power::template printer
-						<
-							typename sub_adjective::inverse_type
-						>;
-
-	using uint_change_of_base		= change_of_base
-						<
-							reg_length,
-							Performance::specification,
-							sub_adjective, ob_adjective
-						>;
-
-	//
-
-	using generic				= typename Power::generic;
-
-		// print:
-
-/*
-	ob1_type, ob_type are assumed to be temporary memory.
-
-	Specification requires ob_type to be terminal closed for the normal interpretation.
-*/
-
-	template<typename sub_type, typename ob_type>
-	static void print(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
-	{
-		sub_type sub_end = uint_change_of_base::change_base(sub, ob, end, d);
-
-			//
-
-		power_printer::print(sub_end, sub);
-	}
-};
-
 /***********************************************************************************************************************/
 
 /*
@@ -90,7 +34,57 @@ template
 	typename sub_adjective,
 	typename ob_adjective
 
-> struct printer
+> struct change_of_base
+<
+	reg_length,
+	Performance::specification,
+	sub_adjective,
+	ob_adjective
+>
+{
+	using reg_type					= typename byte_type<reg_length>::reg_type;
+
+	//
+
+							  template<typename ob_type>
+	using uint_map_change_base_assign		= map_change_base_assign
+							<
+								reg_length,
+								sub_adjective, ob_adjective,
+								ob_type
+							>;
+
+	//
+
+	using generic					= typename Power::generic;
+
+		// change base:
+
+/*
+	ob1_type, ob_type are assumed to be temporary memory.
+
+	Specification requires ob to have a right closed interval to work properly.
+*/
+
+	template<typename sub_type, typename ob_type>
+	static sub_type change_base(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
+	{
+		uint_map_change_base_assign<ob_type> umcba(end, d);
+
+		return generic::map(umcba, sub, ob, end);
+	}
+};
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective,
+	typename ob_adjective
+
+> struct change_of_base
 <
 	reg_length,
 	Performance::optimization,
@@ -98,45 +92,80 @@ template
 	ob_adjective
 >
 {
+};
+
+/***********************************************************************************************************************/
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective,
+	typename ob1_adjective,
+	typename ob_adjective
+
+> struct change_of_base
+<
+	reg_length,
+	Performance::specification,
+	sub_adjective,
+	ob1_adjective,
+	ob_adjective
+>
+{
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
 	//
 
-	using power_printer			= typename Power::template printer
-						<
-							typename sub_adjective::inverse_type
-						>;
-
-	using uint_change_of_base		= change_of_base
+						  template<typename ob1_type, typename ob_type>
+	using uint_map_change_base		= map_change_base
 						<
 							reg_length,
-							Performance::specification,
-							sub_adjective,
-							typename ob_adjective::terminal_open_type
+							sub_adjective, ob1_adjective, ob_adjective,
+							ob1_type, ob_type
 						>;
 
 	//
 
 	using generic				= typename Power::generic;
 
-		// print:
+		// change base:
 
 /*
 	ob1_type, ob_type are assumed to be temporary memory.
 
-	Optimization requires ob to have a right open interval to work properly.
+	Specification requires ob to have a right closed interval to work properly.
 */
 
-	template<typename sub_type, typename ob_type>
-	static void print(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
+	template<typename sub_type, typename ob1_type, typename ob_type>
+	static sub_type change_base(sub_type sub, ob1_type ob1, ob1_type end1, ob_type ob, ob_type end, reg_type d = 10)
 	{
-		sub_type sub_end = uint_change_of_base::change_base(sub, ob, end, d);
+		uint_map_change_base<ob1_type, ob_type> umcb(end1, end, d);
 
-			//
-
-		builtin_printer::print(*end);
-
-		printer::print(sub_end, sub);
+		return generic::map(umcb, sub, ob1, ob, end);
 	}
+};
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective,
+	typename ob1_adjective,
+	typename ob_adjective
+
+> struct change_of_base
+<
+	reg_length,
+	Performance::optimization,
+	sub_adjective,
+	ob1_adjective,
+	ob_adjective
+>
+{
 };
 

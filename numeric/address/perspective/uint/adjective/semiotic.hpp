@@ -15,15 +15,17 @@
 **
 ************************************************************************************************************************/
 
+/*
+*/
+
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy,
 
-	Performance performance = Performance::specification
+	Performance performance,
+	typename...
 
-> struct half_division;
+> struct addition;
 
 /*
 */
@@ -31,12 +33,10 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy,
+	Performance performance,
+	typename...
 
-	Performance performance = Performance::specification
-
-> struct shallow_addition;
+> struct subtraction;
 
 /*
 */
@@ -44,10 +44,41 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy,
+	Performance performance,
+	typename...
 
-	Performance performance = Performance::specification
+> struct multiplication;
 
-> struct scalar_multiplication;
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	Performance performance,
+	typename...
+
+> struct division;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	Performance performance,
+	typename...
+
+> struct change_of_base;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	Performance performance,
+	typename...
+
+> struct printer;
 

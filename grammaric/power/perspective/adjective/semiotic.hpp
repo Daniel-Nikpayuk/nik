@@ -63,29 +63,29 @@ struct object
 	using is_opening			= boolean<ob_interval == Interval::opening>;
 	using is_open				= boolean<ob_interval == Interval::open>;
 
-	using is_left_open			= boolean
+	using is_initial_open			= boolean
 						<
 							ob_interval == Interval::opening	||
 							ob_interval == Interval::open
 						>;
 
-	using is_right_closed			= boolean
+	using is_terminal_closed		= boolean
 						<
 							ob_interval == Interval::closed		||
 							ob_interval == Interval::opening
 						>;
 
-	using close_left			= typename conditional
+	using close_initial			= typename conditional
 						<
-							is_right_closed,
+							is_terminal_closed,
 							constant<Interval, Interval::closed>,
 							constant<Interval, Interval::closing>
 
 						>::rtn;
 
-	using open_right			= typename conditional
+	using open_terminal			= typename conditional
 						<
-							is_left_open,
+							is_initial_open,
 							constant<Interval, Interval::open>,
 							constant<Interval, Interval::closing>
 
@@ -132,6 +132,8 @@ struct object
 
 	//
 
+	using initial_closed_type		= object<close_initial::value, ob_direction>;
+	using terminal_open_type		= object<open_terminal::value, ob_direction>;
 	using inverse_type			= object<invert_interval::value, invert_direction::value>;
 
 	//
@@ -144,9 +146,18 @@ struct object
 	}
 
 	template<typename ob_type>
+	inline static ob_type shift(ob_type ob, size_type distance)
+	{
+		if	(is_forward::value)	return ob + distance;
+		else				return ob - distance;
+	}
+
+	//
+
+	template<typename ob_type>
 	inline static void first_iteration(ob_type & ob)
 	{
-		if (is_left_open::value)
+		if (is_initial_open::value)
 		{
 			if	(is_forward::value)	++ob;
 			else				--ob;

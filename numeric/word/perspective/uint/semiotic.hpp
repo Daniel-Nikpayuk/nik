@@ -20,6 +20,7 @@
 
 struct uint
 {
+	#include"adjective/semiotic.hpp"
 	#include"adverb/semiotic.hpp"
 
 		// addition:
@@ -28,11 +29,15 @@ struct uint
 
 		// multiplication:
 
-	#include"half_multiplication/semiotic.hpp"
+	#include"multiplication/semiotic.hpp"
 
 		// division:
 
-	#include"half_division/semiotic.hpp"
+	#include"division/semiotic.hpp"
+
+		// change_of_base:
+
+	#include"change_of_base/semiotic.hpp"
 
 		// printer:
 

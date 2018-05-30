@@ -57,7 +57,7 @@ struct compare_zero
 	template<typename sub_type>
 	inline void last_match(sub_type sub)
 	{
-		if (sub_adjective::is_right_closed::value)
+		if (sub_adjective::is_terminal_closed::value)
 		{
 			value = (*sub == 0); // using a zero::value requires knowing the dereference type.
 		}
@@ -96,7 +96,7 @@ struct map_set
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_adjective::is_right_closed::value)
+		if (sub_adjective::is_terminal_closed::value)
 		{
 			*sub = value;
 		}
@@ -131,7 +131,7 @@ struct map_print<sub_adjective>
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_adjective::is_right_closed::value)
+		if (sub_adjective::is_terminal_closed::value)
 		{
 			builtin_printer::print(*sub);
 		}
@@ -169,7 +169,7 @@ struct map_print<sub_adjective, Type>
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_adjective::is_right_closed::value)
+		if (sub_adjective::is_terminal_closed::value)
 		{
 			builtin_printer::print(*sub);
 		}
@@ -226,7 +226,7 @@ struct compare_equal
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub == *ob);
 		}
@@ -265,7 +265,7 @@ struct compare_not_equal
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub != *ob);
 		}
@@ -306,7 +306,7 @@ struct compare_less_than
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub < *ob);
 		}
@@ -345,7 +345,7 @@ struct compare_less_than_or_equal
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub <= *ob);
 		}
@@ -384,7 +384,7 @@ struct compare_greater_than
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub > *ob);
 		}
@@ -423,7 +423,7 @@ struct compare_greater_than_or_equal
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			value = (*sub >= *ob);
 		}
@@ -458,7 +458,7 @@ struct map_assign
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_adjective::is_right_closed::value)
+		if (ob_adjective::is_terminal_closed::value)
 		{
 			*sub = *ob;
 		}

@@ -18,63 +18,51 @@
 /*
 	Concept:
 
-	if 1 < base, then 0 < base-1.
-	Since -1 < 1, then base-1 < base+1.
-	Hence (base-1)^2 < base^2-1.
-	Thus carry < base^2.
+	|w3|w2|w1|w0| / |y1|y0|, where w3 == 0, y1 == 0, w2 < y0.
 
+	eg.	0129 / 03
+	neg.	0715 / 06
 */
 
 /***********************************************************************************************************************/
 
 /*
-	Let	m1=|w3|w2|
-	and	m0=|w1|w0|
+	Let	n1=|w3|w2|
+	and	n0=|w1|w0|
+	with	 d=|y1|y0|
+
+	r	is the remainder and is offered for runtime optimization.
 */
 
 template<size_type reg_length, Performance performance = Performance::specification> /* typename WordType,*/
-struct half_multiplication
+struct division
 {
 	using reg_type		= typename byte_type<reg_length>::reg_type;
 	using half_length	= typename byte_type<reg_length>::half_type::length;
 	using low_pass		= typename byte_type<reg_length>::low_pass;
 
-/*
-		? Adds to the existing out regardless of its initial value.
-		The return value is the lower digit.
-		p is the lower (product) digit.
-		This is intuitively opposite of what it should be,
-		but implements recursively/iteratively better under composition.
-*/
-
-	static reg_type multiply(reg_type & u, reg_type m1, reg_type m0)
+	static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 	{
-		reg_type	upper_m1		= (m1 >> half_length::value),
-				lower_m1		= (low_pass::value & m1),
+		reg_type	upper_n1	= (n1 >> half_length::value),
+				lower_n1	= (low_pass::value & n1),
 
-				upper_m0		= (m0 >> half_length::value),
-				lower_m0		= (low_pass::value & m0),
+				upper_n0	= (n0 >> half_length::value),
+				lower_n0	= (low_pass::value & n0),
 
-				product_ll		= lower_m1 * lower_m0,
-				product_ul		= upper_m1 * lower_m0,
-				product_lu		= lower_m1 * upper_m0,
-				product_uu		= upper_m1 * upper_m0,
+				dividend1	= (lower_n1 << half_length::value) + upper_n0,
+				quotient1	= dividend1 / d,
+				remainder1	= dividend1 % d,
 
-				lower0			= (product_ul << half_length::value) + product_ll,
-				upper0			= (lower0 < product_ll),
+				dividend0	= (remainder1 << half_length::value) + lower_n0,
+				quotient0	= dividend0 / d,
+				remainder0	= dividend0 % d,
 
-				lower1			= (product_lu << half_length::value) + lower0,
-				upper1			= (lower1 < lower0) + upper0,
+				quotient	= (quotient1 << half_length::value) + quotient0,
+				remainder	= remainder0;
 
-				lower			= lower1,
-				upper			= (product_ul >> half_length::value)
-							+ (product_lu >> half_length::value)
-							+ product_uu
-							+ upper1;
+		r = remainder;
 
-		u = upper;
-
-		return lower;
+		return quotient;
 	}
 };
 
@@ -95,11 +83,59 @@ struct half_multiplication
 */
 
 template<size_type reg_length> /* typename WordType */
-struct half_multiplication<reg_length, Performance::optimization>
+struct division<reg_length, Performance::optimization>
 {
 	using reg_type		= typename byte_type<reg_length>::reg_type;
 	using half_length	= typename byte_type<reg_length>::half_type::length;
 	using low_pass		= typename byte_type<reg_length>::low_pass;
 
+	static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
+	{
+			  // r  is b-free.
+			  // n1 is u-free.
+			  // n0 is n-free.
+
+		r	= (n1 << half_length::value) + (n0 >> half_length::value);	// dividend1
+			  // r  is n-free.
+			  // n1 is b-free.
+			  // n0 is u-free.
+
+		n1	= r / d;							// quotient1
+			  // r  is n-free.
+			  // n1 is u-free.
+			  // n0 is u-free.
+
+		r	= r % d;							// remainder1
+			  // r  is u-free.
+			  // n1 is u-free.
+			  // n0 is u-free.
+
+		n0	= (r << half_length::value) + (low_pass::value & n0);		// dividend0
+			  // r  is b-free.
+			  // n1 is u-free.
+			  // n0 is n-free.
+
+		r	= n0 / d;							// quotient0
+			  // r  is u-free.
+			  // n1 is u-free.
+			  // n0 is n-free.
+
+		n0	= n0 % d;							// remainder0
+			  // r  is u-free.
+			  // n1 is u-free.
+			  // n0 is u-free.
+
+		n1	= (n1 << half_length::value) + r;
+			  // r  is b-free.
+			  // n1 is n-free.
+			  // n0 is u-free.
+
+		r	= n0;
+			  // r  is u-free.
+			  // n1 is n-free.
+			  // n0 is b-free.
+
+		return n1;
+	}
 };
 

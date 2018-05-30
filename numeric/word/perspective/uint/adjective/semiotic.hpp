@@ -15,15 +15,16 @@
 **
 ************************************************************************************************************************/
 
+/*
+*/
+
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy,
+	Performance performance,
+	typename...
 
-	Performance performance = Performance::specification
-
-> struct shallow_subtraction;
+> struct change_of_base;
 
 /*
 */
@@ -31,53 +32,8 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
+	Performance performance,
+	typename...
 
-> struct shallow_subtraction
-<
-	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::specification
->
-{
-	using reg_type					= typename byte_type<reg_length>::reg_type;
-
-	using uint_map_shallow_subtraction		= map_shallow_subtraction<reg_length, sub_policy, ob_policy>;
-
-	//
-
-	using generic					= typename Power::generic;
-
-/*
-*/
-
-	template<typename sub_type, typename ob_type>
-	static sub_type subtract(reg_type & c, sub_type sub, ob_type ob, ob_type end)
-	{
-		uint_map_shallow_subtraction umss(c);
-
-		return generic::map(umss, sub, ob, end);
-	}
-};
-
-/*
-*/
-
-template
-<
-	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
-
-> struct shallow_subtraction
-<
-	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::optimization
->
-{
-};
+> struct printer;
 

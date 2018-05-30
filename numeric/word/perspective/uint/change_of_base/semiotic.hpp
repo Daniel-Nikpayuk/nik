@@ -16,41 +16,47 @@
 ************************************************************************************************************************/
 
 /*
+	Concept:
 */
 
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
+	typename sub_adjective
 
-> struct scalar_multiplication
+> struct change_of_base
 <
 	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::specification
+	Performance::specification,
+	sub_adjective
 >
 {
-	using reg_type					= typename byte_type<reg_length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_scalar_multiplication		= map_scalar_multiplication<reg_length, sub_policy, ob_policy>;
+	using zero				= typename Constant::template zero<reg_type>;
+
+	using uint_map_change_base		= map_change_base<reg_length, sub_adjective>;
 
 	//
 
-	using generic					= typename Power::generic;
+	using generic				= typename Power::generic;
+
+		// change_base:
 
 /*
+		sub_type is forward closing for the normal interpretation.
 */
 
-	template<typename sub_type, typename ob_type>
-	static sub_type multiply(reg_type & c, sub_type sub, ob_type ob, ob_type end, reg_type s)
+	template<typename sub_type>
+	static sub_type change_base(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		uint_map_scalar_multiplication umsm(c, s);
+		uint_map_change_base umcb(d);
 
-		return generic::map(umsm, sub, ob, end);
+		return generic::map(umcb, sub, ob, zero::value);
 	}
 };
+
+/***********************************************************************************************************************/
 
 /*
 */
@@ -58,15 +64,13 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
+	typename sub_adjective
 
-> struct scalar_multiplication
+> struct change_of_base
 <
 	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::optimization
+	Performance::optimization,
+	sub_adjective
 >
 {
 };

@@ -36,23 +36,84 @@
 	Here (a) implies iterate, while [b] implies act.
 */
 
+/***********************************************************************************************************************/
+
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
+	typename sub_adjective
 
-> struct half_division
+> struct division
 <
 	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::specification
+	Performance::specification,
+	sub_adjective
+>
+{
+	using reg_type					= typename byte_type<reg_length>::reg_type;
+
+	using uint_map_half_divide_assign		= map_half_divide_assign
+							<
+								reg_length,
+								sub_adjective
+							>;
+
+	//
+
+	using generic					= typename Power::generic;
+
+/*
+	With the exception of the very first digit, all successor first digits are the remainder
+	of the componentwise division, meaning each following first digit is necessarily less than the divisor.
+	As such, by adding a "lead" initialized as 0---which also carries the remainder forward,
+	we can guarantee the leading digit is always less than the divisor.
+*/
+
+	template<typename sub_type>
+	static void divide(reg_type & r, sub_type sub, sub_type end, reg_type d)
+	{
+		uint_map_half_divide_assign umhda(r, d);
+
+		generic::map(umhda, sub, end);
+	}
+};
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective
+
+> struct division
+<
+	reg_length,
+	Performance::optimization,
+	sub_adjective
+>
+{
+};
+
+/***********************************************************************************************************************/
+
+template
+<
+	size_type reg_length,
+	typename sub_adjective,
+	typename ob_adjective
+
+> struct division
+<
+	reg_length,
+	Performance::specification,
+	sub_adjective,
+	ob_adjective
 >
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_half_division		= map_half_division<reg_length, sub_policy, ob_policy>;
+	using uint_map_half_divide		= map_half_divide<reg_length, sub_adjective, ob_adjective>;
 
 	//
 
@@ -68,7 +129,7 @@ template
 	template<typename sub_type, typename ob_type>
 	static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
 	{
-		uint_map_half_division umhd(r, d);
+		uint_map_half_divide umhd(r, d);
 
 		return generic::map(umhd, sub, ob, end);
 	}
@@ -80,15 +141,15 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy
+	typename sub_adjective,
+	typename ob_adjective
 
-> struct half_division
+> struct division
 <
 	reg_length,
-	sub_policy,
-	ob_policy,
-	Performance::optimization
+	Performance::optimization,
+	sub_adjective,
+	ob_adjective
 >
 {
 };

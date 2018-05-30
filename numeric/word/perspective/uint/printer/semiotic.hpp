@@ -22,37 +22,32 @@
 template
 <
 	size_type reg_length,
-	typename sub_adjective,
-	Performance performance = Performance::specification
-
-> struct printer;
-
-/*
-*/
-
-template
-<
-	size_type reg_length,
 	typename sub_adjective
 
 > struct printer
 <
 	reg_length,
-	sub_adjective,
-	Performance::specification
+	Performance::specification,
+	sub_adjective
 >
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
-
-	using zero				= typename Constant::template zero<reg_type>;
-
-	using uint_map_change_of_base		= map_change_of_base<reg_length, sub_adjective>;
 
 	//
 
 	using generic				= typename Power::generic;
 
-	using printer				= typename Power::printer<sub_adjective::inverse_type>;
+	using power_printer			= typename Power::template printer
+						<
+							typename sub_adjective::inverse_type
+						>;
+
+	using uint_change_of_base		= change_of_base
+						<
+							reg_length,
+							Performance::specification,
+							sub_adjective
+						>;
 
 		// print:
 
@@ -63,11 +58,9 @@ template
 	template<typename sub_type>
 	static void print(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		uint_map_change_of_base umcob(d);
+		sub_type end = uint_change_of_base::change_base(sub, ob, d);
 
-		sub_type end = generic::map(umcob, sub, ob, zero::value);
-
-		printer::print(end, sub);
+		power_printer::print(end, sub);
 	}
 };
 
@@ -84,8 +77,8 @@ template
 > struct printer
 <
 	reg_length,
-	sub_adjective,
-	Performance::optimization
+	Performance::optimization,
+	sub_adjective
 >
 {
 };

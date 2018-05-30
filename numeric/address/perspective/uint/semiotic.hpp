@@ -22,23 +22,23 @@ struct uint
 
 		// addition:
 
-	#include"shallow_addition/semiotic.hpp"
 	#include"addition/semiotic.hpp"
 
 		// subtraction:
 
-	#include"shallow_subtraction/semiotic.hpp"
 	#include"subtraction/semiotic.hpp"
 
 		// multiplication:
 
-	#include"shallow_scalar_multiplication/semiotic.hpp"
-	#include"scalar_multiplication/semiotic.hpp"
 	#include"multiplication/semiotic.hpp"
 
 		// division:
 
-	#include"half_division/semiotic.hpp"
+	#include"division/semiotic.hpp"
+
+		// change_of_base:
+
+	#include"change_of_base/semiotic.hpp" // respecify using half_divide_assign
 
 		// printer:
 
