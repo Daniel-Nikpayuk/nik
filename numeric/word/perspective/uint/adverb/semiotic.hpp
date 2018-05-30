@@ -15,21 +15,11 @@
 **
 ************************************************************************************************************************/
 
-template<size_type, typename...> struct map_change_of_base;
-
 /*
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction
-
-> struct map_change_of_base
-<
-	reg_length,
-	object<sub_interval, sub_direction>
->
+template<size_type reg_length, typename sub_adjective>
+struct map_change_of_base
 {
 	using reg_type = typename byte_type<reg_length>::reg_type;
 
@@ -41,11 +31,7 @@ template
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, reg_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 
 		// ob_type is reg_type.
 	}
@@ -60,14 +46,14 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub, reg_type & ob)
 	{
-		++sub;
+		sub_adjective::main_iteration(sub);
 		ob = quotient;
 	}
 
 	template<typename sub_type>
 	inline void last_action(sub_type sub, reg_type ob)
 	{
-		// no last action is required regardless of interval type.
+		// no last action is required, regardless of interval type.
 	}
 };
 

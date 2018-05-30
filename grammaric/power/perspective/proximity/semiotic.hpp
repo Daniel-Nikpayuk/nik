@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_policy, typename ob_policy>
+template<typename sub_adjective, typename ob_adjective>
 struct proximity
 {
 		// less than:
@@ -23,7 +23,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_less_than<sub_policy, ob_policy> clt;
+		compare_less_than<sub_adjective, ob_adjective> clt;
 
 		generic::compare(clt, sub, ob, end);
 
@@ -35,7 +35,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool less_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_less_than_or_equal<sub_policy, ob_policy> cltoe;
+		compare_less_than_or_equal<sub_adjective, ob_adjective> cltoe;
 
 		generic::compare(cltoe, sub, ob, end);
 
@@ -47,7 +47,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_greater_than<sub_policy, ob_policy> cgt;
+		compare_greater_than<sub_adjective, ob_adjective> cgt;
 
 		generic::compare(cgt, sub, ob, end);
 
@@ -59,7 +59,7 @@ struct proximity
 	template<typename sub_type, typename ob_type>
 	static bool greater_than_or_equal(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_greater_than_or_equal<sub_policy, ob_policy> cgtoe;
+		compare_greater_than_or_equal<sub_adjective, ob_adjective> cgtoe;
 
 		generic::compare(cgtoe, sub, ob, end);
 

@@ -15,25 +15,25 @@
 **
 ************************************************************************************************************************/
 
-template<typename sub_policy>
+template<typename sub_adjective>
 struct printer
 {
 		// print:
 
 	template<typename sub_type>
-	static void digit_print(sub_type sub, sub_type end)
+	static void print(sub_type sub, sub_type end)
 	{
-		repeat_digit<sub_policy> rd;
+		map_print<sub_adjective> mp;
 
-		generic::repeat(rd, sub, end);
+		generic::map(mp, sub, end);
 	}
 
-	template<typename sub_type>
-	static void space_print(sub_type sub, sub_type end)
+	template<typename sub_type, typename separator_type>
+	static void print(sub_type sub, sub_type end, const separator_type & s)
 	{
-		repeat_space<sub_policy> rs;
+		map_print<sub_adjective, separator_type> mp(s);
 
-		generic::repeat(rs, sub, end);
+		generic::map(mp, sub, end);
 	}
 };
 

@@ -15,16 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template
-<
-	size_type reg_length,
-	typename sub_policy,
-	typename ob_policy,
-
-	Performance performance = Performance::specification
-
-> struct scalar_multiplication;
-
 /*
 */
 

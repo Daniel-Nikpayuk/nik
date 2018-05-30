@@ -24,6 +24,8 @@ namespace nik
 
 		//
 
+		#include nik_unpack(constant)
+		#include nik_unpack(conditional)
 		#include nik_unpack(pointer)
 
 		//

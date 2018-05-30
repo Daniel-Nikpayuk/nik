@@ -44,10 +44,10 @@ struct generic
 		return sub;
 	}
 
-			// repeat:
+			// map:
 
 	template<typename adv_type, typename sub_type>
-	static void repeat(adv_type & adv, sub_type sub, sub_type end)
+	static void map(adv_type & adv, sub_type sub, sub_type end)
 	{
 		adv.first_iteration(sub);
 

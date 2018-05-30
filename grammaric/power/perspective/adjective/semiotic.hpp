@@ -45,10 +45,119 @@ enum struct Direction : size_type
 	dimension // filler
 };
 
+/*
+	Object is a type placeholder used to modify adverbs.
+	It is equipped with convenience functions which otherwise
+	frequently show up in use of the grammar.
+*/
+
 template<Interval ob_interval, Direction ob_direction>
 struct object
 {
-	static constexpr Interval interval	= ob_interval;
-	static constexpr Direction direction	= ob_direction;
+	using type				= object;
+
+	using interval				= constant<Interval, ob_interval>;
+
+	using is_closed				= boolean<ob_interval == Interval::closed>;
+	using is_closing			= boolean<ob_interval == Interval::closing>;
+	using is_opening			= boolean<ob_interval == Interval::opening>;
+	using is_open				= boolean<ob_interval == Interval::open>;
+
+	using is_left_open			= boolean
+						<
+							ob_interval == Interval::opening	||
+							ob_interval == Interval::open
+						>;
+
+	using is_right_closed			= boolean
+						<
+							ob_interval == Interval::closed		||
+							ob_interval == Interval::opening
+						>;
+
+	using close_left			= typename conditional
+						<
+							is_right_closed,
+							constant<Interval, Interval::closed>,
+							constant<Interval, Interval::closing>
+
+						>::rtn;
+
+	using open_right			= typename conditional
+						<
+							is_left_open,
+							constant<Interval, Interval::open>,
+							constant<Interval, Interval::closing>
+
+						>::rtn;
+
+	using invert_interval			= typename block
+						<
+							if_then
+							<
+								is_closed,
+								constant<Interval, Interval::closed>
+
+							>, else_then
+							<
+								is_closing,
+								constant<Interval, Interval::opening>
+
+							>, else_then
+							<
+								is_opening,
+								constant<Interval, Interval::closing>
+
+							>, then
+							<
+								constant<Interval, Interval::open>
+							>
+
+						>::rtn;
+
+	//
+
+	using direction				= constant<Direction, ob_direction>;
+
+	using is_forward			= boolean<ob_direction == Direction::forward>;
+	using is_backward			= boolean<ob_direction == Direction::backward>;
+
+	using invert_direction			= typename conditional
+						<
+							is_forward,
+							constant<Direction, Direction::backward>,
+							constant<Direction, Direction::forward>
+
+						>::rtn;
+
+	//
+
+	using inverse_type			= object<invert_interval::value, invert_direction::value>;
+
+	//
+
+	template<typename ob_type>
+	inline static size_type distance(ob_type ob, ob_type end)
+	{
+		if	(is_forward::value)	return end - ob;
+		else				return ob - end;
+	}
+
+	template<typename ob_type>
+	inline static void first_iteration(ob_type & ob)
+	{
+		if (is_left_open::value)
+		{
+			if	(is_forward::value)	++ob;
+			else				--ob;
+		}
+	}
+
+	template<typename ob_type>
+	inline static void main_iteration(ob_type & ob)
+	{
+		if	(is_forward::value)	++ob;
+		else				--ob;
+	}
 };
 

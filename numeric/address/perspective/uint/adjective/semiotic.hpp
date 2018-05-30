@@ -25,3 +25,29 @@ template
 
 > struct half_division;
 
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
+
+	Performance performance = Performance::specification
+
+> struct shallow_addition;
+
+/*
+*/
+
+template
+<
+	size_type reg_length,
+	typename sub_policy,
+	typename ob_policy,
+
+	Performance performance = Performance::specification
+
+> struct scalar_multiplication;
+

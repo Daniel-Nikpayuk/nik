@@ -19,6 +19,7 @@ template
 <
 	size_type reg_length,
 	typename sub_policy,
+	typename ob2_policy,
 	typename ob1_policy,
 	typename ob_policy,
 
@@ -32,22 +33,35 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob1_policy,
-	typename ob_policy
+	Interval sub_interval, Direction sub_direction,
+	Interval ob2_interval, Direction ob2_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
 
 > struct multiplication
 <
 	reg_length,
-	sub_policy,
-	ob1_policy,
-	ob_policy,
+	object<sub_interval, sub_direction>,
+	object<ob2_interval, ob2_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>,
 	Performance::specification
 >
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_multiplication		= map_multiplication<reg_length, sub_policy, ob1_policy, ob_policy>;
+						  template<typename ob2_type, typename ob1_type, typename sub_type>
+	using uint_map_multiplication		= map_multiplication
+						<
+							reg_length,
+							object<sub_interval, sub_direction>,
+							object<ob2_interval, ob2_direction>,
+							object<ob1_interval, ob1_direction>,
+							object<ob_interval, ob_direction>,
+							ob2_type,
+							ob1_type,
+							sub_type
+						>;
 
 	//
 
@@ -56,12 +70,16 @@ template
 /*
 */
 
-	template<typename sub_type, typename ob1_type, typename ob_type>
-	static sub_type multiply(reg_type & c, sub_type sub, ob1_type ob1, ob_type ob, ob_type end)
+	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
+	static sub_type multiply(reg_type & c, sub_type sub, ob2_type ob2, ob1_type ob1, ob_type ob, ob_type end)
 	{
-		uint_map_multiplication umm(c);
+		size_type l	= (ob_direction == Direction::forward) ? (end - ob) : (ob - end);
+		ob2_type end2	= (ob2_direction == Direction::forward) ? ob2 + l : ob2 - l;
+		ob1_type end1	= (ob1_direction == Direction::forward) ? ob1 + l : ob1 - l;
 
-		return generic::map(umm, sub, ob1, ob, end);
+		uint_map_multiplication<ob2_type, ob1_type, sub_type> umm(c, ob2, end2, end1, sub);
+
+		return generic::map(umm, ob2, ob1, ob, end);
 	}
 };
 
@@ -71,16 +89,18 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy,
-	typename ob1_policy,
-	typename ob_policy
+	Interval sub_interval, Direction sub_direction,
+	Interval ob2_interval, Direction ob2_direction,
+	Interval ob1_interval, Direction ob1_direction,
+	Interval ob_interval, Direction ob_direction
 
 > struct multiplication
 <
 	reg_length,
-	sub_policy,
-	ob1_policy,
-	ob_policy,
+	object<sub_interval, sub_direction>,
+	object<ob2_interval, ob2_direction>,
+	object<ob1_interval, ob1_direction>,
+	object<ob_interval, ob_direction>,
 	Performance::optimization
 >
 {

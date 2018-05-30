@@ -17,25 +17,18 @@
 
 /*
 	unary:
-*/
 
-template<typename...> struct compare_zero;
-template<typename...> struct repeat_set;
-template<typename...> struct repeat_digit;
-template<typename...> struct repeat_space;
+	compare_zero
+	map_set
+	map_print
+*/
 
 /***********************************************************************************************************************/
 
 	// identity:
 
-template
-<
-	Interval sub_interval, Direction sub_direction
-
-> struct compare_zero
-<
-	object<sub_interval, sub_direction>
->
+template<typename sub_adjective>
+struct compare_zero
 {
 	bool value;
 
@@ -44,11 +37,7 @@ template
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 	}
 
 	template<typename sub_type>
@@ -62,45 +51,34 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void last_match(sub_type sub)
 	{
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		if (sub_adjective::is_right_closed::value)
 		{
-			value = (*sub == 0); // using a zero::value requires knowing its type.
+			value = (*sub == 0); // using a zero::value requires knowing the dereference type.
 		}
 	}
 };
 
 	// functor:
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	typename ob_type
-
-> struct repeat_set
-<
-	object<sub_interval, sub_direction>,
-	ob_type
->
+template<typename sub_adjective, typename Type>
+struct map_set
 {
-	ob_type value;
+	using value_type = Type;
 
-	repeat_set(ob_type ob) : value(ob) { }
+	value_type value;
+
+	map_set(value_type v) : value(v) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 	}
 
 	template<typename sub_type>
@@ -112,14 +90,13 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		if (sub_adjective::is_right_closed::value)
 		{
 			*sub = value;
 		}
@@ -128,23 +105,15 @@ template
 
 	// printer:
 
-template
-<
-	Interval sub_interval, Direction sub_direction
+template<typename...> struct map_print;
 
-> struct repeat_digit
-<
-	object<sub_interval, sub_direction>
->
+template<typename sub_adjective>
+struct map_print<sub_adjective>
 {
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 	}
 
 	template<typename sub_type>
@@ -156,57 +125,51 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		if (sub_adjective::is_right_closed::value)
 		{
 			builtin_printer::print(*sub);
 		}
 	}
 };
 
-template
-<
-	Interval sub_interval, Direction sub_direction
-
-> struct repeat_space
-<
-	object<sub_interval, sub_direction>
->
+template<typename sub_adjective, typename Type>
+struct map_print<sub_adjective, Type>
 {
+	using separator_type = Type;
+
+	separator_type separator;
+
+	map_print(const separator_type & s) : separator(s) { }
+
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void main_action(sub_type sub)
 	{
 		builtin_printer::print(*sub);
-		builtin_printer::print(' ');
+		builtin_printer::print(separator);
 	}
 
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		if (sub_adjective::is_right_closed::value)
 		{
 			builtin_printer::print(*sub);
 		}
@@ -217,30 +180,22 @@ template
 
 /*
 	binary:
-*/
 
-template<typename...> struct compare_equal;
-template<typename...> struct compare_not_equal;
-template<typename...> struct compare_less_than;
-template<typename...> struct compare_less_than_or_equal;
-template<typename...> struct compare_greater_than;
-template<typename...> struct compare_greater_than_or_equal;
-template<typename...> struct map_assign;
+	compare_equal
+	compare_not_equal
+	compare_less_than
+	compare_less_than_or_equal
+	compare_greater_than
+	compare_greater_than_or_equal
+	map_assign
+*/
 
 /***********************************************************************************************************************/
 
 	// identity:
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_equal
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_equal
 {
 	bool value;
 
@@ -249,17 +204,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -273,33 +219,22 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub == *ob);
 		}
 	}
 };
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_not_equal
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_not_equal
 {
 	bool value;
 
@@ -308,17 +243,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -332,17 +258,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub != *ob);
 		}
@@ -351,16 +274,8 @@ template
 
 	// proximity:
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_less_than
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_less_than
 {
 	bool value;
 
@@ -369,17 +284,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -393,33 +299,22 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub < *ob);
 		}
 	}
 };
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_less_than_or_equal
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_less_than_or_equal
 {
 	bool value;
 
@@ -428,17 +323,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -452,33 +338,22 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub <= *ob);
 		}
 	}
 };
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_greater_than
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_greater_than
 {
 	bool value;
 
@@ -487,17 +362,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -511,33 +377,22 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub > *ob);
 		}
 	}
 };
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct compare_greater_than_or_equal
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct compare_greater_than_or_equal
 {
 	bool value;
 
@@ -546,17 +401,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -570,17 +416,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_match(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			value = (*sub >= *ob);
 		}
@@ -589,31 +432,14 @@ template
 
 	// functor:
 
-template
-<
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_assign
-<
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<typename sub_adjective, typename ob_adjective>
+struct map_assign
 {
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -625,17 +451,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			*sub = *ob;
 		}

@@ -18,37 +18,27 @@
 /*
 	A design decision needs to be made regarding temporary containers and how much they should be optimized here.
 	In the meantime they're not optimized at all.
+
+	map_half_division
+	map_change_of_base
+	
+	map_shallow_addition
+	map_addition
+	
+	map_shallow_subtraction
+	map_subtraction
+	
+	map_shallow_scalar_multiplication
+	map_scalar_multiplication
+	map_multiplication
 */
-
-template<size_type, typename...> struct map_half_division;
-template<size_type, typename...> struct map_change_of_base;
-
-template<size_type, typename...> struct map_shallow_addition;
-template<size_type, typename...> struct map_addition;
-
-template<size_type, typename...> struct map_shallow_subtraction;
-template<size_type, typename...> struct map_subtraction;
-
-template<size_type, typename...> struct map_shallow_scalar_multiplication;
-template<size_type, typename...> struct map_scalar_multiplication;
-template<size_type, typename...> struct map_multiplication;
 
 
 /***********************************************************************************************************************/
 
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_half_division
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob_adjective>
+struct map_half_division
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -64,17 +54,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -86,17 +67,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			*sub = word_half_division::divide(remainder, remainder, *ob, divisor);
 		}
@@ -111,24 +89,14 @@ template
 	reg_type is what their dereference type.
 */
 
+
 template
 <
 	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction,
-
+	typename sub_adjective, typename ob1_adjective, typename ob_adjective,
 	typename ob1_type, typename ob_type
 
 > struct map_change_of_base
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob1_interval, ob1_direction>,
-	object<ob_interval, ob_direction>,
-	ob1_type,
-	ob_type
->
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
@@ -178,11 +146,7 @@ template
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 
 		ob_type	o	= generic::compare(czf, ob, end);
 
@@ -212,8 +176,7 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 
 		ob_type	o	= generic::compare(czm, ob, end);
 
@@ -229,7 +192,7 @@ template
 	template<typename sub_type>
 	inline void last_action(sub_type & sub, ob1_type ob1, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			word_map_change_of_base word_mcob(divisor);
 
@@ -247,18 +210,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_shallow_addition
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob_adjective>
+struct map_shallow_addition
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -271,17 +224,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -302,17 +246,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			carry	+= *ob;
 			*sub	+= carry;
@@ -330,20 +271,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_addition
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob1_interval, ob1_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob1_adjective, typename ob_adjective>
+struct map_addition
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -356,23 +285,9 @@ template
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
-		{
-			if	(ob1_direction == Direction::forward)	++ob1;
-			else if	(ob1_direction == Direction::backward)	--ob1;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob1_adjective::first_iteration(ob1);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -393,20 +308,15 @@ template
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob1_direction == Direction::forward)	++ob1;
-		else if	(ob1_direction == Direction::backward)	--ob1;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob1_adjective::main_iteration(ob1);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			carry	+= *ob1;
 			*sub	 = carry + *ob;
@@ -424,18 +334,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_shallow_subtraction
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob_adjective>
+struct map_shallow_subtraction
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -449,17 +349,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -480,17 +371,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			sub_value	 = *sub;
 
@@ -510,20 +398,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_subtraction
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob1_interval, ob1_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob1_adjective, typename ob_adjective>
+struct map_subtraction
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -536,23 +412,9 @@ template
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
-		{
-			if	(ob1_direction == Direction::forward)	++ob1;
-			else if	(ob1_direction == Direction::backward)	--ob1;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob1_adjective::first_iteration(ob1);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -578,20 +440,15 @@ template
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob1_direction == Direction::forward)	++ob1;
-		else if	(ob1_direction == Direction::backward)	--ob1;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob1_adjective::main_iteration(ob1);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob1_type, typename ob_type>
 	inline void last_action(sub_type sub, ob1_type ob1, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			carry	+= *ob;
 			*sub	 = *ob1 - carry;
@@ -609,16 +466,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction
-
-> struct map_shallow_scalar_multiplication
-<
-	reg_length,
-	object<sub_interval, sub_direction>
->
+template<size_type reg_length, typename sub_adjective>
+struct map_shallow_scalar_multiplication
 {
 	using reg_type					= typename byte_type<reg_length>::reg_type;
 
@@ -637,11 +486,7 @@ template
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
+		sub_adjective::first_iteration(sub);
 	}
 
 /*
@@ -658,14 +503,13 @@ template
 	template<typename sub_type>
 	inline void main_iteration(sub_type & sub)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
+		sub_adjective::main_iteration(sub);
 	}
 
 	template<typename sub_type>
 	inline void last_action(sub_type sub)
 	{
-		if (sub_interval == Interval::closed || sub_interval == Interval::opening)
+		if (sub_adjective::is_right_closed::value)
 		{
 			*sub	= word_half_multiplication::multiply(upper, scalar, *sub) + carry;
 			carry	= (*sub < carry) + upper;
@@ -682,18 +526,8 @@ template
 	carry needs to be set to 0 for the "normal" interpretation.
 */
 
-template
-<
-	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob_interval, Direction ob_direction
-
-> struct map_scalar_multiplication
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob_interval, ob_direction>
->
+template<size_type reg_length, typename sub_adjective, typename ob_adjective>
+struct map_scalar_multiplication
 {
 	using reg_type					= typename byte_type<reg_length>::reg_type;
 
@@ -712,17 +546,8 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -739,17 +564,14 @@ template
 	template<typename sub_type, typename ob_type>
 	inline void main_iteration(sub_type & sub, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
 	}
 
 	template<typename sub_type, typename ob_type>
 	inline void last_action(sub_type sub, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
 			*sub	= word_half_multiplication::multiply(upper, scalar, *ob) + carry;
 			carry	= (*sub < carry) + upper;
@@ -769,62 +591,54 @@ template
 template
 <
 	size_type reg_length,
-	Interval sub_interval, Direction sub_direction,
-	Interval ob2_interval, Direction ob2_direction,
-	Interval ob1_interval, Direction ob1_direction,
-	Interval ob_interval, Direction ob_direction,
-
-	typename ob1_type, typename ob_type
+	typename sub_adjective, typename ob2_adjective, typename ob1_adjective, typename ob_adjective,
+	typename ob2_type, typename ob1_type, typename sub_type
 
 > struct map_multiplication
-<
-	reg_length,
-	object<sub_interval, sub_direction>,
-	object<ob2_interval, ob2_direction>,
-	object<ob1_interval, ob1_direction>,
-	object<ob_interval, ob_direction>
-	ob1_type,
-	ob_type
->
 {
-	using reg_type			= typename byte_type<reg_length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
+
+	using zero				= typename Constant::template zero<reg_type>;
 
 	//
 
+	using functor_main			= typename Power::template functor<object<Interval::closed, ob2_direction>>;
+
+	using shallow_addition_main		= shallow_addition
+						<
+							reg_length,
+							object<Interval::closed, sub_direction>,
+							object<Interval::closed, ob2_direction>
+						>;
+
+	using scalar_main			= scalar_multiplication
+						<
+							reg_length,
+							object<Interval::closed, ob2_direction>,
+							object<Interval::closed, ob1_direction>
+						>;
+
+	//
+
+	ob2_type begin2;
 	ob2_type end2;
+
 	ob1_type end1;
-	ob_type end;
+
+	sub_type begin;
 
 	reg_type & carry;
 
-	map_multiplication(reg_type & c, ob2_type e2, ob1_type e1, ob_type e) : carry(c), end2(e2), end1(e1), end(e) { }
+	map_multiplication(reg_type & c, ob2_type b2, ob2_type e2, ob1_type e1, sub_type b) :
 
-	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
-	inline void first_iteration(sub_type & sub, ob2_type & ob2, ob1_type & ob1, ob_type & ob)
+		carry(c), begin2(b2), end2(e2), end1(e1), begin(b) { }
+
+	template<typename ob_type>
+	inline void first_iteration(ob2_type & ob2, ob1_type & ob1, ob_type & ob)
 	{
-		if (sub_interval == Interval::opening || sub_interval == Interval::open)
-		{
-			if	(sub_direction == Direction::forward)	++sub;
-			else if	(sub_direction == Direction::backward)	--sub;
-		}
-
-		if (ob2_interval == Interval::opening || ob2_interval == Interval::open)
-		{
-			if	(ob2_direction == Direction::forward)	++ob2;
-			else if	(ob2_direction == Direction::backward)	--ob2;
-		}
-
-		if (ob1_interval == Interval::opening || ob1_interval == Interval::open)
-		{
-			if	(ob1_direction == Direction::forward)	++ob1;
-			else if	(ob1_direction == Direction::backward)	--ob1;
-		}
-
-		if (ob_interval == Interval::opening || ob_interval == Interval::open)
-		{
-			if	(ob_direction == Direction::forward)	++ob;
-			else if	(ob_direction == Direction::backward)	--ob;
-		}
+		ob2_adjective::first_iteration(ob2);
+		ob1_adjective::first_iteration(ob1);
+		ob_adjective::first_iteration(ob);
 	}
 
 /*
@@ -836,36 +650,38 @@ template
 	This still needs to be robust against overloading.
 */
 
-	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
-	inline void main_action(sub_type sub, ob2_type ob2, ob1_type ob1, ob_type ob)
+	template<typename ob_type>
+	inline void main_action(ob2_type ob2, ob1_type ob1, ob_type ob)
 	{
-		*(mob2-1) = zero::value;
-		mend2 = scalar::multiply(mob2, ob1, end1, *ob);
-		if () set(mend2, end2, zero::value);
-		shallow_addition::add(sub, ob2, end2);
+		functor_main::set(begin2, ob2, zero::value);
+
+		carry = 0;
+		scalar_main::multiply(carry, ob2, ob1, end1, *ob);
+
+		carry = 0;
+		shallow_addition_main::add(carry, begin, begin2, end2);
 	}
 
-	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
-	inline void main_iteration(sub_type & sub, ob2_type & ob2, ob1_type & ob1, ob_type & ob)
+	template<typename ob_type>
+	inline void main_iteration(ob2_type & ob2, ob1_type & ob1, ob_type & ob)
 	{
-		if	(sub_direction == Direction::forward)	++sub;
-		else if	(sub_direction == Direction::backward)	--sub;
-
-		if	(ob2_direction == Direction::forward)	++ob2;
-		else if	(ob2_direction == Direction::backward)	--ob2;
-
-		if	(ob1_direction == Direction::forward)	++ob1;
-		else if	(ob1_direction == Direction::backward)	--ob1;
-
-		if	(ob_direction == Direction::forward)	++ob;
-		else if	(ob_direction == Direction::backward)	--ob;
+		ob2_adjective::main_iteration(ob2);
+		ob1_adjective::main_iteration(ob1);
+		ob_adjective::main_iteration(ob);
 	}
 
-	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
-	inline void last_action(sub_type sub, ob2_type ob2, ob1_type ob1, ob_type ob)
+	template<typename ob_type>
+	inline void last_action(ob2_type ob2, ob1_type ob1, ob_type ob)
 	{
-		if (ob_interval == Interval::closed || ob_interval == Interval::opening)
+		if (ob_adjective::is_right_closed::value)
 		{
+			functor_main::set(begin2, ob2, zero::value);
+
+			carry = 0;
+			scalar_main::multiply(carry, ob2, ob1, end1, *ob);
+
+			carry = 0;
+			shallow_addition_main::add(carry, begin, begin2, end2);
 		}
 	}
 };

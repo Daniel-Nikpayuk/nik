@@ -15,31 +15,21 @@
 **
 ************************************************************************************************************************/
 
-template
-<
-	typename...
-
-> struct identity;
+template<typename...> struct identity;
 
 /*
 	unary:
 */
 
-template
-<
-	typename sub_policy
-
-> struct identity
-<
-	sub_policy
->
+template<typename sub_adjective>
+struct identity<sub_adjective>
 {
 		// zero:
 
 	template<typename sub_type>
 	static bool zero(sub_type sub, sub_type end)
 	{
-		compare_zero<sub_policy> cz;
+		compare_zero<sub_adjective> cz;
 
 		generic::compare(cz, sub, end);
 
@@ -51,23 +41,15 @@ template
 	binary:
 */
 
-template
-<
-	typename sub_policy,
-	typename ob_policy
-
-> struct identity
-<
-	sub_policy,
-	ob_policy
->
+template<typename sub_adjective, typename ob_adjective>
+struct identity<sub_adjective, ob_adjective>
 {
 		// equals:
 
 	template<typename sub_type, typename ob_type>
 	static bool equals(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_equal<sub_policy, ob_policy> ce;
+		compare_equal<sub_adjective, ob_adjective> ce;
 
 		generic::compare(ce, sub, ob, end);
 
@@ -79,7 +61,7 @@ template
 	template<typename sub_type, typename ob_type>
 	static bool not_equals(sub_type sub, ob_type ob, ob_type end)
 	{
-		compare_not_equal<sub_policy, ob_policy> cne;
+		compare_not_equal<sub_adjective, ob_adjective> cne;
 
 		generic::compare(cne, sub, ob, end);
 

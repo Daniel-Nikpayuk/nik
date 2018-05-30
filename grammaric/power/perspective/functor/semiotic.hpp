@@ -15,33 +15,23 @@
 **
 ************************************************************************************************************************/
 
-template
-<
-	typename...
-
-> struct functor;
+template<typename...> struct functor;
 
 /*
 	unary:
 */
 
-template
-<
-	typename sub_policy
-
-> struct functor
-<
-	sub_policy
->
+template<typename sub_adjective>
+struct functor<sub_adjective>
 {
 		// set:
 
-	template<typename sub_type, typename ob_type>
-	static void set(sub_type sub, sub_type end, ob_type ob)
+	template<typename sub_type, typename value_type>
+	static void set(sub_type sub, sub_type end, value_type value)
 	{
-		repeat_set<sub_policy, ob_type> rs(ob);
+		map_set<sub_adjective, value_type> ms(value);
 
-		generic::repeat(rs, sub, end);
+		generic::map(ms, sub, end);
 	}
 };
 
@@ -49,23 +39,15 @@ template
 	binary:
 */
 
-template
-<
-	typename sub_policy,
-	typename ob_policy
-
-> struct functor
-<
-	sub_policy,
-	ob_policy
->
+template<typename sub_adjective, typename ob_adjective>
+struct functor<sub_adjective, ob_adjective>
 {
 		// assign:
 
 	template<typename sub_type, typename ob_type>
 	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
 	{
-		map_assign<sub_policy, ob_policy> ma;
+		map_assign<sub_adjective, ob_adjective> ma;
 
 		return generic::map(ma, sub, ob, end);
 	}

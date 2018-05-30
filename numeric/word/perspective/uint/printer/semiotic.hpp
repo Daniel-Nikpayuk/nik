@@ -22,7 +22,7 @@
 template
 <
 	size_type reg_length,
-	typename sub_policy,
+	typename sub_adjective,
 	Performance performance = Performance::specification
 
 > struct printer;
@@ -33,41 +33,41 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy
+	typename sub_adjective
 
 > struct printer
 <
 	reg_length,
-	sub_policy,
+	sub_adjective,
 	Performance::specification
 >
 {
-	using reg_type			= typename byte_type<reg_length>::reg_type;
+	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using zero			= typename Constant::template zero<reg_type>;
+	using zero				= typename Constant::template zero<reg_type>;
 
-	using printer_digit		= typename Power::repeat_digit;
+	using uint_map_change_of_base		= map_change_of_base<reg_length, sub_adjective>;
 
 	//
 
-	using generic			= typename Power::generic;
+	using generic				= typename Power::generic;
+
+	using printer				= typename Power::printer<sub_adjective::inverse_type>;
 
 		// print:
 
-		// sub_type	is restricted to forward closing.
-		// ob_type	is restricted to backward opening.
-		//		is assumed as temporary memory.
+/*
+		sub_type is forward closing for the normal interpretation.
+*/
 
 	template<typename sub_type>
 	static void print(sub_type sub, reg_type ob, reg_type d = 10)
 	{
-		map_change_of_base<reg_length, sub_policy> mcob(d);
+		uint_map_change_of_base umcob(d);
 
-		sub_type end = generic::map(mcob, sub, ob, zero::value);
+		sub_type end = generic::map(umcob, sub, ob, zero::value);
 
-		printer_digit pd;
-
-		generic::repeat(pd, end, sub);
+		printer::print(end, sub);
 	}
 };
 
@@ -79,12 +79,12 @@ template
 template
 <
 	size_type reg_length,
-	typename sub_policy
+	typename sub_adjective
 
 > struct printer
 <
 	reg_length,
-	sub_policy,
+	sub_adjective,
 	Performance::optimization
 >
 {

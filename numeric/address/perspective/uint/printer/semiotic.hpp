@@ -131,7 +131,7 @@ template
 	static void print(sub_type sub, ob1_type ob1, ob_type ob, ob_type end, reg_type d = 10)
 	{
 		size_type l	= (ob_direction == Direction::forward) ? (end - ob) : (ob - end);
-		ob_type end1	= (ob1_direction == Direction::forward) ? ob1 + l : ob1 - l;
+		ob1_type end1	= (ob1_direction == Direction::forward) ? ob1 + l : ob1 - l;
 
 		uint_map_change_of_base<ob1_type, ob_type> uint_mcob(end1, end, d);
 

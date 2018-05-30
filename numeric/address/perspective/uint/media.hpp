@@ -34,7 +34,7 @@ struct uint
 
 	//
 
-	using policy		= object
+	using adjective		= object
 				<
 					Interval::closing,
 					Direction::forward
@@ -42,8 +42,8 @@ struct uint
 
 	using binary		= typename Power::template functor
 				<
-					policy,
-					policy
+					adjective,
+					adjective
 				>;
 
 	//
