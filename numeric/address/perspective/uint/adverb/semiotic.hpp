@@ -31,6 +31,7 @@
 
 	map_half_divide_assign
 	map_half_divide
+	map_divide
 
 	map_change_base
 */
@@ -604,6 +605,56 @@ struct map_half_divide
 	reg_type divisor;
 
 	map_half_divide(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+
+	template<typename sub_type, typename ob_type>
+	inline void first_iteration(sub_type & sub, ob_type & ob)
+	{
+		sub_adjective::first_iteration(sub);
+		ob_adjective::first_iteration(ob);
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void main_action(sub_type sub, ob_type ob)
+	{
+		*sub = word_division::divide(remainder, remainder, *ob, divisor);
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void main_iteration(sub_type & sub, ob_type & ob)
+	{
+		sub_adjective::main_iteration(sub);
+		ob_adjective::main_iteration(ob);
+	}
+
+	template<typename sub_type, typename ob_type>
+	inline void last_action(sub_type sub, ob_type ob)
+	{
+		if (ob_adjective::is_terminal_closed::value)
+		{
+			*sub = word_division::divide(remainder, remainder, *ob, divisor);
+		}
+	}
+};
+
+/***********************************************************************************************************************/
+
+template<size_type reg_length, typename sub_adjective, typename ob_adjective>
+struct map_divide
+{
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	//
+
+	using word_division		= typename Word::uint::template division
+					<
+						reg_length,
+						Performance::specification
+					>;
+
+	reg_type & remainder;
+	reg_type divisor;
+
+	map_divide(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)

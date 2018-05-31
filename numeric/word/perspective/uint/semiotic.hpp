@@ -23,6 +23,10 @@ struct uint
 	#include"adjective/semiotic.hpp"
 	#include"adverb/semiotic.hpp"
 
+		// degree:
+
+	#include"polynomial/semiotic.hpp"
+
 		// addition:
 
 		// subtraction:

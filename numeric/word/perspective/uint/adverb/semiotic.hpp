@@ -16,6 +16,48 @@
 ************************************************************************************************************************/
 
 /*
+	map_polynomial
+*/
+
+template<size_type reg_length>
+struct map_polynomial
+{
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	using zero			= typename Constant::template zero<reg_type>;
+
+	using one			= typename Constant::template one<reg_type>;
+
+	//
+
+	reg_type value;
+
+	map_polynomial() : value(zero::value) { }
+
+	inline void first_iteration(reg_type & sub)
+	{
+		sub >>= one::value;
+	}
+
+	inline void main_action(reg_type sub)
+	{
+		++value;
+	}
+
+	inline void main_iteration(reg_type & sub)
+	{
+		sub >>= one::value;
+	}
+
+	inline void last_action(reg_type)
+	{
+	}
+};
+
+/***********************************************************************************************************************/
+
+/*
+	map_change_base
 */
 
 template<size_type reg_length, typename sub_adjective>
