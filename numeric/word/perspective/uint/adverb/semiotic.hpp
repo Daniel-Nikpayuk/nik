@@ -29,7 +29,7 @@ struct map_change_base
 	map_change_base(reg_type d) : divisor(d) { }
 
 	template<typename sub_type>
-	inline void first_iteration(sub_type & sub, reg_type & ob)
+	inline void first_iteration(sub_type & sub, reg_type)
 	{
 		sub_adjective::first_iteration(sub);
 
@@ -51,7 +51,7 @@ struct map_change_base
 	}
 
 	template<typename sub_type>
-	inline void last_action(sub_type sub, reg_type ob)
+	inline void last_action(sub_type, reg_type)
 	{
 		// no last action is required, regardless of interval type.
 	}

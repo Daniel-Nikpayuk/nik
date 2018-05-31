@@ -20,9 +20,8 @@
 
 template
 <
-	size_type reg_length,
-
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct addition;
@@ -32,8 +31,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct subtraction;
@@ -43,8 +42,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct multiplication;
@@ -54,8 +53,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct division;
@@ -65,8 +64,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct change_of_base;
@@ -76,8 +75,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct printer;

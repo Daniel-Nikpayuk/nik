@@ -33,6 +33,8 @@ template
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
+	using zero				= typename Constant::template zero<reg_type>;
+
 	//
 
 	using generic				= typename Power::generic;
@@ -60,7 +62,8 @@ template
 	{
 		sub_type end = uint_change_of_base::change_base(sub, ob, d);
 
-		power_printer::print(end, sub);
+		if	(sub_adjective::distance(sub, end))	power_printer::print(end, sub);
+		else						builtin_printer::print(zero::value);
 	}
 };
 

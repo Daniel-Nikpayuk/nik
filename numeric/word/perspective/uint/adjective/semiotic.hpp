@@ -20,8 +20,8 @@
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct change_of_base;
@@ -31,8 +31,8 @@ template
 
 template
 <
-	size_type reg_length,
-	Performance performance,
+	size_type,
+	Performance,
 	typename...
 
 > struct printer;

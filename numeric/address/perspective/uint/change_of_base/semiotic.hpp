@@ -47,7 +47,7 @@ template
 	//
 
 							  template<typename ob_type>
-	using uint_map_change_base_assign		= map_change_base_assign
+	using uint_map_change_base			= map_change_base
 							<
 								reg_length,
 								sub_adjective, ob_adjective,
@@ -69,9 +69,9 @@ template
 	template<typename sub_type, typename ob_type>
 	static sub_type change_base(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
 	{
-		uint_map_change_base_assign<ob_type> umcba(end, d);
+		uint_map_change_base<ob_type> umcb(end, d);
 
-		return generic::map(umcba, sub, ob, end);
+		return generic::map(umcb, sub, ob, end);
 	}
 };
 
@@ -89,81 +89,6 @@ template
 	reg_length,
 	Performance::optimization,
 	sub_adjective,
-	ob_adjective
->
-{
-};
-
-/***********************************************************************************************************************/
-
-/*
-*/
-
-template
-<
-	size_type reg_length,
-	typename sub_adjective,
-	typename ob1_adjective,
-	typename ob_adjective
-
-> struct change_of_base
-<
-	reg_length,
-	Performance::specification,
-	sub_adjective,
-	ob1_adjective,
-	ob_adjective
->
-{
-	using reg_type				= typename byte_type<reg_length>::reg_type;
-
-	//
-
-						  template<typename ob1_type, typename ob_type>
-	using uint_map_change_base		= map_change_base
-						<
-							reg_length,
-							sub_adjective, ob1_adjective, ob_adjective,
-							ob1_type, ob_type
-						>;
-
-	//
-
-	using generic				= typename Power::generic;
-
-		// change base:
-
-/*
-	ob1_type, ob_type are assumed to be temporary memory.
-
-	Specification requires ob to have a right closed interval to work properly.
-*/
-
-	template<typename sub_type, typename ob1_type, typename ob_type>
-	static sub_type change_base(sub_type sub, ob1_type ob1, ob1_type end1, ob_type ob, ob_type end, reg_type d = 10)
-	{
-		uint_map_change_base<ob1_type, ob_type> umcb(end1, end, d);
-
-		return generic::map(umcb, sub, ob1, ob, end);
-	}
-};
-
-/*
-*/
-
-template
-<
-	size_type reg_length,
-	typename sub_adjective,
-	typename ob1_adjective,
-	typename ob_adjective
-
-> struct change_of_base
-<
-	reg_length,
-	Performance::optimization,
-	sub_adjective,
-	ob1_adjective,
 	ob_adjective
 >
 {

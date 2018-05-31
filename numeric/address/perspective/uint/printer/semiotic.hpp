@@ -42,6 +42,8 @@ template
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
+	using zero				= typename Constant::template zero<reg_type>;
+
 	//
 
 	using power_printer			= typename Power::template printer
@@ -75,7 +77,8 @@ template
 
 			//
 
-		power_printer::print(sub_end, sub);
+		if	(sub_adjective::distance(sub, sub_end))	power_printer::print(sub_end, sub);
+		else						builtin_printer::print(zero::value);
 	}
 };
 

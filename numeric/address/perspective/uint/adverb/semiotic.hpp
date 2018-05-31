@@ -32,7 +32,6 @@
 	map_half_divide_assign
 	map_half_divide
 
-	map_change_base_assign
 	map_change_base
 */
 
@@ -308,7 +307,11 @@ struct map_scalar_multiply_assign
 
 	//
 
-	using word_multiplication		= typename Word::uint::template multiplication<reg_length>;
+	using word_multiplication		= typename Word::uint::template multiplication
+						<
+							reg_length,
+							Performance::specification
+						>;
 
 	//
 
@@ -368,7 +371,11 @@ struct map_scalar_multiply
 
 	//
 
-	using word_multiplication		= typename Word::uint::template half_multiplication<reg_length>;
+	using word_multiplication		= typename Word::uint::template multiplication
+						<
+							reg_length,
+							Performance::specification
+						>;
 
 	//
 
@@ -427,7 +434,7 @@ template
 <
 	size_type reg_length,
 	typename sub_adjective, typename ob2_adjective, typename ob1_adjective, typename ob_adjective,
-	typename ob2_type, typename ob1_type, typename sub_type
+	typename sub_type, typename ob2_type, typename ob1_type
 
 > struct map_multiply
 {
@@ -455,23 +462,27 @@ template
 							reg_length,
 							Performance::specification,
 							typename ob2_adjective::initial_closed_type,
-							typename ob1_adjective::initial_closed_type
+							object
+							<
+								ob1_adjective::close_initial::value,
+								ob1_adjective::invert_direction::value
+							>
 						>;
 
 	//
 
+	sub_type begin;
+
 	ob2_type begin2;
 	ob2_type end2;
 
-	ob1_type end1;
+	ob1_type begin1;
 
-	sub_type begin;
+	reg_type carry;
 
-	reg_type & carry;
+	map_multiply(sub_type b, ob2_type b2, ob2_type e2, ob1_type b1) :
 
-	map_multiply(reg_type & c, ob2_type b2, ob2_type e2, ob1_type e1, sub_type b) :
-
-		carry(c), begin2(b2), end2(e2), end1(e1), begin(b) { }
+		begin(b), begin2(b2), end2(e2), begin1(b1) { }
 
 	template<typename ob_type>
 	inline void first_iteration(ob2_type & ob2, ob1_type & ob1, ob_type & ob)
@@ -496,7 +507,7 @@ template
 		functor_main::set(begin2, ob2, zero::value);
 
 		carry = 0;
-		scalar_main::multiply(carry, ob2, ob1, end1, *ob);
+		scalar_main::multiply(carry, ob2, begin1, ob1, *ob);
 
 		carry = 0;
 		addition_main::add(carry, begin, begin2, end2);
@@ -518,7 +529,7 @@ template
 			functor_main::set(begin2, ob2, zero::value);
 
 			carry = 0;
-			scalar_main::multiply(carry, ob2, ob1, end1, *ob);
+			scalar_main::multiply(carry, ob2, begin1, ob1, *ob);
 
 			carry = 0;
 			addition_main::add(carry, begin, begin2, end2);
@@ -535,7 +546,11 @@ struct map_half_divide_assign
 
 	//
 
-	using word_division		= typename Word::uint::template division<reg_length, Performance::specification>;
+	using word_division		= typename Word::uint::template division
+					<
+						reg_length,
+						Performance::specification
+					>;
 
 	reg_type & remainder;
 	reg_type divisor;
@@ -579,7 +594,11 @@ struct map_half_divide
 
 	//
 
-	using word_division		= typename Word::uint::template division<reg_length, Performance::specification>;
+	using word_division		= typename Word::uint::template division
+					<
+						reg_length,
+						Performance::specification
+					>;
 
 	reg_type & remainder;
 	reg_type divisor;
@@ -630,7 +649,7 @@ template
 	typename sub_adjective, typename ob_adjective,
 	typename ob_type
 
-> struct map_change_base_assign
+> struct map_change_base
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
@@ -650,7 +669,7 @@ template
 						<
 							reg_length,
 							Performance::specification,
-							sub_adjective
+							typename sub_adjective::initial_closed_type
 						>;
 
 	using division_main			= division
@@ -670,7 +689,7 @@ template
 	compare_zero_first czf;
 	compare_zero_main czm;
 
-	map_change_base_assign(ob_type e, reg_type d) : end(e), divisor(d) { }
+	map_change_base(ob_type e, reg_type d) : end(e), divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -705,134 +724,7 @@ template
 	{
 		if (ob_adjective::is_terminal_closed::value)
 		{
-			sub = word_change_of_base::change_base(sub, *ob, zero::value);
-		}
-	}
-};
-
-/***********************************************************************************************************************/
-
-/*
-	We keep sub_type, ob_type independent for higher entropy: They allow for different containers.
-	ob_tmp1 is a temporary container, the choice of which can be optimized based on how its used here.
-	reg_type is what their dereference type.
-*/
-
-template
-<
-	size_type reg_length,
-	typename sub_adjective, typename ob1_adjective, typename ob_adjective,
-	typename ob1_type, typename ob_type
-
-> struct map_change_base
-{
-	using reg_type				= typename byte_type<reg_length>::reg_type;
-
-	using zero				= typename Constant::template zero<reg_type>;
-
-	using compare_zero_first		= typename Power::template compare_zero<ob_adjective>;
-	using compare_zero_main			= typename Power::template compare_zero
-						<
-							typename ob_adjective::initial_closed_type
-						>;
-
-	//
-
-	using generic				= typename Power::generic;
-
-	using functor_first			= typename Power::template functor<ob1_adjective>;
-
-	using functor_main			= typename Power::template functor
-						<
-							typename ob1_adjective::initial_closed_type
-						>;
-
-	using binary_main			= typename Power::template functor
-						<
-							typename ob_adjective::initial_closed_type,
-							typename ob1_adjective::initial_closed_type
-						>;
-
-	using word_change_of_base		= typename Word::uint::template change_of_base
-						<
-							reg_length,
-							Performance::specification,
-							sub_adjective
-						>;
-
-	using division_main			= division
-						<
-							reg_length,
-							Performance::specification,
-							typename ob1_adjective::initial_closed_type,
-							typename ob_adjective::initial_closed_type
-						>;
-
-	//
-
-	ob1_type end1;
-	ob_type end;
-
-	reg_type remainder;
-	reg_type divisor;
-
-	compare_zero_first czf;
-	compare_zero_main czm;
-
-	map_change_base(ob1_type e1, ob_type e, reg_type d) : end1(e1), end(e), divisor(d) { }
-
-	template<typename sub_type>
-	inline void first_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
-	{
-		sub_adjective::first_iteration(sub);
-
-		ob_type	o	= generic::compare(czf, ob, end);
-
-		size_type d	= ob_adjective::distance(ob, o);
-		ob_type o1	= ob1_adjective::shift(ob1, d);
-
-		functor_first::set(ob1, o1, zero::value);
-
-		ob1 = o1;
-		ob = o;
-	}
-
-/*
-	By the time main_action is called, end1, end are now closed or closing intervals.
-*/
-
-	template<typename sub_type>
-	inline void main_action(sub_type sub, ob1_type ob1, ob_type ob)
-	{
-		remainder = zero::value;
-		division_main::divide(remainder, ob1, ob, end, divisor);
-		*sub = remainder;
-
-		binary_main::assign(ob, ob1, end1);
-	}
-
-	template<typename sub_type>
-	inline void main_iteration(sub_type & sub, ob1_type & ob1, ob_type & ob)
-	{
-		sub_adjective::main_iteration(sub);
-
-		ob_type	o	= generic::compare(czm, ob, end);
-
-		size_type d	= ob_adjective::distance(ob, o);
-		ob_type o1	= ob1_adjective::shift(ob1, d);
-
-		functor_main::set(ob1, o1, zero::value);
-
-		ob1 = o1;
-		ob = o;
-	}
-
-	template<typename sub_type>
-	inline void last_action(sub_type & sub, ob1_type ob1, ob_type ob)
-	{
-		if (ob_adjective::is_terminal_closed::value)
-		{
-			sub = word_change_of_base::change_base(sub, *ob, zero::value);
+			sub = word_change_of_base::change_base(sub, *ob, divisor);
 		}
 	}
 };

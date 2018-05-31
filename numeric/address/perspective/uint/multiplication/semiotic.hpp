@@ -148,12 +148,21 @@ template
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
-					  template<typename ob2_type, typename ob1_type, typename sub_type>
+					  template<typename sub_type, typename ob2_type, typename ob1_type>
 	using uint_map_multiply		= map_multiply
 					<
 						reg_length,
-						sub_adjective, ob2_adjective, ob1_adjective, ob_adjective,
-						ob2_type, ob1_type, sub_type
+						sub_adjective,
+						ob2_adjective,
+						object
+						<
+							ob1_adjective::close_initial::value,
+							ob1_adjective::invert_direction::value
+						>,
+						ob_adjective,
+						sub_type,
+						ob2_type,
+						ob1_type
 					>;
 
 	//
@@ -161,15 +170,16 @@ template
 	using generic			= typename Power::generic;
 
 /*
+	ob1_type is opening backward
 */
 
 	template<typename sub_type, typename ob2_type, typename ob1_type, typename ob_type>
 	static sub_type
-	multiply(reg_type & c, sub_type sub, ob2_type ob2, ob2_type end2, ob1_type ob1, ob1_type end1, ob_type ob, ob_type end)
+	multiply(sub_type sub, ob2_type ob2, ob2_type end2, ob1_type ob1, ob1_type end1, ob_type ob, ob_type end)
 	{
-		uint_map_multiply<ob2_type, ob1_type, sub_type> umm(c, ob2, end2, end1, sub);
+		uint_map_multiply<sub_type, ob2_type, ob1_type> umm(sub, ob2, end2, ob1);
 
-		return generic::map(umm, ob2, ob1, ob, end);
+		return generic::map(umm, ob2, end1, ob, end);
 	}
 };
 
