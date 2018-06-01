@@ -47,7 +47,7 @@ template
 	//
 
 							  template<typename ob_type>
-	using uint_map_half_change_base			= map_half_change_base
+	using uint_map_root_change_base			= map_root_change_base
 							<
 								reg_length,
 								sub_adjective, ob_adjective,
@@ -65,12 +65,12 @@ template
 
 	Specification requires ob to have a right closed interval to work properly.
 */
-	struct half_type
+	struct root_type
 	{
 		template<typename sub_type, typename ob_type>
 		static sub_type change_base(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
 		{
-			uint_map_half_change_base<ob_type> umhcb(end, d);
+			uint_map_root_change_base<ob_type> umhcb(end, d);
 		
 			return generic::map(umhcb, sub, ob, end);
 		}

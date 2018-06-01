@@ -36,7 +36,7 @@ template<size_type reg_length, Performance performance = Performance::specificat
 struct multiplication
 {
 	using reg_type		= typename byte_type<reg_length>::reg_type;
-	using half_length	= typename byte_type<reg_length>::half_type::length;
+	using root_length	= typename byte_type<reg_length>::half_type::length;
 	using low_pass		= typename byte_type<reg_length>::low_pass;
 
 /*
@@ -47,12 +47,12 @@ struct multiplication
 		but implements recursively/iteratively better under composition.
 */
 
-	static reg_type multiply(reg_type & u, reg_type m1, reg_type m0)
+	static reg_type multiply(reg_type & upper, reg_type m1, reg_type m0)
 	{
-		reg_type	upper_m1		= (m1 >> half_length::value),
+		reg_type	upper_m1		= (m1 >> root_length::value),
 				lower_m1		= (low_pass::value & m1),
 
-				upper_m0		= (m0 >> half_length::value),
+				upper_m0		= (m0 >> root_length::value),
 				lower_m0		= (low_pass::value & m0),
 
 				product_ll		= lower_m1 * lower_m0,
@@ -60,19 +60,18 @@ struct multiplication
 				product_lu		= lower_m1 * upper_m0,
 				product_uu		= upper_m1 * upper_m0,
 
-				lower0			= (product_ul << half_length::value) + product_ll,
+				lower0			= (product_ul << root_length::value) + product_ll,
 				upper0			= (lower0 < product_ll),
 
-				lower1			= (product_lu << half_length::value) + lower0,
+				lower1			= (product_lu << root_length::value) + lower0,
 				upper1			= (lower1 < lower0) + upper0,
 
-				lower			= lower1,
-				upper			= (product_ul >> half_length::value)
-							+ (product_lu >> half_length::value)
+				lower			= lower1;
+
+				upper			= (product_ul >> root_length::value)
+							+ (product_lu >> root_length::value)
 							+ product_uu
 							+ upper1;
-
-		u = upper;
 
 		return lower;
 	}
@@ -87,7 +86,7 @@ struct multiplication
 
 	r	is the remainder and is offered for runtime optimization.
 
-	A variable is {n,u,l,b}-free (neither, upper, lower, both) based on its half-registers,
+	A variable is {n,u,l,b}-free (neither, upper, lower, both) based on its root_type,
 	and whether or not that information is not yet redundant.
 
 	Note: This is a source code optimization, as far as I can tell,
@@ -98,7 +97,7 @@ template<size_type reg_length> /* typename WordType */
 struct multiplication<reg_length, Performance::optimization>
 {
 	using reg_type		= typename byte_type<reg_length>::reg_type;
-	using half_length	= typename byte_type<reg_length>::half_type::length;
+	using root_length	= typename byte_type<reg_length>::half_type::length;
 	using low_pass		= typename byte_type<reg_length>::low_pass;
 
 };

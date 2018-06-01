@@ -29,11 +29,11 @@
 	map_scalar_multiply
 	map_multiply
 
-	map_half_divide_assign
-	map_half_divide
+	map_root_divide_assign
+	map_root_divide
 	map_divide
 
-	map_half_change_base
+	map_root_change_base
 */
 
 /***********************************************************************************************************************/
@@ -541,7 +541,7 @@ template
 /***********************************************************************************************************************/
 
 template<size_type reg_length, typename sub_adjective>
-struct map_half_divide_assign
+struct map_root_divide_assign
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -556,7 +556,7 @@ struct map_half_divide_assign
 	reg_type & remainder;
 	reg_type divisor;
 
-	map_half_divide_assign(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+	map_root_divide_assign(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub)
@@ -567,7 +567,7 @@ struct map_half_divide_assign
 	template<typename sub_type>
 	inline void main_action(sub_type sub)
 	{
-		*sub = word_division::half_type::divide(remainder, remainder, *sub, divisor);
+		*sub = word_division::root_type::divide(remainder, remainder, *sub, divisor);
 	}
 
 	template<typename sub_type>
@@ -581,7 +581,7 @@ struct map_half_divide_assign
 	{
 		if (sub_adjective::is_terminal_closed::value)
 		{
-			*sub = word_division::half_type::divide(remainder, remainder, *sub, divisor);
+			*sub = word_division::root_type::divide(remainder, remainder, *sub, divisor);
 		}
 	}
 };
@@ -589,7 +589,7 @@ struct map_half_divide_assign
 /***********************************************************************************************************************/
 
 template<size_type reg_length, typename sub_adjective, typename ob_adjective>
-struct map_half_divide
+struct map_root_divide
 {
 	using reg_type			= typename byte_type<reg_length>::reg_type;
 
@@ -604,7 +604,7 @@ struct map_half_divide
 	reg_type & remainder;
 	reg_type divisor;
 
-	map_half_divide(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
+	map_root_divide(reg_type & r, reg_type d) : remainder(r), divisor(d) { }
 
 	template<typename sub_type, typename ob_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -616,7 +616,7 @@ struct map_half_divide
 	template<typename sub_type, typename ob_type>
 	inline void main_action(sub_type sub, ob_type ob)
 	{
-		*sub = word_division::half_type::divide(remainder, remainder, *ob, divisor);
+		*sub = word_division::root_type::divide(remainder, remainder, *ob, divisor);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -631,7 +631,7 @@ struct map_half_divide
 	{
 		if (ob_adjective::is_terminal_closed::value)
 		{
-			*sub = word_division::half_type::divide(remainder, remainder, *ob, divisor);
+			*sub = word_division::root_type::divide(remainder, remainder, *ob, divisor);
 		}
 	}
 };
@@ -700,7 +700,7 @@ template
 	typename sub_adjective, typename ob_adjective,
 	typename ob_type
 
-> struct map_half_change_base
+> struct map_root_change_base
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
@@ -740,7 +740,7 @@ template
 	compare_zero_first czf;
 	compare_zero_main czm;
 
-	map_half_change_base(ob_type e, reg_type d) : end(e), divisor(d) { }
+	map_root_change_base(ob_type e, reg_type d) : end(e), divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -758,7 +758,7 @@ template
 	inline void main_action(sub_type sub, ob_type ob)
 	{
 		remainder = zero::value;
-		division_main::half_type::divide(remainder, ob, end, divisor);
+		division_main::root_type::divide(remainder, ob, end, divisor);
 		*sub = remainder;
 	}
 

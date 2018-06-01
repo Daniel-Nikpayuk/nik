@@ -27,8 +27,8 @@ template<size_type reg_length, Performance performance = Performance::specificat
 struct division
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
-	using half_length			= typename byte_type<reg_length>::half_type::length;
-	using half_max				= typename byte_type<reg_length>::half_type::max;
+	using root_length			= typename byte_type<reg_length>::half_type::length;
+	using root_max				= typename byte_type<reg_length>::half_type::max;
 	using low_pass				= typename byte_type<reg_length>::low_pass;
 
 	using zero				= typename Constant::template zero<reg_type>;
@@ -47,25 +47,25 @@ struct division
 	neg.	0715 / 06
 */
 
-	struct half_type
+	struct root_type
 	{
 		static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 		{
-			reg_type	upper_n1	= (n1 >> half_length::value),
+			reg_type	upper_n1	= (n1 >> root_length::value),
 					lower_n1	= (low_pass::value & n1),
 
-					upper_n0	= (n0 >> half_length::value),
+					upper_n0	= (n0 >> root_length::value),
 					lower_n0	= (low_pass::value & n0),
 
-					dividend1	= (lower_n1 << half_length::value) + upper_n0,
+					dividend1	= (lower_n1 << root_length::value) + upper_n0,
 					quotient1	= dividend1 / d,
 					remainder1	= dividend1 % d,
 
-					dividend0	= (remainder1 << half_length::value) + lower_n0,
+					dividend0	= (remainder1 << root_length::value) + lower_n0,
 					quotient0	= dividend0 / d,
 					remainder0	= dividend0 % d,
 
-					quotient	= (quotient1 << half_length::value) + quotient0,
+					quotient	= (quotient1 << root_length::value) + quotient0,
 					remainder	= remainder0;
 
 			r = remainder;
@@ -76,77 +76,10 @@ struct division
 
 /***********************************************************************************************************************/
 
-	static reg_type knuth_remainder(reg_type s1, reg_type s0, reg_type q, reg_type d)
-	{
-		reg_type	upper,
-				lower			= uint_multiplication::multiply(upper, q, d),
-
-				remainder		= s0 - lower;
-
-		return remainder;
-	}
-
-	inline static reg_type sub_knuth_quotient(reg_type bar_q, reg_type m1, reg_type m0, reg_type d)
-	{
-		reg_type	upper,
-				lower			= uint_multiplication::multiply(upper, bar_q, d);
-
-		bool		greater_than		= (upper != m1 && upper > m1) || lower > m0;
-
-		reg_type	quotient		= bar_q - (greater_than) ? one::value : zero::value;
-
-		return quotient;
-	}
-
 /*
-	algorithm:
+	intuition:	In two digit root_type division, if the first two numerator digits are greater than or equal
+			we simply divide, otherwise we would add an extra root_type digit. This algorithm covers this case.
 
-	| m1 | m0 |		|w2||w1|w0|
-	___________	___	___________
-			___
-	|    d    |		    |y1|y0|
-*/
-
-	inline static reg_type knuth_quotient(reg_type bar_q, reg_type m1, reg_type m0, reg_type d)
-	{
-		reg_type	w2				= m1,
-				w1				= (m0 >> half_length::value),
-				w0				= (low_pass::value & m0),
-
-				dividend			= (w2 << half_length::value) + w1,
-
-				y1				= (d >> half_length::value),
-				y0				= (low_pass::value & d),
-
-				product				= bar_q * y1;
-
-
-		reg_type quotient;
-
-		if (product <= dividend)
-		{
-				quotient			= sub_knuth_quotient(bar_q, m1, m0, d);
-		}
-		else
-		{
-			--bar_q;
-
-			product					= bar_q * y1;
-
-			if (product <= dividend)
-			{
-				quotient			= sub_knuth_quotient(bar_q, m1, m0, d);
-			}
-			else
-			{
-				quotient			= bar_q - one::value;
-			}
-		}
-
-		return quotient;
-	}
-
-/*
 	algorithm:
 
 	| n1 | n0 |				|w2||w1|w0|
@@ -154,41 +87,59 @@ struct division
                      		___	                
 	|    d    |				    |y1|y0|
 
-	Constraints:		|w2| < |y1|y0|
+	Constraints:		|w2|w1| < |y1|y0|
 
-				floor(half_register_base/2) <= y1
+				floor(root_type/2) <= y1
 
-	in addition:		w3 == y1 and w2 < y1,	(eg. 13 < 14),
-	or 		 	w3  < y1		(eg. 03 < 14)
+	lemmata:		w2 == y1 and w1 < y1,	(eg. 13 < 14),
+	or 		 	w2  < y1		(eg. 03 < 14)
 */
 
 	struct knuth
 	{
-		static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
+		static reg_type divide(reg_type & remainder, reg_type n1, reg_type n0, reg_type d)
 		{
-			reg_type	w3			= (n1 >> half_length::value),
-					w2			= (low_pass::value & n1),
+			reg_type	w2			 = n1,
+					w1			 = (n0 >> root_length::value),
+					w0			 = (low_pass::value & n0),
 
-					w1			= (n0 >> half_length::value),
-					w0			= (low_pass::value & n0),
+					y1			 = (d >> root_length::value),
+					y0			 = (low_pass::value & d),
 
-					y1			= (d >> half_length::value),
-					y0			= (low_pass::value & d),
+					dividend		 = (w2 << root_length::value) + w1,
+					upper,
+					lower,
 
-					dividend1		= (w2 << half_length::value) + w1,
-					bar_quotient1		= (w3 >= y1) ? half_max::value : (n1 / y1),
-					quotient1		= knuth_quotient(bar_quotient1, w3, dividend1, d),
-					remainder1		= knuth_remainder(w3, dividend1, quotient1, d),
+					quotient		 = (w2 >= y1) ? root_max::value : (dividend / y1),
+					product			 = quotient * y1;
 
-					dividend0		= (remainder1 << half_length::value) + w1,
-					bar_quotient0		= (remainder1 >= y1) ? half_max::value : (dividend0 / y1),
-					quotient0		= knuth_quotient(bar_quotient0, remainder1, n0, d),
-					remainder0		= knuth_remainder(remainder1, n0, quotient0, d),
+			if (product > dividend)
+			{
+				--quotient;
 
-					quotient		= (quotient1 << half_length::value) + quotient0,
-					remainder		= remainder0;
+					product			 = quotient * y1;
 
-			r = remainder;
+				if (product > dividend)
+				{
+					--quotient;
+				}
+				else
+				{
+					lower			 = uint_multiplication::multiply(upper, quotient, d);
+
+					quotient		-= ((upper != n1 && upper > n1) || lower > n0);
+				}
+			}
+			else
+			{
+					lower			 = uint_multiplication::multiply(upper, quotient, d);
+
+					quotient		-= ((upper != n1 && upper > n1) || lower > n0);
+			}
+
+					lower			 = uint_multiplication::multiply(upper, quotient, d),
+
+					remainder		 = n0 - lower;
 
 			return quotient;
 		}
@@ -199,7 +150,7 @@ struct division
 
 	|w3|w2|w1|w0| / |y1|y0|, where	|w3|w2| < |y1|y0|,
 
-					floor(half_register_base/2) <= y1.
+					floor(root_type/2) <= y1.
 
 
 	algorithm:
@@ -213,36 +164,36 @@ struct division
 
 	in addition:		w3 == y1 and w2 < y1,	(eg. 13 < 14),
 	or 		 	w3  < y1		(eg. 03 < 14)
-*/
 
 	static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 	{
-		reg_type	w3			= (n1 >> half_length::value),
+		reg_type	w3			= (n1 >> root_length::value),
 				w2			= (low_pass::value & n1),
 
-				w1			= (n0 >> half_length::value),
+				w1			= (n0 >> root_length::value),
 				w0			= (low_pass::value & n0),
 
-				y1			= (d >> half_length::value),
+				y1			= (d >> root_length::value),
 				y0			= (low_pass::value & d),
 
-				dividend1		= (w2 << half_length::value) + w1,
-				bar_quotient1		= (w3 >= y1) ? half_max::value : (n1 / y1),
+				dividend1		= (w2 << root_length::value) + w1,
+				bar_quotient1		= (w3 >= y1) ? root_max::value : (n1 / y1),
 				quotient1		= knuth_quotient(bar_quotient1, w3, dividend1, d),
 				remainder1		= knuth_remainder(w3, dividend1, quotient1, d),
 
-				dividend0		= (remainder1 << half_length::value) + w1,
-				bar_quotient0		= (remainder1 >= y1) ? half_max::value : (dividend0 / y1),
+				dividend0		= (remainder1 << root_length::value) + w1,
+				bar_quotient0		= (remainder1 >= y1) ? root_max::value : (dividend0 / y1),
 				quotient0		= knuth_quotient(bar_quotient0, remainder1, n0, d),
 				remainder0		= knuth_remainder(remainder1, n0, quotient0, d),
 
-				quotient		= (quotient1 << half_length::value) + quotient0,
+				quotient		= (quotient1 << root_length::value) + quotient0,
 				remainder		= remainder0;
 
 		r = remainder;
 
 		return quotient;
 	}
+*/
 };
 
 /***********************************************************************************************************************/
@@ -254,7 +205,7 @@ struct division
 
 	r	is the remainder and is offered for runtime optimization.
 
-	A variable is {n,u,l,b}-free (neither, upper, lower, both) based on its half-registers,
+	A variable is {n,u,l,b}-free (neither, upper, lower, both) based on its root_type,
 	and whether or not that information is not yet redundant.
 
 	Note: This is a source code optimization, as far as I can tell,
@@ -265,12 +216,12 @@ template<size_type reg_length> /* typename WordType */
 struct division<reg_length, Performance::optimization>
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
-	using half_length			= typename byte_type<reg_length>::half_type::length;
+	using root_length			= typename byte_type<reg_length>::half_type::length;
 	using low_pass				= typename byte_type<reg_length>::low_pass;
 
 	//
 
-	struct half_type
+	struct root_type
 	{
 		static reg_type divide(reg_type & r, reg_type n1, reg_type n0, reg_type d)
 		{
@@ -278,7 +229,7 @@ struct division<reg_length, Performance::optimization>
 				  // n1 is u-free.
 				  // n0 is n-free.
 
-			r	= (n1 << half_length::value) + (n0 >> half_length::value);	// dividend1
+			r	= (n1 << root_length::value) + (n0 >> root_length::value);	// dividend1
 				  // r  is n-free.
 				  // n1 is b-free.
 				  // n0 is u-free.
@@ -293,7 +244,7 @@ struct division<reg_length, Performance::optimization>
 				  // n1 is u-free.
 				  // n0 is u-free.
 
-			n0	= (r << half_length::value) + (low_pass::value & n0);		// dividend0
+			n0	= (r << root_length::value) + (low_pass::value & n0);		// dividend0
 				  // r  is b-free.
 				  // n1 is u-free.
 				  // n0 is n-free.
@@ -308,7 +259,7 @@ struct division<reg_length, Performance::optimization>
 				  // n1 is u-free.
 				  // n0 is u-free.
 
-			n1	= (n1 << half_length::value) + r;
+			n1	= (n1 << root_length::value) + r;
 				  // r  is b-free.
 				  // n1 is n-free.
 				  // n0 is u-free.

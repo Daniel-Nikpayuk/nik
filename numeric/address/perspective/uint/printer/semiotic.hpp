@@ -73,7 +73,7 @@ template
 	template<typename sub_type, typename ob_type>
 	static void print(sub_type sub, ob_type ob, ob_type end, reg_type d = 10)
 	{
-		sub_type sub_end = uint_change_of_base::half_type::change_base(sub, ob, end, d);
+		sub_type sub_end = uint_change_of_base::root_type::change_base(sub, ob, end, d);
 
 			//
 

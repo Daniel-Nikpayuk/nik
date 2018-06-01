@@ -52,7 +52,7 @@ template
 {
 	using reg_type					= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_half_divide_assign		= map_half_divide_assign
+	using uint_map_root_divide_assign		= map_root_divide_assign
 							<
 								reg_length,
 								sub_adjective
@@ -69,12 +69,12 @@ template
 	we can guarantee the leading digit is always less than the divisor.
 */
 
-	struct half_type
+	struct root_type
 	{
 		template<typename sub_type>
 		static void divide(reg_type & r, sub_type sub, sub_type end, reg_type d)
 		{
-			uint_map_half_divide_assign umhda(r, d);
+			uint_map_root_divide_assign umhda(r, d);
 
 			generic::map(umhda, sub, end);
 		}
@@ -116,7 +116,7 @@ template
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
-	using uint_map_half_divide		= map_half_divide<reg_length, sub_adjective, ob_adjective>;
+	using uint_map_root_divide		= map_root_divide<reg_length, sub_adjective, ob_adjective>;
 
 	//
 
@@ -129,12 +129,12 @@ template
 	we can guarantee the leading digit is always less than the divisor.
 */
 
-	struct half_type
+	struct root_type
 	{
 		template<typename sub_type, typename ob_type>
 		static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
 		{
-			uint_map_half_divide umhd(r, d);
+			uint_map_root_divide umhd(r, d);
 
 			return generic::map(umhd, sub, ob, end);
 		}
