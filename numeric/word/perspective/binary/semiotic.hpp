@@ -15,35 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+/*
+*/
+
+struct binary
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::semiotic, SizeType>
-	{
-		using size_type		= SizeType;
+	#include"adverb/semiotic.hpp"
 
-		//
+		// characteristic:
 
-		#include nik_unpack(constant)
-		#include nik_unpack(builtin)
-		#include nik_unpack(pointer)
-		#include nik_unpack(power)
-
-		#include nik_unpack(bit)
-
-		//
-
-		#include"interface/adjective/semiotic.hpp"
-		#include"interface/navigator/semiotic.hpp"
-//		#include"interface/navigator/boolean/semiotic.hpp"
-		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
-
-		//
-
-		#include"perspective/adjective/semiotic.hpp"
-		#include"perspective/binary/semiotic.hpp"
-		#include"perspective/uint/semiotic.hpp"
-	};
-}
+	#include"characteristic/semiotic.hpp"
+};
 

@@ -19,13 +19,13 @@
 */
 
 template<size_type reg_length, Performance performance = Performance::specification> /* typename WordType,*/
-struct polynomial
+struct characteristic
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
 	using zero				= typename Constant::template zero<reg_type>;
 
-	using uint_map_polynomial		= map_polynomial
+	using uint_map_characteristic		= map_characteristic
 						<
 							reg_length
 						>;
@@ -36,18 +36,18 @@ struct polynomial
 
 	static reg_type degree(reg_type value)
 	{
-		uint_map_polynomial ump;
+		uint_map_characteristic umc;
 
-		generic::map(ump, value, zero::value);
+		generic::map(umc, value, zero::value);
 
-		return ump.value;
+		return umc.value;
 	}
 };
 
 /***********************************************************************************************************************/
 
 template<typename Type, size_type N = builtin<Type>::length::value>
-struct polynomial_unroll
+struct characteristic_unroll
 {
 	using reg_type				= Type;
 
@@ -56,9 +56,13 @@ struct polynomial_unroll
 
 	using half_length			= constant<reg_type, (reg_type) (N >> one::value)>;
 
-	using sub_type				= polynomial_unroll<reg_type, half_length::value>;
+	using sub_type				= characteristic_unroll<reg_type, half_length::value>;
 
-	using high_pass				= constant<reg_type, (reg_type) ~((one::value << half_length::value) - 1)>;
+	using high_pass				= constant
+						<
+							reg_type,
+							(reg_type) ~((one::value << half_length::value) - one::value)
+						>;
 
 	//
 
@@ -75,7 +79,7 @@ struct polynomial_unroll
 };
 
 template<typename Type>
-struct polynomial_unroll<Type, One::value>
+struct characteristic_unroll<Type, One::value>
 {
 	using reg_type = Type;
 
@@ -89,13 +93,13 @@ struct polynomial_unroll<Type, One::value>
 */
 
 template<size_type reg_length> /* typename WordType */
-struct polynomial<reg_length, Performance::optimization>
+struct characteristic<reg_length, Performance::optimization>
 {
 	using reg_type = typename byte_type<reg_length>::reg_type;
 
 	static reg_type degree(reg_type value)
 	{
-		return polynomial_unroll<reg_type>::degree(value);
+		return characteristic_unroll<reg_type>::degree(value);
 	}
 };
 

@@ -15,35 +15,42 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+/*
+	map_characteristic
+*/
+
+template<size_type reg_length>
+struct map_characteristic
 {
-	template<typename SizeType>
-	struct space<Branch::numeric, Module::word, Permission::semiotic, SizeType>
+	using reg_type			= typename byte_type<reg_length>::reg_type;
+
+	using zero			= typename Constant::template zero<reg_type>;
+
+	using one			= typename Constant::template one<reg_type>;
+
+	//
+
+	reg_type value;
+
+	map_characteristic() : value(zero::value) { }
+
+	inline void first_iteration(reg_type & sub)
 	{
-		using size_type		= SizeType;
+		sub >>= one::value;
+	}
 
-		//
+	inline void main_action(reg_type sub)
+	{
+		++value;
+	}
 
-		#include nik_unpack(constant)
-		#include nik_unpack(builtin)
-		#include nik_unpack(pointer)
-		#include nik_unpack(power)
+	inline void main_iteration(reg_type & sub)
+	{
+		sub >>= one::value;
+	}
 
-		#include nik_unpack(bit)
-
-		//
-
-		#include"interface/adjective/semiotic.hpp"
-		#include"interface/navigator/semiotic.hpp"
-//		#include"interface/navigator/boolean/semiotic.hpp"
-		#include"interface/structure/semiotic.hpp"
-//		#include"interface/structure/boolean/semiotic.hpp"
-
-		//
-
-		#include"perspective/adjective/semiotic.hpp"
-		#include"perspective/binary/semiotic.hpp"
-		#include"perspective/uint/semiotic.hpp"
-	};
-}
+	inline void last_action(reg_type)
+	{
+	}
+};
 

@@ -45,6 +45,7 @@ namespace nik
 		//
 
 		#include"perspective/adjective/semiotic.hpp"
+		#include"perspective/binary/semiotic.hpp"
 		#include"perspective/uint/semiotic.hpp"
 	};
 }
