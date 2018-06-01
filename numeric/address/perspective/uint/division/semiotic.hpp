@@ -69,13 +69,16 @@ template
 	we can guarantee the leading digit is always less than the divisor.
 */
 
-	template<typename sub_type>
-	static void divide(reg_type & r, sub_type sub, sub_type end, reg_type d)
+	struct half_type
 	{
-		uint_map_half_divide_assign umhda(r, d);
+		template<typename sub_type>
+		static void divide(reg_type & r, sub_type sub, sub_type end, reg_type d)
+		{
+			uint_map_half_divide_assign umhda(r, d);
 
-		generic::map(umhda, sub, end);
-	}
+			generic::map(umhda, sub, end);
+		}
+	};
 };
 
 /*
@@ -126,13 +129,16 @@ template
 	we can guarantee the leading digit is always less than the divisor.
 */
 
-	template<typename sub_type, typename ob_type>
-	static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
+	struct half_type
 	{
-		uint_map_half_divide umhd(r, d);
+		template<typename sub_type, typename ob_type>
+		static sub_type divide(reg_type & r, sub_type sub, ob_type ob, ob_type end, reg_type d)
+		{
+			uint_map_half_divide umhd(r, d);
 
-		return generic::map(umhd, sub, ob, end);
-	}
+			return generic::map(umhd, sub, ob, end);
+		}
+	};
 };
 
 /*

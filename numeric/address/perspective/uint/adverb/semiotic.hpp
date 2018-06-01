@@ -33,7 +33,7 @@
 	map_half_divide
 	map_divide
 
-	map_change_base
+	map_half_change_base
 */
 
 /***********************************************************************************************************************/
@@ -567,7 +567,7 @@ struct map_half_divide_assign
 	template<typename sub_type>
 	inline void main_action(sub_type sub)
 	{
-		*sub = word_division::divide(remainder, remainder, *sub, divisor);
+		*sub = word_division::half_type::divide(remainder, remainder, *sub, divisor);
 	}
 
 	template<typename sub_type>
@@ -581,7 +581,7 @@ struct map_half_divide_assign
 	{
 		if (sub_adjective::is_terminal_closed::value)
 		{
-			*sub = word_division::divide(remainder, remainder, *sub, divisor);
+			*sub = word_division::half_type::divide(remainder, remainder, *sub, divisor);
 		}
 	}
 };
@@ -616,7 +616,7 @@ struct map_half_divide
 	template<typename sub_type, typename ob_type>
 	inline void main_action(sub_type sub, ob_type ob)
 	{
-		*sub = word_division::divide(remainder, remainder, *ob, divisor);
+		*sub = word_division::half_type::divide(remainder, remainder, *ob, divisor);
 	}
 
 	template<typename sub_type, typename ob_type>
@@ -631,7 +631,7 @@ struct map_half_divide
 	{
 		if (ob_adjective::is_terminal_closed::value)
 		{
-			*sub = word_division::divide(remainder, remainder, *ob, divisor);
+			*sub = word_division::half_type::divide(remainder, remainder, *ob, divisor);
 		}
 	}
 };
@@ -700,7 +700,7 @@ template
 	typename sub_adjective, typename ob_adjective,
 	typename ob_type
 
-> struct map_change_base
+> struct map_half_change_base
 {
 	using reg_type				= typename byte_type<reg_length>::reg_type;
 
@@ -740,7 +740,7 @@ template
 	compare_zero_first czf;
 	compare_zero_main czm;
 
-	map_change_base(ob_type e, reg_type d) : end(e), divisor(d) { }
+	map_half_change_base(ob_type e, reg_type d) : end(e), divisor(d) { }
 
 	template<typename sub_type>
 	inline void first_iteration(sub_type & sub, ob_type & ob)
@@ -758,7 +758,7 @@ template
 	inline void main_action(sub_type sub, ob_type ob)
 	{
 		remainder = zero::value;
-		division_main::divide(remainder, ob, end, divisor);
+		division_main::half_type::divide(remainder, ob, end, divisor);
 		*sub = remainder;
 	}
 
