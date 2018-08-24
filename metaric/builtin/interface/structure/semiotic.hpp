@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+#include"limits-semiotic.hpp"
+
 /*
 */
 
@@ -124,7 +126,7 @@ template
 	using low_pass			= constant<reg_type, (reg_type) half_type::max::value>;
 	using high_pass			= constant<reg_type, max::value & ~low_pass::value>;
 
-	using upper			= constant<reg_type, (reg_type) (half_type::max::value + one::value)>;
-	using lower			= constant<reg_type, max::value>;
+//	using upper			= constant<reg_type, (reg_type) (half_type::max::value + one::value)>;
+//	using lower			= constant<reg_type, max::value>;
 };
 
