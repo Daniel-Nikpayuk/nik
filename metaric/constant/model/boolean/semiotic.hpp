@@ -15,8 +15,14 @@
 **
 ************************************************************************************************************************/
 
-struct Boolean
+struct boolean
 {
+			  template<typename Type, Type... Value>
+	using sconstant	= typename structure::template constant<Type, Value...>;
+
+			  template<bool Value>
+	using sboolean	= typename structure::template boolean<Value>;
+
 /*
 	Not:
 */
@@ -24,9 +30,9 @@ struct Boolean
 	template<typename> struct Not;
 
 	template<bool Value>
-	struct Not<boolean<Value>>
+	struct Not<sboolean<Value>>
 	{
-		using rtn = boolean<!Value>;
+		using rtn = sboolean<!Value>;
 	};
 
 /*
@@ -36,19 +42,19 @@ struct Boolean
 	template<typename, typename...> struct And;
 
 	template<bool Value>
-	struct And<constant<bool, Value>>
+	struct And<sconstant<bool, Value>>
 	{
-		using rtn = boolean<Value>;
+		using rtn = sboolean<Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<boolean<false>, Exp, Exps...>
+	struct And<sboolean<false>, Exp, Exps...>
 	{
-		using rtn = boolean<false>;
+		using rtn = sboolean<false>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<boolean<true>, Exp, Exps...>
+	struct And<sboolean<true>, Exp, Exps...>
 	{
 		using rtn = typename And<Exp, Exps...>::rtn;
 	};
@@ -66,19 +72,19 @@ struct Boolean
 	template<typename, typename...> struct Or;
 
 	template<bool Value>
-	struct Or<constant<bool, Value>>
+	struct Or<sconstant<bool, Value>>
 	{
-		using rtn = boolean<Value>;
+		using rtn = sboolean<Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<boolean<true>, Exp, Exps...>
+	struct Or<sboolean<true>, Exp, Exps...>
 	{
-		using rtn = boolean<true>;
+		using rtn = sboolean<true>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<boolean<false>, Exp, Exps...>
+	struct Or<sboolean<false>, Exp, Exps...>
 	{
 		using rtn = typename Or<Exp, Exps...>::rtn;
 	};

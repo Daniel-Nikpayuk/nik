@@ -21,6 +21,8 @@
 
 struct proximity
 {
+	#include nik_using(../../../.., constant)
+
 /*
 	less than:
 */

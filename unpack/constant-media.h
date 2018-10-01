@@ -15,5 +15,5 @@
 **
 ************************************************************************************************************************/
 
-using Constant		= nik::metaric<Module::constant, Permission::media, size_type>;
+using Constant = nik::metaric<Module::constant, Permission::media, size_type>;
 

@@ -18,22 +18,22 @@
 using Constant		= nik::metaric<Module::constant, Permission::semiotic, size_type>;
 
 			  template<typename Type, Type... params>
-using constant		= typename Constant::template constant<Type, params...>;
+using constant		= typename Constant::structure::template constant<Type, params...>;
 
 			  template<bool value>
-using boolean		= typename Constant::template boolean<value>;
+using boolean		= typename Constant::structure::template boolean<value>;
 
 //
 
-using Zero		= typename Constant::template zero<size_type>;
+using Zero		= typename Constant::structure::template zero<size_type>;
 
-using One		= typename Constant::template one<size_type>;
+using One		= typename Constant::structure::template one<size_type>;
 
-using Two		= typename Constant::template two<size_type>;
+using Two		= typename Constant::structure::template two<size_type>;
 
-using Three		= typename Constant::template three<size_type>;
+using Three		= typename Constant::structure::template three<size_type>;
 
-using Nibble		= typename Constant::template nibble<size_type>;
+using Nibble		= typename Constant::structure::template nibble<size_type>;
 
-using Byte		= typename Constant::template byte<size_type>;
+using Byte		= typename Constant::structure::template byte<size_type>;
 

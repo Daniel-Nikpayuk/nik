@@ -17,6 +17,8 @@
 
 struct identity
 {
+	#include nik_using(../../../.., constant)
+
 /*
 	is equal:
 
