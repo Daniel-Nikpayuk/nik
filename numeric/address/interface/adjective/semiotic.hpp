@@ -24,11 +24,3 @@ enum struct Depth : size_type
 	dimension
 };
 
-template
-<
-	typename WordType,
-	size_type length,
-	typename Filler = void
-
-> struct address;
-

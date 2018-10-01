@@ -30,10 +30,8 @@ namespace nik
 
 		//
 
-		#include"interface/adjective/semiotic.hpp"
 		#include"interface/navigator/semiotic.hpp"
 		#include"interface/structure/semiotic.hpp"
-		#include"interface/structure/boolean/semiotic.hpp"
 	};
 }
 

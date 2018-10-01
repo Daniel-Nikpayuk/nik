@@ -15,6 +15,14 @@
 **
 ************************************************************************************************************************/
 
+template
+<
+	typename WordType,
+	size_type length,
+	typename Filler = void
+
+> struct address;
+
 /*
 	address type		:= (0 + 1)^np;
 	address instance	:= m^i/m^j/s^k, m^i/m^j/s^l in (0 + 1)^np -> k = l;
@@ -91,4 +99,79 @@ template
 		return value;
 	}
 };
+
+
+#define define_word(int_length, int_type)										\
+															\
+template														\
+<															\
+	typename Filler													\
+															\
+> struct word														\
+<															\
+	bit<bool>,													\
+	(int_length),													\
+	Filler														\
+>															\
+{															\
+	using type			= word;										\
+	using type_ref			= type&;									\
+	using type_ptr			= type*;									\
+					=       									\
+	using value_type		= (int_type);									\
+	using value_type_ref		= value_type&;									\
+	using value_type_ptr		= value_type*;									\
+					=       									\
+	using iterator			= (int_type)*;									\
+	using const_iterator		= (int_type) const*;								\
+					=       									\
+	using navigator			= coword<type>;									\
+	using const_navigator		= coword<type, Access::readonly>;						\
+															\
+	value_type value;												\
+															\
+	word() { }													\
+															\
+	word(const type & w) : value(w.value) { }									\
+															\
+	~word() { }													\
+															\
+	navigator begin()												\
+	{														\
+		return navigator(1, value);										\
+	}														\
+															\
+	const_navigator begin() const											\
+	{														\
+		return navigator(1, value);										\
+	}														\
+															\
+	navigator end()													\
+	{														\
+		return navigator(1 << (int_length), value);								\
+	}														\
+															\
+	const_navigator end() const											\
+	{														\
+		return navigator(1 << (int_length), value);								\
+	}														\
+};															\
+
+
+/*
+	Although the template parameter allows for arbitrary types, word is meant specifically for register sizes:
+
+	8 << 0, unsigned char
+	8 << 1, unsigned short
+	8 << 2, unsigned int
+	8 << 3, unsigned long
+*/
+
+define_word(8 << 0, unsigned char)
+define_word(8 << 1, unsigned short)
+define_word(8 << 2, unsigned int)
+define_word(8 << 3, unsigned long)
+
+
+#undef define_word
 

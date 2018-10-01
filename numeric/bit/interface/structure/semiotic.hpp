@@ -15,6 +15,13 @@
 **
 ************************************************************************************************************************/
 
+template
+<
+	typename RegType,
+	typename Filler = void
+
+> struct bit;
+
 /*
 	bit type	:= 0 + 1;
 	bit instance	:= s^1, s^2;
@@ -80,6 +87,79 @@ template
 	const_navigator end() const
 	{
 		return value = One::value;
+	}
+};
+
+/*
+	bit type	:= 0 + 1;
+	bit instance	:= s^1, s^2;
+
+	A bit is a copower of RegType.
+
+	Although the template parameter allows for arbitrary types, cobit is meant specifically for the register size:
+
+	2 << 0, bool
+
+	Optimized for structural redundancy reduction.
+*/
+
+template
+<
+	typename Filler
+
+> struct bit
+<
+	bool,
+	Filler
+>
+{
+	using type				= bit;
+	using type_ref				= type&;
+	using type_ptr				= type*;
+
+	using value_type			= bool;
+	using value_type_ref			= value_type&;
+	using value_type_ptr			= value_type*;
+
+		// In this special case, the iterator
+		// of the grammatical construct is itself.
+
+	using iterator				= bool;
+	using const_iterator			= bool const;
+
+	using navigator				= cobit<type>;
+	using const_navigator			= cobit<type, Access::readonly>;
+
+	value_type value;
+
+		// type:
+
+	bit() : value(false) { }
+
+	~bit() { }
+
+		// value:
+
+		// navigator:
+
+	navigator begin()
+	{
+		return value;
+	}
+
+	const_navigator begin() const
+	{
+		return value;
+	}
+
+	navigator end()
+	{
+		return value = true;
+	}
+
+	const_navigator end() const
+	{
+		return value = true;
 	}
 };
 

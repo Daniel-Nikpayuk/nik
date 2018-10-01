@@ -105,3 +105,81 @@ template
 	}
 };
 
+/*
+	Cobit as a specification holds the copower used to construct the bit structure.
+
+	This would be redundant except the additional specification information
+	offered by a bit means we can optimize the navigational interface here.
+*/
+
+template
+<
+	typename RegType,
+	template<class> typename Bit,
+
+	Access access
+
+> struct cobit
+<
+	Bit<bool>,
+	access
+>
+{
+	using type			= cobit;
+	using type_ref			= type&;
+	using type_ptr			= type*;
+
+	using const_type		= cobit<Bit<bool>, Access::readonly>;
+
+	using value_type		= typename read_type<bool, access>::rtn;
+	using value_type_ref		= value_type&;
+	using value_type_ptr		= value_type*;
+
+	value_type_ref focus;
+
+		// type:
+
+	cobit() { }
+
+	cobit(value_type & b) : focus(b) { }
+
+	~cobit() { }
+
+	bool operator == (const type & n) const
+	{
+		return focus == n.focus;
+	}
+
+	bool operator != (const type & n) const
+	{
+		return focus != n.focus;
+	}
+
+		// Exists to convert readwrite to readonly.
+		// Is redundant when already readonly.
+
+	operator const_type () const
+	{
+		return (const_type) this;
+	}
+
+		// value:
+
+	value_type_ref operator * () const
+	{
+		return focus;
+	}
+
+		// navigator:
+
+	void operator + ()
+	{
+		focus = true;
+	}
+
+	void operator - ()
+	{
+		focus = false;
+	}
+};
+

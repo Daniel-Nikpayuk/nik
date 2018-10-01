@@ -16,6 +16,18 @@
 ************************************************************************************************************************/
 
 /*
+	I prefer to use template template pattern matching in implementing,
+	but GCC has given me an internal compiler error. As such, I default back to predeclarations:
+*/
+
+template
+<
+	typename Type,
+	size_type length
+
+> struct power;
+
+/*
 	In the context of this library, powers are the products of concurrent instances of the same type.
         The basic methods for the objects of this class are called as external static functions
 	allowing for identity, proximity, and functor methods between various lengths.

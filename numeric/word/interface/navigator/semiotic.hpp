@@ -143,3 +143,128 @@ template
 	}
 };
 
+
+#define define_coword(int_length, int_type)										\
+															\
+template														\
+<															\
+	template<class, size_type> typename Word,									\
+															\
+	Access access													\
+															\
+> struct coword														\
+<															\
+	Word<bit<bool>, (int_length)>,											\
+	access														\
+>															\
+{															\
+	using type				= coword;								\
+	using type_ref				= type&;								\
+	using type_ptr				= type*;								\
+															\
+	using const_type			= coword<Word<bit<bool>, (int_length)>, Access::readonly>;		\
+															\
+	using value_type			= typename read_type<typename Word<bit<bool>, length>::value_type>::rtn;\
+	using value_type_ref			= value_type&;								\
+	using value_type_ptr			= value_type*;								\
+															\
+	using bit_iterator			= typename bit<bool>::iterator;						\
+	using const_bit_iterator		= typename bit<bool>::const_iterator;					\
+															\
+	using word_iterator			= typename Word<bit<bool>, length>::iterator;				\
+	using const_word_iterator		= typename Word<bit<bool>, length>::const_iterator;			\
+															\
+	Depth depth;													\
+															\
+	bit_iterator bit_focus;												\
+															\
+	word_iterator word_focus;											\
+															\
+	byte_type location;												\
+	byte_type *name;												\
+															\
+	coword(byte_type l, byte_type & n) : location(l)								\
+	{														\
+		name = &n;												\
+	}														\
+															\
+	~coword() { }													\
+															\
+	operator const_type () const											\
+	{														\
+		return (const_type) this;										\
+	}														\
+															\
+	const bit_type operator * () const										\
+	{														\
+		return *name & location;										\
+	}														\
+															\
+	void operator + ()												\
+	{														\
+		*name ^= location;											\
+	}														\
+															\
+	void operator - ()												\
+	{														\
+		*name &= ~location;											\
+	}														\
+															\
+	type_ref operator ++ ()												\
+	{														\
+		location<<=1;												\
+															\
+		return *this;												\
+	}														\
+															\
+	type operator ++ (int)												\
+	{														\
+		return coword(location<<1, name);									\
+	}														\
+															\
+	type_ref operator += (byte_type n)										\
+	{														\
+		location<<=n;												\
+															\
+		return *this;												\
+	}														\
+															\
+	type operator + (byte_type n) const										\
+	{														\
+		return coword(location<<n, name);									\
+	}														\
+															\
+	type_ref operator -- ()												\
+	{														\
+		location>>=1;												\
+															\
+		return *this;												\
+	}														\
+															\
+	type operator -- (int)												\
+	{														\
+		return coword(location>>1, name);									\
+	}														\
+															\
+	type_ref operator -= (byte_type n)										\
+	{														\
+		location>>=n;												\
+															\
+		return *this;												\
+	}														\
+															\
+	type operator - (byte_type n) const										\
+	{														\
+		return coword(location>>n, name);									\
+	}														\
+};															\
+
+
+define_coword(8 << 0, unsigned char)
+define_coword(8 << 1, unsigned short)
+define_coword(8 << 2, unsigned long)
+define_coword(8 << 3, unsigned long long)
+
+
+#undef define_coword
+
