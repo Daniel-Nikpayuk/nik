@@ -15,24 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+	template<typename Expression1, typename Expression2>
+	struct is_equal
 	{
-		using size_type = SizeType;
+		static_assert
+		(
+			is_constant<Expression1>::rtn::value &&
+			is_constant<Expression2>::rtn::value ,
 
-		//
+			"error: not a constant!"
+		);
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
+		using rtn = boolean
+		<
+			Empty::identity::template is_equal<Expression1, Expression2>::value
+		>;
 	};
-}
+};
 

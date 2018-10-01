@@ -24,26 +24,20 @@ namespace nik
 
 		//
 
+		#include nik_unpack(empty)
+
+		//
+
 		#include"interface/structure/semiotic.hpp"
 
 		//
 
-//		#include"perspective/alias/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
 
-//		#include"perspective/empty/semiotic.hpp"
-//		#include"perspective/is_constant/semiotic.hpp"
+		//
 
-//		#include"perspective/equal/semiotic.hpp"
-//		#include"perspective/less_than/semiotic.hpp"
-//		#include"perspective/less_than_or_equal/semiotic.hpp"
-//		#include"perspective/greater_than/semiotic.hpp"
-//		#include"perspective/greater_than_or_equal/semiotic.hpp"
-
-//		#include"perspective/Not/semiotic.hpp"
-//		#include"perspective/And/semiotic.hpp"
-//		#include"perspective/Or/semiotic.hpp"
-
-//		#include"printer/semiotic.hpp"
+		#include"model/boolean/semiotic.hpp"
 	};
 }
 

@@ -28,10 +28,13 @@ namespace nik
 
 	enum struct Module : global_size_type
 	{
+		empty,
 		constant,
+		tuple,
 		conditional,
 		builtin,
 
+		generic,
 		pointer,
 		power,
 

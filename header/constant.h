@@ -18,6 +18,8 @@
 #ifndef CONSTANT_H
 #define CONSTANT_H
 
+#include"empty.h"
+
 #include"../metaric/constant/semiotic.h"
 #include"../metaric/constant/media.h"
 

@@ -15,24 +15,10 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
-	{
-		using size_type = SizeType;
+using Empty		= nik::metaric<Module::empty, Permission::semiotic, size_type>;
 
-		//
+//
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
-	};
-}
+			  template<typename Expression>
+using act		= typename Empty::template act<Expression>;
 

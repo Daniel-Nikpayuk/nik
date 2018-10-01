@@ -15,24 +15,41 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+template<typename...> struct functor;
+
+/*
+	unary:
+*/
+
+template<typename sub_adjective>
+struct functor<sub_adjective>
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+		// set:
+
+	template<typename sub_type, typename value_type>
+	static void set(sub_type sub, sub_type end, value_type value)
 	{
-		using size_type = SizeType;
+		map_set<sub_adjective, value_type> ms(value);
 
-		//
+		generic::map(ms, sub, end);
+	}
+};
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
+/*
+	binary:
+*/
 
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
+template<typename sub_adjective, typename ob_adjective>
+struct functor<sub_adjective, ob_adjective>
+{
+		// assign:
 
-		//
+	template<typename sub_type, typename ob_type>
+	static sub_type assign(sub_type sub, ob_type ob, ob_type end)
+	{
+		map_assign<sub_adjective, ob_adjective> ma;
 
-		#include"perspective/identity/media.hpp"
-	};
-}
+		return generic::map(ma, sub, ob, end);
+	}
+};
 

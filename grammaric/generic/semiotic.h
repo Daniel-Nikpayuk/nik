@@ -18,21 +18,31 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+	struct space<Branch::grammaric, Module::power, Permission::semiotic, SizeType>
 	{
-		using size_type = SizeType;
+		using size_type		= SizeType;
 
 		//
 
-		#include nik_unpack(empty)
 		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
+		#include nik_unpack(conditional)
+		#include nik_unpack(pointer)
 
 		//
 
-		#include"perspective/identity/media.hpp"
+		#include"interface/navigator/semiotic.hpp"
+		#include"interface/structure/semiotic.hpp"
+
+		//
+
+		#include"perspective/adjective/semiotic.hpp"
+		#include"perspective/adverb/semiotic.hpp"
+
+		#include"perspective/generic/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
+		#include"perspective/printer/semiotic.hpp"
 	};
 }
 

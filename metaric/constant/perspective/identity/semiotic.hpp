@@ -15,24 +15,43 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+/*
+	is equal:
+
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+*/
+
+	template<typename Expression1, typename Expression2>
+	struct is_equal
 	{
-		using size_type = SizeType;
-
-		//
-
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
+		using rtn = boolean
+		<
+			Empty::identity::template is_equal<Expression1, Expression2>::value
+		>;
 	};
-}
+
+/*
+	is constant:
+*/
+
+	template<typename>
+	struct is_constant
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Type, Type... Value>
+	struct is_constant<constant<Type, Value...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_constant<act<Exp>>
+	{
+		using rtn = typename is_constant<typename Exp::rtn>::rtn;
+	};
+};
 

@@ -15,24 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
-	{
-		using size_type = SizeType;
+#ifndef TUPLE_H
+#define TUPLE_H
 
-		//
+#include"constant.h"
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
+#include"../metaric/tuple/semiotic.h"
+#include"../metaric/tuple/media.h"
 
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
-	};
-}
-
+#endif

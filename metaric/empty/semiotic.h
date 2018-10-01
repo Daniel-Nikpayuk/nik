@@ -18,21 +18,14 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+	struct space<Branch::metaric, Module::empty, Permission::semiotic, SizeType>
 	{
 		using size_type = SizeType;
 
 		//
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
+		#include"perspective/policy/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
 	};
 }
 

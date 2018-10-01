@@ -15,24 +15,25 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+template<typename sub_adjective>
+struct printer
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+		// print:
+
+	template<typename sub_type>
+	static void print(sub_type sub, sub_type end)
 	{
-		using size_type = SizeType;
+		map_print<sub_adjective> mp;
 
-		//
+		generic::map(mp, sub, end);
+	}
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
+	template<typename sub_type, typename separator_type>
+	static void print(sub_type sub, sub_type end, const separator_type & s)
+	{
+		map_print<sub_adjective, separator_type> mp(s);
 
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
-	};
-}
+		generic::map(mp, sub, end);
+	}
+};
 

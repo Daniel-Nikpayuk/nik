@@ -18,8 +18,7 @@
 #ifndef POWER_H
 #define POWER_H
 
-#include"conditional.h"
-#include"pointer.h"
+#include"generic.h"
 
 #include"../grammaric/power/semiotic.h"
 #include"../grammaric/power/media.h"

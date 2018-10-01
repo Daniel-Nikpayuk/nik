@@ -15,24 +15,38 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+	template<typename Type1, typename Type2>
+	struct is_equal
 	{
-		using size_type = SizeType;
-
-		//
-
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
-		#include"perspective/identity/media.hpp"
+		static constexpr bool value = false;
 	};
-}
+
+	template<typename Type>
+	struct is_equal<Type, Type>
+	{
+		static constexpr bool value = true;
+	};
+
+	//
+
+	template<typename Type, typename Exp>
+	struct is_equal<Type, act<Exp>>
+	{
+		static constexpr bool value = is_equal<Type, typename Exp::rtn>::value;
+	};
+
+	template<typename Exp, typename Type>
+	struct is_equal<act<Exp>, Type>
+	{
+		static constexpr bool value = is_equal<typename Exp::rtn, Type>::value;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal<act<Exp1>, act<Exp2>>
+	{
+		static constexpr bool value = is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
+	};
+};
 

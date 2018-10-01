@@ -15,24 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
-	{
-		using size_type = SizeType;
+using Conditional	= nik::metaric<Module::conditional, Permission::semiotic, size_type>;
 
-		//
+//
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
+			  template<typename P, typename E>
+using if_then		= typename Conditional::template if_then<P, E>;
 
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
+			  template<typename P, typename E>
+using else_then		= typename Conditional::template else_then<P, E>;
 
-		//
+			  template<typename E>
+using then		= typename Conditional::template then<E>;
 
-		#include"perspective/identity/media.hpp"
-	};
-}
+//
+
+			  template<typename P, typename E1, typename E2>
+using conditional	= typename Conditional::template conditional<P, E1, E2>;
+
+			  template<typename... params>
+using block		= typename Conditional::template block<params...>;
 

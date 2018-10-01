@@ -37,3 +37,79 @@ struct is_tuple
 	>::rtn;
 };
 
+struct identity
+{
+/*
+	is equal:
+*/
+	template<typename Type1, typename Type2>
+	struct is_equal
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Type>
+	struct is_equal<Type, Type>
+	{
+		using rtn = boolean<true>;
+	};
+
+	//
+
+	template<typename Type, typename Exp>
+	struct is_equal<Type, act<Exp>>
+	{
+		using rtn = typename is_equal<Type, typename Exp::rtn>::rtn;
+	};
+
+	template<typename Exp, typename Type>
+	struct is_equal<act<Exp>, Type>
+	{
+		using rtn = typename is_equal<typename Exp::rtn, Type>::rtn;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal<act<Exp1>, act<Exp2>>
+	{
+		using rtn = typename is_equal<typename Exp1::rtn, typename Exp2::rtn>::rtn;
+	};
+
+/*
+	is constant:
+*/
+
+	template<typename>
+	struct is_constant
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Type, Type... Value>
+	struct is_constant<constant<Type, Value...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_constant<act<Exp>>
+	{
+		using rtn = typename is_constant<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is empty:
+*/
+
+	template<typename...>
+	struct empty
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp, typename... Exps>
+	struct empty<Exp, Exps...>
+	{
+		using rtn = boolean<false>;
+	};
+};
+

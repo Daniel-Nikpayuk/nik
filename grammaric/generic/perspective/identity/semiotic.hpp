@@ -15,24 +15,57 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+template<typename...> struct identity;
+
+/*
+	unary:
+*/
+
+template<typename sub_adjective>
+struct identity<sub_adjective>
 {
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::media, SizeType>
+		// zero:
+
+	template<typename sub_type>
+	static bool zero(sub_type sub, sub_type end)
 	{
-		using size_type = SizeType;
+		compare_zero<sub_adjective> cz;
 
-		//
+		generic::compare(cz, sub, end);
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
+		return cz.value;
+	}
+};
 
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
+/*
+	binary:
+*/
 
-		//
+template<typename sub_adjective, typename ob_adjective>
+struct identity<sub_adjective, ob_adjective>
+{
+		// equals:
 
-		#include"perspective/identity/media.hpp"
-	};
-}
+	template<typename sub_type, typename ob_type>
+	static bool equals(sub_type sub, ob_type ob, ob_type end)
+	{
+		compare_equal<sub_adjective, ob_adjective> ce;
+
+		generic::compare(ce, sub, ob, end);
+
+		return ce.value;
+	}
+
+		// not equals:
+
+	template<typename sub_type, typename ob_type>
+	static bool not_equals(sub_type sub, ob_type ob, ob_type end)
+	{
+		compare_not_equal<sub_adjective, ob_adjective> cne;
+
+		generic::compare(cne, sub, ob, end);
+
+		return cne.value;
+	}
+};
 
