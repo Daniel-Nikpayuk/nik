@@ -15,50 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifndef METARIC_BUILTIN_SEMIOTIC_H
+#define METARIC_BUILTIN_SEMIOTIC_H
 
-namespace nik
-{
-	using global_size_type = size_t;
+#include<climits>
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead!
+#include"conditional.h"
 
-	constexpr char endl='\n';
+#include"../metaric/builtin/semiotic.h"
 
-	//
-
-	template<typename Type>
-	struct dereference_type
-		{ using rtn = Type; };
-
-	template<typename Type>
-	struct dereference_type<Type*>
-		{ using rtn = Type; };
-
-	//
-
-/*
-	Currently deprecrated, parts of this will likely be restored once Branch::grammaric is restored.
-
-	struct undefined
-	{
-		using rtn = undefined;
-
-		static void print() { builtin_printer::print("undefined"); }
-	};
-
-	template<typename> struct act { };
-	template<typename> struct pass { };
-
-	#define grammaric_import_act()										\
-														\
-		template<typename Exp>										\
-		using act = nik::grammaric::act<Exp>;
-
-	#define grammaric_import_pass()										\
-														\
-		template<typename Exp>										\
-		using pass = nik::grammaric::pass<Exp>;
-*/
-}
-
+#endif

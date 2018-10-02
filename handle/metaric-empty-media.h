@@ -15,12 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#ifndef BIT_H
-#define BIT_H
+#ifndef METARIC_EMPTY_MEDIA_H
+#define METARIC_EMPTY_MEDIA_H
 
-#include"power.h"
-
-#include"../numeric/bit/semiotic.h"
-#include"../numeric/bit/media.h"
+#include"../metaric/empty/media.h"
 
 #endif

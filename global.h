@@ -15,63 +15,55 @@
 **
 ************************************************************************************************************************/
 
+#include<stdio.h>
+
 namespace nik
 {
+	using global_size_type = size_t;
+
+	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+
+	constexpr char endl='\n';
+
+	//
+
 	enum struct Branch : global_size_type
 	{
-		metaric,
 		grammaric,
+		graphic,
+		interic,
+		kinetic,
+		literic,
+		metaric,
 		numeric,
+		phonetic,
 
 		dimension // filler
 	};
 
 	enum struct Module : global_size_type
 	{
-		empty,
-		constant,
-		tuple,
-		conditional,
+		address,
+		bit,
 		builtin,
-
+		conditional,
+		constant,
+		empty,
 		generic,
 		pointer,
 		power,
-
-		bit,
+		tuple,
 		word,
-		address,
 
 		dimension // filler
 	};
 
 	enum struct Permission : global_size_type
 	{
-		semiotic,
 		media,
+		semiotic,
 
 		dimension // filler
 	};
-
-	template
-	<
-		Branch branch_enum,
-		Module module_enum,
-		Permission permission_enum,
-
-		typename SizeType = global_size_type
-
-	> struct space { static_assert(true, "This module is not yet implemented!"); };
-
-/***********************************************************************************************************************/
-
-				  template<Module module, Permission permission, typename SizeType = global_size_type>
-	using metaric		= space<Branch::metaric, module, permission, SizeType>;
-
-				  template<Module module, Permission permission, typename SizeType = global_size_type>
-	using grammaric		= space<Branch::grammaric, module, permission, SizeType>;
-
-				  template<Module module, Permission permission, typename SizeType = global_size_type>
-	using numeric		= space<Branch::numeric, module, permission, SizeType>;
 }
 

@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef POWER_H
-#define POWER_H
+#ifndef NUMERIC_WORD_MEDIA_H
+#define NUMERIC_WORD_MEDIA_H
 
-#include"generic.h"
+#include"builtin.h"
+#include"bit.h"
 
-#include"../grammaric/power/semiotic.h"
-#include"../grammaric/power/media.h"
+#include"../numeric/word/media.h"
 
 #endif

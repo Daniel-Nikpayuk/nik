@@ -15,12 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef POINTER_H
-#define POINTER_H
+#ifndef METARIC_TUPLE_SEMIOTIC_H
+#define METARIC_TUPLE_SEMIOTIC_H
 
 #include"constant.h"
 
-#include"../grammaric/pointer/semiotic.h"
-#include"../grammaric/pointer/media.h"
+#include"../metaric/tuple/semiotic.h"
 
 #endif

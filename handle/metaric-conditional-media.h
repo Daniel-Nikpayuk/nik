@@ -15,12 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CONSTANT_H
-#define CONSTANT_H
+#ifndef METARIC_CONDITIONAL_MEDIA_H
+#define METARIC_CONDITIONAL_MEDIA_H
 
-#include"empty.h"
+#include"constant.h"
 
-#include"../metaric/constant/semiotic.h"
-#include"../metaric/constant/media.h"
+#include"../metaric/conditional/media.h"
 
 #endif

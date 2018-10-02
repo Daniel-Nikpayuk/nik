@@ -15,14 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef BUILTIN_H
-#define BUILTIN_H
+#ifndef GRAMMARIC_POINTER_MEDIA_H
+#define GRAMMARIC_POINTER_MEDIA_H
 
-#include<climits>
+#include"constant.h"
 
-#include"conditional.h"
-
-#include"../metaric/builtin/semiotic.h"
-#include"../metaric/builtin/media.h"
+#include"../grammaric/pointer/media.h"
 
 #endif

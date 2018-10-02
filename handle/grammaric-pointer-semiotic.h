@@ -15,12 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CONDITIONAL_H
-#define CONDITIONAL_H
+#ifndef GRAMMARIC_POINTER_SEMIOTIC_H
+#define GRAMMARIC_POINTER_SEMIOTIC_H
 
 #include"constant.h"
 
-#include"../metaric/conditional/semiotic.h"
-#include"../metaric/conditional/media.h"
+#include"../grammaric/pointer/semiotic.h"
 
 #endif

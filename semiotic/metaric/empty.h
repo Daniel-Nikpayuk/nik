@@ -15,10 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef EMPTY
-#define EMPTY
+using Empty = nik::metaric<Module::empty, Permission::semiotic, size_type>;
 
-#include"../metaric/empty/semiotic.h"
-#include"../metaric/empty/media.h"
+//
 
-#endif
+			  template<typename Expression>
+using act		= typename Empty::template act<Expression>;
+

@@ -15,13 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GENERIC_H
-#define GENERIC_H
+#ifndef METARIC_CONDITIONAL_SEMIOTIC_H
+#define METARIC_CONDITIONAL_SEMIOTIC_H
 
-#include"conditional.h"
-#include"pointer.h"
+#include"constant.h"
 
-#include"../grammaric/generic/semiotic.h"
-#include"../grammaric/generic/media.h"
+#include"../metaric/conditional/semiotic.h"
 
 #endif

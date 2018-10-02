@@ -15,10 +15,11 @@
 **
 ************************************************************************************************************************/
 
-using Empty		= nik::metaric<Module::empty, Permission::semiotic, size_type>;
+#ifndef NUMERIC_BIT_MEDIA_H
+#define NUMERIC_BIT_MEDIA_H
 
-//
+#include"power.h"
 
-			  template<typename Expression>
-using act		= typename Empty::template act<Expression>;
+#include"../numeric/bit/media.h"
 
+#endif

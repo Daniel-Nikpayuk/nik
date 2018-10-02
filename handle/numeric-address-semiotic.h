@@ -15,12 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef ADDRESS_H
-#define ADDRESS_H
+#ifndef NUMERIC_ADDRESS_SEMIOTIC_H
+#define NUMERIC_ADDRESS_SEMIOTIC_H
 
 #include"word.h"
 
 #include"../numeric/address/semiotic.h"
-#include"../numeric/address/media.h"
 
 #endif

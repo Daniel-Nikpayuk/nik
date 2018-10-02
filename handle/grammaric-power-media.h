@@ -15,27 +15,11 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::empty, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+#ifndef GRAMMARIC_POWER_MEDIA_H
+#define GRAMMARIC_POWER_MEDIA_H
 
-		//
+#include"generic.h"
 
-	template<typename Type>
-	struct dereference_type
-		{ using rtn = Type; };
+#include"../grammaric/power/media.h"
 
-	template<typename Type>
-	struct dereference_type<Type*>
-		{ using rtn = Type; };
-
-		//
-
-		#include"perspective/policy/semiotic.hpp"
-		#include"perspective/identity/semiotic.hpp"
-	};
-}
-
+#endif

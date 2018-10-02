@@ -23,29 +23,45 @@
 /***********************************************************************************************************************/
 
 
-#define LAZY
-
-
 #define nik_stringify(string)												\
 															\
 	#string
 
 
-#define nik_source(name, path)												\
+#define nik_source(path, branch, module, space)										\
 															\
-	nik_stringify(path/nik/module/name.cpp)
-
-
-#define nik_header(name, path)												\
-															\
-	stringify(path/nik/module/name.h)
+	nik_stringify(path/handle/branch-module-space.h)
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include"nik.h"
+#define nik_unpack(path, name)												\
+															\
+	nik_stringify(path/semiotic/name.h)
+
+
+#define nik_import(path, name)												\
+															\
+	nik_stringify(path/media/name.h)
+
+
+#define nik_alias(path, name)												\
+															\
+	nik_stringify(path/semiotic/name.h)
+
+
+#define nik_using(space, name)												\
+															\
+	nik_stringify(../../space/name.h)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#include"global.h"
 
 
 /***********************************************************************************************************************/

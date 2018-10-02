@@ -15,13 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef WORD_H
-#define WORD_H
+#ifndef NUMERIC_BIT_SEMIOTIC_H
+#define NUMERIC_BIT_SEMIOTIC_H
 
-#include"builtin.h"
-#include"bit.h"
+#include"power.h"
 
-#include"../numeric/word/semiotic.h"
-#include"../numeric/word/media.h"
+#include"../numeric/bit/semiotic.h"
 
 #endif

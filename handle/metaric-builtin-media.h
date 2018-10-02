@@ -15,27 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::empty, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+#ifndef METARIC_BUILTIN_MEDIA_H
+#define METARIC_BUILTIN_MEDIA_H
 
-		//
+#include<climits>
 
-	template<typename Type>
-	struct dereference_type
-		{ using rtn = Type; };
+#include"conditional.h"
 
-	template<typename Type>
-	struct dereference_type<Type*>
-		{ using rtn = Type; };
+#include"../metaric/builtin/media.h"
 
-		//
-
-		#include"perspective/policy/semiotic.hpp"
-		#include"perspective/identity/semiotic.hpp"
-	};
-}
-
+#endif

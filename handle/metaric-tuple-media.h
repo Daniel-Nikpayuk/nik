@@ -15,26 +15,11 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	/*
-	template<typename SizeType=size_t>
-	using sbit=typename traits<SizeType>::npis::identity::template
-			semiotic<typename traits<SizeType>::npis::identity::semiotic_pointer>;
-	*/
+#ifndef METARIC_TUPLE_MEDIA_H
+#define METARIC_TUPLE_MEDIA_H
 
-	/*
-	template<typename T, typename SizeType=size_t>
-	using list=iterator::generic::list<T, SizeType>;
+#include"constant.h"
 
-	template<typename T, typename SizeType=size_t>
-	using chain=iterator::generic::chain<T, SizeType>;
+#include"../metaric/tuple/media.h"
 
-	template<typename T, typename SizeType=size_t>
-	using vector=iterator::generic::vector<T, SizeType>;
-
-	template<size_t BitLength>
-	using uint_block=numeric::uint<size_t>::block<BitLength>;
-	*/
-}
-
+#endif

@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef TUPLE_H
-#define TUPLE_H
+#ifndef GRAMMARIC_GENERIC_SEMIOTIC_H
+#define GRAMMARIC_GENERIC_SEMIOTIC_H
 
-#include"constant.h"
+#include"conditional.h"
+#include"pointer.h"
 
-#include"../metaric/tuple/semiotic.h"
-#include"../metaric/tuple/media.h"
+#include"../grammaric/generic/semiotic.h"
 
 #endif

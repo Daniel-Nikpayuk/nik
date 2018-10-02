@@ -15,32 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#include<stdlib.h>
+#ifndef METARIC_CONSTANT_SEMIOTIC_H
+#define METARIC_CONSTANT_SEMIOTIC_H
 
-namespace nik
-{
-	enum ErrorType : size_t
-	{
-		out_of_bounds
-	};
+#include"empty.h"
 
-	template<typename T>
-	struct error
-	{
-	/*
-		static constexpr char* message =
-		{
-			"index is out of bounds!"
-		};
-	*/
+#include"../metaric/constant/semiotic.h"
 
-		static void report(size_t index)
-		{
-	//		builtin << message[index];
-			builtin << "Now exiting.";
-
-			exit(EXIT_FAILURE);
-		}
-	};
-}
-
+#endif

@@ -15,27 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::empty, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+#ifndef NUMERIC_WORD_SEMIOTIC_H
+#define NUMERIC_WORD_SEMIOTIC_H
 
-		//
+#include"builtin.h"
+#include"bit.h"
 
-	template<typename Type>
-	struct dereference_type
-		{ using rtn = Type; };
+#include"../numeric/word/semiotic.h"
 
-	template<typename Type>
-	struct dereference_type<Type*>
-		{ using rtn = Type; };
-
-		//
-
-		#include"perspective/policy/semiotic.hpp"
-		#include"perspective/identity/semiotic.hpp"
-	};
-}
-
+#endif
