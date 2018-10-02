@@ -18,8 +18,12 @@
 #ifndef GRAMMARIC_POINTER_MEDIA_H
 #define GRAMMARIC_POINTER_MEDIA_H
 
-#include"constant.h"
+	#include"constant.h"
 
-#include"../grammaric/pointer/media.h"
+#define size_type_required
+
+	#include"../grammaric/pointer/media.h"
+
+#undef size_type_required
 
 #endif

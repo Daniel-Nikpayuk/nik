@@ -18,8 +18,12 @@
 #ifndef GRAMMARIC_POWER_SEMIOTIC_H
 #define GRAMMARIC_POWER_SEMIOTIC_H
 
-#include"generic.h"
+	#include"generic.h"
 
-#include"../grammaric/power/semiotic.h"
+#define size_type_required
+
+	#include"../grammaric/power/semiotic.h"
+
+#undef size_type_required
 
 #endif

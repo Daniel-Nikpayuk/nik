@@ -15,9 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef METARIC_EMPTY_MEDIA_H
-#define METARIC_EMPTY_MEDIA_H
+#ifndef METARIC_PROTO_MEDIA_H
+#define METARIC_PROTO_MEDIA_H
 
-#include"../metaric/empty/media.h"
+#define size_type_required
+
+	#include"../metaric/proto/media.h"
+
+#undef size_type_required
 
 #endif

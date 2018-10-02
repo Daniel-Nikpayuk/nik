@@ -17,7 +17,8 @@
 
 struct identity
 {
-	#include nik_using(../../../.., constant)
+	#include nik_unpack(../../../.., metaric, constant)
+	#include nik_alias(../../../.., metaric, constant)
 
 /*
 	is equal:
@@ -30,7 +31,7 @@ struct identity
 	{
 		using rtn = boolean
 		<
-			Empty::identity::template is_equal<Expression1, Expression2>::value
+			Proto::identity::template is_equal<Expression1, Expression2>::value
 		>;
 	};
 

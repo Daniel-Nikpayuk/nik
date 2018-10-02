@@ -35,65 +35,159 @@ namespace nik
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct metaric
 	{
-		static_assert(false, "This is not a valid metaric module!");
-	};
+		static_assert
+		(
+			module_enum == Module::proto		||
+			module_enum == Module::constant		||
+			module_enum == Module::tuple		||
+			module_enum == Module::conditional	||
+			module_enum == Module::builtin
 
-	#include nik_source(., metaric, empty, semiotic)
+			, "This is not a valid metaric module!"
+		);
+	};
+}
+
+
+#include nik_source(., metaric, constant, semiotic)
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct grammaric
 	{
-		static_assert(false, "This is not a valid grammaric module!");
+		static_assert
+		(
+			module_enum == Module::generic	||
+			module_enum == Module::pointer	||
+			module_enum == Module::power
+
+			, "This is not a valid grammaric module!"
+		);
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct numeric
 	{
-		static_assert(false, "This is not a valid numeric module!");
+		static_assert
+		(
+			module_enum == Module::bit	||
+			module_enum == Module::word	||
+			module_enum == Module::address
+
+			, "This is not a valid numeric module!"
+		);
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct literic
 	{
-		static_assert(false, "This is not a valid literic module!");
+/*
+		static_assert
+		(
+			module_enum == Module::
+
+			, "This is not a valid literic module!"
+		);
+*/
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct graphic
 	{
-		static_assert(false, "This is not a valid graphic module!");
+/*
+		static_assert
+		(
+			module_enum == Module::
+
+			, "This is not a valid graphic module!"
+		);
+*/
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct phonetic
 	{
-		static_assert(false, "This is not a valid phonetic module!");
+/*
+		static_assert
+		(
+			module_enum == Module::
+
+			, "This is not a valid phonetic module!"
+		);
+*/
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct kinetic
 	{
-		static_assert(false, "This is not a valid kinetic module!");
+/*
+		static_assert
+		(
+			module_enum == Module::
+
+			, "This is not a valid kinetic module!"
+		);
+*/
 	};
+}
+
 
 /***********************************************************************************************************************/
 
+
+namespace nik
+{
 	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
 	struct interic
 	{
-		static_assert(false, "This is not a valid interic module!");
+/*
+		static_assert
+		(
+			module_enum == Module::
+
+			, "This is not a valid interic module!"
+		);
+*/
 	};
 }
 

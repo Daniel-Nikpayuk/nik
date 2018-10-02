@@ -18,10 +18,14 @@
 #ifndef METARIC_BUILTIN_SEMIOTIC_H
 #define METARIC_BUILTIN_SEMIOTIC_H
 
-#include<climits>
+	#include<climits>
 
-#include"conditional.h"
+	#include"conditional.h"
 
-#include"../metaric/builtin/semiotic.h"
+#define size_type_required
+
+	#include"../metaric/builtin/semiotic.h"
+
+#undef size_type_required
 
 #endif

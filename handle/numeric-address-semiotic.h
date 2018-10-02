@@ -18,8 +18,12 @@
 #ifndef NUMERIC_ADDRESS_SEMIOTIC_H
 #define NUMERIC_ADDRESS_SEMIOTIC_H
 
-#include"word.h"
+	#include"word.h"
 
-#include"../numeric/address/semiotic.h"
+#define size_type_required
+
+	#include"../numeric/address/semiotic.h"
+
+#undef size_type_required
 
 #endif

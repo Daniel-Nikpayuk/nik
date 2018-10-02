@@ -18,9 +18,13 @@
 #ifndef GRAMMARIC_GENERIC_SEMIOTIC_H
 #define GRAMMARIC_GENERIC_SEMIOTIC_H
 
-#include"conditional.h"
-#include"pointer.h"
+	#include"conditional.h"
+	#include"pointer.h"
 
-#include"../grammaric/generic/semiotic.h"
+#define size_type_required
+
+	#include"../grammaric/generic/semiotic.h"
+
+#undef size_type_required
 
 #endif

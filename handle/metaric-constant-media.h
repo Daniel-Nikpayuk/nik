@@ -18,8 +18,12 @@
 #ifndef METARIC_CONSTANT_MEDIA_H
 #define METARIC_CONSTANT_MEDIA_H
 
-#include"empty.h"
+	#include"metaric-proto-media.h"
 
-#include"../metaric/constant/media.h"
+#define size_type_required
+
+	#include"../metaric/constant/media.h"
+
+#undef size_type_required
 
 #endif

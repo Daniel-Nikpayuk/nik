@@ -18,8 +18,12 @@
 #ifndef NUMERIC_BIT_SEMIOTIC_H
 #define NUMERIC_BIT_SEMIOTIC_H
 
-#include"power.h"
+	#include"power.h"
 
-#include"../numeric/bit/semiotic.h"
+#define size_type_required
+
+	#include"../numeric/bit/semiotic.h"
+
+#undef size_type_required
 
 #endif

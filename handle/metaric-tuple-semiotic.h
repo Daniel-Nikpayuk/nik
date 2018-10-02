@@ -18,8 +18,12 @@
 #ifndef METARIC_TUPLE_SEMIOTIC_H
 #define METARIC_TUPLE_SEMIOTIC_H
 
-#include"constant.h"
+	#include"constant.h"
 
-#include"../metaric/tuple/semiotic.h"
+#define size_type_required
+
+	#include"../metaric/tuple/semiotic.h"
+
+#undef size_type_required
 
 #endif

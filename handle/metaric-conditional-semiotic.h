@@ -18,8 +18,12 @@
 #ifndef METARIC_CONDITIONAL_SEMIOTIC_H
 #define METARIC_CONDITIONAL_SEMIOTIC_H
 
-#include"constant.h"
+	#include"constant.h"
 
-#include"../metaric/conditional/semiotic.h"
+#define size_type_required
+
+	#include"../metaric/conditional/semiotic.h"
+
+#undef size_type_required
 
 #endif

@@ -18,9 +18,13 @@
 #ifndef GRAMMARIC_GENERIC_MEDIA_H
 #define GRAMMARIC_GENERIC_MEDIA_H
 
-#include"conditional.h"
-#include"pointer.h"
+	#include"conditional.h"
+	#include"pointer.h"
 
-#include"../grammaric/generic/media.h"
+#define size_type_required
+
+	#include"../grammaric/generic/media.h"
+
+#undef size_type_required
 
 #endif

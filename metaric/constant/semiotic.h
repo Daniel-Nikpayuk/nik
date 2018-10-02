@@ -18,13 +18,13 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::metaric, Module::constant, Permission::semiotic, SizeType>
+	struct metaric<Module::constant, Permission::semiotic, SizeType>
 	{
 		using size_type = SizeType;
 
 		//
 
-		#include nik_unpack(empty)
+		#include nik_using(metaric, proto, unpack)
 
 		//
 

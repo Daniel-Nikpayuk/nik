@@ -48,10 +48,10 @@ namespace nik
 		builtin,
 		conditional,
 		constant,
-		empty,
 		generic,
 		pointer,
 		power,
+		proto,
 		tuple,
 		word,
 

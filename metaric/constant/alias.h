@@ -15,15 +15,31 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_ADDRESS_MEDIA_H
-#define NUMERIC_ADDRESS_MEDIA_H
+			  template<bool Value>
+using boolean		= constant<bool, (bool) Value>;
 
-	#include"word.h"
+/*
+	We include here a list of commonly used literal constants,
+	parameterized for different register sizes:
+*/
 
-#define size_type_required
+			  template<typename RegType>
+using zero		= constant<RegType, (RegType) 0>;
 
-	#include"../numeric/address/media.h"
+			  template<typename RegType>
+using one		= constant<RegType, (RegType) 1>;
 
-#undef size_type_required
+			  template<typename RegType>
+using two		= constant<RegType, (RegType) 2>;
 
-#endif
+			  template<typename RegType>
+using three		= constant<RegType, (RegType) 3>;
+
+//
+
+			  template<typename RegType>
+using nibble		= constant<RegType, (RegType) 4>;
+
+			  template<typename RegType>
+using byte		= constant<RegType, (RegType) 8>;
+

@@ -15,14 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_ADDRESS_MEDIA_H
-#define NUMERIC_ADDRESS_MEDIA_H
-
-	#include"word.h"
+#ifndef METARIC_PROTO_SEMIOTIC_H
+#define METARIC_PROTO_SEMIOTIC_H
 
 #define size_type_required
 
-	#include"../numeric/address/media.h"
+	#include"../metaric/proto/semiotic.h"
 
 #undef size_type_required
 

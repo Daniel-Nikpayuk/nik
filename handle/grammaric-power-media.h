@@ -18,8 +18,12 @@
 #ifndef GRAMMARIC_POWER_MEDIA_H
 #define GRAMMARIC_POWER_MEDIA_H
 
-#include"generic.h"
+	#include"generic.h"
 
-#include"../grammaric/power/media.h"
+#define size_type_required
+
+	#include"../grammaric/power/media.h"
+
+#undef size_type_required
 
 #endif

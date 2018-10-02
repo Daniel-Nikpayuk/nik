@@ -15,15 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NUMERIC_ADDRESS_MEDIA_H
-#define NUMERIC_ADDRESS_MEDIA_H
+namespace nik
+{
+	template<typename SizeType>
+	struct metaric<Module::proto, Permission::semiotic, SizeType>
+	{
+		using size_type = SizeType;
 
-	#include"word.h"
+		//
 
-#define size_type_required
+		#include"perspective/adjective/semiotic.hpp"
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
+	};
+}
 
-	#include"../numeric/address/media.h"
-
-#undef size_type_required
-
-#endif

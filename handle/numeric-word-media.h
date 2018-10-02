@@ -18,9 +18,13 @@
 #ifndef NUMERIC_WORD_MEDIA_H
 #define NUMERIC_WORD_MEDIA_H
 
-#include"builtin.h"
-#include"bit.h"
+	#include"builtin.h"
+	#include"bit.h"
 
-#include"../numeric/word/media.h"
+#define size_type_required
+
+	#include"../numeric/word/media.h"
+
+#undef size_type_required
 
 #endif

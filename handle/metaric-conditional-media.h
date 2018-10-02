@@ -18,8 +18,12 @@
 #ifndef METARIC_CONDITIONAL_MEDIA_H
 #define METARIC_CONDITIONAL_MEDIA_H
 
-#include"constant.h"
+	#include"constant.h"
 
-#include"../metaric/conditional/media.h"
+#define size_type_required
+
+	#include"../metaric/conditional/media.h"
+
+#undef size_type_required
 
 #endif

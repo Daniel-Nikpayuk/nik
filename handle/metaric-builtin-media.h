@@ -18,10 +18,14 @@
 #ifndef METARIC_BUILTIN_MEDIA_H
 #define METARIC_BUILTIN_MEDIA_H
 
-#include<climits>
+	#include<climits>
 
-#include"conditional.h"
+	#include"conditional.h"
 
-#include"../metaric/builtin/media.h"
+#define size_type_required
+
+	#include"../metaric/builtin/media.h"
+
+#undef size_type_required
 
 #endif

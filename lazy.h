@@ -37,24 +37,24 @@
 /***********************************************************************************************************************/
 
 
-#define nik_unpack(path, name)												\
+#define nik_unpack(path, branch, module)										\
 															\
-	nik_stringify(path/semiotic/name.h)
+	nik_stringify(path/branch/module/unpack.h)
 
 
-#define nik_import(path, name)												\
+#define nik_import(path, branch, module)										\
 															\
-	nik_stringify(path/media/name.h)
+	nik_stringify(path/branch/module/import.h)
 
 
-#define nik_alias(path, name)												\
+#define nik_alias(path, branch, module)											\
 															\
-	nik_stringify(path/semiotic/name.h)
+	nik_stringify(path/branch/module/alias.h)
 
 
-#define nik_using(space, name)												\
+#define nik_using(branch, module, name)											\
 															\
-	nik_stringify(../../space/name.h)
+	nik_stringify(../../branch/module/name.h)
 
 
 /***********************************************************************************************************************/

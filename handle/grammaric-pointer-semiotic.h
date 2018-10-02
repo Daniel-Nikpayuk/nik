@@ -18,8 +18,12 @@
 #ifndef GRAMMARIC_POINTER_SEMIOTIC_H
 #define GRAMMARIC_POINTER_SEMIOTIC_H
 
-#include"constant.h"
+	#include"constant.h"
 
-#include"../grammaric/pointer/semiotic.h"
+#define size_type_required
+
+	#include"../grammaric/pointer/semiotic.h"
+
+#undef size_type_required
 
 #endif

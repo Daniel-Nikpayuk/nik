@@ -15,10 +15,18 @@
 **
 ************************************************************************************************************************/
 
-using Empty = nik::metaric<Module::empty, Permission::semiotic, size_type>;
+struct functor
+{
+	template<typename Type>
+	struct dereference
+	{
+		using rtn = Type;
+	};
 
-//
-
-			  template<typename Expression>
-using act		= typename Empty::template act<Expression>;
+	template<typename Type>
+	struct dereference<Type*>
+	{
+		using rtn = Type;
+	};
+};
 

@@ -18,8 +18,12 @@
 #ifndef NUMERIC_BIT_MEDIA_H
 #define NUMERIC_BIT_MEDIA_H
 
-#include"power.h"
+	#include"power.h"
 
-#include"../numeric/bit/media.h"
+#define size_type_required
+
+	#include"../numeric/bit/media.h"
+
+#undef size_type_required
 
 #endif

@@ -15,9 +15,19 @@
 **
 ************************************************************************************************************************/
 
-#ifndef METARIC_EMPTY_SEMIOTIC_H
-#define METARIC_EMPTY_SEMIOTIC_H
+#ifdef size_type_required
 
-#include"../metaric/empty/semiotic.h"
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic>;
 
 #endif
+
+//
+
+			  template<typename Type, Type... params>
+using constant		= typename Constant::structure::template constant<Type, params...>;
+
+

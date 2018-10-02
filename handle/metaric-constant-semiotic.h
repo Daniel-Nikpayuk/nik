@@ -18,8 +18,12 @@
 #ifndef METARIC_CONSTANT_SEMIOTIC_H
 #define METARIC_CONSTANT_SEMIOTIC_H
 
-#include"empty.h"
+	#include"metaric-proto-semiotic.h"
 
-#include"../metaric/constant/semiotic.h"
+#define size_type_required
+
+	#include"../metaric/constant/semiotic.h"
+
+#undef size_type_required
 
 #endif

@@ -18,9 +18,13 @@
 #ifndef NUMERIC_WORD_SEMIOTIC_H
 #define NUMERIC_WORD_SEMIOTIC_H
 
-#include"builtin.h"
-#include"bit.h"
+	#include"builtin.h"
+	#include"bit.h"
 
-#include"../numeric/word/semiotic.h"
+#define size_type_required
+
+	#include"../numeric/word/semiotic.h"
+
+#undef size_type_required
 
 #endif
