@@ -17,11 +17,7 @@
 
 struct boolean
 {
-			  template<typename Type, Type... Value>
-	using sconstant	= typename structure::template constant<Type, Value...>;
-
-			  template<bool Value>
-	using sboolean	= typename structure::template boolean<Value>;
+	#include nik_unpack(../../../.., metaric, constant)
 
 /*
 	Not:
@@ -30,9 +26,9 @@ struct boolean
 	template<typename> struct Not;
 
 	template<bool Value>
-	struct Not<sboolean<Value>>
+	struct Not<constant<bool, Value>>
 	{
-		using rtn = sboolean<!Value>;
+		using rtn = constant<bool, !Value>;
 	};
 
 /*
@@ -42,19 +38,19 @@ struct boolean
 	template<typename, typename...> struct And;
 
 	template<bool Value>
-	struct And<sconstant<bool, Value>>
+	struct And<constant<bool, Value>>
 	{
-		using rtn = sboolean<Value>;
+		using rtn = constant<bool, Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<sboolean<false>, Exp, Exps...>
+	struct And<constant<bool, false>, Exp, Exps...>
 	{
-		using rtn = sboolean<false>;
+		using rtn = constant<bool, false>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<sboolean<true>, Exp, Exps...>
+	struct And<constant<bool, true>, Exp, Exps...>
 	{
 		using rtn = typename And<Exp, Exps...>::rtn;
 	};
@@ -72,19 +68,19 @@ struct boolean
 	template<typename, typename...> struct Or;
 
 	template<bool Value>
-	struct Or<sconstant<bool, Value>>
+	struct Or<constant<bool, Value>>
 	{
-		using rtn = sboolean<Value>;
+		using rtn = constant<bool, Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<sboolean<true>, Exp, Exps...>
+	struct Or<constant<bool, true>, Exp, Exps...>
 	{
-		using rtn = sboolean<true>;
+		using rtn = constant<bool, true>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<sboolean<false>, Exp, Exps...>
+	struct Or<constant<bool, false>, Exp, Exps...>
 	{
 		using rtn = typename Or<Exp, Exps...>::rtn;
 	};
