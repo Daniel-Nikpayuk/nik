@@ -17,29 +17,16 @@
 
 namespace nik
 {
-#ifdef size_type_required
-
-using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic, size_type>;
-
-#else
-
-using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic>;
-
-#endif
-
-//
-
-using display		= Display::structure::display;
-
-
-	template<typename S, typename Type>
-	const S & operator << (const S & s, const Type & t)
+	template<typename SizeType>
+	struct graphic<Module::printer, Permission::semiotic, SizeType>
 	{
-		using module = typename nik::template appendix<Type>::rtn;
+		using type = graphic;
 
-		module::printer::display(t);
+		using size_type = SizeType;
 
-		return s;
-	}
+		//
+
+		#include"interface/structure/semiotic.hpp"
+	};
 }
 

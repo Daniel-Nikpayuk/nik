@@ -15,13 +15,14 @@
 **
 ************************************************************************************************************************/
 
-#ifndef GRAPHIC_DISPLAY_SEMIOTIC_H
-#define GRAPHIC_DISPLAY_SEMIOTIC_H
+namespace nik
+{
+	template<typename SizeType>
+	struct graphic<Module::printer, Permission::media, SizeType>
+	{
+		using type = graphic;
 
-#define size_type_required
+		using size_type = SizeType;
+	};
+}
 
-	#include"../graphic/display/semiotic.h"
-
-#undef size_type_required
-
-#endif

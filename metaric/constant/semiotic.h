@@ -20,7 +20,9 @@ namespace nik
 	template<typename SizeType>
 	struct metaric<Module::constant, Permission::semiotic, SizeType>
 	{
-		using size_type = SizeType;
+		using type	= metaric;
+
+		using size_type	= SizeType;
 
 		//
 
@@ -39,28 +41,6 @@ namespace nik
 
 		#include"model/printer/semiotic.hpp"
 		#include"model/boolean/semiotic.hpp"
-	};
-
-	//
-
-	template<typename Type, typename SizeType>
-	struct appendix
-	<
-		typename nik_module(metaric, constant, semiotic)::structure::template constant<Type>,
-		SizeType
-	>
-	{
-		using rtn = nik_module(metaric, constant, semiotic);
-	};
-
-	template<typename Type, Type Value, typename SizeType>
-	struct appendix
-	<
-		typename nik_module(metaric, constant, semiotic)::structure::template constant<Type, Value>,
-		SizeType
-	>
-	{
-		using rtn = nik_module(metaric, constant, semiotic);
 	};
 }
 

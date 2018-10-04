@@ -15,13 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename S, typename Type>
-const S & operator << (const S & s, const Type & t)
-{
-	using module = typename nik::template appendix<Type>::rtn;
+#ifndef GRAPHIC_PRINTER_SEMIOTIC_H
+#define GRAPHIC_PRINTER_SEMIOTIC_H
 
-	module::printer::display(t);
+#define size_type_required
 
-	return s;
-}
+	#include"../graphic/printer/semiotic.h"
 
+#undef size_type_required
+
+#endif

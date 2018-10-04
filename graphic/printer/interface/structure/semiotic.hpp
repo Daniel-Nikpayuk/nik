@@ -15,5 +15,10 @@
 **
 ************************************************************************************************************************/
 
-using Display = nik::graphic<Module::display, Permission::media, size_type>;
+struct structure
+{
+	struct display_printer { };
+
+	struct verbatim_printer { };
+};
 

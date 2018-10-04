@@ -15,8 +15,5 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	struct display { };
-};
+using Printer = nik::graphic<Module::printer, Permission::media, size_type>;
 

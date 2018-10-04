@@ -17,11 +17,15 @@
 
 struct structure
 {
+	using module = metaric;
+
 	template<typename Type, Type...> struct constant;
 
 	template<typename Type>
 	struct constant<Type>
 	{
+		using module				= metaric;
+
 		using type				= constant;
 
 		using rtn				= constant;
@@ -32,6 +36,8 @@ struct structure
 	template<typename Type, Type Value>
 	struct constant<Type, Value>
 	{
+		using module				= metaric;
+
 		using type				= constant;
 
 		using rtn				= constant;

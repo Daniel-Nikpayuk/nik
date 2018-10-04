@@ -52,11 +52,9 @@
 	nik_stringify(path/branch/module/alias.h)
 
 
-/*
-#define nik_printer(path, module)											\
+#define nik_printer(path)												\
 															\
-	nik_stringify(path/graphic/module/printer.h)
-*/
+	nik_stringify(path/graphic/printer/verb.h)
 
 
 #define nik_using(branch, module, name)											\

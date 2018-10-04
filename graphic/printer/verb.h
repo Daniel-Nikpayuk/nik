@@ -15,17 +15,25 @@
 **
 ************************************************************************************************************************/
 
-#ifdef size_type_required
+#include"unpack.h"
 
-using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic, size_type>;
+template<typename Type>
+const display_printer & operator << (const display_printer & p, const Type & t)
+{
+	Type::module::printer::display(t);
 
-#else
+	return p;
+}
 
-using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic>;
+template<typename Type>
+const verbatim_printer & operator << (const verbatim_printer & p, const Type & t)
+{
+	Type::module::printer::verbatim(t);
 
-#endif
+	return p;
+}
 
-//
+display_printer display;
 
-using display		= Display::structure::display;
+verbatim_printer verbatim;
 

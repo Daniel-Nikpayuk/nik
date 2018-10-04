@@ -15,16 +15,3 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct graphic<Module::display, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
-
-		//
-
-		#include"interface/structure/semiotic.hpp"
-	};
-}
-

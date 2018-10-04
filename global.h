@@ -23,7 +23,7 @@ namespace nik
 
 	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
 
-	constexpr char endl='\n';
+	// endl will be a unicode type.
 
 	//
 
@@ -50,14 +50,13 @@ namespace nik
 		conditional,
 		constant,
 
-		display,
 		generic,
 		pointer,
 		power,
+		printer,
 		proto,
 
 		tuple,
-		verbatim,
 		word,
 
 		dimension // filler
@@ -73,6 +72,6 @@ namespace nik
 
 	//
 
-	template<typename, typename SizeType = global_size_type> struct appendix;
+//	template<typename, typename SizeType = global_size_type> struct appendix;
 }
 

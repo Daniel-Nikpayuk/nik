@@ -15,12 +15,19 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct graphic<Module::display, Permission::media, SizeType>
-	{
-		using size_type = SizeType;
-	};
-}
+#ifdef size_type_required
+
+using Printer		= nik::graphic<nik::Module::printer, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Printer		= nik::graphic<nik::Module::printer, nik::Permission::semiotic>;
+
+#endif
+
+//
+
+using display_printer	= Printer::structure::display_printer;
+
+using verbatim_printer	= Printer::structure::verbatim_printer;
 
