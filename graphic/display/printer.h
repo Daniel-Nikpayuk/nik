@@ -17,206 +17,29 @@
 
 namespace nik
 {
-	template<typename S, typename T>
-	const S & operator << (const S & s, const T & v)
+#ifdef size_type_required
+
+using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic>;
+
+#endif
+
+//
+
+using display		= Display::structure::display;
+
+
+	template<typename S, typename Type>
+	const S & operator << (const S & s, const Type & t)
 	{
-		s.print(v);
+		using module = typename nik::template appendix<Type>::rtn;
+
+		module::printer::display(t);
 
 		return s;
 	}
-
-	struct builtin_printer
-	{
-		inline static void print(char v) { printf("%c", v); }
-		inline static void print(signed char v) { printf("%c", v); }
-		inline static void print(unsigned char v) { printf("%u", v); }
-		inline static void print(wchar_t v) { printf("%c", v); }
-		inline static void print(char16_t v) { printf("%u", v); }
-		inline static void print(char32_t v) { printf("%u", v); }
-		inline static void print(short v) { printf("%d", v); }
-		inline static void print(unsigned short v) { printf("%u", v); }
-		inline static void print(int v) { printf("%d", v); }
-		inline static void print(unsigned int v) { printf("%u", v); }
-		inline static void print(long v) { printf("%ld", v); }
-		inline static void print(unsigned long v) { printf("%lu", v); }
-		inline static void print(long long v) { printf("%lld", v); }
-		inline static void print(unsigned long long v) { printf("%llu", v); }
-		inline static void print(float v) { printf("%f", v); }
-		inline static void print(double v) { printf("%f", v); }
-		inline static void print(long double v) { printf("%Lf", v); }
-
-		inline static void print(bool v) { printf("%s", v? "true" : "false"); }
-		inline static void print(const char *v) { printf("%s", v); }
-
-	} builtin;
-
-	//
-
-	template<typename T, typename Filler = void> struct type_printer;
-
-	template<typename Filler>
-	struct type_printer<char, Filler>
-	{
-		inline static void print() { builtin_printer::print("char"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<signed char, Filler>
-	{
-		inline static void print() { builtin_printer::print("signed char"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<unsigned char, Filler>
-	{
-		inline static void print() { builtin_printer::print("unsigned char"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<wchar_t, Filler>
-	{
-		inline static void print() { builtin_printer::print("wchar_t"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<char16_t, Filler>
-	{
-		inline static void print() { builtin_printer::print("char16_t"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<char32_t, Filler>
-	{
-		inline static void print() { builtin_printer::print("char32_t"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<short, Filler>
-	{
-		inline static void print() { builtin_printer::print("short"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<unsigned short, Filler>
-	{
-		inline static void print() { builtin_printer::print("unsigned short"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<int, Filler>
-	{
-		inline static void print() { builtin_printer::print("int"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<unsigned int, Filler>
-	{
-		inline static void print() { builtin_printer::print("unsigned int"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<long, Filler>
-	{
-		inline static void print() { builtin_printer::print("long"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<unsigned long, Filler>
-	{
-		inline static void print() { builtin_printer::print("unsigned long"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<long long, Filler>
-	{
-		inline static void print() { builtin_printer::print("long long"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<unsigned long long, Filler>
-	{
-		inline static void print() { builtin_printer::print("unsigned long long"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<float, Filler>
-	{
-		inline static void print() { builtin_printer::print("float"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<double, Filler>
-	{
-		inline static void print() { builtin_printer::print("double"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<long double, Filler>
-	{
-		inline static void print() { builtin_printer::print("long double"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<bool, Filler>
-	{
-		inline static void print() { builtin_printer::print("bool"); }
-	};
-
-	template<typename Filler>
-	struct type_printer<const char*, Filler>
-	{
-		inline static void print() { builtin_printer::print("const char*"); }
-	};
-
-/*
-	struct parameter_printer
-	{
-		template<typename enum_type, enum_type... params> struct unroll;
-
-		template<typename enum_type, enum_type current, enum_type... params>
-		struct unroll<enum_type, current, params...>
-		{
-			inline static void print()
-			{
-				builtin_printer::print(current);
-				builtin_printer::print(' ');
-				unroll<enum_type, params...>::print();
-			}
-		};
-
-		template<typename enum_type>
-		struct unroll<enum_type>
-		{
-			inline static void print()
-			{
-				builtin_printer::print('\n');
-			}
-		};
-
-		template<typename enum_type, enum_type... params>
-		inline static void print()
-		{
-			unroll<enum_type, params...>::print();
-		}
-	};
-*/
-
-	struct verbatim_printer : public builtin_printer
-	{
-		using builtin_printer::print;
-
-		template<typename Container>
-		inline static void print(const Container & c) { Container::verbatim(c); }
-
-	} verbatim;
-
-	struct display_printer : public builtin_printer
-	{
-		using builtin_printer::print;
-
-		template<typename Container>
-		inline static void print(const Container & c) { Container::display(c); }
-
-	} display;
 }
 

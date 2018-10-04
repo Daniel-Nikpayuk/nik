@@ -37,7 +37,30 @@ namespace nik
 
 		//
 
+		#include"model/printer/semiotic.hpp"
 		#include"model/boolean/semiotic.hpp"
+	};
+
+	//
+
+	template<typename Type, typename SizeType>
+	struct appendix
+	<
+		typename nik_module(metaric, constant, semiotic)::structure::template constant<Type>,
+		SizeType
+	>
+	{
+		using rtn = nik_module(metaric, constant, semiotic);
+	};
+
+	template<typename Type, Type Value, typename SizeType>
+	struct appendix
+	<
+		typename nik_module(metaric, constant, semiotic)::structure::template constant<Type, Value>,
+		SizeType
+	>
+	{
+		using rtn = nik_module(metaric, constant, semiotic);
 	};
 }
 

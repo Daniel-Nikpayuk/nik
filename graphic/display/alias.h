@@ -15,64 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+template<typename S, typename Type>
+const S & operator << (const S & s, const Type & t)
 {
-	using global_size_type = size_t;
+	using module = typename nik::template appendix<Type>::rtn;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	module::printer::display(t);
 
-	constexpr char endl='\n';
-
-	//
-
-	enum struct Branch : global_size_type
-	{
-		grammaric,
-		graphic,
-		interic,
-		kinetic,
-		literic,
-
-		metaric,
-		numeric,
-		phonetic,
-
-		dimension // filler
-	};
-
-	enum struct Module : global_size_type
-	{
-		address,
-		bit,
-		builtin,
-		conditional,
-		constant,
-
-		display,
-		generic,
-		pointer,
-		power,
-		proto,
-
-		tuple,
-		verbatim,
-		word,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		media,
-		semiotic,
-
-		dimension // filler
-	};
-
-	//
-
-	template<typename, typename SizeType = global_size_type> struct appendix;
+	return s;
 }
 

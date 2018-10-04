@@ -30,7 +30,7 @@
 
 #define nik_source(path, branch, module, space)										\
 															\
-	nik_stringify(path/handle/branch-module-space.h)
+	nik_stringify(path/include/branch-module-space.h)
 
 
 /***********************************************************************************************************************/
@@ -50,6 +50,13 @@
 #define nik_alias(path, branch, module)											\
 															\
 	nik_stringify(path/branch/module/alias.h)
+
+
+/*
+#define nik_printer(path, module)											\
+															\
+	nik_stringify(path/graphic/module/printer.h)
+*/
 
 
 #define nik_using(branch, module, name)											\
@@ -190,6 +197,15 @@ namespace nik
 */
 	};
 }
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define nik_module(branch, module, name)										\
+															\
+	branch<Module::module, Permission::name, SizeType>
 
 
 /***********************************************************************************************************************/

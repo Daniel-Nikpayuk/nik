@@ -30,4 +30,3 @@ using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic>
 			  template<typename Type, Type... params>
 using constant		= typename Constant::structure::template constant<Type, params...>;
 
-

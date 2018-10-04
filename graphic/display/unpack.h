@@ -15,64 +15,17 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef size_type_required
 
-namespace nik
-{
-	using global_size_type = size_t;
+using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic, size_type>;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	constexpr char endl='\n';
+using Display		= nik::graphic<nik::Module::display, nik::Permission::semiotic>;
 
-	//
+#endif
 
-	enum struct Branch : global_size_type
-	{
-		grammaric,
-		graphic,
-		interic,
-		kinetic,
-		literic,
+//
 
-		metaric,
-		numeric,
-		phonetic,
-
-		dimension // filler
-	};
-
-	enum struct Module : global_size_type
-	{
-		address,
-		bit,
-		builtin,
-		conditional,
-		constant,
-
-		display,
-		generic,
-		pointer,
-		power,
-		proto,
-
-		tuple,
-		verbatim,
-		word,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		media,
-		semiotic,
-
-		dimension // filler
-	};
-
-	//
-
-	template<typename, typename SizeType = global_size_type> struct appendix;
-}
+using display		= Display::structure::display;
 
