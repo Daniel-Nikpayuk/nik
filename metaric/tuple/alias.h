@@ -15,22 +15,5 @@
 **
 ************************************************************************************************************************/
 
-template<typename E1, typename E2>
-struct push
-{
-	template<typename, typename> struct strict;
-
-	template<typename... Expressions, typename Expression>
-	struct strict<tuple<Expressions...>, Expression>
-	{
-		using rtn = tuple<Expressions..., Expression>;
-	};
-
-	using rtn = typename strict
-	<
-		typename E1::rtn,
-		E2
-
-	>::rtn;
-};
+using null_tuple	= tuple<>;
 

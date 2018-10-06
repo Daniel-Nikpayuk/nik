@@ -15,5 +15,18 @@
 **
 ************************************************************************************************************************/
 
-using Tuple		= nik::metaric<Module::tuple, Permission::semiotic, size_type>;
+#ifdef size_type_required
+
+using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic, size_type>;
+
+#else
+
+using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic>;
+
+#endif
+
+//
+
+			  template<typename... params>
+using tuple		= typename Tuple::structure::template tuple<params...>;
 

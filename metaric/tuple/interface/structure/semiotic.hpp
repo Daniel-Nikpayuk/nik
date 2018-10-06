@@ -15,9 +15,18 @@
 **
 ************************************************************************************************************************/
 
-template<typename L>
-struct length
+struct structure
 {
-	static constexpr size_type value() { return semiotic::template length<L>::rtn; }
+	using module				= metaric;
+
+	template<typename... Expressions>
+	struct tuple
+	{
+		using module			= metaric;
+
+		using type			= tuple;
+
+		using rtn			= tuple;
+	};
 };
 

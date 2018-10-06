@@ -15,21 +15,56 @@
 **
 ************************************************************************************************************************/
 
-template<typename E1>
-struct cdr
+struct identity
 {
-	template<typename> struct strict;
+	#include nik_unpack(../../../.., metaric, constant)
+	#include nik_alias(../../../.., metaric, constant)
 
-	template<typename Expression, typename... Expressions>
-	struct strict<tuple<Expression, Expressions...>>
+/*
+	is equal:
+
+	The implementation given here is in fact more powerful than identity applied to tuples: It holds for all types.
+*/
+
+	template<typename Expression1, typename Expression2>
+	struct is_equal
 	{
-		using rtn = tuple<Expressions...>;
+		using rtn = boolean
+		<
+			Proto::identity::template is_equal<Expression1, Expression2>::value
+		>;
 	};
 
-	using rtn = typename strict
-	<
-		typename E1::rtn
+/*
+	is tuple:
+*/
 
-	>::rtn;
+	template<typename>
+	struct is_tuple
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename... Expressions>
+	struct is_tuple<tuple<Expressions...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename, typename Filler = void>
+	struct is_null
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Filler>
+	struct is_null<tuple<>, Filler>
+	{
+		using rtn = boolean<true>;
+	};
 };
 

@@ -15,14 +15,32 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
-
+namespace nik
+{
 	template<typename SizeType>
-	struct module<Module::tuple, Orientation::functional, Interface::media, SizeType>
+	struct metaric<Module::tuple, Permission::semiotic, SizeType>
 	{
-		typedef SizeType size_type;
-	};
+		using type	= metaric;
 
-}}
+		using size_type	= SizeType;
+
+		//
+
+		#include nik_using(metaric, proto, unpack)
+
+		//
+
+		#include"interface/structure/semiotic.hpp"
+
+		//
+
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/proximity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
+
+		//
+
+		#include"model/printer/semiotic.hpp"
+	};
+}
 
