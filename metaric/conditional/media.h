@@ -18,9 +18,13 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::metaric, Module::conditional, Permission::media, SizeType>
+	struct metaric<Module::conditional, Permission::media, SizeType>
 	{
+		using type = metaric;
+
 		using size_type = SizeType;
+
+		//
 
 	};
 }

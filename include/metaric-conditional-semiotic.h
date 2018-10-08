@@ -18,7 +18,7 @@
 #ifndef METARIC_CONDITIONAL_SEMIOTIC_H
 #define METARIC_CONDITIONAL_SEMIOTIC_H
 
-	#include"constant.h"
+	#include"metaric-constant-semiotic.h"
 
 #define local_scope
 

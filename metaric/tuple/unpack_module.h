@@ -17,11 +17,11 @@
 
 #ifdef local_scope
 
-using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic, size_type>;
+using Tuple		= nik::metaric<nik::Module::tuple, nik::Permission::semiotic, size_type>;
 
 #else
 
-using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic>;
+using Tuple		= nik::metaric<nik::Module::tuple, nik::Permission::semiotic>;
 
 #endif
 

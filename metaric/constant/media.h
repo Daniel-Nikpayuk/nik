@@ -26,14 +26,6 @@ namespace nik
 
 		//
 
-		#include nik_unpack(empty)
-		#include nik_unpack(constant)
-
-					  template<typename Type>
-		using is_constant	= typename Constant::identity::template is_constant<Type>;
-
-		//
-
 		#include"perspective/identity/media.hpp"
 	};
 }

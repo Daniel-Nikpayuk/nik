@@ -98,8 +98,8 @@ namespace nik
 		(
 			module_enum == Module::proto		||
 			module_enum == Module::constant		||
-			module_enum == Module::tuple		||
 			module_enum == Module::conditional	||
+			module_enum == Module::tuple		||
 			module_enum == Module::builtin
 
 			, "This is not a valid metaric module!"

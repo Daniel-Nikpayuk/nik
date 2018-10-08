@@ -15,6 +15,6 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename... Exps>
-using tuple		= typename Tuple::structure::template tuple<Exps...>;
+				  template<typename... Exps>
+using met_cond_evaluate		= typename Conditional::expression::template evaluate<Exps...>;
 

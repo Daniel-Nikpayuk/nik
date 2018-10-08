@@ -18,7 +18,7 @@
 #ifndef METARIC_TUPLE_SEMIOTIC_H
 #define METARIC_TUPLE_SEMIOTIC_H
 
-	#include"constant.h"
+	#include"metaric-conditional-semiotic.h"
 
 #define local_scope
 

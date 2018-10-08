@@ -32,6 +32,11 @@ namespace nik
 		#include nik_unpack_using(metaric, constant, module)
 		#include nik_unpack_using(metaric, constant, structure)
 		#include nik_unpack_using(metaric, constant, alias)
+		#include nik_unpack_using(metaric, constant, identity)
+
+		#include nik_unpack_using(metaric, conditional, module)
+		#include nik_unpack_using(metaric, conditional, structure)
+		#include nik_unpack_using(metaric, conditional, expression)
 
 		//
 

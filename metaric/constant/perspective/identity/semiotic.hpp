@@ -27,12 +27,12 @@ struct identity
 	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
 */
 
-	template<typename Expression1, typename Expression2>
+	template<typename Exp1, typename Exp2>
 	struct is_equal
 	{
 		using rtn = boolean
 		<
-			Proto::identity::template is_equal<Expression1, Expression2>::value
+			Proto::identity::template is_equal<Exp1, Exp2>::value
 		>;
 	};
 

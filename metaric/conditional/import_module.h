@@ -15,7 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename>		struct if_then		{ };
-template<typename, typename>		struct else_then	{ };
-template<typename>			struct then		{ };
+#ifdef user_macro
+
+using Conditional	= nik::metaric<nik::Module::conditional, nik::Permission::media>;
+
+#else
+
+using Conditional	= nik::metaric<nik::Module::conditional, nik::Permission::media, size_type>;
+
+#endif
 

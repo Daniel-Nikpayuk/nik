@@ -15,6 +15,9 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename... Exps>
-using tuple		= typename Tuple::structure::template tuple<Exps...>;
+				  template<typename Exp1, typename Exp2>
+using met_cons_is_equal		= typename Constant::identity::template is_equal<Exp1, Exp2>;
+
+				  template<typename Exp>
+using met_cons_is_constant	= typename Constant::identity::template is_constant<Exp>;
 

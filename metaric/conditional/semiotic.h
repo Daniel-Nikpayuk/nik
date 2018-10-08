@@ -18,18 +18,28 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct space<Branch::metaric, Module::conditional, Permission::semiotic, SizeType>
+	struct metaric<Module::conditional, Permission::semiotic, SizeType>
 	{
-		using size_type = SizeType;
+		using type	= metaric;
+
+		using size_type	= SizeType;
 
 		//
 
-		#include nik_unpack(constant)
+		#include nik_unpack_using(metaric, proto, module)
+		#include nik_unpack_using(metaric, proto, adjective)
+
+		#include nik_unpack_using(metaric, constant, module)
+		#include nik_unpack_using(metaric, constant, structure)
+		#include nik_unpack_using(metaric, constant, alias)
 
 		//
 
-		#include"interface/adjective/semiotic.hpp"
 		#include"interface/structure/semiotic.hpp"
+
+		//
+
+		#include"model/expression/semiotic.hpp"
 	};
 }
 

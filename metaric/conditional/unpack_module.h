@@ -15,6 +15,13 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename... Exps>
-using tuple		= typename Tuple::structure::template tuple<Exps...>;
+#ifdef local_scope
+
+using Conditional	= nik::metaric<nik::Module::conditional, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Conditional	= nik::metaric<nik::Module::conditional, nik::Permission::semiotic>;
+
+#endif
 

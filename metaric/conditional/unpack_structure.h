@@ -15,24 +15,12 @@
 **
 ************************************************************************************************************************/
 
-using Conditional	= nik::metaric<Module::conditional, Permission::semiotic, size_type>;
+			  template<typename Pred, typename Exp>
+using if_then		= typename Conditional::structure::template if_then<Pred, Exp>;
 
-//
+			  template<typename Pred, typename Exp>
+using else_then		= typename Conditional::structure::template else_then<Pred, Exp>;
 
-			  template<typename P, typename E>
-using if_then		= typename Conditional::template if_then<P, E>;
-
-			  template<typename P, typename E>
-using else_then		= typename Conditional::template else_then<P, E>;
-
-			  template<typename E>
-using then		= typename Conditional::template then<E>;
-
-//
-
-			  template<typename P, typename E1, typename E2>
-using conditional	= typename Conditional::template conditional<P, E1, E2>;
-
-			  template<typename... params>
-using block		= typename Conditional::template block<params...>;
+			  template<typename Exp>
+using then		= typename Conditional::structure::template then<Exp>;
 

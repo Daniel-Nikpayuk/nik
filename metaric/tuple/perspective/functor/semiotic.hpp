@@ -17,7 +17,9 @@
 
 struct functor
 {
-	#include nik_typedef(metaric, tuple)
+	#include nik_unpack_typedef(module)
+	#include nik_unpack_typedef(structure)
+	#include nik_unpack_typedef(alias)
 
 /*
 	car:
@@ -64,7 +66,7 @@ struct functor
 	template<typename Exp, typename... Exps, typename Type, Type index>
 	struct at<tuple<Exp, Exps...>, constant<Type, index>>
 	{
-		using rtn = typename strict<tuple<Exps...>, constant<Type, index-1>>::rtn;
+		using rtn = typename at<tuple<Exps...>, constant<Type, index-1>>::rtn;
 	};
 
 	template<typename Exp, typename... Exps, typename Type>
@@ -94,7 +96,7 @@ struct functor
 	template<typename Exp, typename... Exps, size_type count>
 	struct length<tuple<Exp, Exps...>, constant<size_type, count>>
 	{
-		using rtn = typename strict<tuple<Exps...>, constant<size_type, count+1>>::rtn;
+		using rtn = typename length<tuple<Exps...>, constant<size_type, count+1>>::rtn;
 	};
 
 	template<size_type count>

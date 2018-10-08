@@ -15,69 +15,65 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+/*
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+struct printer
 {
 	#include nik_unpack_typedef(module)
 	#include nik_unpack_typedef(structure)
 	#include nik_unpack_typedef(alias)
 
 /*
-	is equal:
-
-	The implementation given here is in fact more powerful than identity applied to tuples: It holds for all types.
+	char:
 */
 
-	template<typename Expression1, typename Expression2>
-	struct is_equal
+	template<typename Exp, typename... Exps>
+	inline static void display(const tuple<Exp, Exps...> & t)
 	{
-		using rtn = boolean
+		printf("%s", "tuple:  ");
+
+		re_display(t);
+	}
+
+	inline static void display(const null_tuple &)
+	{
+		printf("%s", "tuple:  null\n");
+	}
+
+	template<typename Exp, typename... Exps>
+	inline static void re_display(const tuple<Exp, Exps...> &)
+	{
+		using dispatch = typename met_cond_evaluate
 		<
-			Proto::identity::template is_equal<Expression1, Expression2>::value
-		>;
-	};
+			if_then
+			<
+				met_cons_is_constant<Exp>,
+				typename Constant::printer
 
-/*
-	is tuple:
-*/
+			>, then
+			<
+				printer
+			>
 
-	template<typename>
-	struct is_tuple
+		>::rtn;
+
+		printf("%c", '(');
+		dispatch::display(Exp());
+		printf("%c", ')');
+
+		static constexpr bool is_null_tuple = identity::template is_null<tuple<Exps...>>::rtn::value;
+
+		if (!is_null_tuple) printf("%s", "  ");
+
+		re_display(tuple<Exps...>());
+	}
+
+	inline static void re_display(const null_tuple &)
 	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename... Exps>
-	struct is_tuple<tuple<Exps...>>
-	{
-		using rtn = boolean<true>;
-	};
-
-	template<typename Exp>
-	struct is_tuple<act<Exp>>
-	{
-		using rtn = typename is_tuple<typename Exp::rtn>::rtn;
-	};
-
-/*
-	is null:
-*/
-
-	template<typename, typename Filler = void>
-	struct is_null
-	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename Filler>
-	struct is_null<null_tuple, Filler>
-	{
-		using rtn = boolean<true>;
-	};
-
-	template<typename Exp, typename Filler>
-	struct is_null<act<Exp>, Filler>
-	{
-		using rtn = typename is_null<typename Exp::rtn, Filler>::rtn;
-	};
+		printf("%c", '\n');
+	}
 };
 

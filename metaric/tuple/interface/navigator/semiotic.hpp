@@ -36,6 +36,9 @@
 
 struct navigator
 {
+	#include nik_unpack_typedef(module)
+	#include nik_unpack_typedef(structure)
+
 	template<typename, typename, typename...> struct catenate;
 
 	template<typename... Exps1, typename... Exps2, typename Exp, typename... Exps3>
@@ -50,6 +53,18 @@ struct navigator
 		>::rtn;
 	};
 
+	template<typename... Exps1, typename Exp, typename... Exps2>
+	struct catenate<tuple<Exps1...>, act<Exp>, Exps2...>
+	{
+		using rtn = typename catenate
+		<
+			tuple<Exps1...>,
+			typename Exp::rtn,
+			Exps2...
+
+		>::rtn;
+	};
+
 	template<typename Exp, typename... Exps1, typename... Exps2>
 	struct catenate<act<Exp>, tuple<Exps1...>, Exps2...>
 	{
@@ -57,18 +72,6 @@ struct navigator
 		<
 			typename Exp::rtn,
 			tuple<Exps1...>,
-			Exps2...
-
-		>::rtn;
-	};
-
-	template<typename Exps1..., typename Exp, typename... Exps2>
-	struct catenate<tuple<Exps1...>, act<Exp>, Exps2...>
-	{
-		using rtn = typename catenate
-		<
-			tuple<Exps1...>,
-			typename Exp::rtn,
 			Exps2...
 
 		>::rtn;

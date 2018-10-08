@@ -19,7 +19,7 @@ struct structure
 {
 	using module				= metaric;
 
-	template<typename... Expressions>
+	template<typename... Exps>
 	struct tuple
 	{
 		using module			= metaric;
@@ -51,7 +51,6 @@ struct structure
 /*
 	I've added this "array" in that it might be useful,
 	but as of yet, I have not had need to use it.
-*/
 
 	template<size_type N, size_type... params>
 	struct array
@@ -59,5 +58,6 @@ struct structure
 		static constexpr size_type size = N;
 		static constexpr size_type names[size] { params... };
 	};
+*/
 };
 

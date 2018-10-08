@@ -15,138 +15,38 @@
 **
 ************************************************************************************************************************/
 
-/*
-	The default policy for conditionals is lazy evaluation.
-	This can be overridden by encapsulating the statement within an act<>:
-*/
-
-/*
-	Conditional evaluates non-recursively.
-*/
-
-template<typename P, typename E1, typename E2>
-struct conditional
+struct structure
 {
-	template<typename, typename, typename> struct strict;
+	using module						= metaric;
 
-	template<typename e1, typename e2>
-	struct strict<boolean<true>, e1, e2>
+	template<typename, typename>
+	struct if_then
 	{
-		using rtn = e1;
+		using module					= metaric;
+
+		using type					= if_then;
+
+		using rtn					= if_then;
 	};
 
-	template<typename e1, typename e2>
-	struct strict<boolean<true>, act<e1>, e2>
+	template<typename, typename>
+	struct else_then
 	{
-		using rtn = typename e1::rtn;
+		using module					= metaric;
+
+		using type					= else_then;
+
+		using rtn					= else_then;
 	};
 
-	template<typename e1, typename e2>
-	struct strict<boolean<false>, e1, e2>
+	template<typename>
+	struct then
 	{
-		using rtn = e2;
+		using module					= metaric;
+
+		using type					= then;
+
+		using rtn					= then;
 	};
-
-	template<typename e1, typename e2>
-	struct strict<boolean<false>, e1, act<e2>>
-	{
-		using rtn = typename e2::rtn;
-	};
-
-	using rtn = typename strict
-	<
-		typename P::rtn,
-		E1,
-		E2
-
-	>::rtn;
-};
-
-/***********************************************************************************************************************/
-
-template<typename...> struct sub_block;
-
-template<typename P, typename E1, typename... E>
-struct sub_block<else_then<P, E1>, E...>
-{
-	template<typename, typename, typename> struct strict;
-
-	template<typename e1, typename... e>
-	struct strict<boolean<true>, e1, sub_block<e...>>
-	{
-		using rtn = e1;
-	};
-
-	template<typename e1, typename... e>
-	struct strict<boolean<true>, act<e1>, sub_block<e...>>
-	{
-		using rtn = typename e1::rtn;
-	};
-
-	template<typename e1, typename... e>
-	struct strict<boolean<false>, e1, sub_block<e...>>
-	{
-		using rtn = typename sub_block<e...>::rtn;
-	};
-
-	using rtn = typename strict
-	<
-		typename P::rtn,
-		E1,
-		sub_block<E...>
-
-	>::rtn;
-};
-
-template<typename E1>
-struct sub_block<then<E1>>
-{
-	using rtn = E1;
-};
-
-template<typename E1>
-struct sub_block<then<act<E1>>>
-{
-	using rtn = typename E1::rtn;
-};
-
-/***********************************************************************************************************************/
-
-/*
-	Block is a conditional statement which evaluates recursively.
-*/
-
-template<typename...> struct block;
-
-template<typename P, typename E1, typename... E>
-struct block<if_then<P, E1>, E...>
-{
-	template<typename, typename, typename> struct strict;
-
-	template<typename e1, typename... e>
-	struct strict<boolean<true>, e1, sub_block<e...>>
-	{
-		using rtn = e1;
-	};
-
-	template<typename e1, typename... e>
-	struct strict<boolean<true>, act<e1>, sub_block<e...>>
-	{
-		using rtn = typename e1::rtn;
-	};
-
-	template<typename e1, typename... e>
-	struct strict<boolean<false>, e1, sub_block<e...>>
-	{
-		using rtn = typename sub_block<e...>::rtn;
-	};
-
-	using rtn = typename strict
-	<
-		typename P::rtn,
-		E1,
-		sub_block<E...>
-
-	>::rtn;
 };
 
