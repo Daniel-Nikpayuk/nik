@@ -20,10 +20,10 @@
 
 	#include"power.h"
 
-#define size_type_required
+#define local_scope
 
 	#include"../numeric/bit/media.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

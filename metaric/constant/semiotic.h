@@ -26,7 +26,8 @@ namespace nik
 
 		//
 
-		#include nik_using(metaric, proto, unpack)
+		#include nik_unpack_using(metaric, proto, module)
+		#include nik_unpack_using(metaric, proto, adjective)
 
 		//
 

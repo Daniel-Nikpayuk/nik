@@ -26,16 +26,21 @@ namespace nik
 
 		//
 
-		#include nik_using(metaric, proto, unpack)
+		#include nik_unpack_using(metaric, proto, module)
+		#include nik_unpack_using(metaric, proto, adjective)
+
+		#include nik_unpack_using(metaric, constant, module)
+		#include nik_unpack_using(metaric, constant, structure)
+		#include nik_unpack_using(metaric, constant, alias)
 
 		//
 
 		#include"interface/structure/semiotic.hpp"
+		#include"interface/navigator/semiotic.hpp"
 
 		//
 
 		#include"perspective/identity/semiotic.hpp"
-		#include"perspective/proximity/semiotic.hpp"
 		#include"perspective/functor/semiotic.hpp"
 
 		//

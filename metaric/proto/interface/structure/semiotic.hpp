@@ -15,18 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifdef size_type_required
-
-using Proto		= nik::metaric<nik::Module::proto, nik::Permission::semiotic, size_type>;
-
-#else
-
-using Proto		= nik::metaric<nik::Module::proto, nik::Permission::semiotic>;
-
-#endif
-
-//
-
-			  template<typename Expression>
-using act		= typename Proto::template act<Expression>;
+struct structure
+{
+	template<typename Type, Type, Type...> struct parameter { };
+};
 

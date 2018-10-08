@@ -15,18 +15,6 @@
 **
 ************************************************************************************************************************/
 
-#ifdef size_type_required
-
-using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic, size_type>;
-
-#else
-
-using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic>;
-
-#endif
-
-//
-
-			  template<typename Type, Type... params>
-using constant		= typename Constant::structure::template constant<Type, params...>;
+			  template<typename Type, Type... Value>
+using constant		= typename Constant::structure::template constant<Type, Value...>;
 

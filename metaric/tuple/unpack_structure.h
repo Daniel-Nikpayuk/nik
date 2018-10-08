@@ -15,3 +15,6 @@
 **
 ************************************************************************************************************************/
 
+			  template<typename... params>
+using tuple		= typename Tuple::structure::template tuple<params...>;
+

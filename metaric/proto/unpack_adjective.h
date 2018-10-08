@@ -15,5 +15,6 @@
 **
 ************************************************************************************************************************/
 
-using Constant = nik::metaric<Module::constant, Permission::media, size_type>;
+			  template<typename Exp>
+using act		= typename Proto::adjective::template act<Exp>;
 

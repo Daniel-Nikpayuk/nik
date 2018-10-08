@@ -28,5 +28,36 @@ struct structure
 
 		using rtn			= tuple;
 	};
+
+/*
+	template<typename Type, Type Value>
+	struct tuple<parameter<Type, Value>>
+	{
+		using rtn = constant<Type, Value>;
+	};
+
+	template<typename Type, Type Value1, Type Value2, Type... Values>
+	struct tuple<parameter<Type, Value1, Value2, Values...>>
+	{
+		using rtn = typename cons
+		<
+			constant<Type, Value1>,
+			act<tuple<parameter<Type, Value2, Values...>>>
+
+		>::rtn;
+	};
+*/
+
+/*
+	I've added this "array" in that it might be useful,
+	but as of yet, I have not had need to use it.
+*/
+
+	template<size_type N, size_type... params>
+	struct array
+	{
+		static constexpr size_type size = N;
+		static constexpr size_type names[size] { params... };
+	};
 };
 

@@ -24,7 +24,14 @@ namespace nik
 
 		//
 
-		#include"perspective/adjective/semiotic.hpp"
+		#include"adjective/semiotic.hpp"
+
+		//
+
+		#include"interface/structure/semiotic.hpp"
+
+		//
+
 		#include"perspective/identity/semiotic.hpp"
 		#include"perspective/functor/semiotic.hpp"
 	};

@@ -15,3 +15,13 @@
 **
 ************************************************************************************************************************/
 
+#ifdef user_macro
+
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::media>;
+
+#else
+
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::media, size_type>;
+
+#endif
+

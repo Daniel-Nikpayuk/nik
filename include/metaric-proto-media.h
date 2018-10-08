@@ -18,10 +18,10 @@
 #ifndef METARIC_PROTO_MEDIA_H
 #define METARIC_PROTO_MEDIA_H
 
-#define size_type_required
+#define local_scope
 
 	#include"../metaric/proto/media.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#ifdef size_type_required
+#ifdef local_scope
 
 using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic, size_type>;
 
@@ -24,9 +24,4 @@ using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic, size_type>
 using Tuple		= nik::metaric<nik::Module::tuple, Permission::semiotic>;
 
 #endif
-
-//
-
-			  template<typename... params>
-using tuple		= typename Tuple::structure::template tuple<params...>;
 

@@ -18,10 +18,10 @@
 #ifndef GRAPHIC_PRINTER_SEMIOTIC_H
 #define GRAPHIC_PRINTER_SEMIOTIC_H
 
-#define size_type_required
+#define local_scope
 
 	#include"../graphic/printer/semiotic.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

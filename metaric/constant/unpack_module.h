@@ -15,5 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename> struct act { };
+#ifdef local_scope
+
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Constant		= nik::metaric<nik::Module::constant, nik::Permission::semiotic>;
+
+#endif
 

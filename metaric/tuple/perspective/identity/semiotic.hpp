@@ -17,9 +17,6 @@
 
 struct identity
 {
-	#include nik_unpack(../../../.., metaric, constant)
-	#include nik_alias(../../../.., metaric, constant)
-
 /*
 	is equal:
 
@@ -45,10 +42,16 @@ struct identity
 		using rtn = boolean<false>;
 	};
 
-	template<typename... Expressions>
-	struct is_tuple<tuple<Expressions...>>
+	template<typename... Exps>
+	struct is_tuple<tuple<Exps...>>
 	{
 		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_tuple<act<Exp>>
+	{
+		using rtn = is_tuple<typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -65,6 +68,12 @@ struct identity
 	struct is_null<tuple<>, Filler>
 	{
 		using rtn = boolean<true>;
+	};
+
+	template<typename Exp, typename Filler>
+	struct is_null<act<Exp>, Filler>
+	{
+		using rtn = is_null<typename Exp::rtn, Filler>::rtn;
 	};
 };
 

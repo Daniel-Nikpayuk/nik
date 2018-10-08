@@ -20,10 +20,10 @@
 
 	#include"metaric-proto-semiotic.h"
 
-#define size_type_required
+#define local_scope
 
 	#include"../metaric/constant/semiotic.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

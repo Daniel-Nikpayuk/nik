@@ -17,16 +17,18 @@
 
 struct functor
 {
+	#include nik_typedef(metaric, tuple)
+
 /*
 	car:
 */
 
 	template<typename> struct car;
 
-	template<typename Expression, typename... Expressions>
-	struct car<tuple<Expression, Expressions...>>
+	template<typename Exp, typename... Exps>
+	struct car<tuple<Exp, Exps...>>
 	{
-		using rtn = Expression;
+		using rtn = Exp;
 	};
 
 /*
@@ -35,10 +37,10 @@ struct functor
 
 	template<typename> struct cdr;
 
-	template<typename Expression, typename... Expressions>
-	struct cdr<tuple<Expression, Expressions...>>
+	template<typename Exp, typename... Exps>
+	struct cdr<tuple<Exp, Exps...>>
 	{
-		using rtn = tuple<Expressions...>;
+		using rtn = tuple<Exps...>;
 	};
 
 /*
@@ -47,10 +49,10 @@ struct functor
 
 	template<typename, typename> struct cons;
 
-	template<typename Expression, typename... Expressions>
-	struct cons<Expression, tuple<Expressions...>>
+	template<typename Exp, typename... Exps>
+	struct cons<Exp, tuple<Exps...>>
 	{
-		using rtn = tuple<Expression, Expressions...>;
+		using rtn = tuple<Exp, Exps...>;
 	};
 
 /*
@@ -59,16 +61,16 @@ struct functor
 
 	template<typename, typename> struct at;
 
-	template<typename Expression, typename... Expressions, typename Type, Type index>
-	struct at<tuple<Expression, Expressions...>, constant<Type, index>>
+	template<typename Exp, typename... Exps, typename Type, Type index>
+	struct at<tuple<Exp, Exps...>, constant<Type, index>>
 	{
-		using rtn = typename strict<tuple<Expressions...>, constant<Type, index-1>>::rtn;
+		using rtn = typename strict<tuple<Exps...>, constant<Type, index-1>>::rtn;
 	};
 
-	template<typename Expression, typename... Expressions, typename Type>
-	struct at<tuple<Expression, Expressions...>, constant<Type, 0>>
+	template<typename Exp, typename... Exps, typename Type>
+	struct at<tuple<Exp, Exps...>, constant<Type, 0>>
 	{
-		using rtn = Expression;
+		using rtn = Exp;
 	};
 
 /*
@@ -77,10 +79,10 @@ struct functor
 
 	template<typename, typename> struct push;
 
-	template<typename... Expressions, typename Expression>
-	struct push<tuple<Expressions...>, Expression>
+	template<typename... Exps, typename Exp>
+	struct push<tuple<Exps...>, Exp>
 	{
-		using rtn = tuple<Expressions..., Expression>;
+		using rtn = tuple<Exps..., Exp>;
 	};
 
 /*
@@ -89,10 +91,10 @@ struct functor
 
 	template<typename, typename = constant<size_type, 0>> struct length;
 
-	template<typename Expression, typename... Expressions, size_type count>
-	struct length<tuple<Expression, Expressions...>, constant<size_type, count>>
+	template<typename Exp, typename... Exps, size_type count>
+	struct length<tuple<Exp, Exps...>, constant<size_type, count>>
 	{
-		using rtn = typename strict<tuple<Expressions...>, constant<size_type, count+1>>::rtn;
+		using rtn = typename strict<tuple<Exps...>, constant<size_type, count+1>>::rtn;
 	};
 
 	template<size_type count>

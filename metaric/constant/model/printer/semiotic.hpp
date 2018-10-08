@@ -22,7 +22,9 @@
 
 struct printer
 {
-	#include nik_unpack(../../../.., metaric, constant)
+	#include nik_unpack_typedef(module)
+	#include nik_unpack_typedef(structure)
+	#include nik_unpack_typedef(alias)
 
 /*
 	char:

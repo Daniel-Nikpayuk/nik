@@ -21,10 +21,10 @@
 	#include"conditional.h"
 	#include"pointer.h"
 
-#define size_type_required
+#define local_scope
 
 	#include"../grammaric/generic/media.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

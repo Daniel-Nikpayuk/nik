@@ -21,8 +21,9 @@
 
 struct proximity
 {
-	#include nik_unpack(../../../.., metaric, constant)
-	#include nik_alias(../../../.., metaric, constant)
+	#include nik_unpack_typedef(module)
+	#include nik_unpack_typedef(structure)
+	#include nik_unpack_typedef(alias)
 
 /*
 	less than:
@@ -35,7 +36,11 @@ struct proximity
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct less_than<constant<Type, Value1>, constant<Type, Value2>>
+	struct less_than
+	<
+		constant<Type, Value1>,
+		constant<Type, Value2>
+	>
 	{
 		using rtn = boolean<(Value1 < Value2)>;
 	};
@@ -63,7 +68,11 @@ struct proximity
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct less_than_or_equal<constant<Type, Value1>, constant<Type, Value2>>
+	struct less_than_or_equal
+	<
+		constant<Type, Value1>,
+		constant<Type, Value2>
+	>
 	{
 		using rtn = boolean<(Value1 <= Value2)>;
 	};
@@ -91,7 +100,11 @@ struct proximity
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct greater_than<constant<Type, Value1>, constant<Type, Value2>>
+	struct greater_than
+	<
+		constant<Type, Value1>,
+		constant<Type, Value2>
+	>
 	{
 		using rtn = boolean<(Value1 > Value2)>;
 	};
@@ -119,7 +132,11 @@ struct proximity
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct greater_than_or_equal<constant<Type, Value1>, constant<Type, Value2>>
+	struct greater_than_or_equal
+	<
+		constant<Type, Value1>,
+		constant<Type, Value2>
+	>
 	{
 		using rtn = boolean<(Value1 >= Value2)>;
 	};

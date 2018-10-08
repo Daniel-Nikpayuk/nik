@@ -20,10 +20,10 @@
 
 	#include"constant.h"
 
-#define size_type_required
+#define local_scope
 
 	#include"../grammaric/pointer/media.h"
 
-#undef size_type_required
+#undef local_scope
 
 #endif

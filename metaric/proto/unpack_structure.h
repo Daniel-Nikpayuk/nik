@@ -15,10 +15,6 @@
 **
 ************************************************************************************************************************/
 
-template<size_type N, size_type... params>
-struct array
-{
-	static constexpr size_type size = N;
-	static constexpr size_type names[size] { params... };
-};
+			  template<typename Type, Type... Values>
+using parameter		= typename Proto::structure::template parameter<Type, Values...>;
 

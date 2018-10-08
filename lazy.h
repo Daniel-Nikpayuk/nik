@@ -37,29 +37,45 @@
 /***********************************************************************************************************************/
 
 
-#define nik_unpack(path, branch, module)										\
+#define nik_unpack(path, branch, module, name)										\
 															\
-	nik_stringify(path/branch/module/unpack.h)
+	nik_stringify(path/branch/module/unpack_##name.h)
 
 
-#define nik_import(path, branch, module)										\
+#define nik_unpack_using(branch, module, name)										\
 															\
-	nik_stringify(path/branch/module/import.h)
+	nik_stringify(../../branch/module/unpack_##name.h)
 
 
-#define nik_alias(path, branch, module)											\
+#define nik_unpack_typedef(name)											\
 															\
-	nik_stringify(path/branch/module/alias.h)
+	nik_stringify(../../unpack_##name.h)
+
+
+/***********************************************************************************************************************/
+
+
+#define nik_import(path, branch, module, name)										\
+															\
+	nik_stringify(path/branch/module/import_##name.h)
+
+
+#define nik_import_using(branch, module, name)										\
+															\
+	nik_stringify(../../branch/module/import_##name.h)
+
+
+#define nik_import_typedef(name)											\
+															\
+	nik_stringify(../../import_##name.h)
+
+
+/***********************************************************************************************************************/
 
 
 #define nik_printer(path)												\
 															\
 	nik_stringify(path/graphic/printer/verb.h)
-
-
-#define nik_using(branch, module, name)											\
-															\
-	nik_stringify(../../branch/module/name.h)
 
 
 /***********************************************************************************************************************/

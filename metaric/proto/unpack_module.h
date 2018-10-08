@@ -15,3 +15,13 @@
 **
 ************************************************************************************************************************/
 
+#ifdef local_scope
+
+using Proto		= nik::metaric<nik::Module::proto, nik::Permission::semiotic, size_type>;
+
+#else
+
+using Proto		= nik::metaric<nik::Module::proto, nik::Permission::semiotic>;
+
+#endif
+

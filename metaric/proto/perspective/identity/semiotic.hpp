@@ -17,6 +17,9 @@
 
 struct identity
 {
+	#include nik_unpack_typedef(module)
+	#include nik_unpack_typedef(adjective)
+
 	template<typename Type1, typename Type2>
 	struct is_equal
 	{
