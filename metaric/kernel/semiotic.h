@@ -15,6 +15,28 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename Exp>
-using act		= typename Proto::adjective::template act<Exp>;
+namespace nik
+{
+	template<typename SizeType>
+	struct metaric<Module::kernel, Permission::semiotic, SizeType>
+	{
+		using type	= metaric;
+
+		using size_type	= SizeType;
+
+		//
+
+		#include"interface/structure/semiotic.hpp"
+
+		//
+
+		#include"perspective/identity/semiotic.hpp"
+		#include"perspective/functor/semiotic.hpp"
+
+		//
+
+		#include"model/builtin/semiotic.hpp"
+		#include"model/conditional/semiotic.hpp"
+	};
+}
 

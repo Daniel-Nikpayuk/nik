@@ -46,15 +46,13 @@ namespace nik
 	{
 		address,
 		bit,
-		builtin,
-		conditional,
 		constant,
 
 		generic,
+		kernel,
 		pointer,
 		power,
 		printer,
-		proto,
 
 		tuple,
 		word,

@@ -15,6 +15,43 @@
 **
 ************************************************************************************************************************/
 
+			  template<typename Exp>
+using act		= typename Kernel::structure::template act<Exp>;
+
+//
+
+			  template<typename Pred, typename Exp>
+using if_then		= typename Conditional::structure::template if_then<Pred, Exp>;
+
+			  template<typename Pred, typename Exp>
+using else_then		= typename Conditional::structure::template else_then<Pred, Exp>;
+
+			  template<typename Exp>
+using then		= typename Conditional::structure::template then<Exp>;
+
+//
+
 			  template<typename Type, Type... Values>
-using parameter		= typename Proto::structure::template parameter<Type, Values...>;
+using parameter		= typename Kernel::structure::template parameter<Type, Values...>;
+
+//
+
+using Sign		= typename Builtin::Sign;
+
+			  template<typename RegType>
+using builtin		= typename Builtin::template builtin<RegType>;
+
+//
+
+#ifdef local_scope
+
+			  template<size_type N, Sign sign = Sign::natural>
+using byte_type		= typename Builtin::template byte_type<N, sign>;
+
+#else
+
+			  template<nik::global_size_type N, Sign sign = Sign::natural>
+using byte_type		= typename Builtin::template byte_type<N, sign>;
+
+#endif
 

@@ -62,7 +62,7 @@ template
 	Sign::natural
 >
 {
-	using reg_type			= typename block
+	using reg_type			= typename met_cond_evaluate
 					<
 						if_then	 
 						<

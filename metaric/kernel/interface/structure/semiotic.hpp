@@ -17,6 +17,57 @@
 
 struct structure
 {
+	using module						= metaric;
+
+/*
+*/
+
+	template<typename>
+	struct act
+	{
+		using module					= metaric;
+
+		using type					= act;
+
+		using rtn					= act;
+	};
+
+/*
+*/
+
+	template<typename, typename>
+	struct if_then
+	{
+		using module					= metaric;
+
+		using type					= if_then;
+
+		using rtn					= if_then;
+	};
+
+	template<typename, typename>
+	struct else_then
+	{
+		using module					= metaric;
+
+		using type					= else_then;
+
+		using rtn					= else_then;
+	};
+
+	template<typename>
+	struct then
+	{
+		using module					= metaric;
+
+		using type					= then;
+
+		using rtn					= then;
+	};
+
+/*
+*/
+
 	template<typename Type, Type, Type...> struct parameter { };
 };
 

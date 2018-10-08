@@ -46,11 +46,14 @@ struct printer
 	template<typename Exp, typename... Exps>
 	inline static void re_display(const tuple<Exp, Exps...> &)
 	{
+		using Exp_is_constant	= typename met_cons_is_constant<Exp>::rtn;
+		using Exps_are_null	= typename identity::template is_null<tuple<Exps...>>::rtn;
+
 		using dispatch = typename met_cond_evaluate
 		<
 			if_then
 			<
-				met_cons_is_constant<Exp>,
+				Exp_is_constant,
 				typename Constant::printer
 
 			>, then
@@ -60,20 +63,21 @@ struct printer
 
 		>::rtn;
 
-		printf("%c", '(');
+		char l = Exp_is_constant::value ? '(' : '[';
+		char r = Exp_is_constant::value ? ')' : ']';
+
+		printf("%c", l);
 		dispatch::display(Exp());
-		printf("%c", ')');
+		printf("%c", r);
 
-		static constexpr bool is_null_tuple = identity::template is_null<tuple<Exps...>>::rtn::value;
-
-		if (!is_null_tuple) printf("%s", "  ");
+		if (!Exps_are_null::value) printf("%s", "  ");
 
 		re_display(tuple<Exps...>());
 	}
 
 	inline static void re_display(const null_tuple &)
 	{
-		printf("%c", '\n');
+		// print nothing.
 	}
 };
 

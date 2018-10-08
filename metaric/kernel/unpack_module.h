@@ -15,22 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct space<Branch::metaric, Module::builtin, Permission::semiotic, SizeType>
-	{
-		using size_type = SizeType;
+#ifdef local_scope
 
-		//
+using Kernel		= nik::metaric<nik::Module::kernel, nik::Permission::semiotic, size_type>;
 
-		#include nik_unpack(constant)
-		#include nik_unpack(conditional)
+#else
 
-		//
+using Kernel		= nik::metaric<nik::Module::kernel, nik::Permission::semiotic>;
 
-		#include"interface/adjective/semiotic.hpp"
-		#include"interface/structure/semiotic.hpp"
-	};
-}
+#endif
 

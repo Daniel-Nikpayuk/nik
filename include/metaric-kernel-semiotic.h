@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-using Builtin		= nik::metaric<Module::builtin, Permission::semiotic, size_type>;
+#ifndef METARIC_KERNEL_SEMIOTIC_H
+#define METARIC_KERNEL_SEMIOTIC_H
 
-//
+#define local_scope
 
-using Sign		= typename Builtin::Sign;
+	#include"../metaric/kernel/semiotic.h"
 
-//
+#undef local_scope
 
-			  template<typename RegType>
-using builtin		= typename Builtin::template builtin<RegType>;
-
-			  template<size_type N, Sign sign = Sign::natural>
-using byte_type		= typename Builtin::template byte_type<N, sign>;
-
+#endif

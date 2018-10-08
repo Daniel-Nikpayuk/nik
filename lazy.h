@@ -96,11 +96,9 @@ namespace nik
 	{
 		static_assert
 		(
-			module_enum == Module::proto		||
+			module_enum == Module::kernel		||
 			module_enum == Module::constant		||
-			module_enum == Module::conditional	||
-			module_enum == Module::tuple		||
-			module_enum == Module::builtin
+			module_enum == Module::tuple
 
 			, "This is not a valid metaric module!"
 		);

@@ -18,7 +18,7 @@
 #ifndef METARIC_CONSTANT_SEMIOTIC_H
 #define METARIC_CONSTANT_SEMIOTIC_H
 
-	#include"metaric-proto-semiotic.h"
+	#include"metaric-kernel-semiotic.h"
 
 #define local_scope
 

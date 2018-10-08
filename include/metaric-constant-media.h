@@ -18,7 +18,7 @@
 #ifndef METARIC_CONSTANT_MEDIA_H
 #define METARIC_CONSTANT_MEDIA_H
 
-	#include"metaric-proto-media.h"
+	#include"metaric-kernel-media.h"
 
 #define local_scope
 

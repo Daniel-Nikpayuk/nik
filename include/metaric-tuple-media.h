@@ -18,7 +18,7 @@
 #ifndef METARIC_TUPLE_MEDIA_H
 #define METARIC_TUPLE_MEDIA_H
 
-	#include"constant.h"
+	#include"metaric-constant-media.h"
 
 #define local_scope
 

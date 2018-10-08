@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct metaric<Module::conditional, Permission::media, SizeType>
-	{
-		using type = metaric;
+#ifdef user_macro
 
-		using size_type = SizeType;
+using Kernel	= nik::metaric<nik::Module::kernel, nik::Permission::media>;
 
-		//
+#else
 
-	};
-}
+using Kernel	= nik::metaric<nik::Module::kernel, nik::Permission::media, size_type>;
+
+#endif
 
