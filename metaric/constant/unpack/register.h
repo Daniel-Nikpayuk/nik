@@ -15,10 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#include"limits-semiotic.hpp"
-
 /*
+	template<typename RegType>		struct builtin { };
+	template<size_type N, Sign sign>	struct builtin { };
 */
+
+struct builtin
+{
+	template<typename >
+	struct byte
+	{
+	};
+};
+
+#include"limits-semiotic.hpp"
 
 template<typename RegType>
 struct builtin

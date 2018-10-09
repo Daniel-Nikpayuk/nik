@@ -15,31 +15,28 @@
 **
 ************************************************************************************************************************/
 
-			  template<bool Value>
-using boolean		= constant<bool, (bool) Value>;
+#ifdef name_safe
 
-/*
-	We include here a list of commonly used literal constants,
-	parameterized for different register sizes:
-*/
+	#define IS_EQUAL	met_cons_is_equal
+	#define IS_CONSTANT	met_cons_is_constant
 
-			  template<typename RegType>
-using zero		= constant<RegType, (RegType) 0>;
+#else
 
-			  template<typename RegType>
-using one		= constant<RegType, (RegType) 1>;
+	#define IS_EQUAL	is_equal
+	#define IS_CONSTANT	is_constant
 
-			  template<typename RegType>
-using two		= constant<RegType, (RegType) 2>;
-
-			  template<typename RegType>
-using three		= constant<RegType, (RegType) 3>;
+#endif
 
 //
 
-			  template<typename RegType>
-using nibble		= constant<RegType, (RegType) 4>;
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename Constant::identity::template is_equal<Exp1, Exp2>;
 
-			  template<typename RegType>
-using byte		= constant<RegType, (RegType) 8>;
+				  template<typename Exp>
+using IS_CONSTANT		= typename Constant::identity::template is_constant<Exp>;
+
+//
+
+#undef IS_EQUAL
+#undef IS_CONSTANT
 

@@ -35,8 +35,11 @@ namespace nik
 
 		//
 
-		#include"model/builtin/semiotic.hpp"
+		#include"model/adjective/semiotic.hpp"
+		#include"model/printer/semiotic.hpp"
+		#include"model/boolean/semiotic.hpp"
 		#include"model/conditional/semiotic.hpp"
+		#include"model/bit/semiotic.hpp"
 	};
 }
 

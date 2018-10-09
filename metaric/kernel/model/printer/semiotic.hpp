@@ -15,41 +15,25 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+/*
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+struct printer
 {
 	#include nik_unpack_typedef(module)
 	#include nik_unpack_typedef(structure)
 
-	template<typename Type1, typename Type2>
-	struct is_equal
-	{
-		static constexpr bool value = false;
-	};
+/*
+	bool:
+*/
 
-	template<typename Type>
-	struct is_equal<Type, Type>
+	template<bool Value>
+	inline static void display(const boolean<Value> &)
 	{
-		static constexpr bool value = true;
-	};
-
-	//
-
-	template<typename Type, typename Exp>
-	struct is_equal<Type, act<Exp>>
-	{
-		static constexpr bool value = is_equal<Type, typename Exp::rtn>::value;
-	};
-
-	template<typename Exp, typename Type>
-	struct is_equal<act<Exp>, Type>
-	{
-		static constexpr bool value = is_equal<typename Exp::rtn, Type>::value;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
+		printf("%s", "boolean: ");
+		printf("%s", Value ? "true" : "false");
+	}
 };
 

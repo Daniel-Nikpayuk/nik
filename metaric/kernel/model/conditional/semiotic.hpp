@@ -20,7 +20,7 @@
 	This can be overridden by encapsulating the statement within an act<>:
 */
 
-struct expression
+struct conditional
 {
 	#include nik_unpack_typedef(module)
 	#include nik_unpack_typedef(structure)

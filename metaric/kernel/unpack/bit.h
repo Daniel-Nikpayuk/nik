@@ -15,6 +15,55 @@
 **
 ************************************************************************************************************************/
 
-				  template<typename... Exps>
-using met_cond_evaluate		= typename Conditional::expression::template evaluate<Exps...>;
+#ifdef name_safe
+
+	#define LENGTH		met_kern_length
+	#define SIGN		met_kern_sign
+	#define REGISTER_TYPE	met_kern_register_type
+	#define HALF_TYPE	met_kern_half_type
+
+#else
+
+	#define LENGTH		length
+	#define SIGN		sign
+	#define REGISTER_TYPE	register_type
+	#define HALF_TYPE	half_type
+
+#endif
+
+#ifdef local_scope
+
+	#define SIZE_TYPE size_type
+
+#else
+
+	#define SIZE_TYPE nik::global_size_type
+
+#endif
+
+//
+
+				  template<typename RegType>
+using LENGTH			= typename Kernel::bit::template length<RegType>;
+
+				  template<typename RegType>
+using SIGN			= typename Kernel::bit::template sign<RegType>;
+
+				  template<SIZE_TYPE N, Sign sign>
+using REGISTER_TYPE		= typename Kernel::bit::template register_type<N, sign>;
+
+
+#define ONE 1
+
+				  template<SIZE_TYPE N, Sign sign>
+using HALF_TYPE			= register_type<(N >> ONE), sign>;
+
+#undef ONE
+
+//
+
+#undef LENGTH
+#undef SIGN
+#undef REGISTER_TYPE
+#undef HALF_TYPE
 

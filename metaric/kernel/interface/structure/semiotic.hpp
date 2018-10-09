@@ -20,6 +20,7 @@ struct structure
 	using module						= metaric;
 
 /*
+	act:
 */
 
 	template<typename>
@@ -33,6 +34,25 @@ struct structure
 	};
 
 /*
+	boolean:
+*/
+
+	template<bool Value>
+	struct boolean
+	{
+		using module				= metaric;
+
+		using type				= boolean;
+
+		using rtn				= boolean;
+
+		using value_type			= bool;
+
+		static constexpr bool value		= Value;
+	};
+
+/*
+	conditional:
 */
 
 	template<typename, typename>
@@ -66,8 +86,17 @@ struct structure
 	};
 
 /*
+	builtin:
 */
 
-	template<typename Type, Type, Type...> struct parameter { };
+	template<typename RegType>
+	struct builtin
+	{
+		using module					= metaric;
+
+		using type					= builtin;
+
+		using rtn					= builtin;
+	};
 };
 

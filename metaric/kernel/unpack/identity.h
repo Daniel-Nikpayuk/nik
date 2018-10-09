@@ -15,3 +15,22 @@
 **
 ************************************************************************************************************************/
 
+#ifdef name_safe
+
+	#define IS_EQUAL	met_kern_is_equal
+
+#else
+
+	#define IS_EQUAL	is_equal
+
+#endif
+
+//
+
+			  template<typename Type1, typename Type2>
+using IS_EQUAL		= typename Kernel::identity::template is_equal<Type1, Type2>;
+
+//
+
+#undef IS_EQUAL
+

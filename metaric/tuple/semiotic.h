@@ -28,15 +28,18 @@ namespace nik
 
 		#include nik_unpack_using(metaric, kernel, module)
 		#include nik_unpack_using(metaric, kernel, structure)
+		#include nik_unpack_using(metaric, kernel, conditional)
+
+		#define name_safe
+
+			#include nik_unpack_using(metaric, kernel, identity)
+
+		#undef name_safe
 
 		#include nik_unpack_using(metaric, constant, module)
 		#include nik_unpack_using(metaric, constant, structure)
 		#include nik_unpack_using(metaric, constant, alias)
 		#include nik_unpack_using(metaric, constant, identity)
-
-		#include nik_unpack_using(metaric, conditional, module)
-		#include nik_unpack_using(metaric, conditional, structure)
-		#include nik_unpack_using(metaric, conditional, expression)
 
 		//
 

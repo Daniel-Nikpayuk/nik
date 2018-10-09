@@ -15,13 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#ifdef local_scope
+#ifdef name_safe
 
-using Kernel		= nik::metaric<nik::Module::kernel, nik::Permission::semiotic, size_type>;
+	#define EVALUATE	met_kern_evaluate
 
 #else
 
-using Kernel		= nik::metaric<nik::Module::kernel, nik::Permission::semiotic>;
+	#define EVALUATE	evaluate
 
 #endif
+
+//
+
+			  template<typename... Exps>
+using EVALUATE		= typename Kernel::conditional::template evaluate<Exps...>;
+
+//
+
+#undef EVALUATE
 

@@ -46,10 +46,10 @@ struct printer
 	template<typename Exp, typename... Exps>
 	inline static void re_display(const tuple<Exp, Exps...> &)
 	{
-		using Exp_is_constant	= typename met_cons_is_constant<Exp>::rtn;
+		using Exp_is_constant	= typename is_constant<Exp>::rtn;
 		using Exps_are_null	= typename identity::template is_null<tuple<Exps...>>::rtn;
 
-		using dispatch = typename met_cond_evaluate
+		using dispatch = typename evaluate
 		<
 			if_then
 			<

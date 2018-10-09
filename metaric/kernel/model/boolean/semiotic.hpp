@@ -18,7 +18,12 @@
 struct boolean
 {
 	#include nik_unpack_typedef(module)
-	#include nik_unpack_typedef(structure)
+
+	#define name_safe
+
+		#include nik_unpack_typedef(structure)
+
+	#undef name_safe
 
 /*
 	Not:
@@ -27,9 +32,15 @@ struct boolean
 	template<typename> struct Not;
 
 	template<bool Value>
-	struct Not<constant<bool, Value>>
+	struct Not<struct_boolean<Value>>
 	{
-		using rtn = constant<bool, !Value>;
+		using rtn = struct_boolean<!Value>;
+	};
+
+	template<typename Exp>
+	struct Not<act<Exp>>
+	{
+		using rtn = typename Not<typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -39,19 +50,19 @@ struct boolean
 	template<typename, typename...> struct And;
 
 	template<bool Value>
-	struct And<constant<bool, Value>>
+	struct And<struct_boolean<Value>>
 	{
-		using rtn = constant<bool, Value>;
+		using rtn = struct_boolean<Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<constant<bool, false>, Exp, Exps...>
+	struct And<struct_boolean<false>, Exp, Exps...>
 	{
-		using rtn = constant<bool, false>;
+		using rtn = struct_boolean<false>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct And<constant<bool, true>, Exp, Exps...>
+	struct And<struct_boolean<true>, Exp, Exps...>
 	{
 		using rtn = typename And<Exp, Exps...>::rtn;
 	};
@@ -69,19 +80,19 @@ struct boolean
 	template<typename, typename...> struct Or;
 
 	template<bool Value>
-	struct Or<constant<bool, Value>>
+	struct Or<struct_boolean<Value>>
 	{
-		using rtn = constant<bool, Value>;
+		using rtn = struct_boolean<Value>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<constant<bool, true>, Exp, Exps...>
+	struct Or<struct_boolean<true>, Exp, Exps...>
 	{
-		using rtn = constant<bool, true>;
+		using rtn = struct_boolean<true>;
 	};
 
 	template<typename Exp, typename... Exps>
-	struct Or<constant<bool, false>, Exp, Exps...>
+	struct Or<struct_boolean<false>, Exp, Exps...>
 	{
 		using rtn = typename Or<Exp, Exps...>::rtn;
 	};

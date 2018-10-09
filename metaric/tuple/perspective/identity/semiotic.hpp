@@ -32,7 +32,7 @@ struct identity
 	{
 		using rtn = boolean
 		<
-			Proto::identity::template is_equal<Expression1, Expression2>::value
+			met_kern_is_equal<Expression1, Expression2>::value
 		>;
 	};
 

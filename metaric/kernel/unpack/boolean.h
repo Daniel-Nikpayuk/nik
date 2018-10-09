@@ -15,41 +15,34 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	#include nik_unpack_typedef(module)
-	#include nik_unpack_typedef(structure)
+#ifdef name_safe
 
-	template<typename Type1, typename Type2>
-	struct is_equal
-	{
-		static constexpr bool value = false;
-	};
+	#define NOT		met_kern_Not
+	#define AND		met_kern_And
+	#define OR		met_kern_Or
 
-	template<typename Type>
-	struct is_equal<Type, Type>
-	{
-		static constexpr bool value = true;
-	};
+#else
 
-	//
+	#define NOT		Not
+	#define AND		And
+	#define OR		Or
 
-	template<typename Type, typename Exp>
-	struct is_equal<Type, act<Exp>>
-	{
-		static constexpr bool value = is_equal<Type, typename Exp::rtn>::value;
-	};
+#endif
 
-	template<typename Exp, typename Type>
-	struct is_equal<act<Exp>, Type>
-	{
-		static constexpr bool value = is_equal<typename Exp::rtn, Type>::value;
-	};
+//
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
-};
+			  template<typename Exp>
+using NOT		= typename Kernel::boolean::template Not<Exp>;
+
+			  template<typename Exp, typename... Exps>
+using AND		= typename Kernel::boolean::template And<Exp, Exps...>;
+
+			  template<typename Exp, typename... Exps>
+using OR		= typename Kernel::boolean::template Or<Exp, Exps...>;
+
+//
+
+#undef NOT
+#undef AND
+#undef OR
 

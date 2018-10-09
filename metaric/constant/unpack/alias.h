@@ -15,43 +15,28 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename Exp>
-using act		= typename Kernel::structure::template act<Exp>;
-
-//
-
-			  template<typename Pred, typename Exp>
-using if_then		= typename Conditional::structure::template if_then<Pred, Exp>;
-
-			  template<typename Pred, typename Exp>
-using else_then		= typename Conditional::structure::template else_then<Pred, Exp>;
-
-			  template<typename Exp>
-using then		= typename Conditional::structure::template then<Exp>;
-
-//
-
-			  template<typename Type, Type... Values>
-using parameter		= typename Kernel::structure::template parameter<Type, Values...>;
-
-//
-
-using Sign		= typename Builtin::Sign;
+/*
+	We include here a list of commonly used literal constants,
+	parameterized for different register sizes:
+*/
 
 			  template<typename RegType>
-using builtin		= typename Builtin::template builtin<RegType>;
+using zero		= constant<RegType, (RegType) 0>;
+
+			  template<typename RegType>
+using one		= constant<RegType, (RegType) 1>;
+
+			  template<typename RegType>
+using two		= constant<RegType, (RegType) 2>;
+
+			  template<typename RegType>
+using three		= constant<RegType, (RegType) 3>;
 
 //
 
-#ifdef local_scope
+			  template<typename RegType>
+using nibble		= constant<RegType, (RegType) 4>;
 
-			  template<size_type N, Sign sign = Sign::natural>
-using byte_type		= typename Builtin::template byte_type<N, sign>;
-
-#else
-
-			  template<nik::global_size_type N, Sign sign = Sign::natural>
-using byte_type		= typename Builtin::template byte_type<N, sign>;
-
-#endif
+			  template<typename RegType>
+using byte		= constant<RegType, (RegType) 8>;
 

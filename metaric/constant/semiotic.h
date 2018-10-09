@@ -29,6 +29,12 @@ namespace nik
 		#include nik_unpack_using(metaric, kernel, module)
 		#include nik_unpack_using(metaric, kernel, structure)
 
+		#define name_safe
+
+			#include nik_unpack_using(metaric, kernel, identity)
+
+		#undef name_safe
+
 		//
 
 		#include"interface/structure/semiotic.hpp"
@@ -41,7 +47,6 @@ namespace nik
 		//
 
 		#include"model/printer/semiotic.hpp"
-		#include"model/boolean/semiotic.hpp"
 	};
 }
 

@@ -19,7 +19,6 @@ struct identity
 {
 	#include nik_unpack_typedef(module)
 	#include nik_unpack_typedef(structure)
-	#include nik_unpack_typedef(alias)
 
 /*
 	is equal:
@@ -32,7 +31,7 @@ struct identity
 	{
 		using rtn = boolean
 		<
-			Proto::identity::template is_equal<Exp1, Exp2>::value
+			met_kern_is_equal<Exp1, Exp2>::value
 		>;
 	};
 

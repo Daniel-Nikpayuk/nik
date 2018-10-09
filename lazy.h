@@ -39,17 +39,17 @@
 
 #define nik_unpack(path, branch, module, name)										\
 															\
-	nik_stringify(path/branch/module/unpack_##name.h)
+	nik_stringify(path/branch/module/unpack/name.h)
 
 
 #define nik_unpack_using(branch, module, name)										\
 															\
-	nik_stringify(../../branch/module/unpack_##name.h)
+	nik_stringify(../../branch/module/unpack/name.h)
 
 
 #define nik_unpack_typedef(name)											\
 															\
-	nik_stringify(../../unpack_##name.h)
+	nik_stringify(../../unpack/name.h)
 
 
 /***********************************************************************************************************************/
@@ -57,17 +57,17 @@
 
 #define nik_import(path, branch, module, name)										\
 															\
-	nik_stringify(path/branch/module/import_##name.h)
+	nik_stringify(path/branch/module/import/name.h)
 
 
 #define nik_import_using(branch, module, name)										\
 															\
-	nik_stringify(../../branch/module/import_##name.h)
+	nik_stringify(../../branch/module/import/name.h)
 
 
 #define nik_import_typedef(name)											\
 															\
-	nik_stringify(../../import_##name.h)
+	nik_stringify(../../import/name.h)
 
 
 /***********************************************************************************************************************/

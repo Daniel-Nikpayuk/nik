@@ -15,9 +15,21 @@
 **
 ************************************************************************************************************************/
 
-				  template<typename Exp1, typename Exp2>
-using met_cons_is_equal		= typename Constant::identity::template is_equal<Exp1, Exp2>;
+#ifdef local_scope
 
-				  template<typename Exp>
-using met_cons_is_constant	= typename Constant::identity::template is_constant<Exp>;
+	#define SIZE_TYPE size_type
+
+#else
+
+	#define SIZE_TYPE nik::global_size_type
+
+#endif
+
+//
+
+using Kernel		= nik::metaric<nik::Module::kernel, nik::Permission::semiotic, SIZE_TYPE>;
+
+//
+
+#undef SIZE_TYPE
 

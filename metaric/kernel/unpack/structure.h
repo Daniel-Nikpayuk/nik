@@ -15,41 +15,47 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	#include nik_unpack_typedef(module)
-	#include nik_unpack_typedef(structure)
+#ifdef name_safe
 
-	template<typename Type1, typename Type2>
-	struct is_equal
-	{
-		static constexpr bool value = false;
-	};
+	#define BOOLEAN		struct_boolean
 
-	template<typename Type>
-	struct is_equal<Type, Type>
-	{
-		static constexpr bool value = true;
-	};
+#else
 
-	//
+	#define BOOLEAN		boolean
 
-	template<typename Type, typename Exp>
-	struct is_equal<Type, act<Exp>>
-	{
-		static constexpr bool value = is_equal<Type, typename Exp::rtn>::value;
-	};
+#endif
 
-	template<typename Exp, typename Type>
-	struct is_equal<act<Exp>, Type>
-	{
-		static constexpr bool value = is_equal<typename Exp::rtn, Type>::value;
-	};
+//
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
-};
+using Sign		= typename Kernel::Sign;
+
+//
+
+			  template<typename Exp>
+using act		= typename Kernel::structure::template act<Exp>;
+
+//
+
+			  template<bool Value>
+using BOOLEAN		= typename Kernel::structure::template boolean<Value>;
+
+//
+
+			  template<typename Pred, typename Exp>
+using if_then		= typename Kernel::structure::template if_then<Pred, Exp>;
+
+			  template<typename Pred, typename Exp>
+using else_then		= typename Kernel::structure::template else_then<Pred, Exp>;
+
+			  template<typename Exp>
+using then		= typename Kernel::structure::template then<Exp>;
+
+//
+
+			  template<typename RegType>
+using builtin		= typename Kernel::structure::template builtin<RegType>;
+
+//
+
+#undef BOOLEAN
 
