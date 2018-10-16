@@ -15,80 +15,38 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct structure
 {
-	using global_size_type = size_t;
+	using kind						= module;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	using type						= structure;
 
-	// endl was here, but will instead be a unicode static const object.
+	template<typename Type, Type...> struct constant;
 
-	//
-
-	enum struct Name : global_size_type
+	template<typename Type>
+	struct constant<Type>
 	{
-		act,
+		using kind					= module;
 
-			boolean,
-			dispatch,
+		using type					= constant;
 
-			constant,
-			tuple,
+		using rtn					= constant;
 
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
+		using value_type				= Type;
 	};
 
-	enum struct Branch : global_size_type
+	template<typename Type, Type Value>
+	struct constant<Type, Value>
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
+		using kind					= module;
 
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
+		using type					= constant;
 
-		dimension // filler
+		using rtn					= constant;
+
+		using value_type				= Type;
+
+		static constexpr value_type value		= Value;
 	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+};
 

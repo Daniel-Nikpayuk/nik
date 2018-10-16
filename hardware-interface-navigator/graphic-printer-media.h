@@ -15,80 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifndef HARDWARE_GRAPHIC_PRINTER_MEDIA_H
+#define HARDWARE_GRAPHIC_PRINTER_MEDIA_H
 
-namespace nik
-{
-	using global_size_type = size_t;
+#define local_scope
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	#include"../hardware-interface-structure/graphic/printer/media.h"
 
-	// endl was here, but will instead be a unicode static const object.
+#undef local_scope
 
-	//
-
-	enum struct Name : global_size_type
-	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
-
+#endif

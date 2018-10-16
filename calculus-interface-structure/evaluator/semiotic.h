@@ -15,80 +15,41 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+namespace nik		{
+namespace grammaric	{
 
-namespace nik
-{
-	using global_size_type = size_t;
-
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
-
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
+	template<typename SizeType>
+	struct module<Module::evaluator, Orientation::functional, Interface::semiotic, SizeType>
 	{
-		act,
+		typedef SizeType size_type;
 
-			boolean,
-			dispatch,
+		nik_using(grammaric, Constant)
+		nik_using(grammaric, Branch)
+		nik_using(grammaric, Environment)
+		nik_using(grammaric, Evaluator)
 
-			constant,
-			tuple,
+		#include"alias/semiotic.hpp"
 
-			label,
-			binding,
-			frame,
-			environment,
+		//
 
-		pointer,
-		power,
+		#include"variable/semiotic.hpp"
+		#include"primitive/semiotic.hpp"
 
-			bit,
-			word,
-			address,
+		#include"is_self_evaluating/semiotic.hpp"
+		#include"is_variable/semiotic.hpp"
 
-		printer,
+		template<typename, typename Environment = null_environment> struct eval;
 
-		dimension // filler
+		#include"define/semiotic.hpp"
+		#include"if/semiotic.hpp"
+//		#include"begin/semiotic.hpp"
+//		#include"execute/semiotic.hpp"
+//		#include"apply/semiotic.hpp"
+
+		#include"eval/semiotic.hpp"
+
+//		#include"define/semiotic.hpp"
 	};
 
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+}}
 

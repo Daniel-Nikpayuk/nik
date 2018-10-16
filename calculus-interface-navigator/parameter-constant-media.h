@@ -15,80 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifndef CALCULUS_PARAMETER_CONSTANT_MEDIA_H
+#define CALCULUS_PARAMETER_CONSTANT_MEDIA_H
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#include"conditional-boolean-media.h"
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#define local_scope
 
-	// endl was here, but will instead be a unicode static const object.
+	#include"../calculus-interface-structure/parameter/constant/media.h"
 
-	//
+#undef local_scope
 
-	enum struct Name : global_size_type
-	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
-
+#endif

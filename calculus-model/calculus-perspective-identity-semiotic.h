@@ -15,80 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef safe_name
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#define IS_EQUAL_STRUCTURE		calpei_is_equal_structure
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	// endl was here, but will instead be a unicode static const object.
+	#define IS_EQUAL_STRUCTURE		is_equal_structure
 
-	//
+#endif
 
-	enum struct Name : global_size_type
-	{
-		act,
+//
 
-			boolean,
-			dispatch,
+				  template<typename Type1, typename Type2>
+using IS_EQUAL_STRUCTURE	= typename calculus::identity::template is_equal_structure<Type1, Type2>;
 
-			constant,
-			tuple,
+//
 
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+#undef IS_EQUAL_STRUCTURE
 

@@ -15,80 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct identity
 {
-	using global_size_type = size_t;
-
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
-
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
+	template<typename Type1, typename Type2>
+	struct is_equal_structure
 	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
+		static constexpr bool value = false;
 	};
 
-	enum struct Branch : global_size_type
+	template<typename Type>
+	struct is_equal_structure<Type, Type>
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
+		static constexpr bool value = true;
 	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+};
 

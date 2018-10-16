@@ -15,80 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef safe_name
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#define IS_EQUAL	parcoi_is_equal
+	#define IS_CONSTANT	parcoi_is_constant
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	// endl was here, but will instead be a unicode static const object.
+	#define IS_EQUAL	is_equal
+	#define IS_CONSTANT	is_constant
 
-	//
+#endif
 
-	enum struct Name : global_size_type
-	{
-		act,
+//
 
-			boolean,
-			dispatch,
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename Constant::identity::template is_equal<Exp1, Exp2>;
 
-			constant,
-			tuple,
+				  template<typename Exp>
+using IS_CONSTANT		= typename Constant::identity::template is_constant<Exp>;
 
-			label,
-			binding,
-			frame,
-			environment,
+//
 
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+#undef IS_EQUAL
+#undef IS_CONSTANT
 

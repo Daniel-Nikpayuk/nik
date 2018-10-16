@@ -15,80 +15,35 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct structure
 {
-	using global_size_type = size_t;
+	using kind					= module;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	using type					= structure;
 
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
+	struct display_printer
 	{
-		act,
+		template<typename Type>
+		const display_printer & operator << (const Type & t) const
+		{
+			Type::kind::functor::display(t);
 
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
+			return *this;
+		}
 	};
 
-	enum struct Branch : global_size_type
+	struct verbatim_printer
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
+		template<typename Type>
+		const verbatim_printer & operator << (const Type & t) const
+		{
+			Type::kind::functor::verbatim(t);
 
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
+			return *this;
+		}
 	};
 
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+	static const display_printer display;
+	static const verbatim_printer verbatim;
+};
 

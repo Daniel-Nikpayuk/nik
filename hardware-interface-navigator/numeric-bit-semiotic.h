@@ -15,80 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifndef HARDWARE_NUMERIC_BIT_SEMIOTIC_H
+#define HARDWARE_NUMERIC_BIT_SEMIOTIC_H
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#include"power.h"
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#define local_scope
 
-	// endl was here, but will instead be a unicode static const object.
+	#include"../hardware-interface-structure/numeric/bit/semiotic.h"
 
-	//
+#undef local_scope
 
-	enum struct Name : global_size_type
-	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
-
+#endif

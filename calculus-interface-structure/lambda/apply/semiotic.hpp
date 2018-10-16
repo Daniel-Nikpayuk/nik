@@ -15,80 +15,42 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+template<typename, typename> struct APPLY;
 
-namespace nik
+template<typename Function, typename... Parameters, typename... Frames>
+struct APPLY<tuple<Function, Parameters...>, environment<Frames...>>
 {
-	using global_size_type = size_t;
+	using Environment = environment<Frames...>;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	using rtn = typename conditional
+	<
+		typename Function::is_primitive,
+		typename Function::template lambda<Parameters...>,
+		EVAL
+		<
+			typename Function::body,
+			extend
+			<
+				Environment,
+				typename Function::variables,
+				typename Function::constants
+			>
+		>
 
-	// endl was here, but will instead be a unicode static const object.
+	>::rtn::rtn;
+};
 
-	//
+//
 
-	enum struct Name : global_size_type
-	{
-		act,
+template<typename>
+struct is_application
+{
+	using rtn = boolean<false>;
+};
 
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+template<typename E1, typename Env>
+struct is_application<APPLY<E1, Env>>
+{
+	using rtn = boolean<true>;
+};
 

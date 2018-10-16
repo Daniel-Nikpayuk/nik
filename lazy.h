@@ -28,46 +28,57 @@
 	#string
 
 
-#define nik_source(path, branch, module, space)										\
+#define nik_catenate(label1, label2)											\
 															\
-	nik_stringify(path/include/branch-module-space.h)
+	label1##label2
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#define nik_unpack(path, branch, module, name)										\
+#define nik_source(path, narrative, branch, module, space)								\
 															\
-	nik_stringify(path/branch/module/unpack/name.h)
-
-
-#define nik_unpack_using(branch, module, name)										\
-															\
-	nik_stringify(../../branch/module/unpack/name.h)
-
-
-#define nik_unpack_typedef(name)											\
-															\
-	nik_stringify(../../unpack/name.h)
+	nik_stringify(path/narrative-interface-navigator/branch-module-space.h)
 
 
 /***********************************************************************************************************************/
 
 
-#define nik_import(path, branch, module, name)										\
+#define nik_lensdef(narrative, partition, division, space)								\
 															\
-	nik_stringify(path/branch/module/import/name.h)
+	nik_stringify(../../../narrative-model/narrative-partition-division-space.h)
 
 
-#define nik_import_using(branch, module, name)										\
+#define nik_lens(path, narrative, partition, division, space)								\
 															\
-	nik_stringify(../../branch/module/import/name.h)
+	nik_stringify(path/narrative-model/narrative-partition-division-space.h)
 
 
-#define nik_import_typedef(name)											\
+/***********************************************************************************************************************/
+
+
+#define nik_typedef(narrative, branch, module, name)									\
 															\
-	nik_stringify(../../import/name.h)
+	nik_stringify(../../../narrative-model/branch-module-name-semiotic.h)
+
+
+#define nik_unpack(path, narrative, branch, module, name)								\
+															\
+	nik_stringify(path/narrative-model/branch-module-name-semiotic.h)
+
+
+/***********************************************************************************************************************/
+
+
+#define nik_using(narrative, branch, module, name)									\
+															\
+	nik_stringify(../../../narrative-model/branch-module-name-media.h)
+
+
+#define nik_import(path, narrative, branch, module, name)								\
+															\
+	nik_stringify(path/narrative-model/branch-module-name-media.h)
 
 
 /***********************************************************************************************************************/
@@ -75,7 +86,7 @@
 
 #define nik_printer(path)												\
 															\
-	nik_stringify(path/graphic/printer/verb.h)
+	nik_stringify(path/hardware-model/graphic-printer-media.h)
 
 
 /***********************************************************************************************************************/
@@ -91,133 +102,92 @@
 
 namespace nik
 {
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct metaric
+	template
+	<
+		Name		name_enum,
+		Branch		branch_enum,
+		Lens		lens_enum,
+		Permission	permission_enum,
+
+		typename	SizeType = global_size_type
+	>
+	struct module
 	{
+		using lens	= module;
+
+		using type	= module;
+
 		static_assert
 		(
-			module_enum == Module::kernel		||
-			module_enum == Module::constant		||
-			module_enum == Module::tuple
+			name_enum == Name::act				||
 
-			, "This is not a valid metaric module!"
+			name_enum == Name::boolean			||
+			name_enum == Name::dispatch			||
+
+			name_enum == Name::constant			||
+			name_enum == Name::tuple			||
+
+			name_enum == Name::label			||
+			name_enum == Name::binding			||
+			name_enum == Name::frame			||
+			name_enum == Name::environment			||
+
+			name_enum == Name::pointer			||
+			name_enum == Name::power			||
+
+			name_enum == Name::bit				||
+			name_enum == Name::word				||
+			name_enum == Name::address
+
+			, "This is not a valid module!"
+		);
+
+		static_assert
+		(
+			branch_enum == Branch::kernel			||
+			branch_enum == Branch::conditional		||
+			branch_enum == Branch::parameter		||
+			branch_enum == Branch::variable			||
+			branch_enum == Branch::lambda			||
+			branch_enum == Branch::sequential		||
+			branch_enum == Branch::interpreter		||
+
+			branch_enum == Branch::generic			||
+			branch_enum == Branch::numeric			||
+			branch_enum == Branch::literic			||
+			branch_enum == Branch::graphic			||
+			branch_enum == Branch::phonetic			||
+			branch_enum == Branch::kinetic			||
+			branch_enum == Branch::interic
+
+			, "This is not a valid branch!"
 		);
 	};
 
 /***********************************************************************************************************************/
 
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct grammaric
+	struct calculus
 	{
-		static_assert
-		(
-			module_enum == Module::generic	||
-			module_enum == Module::pointer	||
-			module_enum == Module::power
+		using lens	= calculus;
 
-			, "This is not a valid grammaric module!"
-		);
+		using type	= calculus;
+
+		#include"calculus-perspective-identity/semiotic.hpp"
+		#include"calculus-perspective-functor/semiotic.hpp"
 	};
 
 /***********************************************************************************************************************/
 
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct numeric
+	struct hardware
 	{
-		static_assert
-		(
-			module_enum == Module::bit	||
-			module_enum == Module::word	||
-			module_enum == Module::address
+		using lens	= hardware;
 
-			, "This is not a valid numeric module!"
-		);
-	};
+		using type	= hardware;
 
-/***********************************************************************************************************************/
-
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct literic
-	{
-/*
-		static_assert
-		(
-			module_enum == Module::
-
-			, "This is not a valid literic module!"
-		);
-*/
-	};
-
-/***********************************************************************************************************************/
-
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct graphic
-	{
-/*
-		static_assert
-		(
-			module_enum == Module::
-
-			, "This is not a valid graphic module!"
-		);
-*/
-	};
-
-/***********************************************************************************************************************/
-
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct phonetic
-	{
-/*
-		static_assert
-		(
-			module_enum == Module::
-
-			, "This is not a valid phonetic module!"
-		);
-*/
-	};
-
-/***********************************************************************************************************************/
-
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct kinetic
-	{
-/*
-		static_assert
-		(
-			module_enum == Module::
-
-			, "This is not a valid kinetic module!"
-		);
-*/
-	};
-
-/***********************************************************************************************************************/
-
-	template<Module module_enum, Permission permission_enum, typename SizeType = global_size_type>
-	struct interic
-	{
-/*
-		static_assert
-		(
-			module_enum == Module::
-
-			, "This is not a valid interic module!"
-		);
-*/
+//		#include"hardware-perspective-identity/semiotic.hpp"
+//		#include"hardware-perspective-functor/semiotic.hpp"
 	};
 }
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define nik_module(branch, module, name)										\
-															\
-	branch<Module::module, Permission::name, SizeType>
 
 
 /***********************************************************************************************************************/

@@ -15,80 +15,58 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct functor
 {
-	using global_size_type = size_t;
+/*
+	dereference:
+*/
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
-
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
+	template<typename Type>
+	struct dereference
 	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
+		using rtn = Type;
 	};
 
-	enum struct Branch : global_size_type
+	template<typename Type>
+	struct dereference<Type*>
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
+		using rtn = Type;
 	};
 
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
+/*
+	length:
+*/
 
-		dimension // filler
+	#define EIGHT 8
+
+	template<typename RegType, typename SizeType = global_size_type>
+	struct length
+	{
+		using reg_type				= RegType;
+
+		using size_type				= SizeType;
+
+		static constexpr size_type value	= size_type(EIGHT) * sizeof(reg_type);
 	};
 
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
+	#undef EIGHT
 
-		dimension // filler
-	};
-}
+/*
+	limits:
+*/
+
+	#include"limits-semiotic.hpp"
+
+/*
+	sign:
+*/
+
+	#include"sign-semiotic.hpp"
+
+/*
+	register_type:
+*/
+
+	#include"register_type-semiotic.hpp"
+};
 

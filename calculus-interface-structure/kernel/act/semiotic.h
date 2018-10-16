@@ -15,80 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
 namespace nik
 {
-	using global_size_type = size_t;
-
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
-
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
+	template<typename SizeType>
+	struct module<Name::act, Branch::kernel, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		act,
+		using type	= module;
 
-			boolean,
-			dispatch,
+		using size_type	= SizeType;
 
-			constant,
-			tuple,
+		//
 
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
+		#include"interface-structure-semiotic.hpp"
 	};
 }
 

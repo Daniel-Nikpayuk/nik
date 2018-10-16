@@ -15,80 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifndef CALCULUS_KERNEL_ACT_SEMIOTIC_H
+#define CALCULUS_KERNEL_ACT_SEMIOTIC_H
 
-namespace nik
-{
-	using global_size_type = size_t;
+#define local_scope
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	#include"../calculus-interface-structure/kernel/act/semiotic.h"
 
-	// endl was here, but will instead be a unicode static const object.
+#undef local_scope
 
-	//
-
-	enum struct Name : global_size_type
-	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
-
+#endif

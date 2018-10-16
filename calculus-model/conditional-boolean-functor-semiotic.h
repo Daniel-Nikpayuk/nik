@@ -15,80 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef safe_name
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#define NOT		conbof_Not
+	#define AND		conbof_And
+	#define OR		conbof_Or
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	// endl was here, but will instead be a unicode static const object.
+	#define NOT		Not
+	#define AND		And
+	#define OR		Or
 
-	//
+#endif
 
-	enum struct Name : global_size_type
-	{
-		act,
+//
 
-			boolean,
-			dispatch,
+			  template<typename Exp>
+using NOT		= typename Boolean::functor::template Not<Exp>;
 
-			constant,
-			tuple,
+			  template<typename Exp, typename... Exps>
+using AND		= typename Boolean::functor::template And<Exp, Exps...>;
 
-			label,
-			binding,
-			frame,
-			environment,
+			  template<typename Exp, typename... Exps>
+using OR		= typename Boolean::functor::template Or<Exp, Exps...>;
 
-		pointer,
-		power,
+//
 
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+#undef NOT
+#undef AND
+#undef OR
 

@@ -15,80 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef safe_name
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#define IS_EQUAL	partui_is_equal
+	#define IS_TUPLE	partui_is_tuple
+	#define IS_NULL		partui_is_null
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	// endl was here, but will instead be a unicode static const object.
+	#define IS_EQUAL	is_equal
+	#define IS_TUPLE	is_tuple
+	#define IS_NULL		is_null
 
-	//
+#endif
 
-	enum struct Name : global_size_type
-	{
-		act,
+//
 
-			boolean,
-			dispatch,
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename Tuple::identity::template is_equal<Exp1, Exp2>;
 
-			constant,
-			tuple,
+				  template<typename Exp>
+using IS_TUPLE			= typename Tuple::identity::template is_tuple<Exp>;
 
-			label,
-			binding,
-			frame,
-			environment,
+				  template<typename Exp>
+using IS_NULL			= typename Tuple::identity::template is_null<Exp>;
 
-		pointer,
-		power,
+//
 
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+#undef IS_EQUAL
+#undef IS_TUPLE
+#undef IS_NULL
 

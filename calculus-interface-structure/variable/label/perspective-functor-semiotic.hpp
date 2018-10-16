@@ -15,80 +15,49 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct functor
 {
-	using global_size_type = size_t;
+	using kind						= module;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	using type						= functor;
 
-	// endl was here, but will instead be a unicode static const object.
+	#include nik_typedef(calculus, variable, label, module)
+	#include nik_typedef(calculus, variable, label, structure)
+	#include nik_typedef(calculus, variable, label, alias)
 
-	//
+/*
+	display:
 
-	enum struct Name : global_size_type
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<char Char, char... Chars>
+	inline static void display(const label<Char, Chars...> & l)
 	{
-		act,
+		printf("%s", "label: ");
 
-			boolean,
-			dispatch,
+		printf("%c", '"');
+		label_print(l);
+		printf("%c", '"');
+	}
 
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
+	inline static void display(const null_label & l)
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
+		printf("%s", "label: null\n");
+	}
 
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
+	template<char Char, char... Chars>
+	inline static void label_print(const label<Char, Chars...> &)
 	{
-		calculus,
-		hardware,
+		printf("%c", Char);
 
-		dimension // filler
-	};
+		label_print(label<Chars...>());
+	}
 
-	enum struct Permission : global_size_type
+	inline static void label_print(const null_label &)
 	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+		// do nothing.
+	}
+};
 

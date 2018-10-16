@@ -15,80 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+#ifdef local_scope
 
-namespace nik
-{
-	using global_size_type = size_t;
+	#define SIZE_TYPE size_type
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+#else
 
-	// endl was here, but will instead be a unicode static const object.
+	#define SIZE_TYPE nik::global_size_type
 
-	//
+#endif
 
-	enum struct Name : global_size_type
-	{
-		act,
+//
 
-			boolean,
-			dispatch,
+using Printer = nik::module
+<
+	nik::Name::printer,
+	nik::Branch::graphic,
+	nik::Lens::hardware,
+	nik::Permission::media,
 
-			constant,
-			tuple,
+	SIZE_TYPE
+>;
 
-			label,
-			binding,
-			frame,
-			environment,
+//
 
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+#undef SIZE_TYPE
 

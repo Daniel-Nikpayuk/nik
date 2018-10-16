@@ -15,80 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
+			  template<typename Pred, typename Exp>
+using if_then		= typename Dispatch::structure::template if_then<Pred, Exp>;
 
-namespace nik
-{
-	using global_size_type = size_t;
+			  template<typename Pred, typename Exp>
+using else_then		= typename Dispatch::structure::template else_then<Pred, Exp>;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
-
-	// endl was here, but will instead be a unicode static const object.
-
-	//
-
-	enum struct Name : global_size_type
-	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
-	};
-
-	enum struct Branch : global_size_type
-	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
-	};
-
-	enum struct Lens : global_size_type
-	{
-		calculus,
-		hardware,
-
-		dimension // filler
-	};
-
-	enum struct Permission : global_size_type
-	{
-		semiotic,
-		media,
-
-		dimension // filler
-	};
-}
+			  template<typename Exp>
+using then		= typename Dispatch::structure::template then<Exp>;
 

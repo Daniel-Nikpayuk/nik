@@ -15,30 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NORMAL_H
-#define NORMAL_H
+using display_printer	= typename Printer::structure::display_printer;
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include"lazy.h"
-
+using verbatim_printer	= typename Printer::structure::verbatim_printer;
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
+static const display_printer display = Printer::structure::display;
 
-#include nik_source(., calculus, conditional, dispatch, semiotic)
-#include nik_source(., calculus, parameter, tuple, semiotic)
-#include nik_source(., calculus, variable, label, semiotic)
+static const verbatim_printer verbatim = Printer::structure::verbatim;
 
-#include nik_source(., hardware, graphic, printer, media)
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#endif

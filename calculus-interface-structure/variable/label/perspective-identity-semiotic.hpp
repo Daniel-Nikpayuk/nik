@@ -15,80 +15,50 @@
 **
 ************************************************************************************************************************/
 
-#include<stdio.h>
-
-namespace nik
+struct identity
 {
-	using global_size_type = size_t;
+	using kind						= module;
 
-	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
+	using type						= identity;
 
-	// endl was here, but will instead be a unicode static const object.
+	#include nik_typedef(calculus, variable, label, module)
+	#include nik_typedef(calculus, variable, label, structure)
 
-	//
+/*
+	is equal:
 
-	enum struct Name : global_size_type
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal
 	{
-		act,
-
-			boolean,
-			dispatch,
-
-			constant,
-			tuple,
-
-			label,
-			binding,
-			frame,
-			environment,
-
-		pointer,
-		power,
-
-			bit,
-			word,
-			address,
-
-		printer,
-
-		dimension // filler
+		using rtn = boolean
+		<
+			is_equal_structure<Exp1, Exp2>::value
+		>;
 	};
 
-	enum struct Branch : global_size_type
+/*
+	is label:
+*/
+
+	template<typename>
+	struct is_label
 	{
-		kernel,
-		conditional,
-		parameter,
-		variable,
-		lambda,
-		sequential,
-		interpreter,
-
-		generic,
-		numeric,
-		literic,
-		graphic,
-		phonetic,
-		kinetic,
-		interic,
-
-		dimension // filler
+		using rtn = boolean<false>;
 	};
 
-	enum struct Lens : global_size_type
+	template<char... Chars>
+	struct is_label<label<Chars...>>
 	{
-		calculus,
-		hardware,
-
-		dimension // filler
+		using rtn = boolean<true>;
 	};
 
-	enum struct Permission : global_size_type
+	template<typename Exp>
+	struct is_label<act<Exp>>
 	{
-		semiotic,
-		media,
-
-		dimension // filler
+		using rtn = typename is_label<typename Exp::rtn>::rtn;
 	};
-}
+};
 
