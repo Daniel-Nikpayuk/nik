@@ -15,50 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+namespace nik
 {
-	using kind						= module;
-
-	using type						= identity;
-
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
-
-/*
-	is equal:
-
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
+	template<typename SizeType>
+	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using rtn = boolean
-		<
-			is_equal_structure<Exp1, Exp2>::value
-		>;
-	};
+		using type	= module;
 
-/*
-	is binding:
-*/
+		using size_type	= SizeType;
 
-	template<typename>
-	struct is_binding
-	{
-		using rtn = boolean<false>;
-	};
+		//
 
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
-	{
-		using rtn = boolean<true>;
-	};
+		#include nik_typedef(calculus, variable, frame, module)
+		#include nik_typedef(calculus, variable, frame, structure)
 
-	template<typename Exp>
-	struct is_binding<act<Exp>>
-	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-functor-semiotic.hpp"
 	};
-};
+}
 

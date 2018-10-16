@@ -15,50 +15,29 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind						= module;
+#ifdef local_scope
 
-	using type						= identity;
+	#define SIZE_TYPE size_type
 
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
+#else
 
-/*
-	is equal:
+	#define SIZE_TYPE nik::global_size_type
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
-*/
+#endif
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		using rtn = boolean
-		<
-			is_equal_structure<Exp1, Exp2>::value
-		>;
-	};
+//
 
-/*
-	is binding:
-*/
+using Binding = nik::module
+<
+	nik::Name::binding,
+	nik::Branch::variable,
+	nik::Lens::calculus,
+	nik::Permission::semiotic,
 
-	template<typename>
-	struct is_binding
-	{
-		using rtn = boolean<false>;
-	};
+	SIZE_TYPE
+>;
 
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
-	{
-		using rtn = boolean<true>;
-	};
+//
 
-	template<typename Exp>
-	struct is_binding<act<Exp>>
-	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
-	};
-};
+#undef SIZE_TYPE
 

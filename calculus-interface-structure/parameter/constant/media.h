@@ -23,10 +23,6 @@ namespace nik
 		using type	= module;
 
 		using size_type = SizeType;
-
-		//
-
-//		#include"perspective-identity-media.hpp"
 	};
 }
 

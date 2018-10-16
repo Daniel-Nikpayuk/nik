@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::tuple, Branch::parameter, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Name::frame, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= module;
 
@@ -26,25 +26,15 @@ namespace nik
 
 		//
 
-		#include nik_lensdef(calculus, perspective, identity, semiotic)
-
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, conditional, boolean, module)
-		#include nik_typedef(calculus, conditional, boolean, structure)
-
-		#include nik_typedef(calculus, parameter, constant, module)
-		#include nik_typedef(calculus, parameter, constant, structure)
+		#include nik_typedef(calculus, variable, binding, module)
+		#include nik_typedef(calculus, variable, binding, structure)
 
 		//
 
 		#include"interface-structure-semiotic.hpp"
-		#include"interface-navigator-semiotic.hpp"
 
 		//
 
-		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

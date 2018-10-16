@@ -21,13 +21,14 @@ struct identity
 
 	using type						= identity;
 
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
+	#include nik_typedef(calculus, variable, environment, module)
+	#include nik_typedef(calculus, variable, environment, structure)
+	#include nik_typedef(calculus, variable, environment, alias)
 
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+	The implementation given here is in fact more powerful than identity applied to environments: It holds for all types.
 */
 
 	template<typename Exp1, typename Exp2>
@@ -40,25 +41,47 @@ struct identity
 	};
 
 /*
-	is binding:
+	is frame:
 */
 
 	template<typename>
-	struct is_binding
+	struct is_environment
 	{
 		using rtn = boolean<false>;
 	};
 
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
+	template<typename Type, Type... Value>
+	struct is_environment<environment<Type, Value...>>
 	{
 		using rtn = boolean<true>;
 	};
 
 	template<typename Exp>
-	struct is_binding<act<Exp>>
+	struct is_environment<act<Exp>>
 	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
+		using rtn = typename is_environment<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename, typename Filler = void>
+	struct is_null
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Filler>
+	struct is_null<null_environment, Filler>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp, typename Filler>
+	struct is_null<act<Exp>, Filler>
+	{
+		using rtn = typename is_null<typename Exp::rtn, Filler>::rtn;
 	};
 };
 

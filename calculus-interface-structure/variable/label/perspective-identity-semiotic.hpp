@@ -23,11 +23,12 @@ struct identity
 
 	#include nik_typedef(calculus, variable, label, module)
 	#include nik_typedef(calculus, variable, label, structure)
+	#include nik_typedef(calculus, variable, label, alias)
 
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+	The implementation given here is in fact more powerful than identity applied to labels: It holds for all types.
 */
 
 	template<typename Exp1, typename Exp2>
@@ -59,6 +60,28 @@ struct identity
 	struct is_label<act<Exp>>
 	{
 		using rtn = typename is_label<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename, typename Filler = void>
+	struct is_null
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Filler>
+	struct is_null<null_label, Filler>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp, typename Filler>
+	struct is_null<act<Exp>, Filler>
+	{
+		using rtn = typename is_null<typename Exp::rtn, Filler>::rtn;
 	};
 };
 

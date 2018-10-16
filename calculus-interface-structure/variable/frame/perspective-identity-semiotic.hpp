@@ -17,45 +17,49 @@
 
 struct identity
 {
-	#include nik_typedef(calculus, parameter, tuple, module)
-	#include nik_typedef(calculus, parameter, tuple, structure)
-	#include nik_typedef(calculus, parameter, tuple, alias)
+	using kind						= module;
+
+	using type						= identity;
+
+	#include nik_typedef(calculus, variable, frame, module)
+	#include nik_typedef(calculus, variable, frame, structure)
+	#include nik_typedef(calculus, variable, frame, alias)
 
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to tuples: It holds for all types.
+	The implementation given here is in fact more powerful than identity applied to frames: It holds for all types.
 */
 
-	template<typename Expression1, typename Expression2>
+	template<typename Exp1, typename Exp2>
 	struct is_equal
 	{
 		using rtn = boolean
 		<
-			is_equal_structure<Expression1, Expression2>::value
+			is_equal_structure<Exp1, Exp2>::value
 		>;
 	};
 
 /*
-	is tuple:
+	is frame:
 */
 
 	template<typename>
-	struct is_tuple
+	struct is_frame
 	{
 		using rtn = boolean<false>;
 	};
 
-	template<typename... Exps>
-	struct is_tuple<tuple<Exps...>>
+	template<typename Type, Type... Value>
+	struct is_frame<frame<Type, Value...>>
 	{
 		using rtn = boolean<true>;
 	};
 
 	template<typename Exp>
-	struct is_tuple<act<Exp>>
+	struct is_frame<act<Exp>>
 	{
-		using rtn = typename is_tuple<typename Exp::rtn>::rtn;
+		using rtn = typename is_frame<typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -69,7 +73,7 @@ struct identity
 	};
 
 	template<typename Filler>
-	struct is_null<null_tuple, Filler>
+	struct is_null<null_frame, Filler>
 	{
 		using rtn = boolean<true>;
 	};

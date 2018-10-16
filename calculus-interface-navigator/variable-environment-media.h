@@ -15,50 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind						= module;
+#ifndef CALCULUS_VARIABLE_ENVIRONMENT_MEDIA_H
+#define CALCULUS_VARIABLE_ENVIRONMENT_MEDIA_H
 
-	using type						= identity;
+	#include"variable-frame-media.h"
 
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
+#define local_scope
 
-/*
-	is equal:
+	#include"../calculus-interface-structure/variable/environment/media.h"
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
-*/
+#undef local_scope
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		using rtn = boolean
-		<
-			is_equal_structure<Exp1, Exp2>::value
-		>;
-	};
-
-/*
-	is binding:
-*/
-
-	template<typename>
-	struct is_binding
-	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
-	{
-		using rtn = boolean<true>;
-	};
-
-	template<typename Exp>
-	struct is_binding<act<Exp>>
-	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
-	};
-};
-
+#endif

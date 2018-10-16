@@ -15,50 +15,34 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind						= module;
+#ifdef safe_name
 
-	using type						= identity;
+	#define IS_EQUAL		vareni_is_equal
+	#define IS_ENVIRONMENT		vareni_is_environment
+	#define IS_NULL			vareni_is_null
 
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
+#else
 
-/*
-	is equal:
+	#define IS_EQUAL		is_equal
+	#define IS_ENVIRONMENT		is_environment
+	#define IS_NULL			is_null
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
-*/
+#endif
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		using rtn = boolean
-		<
-			is_equal_structure<Exp1, Exp2>::value
-		>;
-	};
+//
 
-/*
-	is binding:
-*/
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename Environment::identity::template is_equal<Exp1, Exp2>;
 
-	template<typename>
-	struct is_binding
-	{
-		using rtn = boolean<false>;
-	};
+				  template<typename Exp>
+using IS_ENVIRONMENT		= typename Environment::identity::template is_environment<Exp>;
 
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
-	{
-		using rtn = boolean<true>;
-	};
+				  template<typename Exp>
+using IS_NULL			= typename Environment::identity::template is_null<Exp>;
 
-	template<typename Exp>
-	struct is_binding<act<Exp>>
-	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
-	};
-};
+//
+
+#undef IS_EQUAL
+#undef IS_ENVIRONMENT
+#undef IS_NULL
 

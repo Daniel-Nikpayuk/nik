@@ -21,32 +21,18 @@ struct structure
 
 	using type						= structure;
 
-	template<typename Type, Type...> struct constant;
-
-	template<typename Type>
-	struct constant<Type>
+	template<typename Label, typename Value>
+	struct binding
 	{
 		using kind					= module;
 
-		using type					= constant;
+		using type					= binding;
 
-		using rtn					= constant;
+		using rtn					= binding;
 
-		using value_type				= Type;
-	};
+		using key					= Label;
 
-	template<typename Type, Type Value>
-	struct constant<Type, Value>
-	{
-		using kind					= module;
-
-		using type					= constant;
-
-		using rtn					= constant;
-
-		using value_type				= Type;
-
-		static constexpr value_type value		= Value;
+		using value					= Value;
 	};
 };
 

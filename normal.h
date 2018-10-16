@@ -32,7 +32,7 @@
 
 #include nik_source(., calculus, conditional, dispatch, semiotic)
 #include nik_source(., calculus, parameter, tuple, semiotic)
-#include nik_source(., calculus, variable, label, semiotic)
+#include nik_source(., calculus, variable, frame, semiotic)
 
 #include nik_source(., hardware, graphic, printer, media)
 

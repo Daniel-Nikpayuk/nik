@@ -17,100 +17,14 @@
 
 struct functor
 {
-	#include nik_typedef(calculus, parameter, tuple, module)
-	#include nik_typedef(calculus, parameter, tuple, structure)
-	#include nik_typedef(calculus, parameter, tuple, alias)
-	#include nik_typedef(calculus, parameter, tuple, identity)
+	using kind						= module;
 
-/*
-	car:
-*/
+	using type						= functor;
 
-	template<typename> struct car;
-
-	template<typename Exp, typename... Exps>
-	struct car<tuple<Exp, Exps...>>
-	{
-		using rtn = Exp;
-	};
-
-/*
-	cdr:
-*/
-
-	template<typename> struct cdr;
-
-	template<typename Exp, typename... Exps>
-	struct cdr<tuple<Exp, Exps...>>
-	{
-		using rtn = tuple<Exps...>;
-	};
-
-/*
-	cons:
-*/
-
-	template<typename, typename> struct cons;
-
-	template<typename Exp, typename... Exps>
-	struct cons<Exp, tuple<Exps...>>
-	{
-		using rtn = tuple<Exp, Exps...>;
-	};
-
-/*
-	at:
-
-	Having access to "dispatch" grammar, it's better style to use it with car, cdr.
-	I have chosen to reimplement these grammars directly to optimize.
-*/
-
-	template<typename, typename> struct at;
-
-	template<typename Exp, typename... Exps, typename Type, Type index>
-	struct at<tuple<Exp, Exps...>, constant<Type, index>>
-	{
-		using rtn = typename at<tuple<Exps...>, constant<Type, index-1>>::rtn;
-	};
-
-	template<typename Exp, typename... Exps, typename Type>
-	struct at<tuple<Exp, Exps...>, constant<Type, 0>>
-	{
-		using rtn = Exp;
-	};
-
-/*
-	push:
-*/
-
-	template<typename, typename> struct push;
-
-	template<typename... Exps, typename Exp>
-	struct push<tuple<Exps...>, Exp>
-	{
-		using rtn = tuple<Exps..., Exp>;
-	};
-
-/*
-	length:
-
-	Having access to "dispatch" grammar, it's better style to use it with car, cdr.
-	I have chosen to reimplement these grammars directly to optimize.
-*/
-
-	template<typename, typename = constant<size_type, 0>> struct length;
-
-	template<typename Exp, typename... Exps, size_type count>
-	struct length<tuple<Exp, Exps...>, constant<size_type, count>>
-	{
-		using rtn = typename length<tuple<Exps...>, constant<size_type, count+1>>::rtn;
-	};
-
-	template<size_type count>
-	struct length<null_tuple, constant<size_type, count>>
-	{
-		using rtn = constant<size_type, count>;
-	};
+	#include nik_typedef(calculus, variable, frame, module)
+	#include nik_typedef(calculus, variable, frame, structure)
+	#include nik_typedef(calculus, variable, frame, alias)
+	#include nik_typedef(calculus, variable, frame, identity)
 
 /*
 	display:
@@ -119,38 +33,36 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp, typename... Exps>
-	inline static void display(const tuple<Exp, Exps...> & t)
+	template<typename Binding, typename... Bindings>
+	inline static void display(const frame<Binding, Bindings...> & f)
 	{
-		printf("%s", "tuple: ");
+		using remainder_is_null = typename is_null<frame<Bindings...>>::rtn;
 
-		tuple_print(t);
+		printf("%s", "frame: ");
+		Binding::kind::functor::display(Binding());
+		if (!remainder_is_null::value) printf("%c", '\n');
+
+		frame_print(f);
 	}
 
-	inline static void display(const null_tuple & t)
+	inline static void display(const null_frame & t)
 	{
-		printf("%s", "tuple: null\n");
+		printf("%s", "frame: null\n");
 	}
 
-	template<typename Exp, typename... Exps>
-	inline static void tuple_print(const tuple<Exp, Exps...> &)
+	template<typename Binding, typename... Bindings>
+	inline static void frame_print(const frame<Binding, Bindings...> &)
 	{
-		using expression_is_tuple = typename is_tuple<Exp>::rtn;
-		using remainder_is_null = typename is_null<tuple<Exps...>>::rtn;
+		using remainder_is_null = typename is_null<frame<Bindings...>>::rtn;
 
-		char l = expression_is_tuple::value ? '[' : '(';
-		char r = expression_is_tuple::value ? ']' : ')';
+		printf("%s", "       ");
+		Binding::kind::functor::display(Binding());
+		if (!remainder_is_null::value) printf("%c", '\n');
 
-		printf("%c", l);
-		Exp::kind::functor::display(Exp());
-		printf("%c", r);
-
-		if (!remainder_is_null::value) printf("%s", "  ");
-
-		tuple_print(tuple<Exps...>());
+		frame_print(frame<Bindings...>());
 	}
 
-	inline static void tuple_print(const null_tuple &)
+	inline static void frame_print(const null_frame &)
 	{
 		// do nothing.
 	}

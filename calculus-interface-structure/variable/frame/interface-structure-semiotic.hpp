@@ -21,26 +21,14 @@ struct structure
 
 	using type				= structure;
 
-	template<typename... Exps>
-	struct tuple
+	template<typename... Bindings>
+	struct frame
 	{
 		using kind			= module;
 
-		using type			= tuple;
+		using type			= frame;
 
-		using rtn			= tuple;
+		using rtn			= frame;
 	};
-
-/*
-	I've added this "array" in that it might be useful,
-	but as of yet, I have not had need to use it.
-
-	template<size_type N, size_type... params>
-	struct array
-	{
-		static constexpr size_type size = N;
-		static constexpr size_type names[size] { params... };
-	};
-*/
 };
 

@@ -17,7 +17,14 @@
 
 struct functor
 {
-	template<typename...> struct body_ { };
+	using kind						= module;
+
+	using type						= functor;
+
+	#include nik_typedef(calculus, variable, environment, module)
+	#include nik_typedef(calculus, variable, environment, structure)
+	#include nik_typedef(calculus, variable, environment, alias)
+	#include nik_typedef(calculus, variable, environment, identity)
 
 /*
 	add:
@@ -159,37 +166,46 @@ struct functor
 			Frames...
 		>;
 	};
-};
 
 /*
-	template<typename, typename Exp = null_expression, size_type Value = 0> struct parse;
+	display:
 
-	template<typename Variable, typename... Variables, typename... items, size_type Value>
-	struct parse<expression<variable, vars...>, expression<items...>, Value>
-	{
-		using rtn = parse<expression<vars...>, expression<items..., index<variable, value>>>;
-
-		using variables = typename rtn::variables;
-		using body = typename rtn::body;
-	};
-
-	template<typename... exp, typename... items, size_type value>
-	struct parse<expression<body_<exp...>>, expression<items...>, value>
-	{
-		using variables = expression<items...>;
-		using body = body_<exp...>;
-	};
-
-	//
-
-	struct analyze
-	{
-		using is_primitive = boolean<false>;
-
-		using parsed = parse<expression<Expressions...>>;
-
-		using variables = typename parsed::variables;
-		using body = typename parsed::body;
-	};
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
 */
+
+	template<typename Frame, typename... Frames>
+	inline static void display(const environment<Frame, Frames...> & f)
+	{
+		using remainder_is_null = typename is_null<environment<Frames...>>::rtn;
+
+		printf("%s", "environment: ");
+		Frame::kind::functor::display(Frame());
+		if (!remainder_is_null::value) printf("%c", '\n');
+
+		environment_print(f);
+	}
+
+	inline static void display(const null_environment & t)
+	{
+		printf("%s", "environment: null\n");
+	}
+
+	template<typename Frame, typename... Frames>
+	inline static void environment_print(const environment<Frame, Frames...> &)
+	{
+		using remainder_is_null = typename is_null<environment<Frames...>>::rtn;
+
+		printf("%s", "       ");
+		Frame::kind::functor::display(Frame());
+		if (!remainder_is_null::value) printf("%c", '\n');
+
+		environment_print(environment<Frames...>());
+	}
+
+	inline static void environment_print(const null_environment &)
+	{
+		// do nothing.
+	}
+};
 
