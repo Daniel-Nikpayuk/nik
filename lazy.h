@@ -119,18 +119,25 @@ namespace nik
 
 		static_assert
 		(
+			name_enum == Name::undefined			||
 			name_enum == Name::act				||
 
 			name_enum == Name::boolean			||
 			name_enum == Name::conditional			||
 
 			name_enum == Name::constant			||
+			name_enum == Name::op				||
 			name_enum == Name::list				||
 
 			name_enum == Name::label			||
+			name_enum == Name::lambda			||
 			name_enum == Name::binding			||
 			name_enum == Name::frame			||
 			name_enum == Name::environment			||
+
+			name_enum == Name::begin			||
+			name_enum == Name::body				||
+			name_enum == Name::program			||
 
 			name_enum == Name::pointer			||
 			name_enum == Name::power			||
@@ -148,9 +155,7 @@ namespace nik
 			branch_enum == Branch::dispatch			||
 			branch_enum == Branch::builtin			||
 			branch_enum == Branch::variable			||
-			branch_enum == Branch::lambda			||
-			branch_enum == Branch::sequential		||
-			branch_enum == Branch::interpreter		||
+			branch_enum == Branch::interpret		||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||

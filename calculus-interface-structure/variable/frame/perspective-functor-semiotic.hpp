@@ -38,7 +38,10 @@ struct functor
 	#include nik_typedef(calculus, variable, frame, identity)
 
 /*
-	add:
+	push:
+
+	There is no implementation of act<...> here because these functions
+	are intended to be internal to the environment interface.
 */
 
 	template<typename, typename> struct push;
@@ -47,6 +50,33 @@ struct functor
 	struct push<binding<Label, Value>, frame<Bindings...>>
 	{
 		using rtn = frame<binding<Label, Value>, Bindings...>;
+	};
+
+/*
+	construct:	Takes a list of labels as well as a list of values and creates
+			a frame of bindings. This implementation assumes the value list
+			is at least as long as the label list.
+*/
+
+	template<typename, typename> struct construct;
+
+	template<typename Variable, typename... Variables, typename Value, typename... Values>
+	struct construct<lambda<Variable, Variables...>, list<Value, Values...>>
+	{
+		using Frame = typename construct<lambda<Variables...>, list<Values...>>::rtn;
+
+		using rtn = typename push
+		<
+			binding<Variable, Value>,
+			Frame
+
+		>::rtn;
+	};
+
+	template<typename... Values>
+	struct construct<null_lambda, list<Values...>>
+	{
+		using rtn = null_frame;
 	};
 
 /*
@@ -63,7 +93,7 @@ struct functor
 			if_then_else
 			<
 				varlai_is_equal<Variable, Label>,
-				Value,
+				binding<Label, Value>,
 
 				act
 				<

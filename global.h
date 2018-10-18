@@ -29,18 +29,25 @@ namespace nik
 
 	enum struct Name : global_size_type
 	{
+		undefined,
 		act,
 
 			boolean,
 			conditional,
 
 			constant,
+			op,
 			list,
 
 			label,
+			lambda,
 			binding,
 			frame,
 			environment,
+
+			begin,
+			body,
+			program,
 
 		pointer,
 		power,
@@ -60,9 +67,7 @@ namespace nik
 		dispatch,
 		builtin,
 		variable,
-		lambda,
-		sequential,
-		interpreter,
+		interpret,
 
 		generic,
 		numeric,

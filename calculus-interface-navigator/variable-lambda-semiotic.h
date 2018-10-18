@@ -15,42 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct APPLY;
+#ifndef CALCULUS_VARIABLE_LAMBDA_SEMIOTIC_H
+#define CALCULUS_VARIABLE_LAMBDA_SEMIOTIC_H
 
-template<typename Function, typename... Parameters, typename... Frames>
-struct APPLY<tuple<Function, Parameters...>, environment<Frames...>>
-{
-	using Environment = environment<Frames...>;
+	#include"variable-label-semiotic.h"
 
-	using rtn = typename conditional
-	<
-		typename Function::is_primitive,
-		typename Function::template lambda<Parameters...>,
-		EVAL
-		<
-			typename Function::body,
-			extend
-			<
-				Environment,
-				typename Function::variables,
-				typename Function::constants
-			>
-		>
+#define local_scope
 
-	>::rtn::rtn;
-};
+	#include"../calculus-interface-structure/variable/lambda/semiotic.h"
 
-//
+#undef local_scope
 
-template<typename>
-struct is_application
-{
-	using rtn = boolean<false>;
-};
-
-template<typename E1, typename Env>
-struct is_application<APPLY<E1, Env>>
-{
-	using rtn = boolean<true>;
-};
-
+#endif

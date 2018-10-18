@@ -35,6 +35,13 @@ struct structure
 		using value					= Value;
 	};
 
-	struct null_binding { };
+	struct null_binding
+	{
+		using kind					= module;
+
+		using type					= null_binding;
+
+		using rtn					= null_binding;
+	};
 };
 

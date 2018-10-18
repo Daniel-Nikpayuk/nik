@@ -15,27 +15,15 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct EXECUTE;
+#ifndef CALCULUS_VARIABLE_LAMBDA_MEDIA_H
+#define CALCULUS_VARIABLE_LAMBDA_MEDIA_H
 
-template<typename Primitive, typename... Arguments, typename... Frames>
-struct EXECUTE<expression<Primitive, Arguments...>, environment<Frames...>>
-{
-	using Env = environment<Frames...>;
+	#include"variable-label-media.h"
 
-	using rtn = typename conditional
-	<
-		typename Function::is_primitive,
-		typename Function::template lambda<Parameters...>,
-		<
-			typename Function::body,
-			extend
-			<
-				Environment,
-				typename Function::variables,
-				typename Function::constants
-			>
-		>
+#define local_scope
 
-	>::rtn::rtn;
-};
+	#include"../calculus-interface-structure/variable/lambda/media.h"
 
+#undef local_scope
+
+#endif

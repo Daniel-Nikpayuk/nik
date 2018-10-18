@@ -15,39 +15,22 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#ifdef safe_name
 
-		using size_type	= SizeType;
+	#define EVALUATE	buiopf_evaluate
 
-		//
+#else
 
-		#include nik_typedef(calculus, kernel, undefined, module)
-		#include nik_typedef(calculus, kernel, undefined, structure)
+	#define EVALUATE	evaluate
 
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
+#endif
 
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
+//
 
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
+			  template<typename... Exps>
+using EVALUATE		= typename Op::functor::template evaluate<Exps...>;
 
-		#include nik_typedef(calculus, variable, frame, module)
-		#include nik_typedef(calculus, variable, frame, structure)
+//
 
-		//
-
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#undef EVALUATE
 

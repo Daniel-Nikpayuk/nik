@@ -15,9 +15,13 @@
 **
 ************************************************************************************************************************/
 
-template<typename E>
-struct is_self_evaluating
-{
-	using rtn = typename is_constant<E>::rtn;
-};
+#ifndef CALCULUS_KERNEL_UNDEFINED_SEMIOTIC_H
+#define CALCULUS_KERNEL_UNDEFINED_SEMIOTIC_H
 
+#define local_scope
+
+	#include"../calculus-interface-structure/kernel/undefined/semiotic.h"
+
+#undef local_scope
+
+#endif

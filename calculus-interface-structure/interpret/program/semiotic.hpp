@@ -15,39 +15,38 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct functor
 {
-	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
+	template<typename E>
+	struct is_self_evaluating
 	{
-		using type	= module;
-
-		using size_type	= SizeType;
-
-		//
-
-		#include nik_typedef(calculus, kernel, undefined, module)
-		#include nik_typedef(calculus, kernel, undefined, structure)
-
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
-
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
-
-		#include nik_typedef(calculus, variable, frame, module)
-		#include nik_typedef(calculus, variable, frame, structure)
-
-		//
-
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
+		using rtn = typename is_constant<E>::rtn;
 	};
-}
+
+	template<typename Exp, typename Env>
+	struct eval
+	{
+		using rtn = typename block
+		<
+			if_then
+			<
+				is_self_evaluating<Exp>,
+				Exp
+
+			>, else_then
+			<
+				is_variable<Exp>,
+				act
+				<
+					lookup<Env, Exp>
+				>
+
+			>, then
+			<
+				undefined
+			>
+
+		>::rtn;
+	};
+};
 

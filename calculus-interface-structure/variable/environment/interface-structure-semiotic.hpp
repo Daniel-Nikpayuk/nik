@@ -15,35 +15,20 @@
 **
 ************************************************************************************************************************/
 
-template<typename Variable, typename Value>
-struct binding
+struct structure
 {
-	using rtn = binding;
+	using kind				= module;
 
-	using variable = Variable;
-	using value = Value;
+	using type				= structure;
+
+	template<typename... Frames>
+	struct environment
+	{
+		using kind			= module;
+
+		using type			= environment;
+
+		using rtn			= environment;
+	};
 };
-
-using null_binding = binding<void, undefined>;
-
-//
-
-template<typename... Variables>
-using storage = tuple<Variables...>;
-
-using null_storage = null_tuple;
-
-//
-
-template<typename... Bindings>
-using frame = tuple<Bindings...>;
-
-using null_frame = null_tuple;
-
-//
-
-template<typename... Frames>
-using environment = tuple<Frames...>;
-
-using null_environment = null_tuple;
 

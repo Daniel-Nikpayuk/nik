@@ -19,6 +19,8 @@
 #define CALCULUS_VARIABLE_FRAME_SEMIOTIC_H
 
 	#include"dispatch-conditional-semiotic.h"
+	#include"builtin-list-semiotic.h"
+	#include"variable-lambda-semiotic.h"
 	#include"variable-binding-semiotic.h"
 
 #define local_scope

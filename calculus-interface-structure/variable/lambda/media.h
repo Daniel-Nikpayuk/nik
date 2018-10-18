@@ -15,29 +15,14 @@
 **
 ************************************************************************************************************************/
 
-template<typename Exp, typename Env>
-struct eval
+namespace nik
 {
-	using rtn = typename block
-	<
-		if_then
-		<
-			is_self_evaluating<Exp>,
-			Exp
+	template<typename SizeType>
+	struct module<Name::lambda, Branch::variable, Lens::calculus, Permission::media, SizeType>
+	{
+		using type = module;
 
-		>, else_then
-		<
-			is_variable<Exp>,
-			act
-			<
-				lookup<Env, Exp>
-			>
-
-		>, then
-		<
-			undefined
-		>
-
-	>::rtn;
-};
+		using size_type = SizeType;
+	};
+}
 

@@ -15,39 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#ifndef CALCULUS_KERNEL_UNDEFINED_MEDIA_H
+#define CALCULUS_KERNEL_UNDEFINED_MEDIA_H
 
-		using size_type	= SizeType;
+#define local_scope
 
-		//
+	#include"../calculus-interface-structure/kernel/undefined/media.h"
 
-		#include nik_typedef(calculus, kernel, undefined, module)
-		#include nik_typedef(calculus, kernel, undefined, structure)
+#undef local_scope
 
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
-
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
-
-		#include nik_typedef(calculus, variable, frame, module)
-		#include nik_typedef(calculus, variable, frame, structure)
-
-		//
-
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
-
+#endif

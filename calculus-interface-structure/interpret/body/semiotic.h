@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::frame, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Name::compound, Branch::lambda, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= module;
 
@@ -29,20 +29,8 @@ namespace nik
 		#include nik_typedef(calculus, kernel, act, module)
 		#include nik_typedef(calculus, kernel, act, structure)
 
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
-
-		#include nik_typedef(calculus, builtin, list, module)
-		#include nik_typedef(calculus, builtin, list, structure)
-		#include nik_typedef(calculus, builtin, list, alias)
-
-		#include nik_typedef(calculus, variable, lambda, module)
-		#include nik_typedef(calculus, variable, lambda, structure)
-		#include nik_typedef(calculus, variable, lambda, alias)
-
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
-		#include nik_typedef(calculus, variable, binding, alias)
+		#include nik_typedef(calculus, builtin, constant, module)
+		#include nik_typedef(calculus, builtin, constant, structure)
 
 		//
 

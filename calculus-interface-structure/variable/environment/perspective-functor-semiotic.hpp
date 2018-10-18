@@ -21,21 +21,50 @@ struct functor
 
 	using type						= functor;
 
+	#include nik_typedef(calculus, dispatch, conditional, functor)
+
+	#define safe_name
+
+		#include nik_typedef(calculus, variable, binding, identity)
+		#include nik_typedef(calculus, variable, frame, functor)
+
+	#undef safe_name
+
 	#include nik_typedef(calculus, variable, environment, module)
 	#include nik_typedef(calculus, variable, environment, structure)
 	#include nik_typedef(calculus, variable, environment, alias)
 	#include nik_typedef(calculus, variable, environment, identity)
 
 /*
-	extend:
+	push:
 */
 
-	template<typename, typename, typename> struct extend;
+	template<typename, typename = null_environment> struct push;
 
-	template<typename... Frames, typename Variables, typename Values>
-	struct extend<environment<Frames...>, Variables, Values>
+	template<typename Binding, typename... Frames>
+	struct push<Binding, environment<Frames...>>
 	{
-		using Frame = typename make<Variables, Values>::rtn; // non-lazy evaluation.
+		using rtn = environment
+		<
+			frame
+			<
+				Binding
+			>,
+
+			Frames...
+		>;
+	};
+
+/*
+	construct:
+*/
+
+	template<typename, typename, typename = null_environment> struct construct;
+
+	template<typename Variables, typename Values, typename... Frames>
+	struct construct<Variables, Values, environment<Frames...>>
+	{
+		using Frame = typename varfrf_construct<Variables, Values>::rtn;
 
 		using rtn = environment<Frame, Frames...>;
 	};
@@ -46,86 +75,32 @@ struct functor
 
 	template<typename, typename> struct lookup;
 
-	template<typename Frame, typename... Frames, typename variable>
-	struct lookup<environment<Frame, Frames...>, variable>
+	template<typename Variable, typename Frame, typename... Frames>
+	struct lookup<Variable, environment<Frame, Frames...>>
 	{
-		using Value = typename find<Frame, variable>::rtn;
+		using Binding = typename varfrf_lookup<Variable, Frame>::rtn;
 
-		using rtn = typename conditional
+		using rtn = typename evaluate
 		<
-			equal<Value, undefined>,
-			act
+			if_then_else
 			<
-				lookup<environment<Frames...>, variable>
-			>,
-			Value
+				varbii_is_null<Binding>,
+
+				act
+				<
+					lookup<Variable, environment<Frames...>>
+				>,
+
+				typename Binding::value
+			>
 
 		>::rtn;
 	};
 
-	template<typename variable>
-	struct lookup<null_environment, variable>
+	template<typename Variable>
+	struct lookup<Variable, null_environment>
 	{
 		using rtn = undefined;
-	};
-
-/*
-	make:
-*/
-
-	template<typename, typename> struct make;
-
-// Assumes length<Variables> == length<Values>
-
-	template<typename Variable, typename... Variables, typename Value, typename... Values>
-	struct make<storage<Variable, Variables...>, storage<Value, Values...>>
-	{
-		using Frame = typename make<storage<Variables...>, storage<Values...>>::rtn;
-
-		using rtn = typename add
-		<
-			binding<Variable, Value>,
-			Frame
-
-		>::rtn;
-	};
-
-	template<typename... Values>
-	struct make<null_storage, storage<Values...>>
-	{
-		using rtn = null_frame;
-	};
-
-/*
-	define:
-*/
-
-	template<typename...> struct define_;
-
-	template<typename Variable, typename Value>
-	struct define_<Variable, Value>
-	{
-		using rtn = environment
-		<
-			frame
-			<
-				binding<Variable, Value>
-			>
-		>;
-	};
-
-	template<typename Variable, typename Value, typename... Frames>
-	struct define_<Variable, Value, environment<Frames...>>
-	{
-		using rtn = environment
-		<
-			frame
-			<
-				binding<Variable, Value>
-			>,
-
-			Frames...
-		>;
 	};
 
 /*

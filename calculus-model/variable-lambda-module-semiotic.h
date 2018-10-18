@@ -15,39 +15,29 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#ifdef local_scope
 
-		using size_type	= SizeType;
+	#define SIZE_TYPE size_type
 
-		//
+#else
 
-		#include nik_typedef(calculus, kernel, undefined, module)
-		#include nik_typedef(calculus, kernel, undefined, structure)
+	#define SIZE_TYPE nik::global_size_type
 
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
+#endif
 
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
+//
 
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
+using Lambda = nik::module
+<
+	nik::Name::lambda,
+	nik::Branch::variable,
+	nik::Lens::calculus,
+	nik::Permission::semiotic,
 
-		#include nik_typedef(calculus, variable, frame, module)
-		#include nik_typedef(calculus, variable, frame, structure)
+	SIZE_TYPE
+>;
 
-		//
+//
 
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#undef SIZE_TYPE
 

@@ -15,39 +15,34 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#ifdef safe_name
 
-		using size_type	= SizeType;
+	#define PUSH		varfrf_push
+	#define CONSTRUCT	varfrf_construct
+	#define LOOKUP		varfrf_lookup
 
-		//
+#else
 
-		#include nik_typedef(calculus, kernel, undefined, module)
-		#include nik_typedef(calculus, kernel, undefined, structure)
+	#define PUSH		push
+	#define CONSTRUCT	construct
+	#define LOOKUP		lookup
 
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
+#endif
 
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
+//
 
-		#include nik_typedef(calculus, variable, binding, module)
-		#include nik_typedef(calculus, variable, binding, structure)
+			  template<typename Binding, typename varfrs_Frame>
+using PUSH		= typename Frame::functor::template push<Binding, varfrs_Frame>;
 
-		#include nik_typedef(calculus, variable, frame, module)
-		#include nik_typedef(calculus, variable, frame, structure)
+			  template<typename Variables, typename Values>
+using CONSTRUCT		= typename Frame::functor::template construct<Variables, Values>;
 
-		//
+			  template<typename Variable, typename varfrs_Frame>
+using LOOKUP		= typename Frame::functor::template lookup<Variable, varfrs_Frame>;
 
-		#include"interface-structure-semiotic.hpp"
+//
 
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#undef PUSH
+#undef CONSTRUCT
+#undef LOOKUP
 
