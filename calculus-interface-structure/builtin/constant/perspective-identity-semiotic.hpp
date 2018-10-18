@@ -15,15 +15,50 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+struct identity
+{
+	using kind						= module;
 
-	#include"dispatch-boolean-media.h"
+	using type						= identity;
 
-#define local_scope
+	#include nik_typedef(calculus, builtin, constant, module)
+	#include nik_typedef(calculus, builtin, constant, structure)
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+/*
+	is equal:
 
-#undef local_scope
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+*/
 
-#endif
+	template<typename Exp1, typename Exp2>
+	struct is_equal
+	{
+		using rtn = boolean
+		<
+			is_equal_structure<Exp1, Exp2>::value
+		>;
+	};
+
+/*
+	is constant:
+*/
+
+	template<typename>
+	struct is_constant
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Type, Type... Value>
+	struct is_constant<constant<Type, Value...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_constant<act<Exp>>
+	{
+		using rtn = typename is_constant<typename Exp::rtn>::rtn;
+	};
+};
+

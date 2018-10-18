@@ -18,6 +18,7 @@
 #ifndef CALCULUS_VARIABLE_FRAME_SEMIOTIC_H
 #define CALCULUS_VARIABLE_FRAME_SEMIOTIC_H
 
+	#include"dispatch-conditional-semiotic.h"
 	#include"variable-binding-semiotic.h"
 
 #define local_scope

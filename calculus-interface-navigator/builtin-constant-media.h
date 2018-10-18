@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifndef CALCULUS_BUILTIN_CONSTANT_MEDIA_H
+#define CALCULUS_BUILTIN_CONSTANT_MEDIA_H
 
 	#include"dispatch-boolean-media.h"
 
 #define local_scope
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+	#include"../calculus-interface-structure/builtin/constant/media.h"
 
 #undef local_scope
 

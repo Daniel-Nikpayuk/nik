@@ -15,15 +15,37 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Name::list, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using type	= module;
 
-	#include"dispatch-boolean-media.h"
+		using size_type	= SizeType;
 
-#define local_scope
+		//
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+		#include nik_lensdef(calculus, perspective, identity, semiotic)
 
-#undef local_scope
+		#include nik_typedef(calculus, kernel, act, module)
+		#include nik_typedef(calculus, kernel, act, structure)
 
-#endif
+		#include nik_typedef(calculus, dispatch, boolean, module)
+		#include nik_typedef(calculus, dispatch, boolean, structure)
+
+		#include nik_typedef(calculus, builtin, constant, module)
+		#include nik_typedef(calculus, builtin, constant, structure)
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+		#include"interface-navigator-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
+

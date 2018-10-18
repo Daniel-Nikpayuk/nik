@@ -31,8 +31,8 @@ namespace nik
 		#include nik_typedef(calculus, kernel, act, module)
 		#include nik_typedef(calculus, kernel, act, structure)
 
-		#include nik_typedef(calculus, conditional, boolean, module)
-		#include nik_typedef(calculus, conditional, boolean, structure)
+		#include nik_typedef(calculus, dispatch, boolean, module)
+		#include nik_typedef(calculus, dispatch, boolean, structure)
 
 		//
 

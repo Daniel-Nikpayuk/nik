@@ -21,10 +21,64 @@ struct functor
 
 	using type						= functor;
 
+	#include nik_typedef(calculus, dispatch, conditional, functor)
+
+	#include nik_typedef(calculus, variable, label, module)
+	#include nik_typedef(calculus, variable, label, structure)
+
+	#define safe_name
+
+		#include nik_typedef(calculus, variable, label, identity)
+
+	#undef safe_name
+
 	#include nik_typedef(calculus, variable, frame, module)
 	#include nik_typedef(calculus, variable, frame, structure)
 	#include nik_typedef(calculus, variable, frame, alias)
 	#include nik_typedef(calculus, variable, frame, identity)
+
+/*
+	add:
+*/
+
+	template<typename, typename> struct push;
+
+	template<typename Label, typename Value, typename... Bindings>
+	struct push<binding<Label, Value>, frame<Bindings...>>
+	{
+		using rtn = frame<binding<Label, Value>, Bindings...>;
+	};
+
+/*
+	lookup:
+*/
+
+	template<typename, typename> struct lookup;
+
+	template<typename Variable, typename Label, typename Value, typename... Bindings>
+	struct lookup<Variable, frame<binding<Label, Value>, Bindings...>>
+	{
+		using rtn = typename evaluate
+		<
+			if_then_else
+			<
+				varlai_is_equal<Variable, Label>,
+				Value,
+
+				act
+				<
+					lookup<Variable, frame<Bindings...>>
+				>
+			>
+
+		>::rtn;
+	};
+
+	template<typename Variable>
+	struct lookup<Variable, null_frame>
+	{
+		using rtn = null_binding;
+	};
 
 /*
 	display:

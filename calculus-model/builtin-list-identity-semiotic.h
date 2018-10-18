@@ -15,15 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifdef safe_name
 
-	#include"dispatch-boolean-media.h"
+	#define IS_EQUAL	builii_is_equal
+	#define IS_LIST		builii_is_list
+	#define IS_NULL		builii_is_null
 
-#define local_scope
+#else
 
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
+	#define IS_EQUAL	is_equal
+	#define IS_LIST		is_list
+	#define IS_NULL		is_null
 
 #endif
+
+//
+
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename List::identity::template is_equal<Exp1, Exp2>;
+
+				  template<typename Exp>
+using IS_LIST			= typename List::identity::template is_list<Exp>;
+
+				  template<typename Exp>
+using IS_NULL			= typename List::identity::template is_null<Exp>;
+
+//
+
+#undef IS_EQUAL
+#undef IS_LIST
+#undef IS_NULL
+

@@ -15,15 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifdef safe_name
 
-	#include"dispatch-boolean-media.h"
+	#define IS_EQUAL	buicoi_is_equal
+	#define IS_CONSTANT	buicoi_is_constant
 
-#define local_scope
+#else
 
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
+	#define IS_EQUAL	is_equal
+	#define IS_CONSTANT	is_constant
 
 #endif
+
+//
+
+				  template<typename Exp1, typename Exp2>
+using IS_EQUAL			= typename Constant::identity::template is_equal<Exp1, Exp2>;
+
+				  template<typename Exp>
+using IS_CONSTANT		= typename Constant::identity::template is_constant<Exp>;
+
+//
+
+#undef IS_EQUAL
+#undef IS_CONSTANT
+

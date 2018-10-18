@@ -18,7 +18,7 @@
 #ifndef CALCULUS_VARIABLE_LABEL_SEMIOTIC_H
 #define CALCULUS_VARIABLE_LABEL_SEMIOTIC_H
 
-	#include"conditional-boolean-semiotic.h"
+	#include"dispatch-boolean-semiotic.h"
 
 #define local_scope
 

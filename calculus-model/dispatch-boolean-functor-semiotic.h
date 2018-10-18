@@ -15,15 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifdef safe_name
 
-	#include"dispatch-boolean-media.h"
+	#define NOT		disbof_Not
+	#define AND		disbof_And
+	#define OR		disbof_Or
 
-#define local_scope
+#else
 
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
+	#define NOT		Not
+	#define AND		And
+	#define OR		Or
 
 #endif
+
+//
+
+			  template<typename Exp>
+using NOT		= typename Boolean::functor::template Not<Exp>;
+
+			  template<typename Exp, typename... Exps>
+using AND		= typename Boolean::functor::template And<Exp, Exps...>;
+
+			  template<typename Exp, typename... Exps>
+using OR		= typename Boolean::functor::template Or<Exp, Exps...>;
+
+//
+
+#undef NOT
+#undef AND
+#undef OR
+

@@ -34,5 +34,7 @@ struct structure
 
 		using value					= Value;
 	};
+
+	struct null_binding { };
 };
 

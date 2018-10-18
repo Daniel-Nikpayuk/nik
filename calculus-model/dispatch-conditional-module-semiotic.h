@@ -15,15 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifdef local_scope
 
-	#include"dispatch-boolean-media.h"
+	#define SIZE_TYPE size_type
 
-#define local_scope
+#else
 
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
+	#define SIZE_TYPE nik::global_size_type
 
 #endif
+
+//
+
+using Conditional = nik::module
+<
+	nik::Name::conditional,
+	nik::Branch::dispatch,
+	nik::Lens::calculus,
+	nik::Permission::semiotic,
+
+	SIZE_TYPE
+>;
+
+//
+
+#undef SIZE_TYPE
+

@@ -30,5 +30,17 @@ struct structure
 
 		using rtn					= label;
 	};
+
+/*
+	I've added this "array" in that it might be useful,
+	but as of yet, I have not had need to use it.
+
+	template<char... params>
+	struct array
+	{
+		static constexpr size_type size = length<list<char...>>::rtn::value;
+		static constexpr char names[size] { params... };
+	};
+*/
 };
 

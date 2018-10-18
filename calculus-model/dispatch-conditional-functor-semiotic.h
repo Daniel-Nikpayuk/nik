@@ -15,15 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+#ifdef safe_name
 
-	#include"dispatch-boolean-media.h"
+	#define EVALUATE	discof_evaluate
 
-#define local_scope
+#else
 
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
+	#define EVALUATE	evaluate
 
 #endif
+
+//
+
+			  template<typename... Exps>
+using EVALUATE		= typename Conditional::functor::template evaluate<Exps...>;
+
+//
+
+#undef EVALUATE
+

@@ -17,49 +17,45 @@
 
 struct identity
 {
-	using kind						= module;
-
-	using type						= identity;
-
-	#include nik_typedef(calculus, variable, binding, module)
-	#include nik_typedef(calculus, variable, binding, structure)
-	#include nik_typedef(calculus, variable, binding, alias)
+	#include nik_typedef(calculus, builtin, list, module)
+	#include nik_typedef(calculus, builtin, list, structure)
+	#include nik_typedef(calculus, builtin, list, alias)
 
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+	The implementation given here is in fact more powerful than identity applied to lists: It holds for all types.
 */
 
-	template<typename Exp1, typename Exp2>
+	template<typename Expression1, typename Expression2>
 	struct is_equal
 	{
 		using rtn = boolean
 		<
-			is_equal_structure<Exp1, Exp2>::value
+			is_equal_structure<Expression1, Expression2>::value
 		>;
 	};
 
 /*
-	is binding:
+	is list:
 */
 
 	template<typename>
-	struct is_binding
+	struct is_list
 	{
 		using rtn = boolean<false>;
 	};
 
-	template<typename Label, typename Value>
-	struct is_binding<binding<Label, Value>>
+	template<typename... Exps>
+	struct is_list<list<Exps...>>
 	{
 		using rtn = boolean<true>;
 	};
 
 	template<typename Exp>
-	struct is_binding<act<Exp>>
+	struct is_list<act<Exp>>
 	{
-		using rtn = typename is_binding<typename Exp::rtn>::rtn;
+		using rtn = typename is_list<typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -73,7 +69,7 @@ struct identity
 	};
 
 	template<typename Filler>
-	struct is_null<null_binding, Filler>
+	struct is_null<null_list, Filler>
 	{
 		using rtn = boolean<true>;
 	};
@@ -83,6 +79,5 @@ struct identity
 	{
 		using rtn = typename is_null<typename Exp::rtn, Filler>::rtn;
 	};
-
 };
 

@@ -15,15 +15,14 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Name::list, Branch::builtin, Lens::calculus, Permission::media, SizeType>
+	{
+		using type = module;
 
-	#include"dispatch-boolean-media.h"
+		using size_type = SizeType;
+	};
+}
 
-#define local_scope
-
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
-
-#endif

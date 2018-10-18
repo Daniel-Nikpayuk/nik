@@ -15,15 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+struct structure
+{
+	using kind				= module;
 
-	#include"dispatch-boolean-media.h"
+	using type				= structure;
 
-#define local_scope
+	template<typename... Exps>
+	struct list
+	{
+		using kind			= module;
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+		using type			= list;
 
-#undef local_scope
+		using rtn			= list;
+	};
+};
 
-#endif

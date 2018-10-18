@@ -32,10 +32,10 @@ namespace nik
 		act,
 
 			boolean,
-			dispatch,
+			conditional,
 
 			constant,
-			tuple,
+			list,
 
 			label,
 			binding,
@@ -57,8 +57,8 @@ namespace nik
 	enum struct Branch : global_size_type
 	{
 		kernel,
-		conditional,
-		parameter,
+		dispatch,
+		builtin,
 		variable,
 		lambda,
 		sequential,

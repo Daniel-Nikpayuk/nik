@@ -122,10 +122,10 @@ namespace nik
 			name_enum == Name::act				||
 
 			name_enum == Name::boolean			||
-			name_enum == Name::dispatch			||
+			name_enum == Name::conditional			||
 
 			name_enum == Name::constant			||
-			name_enum == Name::tuple			||
+			name_enum == Name::list				||
 
 			name_enum == Name::label			||
 			name_enum == Name::binding			||
@@ -145,8 +145,8 @@ namespace nik
 		static_assert
 		(
 			branch_enum == Branch::kernel			||
-			branch_enum == Branch::conditional		||
-			branch_enum == Branch::parameter		||
+			branch_enum == Branch::dispatch			||
+			branch_enum == Branch::builtin			||
 			branch_enum == Branch::variable			||
 			branch_enum == Branch::lambda			||
 			branch_enum == Branch::sequential		||

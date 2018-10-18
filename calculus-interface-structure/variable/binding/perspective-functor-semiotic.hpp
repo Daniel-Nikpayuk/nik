@@ -23,6 +23,7 @@ struct functor
 
 	#include nik_typedef(calculus, variable, binding, module)
 	#include nik_typedef(calculus, variable, binding, structure)
+	#include nik_typedef(calculus, variable, binding, alias)
 
 /*
 	display:
@@ -41,6 +42,11 @@ struct functor
 		printf("%s", ", ");
 		Value::kind::functor::display(Value());
 		printf("%c", '>');
+	}
+
+	inline static void display(const null_binding &)
+	{
+		printf("%s", "binding: null");
 	}
 };
 

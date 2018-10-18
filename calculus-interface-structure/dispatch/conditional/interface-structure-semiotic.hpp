@@ -15,15 +15,50 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+struct structure
+{
+	using kind						= module;
 
-	#include"dispatch-boolean-media.h"
+	using type						= structure;
 
-#define local_scope
+	template<typename, typename, typename>
+	struct if_then_else
+	{
+		using kind					= module;
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+		using type					= if_then_else;
 
-#undef local_scope
+		using rtn					= if_then_else;
+	};
 
-#endif
+	template<typename, typename>
+	struct if_then
+	{
+		using kind					= module;
+
+		using type					= if_then;
+
+		using rtn					= if_then;
+	};
+
+	template<typename, typename>
+	struct else_then
+	{
+		using kind					= module;
+
+		using type					= else_then;
+
+		using rtn					= else_then;
+	};
+
+	template<typename>
+	struct then
+	{
+		using kind					= module;
+
+		using type					= then;
+
+		using rtn					= then;
+	};
+};
+

@@ -27,18 +27,6 @@ struct functor
 	#include nik_typedef(calculus, variable, environment, identity)
 
 /*
-	add:
-*/
-
-	template<typename, typename> struct add;
-
-	template<typename Variable, typename Value, typename... Bindings>
-	struct add<binding<Variable, Value>, frame<Bindings...>>
-	{
-		using rtn = frame<binding<Variable, Value>, Bindings...>;
-	};
-
-/*
 	extend:
 */
 
@@ -50,33 +38,6 @@ struct functor
 		using Frame = typename make<Variables, Values>::rtn; // non-lazy evaluation.
 
 		using rtn = environment<Frame, Frames...>;
-	};
-
-/*
-	find:
-*/
-
-	template<typename, typename> struct find;
-
-	template<typename Variable, typename Value, typename... Bindings, typename variable>
-	struct find<frame<binding<Variable, Value>, Bindings...>, variable>
-	{
-		using rtn = typename conditional
-		<
-			equal<Variable, variable>,
-			Value,
-			act
-			<
-				find<frame<Bindings...>, variable>
-			>
-
-		>::rtn;
-	};
-
-	template<typename variable>
-	struct find<null_frame, variable>
-	{
-		using rtn = undefined;
 	};
 
 /*

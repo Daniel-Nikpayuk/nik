@@ -15,15 +15,5 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+using null_binding	= typename Binding::structure::null_binding;
 
-	#include"dispatch-boolean-media.h"
-
-#define local_scope
-
-	#include"../calculus-interface-structure/variable/label/media.h"
-
-#undef local_scope
-
-#endif

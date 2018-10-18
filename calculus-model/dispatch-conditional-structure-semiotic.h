@@ -15,15 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_VARIABLE_LABEL_MEDIA_H
-#define CALCULUS_VARIABLE_LABEL_MEDIA_H
+			  template<typename Pred, typename Exp1, typename Exp2>
+using if_then_else	= typename Conditional::structure::template if_then_else<Pred, Exp1, Exp2>;
 
-	#include"dispatch-boolean-media.h"
+			  template<typename Pred, typename Exp>
+using if_then		= typename Conditional::structure::template if_then<Pred, Exp>;
 
-#define local_scope
+			  template<typename Pred, typename Exp>
+using else_then		= typename Conditional::structure::template else_then<Pred, Exp>;
 
-	#include"../calculus-interface-structure/variable/label/media.h"
+			  template<typename Exp>
+using then		= typename Conditional::structure::template then<Exp>;
 
-#undef local_scope
-
-#endif
