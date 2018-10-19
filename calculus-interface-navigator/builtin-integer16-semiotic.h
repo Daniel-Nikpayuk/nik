@@ -15,46 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+#ifndef CALCULUS_BUILTIN_INTEGER16_SEMIOTIC_H
+#define CALCULUS_BUILTIN_INTEGER16_SEMIOTIC_H
 
-	#define PREFIX		calpef_
+	#include"builtin-op-semiotic.h"
 
-#else
+#define local_scope
 
-	#define PREFIX
+	#include"../calculus-interface-structure/builtin/integer16/semiotic.h"
+
+#undef local_scope
 
 #endif
-
-//
-
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
-
-//
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
-
-
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
-
-//
-
-#undef PREFIX
-

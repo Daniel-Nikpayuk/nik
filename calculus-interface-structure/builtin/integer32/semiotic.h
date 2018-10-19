@@ -15,46 +15,33 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Name::integer32, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using type		= module;
 
-	#define PREFIX		calpef_
+		using size_type		= SizeType;
 
-#else
+		using register_type	= typename calculus::functor::template register_type<32>::rtn;
 
-	#define PREFIX
+		//
 
-#endif
+//		#include nik_lensdef(calculus, perspective, identity, semiotic)
 
-//
+//		#include nik_typedef(calculus, kernel, act, structure)
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
+		#include nik_typedef(calculus, builtin, op, structure)
 
-//
+		//
 
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
+		#include"interface-structure-semiotic.hpp"
 
+		//
 
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
-
-//
-
-#undef PREFIX
+//		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
 

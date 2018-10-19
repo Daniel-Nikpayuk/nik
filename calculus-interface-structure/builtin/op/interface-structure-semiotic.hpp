@@ -30,5 +30,17 @@ struct structure
 
 		using rtn					= op;
 	};
+
+	template<char Value>
+	struct op<Value>
+	{
+		using kind					= module;
+
+		using type					= op;
+
+		using rtn					= op;
+
+		static constexpr register_type value		= Value;
+	};
 };
 

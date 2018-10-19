@@ -15,46 +15,57 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+/*
+	is_null:
+*/
 
-	#define PREFIX		calpef_
+template<typename> struct is_null;
 
-#else
+/*
+	typename:
+*/
 
-	#define PREFIX
+template<typename Exp, typename... Exps, template<typename...> class ListType>
+struct is_null<ListType<Exp, Exps...>>
+{
+	static constexpr bool value = false;
+};
 
-#endif
+template<template<typename...> class ListType>
+struct is_null<ListType<>>
+{
+	static constexpr bool value = true;
+};
 
-//
+/*
+	bool:
+*/
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
+template<bool Exp, bool... Exps, template<bool...> class ListType>
+struct is_null<ListType<Exp, Exps...>>
+{
+	static constexpr bool value = false;
+};
 
-//
+template<template<bool...> class ListType>
+struct is_null<ListType<>>
+{
+	static constexpr bool value = true;
+};
 
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
+/*
+	char:
+*/
 
+template<char Exp, char... Exps, template<char...> class ListType>
+struct is_null<ListType<Exp, Exps...>>
+{
+	static constexpr bool value = false;
+};
 
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
-
-//
-
-#undef PREFIX
+template<template<char...> class ListType>
+struct is_null<ListType<>>
+{
+	static constexpr bool value = true;
+};
 

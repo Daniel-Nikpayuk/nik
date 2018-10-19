@@ -15,46 +15,32 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+struct structure
+{
+	using kind						= module;
 
-	#define PREFIX		calpef_
+	using type						= structure;
 
-#else
+	template<register_type...>
+	struct integer32
+	{
+		using kind					= module;
 
-	#define PREFIX
+		using type					= integer32;
 
-#endif
+		using rtn					= integer32;
+	};
 
-//
+	template<register_type Value>
+	struct integer32<Value>
+	{
+		using kind					= module;
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
+		using type					= integer32;
 
-//
+		using rtn					= integer32;
 
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
-
-
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
-
-//
-
-#undef PREFIX
+		static constexpr register_type value		= Value;
+	};
+};
 

@@ -17,7 +17,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calpef_
+	#define PREFIX		calpei_
 
 #else
 
@@ -27,32 +27,11 @@
 
 //
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
-
-//
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
-
-
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
+						  template<typename Type1, typename Type2>
+using nik_safe(PREFIX, is_equal)		= typename nik::calculus::identity::template is_equal<Type1, Type2>;
 
 						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
+using nik_safe(PREFIX, is_null)			= typename nik::calculus::identity::template is_null<ListType>;
 
 //
 

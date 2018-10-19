@@ -17,16 +17,7 @@
 
 struct identity
 {
-	template<typename Type1, typename Type2>
-	struct is_equal_structure
-	{
-		static constexpr bool value = false;
-	};
-
-	template<typename Type>
-	struct is_equal_structure<Type, Type>
-	{
-		static constexpr bool value = true;
-	};
+	#include"is_equal-semiotic.hpp"
+	#include"is_null-semiotic.hpp"
 };
 

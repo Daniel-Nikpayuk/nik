@@ -15,46 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+#include"define-size_type.h"
 
-	#define PREFIX		calpef_
+				  template<bool Value>
+	using boolean		= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
+				  boolean<Value>;
 
-#else
+				  template<bool Value>
+	using b			= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
+				  boolean<Value>;
 
-	#define PREFIX
-
-#endif
-
-//
-
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
-
-//
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
-
-
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
-
-//
-
-#undef PREFIX
+#include"undef-size_type.h"
 

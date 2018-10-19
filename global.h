@@ -33,15 +33,25 @@ namespace nik
 		act,
 
 			op,
-			constant,
+			boolean,
+			literal,
+			number,
+			natural8,
+			natural16,
+			natural32,
+			natural64,
+			natural,
+			integer8,
+			integer16,
+			integer32,
+			integer64,
+			integer,
 
 /*
-			boolean,
 			conditional,
 
 			list,
 
-			label,
 			lambda,
 			binding,
 			frame,

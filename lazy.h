@@ -144,16 +144,25 @@ namespace nik
 			name_enum == Name::act				||
 
 			name_enum == Name::op				||
-			name_enum == Name::constant			||
+			name_enum == Name::boolean			||
+			name_enum == Name::literal			||
+			name_enum == Name::number			||
+			name_enum == Name::natural8			||
+			name_enum == Name::natural16			||
+			name_enum == Name::natural32			||
+			name_enum == Name::natural64			||
+			name_enum == Name::natural			||
+			name_enum == Name::integer8			||
+			name_enum == Name::integer16			||
+			name_enum == Name::integer32			||
+			name_enum == Name::integer64			||
+			name_enum == Name::integer			||
 
 /*
-			name_enum == Name::boolean			||
 			name_enum == Name::conditional			||
 
 			name_enum == Name::list				||
 
-			name_enum == Name::label			||
-			name_enum == Name::lambda			||
 			name_enum == Name::binding			||
 			name_enum == Name::frame			||
 			name_enum == Name::environment			||

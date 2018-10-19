@@ -21,5 +21,8 @@
 	using op		= typename nik_module(op, builtin, calculus, semiotic)::structure::template
 				  op<Chars...>;
 
+	using null_op		= typename nik_module(op, builtin, calculus, semiotic)::structure::template
+				  op<>;
+
 #include"undef-size_type.h"
 

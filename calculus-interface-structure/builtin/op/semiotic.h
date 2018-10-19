@@ -20,19 +20,11 @@ namespace nik
 	template<typename SizeType>
 	struct module<Name::op, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using type		= module;
 
-		using size_type	= SizeType;
+		using size_type		= SizeType;
 
-		//
-
-/*
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, builtin, constant, module)
-		#include nik_typedef(calculus, builtin, constant, structure)
-*/
+		using register_type	= char;
 
 		//
 

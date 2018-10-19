@@ -30,7 +30,7 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., calculus, builtin, constant, semiotic)
+#include nik_source(., calculus, builtin, integer32, semiotic)
 //#include nik_source(., calculus, dispatch, if_then_else, semiotic)
 //#include nik_source(., calculus, interpret, expression, semiotic)
 

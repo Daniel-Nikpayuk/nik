@@ -15,9 +15,11 @@
 **
 ************************************************************************************************************************/
 
+#include"define-size_type.h"
+
 #ifdef safe_name
 
-	#define PREFIX		calpef_
+	#define PREFIX		buii32f_
 
 #else
 
@@ -27,34 +29,13 @@
 
 //
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
-
-//
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
-
-
-#define ONE 1
-
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
+						  template<typename... Exps>
+using nik_safe(PREFIX, apply)			= typename nik_module(integer32, builtin, calculus, semiotic)::functor::template
+						  apply<Exps...>;
 
 //
 
 #undef PREFIX
+
+#include"undef-size_type.h"
 
