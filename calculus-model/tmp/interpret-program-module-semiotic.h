@@ -15,22 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+#ifdef local_scope
 
-	#define EVALUATE	buiopf_evaluate
+	#define SIZE_TYPE size_type
 
 #else
 
-	#define EVALUATE	evaluate
+	#define SIZE_TYPE nik::global_size_type
 
 #endif
 
 //
 
-			  template<typename... Exps>
-using EVALUATE		= typename Op::functor::template evaluate<Exps...>;
+using Program = nik::module
+<
+	nik::Name::program,
+	nik::Branch::interpret,
+	nik::Lens::calculus,
+	nik::Permission::semiotic,
+
+	SIZE_TYPE
+>;
 
 //
 
-#undef EVALUATE
+#undef SIZE_TYPE
 

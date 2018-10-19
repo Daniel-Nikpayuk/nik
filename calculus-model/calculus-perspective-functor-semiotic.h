@@ -17,47 +17,44 @@
 
 #ifdef safe_name
 
-	#define LENGTH		calpef_length
-	#define SIGN		calpef_sign
-	#define REGISTER_TYPE	calpef_register_type
-	#define HALF_TYPE	calpef_half_type
+	#define PREFIX		calpef_
 
 #else
 
-	#define LENGTH		length
-	#define SIGN		sign
-	#define REGISTER_TYPE	register_type
-	#define HALF_TYPE	half_type
+	#define PREFIX
 
 #endif
 
 //
 
-using Sign			= typename calculus::functor::Sign;
+						  template<typename Type>
+using nik_safe(PREFIX, dereference)		= typename calculus::functor::template dereference<Type>;
 
 //
 
-				  template<typename RegType, typename SizeType = global_size_type>
-using LENGTH			= typename calculus::functor::template length<RegType, SizeType>;
-
-				  template<typename RegType>
-using SIGN			= typename calculus::functor::template sign<RegType>;
-
-				  template<global_size_type N, Sign sign>
-using REGISTER_TYPE		= typename calculus::functor::template register_type<N, sign>;
+						  template<global_size_type N>
+using nik_safe(PREFIX, register_type)		= typename calculus::functor::template register_type<N>;
 
 
 #define ONE 1
 
-				  template<global_size_type N, Sign sign>
-using HALF_TYPE			= register_type<(N >> ONE), sign>;
+						  template<global_size_type N>
+using nik_safe(PREFIX, half_type)		= typename calculus::functor::template register_type<(N >> ONE)>;
 
 #undef ONE
 
 //
 
-#undef LENGTH
-#undef SIGN
-#undef REGISTER_TYPE
-#undef HALF_TYPE
+						  template<typename Exp, typename ListType>
+using nik_safe(PREFIX, cons)			= typename calculus::functor::template cons<Exp, ListType>;
+
+						  template<typename ListType>
+using nik_safe(PREFIX, car)			= typename calculus::functor::template car<ListType>;
+
+						  template<typename ListType>
+using nik_safe(PREFIX, cdr)			= typename calculus::functor::template cdr<ListType>;
+
+//
+
+#undef PREFIX
 

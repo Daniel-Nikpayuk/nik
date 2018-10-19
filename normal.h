@@ -30,10 +30,9 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., calculus, dispatch, conditional, semiotic)
-#include nik_source(., calculus, builtin, op, semiotic)
-#include nik_source(., calculus, builtin, list, semiotic)
-#include nik_source(., calculus, interpret, begin, semiotic)
+#include nik_source(., calculus, builtin, constant, semiotic)
+//#include nik_source(., calculus, dispatch, if_then_else, semiotic)
+//#include nik_source(., calculus, interpret, expression, semiotic)
 
 #include nik_source(., hardware, graphic, printer, media)
 

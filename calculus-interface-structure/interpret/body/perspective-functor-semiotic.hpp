@@ -21,10 +21,59 @@ struct functor
 
 	using type						= functor;
 
-	#include nik_typedef(calculus, lambda, compound, module)
-	#include nik_typedef(calculus, lambda, compound, structure)
+	#include nik_typedef(calculus, interpret, body, module)
+	#include nik_typedef(calculus, interpret, body, structure)
+	#include nik_typedef(calculus, interpret, body, alias)
+
+/*
+	evaluate:
+*/
 
 	template<typename...> struct evaluate;
+
+	template<typename Exp, typename... Exps, typename Environment, typename Functor>
+	struct evaluate<body<Exp, Exps...>, Environment, Functor>
+	{
+				  template<typename... Params>
+		using eval	= typename Functor::template evaluate<Params...>;
+
+		//
+
+		using rtn = typename discof_evaluate
+		<
+			if_then
+			<
+				is_op<Exp>,
+				act
+				<
+					buicof_evaluate<Exp, Exps...>
+				>
+
+			>, else_then
+			<
+				is_lambda<>,
+
+				act
+				<
+					evaluate<body<Exps...>, Environment, Functor>
+				>
+
+			>, then
+			<
+				act
+				<
+					eval<Exp, Environment>
+				>
+			>
+
+		>::rtn;
+	};
+
+	template<typename Environment, typename Functor>
+	struct evaluate<null_body, Environment, Functor>
+	{
+		using rtn = undefined;
+	};
 
 /*
 	template<>

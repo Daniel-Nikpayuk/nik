@@ -15,7 +15,11 @@
 **
 ************************************************************************************************************************/
 
-			  template<char... Chars>
-using op		= typename Op::structure::template op<Chars...>;
+#include"define-size_type.h"
 
+				  template<char... Chars>
+	using op		= typename nik_module(op, builtin, calculus, semiotic)::structure::template
+				  op<Chars...>;
+
+#include"undef-size_type.h"
 

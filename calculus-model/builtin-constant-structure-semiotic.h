@@ -15,6 +15,40 @@
 **
 ************************************************************************************************************************/
 
-			  template<typename Type, Type... Value>
-using constant		= typename Constant::structure::template constant<Type, Value...>;
+#include"define-size_type.h"
+
+				  template<typename nik_module(constant, builtin, calculus, semiotic)::register_type... Values>
+	using integer32		= typename nik_module(constant, builtin, calculus, semiotic)::structure::template
+				  integer32<Values...>;
+
+//
+
+/*
+	We include here a list of commonly used literal constants,
+	parameterized for different register sizes:
+
+			  template<typename RegType>
+using zero		= constant<RegType, (RegType) 0>;
+
+			  template<typename RegType>
+using one		= constant<RegType, (RegType) 1>;
+
+			  template<typename RegType>
+using two		= constant<RegType, (RegType) 2>;
+
+			  template<typename RegType>
+using three		= constant<RegType, (RegType) 3>;
+
+//
+
+			  template<typename RegType>
+using nibble		= constant<RegType, (RegType) 4>;
+
+			  template<typename RegType>
+using byte		= constant<RegType, (RegType) 8>;
+*/
+
+//
+
+#include"undef-size_type.h"
 

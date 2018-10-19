@@ -15,28 +15,23 @@
 **
 ************************************************************************************************************************/
 
+#include"define-size_type.h"
+
 #ifdef safe_name
 
-	#define IS_EQUAL	buicoi_is_equal
-	#define IS_CONSTANT	buicoi_is_constant
-
-#else
-
-	#define IS_EQUAL	is_equal
-	#define IS_CONSTANT	is_constant
+	#define SAFE_		buicoi_
 
 #endif
 
-//
-
 				  template<typename Exp1, typename Exp2>
-using IS_EQUAL			= typename Constant::identity::template is_equal<Exp1, Exp2>;
+using SAFE_is_equal		= typename nik_module(constant, builtin, calculus, semiotic)::identity::template
+				  is_equal<Exp1, Exp2>;
 
 				  template<typename Exp>
-using IS_CONSTANT		= typename Constant::identity::template is_constant<Exp>;
+using SAFE_is_constant		= typename nik_module(constant, builtin, calculus, semiotic)::identity::template
+				  is_constant<Exp>;
 
-//
+#undef SAFE_
 
-#undef IS_EQUAL
-#undef IS_CONSTANT
+#include"undef-size_type.h"
 

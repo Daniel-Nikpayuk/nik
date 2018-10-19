@@ -15,18 +15,43 @@
 **
 ************************************************************************************************************************/
 
-template<typename, typename> struct BEGIN;
-
-template<typename Exp, typename... Exps, typename... Frames>
-struct BEGIN<expression<Exp, Exps...>, environment<Frames...>>
+struct functor
 {
-	using Env = environment<Frames...>;
+	using kind				= module;
 
-	using rtn = typename cons
-	<
-		EVAL<Exp, Env>,
-		BEGIN<expression<Exps...>, Env>
+	using type				= functor;
 
-	>::rtn;
+	#include nik_typedef(calculus, interpret, begin, module)
+	#include nik_typedef(calculus, interpret, begin, structure)
+	#include nik_typedef(calculus, interpret, begin, alias)
+
+/*
+	evaluate:
+*/
+
+	template<typename...> struct evaluate;
+
+	template<typename Exp, typename... Exps, typename Environment, typename Functor>
+	struct evaluate<begin<Exp, Exps...>, Environment, Functor>
+	{
+				  template<typename... Params>
+		using eval	= typename Functor::template evaluate<Params...>;
+
+		//
+
+		using rtn = typename cons
+		<
+			typename eval<Exp, Environment>::rtn,
+
+			typename evaluate<begin<Exps...>, Environment, Functor>::rtn
+
+		>::rtn;
+	};
+
+	template<typename Environment, typename Functor>
+	struct evaluate<null_begin, Environment, Functor>
+	{
+		using rtn = null_begin;
+	};
 };
 

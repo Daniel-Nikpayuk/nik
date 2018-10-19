@@ -15,51 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind						= module;
+#include"define-size_type.h"
 
-	using type						= functor;
+#ifdef safe_name
 
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
+	#define PREFIX		buicof_
 
-	template<typename...> struct apply;
+#else
 
-/*
-	Arithmetic operators
+	#define PREFIX
 
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
-*/
+#endif
 
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
+//
 
-		integer32<Value1>,
-		integer32<Value2>
-	>
-	{
-		using rtn = integer32<(Value1 + Value2)>;
-	};
+						  template<typename... Exps>
+using nik_safe(PREFIX, apply)			= typename nik_module(constant, builtin, calculus, semiotic)::functor::template
+						  apply<Exps...>;
 
-/*
-	display:
+//
 
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
+#undef PREFIX
 
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
-	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
-};
+#include"undef-size_type.h"
 

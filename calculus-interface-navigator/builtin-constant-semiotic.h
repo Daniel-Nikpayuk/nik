@@ -18,7 +18,7 @@
 #ifndef CALCULUS_BUILTIN_CONSTANT_SEMIOTIC_H
 #define CALCULUS_BUILTIN_CONSTANT_SEMIOTIC_H
 
-	#include"dispatch-boolean-semiotic.h"
+	#include"builtin-op-semiotic.h"
 
 #define local_scope
 

@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::compound, Branch::lambda, Lens::calculus, Permission::media, SizeType>
+	struct module<Name::body, Branch::interpret, Lens::calculus, Permission::media, SizeType>
 	{
 		using type = module;
 

@@ -15,5 +15,6 @@
 **
 ************************************************************************************************************************/
 
-using begin		= typename Begin::structure::template begin;
+		  template<typename... Exps>
+using body	= typename Body::structure::template body<Exps...>;
 

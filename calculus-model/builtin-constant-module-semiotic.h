@@ -15,29 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#ifdef local_scope
+#include"define-size_type.h"
 
-	#define SIZE_TYPE size_type
+	using Constant = nik_module(constant, builtin, calculus, semiotic);
 
-#else
-
-	#define SIZE_TYPE nik::global_size_type
-
-#endif
-
-//
-
-using Constant = nik::module
-<
-	nik::Name::constant,
-	nik::Branch::builtin,
-	nik::Lens::calculus,
-	nik::Permission::semiotic,
-
-	SIZE_TYPE
->;
-
-//
-
-#undef SIZE_TYPE
+#include"undef-size_type.h"
 

@@ -15,29 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#ifdef local_scope
+#include"define-size_type.h"
 
-	#define SIZE_TYPE size_type
+	using Op = nik_module(op, builtin, calculus, semiotic);
 
-#else
-
-	#define SIZE_TYPE nik::global_size_type
-
-#endif
-
-//
-
-using Op = nik::module
-<
-	nik::Name::op,
-	nik::Branch::builtin,
-	nik::Lens::calculus,
-	nik::Permission::semiotic,
-
-	SIZE_TYPE
->;
-
-//
-
-#undef SIZE_TYPE
+#include"undef-size_type.h"
 

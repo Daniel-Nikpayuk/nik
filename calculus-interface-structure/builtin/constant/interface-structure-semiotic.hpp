@@ -21,32 +21,17 @@ struct structure
 
 	using type						= structure;
 
-	template<typename Type, Type...> struct constant;
+	template
+	<
+		register_type...
 
-	template<typename Type>
-	struct constant<Type>
+	> struct integer32
 	{
 		using kind					= module;
 
-		using type					= constant;
+		using type					= integer32;
 
-		using rtn					= constant;
-
-		using value_type				= Type;
-	};
-
-	template<typename Type, Type Value>
-	struct constant<Type, Value>
-	{
-		using kind					= module;
-
-		using type					= constant;
-
-		using rtn					= constant;
-
-		using value_type				= Type;
-
-		static constexpr value_type value		= Value;
+		using rtn					= integer32;
 	};
 };
 

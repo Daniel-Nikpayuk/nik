@@ -15,51 +15,50 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+struct identity
 {
 	using kind						= module;
 
-	using type						= functor;
+	using type						= identity;
 
 	#include nik_typedef(calculus, builtin, constant, module)
 	#include nik_typedef(calculus, builtin, constant, structure)
 
-	template<typename...> struct apply;
-
 /*
-	Arithmetic operators
+	is equal:
 
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
 */
 
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
-
-		integer32<Value1>,
-		integer32<Value2>
-	>
+	template<typename Exp1, typename Exp2>
+	struct is_equal
 	{
-		using rtn = integer32<(Value1 + Value2)>;
+		using rtn = boolean
+		<
+			is_equal_structure<Exp1, Exp2>::value
+		>;
 	};
 
 /*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
+	is constant:
 */
 
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
+	template<typename>
+	struct is_constant
 	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
+		using rtn = boolean<false>;
+	};
+
+	template<typename Type, Type... Value>
+	struct is_constant<constant<Type, Value...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_constant<act<Exp>>
+	{
+		using rtn = typename is_constant<typename Exp::rtn>::rtn;
+	};
 };
 

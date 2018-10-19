@@ -26,11 +26,13 @@ namespace nik
 
 		//
 
+/*
 		#include nik_typedef(calculus, kernel, act, module)
 		#include nik_typedef(calculus, kernel, act, structure)
 
 		#include nik_typedef(calculus, builtin, constant, module)
 		#include nik_typedef(calculus, builtin, constant, structure)
+*/
 
 		//
 

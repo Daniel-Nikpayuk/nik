@@ -15,5 +15,8 @@
 **
 ************************************************************************************************************************/
 
+			  template<typename... Exps>
+using list		= typename List::structure::template list<Exps...>;
+
 using null_list		= list<>;
 

@@ -15,51 +15,39 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+/*
+	cons:
+*/
+
+template<typename...> struct cons;
+
+template<typename Exp, typename... Exps, template<typename...> class ListType>
+struct cons<Exp, ListType<Exps...>>
 {
-	using kind						= module;
-
-	using type						= functor;
-
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
-
-	template<typename...> struct apply;
+	using rtn = ListType<Exp, Exps...>;
+};
 
 /*
-	Arithmetic operators
-
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
+	car:
 */
 
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
+template<typename...> struct car;
 
-		integer32<Value1>,
-		integer32<Value2>
-	>
-	{
-		using rtn = integer32<(Value1 + Value2)>;
-	};
+template<typename Exp, typename... Exps, template<typename...> class ListType>
+struct car<ListType<Exp, Exps...>>
+{
+	using rtn = Exp;
+};
 
 /*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
+	cdr:
 */
 
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
-	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
+template<typename...> struct cdr;
+
+template<typename Exp, typename... Exps, template<typename...> class ListType>
+struct cdr<ListType<Exp, Exps...>>
+{
+	using rtn = ListType<Exps...>;
 };
 

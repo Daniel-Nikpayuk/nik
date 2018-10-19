@@ -17,56 +17,10 @@
 
 struct functor
 {
-/*
-	dereference:
-*/
-
-	template<typename Type>
-	struct dereference
-	{
-		using rtn = Type;
-	};
-
-	template<typename Type>
-	struct dereference<Type*>
-	{
-		using rtn = Type;
-	};
-
-/*
-	length:
-*/
-
-	#define EIGHT 8
-
-	template<typename RegType, typename SizeType = global_size_type>
-	struct length
-	{
-		using reg_type				= RegType;
-
-		using size_type				= SizeType;
-
-		static constexpr size_type value	= size_type(EIGHT) * sizeof(reg_type);
-	};
-
-	#undef EIGHT
-
-/*
-	limits:
-*/
-
+	#include"dereference-semiotic.hpp"
 	#include"limits-semiotic.hpp"
-
-/*
-	sign:
-*/
-
-	#include"sign-semiotic.hpp"
-
-/*
-	register_type:
-*/
-
 	#include"register_type-semiotic.hpp"
+	#include"list_type-semiotic.hpp"
+	#include"display-semiotic.hpp"
 };
 

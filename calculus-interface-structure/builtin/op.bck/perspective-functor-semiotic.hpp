@@ -28,7 +28,7 @@ struct functor
 	#include nik_typedef(calculus, builtin, op, module)
 	#include nik_typedef(calculus, builtin, op, structure)
 
-	template<typename...> struct apply;
+	template<typename...> struct evaluate;
 
 /*
 	Arithmetic operators
@@ -40,21 +40,20 @@ struct functor
 	% (modulus)
 */
 
-/*
-	template<typename Type, Type Value1, Type Value2, template<Type...> class constant>
-	struct apply
+	template<typename Type, Type Value1, Type Value2>
+	struct evaluate
 	<
 		op<'+'>,
 
-		constant<Value1>,
-		constant<Value2>
+		constant<Type, Value1>,
+		constant<Type, Value2>
 	>
 	{
-		using rtn = constant<(Value1 + Value2)>;
+		using rtn = constant<Type, (Value1 + Value2)>;
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'-'>,
 
@@ -66,7 +65,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'*'>,
 
@@ -78,7 +77,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'/'>,
 
@@ -90,7 +89,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'%'>,
 
@@ -100,7 +99,6 @@ struct functor
 	{
 		using rtn = constant<Type, (Value1 % Value2)>;
 	};
-*/
 
 /*
 	Bitwise operators
@@ -113,9 +111,8 @@ struct functor
 	>> (shift right, extraction from stream)
 */
 
-/*
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'^'>,
 
@@ -127,7 +124,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'|'>,
 
@@ -139,7 +136,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'&'>,
 
@@ -151,7 +148,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value>
-	struct apply
+	struct evaluate
 	<
 		op<'~'>,
 
@@ -162,7 +159,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'<', '<'>,
 
@@ -174,7 +171,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value1, Type Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'>', '>'>,
 
@@ -184,7 +181,6 @@ struct functor
 	{
 		using rtn = constant<Type, (Value1 >> Value2)>;
 	};
-*/
 
 /*
 	Relational operators
@@ -197,9 +193,8 @@ struct functor
 	<= (less-than-or-equal-to)
 */
 
-/*
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'=', '='>,
 
@@ -211,7 +206,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'!', '='>,
 
@@ -223,7 +218,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'>'>,
 
@@ -235,7 +230,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'<'>,
 
@@ -247,7 +242,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'>', '='>,
 
@@ -259,7 +254,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'<', '='>,
 
@@ -269,7 +264,6 @@ struct functor
 	{
 		using rtn = constant<bool, (Value1 <= Value2)>;
 	};
-*/
 
 /*
 	Logical operators
@@ -279,9 +273,8 @@ struct functor
 	|| (OR)
 */
 
-/*
 	template<bool Value>
-	struct apply
+	struct evaluate
 	<
 		op<'!'>,
 
@@ -292,7 +285,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'&', '&'>,
 
@@ -304,7 +297,7 @@ struct functor
 	};
 
 	template<bool Value1, bool Value2>
-	struct apply
+	struct evaluate
 	<
 		op<'|', '|'>,
 
@@ -314,7 +307,6 @@ struct functor
 	{
 		using rtn = constant<bool, (Value1 || Value2)>;
 	};
-*/
 
 /*
 	Increment and decrement operators
@@ -323,9 +315,8 @@ struct functor
 	-- (decrement)
 */
 
-/*
 	template<typename Type, Type Value>
-	struct apply
+	struct evaluate
 	<
 		op<'+', '+'>,
 
@@ -336,7 +327,7 @@ struct functor
 	};
 
 	template<typename Type, Type Value>
-	struct apply
+	struct evaluate
 	<
 		op<'-', '-'>,
 
@@ -345,22 +336,20 @@ struct functor
 	{
 		using rtn = constant<Type, (-- Value)>;
 	};
-*/
 
 /*
 	with act:
 */
 
-/*
 	template<typename Op, typename Exp>
-	struct apply
+	struct evaluate
 	<
 		Op,
 
 		act<Exp>
 	>
 	{
-		using rtn = typename apply
+		using rtn = typename evaluate
 		<
 			Op,
 
@@ -370,7 +359,7 @@ struct functor
 	};
 
 	template<typename Op, typename Type, Type Value, typename Exp>
-	struct apply
+	struct evaluate
 	<
 		Op,
 
@@ -378,7 +367,7 @@ struct functor
 		act<Exp>
 	>
 	{
-		using rtn = typename apply
+		using rtn = typename evaluate
 		<
 			Op,
 
@@ -389,7 +378,7 @@ struct functor
 	};
 
 	template<typename Op, typename Exp, typename Type, Type Value>
-	struct apply
+	struct evaluate
 	<
 		Op,
 
@@ -397,7 +386,7 @@ struct functor
 		constant<Type, Value>
 	>
 	{
-		using rtn = typename apply
+		using rtn = typename evaluate
 		<
 			Op,
 
@@ -408,7 +397,7 @@ struct functor
 	};
 
 	template<typename Op, typename Exp1, typename Exp2>
-	struct apply
+	struct evaluate
 	<
 		Op,
 
@@ -416,7 +405,7 @@ struct functor
 		act<Exp2>
 	>
 	{
-		using rtn = typename apply
+		using rtn = typename evaluate
 		<
 			Op,
 
@@ -427,7 +416,7 @@ struct functor
 	};
 
 	template<typename Op, typename Exp1, typename Exp2, typename Exp3, typename... Exps>
-	struct apply
+	struct evaluate
 	<
 		Op,
 
@@ -437,16 +426,15 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename apply
+		using rtn = typename evaluate
 		<
 			Op,
 
-			typename apply<Op, Exp1, Exp2>::rtn,
+			typename evaluate<Op, Exp1, Exp2>::rtn,
 			Exp3,
 			Exps...
 
 		>::rtn;
 	};
-*/
 };
 

@@ -15,51 +15,33 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+namespace nik
 {
-	using kind						= module;
-
-	using type						= functor;
-
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
-
-	template<typename...> struct apply;
-
-/*
-	Arithmetic operators
-
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
-*/
-
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
-
-		integer32<Value1>,
-		integer32<Value2>
-	>
+	template<typename SizeType>
+	struct module<Name::constant, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using rtn = integer32<(Value1 + Value2)>;
+		using type	= module;
+
+		using size_type	= SizeType;
+
+		//
+
+		#include nik_lensdef(calculus, perspective, identity, semiotic)
+
+		#include nik_typedef(calculus, kernel, act, module)
+		#include nik_typedef(calculus, kernel, act, structure)
+
+		#include nik_typedef(calculus, dispatch, boolean, module)
+		#include nik_typedef(calculus, dispatch, boolean, structure)
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
-	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
-};
+}
 

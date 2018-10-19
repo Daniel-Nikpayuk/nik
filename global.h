@@ -32,11 +32,13 @@ namespace nik
 		undefined,
 		act,
 
+			op,
+			constant,
+
+/*
 			boolean,
 			conditional,
 
-			constant,
-			op,
 			list,
 
 			label,
@@ -48,6 +50,7 @@ namespace nik
 			begin,
 			body,
 			program,
+*/
 
 		pointer,
 		power,
@@ -64,8 +67,8 @@ namespace nik
 	enum struct Branch : global_size_type
 	{
 		kernel,
-		dispatch,
 		builtin,
+		dispatch,
 		variable,
 		interpret,
 

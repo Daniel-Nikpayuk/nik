@@ -33,6 +33,11 @@
 	label1##label2
 
 
+#define nik_safe(label1, label2)											\
+															\
+	nik_catenate(label1, label2)
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
@@ -40,6 +45,22 @@
 #define nik_source(path, narrative, branch, module, space)								\
 															\
 	nik_stringify(path/narrative-interface-navigator/branch-module-space.h)
+
+
+/***********************************************************************************************************************/
+
+
+#define nik_module(name, branch, lens, permission)									\
+															\
+	nik::module													\
+	<														\
+		nik::Name::name,											\
+		nik::Branch::branch,											\
+		nik::Lens::lens,											\
+		nik::Permission::permission,										\
+															\
+		SIZE_TYPE												\
+	>
 
 
 /***********************************************************************************************************************/
@@ -122,11 +143,13 @@ namespace nik
 			name_enum == Name::undefined			||
 			name_enum == Name::act				||
 
+			name_enum == Name::op				||
+			name_enum == Name::constant			||
+
+/*
 			name_enum == Name::boolean			||
 			name_enum == Name::conditional			||
 
-			name_enum == Name::constant			||
-			name_enum == Name::op				||
 			name_enum == Name::list				||
 
 			name_enum == Name::label			||
@@ -138,6 +161,7 @@ namespace nik
 			name_enum == Name::begin			||
 			name_enum == Name::body				||
 			name_enum == Name::program			||
+*/
 
 			name_enum == Name::pointer			||
 			name_enum == Name::power			||
@@ -152,8 +176,8 @@ namespace nik
 		static_assert
 		(
 			branch_enum == Branch::kernel			||
-			branch_enum == Branch::dispatch			||
 			branch_enum == Branch::builtin			||
+			branch_enum == Branch::dispatch			||
 			branch_enum == Branch::variable			||
 			branch_enum == Branch::interpret		||
 

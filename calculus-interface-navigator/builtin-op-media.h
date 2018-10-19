@@ -18,8 +18,6 @@
 #ifndef CALCULUS_BUILTIN_OP_MEDIA_H
 #define CALCULUS_BUILTIN_OP_MEDIA_H
 
-	#include"builtin-constant-media.h"
-
 #define local_scope
 
 	#include"../calculus-interface-structure/builtin/op/media.h"

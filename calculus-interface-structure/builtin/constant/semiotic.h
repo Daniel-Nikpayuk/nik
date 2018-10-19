@@ -20,19 +20,18 @@ namespace nik
 	template<typename SizeType>
 	struct module<Name::constant, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using type		= module;
 
-		using size_type	= SizeType;
+		using size_type		= SizeType;
+
+		using register_type	= typename calculus::functor::template register_type<32>::rtn;
 
 		//
 
-		#include nik_lensdef(calculus, perspective, identity, semiotic)
+//		#include nik_lensdef(calculus, perspective, identity, semiotic)
 
-		#include nik_typedef(calculus, kernel, act, module)
-		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, dispatch, boolean, module)
-		#include nik_typedef(calculus, dispatch, boolean, structure)
+		#include nik_typedef(calculus, builtin, op, module)
+		#include nik_typedef(calculus, builtin, op, structure)
 
 		//
 
@@ -40,7 +39,7 @@ namespace nik
 
 		//
 
-		#include"perspective-identity-semiotic.hpp"
+//		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

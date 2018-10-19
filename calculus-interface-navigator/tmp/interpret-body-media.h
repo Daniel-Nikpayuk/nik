@@ -15,51 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind						= module;
+#ifndef CALCULUS_INTERPRET_BODY_MEDIA_H
+#define CALCULUS_INTERPRET_BODY_MEDIA_H
 
-	using type						= functor;
+	#include"variable-environment-media.h"
 
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
+#define local_scope
 
-	template<typename...> struct apply;
+	#include"../calculus-interface-structure/interpret/body/media.h"
 
-/*
-	Arithmetic operators
+#undef local_scope
 
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
-*/
-
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
-
-		integer32<Value1>,
-		integer32<Value2>
-	>
-	{
-		using rtn = integer32<(Value1 + Value2)>;
-	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
-	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
-};
-
+#endif

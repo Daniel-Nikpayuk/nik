@@ -15,51 +15,29 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind						= module;
+#ifdef local_scope
 
-	using type						= functor;
+	#define SIZE_TYPE size_type
 
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
+#else
 
-	template<typename...> struct apply;
+	#define SIZE_TYPE nik::global_size_type
 
-/*
-	Arithmetic operators
+#endif
 
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
-*/
+//
 
-	template<register_type Value1, register_type Value2>
-	struct apply
-	<
-		op<'+'>,
+using Body = nik::module
+<
+	nik::Name::body,
+	nik::Branch::interpret,
+	nik::Lens::calculus,
+	nik::Permission::semiotic,
 
-		integer32<Value1>,
-		integer32<Value2>
-	>
-	{
-		using rtn = integer32<(Value1 + Value2)>;
-	};
+	SIZE_TYPE
+>;
 
-/*
-	display:
+//
 
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<register_type Value>
-	inline static void display(const integer32<Value> &)
-	{
-		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
-	}
-};
+#undef SIZE_TYPE
 

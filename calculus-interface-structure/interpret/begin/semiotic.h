@@ -26,11 +26,19 @@ namespace nik
 
 		//
 
+		#include nik_lensdef(calculus, perspective, functor, semiotic)
+
+		#include nik_typedef(calculus, variable, environment, module)
+		#include nik_typedef(calculus, variable, environment, structure)
+		#include nik_typedef(calculus, variable, environment, alias)
+
+		//
+
 		#include"interface-structure-semiotic.hpp"
 
 		//
 
-//		#include"perspective-functor-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
 }
 
