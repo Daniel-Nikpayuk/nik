@@ -24,15 +24,7 @@ namespace nik
 
 		using size_type		= SizeType;
 
-		using register_type	= typename calculus::functor::template register_type<32>::rtn;
-
-		//
-
-//		#include nik_lensdef(calculus, perspective, identity, semiotic)
-
-//		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, builtin, op, structure)
+		using register_type	= typename calculus::functor::template signed_type<32>::rtn;
 
 		//
 

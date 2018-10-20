@@ -19,53 +19,38 @@
 	is_null:
 */
 
-template<typename> struct is_null;
+	template<typename> struct is_null;
 
-/*
-	typename:
-*/
+#define declare_is_null(value_type)											\
+															\
+	template<value_type Exp, value_type... Exps, template<value_type...> class ListType>				\
+	struct is_null<ListType<Exp, Exps...>>										\
+	{														\
+		static constexpr bool value = false;									\
+	};														\
+															\
+	template<template<value_type...> class ListType>								\
+	struct is_null<ListType<>>											\
+	{														\
+		static constexpr bool value = true;									\
+	};
 
-template<typename Exp, typename... Exps, template<typename...> class ListType>
-struct is_null<ListType<Exp, Exps...>>
-{
-	static constexpr bool value = false;
-};
+	declare_is_null(typename)
+	declare_is_null(bool)
+	declare_is_null(char)
 
-template<template<typename...> class ListType>
-struct is_null<ListType<>>
-{
-	static constexpr bool value = true;
-};
+	declare_is_null(signed char)
+	declare_is_null(wchar_t)
+	declare_is_null(char16_t)
+	declare_is_null(char32_t)
+	declare_is_null(short)
+	declare_is_null(unsigned short)
+	declare_is_null(int)
+	declare_is_null(unsigned int)
+	declare_is_null(long)
+	declare_is_null(unsigned long)
+	declare_is_null(long long)
+	declare_is_null(unsigned long long)
 
-/*
-	bool:
-*/
-
-template<bool Exp, bool... Exps, template<bool...> class ListType>
-struct is_null<ListType<Exp, Exps...>>
-{
-	static constexpr bool value = false;
-};
-
-template<template<bool...> class ListType>
-struct is_null<ListType<>>
-{
-	static constexpr bool value = true;
-};
-
-/*
-	char:
-*/
-
-template<char Exp, char... Exps, template<char...> class ListType>
-struct is_null<ListType<Exp, Exps...>>
-{
-	static constexpr bool value = false;
-};
-
-template<template<char...> class ListType>
-struct is_null<ListType<>>
-{
-	static constexpr bool value = true;
-};
+#undef declare_is_null
 

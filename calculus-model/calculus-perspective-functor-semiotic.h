@@ -27,32 +27,49 @@
 
 //
 
-						  template<typename Type>
-using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik::calculus::functor::template dereference<Type>;
 
 //
 
-						  template<global_size_type N>
-using nik_safe(PREFIX, register_type)		= typename nik::calculus::functor::template register_type<N>;
+							  template<typename Exp, typename ListType>
+	using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
+
+							  template<typename ListType>
+	using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
+
+							  template<typename ListType>
+	using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
+
+//
+
+							  template<global_size_type N>
+	using nik_safe(PREFIX, unsigned_type)		= typename nik::calculus::functor::template unsigned_type<N>;
+
+							  template<global_size_type N>
+	using nik_safe(PREFIX, signed_type)		= typename nik::calculus::functor::template signed_type<N>;
 
 
 #define ONE 1
 
-						  template<global_size_type N>
-using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template register_type<(N >> ONE)>;
+							  template<global_size_type N>
+	using nik_safe(PREFIX, half_type)		= typename nik::calculus::functor::template unsigned_type<(N >> ONE)>;
 
 #undef ONE
 
 //
 
-						  template<typename Exp, typename ListType>
-using nik_safe(PREFIX, cons)			= typename nik::calculus::functor::template cons<Exp, ListType>;
+							  template<char op, typename Type, Type Value>
+	using nik_safe(PREFIX, apply11)			= typename nik::calculus::functor::template apply11<op, Type, Value>;
 
-						  template<typename ListType>
-using nik_safe(PREFIX, car)			= typename nik::calculus::functor::template car<ListType>;
+							  template<char op, typename Type, Type Value1, Type Value2>
+	using nik_safe(PREFIX, apply12)			= typename nik::calculus::functor::template apply12<op, Type, Value1, Value2>;
 
-						  template<typename ListType>
-using nik_safe(PREFIX, cdr)			= typename nik::calculus::functor::template cdr<ListType>;
+							  template<char op1, char op2, typename Type, Type Value>
+	using nik_safe(PREFIX, apply21)			= typename nik::calculus::functor::template apply21<op1, op2, Type, Value>;
+
+							  template<char op1, char op2, typename Type, Type Value1, Type Value2>
+	using nik_safe(PREFIX, apply22)			= typename nik::calculus::functor::template apply22<op1, op2, Type, Value1, Value2>;
 
 //
 

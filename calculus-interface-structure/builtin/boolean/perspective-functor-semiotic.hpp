@@ -25,95 +25,82 @@ struct functor
 
 	using type					= functor;
 
-	#include nik_typedef(calculus, dispatch, boolean, module)
-	#include nik_typedef(calculus, dispatch, boolean, structure)
+	#define safe_name
+
+		#include nik_lensdef(calculus, perspective, functor, semiotic)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, builtin, boolean, structure)
 
 /*
-	Logical operators
-
-	! (NOT)
-	&& (AND)
-	|| (OR)
+	cons:
 */
 
+	template<register_type, typename> struct cons;
 
-/*
-	Not:
-*/
-
-	template<typename> struct Not;
-
-	template<bool Value>
-	struct Not<boolean<Value>>
+	template<register_type Exp, register_type... Exps, template<register_type...> class ListType>
+	struct cons<Exp, ListType<Exps...>>
 	{
-		using rtn = boolean<!Value>;
+		using rtn = ListType<Exp, Exps...>;
 	};
 
-	template<typename Exp>
-	struct Not<act<Exp>>
+	template<register_type Exp1, typename Exp2>
+	struct cons<Exp1, act<Exp2>>
 	{
-		using rtn = typename Not<typename Exp::rtn>::rtn;
+		using rtn = typename cons<Exp1, typename Exp2::rtn>::rtn;
 	};
 
 /*
-	And:
+	apply:
 */
 
-	template<typename, typename...> struct And;
-
-	template<bool Value>
-	struct And<boolean<Value>>
-	{
-		using rtn = boolean<Value>;
-	};
-
-	template<typename Exp, typename... Exps>
-	struct And<boolean<false>, Exp, Exps...>
-	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename Exp, typename... Exps>
-	struct And<boolean<true>, Exp, Exps...>
-	{
-		using rtn = typename And<Exp, Exps...>::rtn;
-	};
-
-	template<typename Exp, typename... Exps>
-	struct And<act<Exp>, Exps...>
-	{
-		using rtn = typename And<typename Exp::rtn, Exps...>::rtn;
-	};
+	template<typename...> struct apply;
 
 /*
-	Or:
+	apply11:
 */
 
-	template<typename, typename...> struct Or;
+	template
+	<
+		char op_char,
+		register_type Value1, register_type Value2, register_type... Values
+	>
+	struct apply
+	<
+		op<op_char>,
 
-	template<bool Value>
-	struct Or<boolean<Value>>
+		integer32<Value1, Value2, Values...>
+	>
 	{
-		using rtn = boolean<Value>;
+		using rtn = typename cons
+		<
+			calpef_apply11<op_char, register_type, Value1>::value,
+
+			act
+			<
+				apply
+				<
+					op<op_char>,
+
+					integer32<Value2, Values...>
+				>
+			>
+
+		>::rtn;
 	};
 
-	template<typename Exp, typename... Exps>
-	struct Or<boolean<true>, Exp, Exps...>
+	template<char op_char, register_type Value>
+	struct apply
+	<
+		op<op_char>,
+
+		integer32<Value>
+	>
 	{
-		using rtn = boolean<true>;
+		using rtn = integer32<calpef_apply11<op_char, register_type, Value>::value>;
 	};
 
-	template<typename Exp, typename... Exps>
-	struct Or<boolean<false>, Exp, Exps...>
-	{
-		using rtn = typename Or<Exp, Exps...>::rtn;
-	};
-
-	template<typename Exp, typename... Exps>
-	struct Or<act<Exp>, Exps...>
-	{
-		using rtn = typename Or<typename Exp::rtn, Exps...>::rtn;
-	};
 
 /*
 	display:

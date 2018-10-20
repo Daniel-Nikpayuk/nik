@@ -17,6 +17,9 @@
 
 #define EIGHT 8
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
 template
 <
 	global_size_type N,
@@ -24,9 +27,7 @@ template
 
 	bool = (N <= global_size_type(EIGHT) * sizeof(reg_type))
 
-> struct register_type;
-
-#undef EIGHT
+> struct unsigned_type;
 
 /***********************************************************************************************************************/
 
@@ -35,15 +36,15 @@ template
 */
 
 template<global_size_type N>
-struct register_type<N, unsigned char, true>
+struct unsigned_type<N, unsigned char, true>
 {
 	using rtn = unsigned char;
 };
 
 template<global_size_type N>
-struct register_type<N, unsigned char, false>
+struct unsigned_type<N, unsigned char, false>
 {
-	using rtn = typename register_type<N, unsigned short>::rtn;
+	using rtn = typename unsigned_type<N, unsigned short>::rtn;
 };
 
 /*
@@ -51,15 +52,15 @@ struct register_type<N, unsigned char, false>
 */
 
 template<global_size_type N>
-struct register_type<N, unsigned short, true>
+struct unsigned_type<N, unsigned short, true>
 {
 	using rtn = unsigned short;
 };
 
 template<global_size_type N>
-struct register_type<N, unsigned short, false>
+struct unsigned_type<N, unsigned short, false>
 {
-	using rtn = typename register_type<N, unsigned int>::rtn;
+	using rtn = typename unsigned_type<N, unsigned int>::rtn;
 };
 
 /*
@@ -67,15 +68,15 @@ struct register_type<N, unsigned short, false>
 */
 
 template<global_size_type N>
-struct register_type<N, unsigned int, true>
+struct unsigned_type<N, unsigned int, true>
 {
 	using rtn = unsigned int;
 };
 
 template<global_size_type N>
-struct register_type<N, unsigned int, false>
+struct unsigned_type<N, unsigned int, false>
 {
-	using rtn = typename register_type<N, unsigned long>::rtn;
+	using rtn = typename unsigned_type<N, unsigned long>::rtn;
 };
 
 /*
@@ -83,15 +84,15 @@ struct register_type<N, unsigned int, false>
 */
 
 template<global_size_type N>
-struct register_type<N, unsigned long, true>
+struct unsigned_type<N, unsigned long, true>
 {
 	using rtn = unsigned long;
 };
 
 template<global_size_type N>
-struct register_type<N, unsigned long, false>
+struct unsigned_type<N, unsigned long, false>
 {
-	using rtn = typename register_type<N, unsigned long long>::rtn;
+	using rtn = typename unsigned_type<N, unsigned long long>::rtn;
 };
 
 /*
@@ -99,14 +100,113 @@ struct register_type<N, unsigned long, false>
 */
 
 template<global_size_type N>
-struct register_type<N, unsigned long long, true>
+struct unsigned_type<N, unsigned long long, true>
 {
 	using rtn = unsigned long long;
 };
 
 template<global_size_type N>
-struct register_type<N, unsigned long long, false>
+struct unsigned_type<N, unsigned long long, false>
 {
 	using rtn = unsigned long long; // default
 };
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+template
+<
+	global_size_type N,
+	typename reg_type = unsigned char,
+
+	bool = (N <= global_size_type(EIGHT) * sizeof(reg_type))
+
+> struct signed_type;
+
+/***********************************************************************************************************************/
+
+/*
+	char:
+*/
+
+template<global_size_type N>
+struct signed_type<N, unsigned char, true>
+{
+	using rtn = signed char;
+};
+
+template<global_size_type N>
+struct signed_type<N, unsigned char, false>
+{
+	using rtn = typename signed_type<N, unsigned short>::rtn;
+};
+
+/*
+	short:
+*/
+
+template<global_size_type N>
+struct signed_type<N, unsigned short, true>
+{
+	using rtn = signed short;
+};
+
+template<global_size_type N>
+struct signed_type<N, unsigned short, false>
+{
+	using rtn = typename signed_type<N, unsigned int>::rtn;
+};
+
+/*
+	int:
+*/
+
+template<global_size_type N>
+struct signed_type<N, unsigned int, true>
+{
+	using rtn = signed int;
+};
+
+template<global_size_type N>
+struct signed_type<N, unsigned int, false>
+{
+	using rtn = typename signed_type<N, unsigned long>::rtn;
+};
+
+/*
+	long:
+*/
+
+template<global_size_type N>
+struct signed_type<N, unsigned long, true>
+{
+	using rtn = signed long;
+};
+
+template<global_size_type N>
+struct signed_type<N, unsigned long, false>
+{
+	using rtn = typename signed_type<N, unsigned long long>::rtn;
+};
+
+/*
+	long long:
+*/
+
+template<global_size_type N>
+struct signed_type<N, unsigned long long, true>
+{
+	using rtn = signed long long;
+};
+
+template<global_size_type N>
+struct signed_type<N, unsigned long long, false>
+{
+	using rtn = signed long long; // default
+};
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+#undef EIGHT
 

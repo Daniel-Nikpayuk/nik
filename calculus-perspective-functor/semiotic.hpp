@@ -18,9 +18,10 @@
 struct functor
 {
 	#include"dereference-semiotic.hpp"
+	#include"list_type-semiotic.hpp"
 	#include"limits-semiotic.hpp"
 	#include"register_type-semiotic.hpp"
-	#include"list_type-semiotic.hpp"
+	#include"apply-semiotic.hpp"
 	#include"display-semiotic.hpp"
 };
 

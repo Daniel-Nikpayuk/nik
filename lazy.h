@@ -201,9 +201,14 @@ namespace nik
 			, "This is not a valid branch!"
 		);
 	};
+}
 
 /***********************************************************************************************************************/
 
+#include nik_source(., calculus, kernel, act, semiotic)
+
+namespace nik
+{
 	struct calculus
 	{
 		using lens	= calculus;
