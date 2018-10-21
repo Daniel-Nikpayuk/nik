@@ -15,31 +15,28 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+struct identity
 {
-	using kind		= module;
+	using kind	= branch;
 
-	using type		= functor;
-
-	#include nik_typedef(calculus, builtin, op, structure)
+	using type	= identity;
 
 /*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
+	is_null:
 */
 
-	template<register_type Value, register_type... Values>
-	inline static void display(const op<Value, Values...> &)
-	{
-		printf("%s", "op: ");
-		Builtin::functor::display(Value);
-	}
+	template<typename, typename> struct is_null;
 
-	inline static void display(const null_op &)
+	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
+	struct is_null<Type, ListType<Exp, Exps...>>
 	{
-		printf("%s", "op: null");
-	}
+		static constexpr bool value = false;
+	};
+
+	template<typename Type, template<Type...> class ListType>
+	struct is_null<Type, ListType<>>
+	{
+		static constexpr bool value = true;
+	};
 };
 

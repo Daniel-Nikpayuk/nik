@@ -18,13 +18,19 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::integer32, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::integer32, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type		= module;
 
 		using size_type		= SizeType;
 
-		using register_type	= typename calculus::functor::template signed_type<32>::rtn;
+		//
+
+		#include nik_typedef(calculus, perspective, builtin, module)
+
+		//
+
+		using register_type	= typename Builtin::functor::template signed_type<32>::rtn;
 
 		//
 

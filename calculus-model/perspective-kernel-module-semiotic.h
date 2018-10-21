@@ -15,25 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#ifdef safe_name
+#include"define-size_type.h"
 
-	#define PREFIX		calpei_
+	using Kernel = nik_branch(kernel, calculus, semiotic);
 
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-						  template<typename Type1, typename Type2>
-using nik_safe(PREFIX, is_equal)		= typename nik::calculus::identity::template is_equal<Type1, Type2>;
-
-						  template<typename ListType>
-using nik_safe(PREFIX, is_null)			= typename nik::calculus::identity::template is_null<ListType>;
-
-//
-
-#undef PREFIX
+#include"undef-size_type.h"
 

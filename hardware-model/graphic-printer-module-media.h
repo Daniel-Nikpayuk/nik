@@ -15,21 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifdef local_scope
-
-	#define SIZE_TYPE size_type
-
-#else
-
-	#define SIZE_TYPE nik::global_size_type
-
-#endif
-
-//
+#include"define-size_type.h"
 
 using Printer = nik::module
 <
-	nik::Name::printer,
+	nik::Module::printer,
 	nik::Branch::graphic,
 	nik::Lens::hardware,
 	nik::Permission::media,
@@ -37,7 +27,5 @@ using Printer = nik::module
 	SIZE_TYPE
 >;
 
-//
-
-#undef SIZE_TYPE
+#include"undef-size_type.h"
 

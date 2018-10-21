@@ -15,31 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind		= module;
+#ifdef safe_name
 
-	using type		= functor;
+	#define PREFIX		perkei_
 
-	#include nik_typedef(calculus, builtin, op, structure)
+#else
 
-/*
-	display:
+	#define PREFIX
 
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
+#endif
 
-	template<register_type Value, register_type... Values>
-	inline static void display(const op<Value, Values...> &)
-	{
-		printf("%s", "op: ");
-		Builtin::functor::display(Value);
-	}
+//
 
-	inline static void display(const null_op &)
-	{
-		printf("%s", "op: null");
-	}
-};
+						  template<typename Type1, typename Type2>
+using nik_safe(PREFIX, is_equal)		= typename nik_branch(kernel, calculus, semiotic)::identity::template
+						  is_equal<Type1, Type2>;
+
+						  template<typename ListType>
+using nik_safe(PREFIX, is_null)			= typename nik_branch(kernel, calculus, semiotic)::identity::template
+						  is_null<ListType>;
+
+//
+
+#undef PREFIX
 

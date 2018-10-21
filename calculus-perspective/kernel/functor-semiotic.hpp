@@ -15,7 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#include nik_unpack(.., calculus, kernel, act, structure)
+struct functor
+{
+	using kind	= branch;
+
+	using type	= functor;
+
+	#include nik_unpack(../.., calculus, kernel, act, structure)
+
+/*
+	dereference:
+*/
+
+	template<typename Type>
+	struct dereference
+	{
+		using rtn = Type;
+	};
+
+	template<typename Type>
+	struct dereference<Type*>
+	{
+		using rtn = Type;
+	};
 
 /*
 	cons:
@@ -48,24 +70,6 @@
 	};
 
 /*
-	builtin cons:
-*/
-
-	template<typename Type, Type, typename> struct builtin_cons;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct builtin_cons<Type, Exp, ListType<Exps...>>
-	{
-		using rtn = ListType<Exp, Exps...>;
-	};
-
-	template<typename Type, Type Exp1, typename Exp2>
-	struct builtin_cons<Type, Exp1, act<Exp2>>
-	{
-		using rtn = typename builtin_cons<Type, Exp1, typename Exp2::rtn>::rtn;
-	};
-
-/*
 	car:
 */
 
@@ -81,24 +85,6 @@
 	struct car<act<Exp>>
 	{
 		using rtn = typename car<typename Exp::rtn>::rtn;
-	};
-
-/*
-	builtin car:
-*/
-
-	template<typename Type, typename> struct builtin_car;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct builtin_car<Type, ListType<Exp, Exps...>>
-	{
-		static constexpr Type value		= Exp;
-	};
-
-	template<typename Type, typename Exp>
-	struct builtin_car<Type, act<Exp>>
-	{
-		using rtn = typename builtin_car<Type, typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -118,22 +104,5 @@
 	{
 		using rtn = typename cdr<typename Exp::rtn>::rtn;
 	};
-
-/*
-	builtin cdr:
-*/
-
-	template<typename Type, typename> struct builtin_cdr;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct builtin_cdr<Type, ListType<Exp, Exps...>>
-	{
-		using rtn = ListType<Exps...>;
-	};
-
-	template<typename Type, typename Exp>
-	struct builtin_cdr<Type, act<Exp>>
-	{
-		using rtn = typename builtin_cdr<Type, typename Exp::rtn>::rtn;
-	};
+};
 

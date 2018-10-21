@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		buii32i_
+	#define PREFIX		buiin32i_
 
 #else
 

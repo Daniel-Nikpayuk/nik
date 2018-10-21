@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::printer, Branch::graphic, Lens::hardware, Permission::media, SizeType>
+	struct module<Module::printer, Branch::graphic, Lens::hardware, Permission::media, SizeType>
 	{
 		using type	= module;
 

@@ -15,10 +15,6 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Operator reference: https://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
-*/
-
 struct functor
 {
 	using kind		= module;
@@ -38,7 +34,7 @@ struct functor
 	inline static void display(const integer32<Value, Values...> &)
 	{
 		printf("%s", "integer32: ");
-		calculus::functor::display(Value);
+		Builtin::functor::display(Value);
 		print(integer32<Values...>());
 	}
 
@@ -51,7 +47,7 @@ struct functor
 	inline static void print(const integer32<Value, Values...> &)
 	{
 		printf("%s", " ");
-		calculus::functor::display(Value);
+		Builtin::functor::display(Value);
 		print(integer32<Values...>());
 	}
 

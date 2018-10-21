@@ -27,7 +27,7 @@ namespace nik
 
 	//
 
-	enum struct Name : global_size_type
+	enum struct Module : global_size_type
 	{
 		undefined,
 		act,

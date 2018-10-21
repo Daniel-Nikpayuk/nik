@@ -50,35 +50,6 @@
 /***********************************************************************************************************************/
 
 
-#define nik_module(name, branch, lens, permission)									\
-															\
-	nik::module													\
-	<														\
-		nik::Name::name,											\
-		nik::Branch::branch,											\
-		nik::Lens::lens,											\
-		nik::Permission::permission,										\
-															\
-		SIZE_TYPE												\
-	>
-
-
-/***********************************************************************************************************************/
-
-
-#define nik_lensdef(narrative, partition, division, space)								\
-															\
-	nik_stringify(../../../narrative-model/narrative-partition-division-space.h)
-
-
-#define nik_lens(path, narrative, partition, division, space)								\
-															\
-	nik_stringify(path/narrative-model/narrative-partition-division-space.h)
-
-
-/***********************************************************************************************************************/
-
-
 #define nik_typedef(narrative, branch, module, name)									\
 															\
 	nik_stringify(../../../narrative-model/branch-module-name-semiotic.h)
@@ -111,6 +82,34 @@
 
 
 /***********************************************************************************************************************/
+
+
+#define nik_branch(name, lens, permission)										\
+															\
+	nik::branch													\
+	<														\
+		nik::Branch::name,											\
+		nik::Lens::lens,											\
+		nik::Permission::permission,										\
+															\
+		SIZE_TYPE												\
+	>
+
+
+#define nik_module(name, branch, lens, permission)									\
+															\
+	nik::module													\
+	<														\
+		nik::Module::name,											\
+		nik::Branch::branch,											\
+		nik::Lens::lens,											\
+		nik::Permission::permission,										\
+															\
+		SIZE_TYPE												\
+	>
+
+
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
@@ -125,7 +124,43 @@ namespace nik
 {
 	template
 	<
-		Name		name_enum,
+		Branch		branch_enum,
+		Lens		lens_enum,
+		Permission	permission_enum,
+
+		typename	SizeType = global_size_type
+	>
+	struct branch
+	{
+		using type	= branch;
+
+		static_assert
+		(
+			branch_enum == Branch::kernel			||
+			branch_enum == Branch::builtin			||
+			branch_enum == Branch::dispatch			||
+			branch_enum == Branch::variable			||
+			branch_enum == Branch::interpret		||
+
+			branch_enum == Branch::generic			||
+			branch_enum == Branch::numeric			||
+			branch_enum == Branch::literic			||
+			branch_enum == Branch::graphic			||
+			branch_enum == Branch::phonetic			||
+			branch_enum == Branch::kinetic			||
+			branch_enum == Branch::interic
+
+			, "This is not a valid branch!"
+		);
+	};
+
+
+/***********************************************************************************************************************/
+
+
+	template
+	<
+		Module		module_enum,
 		Branch		branch_enum,
 		Lens		lens_enum,
 		Permission	permission_enum,
@@ -134,50 +169,48 @@ namespace nik
 	>
 	struct module
 	{
-		using lens	= module;
-
 		using type	= module;
 
 		static_assert
 		(
-			name_enum == Name::undefined			||
-			name_enum == Name::act				||
+			module_enum == Module::undefined		||
+			module_enum == Module::act			||
 
-			name_enum == Name::op				||
-			name_enum == Name::boolean			||
-			name_enum == Name::literal			||
-			name_enum == Name::number			||
-			name_enum == Name::natural8			||
-			name_enum == Name::natural16			||
-			name_enum == Name::natural32			||
-			name_enum == Name::natural64			||
-			name_enum == Name::natural			||
-			name_enum == Name::integer8			||
-			name_enum == Name::integer16			||
-			name_enum == Name::integer32			||
-			name_enum == Name::integer64			||
-			name_enum == Name::integer			||
+			module_enum == Module::op			||
+			module_enum == Module::boolean			||
+			module_enum == Module::literal			||
+			module_enum == Module::number			||
+			module_enum == Module::natural8			||
+			module_enum == Module::natural16		||
+			module_enum == Module::natural32		||
+			module_enum == Module::natural64		||
+			module_enum == Module::natural			||
+			module_enum == Module::integer8			||
+			module_enum == Module::integer16		||
+			module_enum == Module::integer32		||
+			module_enum == Module::integer64		||
+			module_enum == Module::integer			||
 
 /*
-			name_enum == Name::conditional			||
+			module_enum == Module::conditional		||
 
-			name_enum == Name::list				||
+			module_enum == Module::list			||
 
-			name_enum == Name::binding			||
-			name_enum == Name::frame			||
-			name_enum == Name::environment			||
+			module_enum == Module::binding			||
+			module_enum == Module::frame			||
+			module_enum == Module::environment		||
 
-			name_enum == Name::begin			||
-			name_enum == Name::body				||
-			name_enum == Name::program			||
+			module_enum == Module::begin			||
+			module_enum == Module::body			||
+			module_enum == Module::program			||
 */
 
-			name_enum == Name::pointer			||
-			name_enum == Name::power			||
+			module_enum == Module::pointer			||
+			module_enum == Module::power			||
 
-			name_enum == Name::bit				||
-			name_enum == Name::word				||
-			name_enum == Name::address
+			module_enum == Module::bit			||
+			module_enum == Module::word			||
+			module_enum == Module::address
 
 			, "This is not a valid module!"
 		);
@@ -200,35 +233,6 @@ namespace nik
 
 			, "This is not a valid branch!"
 		);
-	};
-}
-
-/***********************************************************************************************************************/
-
-#include nik_source(., calculus, kernel, act, semiotic)
-
-namespace nik
-{
-	struct calculus
-	{
-		using lens	= calculus;
-
-		using type	= calculus;
-
-		#include"calculus-perspective-identity/semiotic.hpp"
-		#include"calculus-perspective-functor/semiotic.hpp"
-	};
-
-/***********************************************************************************************************************/
-
-	struct hardware
-	{
-		using lens	= hardware;
-
-		using type	= hardware;
-
-//		#include"hardware-perspective-identity/semiotic.hpp"
-//		#include"hardware-perspective-functor/semiotic.hpp"
 	};
 }
 

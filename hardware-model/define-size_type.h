@@ -15,42 +15,13 @@
 **
 ************************************************************************************************************************/
 
-/*
-	is_null:
-*/
+#ifdef local_scope
 
-	template<typename> struct is_null;
+	#define SIZE_TYPE size_type
 
-#define declare_is_null(value_type)											\
-															\
-	template<value_type Exp, value_type... Exps, template<value_type...> class ListType>				\
-	struct is_null<ListType<Exp, Exps...>>										\
-	{														\
-		static constexpr bool value = false;									\
-	};														\
-															\
-	template<template<value_type...> class ListType>								\
-	struct is_null<ListType<>>											\
-	{														\
-		static constexpr bool value = true;									\
-	};
+#else
 
-	declare_is_null(typename)
-	declare_is_null(bool)
-	declare_is_null(char)
+	#define SIZE_TYPE nik::global_size_type
 
-	declare_is_null(signed char)
-	declare_is_null(wchar_t)
-	declare_is_null(char16_t)
-	declare_is_null(char32_t)
-	declare_is_null(short)
-	declare_is_null(unsigned short)
-	declare_is_null(int)
-	declare_is_null(unsigned int)
-	declare_is_null(long)
-	declare_is_null(unsigned long)
-	declare_is_null(long long)
-	declare_is_null(unsigned long long)
-
-#undef declare_is_null
+#endif
 

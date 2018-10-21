@@ -21,15 +21,15 @@
 
 
 /*
-	apply:
+	apply##:
 
 	The postfix numerals are the arities of char, Type, respectively.
 */
 
-	template<char, typename Type, Type>			struct apply11;
-	template<char, typename Type, Type, Type>		struct apply12;
-	template<char, char, typename Type, Type>		struct apply21;
-	template<char, char, typename Type, Type, Type>		struct apply22;
+template<char, typename Type, Type>			struct apply11;
+template<char, typename Type, Type, Type>		struct apply12;
+template<char, char, typename Type, Type>		struct apply21;
+template<char, char, typename Type, Type, Type>		struct apply22;
 
 #define declare_apply11(op_char, op_name)										\
 															\
@@ -118,16 +118,6 @@
 	declare_apply22('<', '=', <=)
 
 /*
-	Increment and decrement operators
-
-	++ (increment)
-	-- (decrement)
-*/
-
-	declare_apply21('+', '+', ++)
-	declare_apply21('-', '-', --)
-
-/*
 	Logical operators
 
 	! (NOT)
@@ -171,7 +161,7 @@ template<typename...> struct apply;
 		number_list<Value1, Value2, Values...>
 	>
 	{
-		using rtn = typename builtin_cons
+		using rtn = typename cons
 		<
 			register_type,
 			apply11<op_char, register_type, Value1>::value,
@@ -234,7 +224,7 @@ template<typename...> struct apply;
 		number_list<Value21, Value22, Values2...>
 	>
 	{
-		using rtn = typename builtin_cons
+		using rtn = typename cons
 		<
 			register_type,
 			apply12<op_char, register_type, Value11, Value21>::value,
@@ -297,7 +287,7 @@ template<typename...> struct apply;
 		number_list<Value1, Value2, Values...>
 	>
 	{
-		using rtn = typename builtin_cons
+		using rtn = typename cons
 		<
 			register_type,
 			apply21<op1_char, op2_char, register_type, Value1>::value,
@@ -360,7 +350,7 @@ template<typename...> struct apply;
 		number_list<Value21, Value22, Values2...>
 	>
 	{
-		using rtn = typename builtin_cons
+		using rtn = typename cons
 		<
 			register_type,
 			apply22<op1_char, op2_char, register_type, Value11, Value21>::value,

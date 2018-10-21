@@ -15,31 +15,19 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+namespace nik
 {
-	using kind		= module;
-
-	using type		= functor;
-
-	#include nik_typedef(calculus, builtin, op, structure)
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<register_type Value, register_type... Values>
-	inline static void display(const op<Value, Values...> &)
+	template<typename SizeType>
+	struct branch<Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		printf("%s", "op: ");
-		Builtin::functor::display(Value);
-	}
+		using type	= branch;
 
-	inline static void display(const null_op &)
-	{
-		printf("%s", "op: null");
-	}
-};
+		using size_type	= SizeType;
+
+		//
+
+		#include"identity-semiotic.hpp"
+		#include"functor-semiotic.hpp"
+	};
+}
 

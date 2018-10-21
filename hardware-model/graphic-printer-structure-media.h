@@ -15,13 +15,23 @@
 **
 ************************************************************************************************************************/
 
-using display_printer	= typename Printer::structure::display_printer;
+#include"define-size_type.h"
 
-using verbatim_printer	= typename Printer::structure::verbatim_printer;
+//
 
-/***********************************************************************************************************************/
+	using display_printer				= typename nik_module(printer, graphic, hardware, media)::structure::
+							  display_printer;
 
-static const display_printer display = Printer::structure::display;
+	using verbatim_printer				= typename nik_module(printer, graphic, hardware, media)::structure::
+							  verbatim_printer;
 
-static const verbatim_printer verbatim = Printer::structure::verbatim;
+//
+
+	static const display_printer display		= nik_module(printer, graphic, hardware, media)::structure::display;
+
+	static const verbatim_printer verbatim		= nik_module(printer, graphic, hardware, media)::structure::verbatim;
+
+//
+
+#include"undef-size_type.h"
 

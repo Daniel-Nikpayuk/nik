@@ -15,19 +15,15 @@
 **
 ************************************************************************************************************************/
 
-/*
-	is_equal:
-*/
+#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
 
-template<typename Type1, typename Type2>
-struct is_equal
-{
-	static constexpr bool value = false;
-};
+	#include"kernel-act-semiotic.h"
 
-template<typename Type>
-struct is_equal<Type, Type>
-{
-	static constexpr bool value = true;
-};
+#define local_scope
 
+	#include"../calculus-perspective/builtin/semiotic.h"
+
+#undef local_scope
+
+#endif

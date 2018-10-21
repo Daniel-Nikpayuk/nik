@@ -15,19 +15,15 @@
 **
 ************************************************************************************************************************/
 
-/*
-	dereference:
-*/
+#ifndef CALCULUS_PERSPECTIVE_KERNEL_SEMIOTIC_H
+#define CALCULUS_PERSPECTIVE_KERNEL_SEMIOTIC_H
 
-template<typename Type>
-struct dereference
-{
-	using rtn = Type;
-};
+	#include"kernel-act-semiotic.h"
 
-template<typename Type>
-struct dereference<Type*>
-{
-	using rtn = Type;
-};
+#define local_scope
 
+	#include"../calculus-perspective/kernel/semiotic.h"
+
+#undef local_scope
+
+#endif

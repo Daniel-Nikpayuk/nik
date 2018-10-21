@@ -18,11 +18,16 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::boolean, Branch::dispatch, Lens::calculus, Permission::media, SizeType>
+	struct branch<Branch::kernel, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using type	= branch;
 
 		using size_type	= SizeType;
+
+		//
+
+		#include"identity-semiotic.hpp"
+		#include"functor-semiotic.hpp"
 	};
 }
 

@@ -15,14 +15,44 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	template<typename SizeType>
-	struct module<Name::undefined, Branch::kernel, Lens::calculus, Permission::media, SizeType>
-	{
-		using type	= module;
+	using kind	= branch;
 
-		using size_type	= SizeType;
+	using type	= identity;
+
+/*
+	is_equal:
+*/
+
+	template<typename Type1, typename Type2>
+	struct is_equal
+	{
+		static constexpr bool value = false;
 	};
-}
+
+	template<typename Type>
+	struct is_equal<Type, Type>
+	{
+		static constexpr bool value = true;
+	};
+
+/*
+	is_null:
+*/
+
+	template<typename> struct is_null;
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	struct is_null<ListType<Exp, Exps...>>
+	{
+		static constexpr bool value = false;
+	};
+
+	template<template<typename...> class ListType>
+	struct is_null<ListType<>>
+	{
+		static constexpr bool value = true;
+	};
+};
 

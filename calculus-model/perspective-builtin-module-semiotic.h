@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	#include"is_equal-semiotic.hpp"
-	#include"is_null-semiotic.hpp"
-};
+#include"define-size_type.h"
+
+	using Builtin = nik_branch(builtin, calculus, semiotic);
+
+#include"undef-size_type.h"
 

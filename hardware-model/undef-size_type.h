@@ -15,31 +15,5 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind		= module;
-
-	using type		= functor;
-
-	#include nik_typedef(calculus, builtin, op, structure)
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<register_type Value, register_type... Values>
-	inline static void display(const op<Value, Values...> &)
-	{
-		printf("%s", "op: ");
-		Builtin::functor::display(Value);
-	}
-
-	inline static void display(const null_op &)
-	{
-		printf("%s", "op: null");
-	}
-};
+#undef SIZE_TYPE
 

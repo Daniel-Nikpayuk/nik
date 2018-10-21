@@ -15,14 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::act, Branch::kernel, Lens::calculus, Permission::media, SizeType>
-	{
-		using type	= module;
+#ifdef safe_name
 
-		using size_type	= SizeType;
-	};
-}
+	#define PREFIX		perbui_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+						  template<typename Type, typename ListType>
+using nik_safe(PREFIX, is_null)			= typename nik_branch(builtin, calculus, semiotic)::identity::template
+						  is_null<Type, ListType>;
+
+//
+
+#undef PREFIX
 

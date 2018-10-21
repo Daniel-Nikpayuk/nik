@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		buii32f_
+	#define PREFIX		buiin32f_
 
 #else
 
@@ -30,7 +30,8 @@
 //
 
 						  template<typename... Exps>
-using nik_safe(PREFIX, apply)			= typename nik::calculus::functor::template apply
+using nik_safe(PREFIX, apply)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+						  apply
 						  <
 							nik_module(integer32, builtin, calculus, semiotic)::register_type,
 							Exps...

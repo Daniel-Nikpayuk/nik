@@ -15,13 +15,37 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	#include"dereference-semiotic.hpp"
-	#include"list_type-semiotic.hpp"
-	#include"limits-semiotic.hpp"
-	#include"register_type-semiotic.hpp"
-	#include"apply-semiotic.hpp"
-	#include"display-semiotic.hpp"
-};
+#ifdef safe_name
+
+	#define PREFIX		perkef_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  dereference<Type>;
+
+//
+
+							  template<typename Exp, typename ListType>
+	using nik_safe(PREFIX, cons)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  cons<Exp, ListType>;
+
+							  template<typename ListType>
+	using nik_safe(PREFIX, car)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  car<ListType>;
+
+							  template<typename ListType>
+	using nik_safe(PREFIX, cdr)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  cdr<ListType>;
+
+//
+
+#undef PREFIX
 
