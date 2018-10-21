@@ -15,102 +15,52 @@
 **
 ************************************************************************************************************************/
 
-/*
-	Operator reference: https://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
-*/
-
 struct functor
 {
 	using kind					= module;
 
 	using type					= functor;
 
-	#define safe_name
-
-		#include nik_lensdef(calculus, perspective, functor, semiotic)
-
-	#undef safe_name
-
 	#include nik_typedef(calculus, builtin, boolean, structure)
-
-/*
-	cons:
-*/
-
-	template<register_type, typename> struct cons;
-
-	template<register_type Exp, register_type... Exps, template<register_type...> class ListType>
-	struct cons<Exp, ListType<Exps...>>
-	{
-		using rtn = ListType<Exp, Exps...>;
-	};
-
-	template<register_type Exp1, typename Exp2>
-	struct cons<Exp1, act<Exp2>>
-	{
-		using rtn = typename cons<Exp1, typename Exp2::rtn>::rtn;
-	};
 
 /*
 	apply:
 */
 
-	template<typename...> struct apply;
-
-/*
-	apply11:
-*/
-
-	template
-	<
-		char op_char,
-		register_type Value1, register_type Value2, register_type... Values
-	>
-	struct apply
-	<
-		op<op_char>,
-
-		integer32<Value1, Value2, Values...>
-	>
-	{
-		using rtn = typename cons
-		<
-			calpef_apply11<op_char, register_type, Value1>::value,
-
-			act
-			<
-				apply
-				<
-					op<op_char>,
-
-					integer32<Value2, Values...>
-				>
-			>
-
-		>::rtn;
-	};
-
-	template<char op_char, register_type Value>
-	struct apply
-	<
-		op<op_char>,
-
-		integer32<Value>
-	>
-	{
-		using rtn = integer32<calpef_apply11<op_char, register_type, Value>::value>;
-	};
-
+				  template<typename... Exps>
+	using apply		= typename Builtin::functor::template apply<register_type, Exps...>;
 
 /*
 	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
 */
 
-	template<bool Value>
-	inline static void display(const boolean<Value> &)
+	template<register_type Value, register_type... Values>
+	inline static void display(const boolean<Value, Values...> &)
 	{
 		printf("%s", "boolean: ");
-		printf("%s", Value ? "true" : "false");
+		Builtin::functor::display(Value);
+		print(boolean<Values...>());
+	}
+
+	inline static void display(const null_boolean &)
+	{
+		printf("%s", "boolean: null");
+	}
+
+	template<register_type Value, register_type... Values>
+	inline static void print(const boolean<Value, Values...> &)
+	{
+		printf("%s", " ");
+		Builtin::functor::display(Value);
+		print(boolean<Values...>());
+	}
+
+	inline static void print(const null_boolean &)
+	{
+		// do nothing.
 	}
 };
 

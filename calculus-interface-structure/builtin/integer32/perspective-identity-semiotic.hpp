@@ -17,12 +17,18 @@
 
 struct identity
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= identity;
+	using type		= identity;
 
-	#include nik_typedef(calculus, builtin, constant, module)
-	#include nik_typedef(calculus, builtin, constant, structure)
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, kernel, identity)
+		#include nik_typedef(calculus, perspective, builtin, identity)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, builtin, integer32, structure)
 
 /*
 	is equal:
@@ -35,30 +41,43 @@ struct identity
 	{
 		using rtn = boolean
 		<
-			is_equal_structure<Exp1, Exp2>::value
+			perkei_is_equal<Exp1, Exp2>::value
 		>;
 	};
 
 /*
-	is constant:
+	is integer32:
 */
 
 	template<typename>
-	struct is_constant
+	struct is_integer32
 	{
 		using rtn = boolean<false>;
 	};
 
-	template<typename Type, Type... Value>
-	struct is_constant<constant<Type, Value...>>
+	template<register_type... Values>
+	struct is_integer32<integer32<Values...>>
 	{
 		using rtn = boolean<true>;
 	};
 
 	template<typename Exp>
-	struct is_constant<act<Exp>>
+	struct is_integer32<act<Exp>>
 	{
-		using rtn = typename is_constant<typename Exp::rtn>::rtn;
+		using rtn = typename is_integer32<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename ListType>
+	struct is_null
+	{
+		using rtn = boolean
+		<
+			perbui_is_null<register_type, ListType>::value
+		>;
 	};
 };
 

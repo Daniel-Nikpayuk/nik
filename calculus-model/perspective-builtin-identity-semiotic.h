@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+#include"define-size_type.h"
+
 #ifdef safe_name
 
 	#define PREFIX		perbui_
@@ -34,4 +36,6 @@ using nik_safe(PREFIX, is_null)			= typename nik_branch(builtin, calculus, semio
 //
 
 #undef PREFIX
+
+#include"undef-size_type.h"
 

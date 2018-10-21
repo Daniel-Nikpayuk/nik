@@ -17,13 +17,20 @@
 
 #include"define-size_type.h"
 
-				  template<bool Value>
-	using boolean		= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
-				  boolean<Value>;
+//
 
-				  template<bool Value>
+				  template<bool... Values>
+	using boolean		= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
+				  boolean<Values...>;
+
+				  template<bool... Values>
 	using b			= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
-				  boolean<Value>;
+				  boolean<Values...>;
+
+	using null_boolean	= typename nik_module(boolean, builtin, calculus, semiotic)::structure::template
+				  boolean<>;
+
+//
 
 #include"undef-size_type.h"
 

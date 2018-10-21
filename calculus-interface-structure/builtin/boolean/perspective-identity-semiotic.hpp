@@ -17,9 +17,67 @@
 
 struct identity
 {
-	using kind					= module;
+	using kind		= module;
 
-	using type					= identity;
+	using type		= identity;
 
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, kernel, identity)
+		#include nik_typedef(calculus, perspective, builtin, identity)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, builtin, boolean, structure)
+
+/*
+	is equal:
+
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal
+	{
+		using rtn = boolean
+		<
+			perkei_is_equal<Exp1, Exp2>::value
+		>;
+	};
+
+/*
+	is boolean:
+*/
+
+	template<typename>
+	struct is_boolean
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<register_type... Values>
+	struct is_boolean<boolean<Values...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_boolean<act<Exp>>
+	{
+		using rtn = typename is_boolean<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename ListType>
+	struct is_null
+	{
+		using rtn = boolean
+		<
+			perbui_is_null<register_type, ListType>::value
+		>;
+	};
 };
 

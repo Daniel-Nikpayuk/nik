@@ -21,18 +21,26 @@ struct structure
 
 	using type					= structure;
 
-	template<bool Value>
+	template<register_type...>
 	struct boolean
 	{
-		using kind				= module;
+		using kind					= module;
 
-		using type				= boolean;
+		using type					= boolean;
 
-		using rtn				= boolean;
+		using rtn					= boolean;
+	};
 
-		using value_type			= bool;
+	template<register_type Value>
+	struct boolean<Value>
+	{
+		using kind					= module;
 
-		static constexpr bool value		= Value;
+		using type					= boolean;
+
+		using rtn					= boolean;
+
+		static constexpr register_type value		= Value;
 	};
 };
 

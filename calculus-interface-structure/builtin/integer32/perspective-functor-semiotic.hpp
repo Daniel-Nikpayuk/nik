@@ -24,6 +24,13 @@ struct functor
 	#include nik_typedef(calculus, builtin, integer32, structure)
 
 /*
+	apply:
+*/
+
+				  template<typename... Exps>
+	using apply		= typename Builtin::functor::template apply<register_type, Exps...>;
+
+/*
 	display:
 
 	As there is no (direct/builtin) compile time screen in C++,

@@ -18,16 +18,20 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::boolean, Branch::dispatch, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::boolean, Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using type		= module;
 
-		using size_type	= SizeType;
+		using size_type		= SizeType;
 
 		//
 
-		#include nik_typedef(calculus, kernel, act, module)
+		#include nik_typedef(calculus, perspective, builtin, module)
 		#include nik_typedef(calculus, kernel, act, structure)
+
+		//
+
+		using register_type	= bool;
 
 		//
 

@@ -30,12 +30,8 @@
 //
 
 						  template<typename... Exps>
-using nik_safe(PREFIX, apply)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
-						  apply
-						  <
-							nik_module(integer32, builtin, calculus, semiotic)::register_type,
-							Exps...
-						  >;
+using nik_safe(PREFIX, apply)			= typename nik_module(integer32, builtin, calculus, semiotic)::functor::template
+						  apply<Exps...>;
 
 //
 
