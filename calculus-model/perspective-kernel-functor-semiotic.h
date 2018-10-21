@@ -15,6 +15,8 @@
 **
 ************************************************************************************************************************/
 
+#include"define-size_type.h"
+
 #ifdef safe_name
 
 	#define PREFIX		perkef_
@@ -33,19 +35,37 @@
 
 //
 
-							  template<typename Exp, typename ListType>
+							  template<typename Exp, typename List>
 	using nik_safe(PREFIX, cons)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
-							  cons<Exp, ListType>;
+							  cons<Exp, List>;
 
-							  template<typename ListType>
+							  template<typename List>
 	using nik_safe(PREFIX, car)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
-							  car<ListType>;
+							  car<List>;
 
-							  template<typename ListType>
+							  template<typename List>
 	using nik_safe(PREFIX, cdr)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
-							  cdr<ListType>;
+							  cdr<List>;
+
+							  template<typename List1, typename List2, typename... Lists>
+	using nik_safe(PREFIX, catenate)		= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  catenate<List1, List2, Lists...>;
+
+							  template<typename Exp, typename List>
+	using nik_safe(PREFIX, push)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  push<Exp, List>;
+
+							  template<SIZE_TYPE Index, typename List>
+	using nik_safe(PREFIX, at)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  at<Index, List>;
+
+							  template<typename List>
+	using nik_safe(PREFIX, length)			= typename nik_branch(kernel, calculus, semiotic)::functor::template
+							  length<List>;
 
 //
 
 #undef PREFIX
+
+#include"undef-size_type.h"
 

@@ -17,18 +17,74 @@
 
 struct functor
 {
-	using kind					= module;
+	using kind		= module;
 
-	using type					= functor;
+	using type		= functor;
+
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, builtin, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(calculus, builtin, boolean, structure)
+	#include nik_typedef(calculus, builtin, boolean, identity)
+
+/*
+	cons:
+*/
+
+				  template<register_type Value, typename List>
+	using cons		= perbuf_cons<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List>
+	using car		= perbuf_car<register_type, List>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List>
+	using cdr		= perbuf_cdr<register_type, List>;
+
+/*
+	catenate:
+*/
+
+				  template<typename List1, typename List2, typename... Lists>
+	using catenate		= perbuf_catenate<register_type, List1, List2, Lists...>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= perbuf_push<register_type, Value, List>;
+
+/*
+	at:
+*/
+
+				  template<register_type Value, typename List>
+	using at		= perbuf_at<register_type, Value, List>;
+
+/*
+	length:
+*/
+
+				  template<typename List>
+	using length		= perbuf_length<register_type, List>;
 
 /*
 	apply:
 */
 
 				  template<typename... Exps>
-	using apply		= typename Builtin::functor::template apply<register_type, Exps...>;
+	using apply		= perbuf_apply<register_type, Exps...>;
 
 /*
 	display:
@@ -37,30 +93,16 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<register_type Value, register_type... Values>
-	inline static void display(const boolean<Value, Values...> &)
+	template<register_type... Values>
+	inline static void display(const boolean<Values...> & b)
 	{
-		printf("%s", "boolean: ");
-		Builtin::functor::display(Value);
-		print(boolean<Values...>());
-	}
+		using is_empty = typename is_null<boolean<Values...>>::rtn;
 
-	inline static void display(const null_boolean &)
-	{
-		printf("%s", "boolean: null");
-	}
+		const act<register_type> a;
 
-	template<register_type Value, register_type... Values>
-	inline static void print(const boolean<Value, Values...> &)
-	{
-		printf("%s", " ");
-		Builtin::functor::display(Value);
-		print(boolean<Values...>());
-	}
-
-	inline static void print(const null_boolean &)
-	{
-		// do nothing.
+		printf("%s", "boolean:");
+		if (is_empty::value) printf("%s", " null");
+		else Builtin::functor::display(a, b);
 	}
 };
 

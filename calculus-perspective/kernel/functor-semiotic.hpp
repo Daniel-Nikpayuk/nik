@@ -145,7 +145,7 @@ struct functor
 		>::rtn;
 	};
 
-	template<typename Exp1, typename Exp2, template<typename...> class ListType>
+	template<typename Exp1, typename Exp2>
 	struct catenate<act<Exp1>, act<Exp2>>
 	{
 		using rtn = typename catenate
@@ -259,8 +259,8 @@ struct functor
 	template<typename Exp, typename... Exps, template<typename...> class ListType>
 	inline static void display(const ListType<Exp, Exps...> &)
 	{
-		static constexpr bool expression_is_list	= typename is_list<Exp>::value;
-		static constexpr bool remainder_is_null		= typename is_null<ListType<Exps...>>::value;
+		static constexpr bool expression_is_list	= is_list<Exp>::value;
+		static constexpr bool remainder_is_null		= is_null<ListType<Exps...>>::value;
 
 		static constexpr char l				= expression_is_list ? '[' : '(';
 		static constexpr char r				= expression_is_list ? ']' : ')';
@@ -278,12 +278,6 @@ struct functor
 	inline static void display(const ListType<> &)
 	{
 		// do nothing.
-	}
-
-	template<typename Exp>
-	inline static void display(const act<Exp> &)
-	{
-		display(typename Exp::rtn());
 	}
 };
 

@@ -17,7 +17,11 @@
 
 #include"define-size_type.h"
 
+//
+
 	using Undefined = nik_module(undefined, kernel, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

@@ -27,6 +27,10 @@ namespace nik
 		//
 
 		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-functor-semiotic.hpp"
 	};
 }
 

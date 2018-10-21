@@ -32,35 +32,27 @@ namespace nik
 		undefined,
 		act,
 
-			op,
 			boolean,
 			literal,
 			number,
+
 			natural8,
 			natural16,
 			natural32,
 			natural64,
-			natural,
 			integer8,
 			integer16,
 			integer32,
 			integer64,
-			integer,
 
-/*
-			conditional,
+			if_then_else,
+			if_then,
 
-			list,
-
-			lambda,
 			binding,
 			frame,
 			environment,
 
-			begin,
-			body,
-			program,
-*/
+			expression,
 
 		pointer,
 		power,

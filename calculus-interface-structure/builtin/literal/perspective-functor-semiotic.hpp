@@ -17,13 +17,74 @@
 
 struct functor
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= functor;
+	using type		= functor;
 
-	#include nik_typedef(calculus, variable, label, module)
-	#include nik_typedef(calculus, variable, label, structure)
-	#include nik_typedef(calculus, variable, label, alias)
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, builtin, functor)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, builtin, literal, structure)
+	#include nik_typedef(calculus, builtin, literal, identity)
+
+/*
+	cons:
+*/
+
+				  template<register_type Value, typename List>
+	using cons		= perbuf_cons<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List>
+	using car		= perbuf_car<register_type, List>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List>
+	using cdr		= perbuf_cdr<register_type, List>;
+
+/*
+	catenate:
+*/
+
+				  template<typename List1, typename List2, typename... Lists>
+	using catenate		= perbuf_catenate<register_type, List1, List2, Lists...>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= perbuf_push<register_type, Value, List>;
+
+/*
+	at:
+*/
+
+				  template<register_type Value, typename List>
+	using at		= perbuf_at<register_type, Value, List>;
+
+/*
+	length:
+*/
+
+				  template<typename List>
+	using length		= perbuf_length<register_type, List>;
+
+/*
+	apply:
+*/
+
+				  template<typename... Exps>
+	using apply		= perbuf_apply<register_type, Exps...>;
 
 /*
 	display:
@@ -32,32 +93,16 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<char Char, char... Chars>
-	inline static void display(const label<Char, Chars...> & l)
+	template<register_type... Values>
+	inline static void display(const literal<Values...> & b)
 	{
-		printf("%s", "label: ");
+		using is_empty = typename is_null<literal<Values...>>::rtn;
 
-		printf("%c", '"');
-		label_print(l);
-		printf("%c", '"');
-	}
+		const act<register_type> a;
 
-	inline static void display(const null_label & l)
-	{
-		printf("%s", "label: null\n");
-	}
-
-	template<char Char, char... Chars>
-	inline static void label_print(const label<Char, Chars...> &)
-	{
-		printf("%c", Char);
-
-		label_print(label<Chars...>());
-	}
-
-	inline static void label_print(const null_label &)
-	{
-		// do nothing.
+		printf("%s", "literal:");
+		if (is_empty::value) printf("%s", " null");
+		else Builtin::functor::display(a, b);
 	}
 };
 

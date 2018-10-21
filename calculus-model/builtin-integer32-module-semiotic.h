@@ -17,7 +17,11 @@
 
 #include"define-size_type.h"
 
+//
+
 	using Integer32 = nik_module(integer32, builtin, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

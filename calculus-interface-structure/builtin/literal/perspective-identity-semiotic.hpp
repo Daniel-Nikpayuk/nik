@@ -17,18 +17,23 @@
 
 struct identity
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= identity;
+	using type		= identity;
 
-	#include nik_typedef(calculus, variable, label, module)
-	#include nik_typedef(calculus, variable, label, structure)
-	#include nik_typedef(calculus, variable, label, alias)
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, kernel, identity)
+		#include nik_typedef(calculus, perspective, builtin, identity)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, builtin, literal, structure)
 
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to labels: It holds for all types.
+	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
 */
 
 	template<typename Exp1, typename Exp2>
@@ -36,52 +41,43 @@ struct identity
 	{
 		using rtn = boolean
 		<
-			is_equal_structure<Exp1, Exp2>::value
+			perkei_is_equal<Exp1, Exp2>::value
 		>;
 	};
 
 /*
-	is label:
+	is literal:
 */
 
 	template<typename>
-	struct is_label
+	struct is_literal
 	{
 		using rtn = boolean<false>;
 	};
 
-	template<char... Chars>
-	struct is_label<label<Chars...>>
+	template<register_type... Values>
+	struct is_literal<literal<Values...>>
 	{
 		using rtn = boolean<true>;
 	};
 
 	template<typename Exp>
-	struct is_label<act<Exp>>
+	struct is_literal<act<Exp>>
 	{
-		using rtn = typename is_label<typename Exp::rtn>::rtn;
+		using rtn = typename is_literal<typename Exp::rtn>::rtn;
 	};
 
 /*
 	is null:
 */
 
-	template<typename, typename Filler = void>
+	template<typename ListType>
 	struct is_null
 	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename Filler>
-	struct is_null<null_label, Filler>
-	{
-		using rtn = boolean<true>;
-	};
-
-	template<typename Exp, typename Filler>
-	struct is_null<act<Exp>, Filler>
-	{
-		using rtn = typename is_null<typename Exp::rtn, Filler>::rtn;
+		using rtn = boolean
+		<
+			perbui_is_null<register_type, ListType>::value
+		>;
 	};
 };
 

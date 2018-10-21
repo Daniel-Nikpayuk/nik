@@ -15,11 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#undef SIZE_TYPE
-
 #include"define-size_type.h"
 
+//
+
 	using Number = nik_module(number, builtin, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

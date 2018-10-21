@@ -18,8 +18,8 @@
 #ifndef CALCULUS_BUILTIN_BOOLEAN_SEMIOTIC_H
 #define CALCULUS_BUILTIN_BOOLEAN_SEMIOTIC_H
 
+	#include"perspective-kernel-semiotic.h"
 	#include"perspective-builtin-semiotic.h"
-	#include"builtin-op-semiotic.h"
 
 #define local_scope
 

@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Name::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::environment, Branch::variable, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= module;
 
@@ -26,19 +26,10 @@ namespace nik
 
 		//
 
-		#include nik_typedef(calculus, kernel, undefined, module)
 		#include nik_typedef(calculus, kernel, undefined, structure)
-
-		#include nik_typedef(calculus, kernel, act, module)
 		#include nik_typedef(calculus, kernel, act, structure)
-
-		#include nik_typedef(calculus, dispatch, conditional, module)
-		#include nik_typedef(calculus, dispatch, conditional, structure)
-
-		#include nik_typedef(calculus, variable, binding, module)
+		#include nik_typedef(calculus, dispatch, if_then_else, structure)
 		#include nik_typedef(calculus, variable, binding, structure)
-
-		#include nik_typedef(calculus, variable, frame, module)
 		#include nik_typedef(calculus, variable, frame, structure)
 
 		//

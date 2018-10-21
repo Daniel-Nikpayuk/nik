@@ -43,26 +43,22 @@
 /***********************************************************************************************************************/
 
 /*
-	display:
+	Hack!
+
+	The ListType Type is deducible by adding an act<Type> argument.
 */
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	inline static void display(const ListType<Value, Values...> &)
+	inline static void display(const act<Type> & a, const ListType<Value, Values...> &)
 	{
 		printf("%s", " ");
 		display(Value);
-		display(ListType<Values...>());
+		display(a, ListType<Values...>());
 	}
 
-	template<template<typename...> class ListType>
-	inline static void display(const ListType<> &)
+	template<typename Type, template<Type...> class ListType>
+	inline static void display(const act<Type> &, const ListType<> &)
 	{
 		// do nothing.
-	}
-
-	template<typename Exp>
-	inline static void display(const act<Exp> &)
-	{
-		display(typename Exp::rtn());
 	}
 

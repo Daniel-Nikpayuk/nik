@@ -21,7 +21,63 @@ struct functor
 
 	using type		= functor;
 
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, builtin, functor)
+
+	#undef safe_name
+
 	#include nik_typedef(calculus, builtin, integer32, structure)
+	#include nik_typedef(calculus, builtin, integer32, identity)
+
+/*
+	cons:
+*/
+
+				  template<register_type Value, typename List>
+	using cons		= perbuf_cons<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List>
+	using car		= perbuf_car<register_type, List>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List>
+	using cdr		= perbuf_cdr<register_type, List>;
+
+/*
+	catenate:
+*/
+
+				  template<typename List1, typename List2, typename... Lists>
+	using catenate		= perbuf_catenate<register_type, List1, List2, Lists...>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= perbuf_push<register_type, Value, List>;
+
+/*
+	at:
+*/
+
+				  template<register_type Value, typename List>
+	using at		= perbuf_at<register_type, Value, List>;
+
+/*
+	length:
+*/
+
+				  template<typename List>
+	using length		= perbuf_length<register_type, List>;
 
 /*
 	apply:
@@ -37,30 +93,16 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<register_type Value, register_type... Values>
-	inline static void display(const integer32<Value, Values...> &)
+	template<register_type... Values>
+	inline static void display(const integer32<Values...> & i)
 	{
-		printf("%s", "integer32: ");
-		Builtin::functor::display(Value);
-		print(integer32<Values...>());
-	}
+		using is_empty = typename is_null<integer32<Values...>>::rtn;
 
-	inline static void display(const null_integer32 &)
-	{
-		printf("%s", "integer32: null");
-	}
+		const act<register_type> a;
 
-	template<register_type Value, register_type... Values>
-	inline static void print(const integer32<Value, Values...> &)
-	{
-		printf("%s", " ");
-		Builtin::functor::display(Value);
-		print(integer32<Values...>());
-	}
-
-	inline static void print(const null_integer32 &)
-	{
-		// do nothing.
+		printf("%s", "integer32:");
+		if (is_empty::value) printf("%s", " null");
+		else Builtin::functor::display(a, i);
 	}
 };
 

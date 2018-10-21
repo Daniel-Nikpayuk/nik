@@ -17,9 +17,9 @@
 
 struct structure
 {
-	using kind					= module;
+	using kind						= module;
 
-	using type					= structure;
+	using type						= structure;
 
 	template<register_type...>
 	struct boolean

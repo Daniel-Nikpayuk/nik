@@ -15,11 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#undef SIZE_TYPE
-
 #include"define-size_type.h"
 
+//
+
 	using Literal = nik_module(literal, builtin, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

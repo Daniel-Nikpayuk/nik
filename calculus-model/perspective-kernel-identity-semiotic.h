@@ -29,13 +29,17 @@
 
 //
 
-						  template<typename Type1, typename Type2>
-using nik_safe(PREFIX, is_equal)		= typename nik_branch(kernel, calculus, semiotic)::identity::template
-						  is_equal<Type1, Type2>;
+							  template<typename Type1, typename Type2>
+	using nik_safe(PREFIX, is_equal)		= typename nik_branch(kernel, calculus, semiotic)::identity::template
+							  is_equal<Type1, Type2>;
 
-						  template<typename ListType>
-using nik_safe(PREFIX, is_null)			= typename nik_branch(kernel, calculus, semiotic)::identity::template
-						  is_null<ListType>;
+							  template<typename ListType>
+	using nik_safe(PREFIX, is_list)			= typename nik_branch(kernel, calculus, semiotic)::identity::template
+							  is_list<ListType>;
+
+							  template<typename ListType>
+	using nik_safe(PREFIX, is_null)			= typename nik_branch(kernel, calculus, semiotic)::identity::template
+							  is_null<ListType>;
 
 //
 

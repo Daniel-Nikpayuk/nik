@@ -18,7 +18,7 @@
 #ifndef CALCULUS_BUILTIN_LITERAL_SEMIOTIC_H
 #define CALCULUS_BUILTIN_LITERAL_SEMIOTIC_H
 
-	#include"builtin-op-semiotic.h"
+	#include"builtin-boolean-semiotic.h"
 
 #define local_scope
 

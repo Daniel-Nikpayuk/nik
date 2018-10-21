@@ -21,18 +21,30 @@ struct structure
 
 	using type						= structure;
 
-	template<char...>
-	struct label
+	template<register_type...>
+	struct literal
 	{
 		using kind					= module;
 
-		using type					= label;
+		using type					= literal;
 
-		using rtn					= label;
+		using rtn					= literal;
+	};
+
+	template<register_type Value>
+	struct literal<Value>
+	{
+		using kind					= module;
+
+		using type					= literal;
+
+		using rtn					= literal;
+
+		static constexpr register_type value		= Value;
 	};
 
 /*
-	I've added this "array" in that it might be useful,
+	I've wanted to add an "array" thinking it might be useful,
 	but as of yet, I have not had need to use it.
 
 	template<char... params>
@@ -42,5 +54,6 @@ struct structure
 		static constexpr char names[size] { params... };
 	};
 */
+
 };
 

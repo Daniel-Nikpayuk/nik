@@ -17,7 +17,11 @@
 
 #include"define-size_type.h"
 
+//
+
 	using Boolean = nik_module(boolean, builtin, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

@@ -17,7 +17,11 @@
 
 #include"define-size_type.h"
 
+//
+
 	using Builtin = nik_branch(builtin, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 

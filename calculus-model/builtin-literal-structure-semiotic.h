@@ -25,6 +25,10 @@
 	using l			= typename nik_module(literal, builtin, calculus, semiotic)::structure::template
 				  literal<Chars...>;
 
+				  template<char... Chars>
+	using op		= typename nik_module(literal, builtin, calculus, semiotic)::structure::template
+				  literal<Chars...>;
+
 	using null_literal	= typename nik_module(literal, builtin, calculus, semiotic)::structure::template
 				  literal<>;
 

@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define SAFE_		builii_
+	#define PREFIX		builii_
 
 #else
 
@@ -27,21 +27,17 @@
 
 #endif
 
-						  template<typename Exp1, typename Exp2>
-using nik_safe(PREFIX, is_equal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
-						  is_equal<Exp1, Exp2>;
+							  template<typename Exp1, typename Exp2>
+	using nik_safe(PREFIX, is_equal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
+							  is_equal<Exp1, Exp2>;
 
-						  template<typename Exp>
-using nik_safe(PREFIX, is_literal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
-						  is_literal<Exp>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_literal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
+							  is_literal<Exp>;
 
-/*
-	needed ?
-
-						  template<typename Exp>
-using nik_safe(PREFIX, is_null)			= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
-						  is_null<Exp>;
-*/
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_null)			= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
+							  is_null<Exp>;
 
 #undef PREFIX
 

@@ -17,7 +17,11 @@
 
 #include"define-size_type.h"
 
+//
+
 	using Kernel = nik_branch(kernel, calculus, semiotic);
+
+//
 
 #include"undef-size_type.h"
 
