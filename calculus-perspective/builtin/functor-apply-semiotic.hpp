@@ -26,15 +26,15 @@
 	The postfix numerals are the arities of char, Type, respectively.
 */
 
-template<char, typename Type, Type>			struct apply11;
-template<char, typename Type, Type, Type>		struct apply12;
-template<char, char, typename Type, Type>		struct apply21;
-template<char, char, typename Type, Type, Type>		struct apply22;
+template<typename Type, char, Type>			struct apply11;
+template<typename Type, char, Type, Type>		struct apply12;
+template<typename Type, char, char, Type>		struct apply21;
+template<typename Type, char, char, Type, Type>		struct apply22;
 
 #define declare_apply11(op_char, op_name)										\
 															\
 	template<typename Type, Type Value>										\
-	struct apply11<op_char, Type, Value>										\
+	struct apply11<Type, op_char, Value>										\
 	{														\
 		static constexpr Type value = (op_name Value);								\
 	};
@@ -42,7 +42,7 @@ template<char, char, typename Type, Type, Type>		struct apply22;
 #define declare_apply12(op_char, op_name)										\
 															\
 	template<typename Type, Type Value1, Type Value2>								\
-	struct apply12<op_char, Type, Value1, Value2>									\
+	struct apply12<Type, op_char, Value1, Value2>									\
 	{														\
 		static constexpr Type value = (Value1 op_name Value2);							\
 	};
@@ -50,7 +50,7 @@ template<char, char, typename Type, Type, Type>		struct apply22;
 #define declare_apply21(op1_char, op2_char, op_name)									\
 															\
 	template<typename Type, Type Value>										\
-	struct apply21<op1_char, op2_char, Type, Value>									\
+	struct apply21<Type, op1_char, op2_char, Value>									\
 	{														\
 		static constexpr Type value = (op_name Value);								\
 	};
@@ -58,7 +58,7 @@ template<char, char, typename Type, Type, Type>		struct apply22;
 #define declare_apply22(op1_char, op2_char, op_name)									\
 															\
 	template<typename Type, Type Value1, Type Value2>								\
-	struct apply22<op1_char, op2_char, Type, Value1, Value2>							\
+	struct apply22<Type, op1_char, op2_char, Value1, Value2>							\
 	{														\
 		static constexpr Type value = (Value1 op_name Value2);							\
 	};
@@ -139,7 +139,7 @@ template<char, char, typename Type, Type, Type>		struct apply22;
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-template<typename...> struct apply;
+template<typename Type, typename...> struct apply;
 
 /*
 	apply11:
@@ -147,15 +147,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op_char,
-		register_type Value1, register_type Value2, register_type... Values,
+		Type Value1, Type Value2, Type... Values,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op_char>,
 
 		number_list<Value1, Value2, Values...>
@@ -163,14 +163,14 @@ template<typename...> struct apply;
 	{
 		using rtn = typename cons
 		<
-			register_type,
-			apply11<op_char, register_type, Value1>::value,
+			Type,
+			apply11<Type, op_char, Value1>::value,
 
 			act
 			<
 				apply
 				<
-					register_type,
+					Type,
 					op_list<op_char>,
 
 					number_list<Value2, Values...>
@@ -182,15 +182,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op_char,
-		register_type Value,
+		Type Value,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op_char>,
 
 		number_list<Value>
@@ -198,7 +198,7 @@ template<typename...> struct apply;
 	{
 		using rtn = number_list
 		<
-			apply11<op_char, register_type, Value>::value
+			apply11<Type, op_char, Value>::value
 		>;
 	};
 
@@ -208,16 +208,16 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op_char,
-		register_type Value11, register_type Value12, register_type... Values1,
-		register_type Value21, register_type Value22, register_type... Values2,
+		Type Value11, Type Value12, Type... Values1,
+		Type Value21, Type Value22, Type... Values2,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op_char>,
 
 		number_list<Value11, Value12, Values1...>,
@@ -226,14 +226,14 @@ template<typename...> struct apply;
 	{
 		using rtn = typename cons
 		<
-			register_type,
-			apply12<op_char, register_type, Value11, Value21>::value,
+			Type,
+			apply12<Type, op_char, Value11, Value21>::value,
 
 			act
 			<
 				apply
 				<
-					register_type,
+					Type,
 					op_list<op_char>,
 
 					number_list<Value12, Values1...>,
@@ -246,15 +246,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op_char,
-		register_type Value1, register_type Value2,
+		Type Value1, Type Value2,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op_char>,
 
 		number_list<Value1>,
@@ -263,7 +263,7 @@ template<typename...> struct apply;
 	{
 		using rtn = number_list
 		<
-			apply12<op_char, register_type, Value1, Value2>::value
+			apply12<Type, op_char, Value1, Value2>::value
 		>;
 	};
 
@@ -273,15 +273,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op1_char, char op2_char,
-		register_type Value1, register_type Value2, register_type... Values,
+		Type Value1, Type Value2, Type... Values,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op1_char, op2_char>,
 
 		number_list<Value1, Value2, Values...>
@@ -289,14 +289,14 @@ template<typename...> struct apply;
 	{
 		using rtn = typename cons
 		<
-			register_type,
-			apply21<op1_char, op2_char, register_type, Value1>::value,
+			Type,
+			apply21<Type, op1_char, op2_char, Value1>::value,
 
 			act
 			<
 				apply
 				<
-					register_type,
+					Type,
 					op_list<op1_char, op2_char>,
 
 					number_list<Value2, Values...>
@@ -308,15 +308,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op1_char, char op2_char,
-		register_type Value,
+		Type Value,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op1_char, op2_char>,
 
 		number_list<Value>
@@ -324,7 +324,7 @@ template<typename...> struct apply;
 	{
 		using rtn = number_list
 		<
-			apply21<op1_char, op2_char, register_type, Value>::value
+			apply21<Type, op1_char, op2_char, Value>::value
 		>;
 	};
 
@@ -334,16 +334,16 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op1_char, char op2_char,
-		register_type Value11, register_type Value12, register_type... Values1,
-		register_type Value21, register_type Value22, register_type... Values2,
+		Type Value11, Type Value12, Type... Values1,
+		Type Value21, Type Value22, Type... Values2,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op1_char, op2_char>,
 
 		number_list<Value11, Value12, Values1...>,
@@ -352,14 +352,14 @@ template<typename...> struct apply;
 	{
 		using rtn = typename cons
 		<
-			register_type,
-			apply22<op1_char, op2_char, register_type, Value11, Value21>::value,
+			Type,
+			apply22<Type, op1_char, op2_char, Value11, Value21>::value,
 
 			act
 			<
 				apply
 				<
-					register_type,
+					Type,
 					op_list<op1_char, op2_char>,
 
 					number_list<Value12, Values1...>,
@@ -372,15 +372,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		char op1_char, char op2_char,
-		register_type Value1, register_type Value2,
+		Type Value1, Type Value2,
 		template<char...> class op_list,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		op_list<op1_char, op2_char>,
 
 		number_list<Value1>,
@@ -389,7 +389,7 @@ template<typename...> struct apply;
 	{
 		using rtn = number_list
 		<
-			apply22<op1_char, op2_char, register_type, Value1, Value2>::value
+			apply22<Type, op1_char, op2_char, Value1, Value2>::value
 		>;
 	};
 
@@ -397,39 +397,23 @@ template<typename...> struct apply;
 	with act:
 */
 
-	template
-	<
-		typename register_type,
-		typename Op,
-		typename Exp
-	>
-	struct apply
-	<
-		register_type,
-		Op,
-		act<Exp>
-	>
+	template<typename Type, typename Op, typename Exp>
+	struct apply<Type, Op, act<Exp>>
 	{
-		using rtn = typename apply
-		<
-			register_type,
-			Op,
-			typename Exp::rtn
-
-		>::rtn;
+		using rtn = typename apply<Type, Op, typename Exp::rtn>::rtn;
 	};
 
 	template
 	<
-		typename register_type,
+		typename Type,
 		typename Op,
-		register_type Value,
+		Type Value,
 		typename Exp,
-		template<register_type...> class number_list
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		Op,
 		number_list<Value>,
 		act<Exp>
@@ -437,7 +421,7 @@ template<typename...> struct apply;
 	{
 		using rtn = typename apply
 		<
-			register_type,
+			Type,
 			Op,
 			number_list<Value>,
 			typename Exp::rtn
@@ -447,14 +431,15 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
-		typename Op, typename Exp,
-		register_type Value,
-		template<register_type...> class number_list
+		typename Type,
+		typename Op,
+		typename Exp,
+		Type Value,
+		template<Type...> class number_list
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		Op,
 		act<Exp>,
 		number_list<Value>
@@ -462,7 +447,7 @@ template<typename...> struct apply;
 	{
 		using rtn = typename apply
 		<
-			register_type,
+			Type,
 			Op,
 			typename Exp::rtn,
 			number_list<Value>
@@ -472,18 +457,22 @@ template<typename...> struct apply;
 
 	template
 	<
-		typename register_type,
-		typename Op, typename Exp1, typename Exp2
+		typename Type,
+		typename Op,
+		typename Exp1,
+		typename Exp2
 	>
 	struct apply
 	<
-		register_type,
-		Op, act<Exp1>, act<Exp2>
+		Type,
+		Op,
+		act<Exp1>,
+		act<Exp2>
 	>
 	{
 		using rtn = typename apply
 		<
-			register_type,
+			Type,
 			Op,
 			typename Exp1::rtn,
 			typename Exp2::rtn
@@ -491,22 +480,26 @@ template<typename...> struct apply;
 		>::rtn;
 	};
 
+/*
+	multiple:
+*/
+
 	template
 	<
-		typename register_type,
+		typename Type,
 		typename Op, typename Exp1, typename Exp2, typename Exp3, typename... Exps
 	>
 	struct apply
 	<
-		register_type,
+		Type,
 		Op, Exp1, Exp2, Exp3, Exps...
 	>
 	{
 		using rtn = typename apply
 		<
-			register_type,
+			Type,
 			Op,
-			typename apply<register_type, Op, Exp1, Exp2>::rtn,
+			typename apply<Type, Op, Exp1, Exp2>::rtn,
 			Exp3, Exps...
 
 		>::rtn;

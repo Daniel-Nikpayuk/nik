@@ -21,90 +21,40 @@ struct functor
 
 	using type	= functor;
 
-	#include nik_unpack(../.., calculus, kernel, act, structure)
-
 /*
-	cons:
+	list:
 */
 
-	template<typename Type, Type, typename> struct cons;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct cons<Type, Exp, ListType<Exps...>>
-	{
-		using rtn = ListType<Exp, Exps...>;
-	};
-
-	template<typename Type, Type Exp1, typename Exp2>
-	struct cons<Type, Exp1, act<Exp2>>
-	{
-		using rtn = typename cons<Type, Exp1, typename Exp2::rtn>::rtn;
-	};
-
-/*
-	car:
-*/
-
-	template<typename Type, typename> struct car;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct car<Type, ListType<Exp, Exps...>>
-	{
-		static constexpr Type value		= Exp;
-	};
-
-	template<typename Type, typename Exp>
-	struct car<Type, act<Exp>>
-	{
-		using rtn = typename car<Type, typename Exp::rtn>::rtn;
-	};
-
-/*
-	cdr:
-*/
-
-	template<typename Type, typename> struct cdr;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct cdr<Type, ListType<Exp, Exps...>>
-	{
-		using rtn = ListType<Exps...>;
-	};
-
-	template<typename Type, typename Exp>
-	struct cdr<Type, act<Exp>>
-	{
-		using rtn = typename cdr<Type, typename Exp::rtn>::rtn;
-	};
+		#include"functor-list-semiotic.hpp"
 
 /*
 	limits:
 */
 
-	#include"functor-limits-semiotic.hpp"
+		#include"functor-limits-semiotic.hpp"
 
 /*
 	unsigned_type:
 */
 
-	#include"functor-unsigned_type-semiotic.hpp"
+		#include"functor-unsigned_type-semiotic.hpp"
 
 /*
 	signed_type:
 */
 
-	#include"functor-signed_type-semiotic.hpp"
+		#include"functor-signed_type-semiotic.hpp"
 
 /*
 	apply:
 */
 
-	#include"functor-apply-semiotic.hpp"
+		#include"functor-apply-semiotic.hpp"
 
 /*
 	display:
 */
 
-	#include"functor-display-semiotic.hpp"
+		#include"functor-display-semiotic.hpp"
 };
 

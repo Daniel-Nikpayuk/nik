@@ -19,24 +19,50 @@
 	display:
 */
 
-inline static void display(char v)			{ printf("%c", v);			}
-inline static void display(signed char v)		{ printf("%c", v);			}
-inline static void display(unsigned char v)		{ printf("%u", v);			}
-inline static void display(wchar_t v)			{ printf("%c", v);			}
-inline static void display(char16_t v)			{ printf("%u", v);			}
-inline static void display(char32_t v)			{ printf("%u", v);			}
-inline static void display(short v)			{ printf("%d", v);			}
-inline static void display(unsigned short v)		{ printf("%u", v);			}
-inline static void display(int v)			{ printf("%d", v);			}
-inline static void display(unsigned int v)		{ printf("%u", v);			}
-inline static void display(long v)			{ printf("%ld", v);			}
-inline static void display(unsigned long v)		{ printf("%lu", v);			}
-inline static void display(long long v)			{ printf("%lld", v);			}
-inline static void display(unsigned long long v)	{ printf("%llu", v);			}
-inline static void display(float v)			{ printf("%f", v);			}
-inline static void display(double v)			{ printf("%f", v);			}
-inline static void display(long double v)		{ printf("%Lf", v);			}
+	inline static void display(char v)			{ printf("%c", v);			}
+	inline static void display(signed char v)		{ printf("%c", v);			}
+	inline static void display(unsigned char v)		{ printf("%u", v);			}
+	inline static void display(wchar_t v)			{ printf("%c", v);			}
+	inline static void display(char16_t v)			{ printf("%u", v);			}
+	inline static void display(char32_t v)			{ printf("%u", v);			}
+	inline static void display(short v)			{ printf("%d", v);			}
+	inline static void display(unsigned short v)		{ printf("%u", v);			}
+	inline static void display(int v)			{ printf("%d", v);			}
+	inline static void display(unsigned int v)		{ printf("%u", v);			}
+	inline static void display(long v)			{ printf("%ld", v);			}
+	inline static void display(unsigned long v)		{ printf("%lu", v);			}
+	inline static void display(long long v)			{ printf("%lld", v);			}
+	inline static void display(unsigned long long v)	{ printf("%llu", v);			}
+	inline static void display(float v)			{ printf("%f", v);			}
+	inline static void display(double v)			{ printf("%f", v);			}
+	inline static void display(long double v)		{ printf("%Lf", v);			}
 
-inline static void display(bool v)			{ printf("%s", v? "true" : "false");	}
-inline static void display(const char *v)		{ printf("%s", v);			}
+	inline static void display(bool v)			{ printf("%s", v? "true" : "false");	}
+	inline static void display(const char *v)		{ printf("%s", v);			}
+
+/***********************************************************************************************************************/
+
+/*
+	display:
+*/
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	inline static void display(const ListType<Value, Values...> &)
+	{
+		printf("%s", " ");
+		display(Value);
+		display(ListType<Values...>());
+	}
+
+	template<template<typename...> class ListType>
+	inline static void display(const ListType<> &)
+	{
+		// do nothing.
+	}
+
+	template<typename Exp>
+	inline static void display(const act<Exp> &)
+	{
+		display(typename Exp::rtn());
+	}
 

@@ -21,7 +21,7 @@ struct functor
 
 	using type	= functor;
 
-	#include nik_unpack(../.., calculus, kernel, act, structure)
+	#include nik_unpack(../.., calculus, perspective, kernel, identity)
 
 /*
 	dereference:
@@ -37,6 +37,12 @@ struct functor
 	struct dereference<Type*>
 	{
 		using rtn = Type;
+	};
+
+	template<typename Exp>
+	struct dereference<act<Exp>>
+	{
+		using rtn = typename dereference<typename Exp::rtn>::rtn;
 	};
 
 /*
@@ -104,5 +110,180 @@ struct functor
 	{
 		using rtn = typename cdr<typename Exp::rtn>::rtn;
 	};
+
+/*
+	catenate:
+*/
+
+	template<typename, typename, typename...> struct catenate;
+
+	template<typename... Exps1, typename... Exps2, template<typename...> class ListType>
+	struct catenate<ListType<Exps1...>, ListType<Exps2...>>
+	{
+		using rtn = ListType<Exps1..., Exps2...>;
+	};
+
+	template<typename... Exps, typename Exp, template<typename...> class ListType>
+	struct catenate<ListType<Exps...>, act<Exp>>
+	{
+		using rtn = typename catenate
+		<
+			ListType<Exps...>,
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	struct catenate<act<Exp>, ListType<Exps...>>
+	{
+		using rtn = typename catenate
+		<
+			typename Exp::rtn,
+			ListType<Exps...>
+
+		>::rtn;
+	};
+
+	template<typename Exp1, typename Exp2, template<typename...> class ListType>
+	struct catenate<act<Exp1>, act<Exp2>>
+	{
+		using rtn = typename catenate
+		<
+			typename Exp1::rtn,
+			typename Exp2::rtn
+
+		>::rtn;
+	};
+
+	template<typename List1, typename List2, typename List3, typename... Lists>
+	struct catenate<List1, List2, List3, Lists...>
+	{
+		using rtn = typename catenate
+		<
+			act
+			<
+				catenate<List1, List2>
+			>,
+
+			List3,
+			Lists...
+
+		>::rtn;
+	};
+
+/*
+	push:
+*/
+
+	template<typename, typename> struct push;
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	struct push<Exp, ListType<Exps...>>
+	{
+		using rtn = ListType<Exps..., Exp>;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct push<Exp1, act<Exp2>>
+	{
+		using rtn = typename push<Exp1, typename Exp2::rtn>::rtn;
+	};
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	struct push<act<Exp>, ListType<Exps...>>
+	{
+		using rtn = typename push<typename Exp::rtn, ListType<Exps...>>::rtn;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct push<act<Exp1>, act<Exp2>>
+	{
+		using rtn = typename push<typename Exp1::rtn, typename Exp2::rtn>::rtn;
+	};
+
+/*
+	at:
+*/
+
+	template<size_type, typename> struct at;
+
+	template<size_type index, typename Exp, typename... Exps, template<typename...> class ListType>
+	struct at<index, ListType<Exp, Exps...>>
+	{
+		using rtn = typename at<index-1, ListType<Exps...>>::rtn;
+	};
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	struct at<0, ListType<Exp, Exps...>>
+	{
+		using rtn = Exp;
+	};
+
+	template<size_type index, typename Exp>
+	struct at<index, act<Exp>>
+	{
+		using rtn = typename at<index, typename Exp::rtn>::rtn;
+	};
+
+/*
+	length:
+*/
+
+	template<typename, size_type = 0> struct length;
+
+	template<typename Exp, typename... Exps, size_type count, template<typename...> class ListType>
+	struct length<ListType<Exp, Exps...>, count>
+	{
+		static constexpr size_type value = length<ListType<Exps...>, count+1>::value;
+	};
+
+	template<size_type count, template<typename...> class ListType>
+	struct length<ListType<>, count>
+	{
+		static constexpr size_type value = count;
+	};
+
+	template<typename Exp, size_type count>
+	struct length<act<Exp>, count>
+	{
+		static constexpr size_type value = length<typename Exp::rtn, count>::value;
+	};
+
+/*
+	display:
+
+	Assumes list elements are coded within module::structure.
+*/
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	inline static void display(const ListType<Exp, Exps...> &)
+	{
+		static constexpr bool expression_is_list	= typename is_list<Exp>::value;
+		static constexpr bool remainder_is_null		= typename is_null<ListType<Exps...>>::value;
+
+		static constexpr char l				= expression_is_list ? '[' : '(';
+		static constexpr char r				= expression_is_list ? ']' : ')';
+
+		printf("%c", l);
+		Exp::kind::functor::display(Exp());
+		printf("%c", r);
+
+		if (!remainder_is_null) printf("%s", "  ");
+
+		display(ListType<Exps...>());
+	}
+
+	template<template<typename...> class ListType>
+	inline static void display(const ListType<> &)
+	{
+		// do nothing.
+	}
+
+	template<typename Exp>
+	inline static void display(const act<Exp> &)
+	{
+		display(typename Exp::rtn());
+	}
 };
 

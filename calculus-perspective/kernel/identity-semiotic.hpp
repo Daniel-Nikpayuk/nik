@@ -37,6 +37,46 @@ struct identity
 		static constexpr bool value = true;
 	};
 
+	template<typename Type, typename Exp>
+	struct is_equal<Type, act<Exp>>
+	{
+		static constexpr bool value = is_equal<Type, typename Exp::rtn>::value;
+	};
+
+	template<typename Exp, typename Type>
+	struct is_equal<act<Exp>, Type>
+	{
+		static constexpr bool value = is_equal<typename Exp::rtn, Type>::value;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal<act<Exp1>, act<Exp2>>
+	{
+		static constexpr bool value = is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
+	};
+
+/*
+	is_list:
+*/
+
+	template<typename>
+	struct is_list
+	{
+		static constexpr bool value = false;
+	};
+
+	template<typename... Exps, template<typename...> class ListType>
+	struct is_list<ListType<Exps...>>
+	{
+		static constexpr bool value = true;
+	};
+
+	template<typename Exp>
+	struct is_list<act<Exp>>
+	{
+		static constexpr bool value = is_list<typename Exp::rtn>::value;
+	};
+
 /*
 	is_null:
 */
@@ -53,6 +93,12 @@ struct identity
 	struct is_null<ListType<>>
 	{
 		static constexpr bool value = true;
+	};
+
+	template<typename Exp>
+	struct is_null<act<Exp>>
+	{
+		static constexpr bool value = is_null<typename Exp::rtn>::value;
 	};
 };
 
