@@ -28,16 +28,14 @@ struct functor
 
 	#include nik_typedef(calculus, dispatch, if_then, structure)
 
-	template<typename...> struct re_sub_evaluate;
-	template<typename...> struct sub_evaluate;
-	template<typename...> struct re_evaluate;
-	template<typename...> struct evaluate;
-
 /*
-	sub_re_evaluate:
+	re_sub_evaluate:
 
 	prevents ambiguity during template type resolution.
 */
+
+	template<typename...> struct sub_evaluate;
+	template<typename...> struct re_sub_evaluate;
 
 	template<typename Exp, typename... Exps>
 	struct re_sub_evaluate
@@ -111,6 +109,8 @@ struct functor
 	prevents ambiguity during template type resolution.
 */
 
+	template<typename...> struct re_evaluate;
+
 	template<typename Exp, typename... Exps>
 	struct re_evaluate
 	<
@@ -141,6 +141,8 @@ struct functor
 	evaluate:
 */
 
+	template<typename...> struct evaluate;
+
 	template<typename Pred, typename Exp, typename... Exps>
 	struct evaluate
 	<
@@ -155,5 +157,44 @@ struct functor
 
 		>::rtn;
 	};
+
+/***********************************************************************************************************************/
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Pred, typename Exp>
+	inline static void display(const if_then<Pred, Exp> &)
+	{
+		Builtin::functor::display("if_then: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" ? ");
+
+		Exp::kind::functor::display(Exp());
+	}
+
+	template<typename Pred, typename Exp>
+	inline static void display(const else_then<Pred, Exp> &)
+	{
+		Builtin::functor::display("else_then: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" : ");
+
+		Exp::kind::functor::display(Exp());
+	}
+
+	template<typename Exp>
+	inline static void display(const then<Exp> &)
+	{
+		Builtin::functor::display("then: ");
+
+		Exp::kind::functor::display(Exp());
+	}
 };
 

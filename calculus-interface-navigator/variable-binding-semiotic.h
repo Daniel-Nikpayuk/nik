@@ -18,8 +18,6 @@
 #ifndef CALCULUS_VARIABLE_BINDING_SEMIOTIC_H
 #define CALCULUS_VARIABLE_BINDING_SEMIOTIC_H
 
-	#include"builtin-literal-semiotic.h"
-
 #define local_scope
 
 	#include"../calculus-interface-structure/variable/binding/semiotic.h"

@@ -15,20 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+#include"define-size_type.h"
 
-	using type						= structure;
+#ifdef safe_name
 
-	template<typename...>
-	struct body
-	{
-		using kind					= module;
+	#define PREFIX		intexf_
 
-		using type					= body;
+#else
 
-		using rtn					= body;
-	};
-};
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename... Exps>
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(expression, interpret, calculus, semiotic)::functor::template
+							  evaluate<Exps...>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

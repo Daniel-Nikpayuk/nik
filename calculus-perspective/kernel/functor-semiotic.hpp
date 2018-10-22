@@ -17,9 +17,9 @@
 
 struct functor
 {
-	using kind	= branch;
+	using kind		= branch;
 
-	using type	= functor;
+	using type		= functor;
 
 	#include nik_unpack(../.., calculus, perspective, kernel, identity)
 
@@ -257,7 +257,7 @@ struct functor
 */
 
 	template<typename Exp, typename... Exps, template<typename...> class ListType>
-	inline static void display(const ListType<Exp, Exps...> &)
+	inline static void display(const ListType<Exp, Exps...> &, const char *str = " ")
 	{
 		static constexpr bool expression_is_list	= is_list<Exp>::value;
 		static constexpr bool remainder_is_null		= is_null<ListType<Exps...>>::value;
@@ -269,13 +269,13 @@ struct functor
 		Exp::kind::functor::display(Exp());
 		printf("%c", r);
 
-		if (!remainder_is_null) printf("%s", "  ");
+		if (!remainder_is_null) printf("%s", str);
 
-		display(ListType<Exps...>());
+		display(ListType<Exps...>(), str);
 	}
 
 	template<template<typename...> class ListType>
-	inline static void display(const ListType<> &)
+	inline static void display(const ListType<> &, const char *str = " ")
 	{
 		// do nothing.
 	}

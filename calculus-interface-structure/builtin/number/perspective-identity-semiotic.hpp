@@ -23,27 +23,11 @@ struct identity
 
 	#define safe_name
 
-		#include nik_typedef(calculus, perspective, kernel, identity)
 		#include nik_typedef(calculus, perspective, builtin, identity)
 
 	#undef safe_name
 
 	#include nik_typedef(calculus, builtin, number, structure)
-
-/*
-	is equal:
-
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		using rtn = boolean
-		<
-			perkei_is_equal<Exp1, Exp2>::value
-		>;
-	};
 
 /*
 	is number:

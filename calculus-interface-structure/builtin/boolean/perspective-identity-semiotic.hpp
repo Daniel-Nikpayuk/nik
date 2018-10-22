@@ -33,7 +33,7 @@ struct identity
 /*
 	is equal:
 
-	The implementation given here is in fact more powerful than identity applied to constants: It holds for all types.
+	The implementation is intended to be a replacement specifically for the types of calculus.
 */
 
 	template<typename Exp1, typename Exp2>
@@ -69,14 +69,25 @@ struct identity
 
 /*
 	is null:
+
+	The implementation is intended to be a replacement specifically for the types of calculus.
 */
 
-	template<typename ListType>
+	template<typename Exp>
 	struct is_null
 	{
 		using rtn = boolean
 		<
-			perbui_is_null<register_type, ListType>::value
+			perkei_is_null<Exp>::value
+		>;
+	};
+
+	template<register_type... Values>
+	struct is_null<boolean<Values...>>
+	{
+		using rtn = boolean
+		<
+			perbui_is_null<register_type, boolean<Values...>>::value
 		>;
 	};
 };

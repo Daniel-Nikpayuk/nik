@@ -97,12 +97,12 @@ struct functor
 	inline static void display(const literal<Values...> & b)
 	{
 		using is_empty = typename is_null<literal<Values...>>::rtn;
-
 		const act<register_type> a;
 
-		printf("%s", "literal:");
-		if (is_empty::value) printf("%s", " null");
-		else Builtin::functor::display(a, b);
+		Builtin::functor::display("literal:");
+
+		if (is_empty::value)	Builtin::functor::display(" null");
+		else			Builtin::functor::display(a, b);
 	}
 };
 

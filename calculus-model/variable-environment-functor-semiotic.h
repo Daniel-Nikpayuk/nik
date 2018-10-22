@@ -15,41 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+#include"define-size_type.h"
 
-	template<typename SizeType>
-	struct module<Module::evaluator, Orientation::functional, Interface::semiotic, SizeType>
-	{
-		typedef SizeType size_type;
+#ifdef safe_name
 
-		nik_using(grammaric, Constant)
-		nik_using(grammaric, Branch)
-		nik_using(grammaric, Environment)
-		nik_using(grammaric, Evaluator)
+	#define PREFIX		varenf_
 
-		#include"alias/semiotic.hpp"
+#else
 
-		//
+	#define PREFIX
 
-		#include"variable/semiotic.hpp"
-		#include"primitive/semiotic.hpp"
+#endif
 
-		#include"is_self_evaluating/semiotic.hpp"
-		#include"is_variable/semiotic.hpp"
+//
 
-		template<typename, typename Environment = null_environment> struct eval;
+							  template<typename Binding, typename Environment>
+	using nik_safe(PREFIX, add)			= typename nik_module(environment, variable, calculus, semiotic)::functor::template
+							  add<Binding, Environment>;
 
-		#include"define/semiotic.hpp"
-		#include"if/semiotic.hpp"
-//		#include"begin/semiotic.hpp"
-//		#include"execute/semiotic.hpp"
-//		#include"apply/semiotic.hpp"
+							  template<typename Variables, typename Values, typename Environment>
+	using nik_safe(PREFIX, construct)		= typename nik_module(environment, variable, calculus, semiotic)::functor::template
+							  construct<Variables, Values, Environment>;
 
-		#include"eval/semiotic.hpp"
+							  template<typename Variable, typename Environment>
+	using nik_safe(PREFIX, lookup)			= typename nik_module(environment, variable, calculus, semiotic)::functor::template
+							  lookup<Variable, Environment>;
 
-//		#include"define/semiotic.hpp"
-	};
+//
 
-}}
+#undef PREFIX
+
+#include"undef-size_type.h"
 

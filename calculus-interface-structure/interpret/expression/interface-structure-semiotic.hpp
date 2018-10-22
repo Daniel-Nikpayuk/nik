@@ -15,43 +15,20 @@
 **
 ************************************************************************************************************************/
 
-struct functor
+struct structure
 {
 	using kind				= module;
 
-	using type				= functor;
+	using type				= structure;
 
-	#include nik_typedef(calculus, interpret, begin, module)
-	#include nik_typedef(calculus, interpret, begin, structure)
-	#include nik_typedef(calculus, interpret, begin, alias)
-
-/*
-	evaluate:
-*/
-
-	template<typename...> struct evaluate;
-
-	template<typename Exp, typename... Exps, typename Environment, typename Functor>
-	struct evaluate<begin<Exp, Exps...>, Environment, Functor>
+	template<typename... Exps>
+	struct expression
 	{
-				  template<typename... Params>
-		using eval	= typename Functor::template evaluate<Params...>;
+		using kind			= module;
 
-		//
+		using type			= expression;
 
-		using rtn = typename cons
-		<
-			typename eval<Exp, Environment>::rtn,
-
-			typename evaluate<begin<Exps...>, Environment, Functor>::rtn
-
-		>::rtn;
-	};
-
-	template<typename Environment, typename Functor>
-	struct evaluate<null_begin, Environment, Functor>
-	{
-		using rtn = null_begin;
+		using rtn			= expression;
 	};
 };
 

@@ -28,14 +28,13 @@ struct functor
 
 	#include nik_typedef(calculus, dispatch, if_then_else, structure)
 
-	template<typename> struct re_evaluate;
-	template<typename> struct evaluate;
-
 /*
 	re_evaluate:
 
 	prevents ambiguity during template type resolution.
 */
+
+	template<typename> struct re_evaluate;
 
 	template<typename Exp1, typename Exp2>
 	struct re_evaluate
@@ -77,6 +76,8 @@ struct functor
 	evaluate:
 */
 
+	template<typename> struct evaluate;
+
 	template<typename Pred, typename Exp1, typename Exp2>
 	struct evaluate
 	<
@@ -89,5 +90,26 @@ struct functor
 
 		>::rtn;
 	};
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Pred, typename Exp1, typename Exp2>
+	inline static void display(const if_then_else<Pred, Exp1, Exp2> &)
+	{
+		Builtin::functor::display("if_then_else: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" ? ");
+
+		Exp1::kind::functor::display(Exp1());
+		Builtin::functor::display(" : ");
+
+		Exp2::kind::functor::display(Exp2());
+	}
 };
 

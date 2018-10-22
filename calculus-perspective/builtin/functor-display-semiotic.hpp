@@ -49,15 +49,15 @@
 */
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	inline static void display(const act<Type> & a, const ListType<Value, Values...> &)
+	inline static void display(const act<Type> & a, const ListType<Value, Values...> &, const char *str = " ")
 	{
-		printf("%s", " ");
+		printf("%s", str);
 		display(Value);
-		display(a, ListType<Values...>());
+		display(a, ListType<Values...>(), str);
 	}
 
 	template<typename Type, template<Type...> class ListType>
-	inline static void display(const act<Type> &, const ListType<> &)
+	inline static void display(const act<Type> &, const ListType<> &, const char *str = " ")
 	{
 		// do nothing.
 	}

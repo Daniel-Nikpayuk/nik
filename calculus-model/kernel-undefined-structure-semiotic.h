@@ -19,7 +19,7 @@
 
 //
 
-	using undefined		= typename nik_module(undefined, kernel, calculus, semiotic)::structure::template
+	using undefined		= typename nik_module(undefined, kernel, calculus, semiotic)::structure::
 				  undefined;
 
 //

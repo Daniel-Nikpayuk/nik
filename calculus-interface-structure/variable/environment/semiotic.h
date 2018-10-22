@@ -26,9 +26,10 @@ namespace nik
 
 		//
 
-		#include nik_typedef(calculus, kernel, undefined, structure)
+		#include nik_typedef(calculus, perspective, kernel, module)
+		#include nik_typedef(calculus, perspective, builtin, module)
 		#include nik_typedef(calculus, kernel, act, structure)
-		#include nik_typedef(calculus, dispatch, if_then_else, structure)
+		#include nik_typedef(calculus, dispatch, if_then, structure)
 		#include nik_typedef(calculus, variable, binding, structure)
 		#include nik_typedef(calculus, variable, frame, structure)
 

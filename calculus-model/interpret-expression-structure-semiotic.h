@@ -15,30 +15,22 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Name::begin, Branch::interpret, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#include"define-size_type.h"
 
-		using size_type	= SizeType;
+//
 
-		//
+				  template<typename... Exps>
+	using expression	= typename nik_module(expression, interpret, calculus, semiotic)::structure::template
+				  expression<Exps...>;
 
-		#include nik_lensdef(calculus, perspective, functor, semiotic)
+				  template<typename... Exps>
+	using e			= typename nik_module(expression, interpret, calculus, semiotic)::structure::template
+				  expression<Exps...>;
 
-		#include nik_typedef(calculus, variable, environment, module)
-		#include nik_typedef(calculus, variable, environment, structure)
-		#include nik_typedef(calculus, variable, environment, alias)
+	using null_expression	= typename nik_module(expression, interpret, calculus, semiotic)::structure::template
+				  expression<>;
 
-		//
+//
 
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#include"undef-size_type.h"
 

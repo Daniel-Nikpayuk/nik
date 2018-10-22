@@ -26,8 +26,8 @@ namespace nik
 
 		//
 
-		#include nik_typedef(calculus, kernel, act, structure)
-		#include nik_typedef(calculus, dispatch, boolean, structure)
+		#include nik_typedef(calculus, perspective, kernel, module)
+		#include nik_typedef(calculus, perspective, builtin, module)
 
 		//
 
@@ -35,7 +35,6 @@ namespace nik
 
 		//
 
-		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

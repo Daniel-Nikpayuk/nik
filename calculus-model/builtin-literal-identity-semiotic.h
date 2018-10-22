@@ -27,10 +27,6 @@
 
 #endif
 
-							  template<typename Exp1, typename Exp2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
-							  is_equal<Exp1, Exp2>;
-
 							  template<typename Exp>
 	using nik_safe(PREFIX, is_literal)		= typename nik_module(literal, builtin, calculus, semiotic)::identity::template
 							  is_literal<Exp>;

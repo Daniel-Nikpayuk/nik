@@ -26,6 +26,7 @@ namespace nik
 
 		//
 
+		#include nik_typedef(calculus, perspective, builtin, module)
 		#include nik_typedef(calculus, kernel, act, structure)
 		#include nik_typedef(calculus, builtin, boolean, structure)
 

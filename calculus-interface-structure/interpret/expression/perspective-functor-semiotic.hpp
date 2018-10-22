@@ -15,14 +15,54 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct functor
 {
-	template<typename SizeType>
-	struct module<Name::body, Branch::interpret, Lens::calculus, Permission::media, SizeType>
-	{
-		using type = module;
+	using kind		= module;
 
-		using size_type = SizeType;
+	using type		= functor;
+
+	#define safe_name
+
+		#include nik_typedef(calculus, dispatch, if_then, functor)
+		#include nik_typedef(calculus, variable, environment, functor)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, interpret, expression, structure)
+
+/*
+*/
+
+/*
+	evaluate:
+*/
+
+	template<typename Exp, typename Env = null_environment>
+	struct evaluate
+	{
+/*
+		using rtn = typename disiftf_evaluate
+		<
+			if_then
+			<
+				is_self_evaluating<Exp>,
+				Exp
+
+			>, else_then
+			<
+				is_variable<Exp>,
+				act
+				<
+					lookup<Env, Exp>
+				>
+
+			>, then
+			<
+				undefined
+			>
+
+		>::rtn;
+*/
 	};
-}
+};
 

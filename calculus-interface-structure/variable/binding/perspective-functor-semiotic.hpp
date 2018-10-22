@@ -17,13 +17,13 @@
 
 struct functor
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= functor;
+	using type		= functor;
 
-	#include nik_typedef(calculus, variable, binding, module)
+	#include nik_typedef(calculus, builtin, boolean, identity)
+
 	#include nik_typedef(calculus, variable, binding, structure)
-	#include nik_typedef(calculus, variable, binding, alias)
 
 /*
 	display:
@@ -32,21 +32,20 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Label, typename Value>
-	inline static void display(const binding<Label, Value> & b)
+	template<typename Variable, typename... Values>
+	inline static void display(const binding<Variable, Values...> & b)
 	{
-		printf("%s", "binding: ");
+		using is_empty = typename is_null<binding<Values...>>::rtn;
 
-		printf("%c", '<');
-		Label::kind::functor::display(Label());
-		printf("%s", ", ");
-		Value::kind::functor::display(Value());
-		printf("%c", '>');
+		Builtin::functor::display("binding: ");
+		Variable::kind::functor::display(Variable());
+
+		if (!is_empty::value) Kernel::functor::display(binding<Values...>(), ", ");
 	}
 
 	inline static void display(const null_binding &)
 	{
-		printf("%s", "binding: null");
+		Builtin::functor::display("binding: null");
 	}
 };
 

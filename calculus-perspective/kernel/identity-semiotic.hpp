@@ -17,9 +17,9 @@
 
 struct identity
 {
-	using kind	= branch;
+	using kind		= branch;
 
-	using type	= identity;
+	using type		= identity;
 
 /*
 	is_equal:

@@ -29,10 +29,6 @@
 
 //
 
-							  template<typename Binding, typename Frame>
-	using nik_safe(PREFIX, push)			= typename nik_module(frame, variable, calculus, semiotic)::functor::template
-							  push<Binding, Frame>;
-
 							  template<typename Variables, typename Values>
 	using nik_safe(PREFIX, construct)		= typename nik_module(frame, variable, calculus, semiotic)::functor::template
 							  construct<Variables, Values>;

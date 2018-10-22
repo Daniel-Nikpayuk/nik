@@ -17,64 +17,59 @@
 
 struct functor
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= functor;
-
-	#include nik_typedef(calculus, dispatch, conditional, functor)
-
-	#include nik_typedef(calculus, variable, label, module)
-	#include nik_typedef(calculus, variable, label, structure)
+	using type		= functor;
 
 	#define safe_name
 
-		#include nik_typedef(calculus, variable, label, identity)
+		#include nik_typedef(calculus, perspective, kernel, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, variable, frame, module)
+	#include nik_typedef(calculus, builtin, boolean, identity)
+	#include nik_typedef(calculus, dispatch, if_then_else, functor)
+
 	#include nik_typedef(calculus, variable, frame, structure)
-	#include nik_typedef(calculus, variable, frame, alias)
-	#include nik_typedef(calculus, variable, frame, identity)
 
 /*
-	push:
-
-	There is no implementation of act<...> here because these functions
-	are intended to be internal to the environment interface.
-*/
-
-	template<typename, typename> struct push;
-
-	template<typename Label, typename Value, typename... Bindings>
-	struct push<binding<Label, Value>, frame<Bindings...>>
-	{
-		using rtn = frame<binding<Label, Value>, Bindings...>;
-	};
-
-/*
-	construct:	Takes a list of labels as well as a list of values and creates
-			a frame of bindings. This implementation assumes the value list
-			is at least as long as the label list.
+	construct:	Takes a list of variables as well as a list of values and creates
+			a frame of bindings. This implementation assumes the variable
+			and value lists are the same size.
 */
 
 	template<typename, typename> struct construct;
 
-	template<typename Variable, typename... Variables, typename Value, typename... Values>
-	struct construct<lambda<Variable, Variables...>, list<Value, Values...>>
+	template
+	<
+		typename Variable, typename... Variables,
+		typename Value, typename... Values,
+		template<typename...> class ListType
+	>
+	struct construct
+	<
+		ListType<Variable, Variables...>,
+		ListType<Value, Values...>
+	>
 	{
-		using Frame = typename construct<lambda<Variables...>, list<Values...>>::rtn;
-
-		using rtn = typename push
+		using rtn = typename perkef_cons
 		<
 			binding<Variable, Value>,
-			Frame
+
+			act
+			<
+				construct
+				<
+					ListType<Variables...>,
+					ListType<Values...>
+				>
+			>
 
 		>::rtn;
 	};
 
-	template<typename... Values>
-	struct construct<null_lambda, list<Values...>>
+	template<template<typename...> class ListType>
+	struct construct<ListType<>, ListType<>>
 	{
 		using rtn = null_frame;
 	};
@@ -85,27 +80,27 @@ struct functor
 
 	template<typename, typename> struct lookup;
 
-	template<typename Variable, typename Label, typename Value, typename... Bindings>
-	struct lookup<Variable, frame<binding<Label, Value>, Bindings...>>
+	template<typename Name, typename Variable, typename... Values, typename... Bindings>
+	struct lookup<Name, frame<binding<Variable, Values...>, Bindings...>>
 	{
 		using rtn = typename evaluate
 		<
 			if_then_else
 			<
-				varlai_is_equal<Variable, Label>,
-				binding<Label, Value>,
+				is_equal<Name, Variable>,
+				binding<Variable, Values...>,
 
 				act
 				<
-					lookup<Variable, frame<Bindings...>>
+					lookup<Name, frame<Bindings...>>
 				>
 			>
 
 		>::rtn;
 	};
 
-	template<typename Variable>
-	struct lookup<Variable, null_frame>
+	template<typename Name>
+	struct lookup<Name, null_frame>
 	{
 		using rtn = null_binding;
 	};
@@ -120,35 +115,17 @@ struct functor
 	template<typename Binding, typename... Bindings>
 	inline static void display(const frame<Binding, Bindings...> & f)
 	{
-		using remainder_is_null = typename is_null<frame<Bindings...>>::rtn;
+		using is_empty = typename is_null<frame<Bindings...>>::rtn;
 
-		printf("%s", "frame: ");
+		Builtin::functor::display("frame: ");
 		Binding::kind::functor::display(Binding());
-		if (!remainder_is_null::value) printf("%c", '\n');
 
-		frame_print(f);
+		if (!is_empty::value) Kernel::functor::display(frame<Bindings...>(), ", ");
 	}
 
-	inline static void display(const null_frame & t)
+	inline static void display(const null_frame &)
 	{
-		printf("%s", "frame: null\n");
-	}
-
-	template<typename Binding, typename... Bindings>
-	inline static void frame_print(const frame<Binding, Bindings...> &)
-	{
-		using remainder_is_null = typename is_null<frame<Bindings...>>::rtn;
-
-		printf("%s", "       ");
-		Binding::kind::functor::display(Binding());
-		if (!remainder_is_null::value) printf("%c", '\n');
-
-		frame_print(frame<Bindings...>());
-	}
-
-	inline static void frame_print(const null_frame &)
-	{
-		// do nothing.
+		Builtin::functor::display("frame: null");
 	}
 };
 

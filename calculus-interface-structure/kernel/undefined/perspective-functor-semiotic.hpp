@@ -15,14 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik		{
-namespace grammaric	{
+struct functor
+{
+	using kind		= module;
 
-	template<typename SizeType>
-	struct module<Module::evaluator, Orientation::functional, Interface::media, SizeType>
+	using type		= functor;
+
+	#include nik_typedef(calculus, kernel, undefined, structure)
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	inline static void display(const undefined &)
 	{
-		typedef SizeType size_type;
-	};
-
-}}
+		Builtin::functor::display("undefined");
+	}
+};
 

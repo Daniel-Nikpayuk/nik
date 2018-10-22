@@ -15,20 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind				= module;
+#include"define-size_type.h"
 
-	using type				= structure;
+//
 
-	template<typename... Exps>
-	struct begin
-	{
-		using kind			= module;
+	using Expression = nik_module(expression, interpret, calculus, semiotic);
 
-		using type			= begin;
+//
 
-		using rtn			= begin;
-	};
-};
+#include"undef-size_type.h"
 

@@ -21,7 +21,7 @@ struct structure
 
 	using type						= structure;
 
-	template<typename Label, typename Value>
+	template<typename...>
 	struct binding
 	{
 		using kind					= module;
@@ -29,19 +29,36 @@ struct structure
 		using type					= binding;
 
 		using rtn					= binding;
+	};
 
-		using key					= Label;
+	template<typename Variable, typename Value>
+	struct binding<Variable, Value>
+	{
+		using kind					= module;
+
+		using type					= binding;
+
+		using rtn					= binding;
+
+		using variable					= Variable;
 
 		using value					= Value;
 	};
 
-	struct null_binding
+	template<typename Variable, typename Value1, typename Value2>
+	struct binding<Variable, Value1, Value2>
 	{
 		using kind					= module;
 
-		using type					= null_binding;
+		using type					= binding;
 
-		using rtn					= null_binding;
+		using rtn					= binding;
+
+		using variable					= Variable;
+
+		using first_value				= Value1;
+
+		using second_value				= Value2;
 	};
 };
 

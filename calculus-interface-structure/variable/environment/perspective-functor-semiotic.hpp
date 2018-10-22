@@ -17,39 +17,33 @@
 
 struct functor
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= functor;
+	using type		= functor;
 
-	#include nik_typedef(calculus, dispatch, conditional, functor)
+	#include nik_typedef(calculus, builtin, boolean, identity)
+	#include nik_typedef(calculus, dispatch, if_then, functor)
 
 	#define safe_name
 
-		#include nik_typedef(calculus, variable, binding, identity)
 		#include nik_typedef(calculus, variable, frame, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, variable, environment, module)
 	#include nik_typedef(calculus, variable, environment, structure)
-	#include nik_typedef(calculus, variable, environment, alias)
-	#include nik_typedef(calculus, variable, environment, identity)
 
 /*
-	push:
+	add:
 */
 
-	template<typename, typename = null_environment> struct push;
+	template<typename, typename = null_environment> struct add;
 
 	template<typename Binding, typename... Frames>
-	struct push<Binding, environment<Frames...>>
+	struct add<Binding, environment<Frames...>>
 	{
 		using rtn = environment
 		<
-			frame
-			<
-				Binding
-			>,
+			frame<Binding>,
 
 			Frames...
 		>;
@@ -64,9 +58,12 @@ struct functor
 	template<typename Variables, typename Values, typename... Frames>
 	struct construct<Variables, Values, environment<Frames...>>
 	{
-		using Frame = typename varfrf_construct<Variables, Values>::rtn;
+		using rtn = environment
+		<
+			typename varfrf_construct<Variables, Values>::rtn,
 
-		using rtn = environment<Frame, Frames...>;
+			Frames...
+		>;
 	};
 
 /*
@@ -82,16 +79,18 @@ struct functor
 
 		using rtn = typename evaluate
 		<
-			if_then_else
+			if_then
 			<
-				varbii_is_null<Binding>,
+				is_null<Binding>,
 
 				act
 				<
 					lookup<Variable, environment<Frames...>>
-				>,
+				>
 
-				typename Binding::value
+			>, then
+			<
+				Binding
 			>
 
 		>::rtn;
@@ -100,7 +99,7 @@ struct functor
 	template<typename Variable>
 	struct lookup<Variable, null_environment>
 	{
-		using rtn = undefined;
+		using rtn = null_binding;
 	};
 
 /*
@@ -111,37 +110,19 @@ struct functor
 */
 
 	template<typename Frame, typename... Frames>
-	inline static void display(const environment<Frame, Frames...> & f)
+	inline static void display(const environment<Frame, Frames...> & e)
 	{
-		using remainder_is_null = typename is_null<environment<Frames...>>::rtn;
+		using is_empty = typename is_null<environment<Frames...>>::rtn;
 
-		printf("%s", "environment: ");
+		Builtin::functor::display("environment: ");
 		Frame::kind::functor::display(Frame());
-		if (!remainder_is_null::value) printf("%c", '\n');
 
-		environment_print(f);
+		if (!is_empty::value) Kernel::functor::display(environment<Frames...>(), ", ");
 	}
 
-	inline static void display(const null_environment & t)
+	inline static void display(const null_environment &)
 	{
-		printf("%s", "environment: null\n");
-	}
-
-	template<typename Frame, typename... Frames>
-	inline static void environment_print(const environment<Frame, Frames...> &)
-	{
-		using remainder_is_null = typename is_null<environment<Frames...>>::rtn;
-
-		printf("%s", "       ");
-		Frame::kind::functor::display(Frame());
-		if (!remainder_is_null::value) printf("%c", '\n');
-
-		environment_print(environment<Frames...>());
-	}
-
-	inline static void environment_print(const null_environment &)
-	{
-		// do nothing.
+		Builtin::functor::display("frame: null");
 	}
 };
 
