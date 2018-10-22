@@ -15,15 +15,38 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+template<typename Procedure, typename Arguments>
+struct apply
+{
+	using rtn = typename actiftf_evaluate
+	<
+		if_then
+		<
+			is_primitive<Procedure>,
 
-	#include"builtin-act-semiotic.h"
+			apply_primitive<Procedure, Arguments>
 
-#define local_scope
+		>, else_then
+		<
+			is_compound<Procedure>,
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+			evaluate_sequence
+			<
+				procedure_body<Procedure>,
 
-#undef local_scope
+				extend_environment
+				<
+					procedure_parameters<Procedure>,
+					Arguments,
+					procedure_environment<Procedure>
+				>
+			>
 
-#endif
+		>, then
+		<
+			undefined
+		>
+
+	>::rtn;
+};
+

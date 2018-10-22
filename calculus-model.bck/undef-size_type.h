@@ -15,15 +15,5 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#undef SIZE_TYPE
 
-	#include"builtin-act-semiotic.h"
-
-#define local_scope
-
-	#include"../calculus-perspective/builtin/semiotic.h"
-
-#undef local_scope
-
-#endif

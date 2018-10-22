@@ -136,11 +136,9 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
 			branch_enum == Branch::builtin			||
-			branch_enum == Branch::dispatch			||
-			branch_enum == Branch::variable			||
-			branch_enum == Branch::interpret		||
+			branch_enum == Branch::typedin			||
+			branch_enum == Branch::evaltin			||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||
@@ -173,24 +171,36 @@ namespace nik
 
 		static_assert
 		(
-			module_enum == Module::undefined		||
+
+		// builtin:
+
 			module_enum == Module::act			||
+
+			module_enum == Module::if_then_else		||
+			module_enum == Module::if_then			||
+
+		// typedin:
 
 			module_enum == Module::boolean			||
 			module_enum == Module::literal			||
 			module_enum == Module::number			||
 
+			module_enum == Module::if_then_else		||
+			module_enum == Module::if_then			||
+
 			module_enum == Module::natural8			||
 			module_enum == Module::natural16		||
 			module_enum == Module::natural32		||
 			module_enum == Module::natural64		||
+
 			module_enum == Module::integer8			||
 			module_enum == Module::integer16		||
 			module_enum == Module::integer32		||
 			module_enum == Module::integer64		||
 
-			module_enum == Module::if_then_else		||
-			module_enum == Module::if_then			||
+		// evaltin:
+
+			module_enum == Module::undefined		||
 
 			module_enum == Module::binding			||
 			module_enum == Module::frame			||
@@ -198,8 +208,12 @@ namespace nik
 
 			module_enum == Module::expression		||
 
+		// generic:
+
 			module_enum == Module::pointer			||
 			module_enum == Module::power			||
+
+		// numeric:
 
 			module_enum == Module::bit			||
 			module_enum == Module::word			||
@@ -210,11 +224,9 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
 			branch_enum == Branch::builtin			||
-			branch_enum == Branch::dispatch			||
-			branch_enum == Branch::variable			||
-			branch_enum == Branch::interpret		||
+			branch_enum == Branch::typedin			||
+			branch_enum == Branch::evaltin			||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||

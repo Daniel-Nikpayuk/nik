@@ -15,15 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+template<typename, typename> struct list_of_values;
 
-	#include"builtin-act-semiotic.h"
+template<typename Exp, typename... Exps, typename Env>
+struct list_of_values<e<Exp, Exps...>, Env>
+{
+	using rtn = actlif_cons
+	<
+		evaluate<Exp, Env>,
 
-#define local_scope
+		list_of_values
+		<
+			e<Exps...>,
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+			Env
+		>
 
-#undef local_scope
+	>::rtn;
+};
 
-#endif
+template<typename Env>
+struct list_of_values<null_expression, Env>
+{
+	using rtn = null_expression;
+};
+

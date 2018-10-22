@@ -15,15 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"builtin-act-semiotic.h"
+#ifdef safe_name
 
-#define local_scope
+	#define PREFIX		typin32i_
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+#else
 
-#undef local_scope
+	#define PREFIX
 
 #endif
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_integer32)		= typename nik_module(integer32, typedin, calculus, semiotic)::identity::template
+							  is_integer32<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_null)			= typename nik_module(integer32, typedin, calculus, semiotic)::identity::template
+							  is_null<Exp>;
+
+#undef PREFIX
+
+#include"undef-size_type.h"
+

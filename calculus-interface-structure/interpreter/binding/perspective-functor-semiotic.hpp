@@ -15,15 +15,37 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+struct functor
+{
+	using kind		= module;
 
-	#include"builtin-act-semiotic.h"
+	using type		= functor;
 
-#define local_scope
+	#include nik_typedef(calculus, typedin, boolean, identity)
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+	#include nik_typedef(calculus, evaltin, binding, structure)
 
-#undef local_scope
+/*
+	display:
 
-#endif
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Variable, typename... Values>
+	inline static void display(const binding<Variable, Values...> & b)
+	{
+		using is_empty = typename is_null<binding<Values...>>::rtn;
+
+		Builtin::functor::display("binding: ");
+		Variable::kind::functor::display(Variable());
+
+		if (!is_empty::value) Kernel::functor::display(binding<Values...>(), ", ");
+	}
+
+	inline static void display(const null_binding &)
+	{
+		Builtin::functor::display("binding: null");
+	}
+};
+

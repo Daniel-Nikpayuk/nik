@@ -15,15 +15,53 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+struct identity
+{
+	using kind		= module;
 
-	#include"builtin-act-semiotic.h"
+	using type		= identity;
 
-#define local_scope
+	#define safe_name
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+		#include nik_typedef(calculus, perspective, typedin, identity)
 
-#undef local_scope
+	#undef safe_name
 
-#endif
+	#include nik_typedef(calculus, typedin, integer32, structure)
+
+/*
+	is integer32:
+*/
+
+	template<typename>
+	struct is_integer32
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<register_type... Values>
+	struct is_integer32<integer32<Values...>>
+	{
+		using rtn = boolean<true>;
+	};
+
+	template<typename Exp>
+	struct is_integer32<act<Exp>>
+	{
+		using rtn = typename is_integer32<typename Exp::rtn>::rtn;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename ListType>
+	struct is_null
+	{
+		using rtn = boolean
+		<
+			perbui_is_null<register_type, ListType>::value
+		>;
+	};
+};
+

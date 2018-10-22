@@ -15,33 +15,31 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NORMAL_H
-#define NORMAL_H
+#include"define-size_type.h"
 
+#ifdef safe_name
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+	#define PREFIX		evafrf_
 
+#else
 
-#include"lazy.h"
+	#define PREFIX
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include nik_source(., calculus, builtin, act, semiotic)
-
-//#include nik_source(., calculus, evaltin, expression, semiotic)
+#endif
 
 //
 
+							  template<typename Variables, typename Values>
+	using nik_safe(PREFIX, construct)		= typename nik_module(frame, evaltin, calculus, semiotic)::functor::template
+							  construct<Variables, Values>;
 
-#include nik_source(., hardware, graphic, printer, media)
+							  template<typename Variable, typename Frame>
+	using nik_safe(PREFIX, lookup)			= typename nik_module(frame, evaltin, calculus, semiotic)::functor::template
+							  lookup<Variable, Frame>;
 
+//
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+#undef PREFIX
 
+#include"undef-size_type.h"
 
-#endif

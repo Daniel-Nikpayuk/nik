@@ -15,15 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+struct structure
+{
+	using kind						= module;
 
-	#include"builtin-act-semiotic.h"
+	using type						= structure;
 
-#define local_scope
+	template<typename, typename, typename>
+	struct if_then_else
+	{
+		using kind					= module;
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+		using type					= if_then_else;
 
-#undef local_scope
+		using rtn					= if_then_else;
+	};
+};
 
-#endif

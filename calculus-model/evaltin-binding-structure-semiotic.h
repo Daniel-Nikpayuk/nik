@@ -15,15 +15,18 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"builtin-act-semiotic.h"
+//
 
-#define local_scope
+				  template<typename... Exps>
+	using binding		= typename nik_module(binding, evaltin, calculus, semiotic)::structure::template
+				  binding<Exps...>;
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+	using null_binding	= typename nik_module(binding, evaltin, calculus, semiotic)::structure::template
+				  binding<>;
 
-#undef local_scope
+//
 
-#endif
+#include"undef-size_type.h"
+

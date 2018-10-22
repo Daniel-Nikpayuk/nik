@@ -15,15 +15,11 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"builtin-act-semiotic.h"
+				  template<typename Exp>
+	using act		= typename nik_module(act, builtin, calculus, semiotic)::structure::template
+				  act<Exp>;
 
-#define local_scope
+#include"undef-size_type.h"
 
-	#include"../calculus-perspective/builtin/semiotic.h"
-
-#undef local_scope
-
-#endif

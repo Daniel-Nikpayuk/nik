@@ -15,15 +15,33 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::boolean, Branch::typedin, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using type		= module;
 
-	#include"builtin-act-semiotic.h"
+		using size_type		= SizeType;
 
-#define local_scope
+		//
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+		#include nik_typedef(calculus, builtin, act, structure)
 
-#undef local_scope
+		#include nik_typedef(calculus, perspective, typedin, module)
 
-#endif
+		//
+
+		using register_type	= bool;
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
+

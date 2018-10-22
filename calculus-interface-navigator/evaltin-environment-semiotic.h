@@ -15,14 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#ifndef CALCULUS_EVALTIN_ENVIRONMENT_SEMIOTIC_H
+#define CALCULUS_EVALTIN_ENVIRONMENT_SEMIOTIC_H
 
-	#include"builtin-act-semiotic.h"
+	#include"typedin-if_then-semiotic.h"
+	#include"evaltin-frame-semiotic.h"
 
 #define local_scope
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+	#include"../calculus-interface-structure/evaltin/environment/semiotic.h"
 
 #undef local_scope
 

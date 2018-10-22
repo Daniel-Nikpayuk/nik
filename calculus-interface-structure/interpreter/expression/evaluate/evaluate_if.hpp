@@ -15,15 +15,21 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+template<typename, typename> struct evaluate_if;
 
-	#include"builtin-act-semiotic.h"
+template<typename Pred, typename Exp1, typename Exp2, typename Env>
+struct evaluate_if<e<Pred, Exp1, Exp2>, Env>
+{
+	using rtn = actiftef_evaluate
+	<
+		if_then_else
+		<
+			evaluate<Pred, Env>,
 
-#define local_scope
+			evaluate<Exp1, Env>,
+			evaluate<Exp2, Env>
+		>
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+	>::rtn;
+};
 
-#undef local_scope
-
-#endif

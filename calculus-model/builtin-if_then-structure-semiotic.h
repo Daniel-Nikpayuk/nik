@@ -15,15 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"builtin-act-semiotic.h"
+//
 
-#define local_scope
+				  template<typename Pred, typename Exp>
+	using if_then		= typename nik_module(if_then, builtin, calculus, semiotic)::structure::template
+				  if_then<Pred, Exp>;
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+				  template<typename Pred, typename Exp>
+	using else_then		= typename nik_module(if_then, builtin, calculus, semiotic)::structure::template
+				  else_then<Pred, Exp>;
 
-#undef local_scope
+				  template<typename Exp>
+	using then		= typename nik_module(if_then, builtin, calculus, semiotic)::structure::template
+				  then<Exp>;
 
-#endif
+//
+
+#include"undef-size_type.h"
+

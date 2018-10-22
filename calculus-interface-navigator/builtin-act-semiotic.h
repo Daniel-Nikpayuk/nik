@@ -15,14 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-
-	#include"builtin-act-semiotic.h"
+#ifndef CALCULUS_BUILTIN_ACT_SEMIOTIC_H
+#define CALCULUS_BUILTIN_ACT_SEMIOTIC_H
 
 #define local_scope
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+	#include"../calculus-interface-structure/builtin/act/semiotic.h"
 
 #undef local_scope
 

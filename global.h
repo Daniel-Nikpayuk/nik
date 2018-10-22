@@ -29,37 +29,55 @@ namespace nik
 
 	enum struct Module : global_size_type
 	{
-		undefined,
+
+	// builtin:
+
 		act,
 
-			boolean,
-			literal,
-			number,
+		if_then_else,
+		if_then,
 
-			natural8,
-			natural16,
-			natural32,
-			natural64,
-			integer8,
-			integer16,
-			integer32,
-			integer64,
+	// typedin:
 
-			if_then_else,
-			if_then,
+		boolean,
+		literal,
+		number,
 
-			binding,
-			frame,
-			environment,
+		if_then_else,
+		if_then,
 
-			expression,
+		natural8,
+		natural16,
+		natural32,
+		natural64,
+
+		integer8,
+		integer16,
+		integer32,
+		integer64,
+
+	// evaltin:
+
+		undefined,
+
+		binding,
+		frame,
+		environment,
+
+		expression,
+
+	// generic:
 
 		pointer,
 		power,
 
-			bit,
-			word,
-			address,
+	// numeric:
+
+		bit,
+		word,
+		address,
+
+	// graphic:
 
 		printer,
 
@@ -68,11 +86,14 @@ namespace nik
 
 	enum struct Branch : global_size_type
 	{
-		kernel,
+
+	// calculus:
+
 		builtin,
-		dispatch,
-		variable,
-		interpret,
+		typedin,
+		evaltin,
+
+	// hardware:
 
 		generic,
 		numeric,

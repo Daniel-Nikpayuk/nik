@@ -15,15 +15,24 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+struct functor
+{
+	using kind		= module;
 
-	#include"builtin-act-semiotic.h"
+	using type		= functor;
 
-#define local_scope
+	#include nik_typedef(calculus, evaltin, undefined, structure)
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+/*
+	display:
 
-#undef local_scope
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
 
-#endif
+	inline static void display(const undefined &)
+	{
+		Builtin::functor::display("undefined");
+	}
+};
+

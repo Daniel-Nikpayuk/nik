@@ -15,15 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
-#define CALCULUS_PERSPECTIVE_BUILTIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"builtin-act-semiotic.h"
+//
 
-#define local_scope
+				  template<bool... Values>
+	using boolean		= typename nik_module(boolean, typedin, calculus, semiotic)::structure::template
+				  boolean<Values...>;
 
-	#include"../calculus-perspective/builtin/semiotic.h"
+				  template<bool... Values>
+	using b			= typename nik_module(boolean, typedin, calculus, semiotic)::structure::template
+				  boolean<Values...>;
 
-#undef local_scope
+	using null_boolean	= typename nik_module(boolean, typedin, calculus, semiotic)::structure::template
+				  boolean<>;
 
-#endif
+//
+
+#include"undef-size_type.h"
+

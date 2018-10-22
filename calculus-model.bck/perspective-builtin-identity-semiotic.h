@@ -15,33 +15,35 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NORMAL_H
-#define NORMAL_H
+#include"define-size_type.h"
 
+#ifdef safe_name
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+	#define PREFIX		perbui_
 
+#else
 
-#include"lazy.h"
+	#define PREFIX
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include nik_source(., calculus, builtin, act, semiotic)
-
-//#include nik_source(., calculus, evaltin, expression, semiotic)
+#endif
 
 //
 
+							  template<typename Type, Type Value1, Type Value2>
+	using nik_safe(PREFIX, is_equal)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
+							  is_equal<Type, Value1, Value2>;
 
-#include nik_source(., hardware, graphic, printer, media)
+							  template<typename Type, typename ListType>
+	using nik_safe(PREFIX, is_list)			= typename nik_branch(builtin, calculus, semiotic)::identity::template
+							  is_list<Type, ListType>;
 
+							  template<typename Type, typename ListType>
+	using nik_safe(PREFIX, is_null)			= typename nik_branch(builtin, calculus, semiotic)::identity::template
+							  is_null<Type, ListType>;
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+//
 
+#undef PREFIX
 
-#endif
+#include"undef-size_type.h"
+

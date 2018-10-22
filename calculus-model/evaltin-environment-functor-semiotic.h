@@ -15,33 +15,35 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NORMAL_H
-#define NORMAL_H
+#include"define-size_type.h"
 
+#ifdef safe_name
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+	#define PREFIX		varenf_
 
+#else
 
-#include"lazy.h"
+	#define PREFIX
 
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include nik_source(., calculus, builtin, act, semiotic)
-
-//#include nik_source(., calculus, evaltin, expression, semiotic)
+#endif
 
 //
 
+							  template<typename Binding, typename Environment>
+	using nik_safe(PREFIX, add)			= typename nik_module(environment, evaltin, calculus, semiotic)::functor::template
+							  add<Binding, Environment>;
 
-#include nik_source(., hardware, graphic, printer, media)
+							  template<typename Variables, typename Values, typename Environment>
+	using nik_safe(PREFIX, construct)		= typename nik_module(environment, evaltin, calculus, semiotic)::functor::template
+							  construct<Variables, Values, Environment>;
 
+							  template<typename Variable, typename Environment>
+	using nik_safe(PREFIX, lookup)			= typename nik_module(environment, evaltin, calculus, semiotic)::functor::template
+							  lookup<Variable, Environment>;
 
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
+//
 
+#undef PREFIX
 
-#endif
+#include"undef-size_type.h"
+
