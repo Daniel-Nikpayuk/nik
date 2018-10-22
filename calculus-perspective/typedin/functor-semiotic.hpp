@@ -24,28 +24,6 @@ struct functor
 	#include nik_unpack(../.., calculus, perspective, kernel, identity)
 
 /*
-	dereference:
-*/
-
-	template<typename Type>
-	struct dereference
-	{
-		using rtn = Type;
-	};
-
-	template<typename Type>
-	struct dereference<Type*>
-	{
-		using rtn = Type;
-	};
-
-	template<typename Exp>
-	struct dereference<act<Exp>>
-	{
-		using rtn = typename dereference<typename Exp::rtn>::rtn;
-	};
-
-/*
 	cons:
 */
 

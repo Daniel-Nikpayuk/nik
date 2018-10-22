@@ -17,22 +17,22 @@
 
 struct identity
 {
-	using kind	= branch;
+	using kind		= branch;
 
-	using type	= identity;
+	using type		= identity;
 
 /*
 	is_equal:
 */
 
-	template<typename Type, Type Value1, Type Value2>
+	template<typename Type1, typename Type2>
 	struct is_equal
 	{
 		static constexpr bool value = false;
 	};
 
-	template<typename Type, Type Value>
-	struct is_equal<Type, Value, Value>
+	template<typename Type>
+	struct is_equal<Type, Type>
 	{
 		static constexpr bool value = true;
 	};
@@ -41,10 +41,16 @@ struct identity
 	is list:
 */
 
-	template<typename, typename>
+	template<typename, typename...>
 	struct is_list
 	{
 		static constexpr bool value = false;
+	};
+
+	template<typename... Exps, template<typename...> class ListType>
+	struct is_list<ListType<Exps...>>
+	{
+		static constexpr bool value = true;
 	};
 
 	template<typename Type, Type... Exps, template<Type...> class ListType>
@@ -53,34 +59,26 @@ struct identity
 		static constexpr bool value = true;
 	};
 
-	template<typename Type, typename Exp>
-	struct is_list<Type, act<Exp>>
-	{
-		static constexpr bool value = is_list<Type, typename Exp::rtn>::value;
-	};
-
 /*
 	is_null:
 */
 
-	template<typename, typename> struct is_null;
-
-	template<typename Type, Type Exp, Type... Exps, template<Type...> class ListType>
-	struct is_null<Type, ListType<Exp, Exps...>>
+	template<typename, typename...>
+	struct is_null
 	{
 		static constexpr bool value = false;
+	};
+
+	template<template<typename...> class ListType>
+	struct is_null<ListType<>>
+	{
+		static constexpr bool value = true;
 	};
 
 	template<typename Type, template<Type...> class ListType>
 	struct is_null<Type, ListType<>>
 	{
 		static constexpr bool value = true;
-	};
-
-	template<typename Type, typename Exp>
-	struct is_null<Type, act<Exp>>
-	{
-		static constexpr bool value = is_null<Type, typename Exp::rtn>::value;
 	};
 };
 

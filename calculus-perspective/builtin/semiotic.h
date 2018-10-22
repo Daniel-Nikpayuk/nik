@@ -26,10 +26,6 @@ namespace nik
 
 		//
 
-		#include nik_unpack(../.., calculus, kernel, act, structure)
-
-		//
-
 		#include"identity-semiotic.hpp"
 		#include"functor-semiotic.hpp"
 	};

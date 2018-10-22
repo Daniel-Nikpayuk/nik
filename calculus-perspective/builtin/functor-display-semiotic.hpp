@@ -43,21 +43,51 @@
 /***********************************************************************************************************************/
 
 /*
+	display:
+
+	Assumes list elements are coded within module::structure.
+*/
+
+	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	inline static void display(const ListType<Exp, Exps...> &, const char *sep = " ")
+	{
+		static constexpr bool expression_is_list	= is_list<Exp>::value;
+		static constexpr bool remainder_is_null		= is_null<ListType<Exps...>>::value;
+
+		static constexpr char l				= expression_is_list ? '[' : '(';
+		static constexpr char r				= expression_is_list ? ']' : ')';
+
+		printf("%c", l);
+		Exp::kind::functor::display(Exp());
+		printf("%c", r);
+
+		if (!remainder_is_null) printf("%s", sep);
+
+		display(ListType<Exps...>(), sep);
+	}
+
+	template<template<typename...> class ListType>
+	inline static void display(const ListType<> &, const char *sep = " ")
+	{
+		// do nothing.
+	}
+
+/*
 	Hack!
 
-	The ListType Type is deducible by adding an act<Type> argument.
+	The ListType Type is deducible by adding an apply<Type> argument.
 */
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	inline static void display(const act<Type> & a, const ListType<Value, Values...> &, const char *str = " ")
+	inline static void display(const apply<Type> & a, const ListType<Value, Values...> &, const char *sep = " ")
 	{
-		printf("%s", str);
+		printf("%s", sep);
 		display(Value);
-		display(a, ListType<Values...>(), str);
+		display(a, ListType<Values...>(), sep);
 	}
 
 	template<typename Type, template<Type...> class ListType>
-	inline static void display(const act<Type> &, const ListType<> &, const char *str = " ")
+	inline static void display(const apply<Type> &, const ListType<> &, const char *sep = " ")
 	{
 		// do nothing.
 	}

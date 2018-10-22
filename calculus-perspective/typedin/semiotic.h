@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct branch<Branch::kernel, Lens::calculus, Permission::semiotic, SizeType>
+	struct branch<Branch::typedin, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= branch;
 
@@ -26,7 +26,7 @@ namespace nik
 
 		//
 
-		#include nik_unpack(../.., calculus, kernel, act, structure)
+		#include nik_unpack(../.., calculus, builtin, act, structure)
 
 		//
 

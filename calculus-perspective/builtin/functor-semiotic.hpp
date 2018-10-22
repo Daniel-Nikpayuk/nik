@@ -17,33 +17,31 @@
 
 struct functor
 {
-	using kind	= branch;
+	using kind		= branch;
 
-	using type	= functor;
+	using type		= functor;
+
+/*
+	dereference:
+*/
+
+	template<typename Type>
+	struct dereference
+	{
+		using rtn = Type;
+	};
+
+	template<typename Type>
+	struct dereference<Type*>
+	{
+		using rtn = Type;
+	};
 
 /*
 	list:
 */
 
 		#include"functor-list-semiotic.hpp"
-
-/*
-	limits:
-*/
-
-		#include"functor-limits-semiotic.hpp"
-
-/*
-	unsigned_type:
-*/
-
-		#include"functor-unsigned_type-semiotic.hpp"
-
-/*
-	signed_type:
-*/
-
-		#include"functor-signed_type-semiotic.hpp"
 
 /*
 	apply:

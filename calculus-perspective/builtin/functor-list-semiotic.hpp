@@ -19,117 +19,121 @@
 	cons:
 */
 
-	template<typename Type, Type, typename> struct cons;
+	template<typename, typename> struct cons;
 
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct cons<Type, Value, ListType<Values...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cons<Value, ListType<Values...>>
 	{
 		using rtn = ListType<Value, Values...>;
 	};
 
-	template<typename Type, Type Value, typename Exp>
-	struct cons<Type, Value, act<Exp>>
+/*
+	typed_cons:
+*/
+
+	template<typename Type, Type, typename> struct typed_cons;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct typed_cons<Type, Value, ListType<Values...>>
 	{
-		using rtn = typename cons<Type, Value, typename Exp::rtn>::rtn;
+		using rtn = ListType<Value, Values...>;
 	};
 
 /*
 	car:
 */
 
-	template<typename Type, typename> struct car;
+	template<typename> struct car;
 
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct car<Type, ListType<Value, Values...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct car<ListType<Value, Values...>>
 	{
-		static constexpr Type value = Value;
+		using rtn = Value;
 	};
 
-	template<typename Type, typename Exp>
-	struct car<Type, act<Exp>>
+/*
+	typed_car:
+*/
+
+	template<typename Type, typename> struct typed_car;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct typed_car<Type, ListType<Value, Values...>>
 	{
-		static constexpr Type value = car<Type, typename Exp::rtn>::value;
+		static constexpr Type value = Value;
 	};
 
 /*
 	cdr:
 */
 
-	template<typename Type, typename> struct cdr;
+	template<typename> struct cdr;
 
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct cdr<Type, ListType<Value, Values...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cdr<ListType<Value, Values...>>
 	{
 		using rtn = ListType<Values...>;
 	};
 
-	template<typename Type, typename Exp>
-	struct cdr<Type, act<Exp>>
+/*
+	typed_cdr:
+*/
+
+	template<typename Type, typename> struct typed_cdr;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct typed_cdr<Type, ListType<Value, Values...>>
 	{
-		using rtn = typename cdr<Type, typename Exp::rtn>::rtn;
+		using rtn = ListType<Values...>;
 	};
 
 /*
 	catenate:
 */
 
-	template<typename Type, typename, typename, typename...> struct catenate;
+	template<typename, typename, typename...> struct catenate;
 
-	template<typename Type, Type... Values1, Type... Values2, template<Type...> class ListType>
-	struct catenate<Type, ListType<Values1...>, ListType<Values2...>>
+	template<typename... Values1, typename... Values2, template<typename...> class ListType>
+	struct catenate<ListType<Values1...>, ListType<Values2...>>
 	{
 		using rtn = ListType<Values1..., Values2...>;
 	};
 
-	template<typename Type, Type... Values, typename Exp, template<Type...> class ListType>
-	struct catenate<Type, ListType<Values...>, act<Exp>>
+	template<typename... Values1, typename... Values2, typename Values3, typename... Lists, template<typename...> class ListType>
+	struct catenate<ListType<Values1...>, ListType<Values2...>, ListType<Values3...>, Lists...>
 	{
 		using rtn = typename catenate
 		<
-			Type,
-			ListType<Values...>,
-			typename Exp::rtn
+			ListType<Values1..., Values2...>,
+			ListType<Values3...>,
+
+			Lists...
 
 		>::rtn;
 	};
 
-	template<typename Type, typename Exp, Type... Values, template<Type...> class ListType>
-	struct catenate<Type, act<Exp>, ListType<Values...>>
-	{
-		using rtn = typename catenate
-		<
-			Type,
-			typename Exp::rtn,
-			ListType<Values...>
+/*
+	typed_catenate:
+*/
 
-		>::rtn;
+	template<typename Type, typename, typename, typename...> struct typed_catenate;
+
+	template<typename Type, Type... Values1, Type... Values2, template<Type...> class ListType>
+	struct typed_catenate<Type, ListType<Values1...>, ListType<Values2...>>
+	{
+		using rtn = ListType<Values1..., Values2...>;
 	};
 
-	template<typename Type, typename Exp1, typename Exp2>
-	struct catenate<Type, act<Exp1>, act<Exp2>>
+	template<typename Type, Type... Values1, Type... Values2, Type... Values3, typename... Lists, template<Type...> class ListType>
+	struct typed_catenate<Type, ListType<Values1...>, ListType<Values2...>, ListType<Values3...>, Lists...>
 	{
-		using rtn = typename catenate
+		using rtn = typename typed_catenate
 		<
 			Type,
-			typename Exp1::rtn,
-			typename Exp2::rtn
+			ListType<Values1..., Values2...>,
+			ListType<Values3...>,
 
-		>::rtn;
-	};
-
-	template<typename Type, typename List1, typename List2, typename List3, typename... Lists>
-	struct catenate<Type, List1, List2, List3, Lists...>
-	{
-		using rtn = typename catenate
-		<
-			Type,
-
-			act
-			<
-				catenate<Type, List1, List2>
-			>,
-
-			List3, Lists...
+			Lists...
 
 		>::rtn;
 	};
@@ -138,65 +142,95 @@
 	push:
 */
 
-	template<typename Type, Type, typename> struct push;
+	template<typename, typename> struct push;
 
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct push<Type, Value, ListType<Values...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct push<Value, ListType<Values...>>
 	{
 		using rtn = ListType<Values..., Value>;
 	};
 
-	template<typename Type, Type Value, typename Exp>
-	struct push<Type, Value, act<Exp>>
+/*
+	typed_push:
+*/
+
+	template<typename Type, Type, typename> struct typed_push;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct typed_push<Type, Value, ListType<Values...>>
 	{
-		using rtn = typename push<Type, Value, typename Exp::rtn>::rtn;
+		using rtn = ListType<Values..., Value>;
 	};
 
 /*
 	at:
 */
 
-	template<typename Type, size_type, typename> struct at;
+	template<size_type, typename> struct at;
+
+	template<size_type index, typename Value, typename... Values, template<typename...> class ListType>
+	struct at<index, ListType<Value, Values...>>
+	{
+		using rtn = typename at<index-1, ListType<Values...>>::rtn;
+	};
+
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct at<0, ListType<Value, Values...>>
+	{
+		using rtn = Value;
+	};
+
+/*
+	typed_at:
+*/
+
+	template<typename Type, size_type, typename> struct typed_at;
 
 	template<typename Type, size_type index, Type Value, Type... Values, template<Type...> class ListType>
-	struct at<Type, index, ListType<Value, Values...>>
+	struct typed_at<Type, index, ListType<Value, Values...>>
 	{
-		static constexpr Type value = at<Type, index-1, ListType<Values...>>::value;
+		static constexpr Type value = typed_at<Type, index-1, ListType<Values...>>::value;
 	};
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct at<Type, 0, ListType<Value, Values...>>
+	struct typed_at<Type, 0, ListType<Value, Values...>>
 	{
 		static constexpr Type value = Value;
-	};
-
-	template<typename Type, size_type index, typename Exp>
-	struct at<Type, index, act<Exp>>
-	{
-		static constexpr Type value = at<Type, index, typename Exp::rtn>::value;
 	};
 
 /*
 	length:
 */
 
-	template<typename Type, typename, size_type = 0> struct length;
+	template<typename, size_type = 0> struct length;
 
-	template<typename Type, Type Value, Type... Values, size_type count, template<Type...> class ListType>
-	struct length<Type, ListType<Value, Values...>, count>
+	template<typename Value, typename... Values, size_type count, template<typename...> class ListType>
+	struct length<ListType<Value, Values...>, count>
 	{
-		static constexpr size_type value = length<Type, ListType<Values...>, count+1>::value;
+		static constexpr size_type value = length<ListType<Values...>, count+1>::value;
 	};
 
-	template<typename Type, size_type count, template<Type...> class ListType>
-	struct length<Type, ListType<>, count>
+	template<size_type count, template<typename...> class ListType>
+	struct length<ListType<>, count>
 	{
 		static constexpr size_type value = count;
 	};
 
-	template<typename Type, typename Exp, size_type count>
-	struct length<Type, act<Exp>, count>
+/*
+	typed_length:
+*/
+
+	template<typename Type, typename, size_type = 0> struct typed_length;
+
+	template<typename Type, Type Value, Type... Values, size_type count, template<Type...> class ListType>
+	struct typed_length<Type, ListType<Value, Values...>, count>
 	{
-		static constexpr size_type value = length<Type, typename Exp::rtn, count>::value;
+		static constexpr size_type value = typed_length<Type, ListType<Values...>, count+1>::value;
+	};
+
+	template<typename Type, size_type count, template<Type...> class ListType>
+	struct typed_length<Type, ListType<>, count>
+	{
+		static constexpr size_type value = count;
 	};
 
