@@ -122,7 +122,7 @@ struct functor
 
 	inline static void display(const null_environment &)
 	{
-		Builtin::functor::display("frame: null");
+		Builtin::functor::display("environment: null");
 	}
 };
 

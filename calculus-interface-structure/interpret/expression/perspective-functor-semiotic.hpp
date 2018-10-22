@@ -21,6 +21,8 @@ struct functor
 
 	using type		= functor;
 
+	#include nik_typedef(calculus, builtin, boolean, identity)
+
 	#define safe_name
 
 		#include nik_typedef(calculus, dispatch, if_then, functor)
@@ -64,5 +66,35 @@ struct functor
 		>::rtn;
 */
 	};
+
+	template<typename Env>
+	struct evaluate<null_expression, Env>
+	{
+		using rtn = null_expression;
+	};
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Exp, typename... Exps>
+	inline static void display(const expression<Exp, Exps...> & e)
+	{
+		using is_empty = typename is_null<expression<Exps...>>::rtn;
+
+		Builtin::functor::display("expression: ");
+		Exp::kind::functor::display(Exp());
+
+		if (!is_empty::value) Kernel::functor::display(expression<Exps...>(), ", ");
+		Builtin::functor::display('\n');
+	}
+
+	inline static void display(const null_expression &)
+	{
+		Builtin::functor::display("expression: null\n");
+	}
 };
 
