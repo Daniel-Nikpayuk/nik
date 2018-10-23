@@ -48,9 +48,17 @@ struct functor
 
 /*
 	if_then_else:
+
+	Due to the special handling of the evaluation sequence,
+	there are 6 possible cases. The general case is given to
+	handle 2 of those cases.
 */
 
-	template<bool, typename, typename> struct if_then_else;
+	template<bool Value, typename Ante, typename Conse>
+	struct if_then_else
+	{
+		using rtn = typename perbuf_if_then_else<Value, Ante, Conse>::rtn;
+	};
 
 	template<typename Ante, typename Exp>
 	struct if_then_else<false, Ante, act<Exp>>
