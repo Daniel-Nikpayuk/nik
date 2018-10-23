@@ -176,17 +176,17 @@ namespace nik
 
 			module_enum == Module::act			||
 
-			module_enum == Module::if_then_else		||
-			module_enum == Module::if_then			||
+			module_enum == Module::conditional		||
+			module_enum == Module::list			||
 
 		// typedin:
+
+//			module_enum == Module::list			||
+//			module_enum == Module::conditional		||
 
 			module_enum == Module::boolean			||
 			module_enum == Module::literal			||
 			module_enum == Module::number			||
-
-			module_enum == Module::if_then_else		||
-			module_enum == Module::if_then			||
 
 			module_enum == Module::natural8			||
 			module_enum == Module::natural16		||

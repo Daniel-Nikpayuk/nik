@@ -34,17 +34,18 @@ namespace nik
 
 		act,
 
-		if_then_else,
-		if_then,
+		conditional,
+		list,
 
 	// typedin:
+
+
+//		list,
+//		conditional,
 
 		boolean,
 		literal,
 		number,
-
-		if_then_else,
-		if_then,
 
 		natural8,
 		natural16,

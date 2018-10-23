@@ -30,39 +30,33 @@
 //
 
 							  template<typename Type>
-	using nik_safe(PREFIX, dereference)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, dereference)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  dereference<Type>;
 
 //
 
-							  template<bool Value, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  if_then_else<Value, Ante, Conse>;
-
-//
-
 							  template<typename Exp, typename List>
-	using nik_safe(PREFIX, untyped_cons)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, untyped_cons)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  untyped_cons<Exp, List>;
 
 							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, typed_cons)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, typed_cons)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  typed_cons<Type, Value, List>;
 
 							  template<typename List>
-	using nik_safe(PREFIX, untyped_car)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, untyped_car)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  untyped_car<List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, typed_car)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, typed_car)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  typed_car<Type, List>;
 
 							  template<typename List>
-	using nik_safe(PREFIX, untyped_cdr)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, untyped_cdr)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  untyped_cdr<List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, typed_cdr)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, typed_cdr)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  typed_cdr<Type, List>;
 
 //

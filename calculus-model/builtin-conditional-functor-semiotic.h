@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		perbui_
+	#define PREFIX		buiiftf_
 
 #else
 
@@ -29,25 +29,9 @@
 
 //
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
-							  is_equal<Type1, Type2>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, is_untyped_list)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
-							  is_untyped_list<List>;
-
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_typed_list)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
-							  is_typed_list<Type, List>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, is_untyped_null)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
-							  is_untyped_null<List>;
-
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_typed_null)		= typename nik_branch(builtin, calculus, semiotic)::identity::template
-							  is_typed_null<Type, List>;
+							  template<typename... Exps>
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(conditional, builtin, calculus, semiotic)::functor::template
+							  evaluate<Exps...>;
 
 //
 

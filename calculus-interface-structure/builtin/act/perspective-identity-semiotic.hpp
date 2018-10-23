@@ -17,7 +17,7 @@
 
 struct identity
 {
-	using kind		= branch;
+	using kind		= module;
 
 	using type		= identity;
 
@@ -54,39 +54,52 @@ struct identity
 	};
 
 /*
-	is list:
+	is_untyped_list:
 */
 
-	template<typename, typename...> struct is_list;
+	template<typename> struct is_untyped_list;
 
 	template<typename Exp>
-	struct is_list<act<Exp>>
+	struct is_untyped_list<act<Exp>>
 	{
-		static constexpr bool value = perbui_is_list<typename Exp::rtn>::value;
-	};
-
-	template<typename Type, typename Exp>
-	struct is_list<Type, act<Exp>>
-	{
-		static constexpr bool value = perbui_is_list<Type, typename Exp::rtn>::value;
+		static constexpr bool value = perbui_is_untyped_list<typename Exp::rtn>::value;
 	};
 
 /*
-	is_null:
+	is_typed_list:
 */
 
-	template<typename, typename...> struct is_null;
-
-	template<typename Exp>
-	struct is_null<act<Exp>>
-	{
-		static constexpr bool value = perbui_is_null<typename Exp::rtn>::value;
-	};
+	template<typename, typename> struct is_typed_list;
 
 	template<typename Type, typename Exp>
-	struct is_null<Type, act<Exp>>
+	struct is_typed_list<Type, act<Exp>>
 	{
-		static constexpr bool value = perbui_is_null<Type, typename Exp::rtn>::value;
+		static constexpr bool value = perbui_is_typed_list<Type, typename Exp::rtn>::value;
+	};
+
+/*
+	is_untyped_null:
+*/
+
+	template<typename> struct is_untyped_null;
+
+	template<typename Exp>
+	struct is_untyped_null<act<Exp>>
+	{
+		static constexpr bool value = perbui_is_untyped_null<typename Exp::rtn>::value;
+	};
+
+/*
+	is_typed_null:
+*/
+
+	template<typename, typename> struct is_typed_null;
+
+
+	template<typename Type, typename Exp>
+	struct is_typed_null<Type, act<Exp>>
+	{
+		static constexpr bool value = perbui_is_typed_null<Type, typename Exp::rtn>::value;
 	};
 };
 

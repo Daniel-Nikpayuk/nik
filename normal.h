@@ -30,7 +30,7 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., calculus, builtin, act, semiotic)
+#include nik_source(., calculus, builtin, conditional, semiotic)
 
 //#include nik_source(., calculus, evaltin, expression, semiotic)
 
