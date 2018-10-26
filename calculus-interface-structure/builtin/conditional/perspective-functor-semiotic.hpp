@@ -26,15 +26,46 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, perspective, builtin, functor)
+	#include nik_typedef(calculus, typedin, if_then, structure)
 
-	#include nik_typedef(calculus, builtin, conditional, structure)
+/*
+	re_sub_evaluate:
+
+	prevents ambiguity during template type resolution.
+*/
+
+	template<typename...> struct sub_evaluate;
+	template<typename...> struct re_sub_evaluate;
+
+	template<typename Exp, typename... Exps>
+	struct re_sub_evaluate
+	<
+		else_then<boolean<true>, Exp>,
+		Exps...
+
+	> { using rtn = Exp; };
+
+	template<typename Exp, typename... Exps>
+	struct re_sub_evaluate
+	<
+		else_then<boolean<false>, Exp>,
+		Exps...
+
+	> { using rtn = typename sub_evaluate<Exps...>::rtn; };
+
+	template<typename Exp, typename... Exps>
+	struct re_sub_evaluate
+	<
+		else_then<boolean<true>, act<Exp>>,
+		Exps...
+
+	> { using rtn = typename Exp::rtn; };
+
+/***********************************************************************************************************************/
 
 /*
 	sub_evaluate:
 */
-
-	template<typename...> struct sub_evaluate;
 
 	template<typename Pred, typename Exp, typename... Exps>
 	struct sub_evaluate
@@ -43,18 +74,10 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename if_then_else
+		using rtn = typename re_sub_evaluate
 		<
-			Pred::value,
-			Exp,
-
-			act
-			<
-				sub_evaluate
-				<
-					Exps...
-				>
-			>
+			else_then<typename Pred::rtn, Exp>,
+			Exps...
 
 		>::rtn;
 	};
@@ -78,6 +101,41 @@ struct functor
 	};
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+/*
+	re_evaluate:
+
+	prevents ambiguity during template type resolution.
+*/
+
+	template<typename...> struct re_evaluate;
+
+	template<typename Exp, typename... Exps>
+	struct re_evaluate
+	<
+		if_then<boolean<true>, Exp>,
+		Exps...
+
+	> { using rtn = Exp; };
+
+	template<typename Exp, typename... Exps>
+	struct re_evaluate
+	<
+		if_then<boolean<false>, Exp>,
+		Exps...
+
+	> { using rtn = typename sub_evaluate<Exps...>::rtn; };
+
+	template<typename Exp, typename... Exps>
+	struct re_evaluate
+	<
+		if_then<boolean<true>, act<Exp>>,
+		Exps...
+
+	> { using rtn = typename Exp::rtn; };
+
+/***********************************************************************************************************************/
 
 /*
 	evaluate:
@@ -92,20 +150,135 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename if_then_else
+		using rtn = typename re_evaluate
 		<
-			Pred::value,
-			Exp,
-
-			act
-			<
-				sub_evaluate
-				<
-					Exps...
-				>
-			>
+			if_then<typename Pred::rtn, Exp>,
+			Exps...
 
 		>::rtn;
 	};
+
+/***********************************************************************************************************************/
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Pred, typename Exp>
+	inline static void display(const if_then<Pred, Exp> &)
+	{
+		Builtin::functor::display("if_then: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" ? ");
+
+		Exp::kind::functor::display(Exp());
+	}
+
+	template<typename Pred, typename Exp>
+	inline static void display(const else_then<Pred, Exp> &)
+	{
+		Builtin::functor::display("else_then: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" : ");
+
+		Exp::kind::functor::display(Exp());
+	}
+
+	template<typename Exp>
+	inline static void display(const then<Exp> &)
+	{
+		Builtin::functor::display("then: ");
+
+		Exp::kind::functor::display(Exp());
+	}
+
+/*
+	re_evaluate:
+
+	prevents ambiguity during template type resolution.
+*/
+
+	template<typename> struct re_evaluate;
+
+	template<typename Exp1, typename Exp2>
+	struct re_evaluate
+	<
+		if_then_else<boolean<true>, Exp1, Exp2>
+	>
+	{
+		using rtn = Exp1;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct re_evaluate
+	<
+		if_then_else<boolean<false>, Exp1, Exp2>
+	>
+	{
+		using rtn = Exp2;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct re_evaluate
+	<
+		if_then_else<boolean<false>, Exp1, act<Exp2>>
+	>
+	{
+		using rtn = typename Exp2::rtn;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct re_evaluate
+	<
+		if_then_else<boolean<true>, act<Exp1>, Exp2>
+	>
+	{
+		using rtn = typename Exp1::rtn;
+	};
+
+/*
+	evaluate:
+*/
+
+	template<typename> struct evaluate;
+
+	template<typename Pred, typename Exp1, typename Exp2>
+	struct evaluate
+	<
+		if_then_else<Pred, Exp1, Exp2>
+	>
+	{
+		using rtn = typename re_evaluate
+		<
+			if_then_else<typename Pred::rtn, Exp1, Exp2>
+
+		>::rtn;
+	};
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Pred, typename Exp1, typename Exp2>
+	inline static void display(const if_then_else<Pred, Exp1, Exp2> &)
+	{
+		Builtin::functor::display("if_then_else: ");
+
+		Pred::kind::functor::display(Pred());
+		Builtin::functor::display(" ? ");
+
+		Exp1::kind::functor::display(Exp1());
+		Builtin::functor::display(" : ");
+
+		Exp2::kind::functor::display(Exp2());
+	}
 };
 

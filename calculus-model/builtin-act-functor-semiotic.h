@@ -35,6 +35,12 @@
 
 //
 
+							  template<bool Value, typename Ante, typename Conse>
+	using nik_safe(PREFIX, if_then_else)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
+							  if_then_else<Value, Ante, Conse>;
+
+//
+
 							  template<typename Exp, typename List>
 	using nik_safe(PREFIX, untyped_cons)		= typename nik_module(act, builtin, calculus, semiotic)::functor::template
 							  untyped_cons<Exp, List>;

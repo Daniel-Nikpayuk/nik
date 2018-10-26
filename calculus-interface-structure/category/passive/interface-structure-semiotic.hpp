@@ -21,38 +21,44 @@ struct structure
 
 	using type						= structure;
 
-/*
-	info:
-*/
-
-	struct untyped { };
-
-	template<bool, typename...> struct list_info;
-
-	template<bool Value>
-	struct list_info<Value>
+	template<typename>
+	struct act
 	{
 		using kind					= module;
 
-		using type					= list_info;
+		using type					= act;
 
-		using rtn					= list_info;
-
-		using value					= Value;
+		using rtn					= act;
 	};
 
-	template<bool Value, typename Type>
-	struct list_info<Value, Type>
+	template<typename, typename>
+	struct if_then
 	{
 		using kind					= module;
 
-		using type					= list_info;
+		using type					= if_then;
 
-		using rtn					= list_info;
+		using rtn					= if_then;
+	};
 
-		using value					= Value;
+	template<typename, typename>
+	struct else_then
+	{
+		using kind					= module;
 
-		using list_type					= Type;
+		using type					= else_then;
+
+		using rtn					= else_then;
+	};
+
+	template<typename>
+	struct then
+	{
+		using kind					= module;
+
+		using type					= then;
+
+		using rtn					= then;
 	};
 };
 

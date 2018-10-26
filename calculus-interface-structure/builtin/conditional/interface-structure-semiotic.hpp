@@ -21,6 +21,16 @@ struct structure
 
 	using type						= structure;
 
+	template<typename, typename, typename>
+	struct if_then_else
+	{
+		using kind					= module;
+
+		using type					= if_then_else;
+
+		using rtn					= if_then_else;
+	};
+
 	template<typename, typename>
 	struct if_then
 	{

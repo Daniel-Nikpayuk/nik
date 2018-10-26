@@ -15,24 +15,23 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+namespace nik
 {
-	using kind						= module;
-
-	using type						= structure;
-
-/*
-	act:
-*/
-
-	template<typename>
-	struct act
+	template<typename SizeType>
+	struct module<Module::passive, Branch::category, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using kind					= module;
+		using type	= module;
 
-		using type					= act;
+		using size_type	= SizeType;
 
-		using rtn					= act;
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
-};
+}
 

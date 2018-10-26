@@ -38,94 +38,6 @@ struct functor
 	};
 
 /*
-	if_then_else:
-*/
-
-	template<bool True, typename Ante, typename Conse>
-	struct if_then_else
-	{
-		using rtn = Ante;
-	};
-
-	template<typename Ante, typename Conse>
-	struct if_then_else<false, Ante, Conse>
-	{
-		using rtn = Conse;
-	};
-
-/*
-	untyped_cons:
-*/
-
-	template<typename, typename> struct untyped_cons;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct untyped_cons<Value, ListType<Values...>>
-	{
-		using rtn = ListType<Value, Values...>;
-	};
-
-/*
-	typed_cons:
-*/
-
-	template<typename Type, Type, typename> struct typed_cons;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct typed_cons<Type, Value, ListType<Values...>>
-	{
-		using rtn = ListType<Value, Values...>;
-	};
-
-/*
-	untyped_car:
-*/
-
-	template<typename> struct untyped_car;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct untyped_car<ListType<Value, Values...>>
-	{
-		using rtn = Value;
-	};
-
-/*
-	typed_car:
-*/
-
-	template<typename Type, typename> struct typed_car;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct typed_car<Type, ListType<Value, Values...>>
-	{
-		static constexpr Type value = Value;
-	};
-
-/*
-	untyped_cdr:
-*/
-
-	template<typename> struct untyped_cdr;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct untyped_cdr<ListType<Value, Values...>>
-	{
-		using rtn = ListType<Values...>;
-	};
-
-/*
-	typed_cdr:
-*/
-
-	template<typename Type, typename> struct typed_cdr;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct typed_cdr<Type, ListType<Value, Values...>>
-	{
-		using rtn = ListType<Values...>;
-	};
-
-/*
 	display:
 */
 
@@ -149,5 +61,26 @@ struct functor
 
 	inline static void display(bool v)			{ printf("%s", v? "true" : "false");	}
 	inline static void display(const char *v)		{ printf("%s", v);			}
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Pred, typename Ante, typename Conse>
+	inline static void display(const if_then_else<Pred, Ante, Conse> &)
+	{
+		display("if_then_else: ");
+
+		Pred::kind::functor::display(Pred());
+		display(" ? ");
+
+		Ante::kind::functor::display(Ante());
+		display(" : ");
+
+		Conse::kind::functor::display(Conse());
+	}
 };
 
