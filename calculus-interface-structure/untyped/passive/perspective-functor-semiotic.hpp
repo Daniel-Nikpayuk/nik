@@ -290,9 +290,9 @@ struct functor
 	}
 
 	template<typename Exp>
-	inline static void display(const act<Exp> &)
+	inline static void display(const act<Exp> &, const char *sep = " ")
 	{
-		display(typename Exp::rtn());
+		display(typename Exp::rtn(), sep);
 	}
 };
 

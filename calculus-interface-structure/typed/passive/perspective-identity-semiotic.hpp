@@ -21,423 +21,134 @@ struct identity
 
 	using type		= identity;
 
-	#include nik_typedef(calculus, category, passive, structure)
+	#include nik_typedef(calculus, perspective, typed, identity)
+	#include nik_typedef(calculus, kernel, passive, functor)
+	#include nik_typedef(calculus, untyped, conditional, structure)
 
-/*
-	is_equal:
-*/
-
-	template<typename, typename> struct is_equal;
-
-	template<typename Type, typename Exp>
-	struct is_equal<Type, act<Exp>>
-	{
-		static constexpr bool value = perbui_is_equal<Type, typename Exp::rtn>::value;
-	};
-
-	template<typename Exp, typename Type>
-	struct is_equal<act<Exp>, Type>
-	{
-		static constexpr bool value = perbui_is_equal<typename Exp::rtn, Type>::value;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = perbui_is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
-
-/*
-	is_untyped_list:
-*/
-
-	template<typename> struct is_untyped_list;
-
-	template<typename Exp>
-	struct is_untyped_list<act<Exp>>
-	{
-		static constexpr bool value = perbui_is_untyped_list<typename Exp::rtn>::value;
-	};
-
-/*
-	is_typed_list:
-*/
-
-	template<typename, typename> struct is_typed_list;
-
-	template<typename Type, typename Exp>
-	struct is_typed_list<Type, act<Exp>>
-	{
-		static constexpr bool value = perbui_is_typed_list<Type, typename Exp::rtn>::value;
-	};
-
-	template<typename Exp, typename List>
-	struct is_typed_list<act<Exp>, List>
-	{
-		static constexpr bool value = perbui_is_typed_list<typename Exp::rtn, List>::value;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct is_typed_list<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = perbui_is_typed_list<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
-
-/*
-	is_untyped_null:
-*/
-
-	template<typename> struct is_untyped_null;
-
-	template<typename Exp>
-	struct is_untyped_null<act<Exp>>
-	{
-		static constexpr bool value = perbui_is_untyped_null<typename Exp::rtn>::value;
-	};
-
-/*
-	is_typed_null:
-*/
-
-	template<typename, typename> struct is_typed_null;
-
-	template<typename Type, typename Exp>
-	struct is_typed_null<Type, act<Exp>>
-	{
-		static constexpr bool value = perbui_is_typed_null<Type, typename Exp::rtn>::value;
-	};
-
-	template<typename Exp, typename List>
-	struct is_typed_null<act<Exp>, List>
-	{
-		static constexpr bool value = perbui_is_typed_null<typename Exp::rtn, List>::value;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct is_typed_null<act<Exp1>, act<Exp2>>
-	{
-		static constexpr bool value = perbui_is_typed_null<typename Exp1::rtn, typename Exp2::rtn>::value;
-	};
-};
-
-struct identity
-{
-	using kind		= module;
-
-	using type		= identity;
-
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, builtin, identity)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, builtin, list, structure)
-
-	struct untyped_list
-	{
-		using kind					= module;
-
-		using type					= untyped_list;
-
-		using rtn					= untyped_list;
-	};
-
-	template<typename Type>
-	struct typed_list
-	{
-		using kind					= module;
-
-		using type					= typed_list;
-
-		using rtn					= typed_list;
-
-		using value_type				= Type;
-	};
-
-	struct not_a_list
-	{
-		using kind					= module;
-
-		using type					= not_a_list;
-
-		using rtn					= not_a_list;
-	};
-
-/*
-	identify:
-*/
-
-	template<typename Type>
-	struct identify
-	{
-		using rtn = typename evaluate
-		<
-			if_then
-			<
-				is_untyped_list<Exp>,
-				untyped_list
-
-			>, else_then
-			<
-				is_typed_list<bool, Exp>,
-				typed_list<bool>
-
-			>, else_then
-			<
-				is_typed_list<char, Exp>,
-				typed_list<char>
-
-			>, else_then
-			<
-				is_typed_list<unsigned char, Exp>,
-				typed_list<unsigned char>
-
-			>, else_then
-			<
-				is_typed_list<unsigned short, Exp>,
-				typed_list<unsigned short>
-
-			>, else_then
-			<
-				is_typed_list<unsigned int, Exp>,
-				typed_list<unsigned int>
-
-			>, else_then
-			<
-				is_typed_list<unsigned long, Exp>,
-				typed_list<unsigned long>
-
-			>, else_then
-			<
-				is_typed_list<unsigned long long, Exp>,
-				typed_list<unsigned long long>
-
-			>, else_then
-			<
-				is_typed_list<signed char, Exp>,
-				typed_list<signed char>
-
-			>, else_then
-			<
-				is_typed_list<signed short, Exp>,
-				typed_list<signed short>
-
-			>, else_then
-			<
-				is_typed_list<signed int, Exp>,
-				typed_list<signed int>
-
-			>, else_then
-			<
-				is_typed_list<signed long, Exp>,
-				typed_list<signed long>
-
-			>, else_then
-			<
-				is_typed_list<signed long long, Exp>,
-				typed_list<signed long long>
-
-			>, then
-			<
-				not_a_list
-			>
-
-		>::rtn;
-	};
-
-	template<typename Exp>
-	struct identify<act<Exp>>
-	{
-		using rtn = identify<typename Exp::rtn>::rtn;
-	};
+	#include nik_typedef(calculus, typed, passive, structure)
 
 /*
 	is_list:
 */
 
-	template<typename Exp>
+	template<typename Exp0, typename Exp1>
 	struct is_list
 	{
-		using ListType = typename identify<Exp>::rtn;
+		static constexpr bool value = pertyi_is_list
+		<
+			typename typpaf_evaluate<Exp0>::rtn,
+			typename typpaf_evaluate<Exp1>::rtn
 
-		static constexpr bool value = !is_equal<ListType, not_a_list>::value;
-	};
-
-	template<typename Exp>
-	struct is_list<act<Exp>>
-	{
-		static constexpr bool value = is_list<typename Exp::rtn>::value;
+		>::value;
 	};
 
 /*
 	is_null:
 */
 
-	template<typename List>
+	template<typename Exp0, typename Exp1>
 	struct is_null
 	{
-		using ListType = typename identify<List>::rtn;
-
-		static constexpr bool value = typename if_then_else
+		static constexpr bool value = pertyi_is_null
 		<
-			is_equal<ListType, untyped_list>,
-			is_untyped_null<List>,
-			is_typed_null<ListType::value_type, List>
+			typename typpaf_evaluate<Exp0>::rtn,
+			typename typpaf_evaluate<Exp1>::rtn
 
-		>::rtn::value;
+		>::value;
 	};
 
+/*
+	identify:
+*/
+
 	template<typename Exp>
-	struct is_null<act<Exp>>
+	struct identify
 	{
-		static constexpr bool value = is_null<typename Exp::rtn>::value;
+		using Type = typename evaluate<Exp>::rtn;
+
+		using rtn = typename untpaf_evaluate
+		<
+			if_then
+			<
+				pertyf_is_list<bool, Type>,
+				typed_list<bool>
+
+			>, else_then
+			<
+				pertyf_is_list<char, Type>,
+				typed_list<char>
+
+			>, else_then
+			<
+				pertyf_is_list<char, Type>,
+				typed_list<wchar_t>
+
+			>, else_then
+			<
+				pertyf_is_list<char, Type>,
+				typed_list<char16_t>
+
+			>, else_then
+			<
+				pertyf_is_list<char, Type>,
+				typed_list<char32_t>
+
+			>, else_then
+			<
+				pertyf_is_list<unsigned char, Type>,
+				typed_list<unsigned char>
+
+			>, else_then
+			<
+				pertyf_is_list<unsigned short, Type>,
+				typed_list<unsigned short>
+
+			>, else_then
+			<
+				pertyf_is_list<unsigned int, Type>,
+				typed_list<unsigned int>
+
+			>, else_then
+			<
+				pertyf_is_list<unsigned long, Type>,
+				typed_list<unsigned long>
+
+			>, else_then
+			<
+				pertyf_is_list<unsigned long long, Type>,
+				typed_list<unsigned long long>
+
+			>, else_then
+			<
+				pertyf_is_list<signed char, Type>,
+				typed_list<signed char>
+
+			>, else_then
+			<
+				pertyf_is_list<signed short, Type>,
+				typed_list<signed short>
+
+			>, else_then
+			<
+				pertyf_is_list<signed int, Type>,
+				typed_list<signed int>
+
+			>, else_then
+			<
+				pertyf_is_list<signed long, Type>,
+				typed_list<signed long>
+
+			>, else_then
+			<
+				pertyf_is_list<signed long long, Type>,
+				typed_list<signed long long>
+
+			>, then
+			<
+				other_type
+			>
+
+		>::rtn;
 	};
 };
-
-/*
-	cons:
-
-	There's no generic version of this function shared between untyped and typed lists.
-*/
-
-/*
-	car:
-
-	In the case of typed, it returns the typed call itself as it has no ::rtn (only ::value).
-*/
-
-	template<typename List> struct car
-	{
-		using ListType = typename identify<List>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal<ListType, untyped_list>,
-
-			act
-			<
-				untyped_car<List>
-			>,
-
-			typed_car<ListType::value_type, List>
-
-		>::rtn;
-	};
-
-	template<typename Exp>
-	struct car<act<Exp>>
-	{
-		using rtn = typename car<typename Exp::rtn>::rtn;
-	};
-
-/*
-	cdr:
-*/
-
-	template<typename> struct cdr;
-
-	template<typename List> struct cdr
-	{
-		using ListType = typename identify<List>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal<info::list_type, untyped_list>,
-
-			act
-			<
-				untyped_cdr<List>
-			>,
-
-			act
-			<
-				typed_cdr<ListType::value_type, List>
-			>
-
-		>::rtn;
-	};
-
-	template<typename Exp>
-	struct cdr<act<Exp>>
-	{
-		using rtn = typename cdr<typename Exp::rtn>::rtn;
-	};
-
-/*
-	catenate:
-*/
-
-	template<typename List1, typename List2, typename... Lists>
-	struct catenate
-	{
-		using ListType = typename identify<List1>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal<ListType, untyped_list>,
-
-			act
-			<
-				untyped_catenate<List1, List2, Lists...>
-			>,
-
-			act
-			<
-				typed_catenate<ListType::value_type, List1, List2, Lists...>
-			>
-
-		>::rtn;
-	};
-
-/*
-	push:
-
-	There's no generic version of this function shared between untyped and typed lists.
-*/
-
-/*
-	at:
-
-	In the case of typed, it returns the typed call itself as it has no ::rtn (only ::value).
-*/
-
-	template<size_type, typename> struct untyped_at;
-
-	template<size_type index, typename List>
-	struct at
-	{
-		using ListType = typename identify<List>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal<ListType, untyped_list>,
-
-			act
-			<
-				untyped_at<index, List>
-			>,
-
-			typed_at<ListType::value_type, index, List>
-
-		>::rtn;
-	};
-
-/*
-	length:
-*/
-
-	template<typename List>
-	struct length
-	{
-		using ListType = typename identify<List>::rtn;
-
-		static constexpr size_type value = if_then_else
-		<
-			is_equal<ListType, untyped_list>,
-			untyped_length<List>,
-			typed_length<ListType::value_type, List>
-
-		>::rtn::value;
-	};
 

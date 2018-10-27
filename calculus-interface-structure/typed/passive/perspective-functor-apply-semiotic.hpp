@@ -438,3 +438,90 @@ template<typename Type, typename...> struct apply;
 		>::rtn;
 	};
 
+/*
+	apply:
+*/
+
+	template<typename Type, typename Op, typename Exp>
+	struct apply<Type, Op, act<Exp>>
+	{
+		using rtn = typename apply<Type, Op, typename Exp::rtn>::rtn;
+	};
+
+	template
+	<
+		typename Type,
+		typename Op,
+		Type Value,
+		typename Exp,
+		template<Type...> class number_list
+	>
+	struct apply
+	<
+		Type,
+		Op,
+		number_list<Value>,
+		act<Exp>
+	>
+	{
+		using rtn = typename apply
+		<
+			Type,
+			Op,
+			number_list<Value>,
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+	template
+	<
+		typename Type,
+		typename Op,
+		typename Exp,
+		Type Value,
+		template<Type...> class number_list
+	>
+	struct apply
+	<
+		Type,
+		Op,
+		act<Exp>,
+		number_list<Value>
+	>
+	{
+		using rtn = typename apply
+		<
+			Type,
+			Op,
+			typename Exp::rtn,
+			number_list<Value>
+
+		>::rtn;
+	};
+
+	template
+	<
+		typename Type,
+		typename Op,
+		typename Exp1,
+		typename Exp2
+	>
+	struct apply
+	<
+		Type,
+		Op,
+		act<Exp1>,
+		act<Exp2>
+	>
+	{
+		using rtn = typename apply
+		<
+			Type,
+			Op,
+			typename Exp1::rtn,
+			typename Exp2::rtn
+
+		>::rtn;
+	};
+

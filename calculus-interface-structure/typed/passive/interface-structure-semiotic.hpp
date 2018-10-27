@@ -21,44 +21,25 @@ struct structure
 
 	using type						= structure;
 
-	template<typename>
-	struct act
+	template<typename Type>
+	struct typed_list
 	{
 		using kind					= module;
 
-		using type					= act;
+		using type					= typed_list;
 
-		using rtn					= act;
+		using rtn					= typed_list;
+
+		using value_type				= Type;
 	};
 
-	template<typename, typename>
-	struct if_then
+	struct other_type
 	{
 		using kind					= module;
 
-		using type					= if_then;
+		using type					= other_type;
 
-		using rtn					= if_then;
-	};
-
-	template<typename, typename>
-	struct else_then
-	{
-		using kind					= module;
-
-		using type					= else_then;
-
-		using rtn					= else_then;
-	};
-
-	template<typename>
-	struct then
-	{
-		using kind					= module;
-
-		using type					= then;
-
-		using rtn					= then;
+		using rtn					= other_type;
 	};
 };
 
