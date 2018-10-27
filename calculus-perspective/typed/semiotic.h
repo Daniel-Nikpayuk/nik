@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct branch<Branch::builtin, Lens::calculus, Permission::semiotic, SizeType>
+	struct branch<Branch::typed, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= branch;
 

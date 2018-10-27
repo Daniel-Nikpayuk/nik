@@ -22,81 +22,33 @@ struct identity
 	using type		= identity;
 
 /*
-	is_equal:
-*/
-
-	template<typename Type1, typename Type2>
-	struct is_equal
-	{
-		static constexpr bool value = false;
-	};
-
-	template<typename Type>
-	struct is_equal<Type, Type>
-	{
-		static constexpr bool value = true;
-	};
-
-/*
-	is_untyped_list:
-*/
-
-	template<typename>
-	struct is_untyped_list
-	{
-		static constexpr bool value = false;
-	};
-
-	template<typename... Exps, template<typename...> class ListType>
-	struct is_untyped_list<ListType<Exps...>>
-	{
-		static constexpr bool value = true;
-	};
-
-/*
-	is_typed_list:
+	is_list:
 */
 
 	template<typename, typename>
-	struct is_typed_list
+	struct is_list
 	{
 		static constexpr bool value = false;
 	};
 
 	template<typename Type, Type... Exps, template<Type...> class ListType>
-	struct is_typed_list<Type, ListType<Exps...>>
+	struct is_list<Type, ListType<Exps...>>
 	{
 		static constexpr bool value = true;
 	};
 
 /*
-	is_untyped_null:
-*/
-
-	template<typename>
-	struct is_untyped_null
-	{
-		static constexpr bool value = false;
-	};
-
-	template<template<typename...> class ListType>
-	struct is_untyped_null<ListType<>>
-	{
-		static constexpr bool value = true;
-	};
-
-/*
-	is_typed_null:
+	is_null:
 */
 
 	template<typename, typename>
-	struct is_typed_null
+	struct is_null
 	{
 		static constexpr bool value = false;
 	};
 
 	template<typename Type, template<Type...> class ListType>
-	struct is_typed_null<Type, ListType<>>
+	struct is_null<Type, ListType<>>
 	{
 		static constexpr bool value = true;
 	};

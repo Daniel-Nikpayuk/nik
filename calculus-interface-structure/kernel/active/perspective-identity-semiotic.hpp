@@ -15,50 +15,29 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+struct identity
 {
-	using kind						= module;
+	using kind		= module;
 
-	using type						= structure;
+	using type		= identity;
 
-	template<typename, typename, typename>
-	struct if_then_else
+	#include nik_typedef(calculus, perspective, kernel, identity)
+
+	#include nik_typedef(calculus, kernel, active, functor)
+
+/*
+	is_equal:
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal
 	{
-		using kind					= module;
+		static constexpr bool value = perkei_is_equal
+		<
+			typename evaluate<Exp1>::rtn,
+			typename evaluate<Exp2>::rtn
 
-		using type					= if_then_else;
-
-		using rtn					= if_then_else;
-	};
-
-	template<typename, typename>
-	struct if_then
-	{
-		using kind					= module;
-
-		using type					= if_then;
-
-		using rtn					= if_then;
-	};
-
-	template<typename, typename>
-	struct else_then
-	{
-		using kind					= module;
-
-		using type					= else_then;
-
-		using rtn					= else_then;
-	};
-
-	template<typename>
-	struct then
-	{
-		using kind					= module;
-
-		using type					= then;
-
-		using rtn					= then;
+		>::value;
 	};
 };
 

@@ -15,74 +15,46 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+struct functor
 {
 	using kind		= branch;
 
-	using type		= identity;
+	using type		= functor;
 
 /*
-	is_equal:
+	cons:
 */
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		using rtn = boolean
-		<
-			perbui_is_equal
-			<
-				typename Exp1::rtn,
-				typename Exp2::rtn
+	template<typename, typename> struct cons;
 
-			>::value
-		>;
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cons<Value, ListType<Values...>>
+	{
+		using rtn = ListType<Value, Values...>;
 	};
 
 /*
-	is_list:
+	car:
 */
 
-	template<typename>
-	struct is_list
-	{
-		static constexpr bool value = false;
-	};
+	template<typename> struct car;
 
-	template<typename... Exps, template<typename...> class ListType>
-	struct is_list<ListType<Exps...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct car<ListType<Value, Values...>>
 	{
-		static constexpr bool value = true;
-	};
-
-	template<typename Exp>
-	struct is_list<act<Exp>>
-	{
-		static constexpr bool value = is_list<typename Exp::rtn>::value;
+		using rtn = Value;
 	};
 
 /*
-	is_null:
+	cdr:
 */
 
-	template<typename> struct is_null;
+	template<typename> struct cdr;
 
-	template<typename Exp, typename... Exps, template<typename...> class ListType>
-	struct is_null<ListType<Exp, Exps...>>
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cdr<ListType<Value, Values...>>
 	{
-		static constexpr bool value = false;
-	};
-
-	template<template<typename...> class ListType>
-	struct is_null<ListType<>>
-	{
-		static constexpr bool value = true;
-	};
-
-	template<typename Exp>
-	struct is_null<act<Exp>>
-	{
-		static constexpr bool value = is_null<typename Exp::rtn>::value;
+		using rtn = ListType<Values...>;
 	};
 };
 

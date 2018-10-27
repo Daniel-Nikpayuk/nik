@@ -15,23 +15,46 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct functor
 {
-	template<typename SizeType>
-	struct branch<Branch::typedin, Lens::calculus, Permission::semiotic, SizeType>
+	using kind		= branch;
+
+	using type		= functor;
+
+/*
+	cons:
+*/
+
+	template<typename Type, Type, typename> struct cons;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct cons<Type, Value, ListType<Values...>>
 	{
-		using type	= branch;
-
-		using size_type	= SizeType;
-
-		//
-
-		#include nik_unpack(../.., calculus, builtin, act, structure)
-
-		//
-
-		#include"identity-semiotic.hpp"
-		#include"functor-semiotic.hpp"
+		using rtn = ListType<Value, Values...>;
 	};
-}
+
+/*
+	car:
+*/
+
+	template<typename Type, typename> struct car;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct car<Type, ListType<Value, Values...>>
+	{
+		static constexpr Type value = Value;
+	};
+
+/*
+	cdr:
+*/
+
+	template<typename Type, typename> struct cdr;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct cdr<Type, ListType<Value, Values...>>
+	{
+		using rtn = ListType<Values...>;
+	};
+};
 

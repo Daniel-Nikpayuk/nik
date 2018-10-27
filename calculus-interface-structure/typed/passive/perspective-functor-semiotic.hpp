@@ -549,5 +549,27 @@ struct functor
 		else						typed_display(ListType::value_type(), l);
 	}
 
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	inline static void display(const Type & t, const ListType<Value, Values...> &, const char *sep = " ")
+	{
+		Kernel::functor::display(sep);
+		Kernel::functor::display(Value);
+
+		display(t, ListType<Values...>(), sep);
+	}
+
+	template<typename Type, template<Type...> class ListType>
+	inline static void display(const Type &, const ListType<> &, const char *sep = " ")
+	{
+		// do nothing.
+	}
+
 };
 

@@ -15,27 +15,20 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct structure
 {
-	template<typename SizeType>
-	struct module<Module::if_then, Branch::typedin, Lens::calculus, Permission::semiotic, SizeType>
+	using kind						= module;
+
+	using type						= structure;
+
+	template<typename>
+	struct act
 	{
-		using type	= module;
+		using kind					= module;
 
-		using size_type	= SizeType;
+		using type					= act;
 
-		//
-
-		#include nik_typedef(calculus, perspective, typedin, module)
-		#include nik_typedef(calculus, typedin, boolean, structure)
-
-		//
-
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-functor-semiotic.hpp"
+		using rtn					= act;
 	};
-}
+};
 

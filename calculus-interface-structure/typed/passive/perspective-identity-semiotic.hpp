@@ -21,6 +21,111 @@ struct identity
 
 	using type		= identity;
 
+	#include nik_typedef(calculus, category, passive, structure)
+
+/*
+	is_equal:
+*/
+
+	template<typename, typename> struct is_equal;
+
+	template<typename Type, typename Exp>
+	struct is_equal<Type, act<Exp>>
+	{
+		static constexpr bool value = perbui_is_equal<Type, typename Exp::rtn>::value;
+	};
+
+	template<typename Exp, typename Type>
+	struct is_equal<act<Exp>, Type>
+	{
+		static constexpr bool value = perbui_is_equal<typename Exp::rtn, Type>::value;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_equal<act<Exp1>, act<Exp2>>
+	{
+		static constexpr bool value = perbui_is_equal<typename Exp1::rtn, typename Exp2::rtn>::value;
+	};
+
+/*
+	is_untyped_list:
+*/
+
+	template<typename> struct is_untyped_list;
+
+	template<typename Exp>
+	struct is_untyped_list<act<Exp>>
+	{
+		static constexpr bool value = perbui_is_untyped_list<typename Exp::rtn>::value;
+	};
+
+/*
+	is_typed_list:
+*/
+
+	template<typename, typename> struct is_typed_list;
+
+	template<typename Type, typename Exp>
+	struct is_typed_list<Type, act<Exp>>
+	{
+		static constexpr bool value = perbui_is_typed_list<Type, typename Exp::rtn>::value;
+	};
+
+	template<typename Exp, typename List>
+	struct is_typed_list<act<Exp>, List>
+	{
+		static constexpr bool value = perbui_is_typed_list<typename Exp::rtn, List>::value;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_typed_list<act<Exp1>, act<Exp2>>
+	{
+		static constexpr bool value = perbui_is_typed_list<typename Exp1::rtn, typename Exp2::rtn>::value;
+	};
+
+/*
+	is_untyped_null:
+*/
+
+	template<typename> struct is_untyped_null;
+
+	template<typename Exp>
+	struct is_untyped_null<act<Exp>>
+	{
+		static constexpr bool value = perbui_is_untyped_null<typename Exp::rtn>::value;
+	};
+
+/*
+	is_typed_null:
+*/
+
+	template<typename, typename> struct is_typed_null;
+
+	template<typename Type, typename Exp>
+	struct is_typed_null<Type, act<Exp>>
+	{
+		static constexpr bool value = perbui_is_typed_null<Type, typename Exp::rtn>::value;
+	};
+
+	template<typename Exp, typename List>
+	struct is_typed_null<act<Exp>, List>
+	{
+		static constexpr bool value = perbui_is_typed_null<typename Exp::rtn, List>::value;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct is_typed_null<act<Exp1>, act<Exp2>>
+	{
+		static constexpr bool value = perbui_is_typed_null<typename Exp1::rtn, typename Exp2::rtn>::value;
+	};
+};
+
+struct identity
+{
+	using kind		= module;
+
+	using type		= identity;
+
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, builtin, identity)
