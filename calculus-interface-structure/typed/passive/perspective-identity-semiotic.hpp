@@ -24,11 +24,11 @@ struct identity
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, typed, identity)
-		#include nik_typedef(calculus, typed, information, identity)
+		#include nik_typedef(calculus, typed, deductional, identity)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, kernel, passive, functor)
+	#include nik_typedef(calculus, recursed, passive, functor)
 
 /*
 	is_list:
@@ -67,7 +67,7 @@ struct identity
 	template<typename Exp>
 	struct identify
 	{
-		using rtn = typename typini_identify
+		using rtn = typename typdei_identify
 		<
 			typename evaluate<Exp>::rtn
 

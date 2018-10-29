@@ -30,7 +30,7 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// kernel:
+	// recursed:
 
 		passive,
 		active,
@@ -43,9 +43,13 @@ namespace nik
 
 	// typed:
 
-		information,
+		deductional,
 //		passive,
 //		active,
+
+	// constant:
+
+		operate,
 
 		boolean,
 		literal,
@@ -61,9 +65,9 @@ namespace nik
 		integer32,
 		integer64,
 
-	// interpreter:
+	// interpreted:
 
-		undefined,
+		circuit,
 
 		binding,
 		frame,
@@ -92,12 +96,19 @@ namespace nik
 	enum struct Branch : global_size_type
 	{
 
-	// calculus:
+	// perspective:
 
-		kernel,
+		dispatched,
 		untyped,
 		typed,
-		interpreter,
+
+	// calculus:
+
+		recursed,
+//		untyped,
+//		typed,
+		constant,
+		interpreted,
 
 	// hardware:
 

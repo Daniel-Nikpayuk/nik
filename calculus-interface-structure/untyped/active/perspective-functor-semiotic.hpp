@@ -25,11 +25,10 @@ struct functor
 
 		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
-		#include nik_typedef(calculus, kernel, active, functor)
+		#include nik_typedef(calculus, recursed, active, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, kernel, active, structure)
 	#include nik_typedef(calculus, untyped, conditional, structure)
 
 /*
@@ -257,11 +256,11 @@ struct functor
 		static constexpr char l				= value_is_list ? '[' : '(';
 		static constexpr char r				= value_is_list ? ']' : ')';
 
-		Kernel::functor::display(l);
+		Dispatched::functor::display(l);
 		Value::kind::functor::display(Value());
-		Kernel::functor::display(r);
+		Dispatched::functor::display(r);
 
-		if (!values_is_null) Kernel::functor::display(sep);
+		if (!values_is_null) Dispatched::functor::display(sep);
 
 		display(pass<ListType<Values...>>(), sep);
 	}

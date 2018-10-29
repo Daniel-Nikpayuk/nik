@@ -19,7 +19,7 @@
 
 //
 
-	using Conditional = nik_module(conditional, builtin, calculus, semiotic);
+	using Passive = nik_module(passive, typed, calculus, semiotic);
 
 //
 

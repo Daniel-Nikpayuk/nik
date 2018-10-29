@@ -15,6 +15,11 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Although it is at this point straightforward to include type deducing versions of the following methods,
+	they should be classified and coded as part of the media space, not the semiotic space.
+*/
+
 struct functor
 {
 	using kind		= module;
@@ -24,7 +29,7 @@ struct functor
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, typed, functor)
-		#include nik_typedef(calculus, kernel, passive, functor)
+		#include nik_typedef(calculus, recursed, passive, functor)
 
 	#undef safe_name
 
@@ -41,7 +46,7 @@ struct functor
 		<
 			Type,
 			Value,
-			typename kerpaf_evaluate<Exp2>::rtn
+			typename recpaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -50,31 +55,15 @@ struct functor
 	car:
 */
 
-	template<typename, typename...> struct car;
-
 	template<typename Exp0, typename Exp1>
-	struct car<Exp0, Exp1>
+	struct car
 	{
-		using Type = typename kerpaf_evaluate<Exp0>::rtn;
+		using Type = typename recpaf_evaluate<Exp0>::rtn;
 
 		static constexpr Type value = pertyf_car
 		<
 			Type,
-			typename kerpaf_evaluate<Exp1>::rtn
-
-		>::value;
-	};
-
-	template<typename Exp>
-	struct car<Exp>
-	{
-		using List = typename kerpaf_evaluate<Exp>::rtn;
-		using Type = typename identify<List>::rtn::value_type;
-
-		static constexpr Type value = pertyf_car
-		<
-			Type,
-			List
+			typename recpaf_evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -83,28 +72,13 @@ struct functor
 	cdr:
 */
 
-	template<typename, typename...> struct cdr;
-
 	template<typename Exp0, typename Exp1>
-	struct cdr<Exp0, Exp1>
+	struct cdr
 	{
 		using rtn = typename pertyf_cdr
 		<
-			typename kerpaf_evaluate<Exp0>::rtn,
-			typename kerpaf_evaluate<Exp1>::rtn
-
-		>::rtn;
-	};
-
-	template<typename Exp>
-	struct cdr<Exp>
-	{
-		using List = typename kerpaf_evaluate<Exp>::rtn;
-
-		using rtn = pertyf_cdr
-		<
-			typename identify<List>::rtn::value_type,
-			List
+			typename recpaf_evaluate<Exp0>::rtn,
+			typename recpaf_evaluate<Exp1>::rtn
 
 		>::rtn;
 	};
@@ -113,9 +87,6 @@ struct functor
 	catenate:
 
 	This implementation is optimized using partial specialization pattern matching.
-
-	The type deducing variadic implementation would be too inefficient for this library,
-	so I've chosen to not include it.
 */
 
 	template<typename, typename, typename...> struct catenate;
@@ -131,23 +102,9 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename kerpaf_evaluate<Exp0>::rtn,
-			typename kerpaf_evaluate<Exp1>::rtn,
-			typename kerpaf_evaluate<Exp2>::rtn
-
-		>::rtn;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct catenate<Exp1, Exp2>
-	{
-		using List1 = typename kerpaf_evaluate<Exp1>::rtn;
-
-		using rtn = typename catenate
-		<
-			typename identify<List1>::rtn::value_type,
-			List1,
-			typename evaluate<Exp2>::rtn
+			typename recpaf_evaluate<Exp0>::rtn,
+			typename recpaf_evaluate<Exp1>::rtn,
+			typename recpaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -155,7 +112,7 @@ struct functor
 	template<typename Exp0, typename Exp1, typename Exp2, typename Exp3, typename... Exps>
 	struct catenate<Exp0, Exp1, Exp2, Exp3, Exps...>
 	{
-		using Type = typename kerpaf_evaluate<Exp0>::rtn;
+		using Type = typename recpaf_evaluate<Exp0>::rtn;
 
 		using rtn = typename catenate
 		<
@@ -211,9 +168,9 @@ struct functor
 	template<typename Exp0, size_type index, typename Exp1>
 	struct at<Exp0, index, act<Exp1>>
 	{
-		using Type = typename evaluate<Exp0>::rtn;
+		using Type = typename recpaf_evaluate<Exp0>::rtn;
 
-		static constexpr Type value = at<Type, index, typename Exp::rtn>::value;
+		static constexpr Type value = at<Type, index, typename Exp1::rtn>::value;
 	};
 
 /*
@@ -239,7 +196,7 @@ struct functor
 	template<typename Exp0, typename Exp1, size_type count>
 	struct length<Exp0, act<Exp1>, count>
 	{
-		static constexpr size_type value = length<typename evaluate<Exp0>::rtn, typename Exp1::rtn, count>::value;
+		static constexpr size_type value = length<typename recpaf_evaluate<Exp0>::rtn, typename Exp1::rtn, count>::value;
 	};
 
 /*
@@ -252,8 +209,8 @@ struct functor
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
 	inline static void display(const Type & t, const ListType<Value, Values...> &, const char *sep = " ")
 	{
-		Kernel::functor::display(sep);
-		Kernel::functor::display(Value);
+		Dispatched::functor::display(sep);
+		Dispatched::functor::display(Value);
 
 		display(t, ListType<Values...>(), sep);
 	}
@@ -267,7 +224,7 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	inline static void display(const Exp0 &, const Exp1 &, const char *sep = " ")
 	{
-		display(typename kerpaf_evaluate<Exp0>::rtn(), typename kerpaf_evaluate<Exp1>::rtn(), sep);
+		display(typename recpaf_evaluate<Exp0>::rtn(), typename recpaf_evaluate<Exp1>::rtn(), sep);
 	}
 };
 

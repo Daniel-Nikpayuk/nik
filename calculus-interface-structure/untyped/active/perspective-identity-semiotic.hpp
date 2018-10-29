@@ -27,7 +27,7 @@ struct identity
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, kernel, active, functor)
+	#include nik_typedef(calculus, recursed, active, functor)
 
 /*
 	is_list:

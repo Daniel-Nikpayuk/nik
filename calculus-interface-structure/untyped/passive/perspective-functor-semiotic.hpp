@@ -25,11 +25,10 @@ struct functor
 
 		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
-		#include nik_typedef(calculus, kernel, passive, functor)
+		#include nik_typedef(calculus, recursed, passive, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, kernel, passive, structure)
 	#include nik_typedef(calculus, untyped, conditional, structure)
 
 /*
@@ -41,8 +40,8 @@ struct functor
 	{
 		using rtn = typename perunf_cons
 		<
-			typename kerpaf_evaluate<Exp1>::rtn,
-			typename kerpaf_evaluate<Exp2>::rtn
+			typename recpaf_evaluate<Exp1>::rtn,
+			typename recpaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -56,7 +55,7 @@ struct functor
 	{
 		using rtn = typename perunf_car
 		<
-			typename kerpaf_evaluate<Exp>::rtn
+			typename recpaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -70,7 +69,7 @@ struct functor
 	{
 		using rtn = typename perunf_cdr
 		<
-			typename kerpaf_evaluate<Exp>::rtn
+			typename recpaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -94,8 +93,8 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename kerpaf_evaluate<Exp1>::rtn,
-			typename kerpaf_evaluate<Exp2>::rtn
+			typename recpaf_evaluate<Exp1>::rtn,
+			typename recpaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -124,7 +123,7 @@ struct functor
 	template<typename Exp, typename... Values, template<typename...> class ListType>
 	struct push<Exp, ListType<Values...>>
 	{
-		using rtn = ListType<Values..., typename kerpaf_evaluate<Exp>::rtn>;
+		using rtn = ListType<Values..., typename recpaf_evaluate<Exp>::rtn>;
 	};
 
 	template<typename Exp1, typename Exp2>
@@ -200,7 +199,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename kerpaf_if_then_else
+		using rtn = typename recpaf_if_then_else
 		<
 			Pred::value,
 			Exp,
@@ -222,7 +221,7 @@ struct functor
 		then<Exp>
 	>
 	{
-		using rtn = typename kerpaf_evaluate<Exp>::rtn;
+		using rtn = typename recpaf_evaluate<Exp>::rtn;
 	};
 
 /*
@@ -237,7 +236,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename kerpaf_if_then_else
+		using rtn = typename recpaf_if_then_else
 		<
 			Pred::value,
 			Exp,
@@ -269,11 +268,11 @@ struct functor
 		static constexpr char l				= value_is_list ? '[' : '(';
 		static constexpr char r				= value_is_list ? ']' : ')';
 
-		Kernel::functor::display(l);
+		Dispatched::functor::display(l);
 		Value::kind::functor::display(Value());
-		Kernel::functor::display(r);
+		Dispatched::functor::display(r);
 
-		if (!values_is_null) Kernel::functor::display(sep);
+		if (!values_is_null) Dispatched::functor::display(sep);
 
 		display(ListType<Values...>(), sep);
 	}

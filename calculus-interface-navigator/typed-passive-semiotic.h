@@ -18,9 +18,7 @@
 #ifndef CALCULUS_TYPED_PASSIVE_SEMIOTIC_H
 #define CALCULUS_TYPED_PASSIVE_SEMIOTIC_H
 
-	#include"perspective-untyped-semiotic.h"
-	#include"kernel-passive-semiotic.h"
-	#include"untyped-conditional-semiotic.h"
+	#include"typed-deductional-semiotic.h"
 
 #define local_scope
 

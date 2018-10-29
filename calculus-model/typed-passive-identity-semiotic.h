@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		untpai_
+	#define PREFIX		typpai_
 
 #else
 
@@ -29,21 +29,17 @@
 
 //
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_untyped_list)		= typename nik_module(act, builtin, calculus, semiotic)::identity::template
-							  is_untyped_list<List>;
+							  template<typename Type, typename List>
+	using nik_safe(PREFIX, is_list)			= typename nik_module(passive, typed, calculus, semiotic)::identity::template
+							  is_list<Type, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_typed_list)		= typename nik_module(act, builtin, calculus, semiotic)::identity::template
-							  is_typed_list<Type, List>;
+	using nik_safe(PREFIX, is_null)			= typename nik_module(passive, typed, calculus, semiotic)::identity::template
+							  is_null<Type, List>;
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_untyped_null)		= typename nik_module(act, builtin, calculus, semiotic)::identity::template
-							  is_untyped_null<List>;
-
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_typed_null)		= typename nik_module(act, builtin, calculus, semiotic)::identity::template
-							  is_typed_null<Type, List>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, identify)		= typename nik_module(passive, typed, calculus, semiotic)::identity::template
+							  identify<Exp>;
 
 //
 

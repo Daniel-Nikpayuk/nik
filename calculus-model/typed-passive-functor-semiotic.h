@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		buiiftf_
+	#define PREFIX		typpaf_
 
 #else
 
@@ -29,100 +29,37 @@
 
 //
 
-							  template<typename... Exps>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(conditional, builtin, calculus, semiotic)::functor::template
-							  evaluate<Exps...>;
-
-							  template<typename Exp, typename List>
-	using nik_safe(PREFIX, cons)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  cons<Exp, List>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, car)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  car<List>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, cdr)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  cdr<List>;
-
-							  template<typename List1, typename List2, typename... Lists>
-	using nik_safe(PREFIX, catenate)		= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  catenate<List1, List2, Lists...>;
-
-							  template<typename Exp, typename List>
-	using nik_safe(PREFIX, push)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  push<Exp, List>;
-
-							  template<SIZE_TYPE Index, typename List>
-	using nik_safe(PREFIX, at)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  at<Index, List>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, length)			= typename nik_branch(typedin, calculus, semiotic)::functor::template
-							  length<List>;
-
-
-//
-
 							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, cons)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cons)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  cons<Type, Value, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, car)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, car)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  car<Type, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, cdr)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cdr)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  cdr<Type, List>;
 
 							  template<typename Type, typename List1, typename List2, typename... Lists>
-	using nik_safe(PREFIX, catenate)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, catenate)		= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  catenate<Type, List1, List2, Lists...>;
 
 							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, push)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, push)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  push<Type, Value, List>;
 
 							  template<typename Type, SIZE_TYPE Index, typename List>
-	using nik_safe(PREFIX, at)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, at)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  at<Type, Index, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, length)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, length)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
 							  length<Type, List>;
 
-//
-
-							  template<typename RegType>
-	using nik_safe(PREFIX, limits)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  limits<RegType>;
-
-//
-
-							  template<SIZE_TYPE N>
-	using nik_safe(PREFIX, unsigned_type)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  unsigned_type<N>;
-
-							  template<SIZE_TYPE N>
-	using nik_safe(PREFIX, signed_type)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  signed_type<N>;
-
-
-#define ONE 1
-
-							  template<SIZE_TYPE N>
-	using nik_safe(PREFIX, half_type)		= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  unsigned_type<(N >> ONE)>;
-
-#undef ONE
-
-//
-
-							  template<typename Type, typename... Exps>
-	using nik_safe(PREFIX, apply)			= typename nik_branch(builtin, calculus, semiotic)::functor::template
-							  apply<Type, Exps...>;
-
+							  template<typename... Exps>
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+							  evaluate<Exps...>;
 
 //
 

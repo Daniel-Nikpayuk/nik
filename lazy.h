@@ -136,10 +136,16 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
+
+			branch_enum == Branch::dispatched		||
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
-			branch_enum == Branch::interpreter		||
+
+			branch_enum == Branch::recursed			||
+//			branch_enum == Branch::untyped			||
+//			branch_enum == Branch::typed			||
+			branch_enum == Branch::constant			||
+			branch_enum == Branch::interpreted		||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||
@@ -173,7 +179,7 @@ namespace nik
 		static_assert
 		(
 
-		// kernel:
+		// recursed:
 
 			module_enum == Module::passive			||
 			module_enum == Module::active			||
@@ -186,9 +192,13 @@ namespace nik
 
 		// typed:
 
-			module_enum == Module::information		||
+			module_enum == Module::deductional		||
 //			module_enum == Module::passive			||
 //			module_enum == Module::active			||
+
+		// constant:
+
+			module_enum == Module::operate			||
 
 			module_enum == Module::boolean			||
 			module_enum == Module::literal			||
@@ -204,9 +214,9 @@ namespace nik
 			module_enum == Module::integer32		||
 			module_enum == Module::integer64		||
 
-		// interpreter:
+		// interpreted:
 
-			module_enum == Module::undefined		||
+			module_enum == Module::circuit			||
 
 			module_enum == Module::binding			||
 			module_enum == Module::frame			||
@@ -230,10 +240,15 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
+			branch_enum == Branch::dispatched		||
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
-			branch_enum == Branch::interpreter		||
+
+			branch_enum == Branch::recursed			||
+//			branch_enum == Branch::untyped			||
+//			branch_enum == Branch::typed			||
+			branch_enum == Branch::constant			||
+			branch_enum == Branch::interpreted		||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||

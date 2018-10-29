@@ -18,7 +18,7 @@
 #ifndef CALCULUS_UNTYPED_CONDITIONAL_SEMIOTIC_H
 #define CALCULUS_UNTYPED_CONDITIONAL_SEMIOTIC_H
 
-	#include"perspective-kernel-semiotic.h"
+	#include"perspective-dispatched-semiotic.h"
 
 #define local_scope
 

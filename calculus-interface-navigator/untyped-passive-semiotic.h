@@ -19,7 +19,7 @@
 #define CALCULUS_UNTYPED_PASSIVE_SEMIOTIC_H
 
 	#include"perspective-untyped-semiotic.h"
-	#include"kernel-passive-semiotic.h"
+	#include"recursed-passive-semiotic.h"
 	#include"untyped-conditional-semiotic.h"
 
 #define local_scope

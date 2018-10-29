@@ -26,7 +26,8 @@ namespace nik
 
 		//
 
-		#include"interface-structure-semiotic.hpp"
+		#include nik_typedef(calculus, perspective, dispatched, module)
+		#include nik_typedef(calculus, recursed, passive, structure)
 
 		//
 
