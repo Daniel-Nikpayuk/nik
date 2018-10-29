@@ -38,10 +38,10 @@ struct functor
 	template<typename Pred, typename Exp>
 	inline static void display(const if_then<Pred, Exp> &)
 	{
-		Builtin::functor::display("if_then: ");
+		Kernel::functor::display("if_then: ");
 
 		Pred::kind::functor::display(Pred());
-		Builtin::functor::display(" ? ");
+		Kernel::functor::display(" ? ");
 
 		Exp::kind::functor::display(Exp());
 	}
@@ -49,10 +49,10 @@ struct functor
 	template<typename Pred, typename Exp>
 	inline static void display(const else_then<Pred, Exp> &)
 	{
-		Builtin::functor::display("else_then: ");
+		Kernel::functor::display("else_then: ");
 
 		Pred::kind::functor::display(Pred());
-		Builtin::functor::display(" : ");
+		Kernel::functor::display(" : ");
 
 		Exp::kind::functor::display(Exp());
 	}
@@ -60,7 +60,7 @@ struct functor
 	template<typename Exp>
 	inline static void display(const then<Exp> &)
 	{
-		Builtin::functor::display("then: ");
+		Kernel::functor::display("then: ");
 
 		Exp::kind::functor::display(Exp());
 	}

@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-/*
-	The default policy for a componentwise expression is normal evaluation.
-	This can be overridden by encapsulating the statement within an pass<>:
-*/
-
 struct functor
 {
 	using kind		= module;
@@ -28,14 +23,14 @@ struct functor
 
 	#define safe_name
 
+		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
 		#include nik_typedef(calculus, kernel, active, functor)
 
 	#undef safe_name
 
+	#include nik_typedef(calculus, kernel, active, structure)
 	#include nik_typedef(calculus, untyped, conditional, structure)
-
-	#include nik_typedef(calculus, untyped, active, identity)
 
 /*
 	cons:
@@ -124,18 +119,16 @@ struct functor
 	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename, typename> struct push;
+	template<typename Exp1, typename Exp2>
+	struct push
+	{
+		using rtn = typename push<Exp1, pass<typename Exp2::rtn>>::rtn;
+	};
 
 	template<typename Exp, typename... Values, template<typename...> class ListType>
 	struct push<Exp, pass<ListType<Values...>>>
 	{
 		using rtn = ListType<Values..., typename keracf_evaluate<Exp>::rtn>;
-	};
-
-	template<typename Exp1, typename Exp2>
-	struct push<Exp1, Exp2>
-	{
-		using rtn = typename push<Exp1, typename Exp2::rtn>::rtn;
 	};
 
 /*
@@ -144,7 +137,11 @@ struct functor
 	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<size_type, typename> struct at;
+	template<size_type index, typename Exp>
+	struct at
+	{
+		using rtn = typename at<index, pass<typename Exp::rtn>>::rtn;
+	};
 
 	template<size_type index, typename Value, typename... Values, template<typename...> class ListType>
 	struct at<index, pass<ListType<Value, Values...>>>
@@ -158,19 +155,17 @@ struct functor
 		using rtn = Value;
 	};
 
-	template<size_type index, typename Exp>
-	struct at<index, Exp>
-	{
-		using rtn = typename at<index, typename Exp::rtn>::rtn;
-	};
-
 /*
 	length:
 
 	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename, size_type = 0> struct length;
+	template<typename Exp, size_type count>
+	struct length
+	{
+		static constexpr size_type value = length<pass<typename Exp::rtn>, count>::value;
+	};
 
 	template<typename Value, typename... Values, size_type count, template<typename...> class ListType>
 	struct length<pass<ListType<Value, Values...>>, count>
@@ -182,12 +177,6 @@ struct functor
 	struct length<pass<ListType<>>, count>
 	{
 		static constexpr size_type value = count;
-	};
-
-	template<typename Exp, size_type count>
-	struct length<Exp, count>
-	{
-		static constexpr size_type value = length<typename Exp::rtn, count>::value;
 	};
 
 /***********************************************************************************************************************/
@@ -259,11 +248,11 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	template<typename Value, typename... Values, template<typename...> class ListType>
 	inline static void display(const pass<ListType<Value, Values...>> &, const char *sep = " ")
 	{
-		static constexpr bool value_is_list		= is_list<Value>::value;
-		static constexpr bool values_is_null		= is_null<ListType<Values...>>::value;
+		static constexpr bool value_is_list		= peruni_is_list<Value>::value;
+		static constexpr bool values_is_null		= peruni_is_null<ListType<Values...>>::value;
 
 		static constexpr char l				= value_is_list ? '[' : '(';
 		static constexpr char r				= value_is_list ? ']' : ')';

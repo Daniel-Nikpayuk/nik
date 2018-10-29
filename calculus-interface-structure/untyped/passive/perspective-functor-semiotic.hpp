@@ -15,11 +15,6 @@
 **
 ************************************************************************************************************************/
 
-/*
-	The default policy for a componentwise expression is lazy evaluation.
-	This can be overridden by encapsulating the statement within an act<>:
-*/
-
 struct functor
 {
 	using kind		= module;
@@ -28,14 +23,14 @@ struct functor
 
 	#define safe_name
 
+		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
 		#include nik_typedef(calculus, kernel, passive, functor)
 
 	#undef safe_name
 
+	#include nik_typedef(calculus, kernel, passive, structure)
 	#include nik_typedef(calculus, untyped, conditional, structure)
-
-	#include nik_typedef(calculus, untyped, passive, identity)
 
 /*
 	cons:
@@ -265,11 +260,11 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp, typename... Exps, template<typename...> class ListType>
+	template<typename Value, typename... Values, template<typename...> class ListType>
 	inline static void display(const ListType<Value, Values...> &, const char *sep = " ")
 	{
-		static constexpr bool value_is_list		= is_list<Value>::value;
-		static constexpr bool values_is_null		= is_null<ListType<Values...>>::value;
+		static constexpr bool value_is_list		= peruni_is_list<Value>::value;
+		static constexpr bool values_is_null		= peruni_is_null<ListType<Values...>>::value;
 
 		static constexpr char l				= value_is_list ? '[' : '(';
 		static constexpr char r				= value_is_list ? ']' : ')';

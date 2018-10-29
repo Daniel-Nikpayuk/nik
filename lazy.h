@@ -136,9 +136,10 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::builtin			||
-			branch_enum == Branch::typedin			||
-			branch_enum == Branch::evaltin			||
+			branch_enum == Branch::kernel			||
+			branch_enum == Branch::untyped			||
+			branch_enum == Branch::typed			||
+			branch_enum == Branch::interpreter		||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||
@@ -172,17 +173,22 @@ namespace nik
 		static_assert
 		(
 
-		// builtin:
+		// kernel:
 
-			module_enum == Module::act			||
+			module_enum == Module::passive			||
+			module_enum == Module::active			||
+
+		// untyped:
 
 			module_enum == Module::conditional		||
-			module_enum == Module::list			||
+//			module_enum == Module::passive			||
+//			module_enum == Module::active			||
 
-		// typedin:
+		// typed:
 
-//			module_enum == Module::list			||
-//			module_enum == Module::conditional		||
+			module_enum == Module::information		||
+//			module_enum == Module::passive			||
+//			module_enum == Module::active			||
 
 			module_enum == Module::boolean			||
 			module_enum == Module::literal			||
@@ -198,7 +204,7 @@ namespace nik
 			module_enum == Module::integer32		||
 			module_enum == Module::integer64		||
 
-		// evaltin:
+		// interpreter:
 
 			module_enum == Module::undefined		||
 
@@ -224,9 +230,10 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::builtin			||
-			branch_enum == Branch::typedin			||
-			branch_enum == Branch::evaltin			||
+			branch_enum == Branch::kernel			||
+			branch_enum == Branch::untyped			||
+			branch_enum == Branch::typed			||
+			branch_enum == Branch::interpreter		||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||

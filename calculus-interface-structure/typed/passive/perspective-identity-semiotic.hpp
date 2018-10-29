@@ -21,11 +21,14 @@ struct identity
 
 	using type		= identity;
 
-	#include nik_typedef(calculus, perspective, typed, identity)
-	#include nik_typedef(calculus, kernel, passive, functor)
-	#include nik_typedef(calculus, untyped, conditional, structure)
+	#define safe_name
 
-	#include nik_typedef(calculus, typed, passive, structure)
+		#include nik_typedef(calculus, perspective, typed, identity)
+		#include nik_typedef(calculus, typed, information, identity)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, kernel, passive, functor)
 
 /*
 	is_list:
@@ -36,8 +39,8 @@ struct identity
 	{
 		static constexpr bool value = pertyi_is_list
 		<
-			typename typpaf_evaluate<Exp0>::rtn,
-			typename typpaf_evaluate<Exp1>::rtn
+			typename evaluate<Exp0>::rtn,
+			typename evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -51,8 +54,8 @@ struct identity
 	{
 		static constexpr bool value = pertyi_is_null
 		<
-			typename typpaf_evaluate<Exp0>::rtn,
-			typename typpaf_evaluate<Exp1>::rtn
+			typename evaluate<Exp0>::rtn,
+			typename evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -64,89 +67,9 @@ struct identity
 	template<typename Exp>
 	struct identify
 	{
-		using Type = typename evaluate<Exp>::rtn;
-
-		using rtn = typename untpaf_evaluate
+		using rtn = typename typini_identify
 		<
-			if_then
-			<
-				pertyf_is_list<bool, Type>,
-				typed_list<bool>
-
-			>, else_then
-			<
-				pertyf_is_list<char, Type>,
-				typed_list<char>
-
-			>, else_then
-			<
-				pertyf_is_list<char, Type>,
-				typed_list<wchar_t>
-
-			>, else_then
-			<
-				pertyf_is_list<char, Type>,
-				typed_list<char16_t>
-
-			>, else_then
-			<
-				pertyf_is_list<char, Type>,
-				typed_list<char32_t>
-
-			>, else_then
-			<
-				pertyf_is_list<unsigned char, Type>,
-				typed_list<unsigned char>
-
-			>, else_then
-			<
-				pertyf_is_list<unsigned short, Type>,
-				typed_list<unsigned short>
-
-			>, else_then
-			<
-				pertyf_is_list<unsigned int, Type>,
-				typed_list<unsigned int>
-
-			>, else_then
-			<
-				pertyf_is_list<unsigned long, Type>,
-				typed_list<unsigned long>
-
-			>, else_then
-			<
-				pertyf_is_list<unsigned long long, Type>,
-				typed_list<unsigned long long>
-
-			>, else_then
-			<
-				pertyf_is_list<signed char, Type>,
-				typed_list<signed char>
-
-			>, else_then
-			<
-				pertyf_is_list<signed short, Type>,
-				typed_list<signed short>
-
-			>, else_then
-			<
-				pertyf_is_list<signed int, Type>,
-				typed_list<signed int>
-
-			>, else_then
-			<
-				pertyf_is_list<signed long, Type>,
-				typed_list<signed long>
-
-			>, else_then
-			<
-				pertyf_is_list<signed long long, Type>,
-				typed_list<signed long long>
-
-			>, then
-			<
-				other_type
-			>
+			typename evaluate<Exp>::rtn
 
 		>::rtn;
 	};

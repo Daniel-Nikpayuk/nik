@@ -15,33 +15,35 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind		= module;
+#include"define-size_type.h"
 
-	using type		= identity;
+#ifdef safe_name
 
-	#define safe_name
+	#define PREFIX		perunf_
 
-		#include nik_typedef(calculus, perspective, kernel, identity)
+#else
 
-	#undef safe_name
+	#define PREFIX
 
-	#include nik_typedef(calculus, kernel, active, functor)
+#endif
 
-/*
-	is_equal:
-*/
+//
 
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
+							  template<typename Value, typename List>
+	using nik_safe(PREFIX, cons)			= typename nik_branch(untyped, calculus, semiotic)::functor::template
+							  cons<Value, List>;
 
-		>::value;
-	};
-};
+							  template<typename List>
+	using nik_safe(PREFIX, car)			= typename nik_branch(untyped, calculus, semiotic)::functor::template
+							  car<List>;
+
+							  template<typename List>
+	using nik_safe(PREFIX, cdr)			= typename nik_branch(untyped, calculus, semiotic)::functor::template
+							  cdr<List>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

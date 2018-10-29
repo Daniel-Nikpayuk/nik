@@ -15,33 +15,11 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind		= module;
+#include"define-size_type.h"
 
-	using type		= identity;
+				  template<typename Exp>
+	using pass		= typename nik_module(active, kernel, calculus, semiotic)::structure::template
+				  pass<Exp>;
 
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, kernel, identity)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, kernel, active, functor)
-
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
-
-		>::value;
-	};
-};
+#include"undef-size_type.h"
 

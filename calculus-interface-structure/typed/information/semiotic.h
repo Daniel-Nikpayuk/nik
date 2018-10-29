@@ -15,33 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+namespace nik
 {
-	using kind		= module;
-
-	using type		= identity;
-
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, kernel, identity)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, kernel, active, functor)
-
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
+	template<typename SizeType>
+	struct module<Module::information, Branch::typed, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
+		using type	= module;
 
-		>::value;
+		using size_type	= SizeType;
+
+		//
+
+		#include nik_typedef(calculus, perspective, kernel, module)
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
-};
+}
 

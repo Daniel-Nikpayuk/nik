@@ -30,18 +30,22 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// builtin:
+	// kernel:
 
-		act,
+		passive,
+		active,
+
+	// untyped:
 
 		conditional,
-		list,
+//		passive,
+//		active,
 
-	// typedin:
+	// typed:
 
-
-//		list,
-//		conditional,
+		information,
+//		passive,
+//		active,
 
 		boolean,
 		literal,
@@ -57,7 +61,7 @@ namespace nik
 		integer32,
 		integer64,
 
-	// evaltin:
+	// interpreter:
 
 		undefined,
 
@@ -90,9 +94,10 @@ namespace nik
 
 	// calculus:
 
-		builtin,
-		typedin,
-		evaltin,
+		kernel,
+		untyped,
+		typed,
+		interpreter,
 
 	// hardware:
 

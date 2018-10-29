@@ -21,7 +21,12 @@ struct identity
 
 	using type		= identity;
 
-	#include nik_typedef(calculus, perspective, untyped, identity)
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, untyped, identity)
+
+	#undef safe_name
+
 	#include nik_typedef(calculus, kernel, passive, functor)
 
 /*

@@ -84,12 +84,12 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Pred, typename Ante, typename Conse>
+	template<bool Pred, typename Ante, typename Conse>
 	inline static void display(const if_then_else<Pred, Ante, Conse> &)
 	{
 		display("if_then_else: ");
 
-		Pred::kind::functor::display(Pred());
+		display(Pred);
 		display(" ? ");
 
 		Ante::kind::functor::display(Ante());

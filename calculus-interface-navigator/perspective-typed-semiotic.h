@@ -15,33 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind		= module;
+#ifndef CALCULUS_PERSPECTIVE_TYPED_SEMIOTIC_H
+#define CALCULUS_PERSPECTIVE_TYPED_SEMIOTIC_H
 
-	using type		= identity;
+#define local_scope
 
-	#define safe_name
+	#include"../calculus-perspective/typed/semiotic.h"
 
-		#include nik_typedef(calculus, perspective, kernel, identity)
+#undef local_scope
 
-	#undef safe_name
-
-	#include nik_typedef(calculus, kernel, active, functor)
-
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
-
-		>::value;
-	};
-};
-
+#endif

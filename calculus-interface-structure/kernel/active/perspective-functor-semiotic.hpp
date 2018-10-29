@@ -26,6 +26,12 @@ struct functor
 
 	using type		= functor;
 
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, kernel, functor)
+
+	#undef safe_name
+
 	#include nik_typedef(calculus, kernel, active, structure)
 
 /*

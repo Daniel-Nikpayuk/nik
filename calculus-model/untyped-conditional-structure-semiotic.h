@@ -15,33 +15,23 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind		= module;
+#include"define-size_type.h"
 
-	using type		= identity;
+//
 
-	#define safe_name
+				  template<typename Pred, typename Exp>
+	using if_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+				  if_then<Pred, Exp>;
 
-		#include nik_typedef(calculus, perspective, kernel, identity)
+				  template<typename Pred, typename Exp>
+	using else_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+				  else_then<Pred, Exp>;
 
-	#undef safe_name
+				  template<typename Exp>
+	using then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+				  then<Exp>;
 
-	#include nik_typedef(calculus, kernel, active, functor)
+//
 
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
-
-		>::value;
-	};
-};
+#include"undef-size_type.h"
 

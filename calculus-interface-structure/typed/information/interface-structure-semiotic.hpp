@@ -15,33 +15,45 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+struct structure
 {
-	using kind		= module;
+	using kind						= module;
 
-	using type		= identity;
+	using type						= structure;
 
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, kernel, identity)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, kernel, active, functor)
-
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
+	template<typename Type, Type...>
+	struct typed_list
 	{
-		static constexpr bool value = perkei_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
+		using kind					= module;
 
-		>::value;
+		using type					= typed_list;
+
+		using rtn					= typed_list;
+
+		using value_type				= Type;
+	};
+
+	template<typename Type, Type Value>
+	struct typed_list<Type, Value>
+	{
+		using kind					= module;
+
+		using type					= typed_list;
+
+		using rtn					= typed_list;
+
+		using value_type				= Type;
+
+		static constexpr value_type value		= Value;
+	};
+
+	struct other_type
+	{
+		using kind					= module;
+
+		using type					= other_type;
+
+		using rtn					= other_type;
 	};
 };
 

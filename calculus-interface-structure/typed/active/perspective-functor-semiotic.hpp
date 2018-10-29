@@ -15,6 +15,11 @@
 **
 ************************************************************************************************************************/
 
+/*
+	The default policy for a componentwise expression is lazy evaluation.
+	This can be overridden by encapsulating the statement within an act<>:
+*/
+
 struct functor
 {
 	using kind		= module;
@@ -24,7 +29,7 @@ struct functor
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, typed, functor)
-		#include nik_typedef(calculus, kernel, passive, functor)
+		#include nik_typedef(calculus, kernel, active, functor)
 
 	#undef safe_name
 
@@ -41,7 +46,7 @@ struct functor
 		<
 			Type,
 			Value,
-			typename kerpaf_evaluate<Exp2>::rtn
+			typename keracf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -55,12 +60,12 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	struct car<Exp0, Exp1>
 	{
-		using Type = typename kerpaf_evaluate<Exp0>::rtn;
+		using Type = typename keracf_evaluate<Exp0>::rtn;
 
 		static constexpr Type value = pertyf_car
 		<
 			Type,
-			typename kerpaf_evaluate<Exp1>::rtn
+			typename keracf_evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -68,7 +73,7 @@ struct functor
 	template<typename Exp>
 	struct car<Exp>
 	{
-		using List = typename kerpaf_evaluate<Exp>::rtn;
+		using List = typename keracf_evaluate<Exp>::rtn;
 		using Type = typename identify<List>::rtn::value_type;
 
 		static constexpr Type value = pertyf_car
@@ -90,8 +95,8 @@ struct functor
 	{
 		using rtn = typename pertyf_cdr
 		<
-			typename kerpaf_evaluate<Exp0>::rtn,
-			typename kerpaf_evaluate<Exp1>::rtn
+			typename keracf_evaluate<Exp0>::rtn,
+			typename keracf_evaluate<Exp1>::rtn
 
 		>::rtn;
 	};
@@ -99,7 +104,7 @@ struct functor
 	template<typename Exp>
 	struct cdr<Exp>
 	{
-		using List = typename kerpaf_evaluate<Exp>::rtn;
+		using List = typename keracf_evaluate<Exp>::rtn;
 
 		using rtn = pertyf_cdr
 		<
@@ -131,9 +136,9 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename kerpaf_evaluate<Exp0>::rtn,
-			typename kerpaf_evaluate<Exp1>::rtn,
-			typename kerpaf_evaluate<Exp2>::rtn
+			typename keracf_evaluate<Exp0>::rtn,
+			typename keracf_evaluate<Exp1>::rtn,
+			typename keracf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -141,7 +146,7 @@ struct functor
 	template<typename Exp1, typename Exp2>
 	struct catenate<Exp1, Exp2>
 	{
-		using List1 = typename kerpaf_evaluate<Exp1>::rtn;
+		using List1 = typename keracf_evaluate<Exp1>::rtn;
 
 		using rtn = typename catenate
 		<
@@ -155,7 +160,7 @@ struct functor
 	template<typename Exp0, typename Exp1, typename Exp2, typename Exp3, typename... Exps>
 	struct catenate<Exp0, Exp1, Exp2, Exp3, Exps...>
 	{
-		using Type = typename kerpaf_evaluate<Exp0>::rtn;
+		using Type = typename keracf_evaluate<Exp0>::rtn;
 
 		using rtn = typename catenate
 		<
@@ -267,7 +272,13 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	inline static void display(const Exp0 &, const Exp1 &, const char *sep = " ")
 	{
-		display(typename kerpaf_evaluate<Exp0>::rtn(), typename kerpaf_evaluate<Exp1>::rtn(), sep);
+		display(typename keracf_evaluate<Exp0>::rtn(), typename keracf_evaluate<Exp1>::rtn(), sep);
 	}
+
+/*
+	apply:
+*/
+
+	#include"perspective-functor-apply-semiotic.hpp"
 };
 
