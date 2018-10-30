@@ -32,7 +32,7 @@ struct functor
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, recursed, active, structure)
+	#include nik_typedef(calculus, dispatched, active, structure)
 
 /*
 	evaluate:

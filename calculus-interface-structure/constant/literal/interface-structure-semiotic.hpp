@@ -43,20 +43,6 @@ struct structure
 		static constexpr register_type value		= Value;
 	};
 
-	template<register_type Value1, register_type Value2>
-	struct literal<Value1, Value2>
-	{
-		using kind					= module;
-
-		using type					= literal;
-
-		using rtn					= literal;
-
-		static constexpr register_type first_value	= Value1;
-
-		static constexpr register_type second_value	= Value2;
-	};
-
 /*
 	I've wanted to add an "array" thinking it might be useful,
 	but as of yet, I have not had need to use it.

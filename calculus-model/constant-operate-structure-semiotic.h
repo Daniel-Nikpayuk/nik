@@ -17,37 +17,13 @@
 
 #include"define-size_type.h"
 
-#ifdef safe_name
+				  template<char... Chars>
+	using operate		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
+				  operate<Chars...>;
 
-	#define PREFIX		recpaf_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(passive, recursed, calculus, semiotic)::functor::template
-							  evaluate<Exp>;
-
-//
-
-							  template<typename Type>
-	using nik_safe(PREFIX, dereference)		= typename nik_module(passive, recursed, calculus, semiotic)::functor::template
-							  dereference<Type>;
-
-//
-
-							  template<bool Value, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)		= typename nik_module(passive, recursed, calculus, semiotic)::functor::template
-							  if_then_else<Value, Ante, Conse>;
-
-//
-
-#undef PREFIX
+				  template<char... Chars>
+	using op		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
+				  operate<Chars...>;
 
 #include"undef-size_type.h"
 

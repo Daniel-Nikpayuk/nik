@@ -15,38 +15,65 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+/*
+	The default policy for a componentwise expression is lazy evaluation.
+	This can be overridden by encapsulating the statement within an act<>:
+*/
+
+struct functor
 {
 	using kind		= module;
 
-	using type		= identity;
+	using type		= functor;
 
 	#define safe_name
 
-		#include nik_typedef(calculus, perspective, untyped, identity)
+		#include nik_typedef(calculus, perspective, dispatched, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, dispatched, active, functor)
+	#include nik_typedef(calculus, dispatched, passive, structure)
 
 /*
-	is_list:
+	evaluate:
 */
 
 	template<typename Exp>
-	struct is_list
+	struct evaluate
 	{
-		static constexpr bool value = peruni_is_list<typename evaluate<Exp>::rtn>::value;
+		using rtn = Exp;
+	};
+
+	template<typename Exp>
+	struct evaluate<act<Exp>>
+	{
+		using rtn = typename Exp::rtn;
 	};
 
 /*
-	is_null:
+	dereference:
 */
 
 	template<typename Exp>
-	struct is_null
+	struct dereference
 	{
-		static constexpr bool value = peruni_is_null<typename evaluate<Exp>::rtn>::value;
+		using rtn = typename perdif_dereference<typename evaluate<Exp>::rtn>::rtn;
+	};
+
+/*
+	if_then_else:
+*/
+
+	template<bool True, typename Ante, typename Conse>
+	struct if_then_else
+	{
+		using rtn = typename evaluate<Ante>::rtn;
+	};
+
+	template<typename Ante, typename Conse>
+	struct if_then_else<false, Ante, Conse>
+	{
+		using rtn = typename evaluate<Conse>::rtn;
 	};
 };
 

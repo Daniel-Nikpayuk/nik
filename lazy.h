@@ -141,7 +141,7 @@ namespace nik
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
 
-			branch_enum == Branch::recursed			||
+			branch_enum == Branch::dispatched			||
 //			branch_enum == Branch::untyped			||
 //			branch_enum == Branch::typed			||
 			branch_enum == Branch::constant			||
@@ -179,7 +179,7 @@ namespace nik
 		static_assert
 		(
 
-		// recursed:
+		// dispatched:
 
 			module_enum == Module::passive			||
 			module_enum == Module::active			||
@@ -216,7 +216,7 @@ namespace nik
 
 		// interpreted:
 
-			module_enum == Module::circuit			||
+			module_enum == Module::recursed			||
 
 			module_enum == Module::binding			||
 			module_enum == Module::frame			||
@@ -244,7 +244,7 @@ namespace nik
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
 
-			branch_enum == Branch::recursed			||
+//			branch_enum == Branch::dispatched		||
 //			branch_enum == Branch::untyped			||
 //			branch_enum == Branch::typed			||
 			branch_enum == Branch::constant			||

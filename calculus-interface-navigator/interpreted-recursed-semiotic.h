@@ -15,11 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef CALCULUS_INTERPRETED_RECURSED_SEMIOTIC_H
+#define CALCULUS_INTERPRETED_RECURSED_SEMIOTIC_H
 
-				  template<typename Exp>
-	using act		= typename nik_module(passive, recursed, calculus, semiotic)::structure::template
-				  act<Exp>;
+#define local_scope
 
-#include"undef-size_type.h"
+	#include"../calculus-interface-structure/interpreted/recursed/semiotic.h"
 
+#undef local_scope
+
+#endif

@@ -15,23 +15,39 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Module::active, Branch::recursed, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#include"define-size_type.h"
 
-		using size_type	= SizeType;
+#ifdef safe_name
 
-		//
+	#define PREFIX		disacf_
 
-		#include"interface-structure-semiotic.hpp"
+#else
 
-		//
+	#define PREFIX
 
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(active, dispatched, calculus, semiotic)::functor::template
+							  evaluate<Exp>;
+
+//
+
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik_module(active, dispatched, calculus, semiotic)::functor::template
+							  dereference<Type>;
+
+//
+
+							  template<bool Value, typename Ante, typename Conse>
+	using nik_safe(PREFIX, if_then_else)		= typename nik_module(active, dispatched, calculus, semiotic)::functor::template
+							  if_then_else<Value, Ante, Conse>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

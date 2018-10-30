@@ -29,7 +29,7 @@ struct functor
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, typed, functor)
-		#include nik_typedef(calculus, recursed, passive, functor)
+		#include nik_typedef(calculus, dispatched, passive, functor)
 
 	#undef safe_name
 
@@ -46,7 +46,7 @@ struct functor
 		<
 			Type,
 			Value,
-			typename recpaf_evaluate<Exp>::rtn
+			typename dispaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -58,12 +58,12 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	struct car
 	{
-		using Type = typename recpaf_evaluate<Exp0>::rtn;
+		using Type = typename dispaf_evaluate<Exp0>::rtn;
 
 		static constexpr Type value = pertyf_car
 		<
 			Type,
-			typename recpaf_evaluate<Exp1>::rtn
+			typename dispaf_evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -77,8 +77,8 @@ struct functor
 	{
 		using rtn = typename pertyf_cdr
 		<
-			typename recpaf_evaluate<Exp0>::rtn,
-			typename recpaf_evaluate<Exp1>::rtn
+			typename dispaf_evaluate<Exp0>::rtn,
+			typename dispaf_evaluate<Exp1>::rtn
 
 		>::rtn;
 	};
@@ -102,9 +102,9 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename recpaf_evaluate<Exp0>::rtn,
-			typename recpaf_evaluate<Exp1>::rtn,
-			typename recpaf_evaluate<Exp2>::rtn
+			typename dispaf_evaluate<Exp0>::rtn,
+			typename dispaf_evaluate<Exp1>::rtn,
+			typename dispaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -112,7 +112,7 @@ struct functor
 	template<typename Exp0, typename Exp1, typename Exp2, typename Exp3, typename... Exps>
 	struct catenate<Exp0, Exp1, Exp2, Exp3, Exps...>
 	{
-		using Type = typename recpaf_evaluate<Exp0>::rtn;
+		using Type = typename dispaf_evaluate<Exp0>::rtn;
 
 		using rtn = typename catenate
 		<
@@ -168,7 +168,7 @@ struct functor
 	template<typename Exp0, size_type index, typename Exp1>
 	struct at<Exp0, index, act<Exp1>>
 	{
-		using Type = typename recpaf_evaluate<Exp0>::rtn;
+		using Type = typename dispaf_evaluate<Exp0>::rtn;
 
 		static constexpr Type value = at<Type, index, typename Exp1::rtn>::value;
 	};
@@ -196,7 +196,7 @@ struct functor
 	template<typename Exp0, typename Exp1, size_type count>
 	struct length<Exp0, act<Exp1>, count>
 	{
-		static constexpr size_type value = length<typename recpaf_evaluate<Exp0>::rtn, typename Exp1::rtn, count>::value;
+		static constexpr size_type value = length<typename dispaf_evaluate<Exp0>::rtn, typename Exp1::rtn, count>::value;
 	};
 
 /*
@@ -224,7 +224,7 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	inline static void display(const Exp0 &, const Exp1 &, const char *sep = " ")
 	{
-		display(typename recpaf_evaluate<Exp0>::rtn(), typename recpaf_evaluate<Exp1>::rtn(), sep);
+		display(typename dispaf_evaluate<Exp0>::rtn(), typename dispaf_evaluate<Exp1>::rtn(), sep);
 	}
 };
 

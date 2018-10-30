@@ -15,33 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	using kind		= module;
+#ifndef CALCULUS_DISPATCHED_ACTIVE_SEMIOTIC_H
+#define CALCULUS_DISPATCHED_ACTIVE_SEMIOTIC_H
 
-	using type		= identity;
+	#include"perspective-dispatched-semiotic.h"
 
-	#define safe_name
+#define local_scope
 
-		#include nik_typedef(calculus, perspective, dispatched, identity)
+	#include"../calculus-interface-structure/dispatched/active/semiotic.h"
 
-	#undef safe_name
+#undef local_scope
 
-	#include nik_typedef(calculus, recursed, passive, functor)
-
-/*
-	is_equal:
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct is_equal
-	{
-		static constexpr bool value = perdii_is_equal
-		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
-
-		>::value;
-	};
-};
-
+#endif

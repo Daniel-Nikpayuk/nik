@@ -15,27 +15,44 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct identity
+{
+	using kind		= module;
 
-#ifdef safe_name
+	using type		= identity;
 
-	#define PREFIX		recaci_
+	#define safe_name
 
-#else
+		#include nik_typedef(calculus, perspective, typed, identity)
 
-	#define PREFIX
+	#undef safe_name
 
-#endif
+	#include nik_typedef(calculus, constant, operate, structure)
 
-//
+/*
+	is operate:
+*/
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(active, recursed, calculus, semiotic)::identity::template
-							  is_equal<Type1, Type2>;
+	template<typename>
+	struct is_operate
+	{
+		static constexpr bool value = false;
+	};
 
-//
+	template<register_type... Values>
+	struct is_operate<operate<Values...>>
+	{
+		static constexpr bool value = true;
+	};
 
-#undef PREFIX
+/*
+	is null:
+*/
 
-#include"undef-size_type.h"
+	template<typename List>
+	struct is_null
+	{
+		static constexpr bool value = pertyi_is_null<register_type, List>::value;
+	};
+};
 

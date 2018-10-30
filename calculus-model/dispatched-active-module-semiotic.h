@@ -15,24 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Module::passive, Branch::untyped, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using type	= module;
+#include"define-size_type.h"
 
-		using size_type	= SizeType;
+//
 
-		//
+	using Active = nik_module(active, dispatched, calculus, semiotic);
 
-		#include nik_typedef(calculus, perspective, dispatched, module)
-		#include nik_typedef(calculus, dispatched, passive, structure)
+//
 
-		//
-
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#include"undef-size_type.h"
 

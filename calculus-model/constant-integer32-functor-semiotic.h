@@ -45,6 +45,26 @@
 	using nik_safe(PREFIX, cdr)			= typename nik_module(integer32, constant, calculus, semiotic)::functor::template
 							  cdr<List>;
 
+							  template<typename List1, typename List2, typename... Lists>
+	using nik_safe(PREFIX, catenate)		= typename nik_module(integer32, constant, calculus, semiotic)::functor::template
+							  catenate<List1, List2, Lists...>;
+
+							  template
+							  <
+								nik_module(integer32, constant, calculus, semiotic)::register_type Value,
+								typename List
+							  >
+	using nik_safe(PREFIX, push)			= typename nik_module(integer32, constant, calculus, semiotic)::functor::template
+							  push<Value, List>;
+
+							  template<SIZE_TYPE Index, typename List>
+	using nik_safe(PREFIX, at)			= typename nik_module(integer32, constant, calculus, semiotic)::functor::template
+							  at<Index, List>;
+
+							  template<typename List>
+	using nik_safe(PREFIX, length)			= typename nik_module(integer32, constant, calculus, semiotic)::functor::template
+							  length<List>;
+
 //
 
 							  template<typename... Exps>

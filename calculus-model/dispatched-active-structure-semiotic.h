@@ -17,11 +17,9 @@
 
 #include"define-size_type.h"
 
-//
-
-	using Passive = nik_module(passive, recursed, calculus, semiotic);
-
-//
+				  template<typename Exp>
+	using pass		= typename nik_module(active, dispatched, calculus, semiotic)::structure::template
+				  pass<Exp>;
 
 #include"undef-size_type.h"
 

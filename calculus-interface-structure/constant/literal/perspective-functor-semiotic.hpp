@@ -23,7 +23,7 @@ struct functor
 
 	#define safe_name
 
-		#include nik_typedef(calculus, perspective, typed, functor)
+		#include nik_typedef(calculus, typed, passive, functor)
 		#include nik_typedef(calculus, constant, operate, functor)
 
 	#undef safe_name
@@ -36,21 +36,49 @@ struct functor
 */
 
 				  template<register_type Value, typename List>
-	using cons		= pertyf_cons<register_type, Value, List>;
+	using cons		= typpaf_cons<register_type, Value, List>;
 
 /*
 	car:
 */
 
 				  template<typename List>
-	using car		= pertyf_car<register_type, List>;
+	using car		= typpaf_car<register_type, List>;
 
 /*
 	cdr:
 */
 
 				  template<typename List>
-	using cdr		= pertyf_cdr<register_type, List>;
+	using cdr		= typpaf_cdr<register_type, List>;
+
+/*
+	catenate:
+*/
+
+				  template<typename Exp1, typename Exp2, typename... Exps>
+	using catenate		= typpaf_catenate<register_type, Exp1, Exp2, Exps...>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename Exp>
+	using push		= typpaf_push<register_type, Value, Exp>;
+
+/*
+	at:
+*/
+
+				  template<size_type Value, typename Exp>
+	using at		= typpaf_at<register_type, Value, Exp>;
+
+/*
+	length:
+*/
+
+				  template<typename Exp>
+	using length		= typpaf_length<register_type, Exp>;
 
 /*
 	apply:

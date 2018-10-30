@@ -25,7 +25,7 @@ struct functor
 
 		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
-		#include nik_typedef(calculus, recursed, active, functor)
+		#include nik_typedef(calculus, dispatched, active, functor)
 
 	#undef safe_name
 

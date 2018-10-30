@@ -15,27 +15,33 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct identity
+{
+	using kind		= module;
 
-#ifdef safe_name
+	using type		= identity;
 
-	#define PREFIX		recpai_
+	#define safe_name
 
-#else
+		#include nik_typedef(calculus, perspective, dispatched, identity)
 
-	#define PREFIX
+	#undef safe_name
 
-#endif
+	#include nik_typedef(calculus, dispatched, passive, functor)
 
-//
+/*
+	is_equal:
+*/
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(passive, recursed, calculus, semiotic)::identity::template
-							  is_equal<Type1, Type2>;
+	template<typename Exp1, typename Exp2>
+	struct is_equal
+	{
+		static constexpr bool value = perdii_is_equal
+		<
+			typename evaluate<Exp1>::rtn,
+			typename evaluate<Exp2>::rtn
 
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+		>::value;
+	};
+};
 

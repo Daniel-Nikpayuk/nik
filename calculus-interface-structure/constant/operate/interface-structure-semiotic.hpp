@@ -15,65 +15,47 @@
 **
 ************************************************************************************************************************/
 
-/*
-	The default policy for a componentwise expression is lazy evaluation.
-	This can be overridden by encapsulating the statement within an act<>:
-*/
-
-struct functor
+struct structure
 {
-	using kind		= module;
+	using kind						= module;
 
-	using type		= functor;
+	using type						= structure;
 
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, dispatched, functor)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, recursed, passive, structure)
-
-/*
-	evaluate:
-*/
-
-	template<typename Exp>
-	struct evaluate
+	template<register_type...>
+	struct operate
 	{
-		using rtn = Exp;
+		using kind					= module;
+
+		using type					= operate;
+
+		using rtn					= operate;
 	};
 
-	template<typename Exp>
-	struct evaluate<act<Exp>>
+	template<register_type Value>
+	struct operate<Value>
 	{
-		using rtn = typename Exp::rtn;
+		using kind					= module;
+
+		using type					= operate;
+
+		using rtn					= operate;
+
+		static constexpr register_type value		= Value;
 	};
 
-/*
-	dereference:
-*/
-
-	template<typename Exp>
-	struct dereference
+	template<register_type Value1, register_type Value2>
+	struct operate<Value1, Value2>
 	{
-		using rtn = typename perdif_dereference<typename evaluate<Exp>::rtn>::rtn;
+		using kind					= module;
+
+		using type					= operate;
+
+		using rtn					= operate;
+
+		static constexpr register_type first_value	= Value1;
+
+		static constexpr register_type second_value	= Value2;
 	};
 
-/*
-	if_then_else:
-*/
-
-	template<bool True, typename Ante, typename Conse>
-	struct if_then_else
-	{
-		using rtn = typename evaluate<Ante>::rtn;
-	};
-
-	template<typename Ante, typename Conse>
-	struct if_then_else<false, Ante, Conse>
-	{
-		using rtn = typename evaluate<Conse>::rtn;
-	};
 };
 

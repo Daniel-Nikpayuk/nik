@@ -15,6 +15,12 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Narratively, the uses of cons<> in this implementation should be the typed recursive variety,
+	but given the heavy use of apply in this library, it has been optimized to use the non-recursive
+	variety instead.
+*/
+
 struct functor
 {
 	using kind		= module;
@@ -22,6 +28,8 @@ struct functor
 	using type		= functor;
 
 	#include nik_typedef(calculus, perspective, typed, functor)
+
+	#include nik_typedef(calculus, constant, operate, structure)
 
 /*
 	apply##:
@@ -182,14 +190,14 @@ struct functor
 		char op_char,
 		Type Value1, Type Value2, Type... Values,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op_char>,
 
-		number_list<Value1, Value2, Values...>
+		typed_list<Value1, Value2, Values...>
 	>
 	{
 		using rtn = typename cons
@@ -202,7 +210,7 @@ struct functor
 				Type,
 				op_list<op_char>,
 
-				number_list<Value2, Values...>
+				typed_list<Value2, Values...>
 
 			>::rtn
 
@@ -215,17 +223,17 @@ struct functor
 		char op_char,
 		Type Value,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op_char>,
 
-		number_list<Value>
+		typed_list<Value>
 	>
 	{
-		using rtn = number_list
+		using rtn = typed_list
 		<
 			apply11<Type, op_char, Value>::value
 		>;
@@ -235,22 +243,22 @@ struct functor
 	<
 		typename Type,
 		char op_char,
-		typename NumList1, typename NumList2, typename... NumLists,
+		typename TypedList1, typename TypedList2, typename... TypedLists,
 		template<char...> class op_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op_char>,
-		NumList1, NumList2, NumLists...
+		TypedList1, TypedList2, TypedLists...
 	>
 	{
 		using rtn = typename apply
 		<
 			Type,
 			op_list<op_char>,
-			typename apply<Type, op_list<op_char>, NumList1>::rtn,
-			NumList2, NumLists...
+			typename apply<Type, op_list<op_char>, TypedList1>::rtn,
+			TypedList2, TypedLists...
 
 		>::rtn;
 	};
@@ -266,15 +274,15 @@ struct functor
 		Type Value11, Type Value12, Type... Values1,
 		Type Value21, Type Value22, Type... Values2,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op_char>,
 
-		number_list<Value11, Value12, Values1...>,
-		number_list<Value21, Value22, Values2...>
+		typed_list<Value11, Value12, Values1...>,
+		typed_list<Value21, Value22, Values2...>
 	>
 	{
 		using rtn = typename cons
@@ -287,8 +295,8 @@ struct functor
 				Type,
 				op_list<op_char>,
 
-				number_list<Value12, Values1...>,
-				number_list<Value22, Values2...>
+				typed_list<Value12, Values1...>,
+				typed_list<Value22, Values2...>
 
 			>::rtn
 
@@ -301,18 +309,18 @@ struct functor
 		char op_char,
 		Type Value1, Type Value2,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op_char>,
 
-		number_list<Value1>,
-		number_list<Value2>
+		typed_list<Value1>,
+		typed_list<Value2>
 	>
 	{
-		using rtn = number_list
+		using rtn = typed_list
 		<
 			apply12<Type, op_char, Value1, Value2>::value
 		>;
@@ -328,14 +336,14 @@ struct functor
 		char op1_char, char op2_char,
 		Type Value1, Type Value2, Type... Values,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op1_char, op2_char>,
 
-		number_list<Value1, Value2, Values...>
+		typed_list<Value1, Value2, Values...>
 	>
 	{
 		using rtn = typename cons
@@ -348,7 +356,7 @@ struct functor
 				Type,
 				op_list<op1_char, op2_char>,
 
-				number_list<Value2, Values...>
+				typed_list<Value2, Values...>
 
 			>::rtn
 
@@ -361,17 +369,17 @@ struct functor
 		char op1_char, char op2_char,
 		Type Value,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op1_char, op2_char>,
 
-		number_list<Value>
+		typed_list<Value>
 	>
 	{
-		using rtn = number_list
+		using rtn = typed_list
 		<
 			apply21<Type, op1_char, op2_char, Value>::value
 		>;
@@ -381,22 +389,22 @@ struct functor
 	<
 		typename Type,
 		char op1_char, char op2_char,
-		typename NumList1, typename NumList2, typename... NumLists,
+		typename TypedList1, typename TypedList2, typename... TypedLists,
 		template<char...> class op_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op1_char, op2_char>,
-		NumList1, NumList2, NumLists...
+		TypedList1, TypedList2, TypedLists...
 	>
 	{
 		using rtn = typename apply
 		<
 			Type,
 			op_list<op1_char, op2_char>,
-			typename apply<Type, op_list<op1_char, op2_char>, NumList1>::rtn,
-			NumList2, NumLists...
+			typename apply<Type, op_list<op1_char, op2_char>, TypedList1>::rtn,
+			TypedList2, TypedLists...
 
 		>::rtn;
 	};
@@ -414,15 +422,15 @@ struct functor
 		Type Value11, Type Value12, Type... Values1,
 		Type Value21, Type Value22, Type... Values2,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op1_char, op2_char>,
 
-		number_list<Value11, Value12, Values1...>,
-		number_list<Value21, Value22, Values2...>
+		typed_list<Value11, Value12, Values1...>,
+		typed_list<Value21, Value22, Values2...>
 	>
 	{
 		using rtn = typename cons
@@ -435,8 +443,8 @@ struct functor
 				Type,
 				op_list<op1_char, op2_char>,
 
-				number_list<Value12, Values1...>,
-				number_list<Value22, Values2...>
+				typed_list<Value12, Values1...>,
+				typed_list<Value22, Values2...>
 
 			>::rtn
 
@@ -449,18 +457,18 @@ struct functor
 		char op1_char, char op2_char,
 		Type Value1, Type Value2,
 		template<char...> class op_list,
-		template<Type...> class number_list
+		template<Type...> class typed_list
 	>
 	struct apply
 	<
 		Type,
 		op_list<op1_char, op2_char>,
 
-		number_list<Value1>,
-		number_list<Value2>
+		typed_list<Value1>,
+		typed_list<Value2>
 	>
 	{
-		using rtn = number_list
+		using rtn = typed_list
 		<
 			apply22<Type, op1_char, op2_char, Value1, Value2>::value
 		>;
@@ -470,20 +478,20 @@ struct functor
 	<
 		typename Type,
 		typename Op,
-		typename NumList1, typename NumList2, typename NumList3, typename... NumLists
+		typename TypedList1, typename TypedList2, typename TypedList3, typename... TypedLists
 	>
 	struct apply
 	<
 		Type,
-		Op, NumList1, NumList2, NumList3, NumLists...
+		Op, TypedList1, TypedList2, TypedList3, TypedLists...
 	>
 	{
 		using rtn = typename apply
 		<
 			Type,
 			Op,
-			typename apply<Type, Op, NumList1, NumList2>::rtn,
-			NumList3, NumLists...
+			typename apply<Type, Op, TypedList1, TypedList2>::rtn,
+			TypedList3, TypedLists...
 
 		>::rtn;
 	};

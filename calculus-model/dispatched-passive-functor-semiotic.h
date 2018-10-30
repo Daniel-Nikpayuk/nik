@@ -15,15 +15,39 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_RECURSED_PASSIVE_SEMIOTIC_H
-#define CALCULUS_RECURSED_PASSIVE_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"perspective-dispatched-semiotic.h"
+#ifdef safe_name
 
-#define local_scope
+	#define PREFIX		dispaf_
 
-	#include"../calculus-interface-structure/recursed/passive/semiotic.h"
+#else
 
-#undef local_scope
+	#define PREFIX
 
 #endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
+							  evaluate<Exp>;
+
+//
+
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
+							  dereference<Type>;
+
+//
+
+							  template<bool Value, typename Ante, typename Conse>
+	using nik_safe(PREFIX, if_then_else)		= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
+							  if_then_else<Value, Ante, Conse>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
+

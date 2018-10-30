@@ -27,7 +27,7 @@ namespace nik
 		//
 
 		#include nik_typedef(calculus, perspective, dispatched, module)
-		#include nik_typedef(calculus, recursed, passive, structure)
+		#include nik_typedef(calculus, dispatched, passive, structure)
 
 		//
 

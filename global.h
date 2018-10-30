@@ -30,7 +30,7 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// recursed:
+	// dispatched:
 
 		passive,
 		active,
@@ -67,7 +67,7 @@ namespace nik
 
 	// interpreted:
 
-		circuit,
+		recursed,
 
 		binding,
 		frame,
@@ -104,7 +104,7 @@ namespace nik
 
 	// calculus:
 
-		recursed,
+//		dispatched,
 //		untyped,
 //		typed,
 		constant,

@@ -38,7 +38,7 @@
 #include nik_source(., calculus, constant, number, semiotic)
 #include nik_source(., calculus, constant, integer32, semiotic)
 
-//#include nik_source(., calculus, interpreted, circuit, semiotic)
+#include nik_source(., calculus, interpreted, recursed, semiotic)
 
 
 //

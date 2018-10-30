@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		recacf_
+	#define PREFIX		disaci_
 
 #else
 
@@ -29,21 +29,9 @@
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(active, recursed, calculus, semiotic)::functor::template
-							  evaluate<Exp>;
-
-//
-
-							  template<typename Type>
-	using nik_safe(PREFIX, dereference)		= typename nik_module(active, recursed, calculus, semiotic)::functor::template
-							  dereference<Type>;
-
-//
-
-							  template<bool Value, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)		= typename nik_module(active, recursed, calculus, semiotic)::functor::template
-							  if_then_else<Value, Ante, Conse>;
+							  template<typename Type1, typename Type2>
+	using nik_safe(PREFIX, is_equal)		= typename nik_module(active, dispatched, calculus, semiotic)::identity::template
+							  is_equal<Type1, Type2>;
 
 //
 

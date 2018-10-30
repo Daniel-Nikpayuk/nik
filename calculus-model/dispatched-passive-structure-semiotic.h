@@ -17,12 +17,9 @@
 
 #include"define-size_type.h"
 
-//
-
-	using undefined		= typename nik_module(undefined, interpreted, calculus, semiotic)::structure::
-				  undefined;
-
-//
+				  template<typename Exp>
+	using act		= typename nik_module(passive, dispatched, calculus, semiotic)::structure::template
+				  act<Exp>;
 
 #include"undef-size_type.h"
 

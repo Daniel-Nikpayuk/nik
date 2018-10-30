@@ -30,36 +30,32 @@
 //
 
 							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, cons)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cons)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  cons<Type, Value, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, car)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, car)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  car<Type, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, cdr)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cdr)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  cdr<Type, List>;
 
 							  template<typename Type, typename List1, typename List2, typename... Lists>
-	using nik_safe(PREFIX, catenate)		= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, catenate)		= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  catenate<Type, List1, List2, Lists...>;
 
 							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, push)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, push)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  push<Type, Value, List>;
 
 							  template<typename Type, SIZE_TYPE Index, typename List>
-	using nik_safe(PREFIX, at)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, at)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  at<Type, Index, List>;
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, length)			= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, length)			= typename nik_module(passive, typed, calculus, semiotic)::functor::template
 							  length<Type, List>;
-
-							  template<typename... Exps>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(passive, builtin, calculus, semiotic)::functor::template
-							  evaluate<Exps...>;
 
 //
 

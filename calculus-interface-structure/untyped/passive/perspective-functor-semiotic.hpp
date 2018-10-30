@@ -25,7 +25,7 @@ struct functor
 
 		#include nik_typedef(calculus, perspective, untyped, identity)
 		#include nik_typedef(calculus, perspective, untyped, functor)
-		#include nik_typedef(calculus, recursed, passive, functor)
+		#include nik_typedef(calculus, dispatched, passive, functor)
 
 	#undef safe_name
 
@@ -40,8 +40,8 @@ struct functor
 	{
 		using rtn = typename perunf_cons
 		<
-			typename recpaf_evaluate<Exp1>::rtn,
-			typename recpaf_evaluate<Exp2>::rtn
+			typename dispaf_evaluate<Exp1>::rtn,
+			typename dispaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -55,7 +55,7 @@ struct functor
 	{
 		using rtn = typename perunf_car
 		<
-			typename recpaf_evaluate<Exp>::rtn
+			typename dispaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -69,7 +69,7 @@ struct functor
 	{
 		using rtn = typename perunf_cdr
 		<
-			typename recpaf_evaluate<Exp>::rtn
+			typename dispaf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -93,8 +93,8 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename recpaf_evaluate<Exp1>::rtn,
-			typename recpaf_evaluate<Exp2>::rtn
+			typename dispaf_evaluate<Exp1>::rtn,
+			typename dispaf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -123,7 +123,7 @@ struct functor
 	template<typename Exp, typename... Values, template<typename...> class ListType>
 	struct push<Exp, ListType<Values...>>
 	{
-		using rtn = ListType<Values..., typename recpaf_evaluate<Exp>::rtn>;
+		using rtn = ListType<Values..., typename dispaf_evaluate<Exp>::rtn>;
 	};
 
 	template<typename Exp1, typename Exp2>
@@ -199,7 +199,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename recpaf_if_then_else
+		using rtn = typename dispaf_if_then_else
 		<
 			Pred::value,
 			Exp,
@@ -221,7 +221,7 @@ struct functor
 		then<Exp>
 	>
 	{
-		using rtn = typename recpaf_evaluate<Exp>::rtn;
+		using rtn = typename dispaf_evaluate<Exp>::rtn;
 	};
 
 /*
@@ -236,7 +236,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename recpaf_if_then_else
+		using rtn = typename dispaf_if_then_else
 		<
 			Pred::value,
 			Exp,

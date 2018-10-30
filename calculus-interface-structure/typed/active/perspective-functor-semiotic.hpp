@@ -29,7 +29,7 @@ struct functor
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, typed, functor)
-		#include nik_typedef(calculus, recursed, active, functor)
+		#include nik_typedef(calculus, dispatched, active, functor)
 
 	#undef safe_name
 
@@ -46,7 +46,7 @@ struct functor
 		<
 			Type,
 			Value,
-			typename recacf_evaluate<Exp>::rtn
+			typename disacf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -58,12 +58,12 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	struct car
 	{
-		using Type = typename recacf_evaluate<Exp0>::rtn;
+		using Type = typename disacf_evaluate<Exp0>::rtn;
 
 		static constexpr Type value = pertyf_car
 		<
 			Type,
-			typename recacf_evaluate<Exp1>::rtn
+			typename disacf_evaluate<Exp1>::rtn
 
 		>::value;
 	};
@@ -77,8 +77,8 @@ struct functor
 	{
 		using rtn = typename pertyf_cdr
 		<
-			typename recacf_evaluate<Exp0>::rtn,
-			typename recacf_evaluate<Exp1>::rtn
+			typename disacf_evaluate<Exp0>::rtn,
+			typename disacf_evaluate<Exp1>::rtn
 
 		>::rtn;
 	};
@@ -102,9 +102,9 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename recacf_evaluate<Exp0>::rtn,
-			typename recacf_evaluate<Exp1>::rtn,
-			typename recacf_evaluate<Exp2>::rtn
+			typename disacf_evaluate<Exp0>::rtn,
+			typename disacf_evaluate<Exp1>::rtn,
+			typename disacf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -112,7 +112,7 @@ struct functor
 	template<typename Exp0, typename Exp1, typename Exp2, typename Exp3, typename... Exps>
 	struct catenate<Exp0, Exp1, Exp2, Exp3, Exps...>
 	{
-		using Type = typename recacf_evaluate<Exp0>::rtn;
+		using Type = typename disacf_evaluate<Exp0>::rtn;
 
 		using rtn = typename catenate
 		<
@@ -134,7 +134,7 @@ struct functor
 	template<typename Type, Type Value, typename Exp>
 	struct push
 	{
-		using rtn = typename push<Type, Value, typename recacf_evaluate<Exp>::rtn>::rtn;
+		using rtn = typename push<Type, Value, typename disacf_evaluate<Exp>::rtn>::rtn;
 	};
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
@@ -152,9 +152,9 @@ struct functor
 	template<typename Exp0, size_type index, typename Exp1>
 	struct at
 	{
-		using Type = typename recacf_evaluate<Exp0>::rtn;
+		using Type = typename disacf_evaluate<Exp0>::rtn;
 
-		static constexpr Type value = at<Type, index, typename recacf_evaluate<Exp1>::rtn>::value;
+		static constexpr Type value = at<Type, index, typename disacf_evaluate<Exp1>::rtn>::value;
 	};
 
 	template<typename Type, size_type index, Type Value, Type... Values, template<Type...> class ListType>
@@ -180,8 +180,8 @@ struct functor
 	{
 		static constexpr size_type value = length
 		<
-			typename recacf_evaluate<Exp0>::rtn,
-			typename recacf_evaluate<Exp1>::rtn,
+			typename disacf_evaluate<Exp0>::rtn,
+			typename disacf_evaluate<Exp1>::rtn,
 			count
 
 		>::value;
@@ -224,7 +224,7 @@ struct functor
 	template<typename Exp0, typename Exp1>
 	inline static void display(const Exp0 &, const Exp1 &, const char *sep = " ")
 	{
-		display(typename recacf_evaluate<Exp0>::rtn(), typename recacf_evaluate<Exp1>::rtn(), sep);
+		display(typename disacf_evaluate<Exp0>::rtn(), typename disacf_evaluate<Exp1>::rtn(), sep);
 	}
 };
 

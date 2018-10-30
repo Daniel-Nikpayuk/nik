@@ -20,9 +20,9 @@ namespace nik
 	template<typename SizeType>
 	struct module<Module::operate, Branch::constant, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using type		= module;
 
-		using size_type	= SizeType;
+		using size_type		= SizeType;
 
 		//
 
@@ -30,6 +30,15 @@ namespace nik
 
 		//
 
+		using register_type	= char;
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

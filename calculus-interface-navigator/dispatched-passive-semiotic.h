@@ -15,11 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef CALCULUS_DISPATCHED_PASSIVE_SEMIOTIC_H
+#define CALCULUS_DISPATCHED_PASSIVE_SEMIOTIC_H
 
-				  template<typename Exp>
-	using pass		= typename nik_module(active, recursed, calculus, semiotic)::structure::template
-				  pass<Exp>;
+	#include"perspective-dispatched-semiotic.h"
 
-#include"undef-size_type.h"
+#define local_scope
 
+	#include"../calculus-interface-structure/dispatched/passive/semiotic.h"
+
+#undef local_scope
+
+#endif
