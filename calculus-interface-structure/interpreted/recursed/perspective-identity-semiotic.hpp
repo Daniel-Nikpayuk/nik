@@ -15,32 +15,58 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct identity
+{
+	using kind		= module;
 
-//
+	using type		= identity;
 
-				  template<typename... Exps>
-	using list		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::template
-				  list<Exps...>;
+	#define safe_name
 
-	using undefined		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::
-				  undefined;
+		#include nik_typedef(calculus, perspective, dispatched, identity)
+		#include nik_typedef(calculus, perspective, untyped, identity)
 
-//
+	#undef safe_name
 
-				  template<typename Pred, typename Exp>
-	using if_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  if_then<Pred, Exp>;
+	#include nik_typedef(calculus, constant, boolean, structure)
 
-				  template<typename Pred, typename Exp>
-	using else_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  else_then<Pred, Exp>;
+/*
+	is_equal:
+*/
 
-				  template<typename Exp>
-	using then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  then<Exp>;
+	template<typename Exp1, typename Exp2>
+	struct is_equal
+	{
+		using rtn = boolean
+		<
+			perdii_is_equal<typename Exp1::rtn, typename Exp2::rtn>::value
+		>;
+	};
 
-//
+/*
+	is_list:
+*/
 
-#include"undef-size_type.h"
+	template<typename Exp>
+	struct is_list
+	{
+		using rtn = boolean
+		<
+			peruni_is_list<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_null:
+*/
+
+	template<typename Exp>
+	struct is_null
+	{
+		using rtn = boolean
+		<
+			peruni_is_null<typename Exp::rtn>::value
+		>;
+	};
+};
 

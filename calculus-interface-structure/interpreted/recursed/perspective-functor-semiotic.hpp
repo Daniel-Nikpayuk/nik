@@ -21,470 +21,270 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, perspective, typed, functor)
-	#include nik_typedef(calculus, interpreter, primitive, structure)
+	#define safe_name
+
+		#include nik_typedef(calculus, perspective, untyped, functor)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, constant, boolean, structure)
+	#include nik_typedef(calculus, constant, number, structure)
+
+	#include nik_typedef(calculus, interpreted, recursed, structure)
+	#include nik_typedef(calculus, interpreted, recursed, identity)
 
 /*
-	apply##:
-
-	The postfix numerals are the arities of char, Type, respectively.
-
-	Relational operators require returing a bool value instead of their given Type.
+	if_then_else:
 */
 
-	template<typename Type, char, Type>			struct apply11;
-	template<typename Type, char, char, Type>		struct apply21;
-	template<typename Type, char, Type, Type>		struct apply12;
-	template<typename Type, char, char, Type, Type>		struct apply22;
-
-#define declare_apply11(op_char, op_name)										\
-															\
-	template<typename Type, Type Value>										\
-	struct apply11<Type, op_char, Value>										\
-	{														\
-		static constexpr Type value = (op_name Value);								\
+	template<typename Pred, typename Ante, typename Conse>
+	struct if_then_else
+	{
+		using rtn = typename if_then_else<typename Pred::rtn, Ante, Conse>::rtn;
 	};
 
-#define declare_apply21(op1_char, op2_char, op_name)									\
-															\
-	template<typename Type, Type Value>										\
-	struct apply21<Type, op1_char, op2_char, Value>									\
-	{														\
-		static constexpr Type value = (op_name Value);								\
+	template<typename Ante, typename Conse>
+	struct if_then_else<boolean<true>, Ante, Conse>
+	{
+		using rtn = typename Ante::rtn;
 	};
 
-#define declare_apply12(op_char, op_name)										\
-															\
-	template<typename Type, Type Value1, Type Value2>								\
-	struct apply12<Type, op_char, Value1, Value2>									\
-	{														\
-		static constexpr Type value = (Value1 op_name Value2);							\
+	template<typename Ante, typename Conse>
+	struct if_then_else<boolean<false>, Ante, Conse>
+	{
+		using rtn = typename Conse::rtn;
 	};
 
-#define declare_apply22(op1_char, op2_char, op_name)									\
-															\
-	template<typename Type, Type Value1, Type Value2>								\
-	struct apply22<Type, op1_char, op2_char, Value1, Value2>							\
-	{														\
-		static constexpr Type value = (Value1 op_name Value2);							\
+/*
+	cons:
+*/
+
+	template<typename Value, typename List>
+	struct cons
+	{
+		using rtn = typename perunf_cons
+		<
+			typename Value::rtn,
+			typename List::rtn
+
+		>::rtn;
 	};
 
-#define declare_apply12b(op_char, op_name)										\
-															\
-	template<typename Type, Type Value1, Type Value2>								\
-	struct apply12<Type, op_char, Value1, Value2>									\
-	{														\
-		static constexpr bool value = (Value1 op_name Value2);							\
+/*
+	car:
+*/
+
+	template<typename List>
+	struct car
+	{
+		using rtn = typename perunf_car
+		<
+			typename List::rtn
+
+		>::rtn;
 	};
 
-#define declare_apply22b(op1_char, op2_char, op_name)									\
-															\
-	template<typename Type, Type Value1, Type Value2>								\
-	struct apply22<Type, op1_char, op2_char, Value1, Value2>							\
-	{														\
-		static constexpr bool value = (Value1 op_name Value2);							\
+/*
+	cdr:
+*/
+
+	template<typename List>
+	struct cdr
+	{
+		using rtn = typename perunf_cdr
+		<
+			typename List::rtn
+
+		>::rtn;
+	};
+
+/*
+	catenate:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename, typename, typename...> struct catenate;
+
+	template<typename... Values1, typename... Values2, template<typename...> class ListType>
+	struct catenate<ListType<Values1...>, ListType<Values2...>>
+	{
+		using rtn = ListType<Values1..., Values2...>;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct catenate<Exp1, Exp2>
+	{
+		using rtn = typename catenate
+		<
+			typename Exp1::rtn,
+			typename Exp2::rtn
+
+		>::rtn;
+	};
+
+	template<typename Exp1, typename Exp2, typename Exp3, typename... Exps>
+	struct catenate<Exp1, Exp2, Exp3, Exps...>
+	{
+		using rtn = typename catenate
+		<
+			typename catenate<Exp1, Exp2>::rtn,
+			Exp3,
+
+			Exps...
+
+		>::rtn;
+	};
+
+/*
+	push:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct push
+	{
+		using rtn = typename push<Exp1, typename Exp2::rtn>::rtn;
+	};
+
+	template<typename Exp, typename... Values, template<typename...> class ListType>
+	struct push<Exp, ListType<Values...>>
+	{
+		using rtn = ListType<Values..., typename Exp::rtn>;
+	};
+
+/*
+	at:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct at
+	{
+		using rtn = typename at<typename Exp1::rtn, typename Exp2::rtn>::rtn;
+	};
+
+	template
+	<
+		size_type index,
+		typename Value, typename... Values,
+		template<size_type> class Number,
+		template<typename...> class ListType
+	>
+	struct at<Number<index>, ListType<Value, Values...>>
+	{
+		using rtn = typename at<Number<index-1>, ListType<Values...>>::rtn;
+	};
+
+	template
+	<
+		typename Value, typename... Values,
+		template<size_type> class Number,
+		template<typename...> class ListType
+	>
+	struct at<Number<0>, ListType<Value, Values...>>
+	{
+		using rtn = Value;
+	};
+
+/*
+	length:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename Exp1, typename Exp2 = number<0>>
+	struct length
+	{
+		using rtn = typename length<typename Exp1::rtn, typename Exp2::rtn>::rtn;
+	};
+
+	template
+	<
+		typename Value, typename... Values,
+		size_type count,
+		template<typename...> class ListType,
+		template<size_type> class Number
+	>
+	struct length<ListType<Value, Values...>, Number<count>>
+	{
+		using rtn = typename length<ListType<Values...>, Number<count+1>>::rtn;
+	};
+
+	template
+	<
+		size_type count,
+		template<typename...> class ListType,
+		template<size_type> class Number
+	>
+	struct length<ListType<>, Number<count>>
+	{
+		using rtn = number
+		<
+			count
+		>;
 	};
 
 /***********************************************************************************************************************/
 
 /*
-	Operator reference: https://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
+	sub_evaluate:
 */
 
-/*
-	Arithmetic operators
+	template<typename...> struct sub_evaluate;
 
-	+ (addition)
-	- (subtraction)
-	* (multiplication)
-	/ (division)
-	% (modulus)
-*/
-
-	declare_apply12('+', +)
-	declare_apply12('-', -)
-	declare_apply12('*', *)
-	declare_apply12('/', /)
-	declare_apply12('%', %)
-
-/*
-	Bitwise operators
-
-	^ (XOR)
-	| (OR)
-	& (AND)
-	~ (complement)
-	<< (shift left, insertion to stream)
-	>> (shift right, extraction from stream)
-*/
-
-	declare_apply12('^', ^)
-	declare_apply12('|', |)
-	declare_apply12('&', &)
-	declare_apply11('~', ~)
-	declare_apply22('<', '<', <<)
-	declare_apply22('>', '>', >>)
-
-/*
-	Relational operators
-
-	== (equality)
-	!= (inequality)
-	> (greater-than)
-	< (less-than)
-	>= (greater-than-or-equal-to)
-	<= (less-than-or-equal-to)
-*/
-
-	declare_apply22b('=', '=', ==)
-	declare_apply22b('!', '=', !=)
-	declare_apply12b('>', >)
-	declare_apply12b('<', <)
-	declare_apply22b('>', '=', >=)
-	declare_apply22b('<', '=', <=)
-
-/*
-	Logical operators
-
-	! (NOT)
-	&& (AND)
-	|| (OR)
-*/
-
-	declare_apply11('!', !)
-	declare_apply22('&', '&', &&)
-	declare_apply22('|', '|', ||)
-
-/***********************************************************************************************************************/
-
-#undef declare_apply11
-#undef declare_apply21
-#undef declare_apply12
-#undef declare_apply22
-#undef declare_apply12b
-#undef declare_apply22b
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-/*
-	apply:
-*/
-
-	template<typename Type, typename...> struct apply;
-
-/*
-	apply11:
-*/
-
-	template
+	template<typename Pred, typename Exp, typename... Exps>
+	struct sub_evaluate
 	<
-		typename Type,
-		char op_char,
-		Type Value1, Type Value2, Type... Values,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-
-		number_list<Value1, Value2, Values...>
+		else_then<Pred, Exp>,
+		Exps...
 	>
 	{
-		using rtn = typename cons
+		using rtn = typename if_then_else
 		<
-			Type,
-			apply11<Type, op_char, Value1>::value,
+			Pred,
+			Exp,
 
-			typename apply
+			sub_evaluate
 			<
-				Type,
-				op_list<op_char>,
-
-				number_list<Value2, Values...>
-
-			>::rtn
+				Exps...
+			>
 
 		>::rtn;
 	};
 
-	template
+	template<typename Exp>
+	struct sub_evaluate
 	<
-		typename Type,
-		char op_char,
-		Type Value,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-
-		number_list<Value>
+		then<Exp>
 	>
 	{
-		using rtn = number_list
-		<
-			apply11<Type, op_char, Value>::value
-		>;
-	};
-
-	template
-	<
-		typename Type,
-		char op_char,
-		typename NumList1, typename NumList2, typename... NumLists,
-		template<char...> class op_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-		NumList1, NumList2, NumLists...
-	>
-	{
-		using rtn = typename apply
-		<
-			Type,
-			op_list<op_char>,
-			typename apply<Type, op_list<op_char>, NumList1>::rtn,
-			NumList2, NumLists...
-
-		>::rtn;
+		using rtn = typename Exp::rtn;
 	};
 
 /*
-	apply12:
+	evaluate:
 */
+	template<typename...> struct evaluate;
 
-	template
+	template<typename Pred, typename Exp, typename... Exps>
+	struct evaluate
 	<
-		typename Type,
-		char op_char,
-		Type Value11, Type Value12, Type... Values1,
-		Type Value21, Type Value22, Type... Values2,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-
-		number_list<Value11, Value12, Values1...>,
-		number_list<Value21, Value22, Values2...>
+		if_then<Pred, Exp>,
+		Exps...
 	>
 	{
-		using rtn = typename cons
+		using rtn = typename if_then_else
 		<
-			Type,
-			apply12<Type, op_char, Value11, Value21>::value,
+			Pred,
+			Exp,
 
-			typename apply
+			sub_evaluate
 			<
-				Type,
-				op_list<op_char>,
-
-				number_list<Value12, Values1...>,
-				number_list<Value22, Values2...>
-
-			>::rtn
-
-		>::rtn;
-	};
-
-	template
-	<
-		typename Type,
-		char op_char,
-		Type Value1, Type Value2,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-
-		number_list<Value1>,
-		number_list<Value2>
-	>
-	{
-		using rtn = number_list
-		<
-			apply12<Type, op_char, Value1, Value2>::value
-		>;
-	};
-
-/*
-	apply21:
-*/
-
-	template
-	<
-		typename Type,
-		char op1_char, char op2_char,
-		Type Value1, Type Value2, Type... Values,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op1_char, op2_char>,
-
-		number_list<Value1, Value2, Values...>
-	>
-	{
-		using rtn = typename cons
-		<
-			Type,
-			apply21<Type, op1_char, op2_char, Value1>::value,
-
-			typename apply
-			<
-				Type,
-				op_list<op1_char, op2_char>,
-
-				number_list<Value2, Values...>
-
-			>::rtn
-
-		>::rtn;
-	};
-
-	template
-	<
-		typename Type,
-		char op1_char, char op2_char,
-		Type Value,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op1_char, op2_char>,
-
-		number_list<Value>
-	>
-	{
-		using rtn = number_list
-		<
-			apply21<Type, op1_char, op2_char, Value>::value
-		>;
-	};
-
-	template
-	<
-		typename Type,
-		char op1_char, char op2_char,
-		typename NumList1, typename NumList2, typename... NumLists,
-		template<char...> class op_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op1_char, op2_char>,
-		NumList1, NumList2, NumLists...
-	>
-	{
-		using rtn = typename apply
-		<
-			Type,
-			op_list<op1_char, op2_char>,
-			typename apply<Type, op_list<op1_char, op2_char>, NumList1>::rtn,
-			NumList2, NumLists...
-
-		>::rtn;
-	};
-
-	// multiple is implemented in apply22.
-
-/*
-	apply22:
-*/
-
-	template
-	<
-		typename Type,
-		char op1_char, char op2_char,
-		Type Value11, Type Value12, Type... Values1,
-		Type Value21, Type Value22, Type... Values2,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op1_char, op2_char>,
-
-		number_list<Value11, Value12, Values1...>,
-		number_list<Value21, Value22, Values2...>
-	>
-	{
-		using rtn = typename cons
-		<
-			Type,
-			apply22<Type, op1_char, op2_char, Value11, Value21>::value,
-
-			typename apply
-			<
-				Type,
-				op_list<op1_char, op2_char>,
-
-				number_list<Value12, Values1...>,
-				number_list<Value22, Values2...>
-
-			>::rtn
-
-		>::rtn;
-	};
-
-	template
-	<
-		typename Type,
-		char op1_char, char op2_char,
-		Type Value1, Type Value2,
-		template<char...> class op_list,
-		template<Type...> class number_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op1_char, op2_char>,
-
-		number_list<Value1>,
-		number_list<Value2>
-	>
-	{
-		using rtn = number_list
-		<
-			apply22<Type, op1_char, op2_char, Value1, Value2>::value
-		>;
-	};
-
-	template
-	<
-		typename Type,
-		typename Op,
-		typename NumList1, typename NumList2, typename NumList3, typename... NumLists
-	>
-	struct apply
-	<
-		Type,
-		Op, NumList1, NumList2, NumList3, NumLists...
-	>
-	{
-		using rtn = typename apply
-		<
-			Type,
-			Op,
-			typename apply<Type, Op, NumList1, NumList2>::rtn,
-			NumList3, NumLists...
+				Exps...
+			>
 
 		>::rtn;
 	};
@@ -496,9 +296,37 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	inline static void display(const undefined &)
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	inline static void display(const ListType<Value, Values...> &, const char *sep = " ")
 	{
-		Dispatched::functor::display("undefined");
+		using value_is_list		= typename is_list<Value>::rtn;
+		using values_is_null		= typename is_null<ListType<Values...>>::rtn;
+
+		static constexpr char l		= value_is_list::value ? '[' : '(';
+		static constexpr char r		= value_is_list::value ? ']' : ')';
+
+		Dispatched::functor::display(l);
+		Value::kind::functor::display(Value());
+		Dispatched::functor::display(r);
+
+		if (!values_is_null::value) Dispatched::functor::display(sep);
+
+		display(ListType<Values...>(), sep);
+	}
+
+	template<template<typename...> class ListType>
+	inline static void display(const ListType<> &, const char *sep = " ")
+	{
+		// do nothing.
+	}
+
+	template<typename Exp>
+	inline static void display(const Exp &, const char *sep = " ")
+	{
+		using Type = typename Exp::rtn;
+
+		if (is_list<Type>::rtn::value) display(Type(), sep);
+		else Dispatched::functor::display("undefined");
 	}
 };
 

@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::primitive, Branch::interpreter, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::recursed, Branch::interpreted, Lens::calculus, Permission::semiotic, SizeType>
 	{
 		using type	= module;
 
@@ -26,7 +26,7 @@ namespace nik
 
 		//
 
-		#include nik_typedef(calculus, perspective, kernel, module)
+		#include nik_typedef(calculus, perspective, dispatched, module)
 
 		//
 
@@ -34,6 +34,7 @@ namespace nik
 
 		//
 
+		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

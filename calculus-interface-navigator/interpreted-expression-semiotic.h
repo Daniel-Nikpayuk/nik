@@ -19,8 +19,6 @@
 #define CALCULUS_INTERPRETED_EXPRESSION_SEMIOTIC_H
 
 	#include"constant-literal-semiotic.h"
-	#include"constant-number-semiotic.h"
-	#include"interpreted-undefined-semiotic.h"
 	#include"interpreted-environment-semiotic.h"
 
 #define local_scope

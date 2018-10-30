@@ -21,9 +21,9 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, typedin, boolean, identity)
+	#include nik_typedef(calculus, interpreted, recursed, identity)
 
-	#include nik_typedef(calculus, evaltin, binding, structure)
+	#include nik_typedef(calculus, interpreted, binding, structure)
 
 /*
 	display:
@@ -37,15 +37,15 @@ struct functor
 	{
 		using is_empty = typename is_null<binding<Values...>>::rtn;
 
-		Builtin::functor::display("binding: ");
+		Dispatched::functor::display("binding: ");
 		Variable::kind::functor::display(Variable());
 
-		if (!is_empty::value) Dispatched::functor::display(binding<Values...>(), ", ");
+		if (!is_empty::value) Recursed::functor::display(binding<Values...>(), ", ");
 	}
 
 	inline static void display(const null_binding &)
 	{
-		Builtin::functor::display("binding: null");
+		Dispatched::functor::display("binding: null");
 	}
 };
 

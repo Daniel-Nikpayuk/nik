@@ -21,16 +21,16 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, typedin, boolean, identity)
-	#include nik_typedef(calculus, typedin, if_then, functor)
-
 	#define safe_name
 
-		#include nik_typedef(calculus, evaltin, frame, functor)
+		#include nik_typedef(calculus, interpreted, frame, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, evaltin, environment, structure)
+	#include nik_typedef(calculus, interpreted, recursed, identity)
+	#include nik_typedef(calculus, interpreted, recursed, functor)
+
+	#include nik_typedef(calculus, interpreted, environment, structure)
 
 /*
 	add:
@@ -60,7 +60,7 @@ struct functor
 	{
 		using rtn = environment
 		<
-			typename varfrf_construct<Variables, Values>::rtn,
+			typename intfrf_construct<Variables, Values>::rtn,
 
 			Frames...
 		>;
@@ -75,23 +75,13 @@ struct functor
 	template<typename Variable, typename Frame, typename... Frames>
 	struct lookup<Variable, environment<Frame, Frames...>>
 	{
-		using Binding = typename varfrf_lookup<Variable, Frame>::rtn;
+		using Binding = typename intfrf_lookup<Variable, Frame>::rtn;
 
-		using rtn = typename evaluate
+		using rtn = typename if_then_else
 		<
-			if_then
-			<
-				is_null<Binding>,
-
-				act
-				<
-					lookup<Variable, environment<Frames...>>
-				>
-
-			>, then
-			<
-				Binding
-			>
+			is_null<Binding>,
+			lookup<Variable, environment<Frames...>>,
+			Binding
 
 		>::rtn;
 	};
@@ -114,15 +104,15 @@ struct functor
 	{
 		using is_empty = typename is_null<environment<Frames...>>::rtn;
 
-		Builtin::functor::display("environment: ");
+		Dispatched::functor::display("environment: ");
 		Frame::kind::functor::display(Frame());
 
-		if (!is_empty::value) Dispatched::functor::display(environment<Frames...>(), ", ");
+		if (!is_empty::value) Recursed::functor::display(environment<Frames...>(), ", ");
 	}
 
 	inline static void display(const null_environment &)
 	{
-		Builtin::functor::display("environment: null");
+		Dispatched::functor::display("environment: null");
 	}
 };
 

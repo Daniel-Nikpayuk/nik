@@ -19,15 +19,6 @@
 
 //
 
-				  template<typename... Exps>
-	using list		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::template
-				  list<Exps...>;
-
-	using undefined		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::
-				  undefined;
-
-//
-
 				  template<typename Pred, typename Exp>
 	using if_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
 				  if_then<Pred, Exp>;

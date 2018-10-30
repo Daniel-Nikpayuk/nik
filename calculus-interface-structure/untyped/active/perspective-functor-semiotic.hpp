@@ -29,7 +29,7 @@ struct functor
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, untyped, conditional, structure)
+	#include nik_typedef(calculus, untyped, active, structure)
 
 /*
 	cons:

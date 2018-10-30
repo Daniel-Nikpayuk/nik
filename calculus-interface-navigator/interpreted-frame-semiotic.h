@@ -18,7 +18,6 @@
 #ifndef CALCULUS_INTERPRETED_FRAME_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_FRAME_SEMIOTIC_H
 
-	#include"typedin-if_then_else-semiotic.h"
 	#include"interpreted-binding-semiotic.h"
 
 #define local_scope

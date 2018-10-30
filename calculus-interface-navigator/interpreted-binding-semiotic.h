@@ -18,6 +18,8 @@
 #ifndef CALCULUS_INTERPRETED_BINDING_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_BINDING_SEMIOTIC_H
 
+	#include"interpreted-recursed-semiotic.h"
+
 #define local_scope
 
 	#include"../calculus-interface-structure/interpreted/binding/semiotic.h"

@@ -18,6 +18,9 @@
 #ifndef CALCULUS_INTERPRETED_RECURSED_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_RECURSED_SEMIOTIC_H
 
+	#include"constant-boolean-semiotic.h"
+	#include"constant-number-semiotic.h"
+
 #define local_scope
 
 	#include"../calculus-interface-structure/interpreted/recursed/semiotic.h"

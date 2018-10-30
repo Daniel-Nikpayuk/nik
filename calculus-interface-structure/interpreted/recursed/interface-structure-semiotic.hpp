@@ -22,6 +22,20 @@ struct structure
 	using type						= structure;
 
 /*
+	list:
+*/
+
+	template<typename... Exps>
+	struct list
+	{
+		using kind					= module;
+
+		using type					= list;
+
+		using rtn					= list;
+	};
+
+/*
 	undefined:
 */
 

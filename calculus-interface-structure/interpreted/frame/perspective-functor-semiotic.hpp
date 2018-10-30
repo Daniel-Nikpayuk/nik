@@ -21,16 +21,10 @@ struct functor
 
 	using type		= functor;
 
-	#define safe_name
+	#include nik_typedef(calculus, interpreted, recursed, identity)
+	#include nik_typedef(calculus, interpreted, recursed, functor)
 
-		#include nik_typedef(calculus, perspective, kernel, functor)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, builtin, boolean, identity)
-	#include nik_typedef(calculus, dispatch, if_then_else, functor)
-
-	#include nik_typedef(calculus, variable, frame, structure)
+	#include nik_typedef(calculus, interpreted, frame, structure)
 
 /*
 	construct:	Takes a list of variables as well as a list of values and creates
@@ -52,17 +46,14 @@ struct functor
 		ListType<Value, Values...>
 	>
 	{
-		using rtn = typename perkef_cons
+		using rtn = typename cons
 		<
 			binding<Variable, Value>,
 
-			act
+			construct
 			<
-				construct
-				<
-					ListType<Variables...>,
-					ListType<Values...>
-				>
+				list<Variables...>,
+				list<Values...>
 			>
 
 		>::rtn;
@@ -83,18 +74,11 @@ struct functor
 	template<typename Name, typename Variable, typename... Values, typename... Bindings>
 	struct lookup<Name, frame<binding<Variable, Values...>, Bindings...>>
 	{
-		using rtn = typename evaluate
+		using rtn = typename if_then_else
 		<
-			if_then_else
-			<
-				is_equal<Name, Variable>,
-				binding<Variable, Values...>,
-
-				act
-				<
-					lookup<Name, frame<Bindings...>>
-				>
-			>
+			is_equal<Name, Variable>,
+			binding<Variable, Values...>,
+			lookup<Name, frame<Bindings...>>
 
 		>::rtn;
 	};
@@ -117,15 +101,15 @@ struct functor
 	{
 		using is_empty = typename is_null<frame<Bindings...>>::rtn;
 
-		Builtin::functor::display("frame: ");
+		Dispatched::functor::display("frame: ");
 		Binding::kind::functor::display(Binding());
 
-		if (!is_empty::value) Dispatched::functor::display(frame<Bindings...>(), ", ");
+		if (!is_empty::value) Recursed::functor::display(frame<Bindings...>(), ", ");
 	}
 
 	inline static void display(const null_frame &)
 	{
-		Builtin::functor::display("frame: null");
+		Dispatched::functor::display("frame: null");
 	}
 };
 

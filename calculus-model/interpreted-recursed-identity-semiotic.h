@@ -17,30 +17,33 @@
 
 #include"define-size_type.h"
 
-//
+#ifdef safe_name
 
-				  template<typename... Exps>
-	using list		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::template
-				  list<Exps...>;
+	#define PREFIX		intrei_
 
-	using undefined		= typename nik_module(recursed, interpreted, calculus, semiotic)::structure::
-				  undefined;
+#else
 
-//
+	#define PREFIX
 
-				  template<typename Pred, typename Exp>
-	using if_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  if_then<Pred, Exp>;
-
-				  template<typename Pred, typename Exp>
-	using else_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  else_then<Pred, Exp>;
-
-				  template<typename Exp>
-	using then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
-				  then<Exp>;
+#endif
 
 //
+
+							  template<typename Exp1, typename Exp2>
+	using nik_safe(PREFIX, is_equal)		= typename nik_module(recursed, interpreted, calculus, semiotic)::identity::template
+							  is_equal<Exp1, Exp2>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_list)			= typename nik_module(recursed, interpreted, calculus, semiotic)::identity::template
+							  is_list<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_null)			= typename nik_module(recursed, interpreted, calculus, semiotic)::identity::template
+							  is_null<Exp>;
+
+//
+
+#undef PREFIX
 
 #include"undef-size_type.h"
 

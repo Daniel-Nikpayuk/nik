@@ -21,19 +21,16 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, typedin, boolean, identity)
+	#include nik_typedef(calculus, interpreted, recursed, identity)
 
 	#define safe_name
 
-		#include nik_typedef(calculus, typedin, if_then, functor)
-		#include nik_typedef(calculus, evaltin, environment, functor)
+		#include nik_typedef(calculus, interpreted, recursed, functor)
+		#include nik_typedef(calculus, interpreted, environment, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, evaltin, expression, structure)
-
-/*
-*/
+	#include nik_typedef(calculus, interpreted, expression, structure)
 
 /*
 	evaluate:
@@ -85,16 +82,16 @@ struct functor
 	{
 		using is_empty = typename is_null<expression<Exps...>>::rtn;
 
-		Builtin::functor::display("expression: ");
+		Dispatched::functor::display("expression: ");
 		Exp::kind::functor::display(Exp());
 
-		if (!is_empty::value) Dispatched::functor::display(expression<Exps...>(), ", ");
-		Builtin::functor::display('\n');
+		if (!is_empty::value) Recursed::functor::display(expression<Exps...>(), ", ");
+		Dispatched::functor::display('\n');
 	}
 
 	inline static void display(const null_expression &)
 	{
-		Builtin::functor::display("expression: null\n");
+		Dispatched::functor::display("expression: null\n");
 	}
 };
 
