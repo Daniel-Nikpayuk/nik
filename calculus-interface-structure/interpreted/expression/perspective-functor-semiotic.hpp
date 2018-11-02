@@ -32,6 +32,8 @@ struct functor
 
 	#include nik_typedef(calculus, interpreted, expression, structure)
 
+	template<typename, typename = null_environment> struct evaluate;
+
 /*
 	evaluate:
 */
@@ -39,8 +41,7 @@ struct functor
 	template<typename Exp, typename Env = null_environment>
 	struct evaluate
 	{
-/*
-		using rtn = typename disiftf_evaluate
+		using rtn = typename intref_evaluate
 		<
 			if_then
 			<
@@ -50,9 +51,72 @@ struct functor
 			>, else_then
 			<
 				is_variable<Exp>,
-				act
+				lookup_variable_value<Exp, Env>
+
+			>, else_then
+			<
+				is_quoted<Exp>,
+				car<Exp> // text_of_quotation
+
+			>, else_then
+			<
+				is_assignment<Exp>,
+				evaluate_assignment<Exp, Env>
+
+			>, else_then                          
+			<                                     
+				is_definition<Exp>,             
+				evaluate_definition<Exp, Env>
+
+			>, else_then                          
+			<                                     
+				is_if<Exp>,             
+				evaluate_if<Exp, Env>
+
+			>, else_then                          
+			<                                     
+				is_lambda<Exp>,             
+				make_procedure
 				<
-					lookup<Env, Exp>
+					lambda_parameters<Exp>,
+					lambda_body<Exp>,
+					Env
+				>
+
+			>, else_then                          
+			<                                     
+				is_begin<Exp>,             
+				evaluate_sequence
+				<
+					begin_actions<Exp>,
+					Env
+				>
+
+			>, else_then                          
+			<                                     
+				is_cond<Exp>,             
+				evaluate
+				<
+					cond_to_if<Exp>,
+					Env
+				>
+
+			>, else_then                          
+			<                                     
+				is_application<Exp>,             
+				apply
+				<
+					evaluate
+					<
+						get_operator<Exp>,
+						Env
+					>,
+
+					list_of_values
+					<
+						get_operands<Exp>,
+						Env
+					>
 				>
 
 			>, then
@@ -61,7 +125,6 @@ struct functor
 			>
 
 		>::rtn;
-*/
 	};
 
 	template<typename Env>

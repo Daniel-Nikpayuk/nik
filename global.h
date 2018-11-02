@@ -65,15 +65,25 @@ namespace nik
 		integer32,
 		integer64,
 
-	// interpreted:
-
 		recursed,
+
+	// interpreted:
 
 		binding,
 		frame,
 		environment,
 
+		variable,
+		quote,
+		assignment,
+		definition,
+//		conditional,
+		lambda,
+		begin,
+		application,
+
 		expression,
+		analysis,
 
 	// generic:
 

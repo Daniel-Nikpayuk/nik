@@ -141,7 +141,7 @@ namespace nik
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
 
-			branch_enum == Branch::dispatched			||
+			branch_enum == Branch::dispatched		||
 //			branch_enum == Branch::untyped			||
 //			branch_enum == Branch::typed			||
 			branch_enum == Branch::constant			||
@@ -214,15 +214,25 @@ namespace nik
 			module_enum == Module::integer32		||
 			module_enum == Module::integer64		||
 
-		// interpreted:
-
 			module_enum == Module::recursed			||
+
+		// interpreted:
 
 			module_enum == Module::binding			||
 			module_enum == Module::frame			||
 			module_enum == Module::environment		||
 
+			module_enum == Module::variable			||
+			module_enum == Module::quote			||
+			module_enum == Module::assignment		||
+			module_enum == Module::definition		||
+			module_enum == Module::conditional		||
+			module_enum == Module::lambda			||
+			module_enum == Module::begin			||
+			module_enum == Module::application		||
+
 			module_enum == Module::expression		||
+			module_enum == Module::analysis			||
 
 		// generic:
 
