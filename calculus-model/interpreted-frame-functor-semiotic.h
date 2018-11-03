@@ -29,13 +29,21 @@
 
 //
 
-							  template<typename Variables, typename Values>
+							  template<typename VariableList, typename ValueList>
 	using nik_safe(PREFIX, construct)		= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  construct<Variables, Values>;
+							  construct<VariableList, ValueList>;
 
 							  template<typename Variable, typename Frame>
 	using nik_safe(PREFIX, lookup)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
 							  lookup<Variable, Frame>;
+
+							  template<typename Variable, typename Value, typename Frame>
+	using nik_safe(PREFIX, set)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
+							  set<Variable, Value, Frame>;
+
+							  template<typename Variable, typename Value, typename Frame>
+	using nik_safe(PREFIX, define)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
+							  define<Variable, Value, Frame>;
 
 //
 

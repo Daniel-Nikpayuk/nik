@@ -21,8 +21,14 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, interpreted, recursed, identity)
-	#include nik_typedef(calculus, interpreted, recursed, functor)
+	#include nik_typedef(calculus, constant, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, functor)
+
+	#define safe_name
+
+		#include nik_typedef(calculus, interpreted, binding, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(calculus, interpreted, frame, structure)
 
@@ -32,61 +38,190 @@ struct functor
 			and value lists are the same size.
 */
 
-	template<typename, typename> struct construct;
-
-	template
-	<
-		typename Variable, typename... Variables,
-		typename Value, typename... Values,
-		template<typename...> class ListType
-	>
+	template<typename Exp1, typename Exp2>
 	struct construct
-	<
-		ListType<Variable, Variables...>,
-		ListType<Value, Values...>
-	>
 	{
-		using rtn = typename cons
-		<
-			binding<Variable, Value>,
+		using VariableList	= typename Exp1::rtn;
+		using ValueList		= typename Exp2::rtn;
 
-			construct
+		using rtn		= typename if_then_else
+		<
+			is_null<VariableList>,
+			null_frame,
+			cons
 			<
-				list<Variables...>,
-				list<Values...>
+				intbif_construct // binding
+				<
+					car<VariableList>,
+					car<ValueList>
+				>,
+
+				construct
+				<
+					cdr<VariableList>,
+					cdr<ValueList>
+				>
 			>
 
 		>::rtn;
 	};
 
-	template<template<typename...> class ListType>
-	struct construct<ListType<>, ListType<>>
+/*
+	split:
+*/
+
+	template<typename Exp1, typename Exp2, typename Exp3>
+	struct split
 	{
-		using rtn = null_frame;
+		using Variable	= typename Exp1::rtn;
+		using Frame1	= typename Exp2::rtn;
+		using Frame2	= typename Exp3::rtn;
+
+		template<typename SubExp1, typename SubExp2>
+		struct recurse
+		{
+			using frame_car	= typename SubExp1::rtn;
+			using frame_cdr	= typename SubExp2::rtn;
+
+			using rtn	= typename if_then_else
+			<
+				is_equal
+				<
+					Variable,
+					intbif_binding_variable<frame_car>
+				>,
+
+				list<frame_car, Frame1, frame_cdr>,
+
+				split
+				<
+					Variable,
+					push<Frame1, frame_car>,
+					frame_cdr
+				>
+
+			>::rtn;
+		};
+
+		using rtn = typename if_then_else
+		<
+			is_null<Frame2>,
+			list<unbound, Frame1, null_frame>,
+
+			recurse
+			<
+				car<Frame2>,
+				cdr<Frame2>
+			>
+
+		>::rtn;
 	};
 
 /*
 	lookup:
 */
 
-	template<typename, typename> struct lookup;
-
-	template<typename Name, typename Variable, typename... Values, typename... Bindings>
-	struct lookup<Name, frame<binding<Variable, Values...>, Bindings...>>
+	template<typename Variable, typename Frame>
+	struct lookup
 	{
-		using rtn = typename if_then_else
+		using rtn = typename car
 		<
-			is_equal<Name, Variable>,
-			binding<Variable, Values...>,
-			lookup<Name, frame<Bindings...>>
+			split
+			<
+				Variable,
+				null_frame,
+				Frame
+			>
 
 		>::rtn;
 	};
 
-	template<typename Name>
-	struct lookup<Name, null_frame>
+/*
+	set:
+*/
+
+	template<typename Exp1, typename Exp2, typename Frame>
+	struct set
 	{
-		using rtn = null_binding;
+		using Variable	= typename Exp1::rtn;
+		using Value	= typename Exp2::rtn;
+
+		using Triple	= typename split
+		<
+			Variable,
+			null_frame,
+			Frame
+
+		>::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_equal
+			<
+				car<Triple>,
+				unbound
+			>,
+
+			unbound,
+
+			catenate
+			<
+				at<one, Triple>,
+
+				cons
+				<
+					binding<Variable, Value>,
+					at<two, Triple>
+				>
+			>
+
+		>::rtn;
+	};
+
+/*
+	define:
+*/
+
+	template<typename Exp1, typename Exp2, typename Frame>
+	struct define
+	{
+		using Variable	= typename Exp1::rtn;
+		using Value	= typename Exp2::rtn;
+
+		using Triple	= typename split
+		<
+			Variable,
+			null_frame,
+			Frame
+
+		>::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_equal
+			<
+				car<Triple>,
+				unbound
+			>,
+
+			cons
+			<
+				binding<Variable, Value>,
+				at<one, Triple>
+			>,
+
+			catenate
+			<
+				at<one, Triple>,
+
+				cons
+				<
+					binding<Variable, Value>,
+					at<two, Triple>
+				>
+			>
+
+		>::rtn;
 	};
 
 /*
@@ -96,6 +231,7 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
+/*
 	template<typename Binding, typename... Bindings>
 	inline static void display(const frame<Binding, Bindings...> & f)
 	{
@@ -111,5 +247,6 @@ struct functor
 	{
 		Dispatched::functor::display("frame: null");
 	}
+*/
 };
 

@@ -32,7 +32,23 @@ struct functor
 
 	#include nik_typedef(calculus, interpreted, expression, structure)
 
-	template<typename, typename = null_environment> struct evaluate;
+/*
+	is_self_evaluating:
+*/
+
+	template<typename Exp>
+	struct is_self_evaluating
+	{
+		using rtn = apply
+		<
+			operate<'|', '|'>,
+
+			is_boolean<Exp>,
+			is_number<Exp>,
+			is_string<Exp>
+
+		>::rtn;
+	};
 
 /*
 	evaluate:
@@ -50,8 +66,8 @@ struct functor
 
 			>, else_then
 			<
-				is_variable<Exp>,
-				lookup_variable_value<Exp, Env>
+				is_literal<Exp>, // is_variable
+				intenf_lookup<Exp, Env>
 
 			>, else_then
 			<
@@ -131,6 +147,15 @@ struct functor
 	struct evaluate<null_expression, Env>
 	{
 		using rtn = null_expression;
+	};
+
+/*
+	interpret:
+*/
+
+	template<typename Program, typename = null_environment>
+	struct interpret
+	{
 	};
 
 /*

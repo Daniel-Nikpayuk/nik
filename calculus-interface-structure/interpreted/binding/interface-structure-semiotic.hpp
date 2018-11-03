@@ -21,6 +21,23 @@ struct structure
 
 	using type						= structure;
 
+/*
+	unbound:
+*/
+
+	struct unbound
+	{
+		using kind					= module;
+
+		using type					= unbound;
+
+		using rtn					= unbound;
+	};
+
+/*
+	binding:
+*/
+
 	template<typename...>
 	struct binding
 	{
@@ -45,8 +62,8 @@ struct structure
 		using value					= Value;
 	};
 
-	template<typename Variable, typename Value1, typename Value2>
-	struct binding<Variable, Value1, Value2>
+	template<typename Variable, typename Lambda, typename Body>
+	struct binding<Variable, Lambda, Body>
 	{
 		using kind					= module;
 
@@ -56,9 +73,9 @@ struct structure
 
 		using variable					= Variable;
 
-		using first_value				= Value1;
+		using lambda					= Lambda;
 
-		using second_value				= Value2;
+		using body					= Body;
 	};
 };
 

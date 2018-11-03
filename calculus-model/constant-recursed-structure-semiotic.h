@@ -23,6 +23,9 @@
 	using list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
 				  list<Exps...>;
 
+	using null_list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+				  list<>;
+
 //
 
 				  template<typename Pred, typename Exp>

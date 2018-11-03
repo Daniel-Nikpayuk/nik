@@ -33,7 +33,7 @@
 #include nik_source(., calculus, typed, passive, semiotic)
 #include nik_source(., calculus, typed, active, semiotic)
 
-#include nik_source(., calculus, constant, recursed, semiotic)
+#include nik_source(., calculus, interpreted, frame, semiotic)
 
 
 //

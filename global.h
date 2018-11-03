@@ -73,7 +73,6 @@ namespace nik
 		frame,
 		environment,
 
-		variable,
 		quote,
 		assignment,
 		definition,

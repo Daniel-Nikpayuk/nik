@@ -26,6 +26,37 @@ struct functor
 	#include nik_typedef(calculus, interpreted, , structure)
 
 /*
+	list_of_values:
+*/
+
+	template<typename Exps, typename Env, typename Functor>
+	struct list_of_values
+	{
+		using rtn = typename if_then_else
+		<
+			is_null<Exps>, // has_no_operands
+			null_list,
+
+			cons
+			<
+				typename Functor::template evaluate
+				<
+					car<Exps>, // first operand
+					Env
+				>,
+
+				list_of_values
+				<
+					cdr<Exps>, // rest_operands
+					Env,
+					Functor
+				>
+			>
+
+		>::rtn;
+	};
+
+/*
 	apply:
 */
 

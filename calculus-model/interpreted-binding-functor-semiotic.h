@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		intvai_
+	#define PREFIX		intbif_
 
 #else
 
@@ -29,9 +29,25 @@
 
 //
 
+							  template<typename... Exps>
+	using nik_safe(PREFIX, construct)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
+							  construct<Exps...>;
+
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_variable)		= typename nik_module(variable, interpreted, calculus, semiotic)::identity::template
-							  is_variable<Exp>;
+	using nik_safe(PREFIX, binding_variable)	= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
+							  binding_variable<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, binding_value)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
+							  binding_value<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, binding_lambda)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
+							  binding_lambda<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, binding_body)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
+							  binding_body<Exp>;
 
 //
 

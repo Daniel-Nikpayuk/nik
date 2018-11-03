@@ -15,44 +15,31 @@
 **
 ************************************************************************************************************************/
 
-struct functor
-{
-	using kind		= module;
+#include"define-size_type.h"
 
-	using type		= functor;
+#ifdef safe_name
 
-	#include nik_typedef(calculus, constant, recursed, identity)
-	#include nik_typedef(calculus, constant, recursed, functor)
+	#define PREFIX		intbii_
 
-/*
-	list_of_values:
-*/
+#else
 
-	template<typename Exps, typename Env, typename Functor>
-	struct list_of_values
-	{
-		using rtn = typename if_then_else
-		<
-			is_null<Exps>, // has_no_operands
-			null_list,
+	#define PREFIX
 
-			cons
-			<
-				typename Functor::template evaluate
-				<
-					car<Exps>, // first operand
-					Env
-				>,
+#endif
 
-				list_of_values
-				<
-					cdr<Exps>, // rest_operands
-					Env,
-					Functor
-				>
-			>
+//
 
-		>::rtn;
-	};
-};
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_value_binding)	= typename nik_module(binding, interpreted, calculus, semiotic)::identity::template
+							  is_value_binding<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_lambda_binding)	= typename nik_module(binding, interpreted, calculus, semiotic)::identity::template
+							  is_lambda_binding<Exp>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

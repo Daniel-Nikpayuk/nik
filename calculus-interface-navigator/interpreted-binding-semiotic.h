@@ -18,7 +18,7 @@
 #ifndef CALCULUS_INTERPRETED_BINDING_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_BINDING_SEMIOTIC_H
 
-	#include"interpreted-recursed-semiotic.h"
+	#include"constant-recursed-semiotic.h"
 
 #define local_scope
 

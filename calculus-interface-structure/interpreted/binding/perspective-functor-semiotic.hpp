@@ -21,9 +21,75 @@ struct functor
 
 	using type		= functor;
 
-	#include nik_typedef(calculus, interpreted, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, identity)
 
 	#include nik_typedef(calculus, interpreted, binding, structure)
+
+/*
+	construct:
+*/
+	template<typename...> struct construct;
+
+	template<typename Exp1, typename Exp2>
+	struct construct<Exp1, Exp2>
+	{
+		using rtn = binding
+		<
+			typename Exp1::rtn,
+			typename Exp2::rtn
+		>;
+	};
+
+	template<typename Exp1, typename Exp2, typename Exp3>
+	struct construct<Exp1, Exp2, Exp3>
+	{
+		using rtn = binding
+		<
+			typename Exp1::rtn,
+			typename Exp2::rtn,
+			typename Exp3::rtn
+		>;
+	};
+
+/*
+	binding_variable:
+*/
+
+	template<typename Exp>
+	struct binding_variable
+	{
+		using rtn = typename Exp::rtn::variable;
+	};
+
+/*
+	binding_value:
+*/
+
+	template<typename Exp>
+	struct binding_value
+	{
+		using rtn = typename Exp::rtn::value;
+	};
+
+/*
+	binding_lambda:
+*/
+
+	template<typename Exp>
+	struct binding_lambda
+	{
+		using rtn = typename Exp::rtn::lambda;
+	};
+
+/*
+	binding_body:
+*/
+
+	template<typename Exp>
+	struct binding_body
+	{
+		using rtn = typename Exp::rtn::body;
+	};
 
 /*
 	display:
@@ -32,6 +98,7 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
+/*
 	template<typename Variable, typename... Values>
 	inline static void display(const binding<Variable, Values...> & b)
 	{
@@ -47,5 +114,6 @@ struct functor
 	{
 		Dispatched::functor::display("binding: null");
 	}
+*/
 };
 

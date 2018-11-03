@@ -15,15 +15,46 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_VARIABLE_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_VARIABLE_SEMIOTIC_H
+struct identity
+{
+	using kind		= module;
 
-	#include"interpreted-frame-semiotic.h"
+	using type		= identity;
 
-#define local_scope
+	#include nik_typedef(calculus, constant, boolean, structure)
 
-	#include"../calculus-interface-structure/interpreted/variable/semiotic.h"
+	#include nik_typedef(calculus, interpreted, binding, structure)
 
-#undef local_scope
+/*
+	is_value_binding:
+*/
 
-#endif
+	template<typename Binding>
+	struct is_value_binding
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Variable, typename Value>
+	struct is_value_binding<binding<Variable, Value>>
+	{
+		using rtn = boolean<true>;
+	};
+
+/*
+	is_lambda_binding:
+*/
+
+	template<typename Binding>
+	struct is_lambda_binding
+	{
+		using rtn = boolean<false>;
+	};
+
+	template<typename Variable, typename Lambda, typename Body>
+	struct is_lambda_binding<binding<Variable, Lambda, Body>>
+	{
+		using rtn = boolean<true>;
+	};
+};
+

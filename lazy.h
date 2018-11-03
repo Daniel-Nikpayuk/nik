@@ -222,7 +222,6 @@ namespace nik
 			module_enum == Module::frame			||
 			module_enum == Module::environment		||
 
-			module_enum == Module::variable			||
 			module_enum == Module::quote			||
 			module_enum == Module::assignment		||
 			module_enum == Module::definition		||

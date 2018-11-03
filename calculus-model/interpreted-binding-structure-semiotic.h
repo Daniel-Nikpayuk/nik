@@ -26,6 +26,9 @@
 	using null_binding	= typename nik_module(binding, interpreted, calculus, semiotic)::structure::template
 				  binding<>;
 
+	using unbound		= typename nik_module(binding, interpreted, calculus, semiotic)::structure::
+				  unbound;
+
 //
 
 #include"undef-size_type.h"
