@@ -26,35 +26,29 @@ struct identity
 	#include nik_typedef(calculus, interpreted, binding, structure)
 
 /*
-	is_value_binding:
+	is_binding:
 */
 
-	template<typename Binding>
-	struct is_value_binding
+	template<typename Exp>
+	struct is_binding
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename Variable, typename Value>
-	struct is_value_binding<binding<Variable, Value>>
-	{
-		using rtn = boolean<true>;
-	};
+		template<typename Variable, typename Value>
+		struct strict<binding<Variable, Value>>
+		{
+			using rtn = boolean<true>;
+		};
 
-/*
-	is_lambda_binding:
-*/
+		using rtn = typename strict
+		<
+			typename Exp::rtn
 
-	template<typename Binding>
-	struct is_lambda_binding
-	{
-		using rtn = boolean<false>;
-	};
-
-	template<typename Variable, typename Lambda, typename Body>
-	struct is_lambda_binding<binding<Variable, Lambda, Body>>
-	{
-		using rtn = boolean<true>;
+		>::rtn;
 	};
 };
 

@@ -18,7 +18,7 @@
 #ifndef CALCULUS_INTERPRETED_ASSIGNMENT_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_ASSIGNMENT_SEMIOTIC_H
 
-	#include"interpreted-frame-semiotic.h"
+	#include"interpreted-environment-semiotic.h"
 
 #define local_scope
 

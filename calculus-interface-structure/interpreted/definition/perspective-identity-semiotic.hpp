@@ -30,13 +30,23 @@ struct identity
 	template<typename Exp>
 	struct is_definition
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename... Exps>
-	struct is_definition<define<Exps...>>
-	{
-		using rtn = boolean<true>;
+		template<typename Variable, typename Value>
+		struct strict<define<Variable, Value>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 };
 

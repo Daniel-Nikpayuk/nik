@@ -19,15 +19,9 @@
 
 //
 
-				  template<typename... Exps>
+				  template<typename Variable, typename Value>
 	using binding		= typename nik_module(binding, interpreted, calculus, semiotic)::structure::template
-				  binding<Exps...>;
-
-	using null_binding	= typename nik_module(binding, interpreted, calculus, semiotic)::structure::template
-				  binding<>;
-
-	using unbound		= typename nik_module(binding, interpreted, calculus, semiotic)::structure::
-				  unbound;
+				  binding<Variable, Value>;
 
 //
 

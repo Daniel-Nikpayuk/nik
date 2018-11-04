@@ -22,9 +22,34 @@ struct functor
 	using type		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, functor)
-	#include nik_typedef(calculus, interpreted, environment, functor)
+
+	#define safe_name
+
+		#include nik_typedef(calculus, interpreted, environment, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(calculus, interpreted, definition, structure)
+
+/*
+	definition_variable:
+*/
+
+	template<typename Exp>
+	struct definition_variable
+	{
+		using rtn = typename Exp::rtn::variable;
+	};
+
+/*
+	definition_value:
+*/
+
+	template<typename Exp>
+	struct definition_value
+	{
+		using rtn = typename Exp::rtn::value;
+	};
 
 /*
 	evaluate_definition:
@@ -33,13 +58,13 @@ struct functor
 	template<typename Exp, typename Env, typename Functor>
 	struct evaluate_definition
 	{
-		using rtn = typename define_variable
+		using rtn = typename intenf_define
 		<
-			typename car<Exp>::rtn, // definition_variable
+			definition_variable<Exp>,
 
-			Functor::evaluate
+			typename Functor::template evaluate
 			<
-				typename at<one, Exp>::rtn, // definition_value
+				definition_value<Exp>,
 				Env
 			>,
 

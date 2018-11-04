@@ -22,32 +22,21 @@ struct functor
 	using type		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#include nik_typedef(calculus, interpreted, binding, structure)
 
 /*
 	construct:
 */
-	template<typename...> struct construct;
 
 	template<typename Exp1, typename Exp2>
-	struct construct<Exp1, Exp2>
+	struct construct
 	{
 		using rtn = binding
 		<
 			typename Exp1::rtn,
 			typename Exp2::rtn
-		>;
-	};
-
-	template<typename Exp1, typename Exp2, typename Exp3>
-	struct construct<Exp1, Exp2, Exp3>
-	{
-		using rtn = binding
-		<
-			typename Exp1::rtn,
-			typename Exp2::rtn,
-			typename Exp3::rtn
 		>;
 	};
 
@@ -78,7 +67,11 @@ struct functor
 	template<typename Exp>
 	struct binding_lambda
 	{
-		using rtn = typename Exp::rtn::lambda;
+		using rtn = typename car
+		<
+			binding_value<Exp>
+
+		>::rtn;
 	};
 
 /*
@@ -88,7 +81,12 @@ struct functor
 	template<typename Exp>
 	struct binding_body
 	{
-		using rtn = typename Exp::rtn::body;
+		using rtn = typename at
+		<
+			one,
+			binding_value<Exp>
+
+		>::rtn;
 	};
 
 /*

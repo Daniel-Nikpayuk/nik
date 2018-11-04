@@ -30,13 +30,23 @@ struct identity
 	template<typename Exp>
 	struct is_quote
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename Exp>
-	struct is_quote<quote<Exp>>
-	{
-		using rtn = boolean<true>;
+		template<typename SubExp>
+		struct strict<quote<SubExp>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 };
 

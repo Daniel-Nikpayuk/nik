@@ -25,7 +25,7 @@ struct structure
 	set:
 */
 
-	template<typename, typename>
+	template<typename Variable, typename Value>
 	struct set
 	{
 		using kind					= module;
@@ -33,6 +33,10 @@ struct structure
 		using type					= set;
 
 		using rtn					= set;
+
+		using variable					= Variable;
+
+		using value					= Value;
 	};
 };
 

@@ -18,8 +18,7 @@
 #ifndef CALCULUS_INTERPRETED_QUOTE_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_QUOTE_SEMIOTIC_H
 
-	#include"constant-literal-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+	#include"constant-boolean-semiotic.h"
 
 #define local_scope
 

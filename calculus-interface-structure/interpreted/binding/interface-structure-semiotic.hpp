@@ -25,18 +25,8 @@ struct structure
 	binding:
 */
 
-	template<typename...>
-	struct binding
-	{
-		using kind					= module;
-
-		using type					= binding;
-
-		using rtn					= binding;
-	};
-
 	template<typename Variable, typename Value>
-	struct binding<Variable, Value>
+	struct binding
 	{
 		using kind					= module;
 
@@ -47,22 +37,6 @@ struct structure
 		using variable					= Variable;
 
 		using value					= Value;
-	};
-
-	template<typename Variable, typename Lambda, typename Body>
-	struct binding<Variable, Lambda, Body>
-	{
-		using kind					= module;
-
-		using type					= binding;
-
-		using rtn					= binding;
-
-		using variable					= Variable;
-
-		using lambda					= Lambda;
-
-		using body					= Body;
 	};
 };
 

@@ -34,6 +34,8 @@
 #include nik_source(., calculus, typed, active, semiotic)
 
 #include nik_source(., calculus, interpreted, environment, semiotic)
+#include nik_source(., calculus, interpreted, quote, semiotic)
+#include nik_source(., calculus, interpreted, assignment, semiotic)
 
 
 //

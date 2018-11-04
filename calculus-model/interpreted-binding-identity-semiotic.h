@@ -30,12 +30,8 @@
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_value_binding)	= typename nik_module(binding, interpreted, calculus, semiotic)::identity::template
-							  is_value_binding<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_lambda_binding)	= typename nik_module(binding, interpreted, calculus, semiotic)::identity::template
-							  is_lambda_binding<Exp>;
+	using nik_safe(PREFIX, is_binding)		= typename nik_module(binding, interpreted, calculus, semiotic)::identity::template
+							  is_binding<Exp>;
 
 //
 

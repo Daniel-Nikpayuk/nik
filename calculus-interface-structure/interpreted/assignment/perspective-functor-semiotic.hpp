@@ -22,9 +22,34 @@ struct functor
 	using type		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, functor)
-	#include nik_typedef(calculus, interpreted, environment, functor)
+
+	#define safe_name
+
+		#include nik_typedef(calculus, interpreted, environment, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(calculus, interpreted, assignment, structure)
+
+/*
+	assignment_variable:
+*/
+
+	template<typename Exp>
+	struct assignment_variable
+	{
+		using rtn = typename Exp::rtn::variable;
+	};
+
+/*
+	assignment_value:
+*/
+
+	template<typename Exp>
+	struct assignment_value
+	{
+		using rtn = typename Exp::rtn::value;
+	};
 
 /*
 	evaluate_assignment:
@@ -33,13 +58,13 @@ struct functor
 	template<typename Exp, typename Env, typename Functor>
 	struct evaluate_assignment
 	{
-		using rtn = typename set_variable_value
+		using rtn = typename intenf_set
 		<
-			typename car<Exp>::rtn, // assignment_variable
+			assignment_variable<Exp>,
 
-			Functor::evaluate
+			typename Functor::template evaluate
 			<
-				typename at<one, Exp>::rtn, // assignment_value
+				assignment_value<Exp>,
 				Env
 			>,
 

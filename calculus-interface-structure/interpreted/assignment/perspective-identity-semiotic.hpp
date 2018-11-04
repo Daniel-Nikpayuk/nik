@@ -30,13 +30,23 @@ struct identity
 	template<typename Exp>
 	struct is_assignment
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename Exp1, typename Exp2>
-	struct is_assignment<set<Exp1, Exp2>>
-	{
-		using rtn = boolean<true>;
+		template<typename Variable, typename Value>
+		struct strict<set<Variable, Value>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 };
 
