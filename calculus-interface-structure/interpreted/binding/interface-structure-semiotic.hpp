@@ -22,19 +22,6 @@ struct structure
 	using type						= structure;
 
 /*
-	unbound:
-*/
-
-	struct unbound
-	{
-		using kind					= module;
-
-		using type					= unbound;
-
-		using rtn					= unbound;
-	};
-
-/*
 	binding:
 */
 

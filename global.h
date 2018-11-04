@@ -69,6 +69,8 @@ namespace nik
 
 	// interpreted:
 
+		error,
+
 		binding,
 		frame,
 		environment,

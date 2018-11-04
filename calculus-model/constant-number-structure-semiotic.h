@@ -42,6 +42,9 @@
 	using three		= typename nik_module(number, constant, calculus, semiotic)::structure::template
 				  number<3>;
 
+	using four		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+				  number<4>;
+
 //
 
 	using nibble		= typename nik_module(number, constant, calculus, semiotic)::structure::template

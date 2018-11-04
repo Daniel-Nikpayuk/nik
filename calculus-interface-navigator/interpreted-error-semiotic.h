@@ -15,31 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef CALCULUS_INTERPRETED_ERROR_SEMIOTIC_H
+#define CALCULUS_INTERPRETED_ERROR_SEMIOTIC_H
 
-#ifdef safe_name
+	#include"constant-recursed-semiotic.h"
 
-	#define PREFIX		intfrf_
+#define local_scope
 
-#else
+	#include"../calculus-interface-structure/interpreted/error/semiotic.h"
 
-	#define PREFIX
+#undef local_scope
 
 #endif
-
-//
-
-							  template<typename VariableList, typename ValueList>
-	using nik_safe(PREFIX, construct)		= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  construct<VariableList, ValueList>;
-
-							  template<typename Variable, typename InitialFrame, typename TerminalFrame>
-	using nik_safe(PREFIX, split)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  split<Variable, InitialFrame, TerminalFrame>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
-

@@ -106,119 +106,18 @@ struct functor
 		using rtn = typename if_then_else
 		<
 			is_null<Frame2>,
-			list<unbound, Frame1, null_frame>,
+
+			list
+			<
+				error<'u', 'n', 'b', 'o', 'u', 'n', 'd', ' ', 'v', 'a', 'r', 'i', 'a', 'b', 'l', 'e'>,
+				Frame1,
+				null_frame
+			>,
 
 			recurse
 			<
 				car<Frame2>,
 				cdr<Frame2>
-			>
-
-		>::rtn;
-	};
-
-/*
-	lookup:
-*/
-
-	template<typename Variable, typename Frame>
-	struct lookup
-	{
-		using rtn = typename car
-		<
-			split
-			<
-				Variable,
-				null_frame,
-				Frame
-			>
-
-		>::rtn;
-	};
-
-/*
-	set:
-*/
-
-	template<typename Exp1, typename Exp2, typename Frame>
-	struct set
-	{
-		using Variable	= typename Exp1::rtn;
-		using Value	= typename Exp2::rtn;
-
-		using Triple	= typename split
-		<
-			Variable,
-			null_frame,
-			Frame
-
-		>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal
-			<
-				car<Triple>,
-				unbound
-			>,
-
-			unbound,
-
-			catenate
-			<
-				at<one, Triple>,
-
-				cons
-				<
-					binding<Variable, Value>,
-					at<two, Triple>
-				>
-			>
-
-		>::rtn;
-	};
-
-/*
-	define:
-*/
-
-	template<typename Exp1, typename Exp2, typename Frame>
-	struct define
-	{
-		using Variable	= typename Exp1::rtn;
-		using Value	= typename Exp2::rtn;
-
-		using Triple	= typename split
-		<
-			Variable,
-			null_frame,
-			Frame
-
-		>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_equal
-			<
-				car<Triple>,
-				unbound
-			>,
-
-			cons
-			<
-				binding<Variable, Value>,
-				at<one, Triple>
-			>,
-
-			catenate
-			<
-				at<one, Triple>,
-
-				cons
-				<
-					binding<Variable, Value>,
-					at<two, Triple>
-				>
 			>
 
 		>::rtn;

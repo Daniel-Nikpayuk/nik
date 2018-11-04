@@ -15,31 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct functor
+{
+	using kind		= module;
 
-#ifdef safe_name
+	using type		= functor;
 
-	#define PREFIX		intfrf_
+	#include nik_typedef(calculus, constant, recursed, identity)
 
-#else
+	#include nik_typedef(calculus, interpreted, error, structure)
 
-	#define PREFIX
+/*
+	display:
 
-#endif
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
 
-//
+/*
+	template<char... Chars>
+	inline static void display(const error<Chars...> & e)
+	{
+		using is_empty = typename is_null<error<Chars...>>::rtn;
 
-							  template<typename VariableList, typename ValueList>
-	using nik_safe(PREFIX, construct)		= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  construct<VariableList, ValueList>;
+		Dispatched::functor::display("error:");
 
-							  template<typename Variable, typename InitialFrame, typename TerminalFrame>
-	using nik_safe(PREFIX, split)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  split<Variable, InitialFrame, TerminalFrame>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+		if (is_empty::value)	Dispatched::functor::display(" null");
+		else			Passive::functor::display(char(), e);
+	}
+*/
+};
 

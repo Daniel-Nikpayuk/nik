@@ -15,31 +15,24 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct structure
+{
+	using kind						= module;
 
-#ifdef safe_name
+	using type						= structure;
 
-	#define PREFIX		intfrf_
+/*
+	error:
+*/
 
-#else
+	template<char...>
+	struct error
+	{
+		using kind					= module;
 
-	#define PREFIX
+		using type					= error;
 
-#endif
-
-//
-
-							  template<typename VariableList, typename ValueList>
-	using nik_safe(PREFIX, construct)		= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  construct<VariableList, ValueList>;
-
-							  template<typename Variable, typename InitialFrame, typename TerminalFrame>
-	using nik_safe(PREFIX, split)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  split<Variable, InitialFrame, TerminalFrame>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+		using rtn					= error;
+	};
+};
 

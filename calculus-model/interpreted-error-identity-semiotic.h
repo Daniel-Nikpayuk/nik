@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		intenf_
+	#define PREFIX		interi_
 
 #else
 
@@ -29,21 +29,9 @@
 
 //
 
-							  template<typename Variables, typename Values, typename Environment>
-	using nik_safe(PREFIX, construct)		= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  construct<Variables, Values, Environment>;
-
-							  template<typename Variable, typename Environment>
-	using nik_safe(PREFIX, lookup)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  lookup<Variable, Environment>;
-
-							  template<typename Variable, typename Value, typename Env>
-	using nik_safe(PREFIX, set)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  set<Variable, Value, Env>;
-
-							  template<typename Variable, typename Value, typename Env>
-	using nik_safe(PREFIX, define)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  define<Variable, Value, Env>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_error)		= typename nik_module(error, interpreted, calculus, semiotic)::identity::template
+							  is_error<Exp>;
 
 //
 

@@ -17,37 +17,13 @@
 
 #include"define-size_type.h"
 
-#ifdef safe_name
-
-	#define PREFIX		intenf_
-
-#else
-
-	#define PREFIX
-
-#endif
-
 //
 
-							  template<typename Variables, typename Values, typename Environment>
-	using nik_safe(PREFIX, construct)		= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  construct<Variables, Values, Environment>;
-
-							  template<typename Variable, typename Environment>
-	using nik_safe(PREFIX, lookup)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  lookup<Variable, Environment>;
-
-							  template<typename Variable, typename Value, typename Env>
-	using nik_safe(PREFIX, set)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  set<Variable, Value, Env>;
-
-							  template<typename Variable, typename Value, typename Env>
-	using nik_safe(PREFIX, define)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  define<Variable, Value, Env>;
+				  template<char... Chars>
+	using error		= typename nik_module(error, interpreted, calculus, semiotic)::structure::template
+				  error<Chars...>;
 
 //
-
-#undef PREFIX
 
 #include"undef-size_type.h"
 

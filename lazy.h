@@ -218,6 +218,8 @@ namespace nik
 
 		// interpreted:
 
+			module_enum == Module::error			||
+
 			module_enum == Module::binding			||
 			module_enum == Module::frame			||
 			module_enum == Module::environment		||

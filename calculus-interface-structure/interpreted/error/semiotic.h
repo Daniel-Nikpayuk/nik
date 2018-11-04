@@ -15,31 +15,29 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::error, Branch::interpreted, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using type	= module;
 
-#ifdef safe_name
+		using size_type	= SizeType;
 
-	#define PREFIX		intfrf_
+		//
 
-#else
+		#include nik_typedef(calculus, perspective, dispatched, module)
 
-	#define PREFIX
+		#include nik_typedef(calculus, constant, boolean, structure)
 
-#endif
+		//
 
-//
+		#include"interface-structure-semiotic.hpp"
 
-							  template<typename VariableList, typename ValueList>
-	using nik_safe(PREFIX, construct)		= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  construct<VariableList, ValueList>;
+		//
 
-							  template<typename Variable, typename InitialFrame, typename TerminalFrame>
-	using nik_safe(PREFIX, split)			= typename nik_module(frame, interpreted, calculus, semiotic)::functor::template
-							  split<Variable, InitialFrame, TerminalFrame>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
 

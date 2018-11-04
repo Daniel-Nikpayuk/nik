@@ -155,6 +155,29 @@ struct functor
 	};
 
 /*
+	unite:
+
+	Convenience function which is common enough to place here.
+	Pre-evaluation is passed to the composing methods as it is otherwise redundant.
+*/
+
+	template<typename List1, typename Value, typename List2>
+	struct unite
+	{
+		using rtn = typename catenate
+		<
+			List1,
+
+			cons
+			<
+				Value,
+				List2
+			>
+
+		>::rtn;
+	};
+
+/*
 	at:
 
 	This implementation is optimized using partial specialization pattern matching.
