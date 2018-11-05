@@ -44,7 +44,7 @@ struct functor
 		using VariableList	= typename Exp1::rtn;
 		using ValueList		= typename Exp2::rtn;
 
-		using rtn		= typename if_then_else
+		using rtn = typename if_then_else
 		<
 			is_null<VariableList>,
 			null_frame,
@@ -80,24 +80,24 @@ struct functor
 		template<typename SubExp1, typename SubExp2>
 		struct recurse
 		{
-			using frame_car	= typename SubExp1::rtn;
-			using frame_cdr	= typename SubExp2::rtn;
+			using binding	= typename SubExp1::rtn;
+			using rest	= typename SubExp2::rtn;
 
-			using rtn	= typename if_then_else
+			using rtn = typename if_then_else
 			<
 				is_equal
 				<
 					Variable,
-					intbif_binding_variable<frame_car>
+					intbif_binding_variable<binding>
 				>,
 
-				list<frame_car, Frame1, frame_cdr>,
+				list<binding, Frame1, rest>,
 
 				split
 				<
 					Variable,
-					push<Frame1, frame_car>,
-					frame_cdr
+					push<Frame1, binding>,
+					rest
 				>
 
 			>::rtn;
@@ -130,7 +130,6 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-/*
 	template<typename Binding, typename... Bindings>
 	inline static void display(const frame<Binding, Bindings...> & f)
 	{
@@ -146,6 +145,5 @@ struct functor
 	{
 		Dispatched::functor::display("frame: null");
 	}
-*/
 };
 

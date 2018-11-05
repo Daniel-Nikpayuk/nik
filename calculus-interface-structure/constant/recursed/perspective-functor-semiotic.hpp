@@ -35,22 +35,30 @@ struct functor
 	if_then_else:
 */
 
-	template<typename Pred, typename Ante, typename Conse>
+	template<typename Exp0, typename Exp1, typename Exp2>
 	struct if_then_else
 	{
-		using rtn = typename if_then_else<typename Pred::rtn, Ante, Conse>::rtn;
-	};
+		template<typename, typename, typename> struct strict;
 
-	template<typename Ante, typename Conse>
-	struct if_then_else<boolean<true>, Ante, Conse>
-	{
-		using rtn = typename Ante::rtn;
-	};
+		template<typename Ante, typename Conse>
+		struct strict<boolean<true>, Ante, Conse>
+		{
+			using rtn = typename Ante::rtn;
+		};
 
-	template<typename Ante, typename Conse>
-	struct if_then_else<boolean<false>, Ante, Conse>
-	{
-		using rtn = typename Conse::rtn;
+		template<typename Ante, typename Conse>
+		struct strict<boolean<false>, Ante, Conse>
+		{
+			using rtn = typename Conse::rtn;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp0::rtn,
+			Exp1,
+			Exp2
+
+		>::rtn;
 	};
 
 /*

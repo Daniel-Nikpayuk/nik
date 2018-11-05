@@ -118,7 +118,7 @@ struct functor
 					Env0
 				>,
 
-				Functor
+				Func
 			>
 
 		>::rtn;

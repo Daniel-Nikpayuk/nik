@@ -43,6 +43,28 @@
 
 //
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_operate)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_operate<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_boolean)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_boolean<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_literal)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_literal<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_number)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_number<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_integer32)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_integer32<Exp>;
+
+//
+
 #undef PREFIX
 
 #include"undef-size_type.h"

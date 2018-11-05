@@ -30,6 +30,7 @@ struct functor
 	#include nik_typedef(calculus, perspective, typed, functor)
 
 	#include nik_typedef(calculus, constant, operate, structure)
+	#include nik_typedef(calculus, constant, operate, identity)
 
 /*
 	apply##:
@@ -551,5 +552,23 @@ struct functor
 	};
 
 	#undef ONE
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+	template<register_type... Values>
+	inline static void display(const operate<Values...> & o)
+	{
+		static constexpr bool is_empty = is_null<operate<Values...>>::value;
+
+		Dispatched::functor::display("operate:");
+
+		if (is_empty)	Dispatched::functor::display(" null");
+		else		Passive::functor::display(register_type(), o);
+	}
 };
 

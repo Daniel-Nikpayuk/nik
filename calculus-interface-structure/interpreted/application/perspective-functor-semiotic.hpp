@@ -108,14 +108,14 @@ struct functor
 	struct apply
 	{
 		using Proc	= typename Procedure::rtn;
-		using Args	= typename Arguments::rtn;
+		using Values	= typename Arguments::rtn;
 
 		using rtn = typename evaluate
 		<
 			if_then
 			<
-				is_primitive<Proc>,
-				apply_operate<Proc, Args>
+				is_operate<Proc>, // is_primitive
+				apply_operate<Proc, Values>
 
 			>, else_then
 			<
@@ -128,7 +128,7 @@ struct functor
 					intenf_construct // extend_environment
 					<
 						procedure_arguments<Proc>,
-						Args,
+						Values,
 						procedure_environment<Proc>
 					>,
 

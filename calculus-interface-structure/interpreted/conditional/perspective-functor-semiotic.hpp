@@ -77,20 +77,20 @@ struct functor
 		<
 			is_true
 			<
-				typename Functor::template evaluate
+				typename Func::template evaluate
 				<
 					car<Exp>, // if__predicate
 					Env
 				>
 			>,
 
-			typename Functor::template evaluate
+			typename Func::template evaluate
 			<
 				car<Exp, one>, // if__consequent
 				Env
 			>,
 
-			typename Functor::template evaluate
+			typename Func::template evaluate
 			<
 				if__alternative<Exp>,
 				Env

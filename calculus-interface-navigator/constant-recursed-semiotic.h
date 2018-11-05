@@ -19,7 +19,9 @@
 #define CALCULUS_CONSTANT_RECURSED_SEMIOTIC_H
 
 	#include"constant-boolean-semiotic.h"
+	#include"constant-literal-semiotic.h"
 	#include"constant-number-semiotic.h"
+	#include"constant-integer32-semiotic.h"
 
 #define local_scope
 

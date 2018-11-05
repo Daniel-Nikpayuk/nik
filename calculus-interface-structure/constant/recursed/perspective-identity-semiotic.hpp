@@ -26,6 +26,12 @@ struct identity
 		#include nik_typedef(calculus, perspective, dispatched, identity)
 		#include nik_typedef(calculus, perspective, untyped, identity)
 
+		#include nik_typedef(calculus, constant, operate, identity)
+		#include nik_typedef(calculus, constant, boolean, identity)
+		#include nik_typedef(calculus, constant, literal, identity)
+		#include nik_typedef(calculus, constant, number, identity)
+		#include nik_typedef(calculus, constant, integer32, identity)
+
 	#undef safe_name
 
 	#include nik_typedef(calculus, constant, boolean, structure)
@@ -66,6 +72,71 @@ struct identity
 		using rtn = boolean
 		<
 			peruni_is_null<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_operate:
+*/
+
+	template<typename Exp>
+	struct is_operate
+	{
+		using rtn = boolean 
+		<
+			conopi_is_operate<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_boolean:
+*/
+
+	template<typename Exp>
+	struct is_boolean
+	{
+		using rtn = boolean 
+		<
+			conboi_is_boolean<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_literal:
+*/
+
+	template<typename Exp>
+	struct is_literal
+	{
+		using rtn = boolean 
+		<
+			conlii_is_literal<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_number:
+*/
+
+	template<typename Exp>
+	struct is_number
+	{
+		using rtn = boolean 
+		<
+			connui_is_number<typename Exp::rtn>::value
+		>;
+	};
+
+/*
+	is_integer32:
+*/
+
+	template<typename Exp>
+	struct is_integer32
+	{
+		using rtn = boolean 
+		<
+			conin32i_is_integer32<typename Exp::rtn>::value
 		>;
 	};
 };

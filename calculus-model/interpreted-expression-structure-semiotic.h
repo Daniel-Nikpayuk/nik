@@ -60,6 +60,10 @@
 				  else_<Exps...>;
 
 				  template<typename... Exps>
+	using function		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  arguments<Exps...>;
+
+				  template<typename... Exps>
 	using args		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
 				  arguments<Exps...>;
 

@@ -61,57 +61,18 @@ struct functor
 	};
 
 /*
-	binding_lambda:
-*/
-
-	template<typename Exp>
-	struct binding_lambda
-	{
-		using rtn = typename car
-		<
-			binding_value<Exp>
-
-		>::rtn;
-	};
-
-/*
-	binding_body:
-*/
-
-	template<typename Exp>
-	struct binding_body
-	{
-		using rtn = typename car
-		<
-			binding_value<Exp>,
-			one
-
-		>::rtn;
-	};
-
-/*
 	display:
 
 	As there is no (direct/builtin) compile time screen in C++,
 	there is no loss implementing as run time here.
 */
 
-/*
-	template<typename Variable, typename... Values>
-	inline static void display(const binding<Variable, Values...> & b)
+	template<typename Variable, typename Value>
+	inline static void display(const binding<Variable, Value> & b)
 	{
-		using is_empty = typename is_null<binding<Values...>>::rtn;
-
 		Dispatched::functor::display("binding: ");
 		Variable::kind::functor::display(Variable());
-
-		if (!is_empty::value) Recursed::functor::display(binding<Values...>(), ", ");
+		Value::kind::functor::display(Value());
 	}
-
-	inline static void display(const null_binding &)
-	{
-		Dispatched::functor::display("binding: null");
-	}
-*/
 };
 

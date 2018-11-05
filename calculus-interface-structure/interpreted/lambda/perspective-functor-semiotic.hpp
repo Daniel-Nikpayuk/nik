@@ -21,6 +21,8 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
+
 	#include nik_typedef(calculus, interpreted, lambda, structure)
 
 /*
@@ -120,13 +122,56 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-/*
-	template<typename Exp>
-	inline static void display(const procedure<Exp> &)
+	template<typename Type, typename... Types>
+	inline static void display(const arguments<Type, Types...> & a)
 	{
-		Dispatched::functor::display("");
-		Exp::kind::functor::display(Exp());
+		using is_empty = typename is_null<arguments<Types...>>::rtn;
+
+		Dispatched::functor::display("arguments: ");
+		Type::kind::functor::display(Type());
+
+		if (!is_empty::value) Recursed::functor::display(arguments<Types...>(), ", ");
 	}
-*/
+
+	inline static void display(const null_arguments &)
+	{
+		Dispatched::functor::display("arguments: null");
+	}
+
+	template<typename Type, typename... Types>
+	inline static void display(const body<Type, Types...> & a)
+	{
+		using is_empty = typename is_null<body<Types...>>::rtn;
+
+		Dispatched::functor::display("body: ");
+		Type::kind::functor::display(Type());
+
+		if (!is_empty::value) Recursed::functor::display(body<Types...>(), ", ");
+	}
+
+	inline static void display(const null_body &)
+	{
+		Dispatched::functor::display("body: null");
+	}
+
+	template<typename Args, typename Body>
+	inline static void display(const lambda<Args, Body> &)
+	{
+		Dispatched::functor::display("lambda: ");
+		Args::kind::functor::display(Args());
+		Dispatched::functor::display(",\n");
+		Body::kind::functor::display(Body());
+	}
+
+	template<typename Args, typename Body, typename Env, typename Func>
+	inline static void display(const procedure<Args, Body, Env, Func> &)
+	{
+		Dispatched::functor::display("procedure: ");
+		Args::kind::functor::display(Args());
+		Dispatched::functor::display(",\n");
+		Body::kind::functor::display(Body());
+		Dispatched::functor::display(",\n");
+		Env::kind::functor::display(Env());
+	}
 };
 

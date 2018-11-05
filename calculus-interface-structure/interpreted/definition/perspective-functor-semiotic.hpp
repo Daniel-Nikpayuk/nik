@@ -21,7 +21,7 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(calculus, constant, literal, identity)
+	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#define safe_name
@@ -93,7 +93,7 @@ struct functor
 		<
 			definition_variable<Exp>,
 
-			typename Functor::template evaluate
+			typename Func::template evaluate
 			<
 				definition_value<Exp>,
 				Env

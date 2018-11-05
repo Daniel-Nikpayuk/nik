@@ -21,11 +21,10 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(calculus, constant, literal, identity)
+	#include nik_typedef(calculus, constant, recursed, identity)
 
 	#define safe_name
 
-		#include nik_typedef(calculus, constant, recursed, identity)
 		#include nik_typedef(calculus, constant, recursed, functor)
 
 		#include nik_typedef(calculus, interpreted, environment, functor)
@@ -159,12 +158,13 @@ struct functor
 	interpret:
 */
 
-	template<typename Program, typename = null_environment>
+	template<typename Program, typename Env = null_environment>
 	struct interpret
 	{
 		using rtn = typename evaluate
 		<
-			make_begin<Program>
+			make_begin<Program>,
+			Env
  
 		>::rtn;
 	};
@@ -179,7 +179,7 @@ struct functor
 	template<typename Exp, typename... Exps>
 	inline static void display(const expression<Exp, Exps...> & e)
 	{
-		using is_empty = typename conrei_is_null<expression<Exps...>>::rtn;
+		using is_empty = typename is_null<expression<Exps...>>::rtn;
 
 		Dispatched::functor::display("expression: ");
 		Exp::kind::functor::display(Exp());

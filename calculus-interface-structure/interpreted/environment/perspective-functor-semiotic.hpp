@@ -28,6 +28,7 @@ struct functor
 
 	#define safe_name
 
+		#include nik_typedef(calculus, interpreted, binding, functor)
 		#include nik_typedef(calculus, interpreted, frame, functor)
 
 	#undef safe_name
@@ -70,18 +71,18 @@ struct functor
 		template<typename SubExp1, typename SubExp2>
 		struct recurse
 		{
-			using env_car	= typename SubExp1::rtn;
-			using env_cdr	= typename SubExp2::rtn;
+			using frame	= typename SubExp1::rtn;
+			using rest	= typename SubExp2::rtn;
 
-			using result	= typename intfrf_split
+			using result = typename intfrf_split
 			<
 				Variable,
 				null_frame,
-				env_car
+				frame
 
 			>::rtn;
 
-			using rtn	= typename if_then_else
+			using rtn = typename if_then_else
 			<
 				is_error
 				<
@@ -91,14 +92,14 @@ struct functor
 				split
 				<
 					Variable,
-					push<Env1, env_car>,
-					env_cdr
+					push<Env1, frame>,
+					rest
 				>,
 
 				catenate
 				<
 					result,
-					list<Env1, env_cdr>
+					list<Env1, rest>
 				>
 
 			>::rtn;
@@ -131,20 +132,23 @@ struct functor
 	template<typename Variable, typename Env>
 	struct lookup
 	{
-		using rtn = typename car
+		using rtn = typename intbif_binding_value
 		<
-			split
+			car
 			<
-				Variable,
-				null_environment,
-				Env
+				split
+				<
+					Variable,
+					null_environment,
+					Env
+				>
 			>
 
 		>::rtn;
 
 		static_assert
 		(
-			is_error<rtn>::rtn::value,
+			!is_error<rtn>::rtn::value,
 			"variable lookup error!"
 		);
 	};
@@ -153,11 +157,12 @@ struct functor
 	set:
 */
 
-	template<typename Exp1, typename Exp2, typename Env>
+	template<typename Exp1, typename Exp2, typename Exp3>
 	struct set
 	{
 		using Variable	= typename Exp1::rtn;
 		using Value	= typename Exp2::rtn;
+		using Env	= typename Exp3::rtn;
 
 		using Tuple	= typename split
 		<
@@ -193,7 +198,7 @@ struct functor
 
 		static_assert
 		(
-			is_error<rtn>::rtn::value,
+			!is_error<rtn>::rtn::value,
 			"variable assignment error!"
 		);
 	};
@@ -202,50 +207,78 @@ struct functor
 	define:
 */
 
-	template<typename Exp1, typename Exp2, typename Env>
+	template<typename Exp1, typename Exp2, typename Exp3>
 	struct define
 	{
 		using Variable	= typename Exp1::rtn;
 		using Value	= typename Exp2::rtn;
+		using Env	= typename Exp3::rtn;
 
-		using Tuple	= typename intfrf_split
-		<
-			Variable,
-			null_frame,
-			car<Env>
+		template<typename SubExp1, typename SubExp2>
+		struct local
+		{
+			using frame = typename SubExp1::rtn;
+			using rest = typename SubExp2::rtn;
 
-		>::rtn;
-
-		using rtn	= typename cons
-		<
-			if_then_else
+			using Tuple = typename intfrf_split
 			<
-				is_error
+				Variable,
+				null_frame,
+				frame
+
+			>::rtn;
+
+			using rtn = typename cons
+			<
+				if_then_else
 				<
-					car<Tuple>
+					is_error
+					<
+						car<Tuple>
+					>,
+
+					cons
+					<
+						binding<Variable, Value>,
+						frame
+					>,
+
+					unite
+					<
+						car<Tuple, one>,
+						binding<Variable, Value>,
+						car<Tuple, two>
+					>
 				>,
 
-				cons
-				<
-					binding<Variable, Value>,
-					car<Tuple, one>
-				>,
+				rest
 
-				unite
+			>::rtn;
+		};
+
+		using rtn = typename if_then_else
+		<
+			is_null<Env>,
+
+			environment
+			<
+				frame
 				<
-					car<Tuple, one>,
-					binding<Variable, Value>,
-					car<Tuple, two>
+					binding<Variable, Value>
 				>
 			>,
 
-			cdr<Env>
+			local
+			<
+				car<Env>,
+				cdr<Env>
+			>
 
 		>::rtn;
 
 		static_assert
 		(
-			is_error<rtn>::rtn::value,
+			!is_error<rtn>::rtn::value,
 			"variable assignment error!"
 		);
 	};

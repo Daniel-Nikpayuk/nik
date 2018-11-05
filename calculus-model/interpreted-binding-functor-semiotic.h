@@ -41,14 +41,6 @@
 	using nik_safe(PREFIX, binding_value)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
 							  binding_value<Exp>;
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, binding_lambda)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
-							  binding_lambda<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, binding_body)		= typename nik_module(binding, interpreted, calculus, semiotic)::functor::template
-							  binding_body<Exp>;
-
 //
 
 #undef PREFIX
