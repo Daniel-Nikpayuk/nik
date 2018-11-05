@@ -38,17 +38,16 @@ struct functor
 	definition_variable:
 */
 
-	template<typename Expression>
+	template<typename Exp>
 	struct definition_variable
 	{
-		using Exp		= typename Expression::rtn;
-		using VariableExp	= typename Exp::variable;
+		using Variable = typename car<Exp>::rtn;
 
 		using rtn = typename if_then_else
 		<
-			is_literal<VariableExp>,
-			VariableExp,
-			car<VariableExp>
+			is_literal<Variable>,
+			Variable,
+			car<Variable>
 
 		>::rtn;
 	};
@@ -57,22 +56,22 @@ struct functor
 	definition_value:
 */
 
-	template<typename Expression>
+	template<typename Exp>
 	struct definition_value
 	{
-		using Exp		= typename Expression::rtn;
-		using VariableExp	= typename Exp::variable;
-		using ValueExp		= typename Exp::value;
+		using Definition	= typename Exp::rtn;
+		using Variable		= typename car<Exp>::rtn;
+		using Value		= typename cdr<Exp>::rtn;
 
 		using rtn = typename if_then_else
 		<
-			is_literal<VariableExp>,
-			ValueExp,
+			is_literal<Variable>,
+			car<Value>,
 
 			make_lambda
 			<
-				cdr<VariableExp>,
-				ValueExp
+				cdr<Variable>,
+				Value
 			>
 
 		>::rtn;

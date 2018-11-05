@@ -25,16 +25,12 @@ struct structure
 	define:
 */
 
-	template<typename Variable, typename Value>
+	template<typename...>
 	struct define
 	{
 		using kind					= module;
 
 		using rtn					= define;
-
-		using variable					= Variable;
-
-		using value					= Value;
 	};
 };
 

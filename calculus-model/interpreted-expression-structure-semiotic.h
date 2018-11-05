@@ -43,9 +43,9 @@
 	using set		= typename nik_module(assignment, interpreted, calculus, semiotic)::structure::template
 				  set<Variable, Value>;
 
-				  template<typename Variable, typename Value>
+				  template<typename... Exps>
 	using define		= typename nik_module(definition, interpreted, calculus, semiotic)::structure::template
-				  define<Variable, Value>;
+				  define<Exps...>;
 
 				  template<typename... Exps>
 	using if_		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template

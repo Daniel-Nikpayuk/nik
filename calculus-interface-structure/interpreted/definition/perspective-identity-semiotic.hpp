@@ -36,8 +36,8 @@ struct identity
 			using rtn = boolean<false>;
 		};
 
-		template<typename Variable, typename Value>
-		struct strict<define<Variable, Value>>
+		template<typename... Exps>
+		struct strict<define<Exps...>>
 		{
 			using rtn = boolean<true>;
 		};
