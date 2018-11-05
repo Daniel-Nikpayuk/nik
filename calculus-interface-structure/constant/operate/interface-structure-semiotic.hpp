@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<register_type...>
 	struct operate
 	{
 		using kind					= module;
-
-		using type					= operate;
 
 		using rtn					= operate;
 	};
@@ -35,8 +33,6 @@ struct structure
 	struct operate<Value>
 	{
 		using kind					= module;
-
-		using type					= operate;
 
 		using rtn					= operate;
 
@@ -47,8 +43,6 @@ struct structure
 	struct operate<Value1, Value2>
 	{
 		using kind					= module;
-
-		using type					= operate;
 
 		using rtn					= operate;
 

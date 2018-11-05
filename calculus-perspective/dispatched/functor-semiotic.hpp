@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= branch;
 
-	using type		= functor;
+	using rtn		= functor;
 
 /*
 	dereference:

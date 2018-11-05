@@ -19,7 +19,7 @@ struct identity
 {
 	using kind		= module;
 
-	using type		= identity;
+	using rtn		= identity;
 
 	#define safe_name
 

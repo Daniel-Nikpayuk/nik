@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<typename Type, Type...>
 	struct typed_list
 	{
 		using kind					= module;
-
-		using type					= typed_list;
 
 		using rtn					= typed_list;
 
@@ -38,8 +36,6 @@ struct structure
 	{
 		using kind					= module;
 
-		using type					= typed_list;
-
 		using rtn					= typed_list;
 
 		using value_type				= Type;
@@ -50,8 +46,6 @@ struct structure
 	struct other_type
 	{
 		using kind					= module;
-
-		using type					= other_type;
 
 		using rtn					= other_type;
 	};

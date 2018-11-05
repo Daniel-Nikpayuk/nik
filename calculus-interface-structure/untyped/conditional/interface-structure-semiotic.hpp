@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<typename, typename>
 	struct if_then
 	{
 		using kind					= module;
-
-		using type					= if_then;
 
 		using rtn					= if_then;
 	};
@@ -36,8 +34,6 @@ struct structure
 	{
 		using kind					= module;
 
-		using type					= else_then;
-
 		using rtn					= else_then;
 	};
 
@@ -45,8 +41,6 @@ struct structure
 	struct then
 	{
 		using kind					= module;
-
-		using type					= then;
 
 		using rtn					= then;
 	};

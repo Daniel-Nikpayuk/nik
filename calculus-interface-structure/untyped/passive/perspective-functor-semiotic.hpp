@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -47,27 +47,49 @@ struct functor
 	};
 
 /*
+	cdr:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename, size_type = 0> struct cdr;
+
+	template<typename Value, typename... Values, size_type index, template<typename...> class ListType>
+	struct cdr<ListType<Value, Values...>, index>
+	{
+		using rtn = typename cdr<ListType<Values...>, index-1>::rtn;
+	};
+
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cdr<ListType<Value, Values...>, 0>
+	{
+		using rtn = ListType<Values...>;
+	};
+
+	template<typename Exp, size_type index>
+	struct cdr<act<Exp>, index>
+	{
+		using rtn = typename cdr<typename Exp::rtn, index>::rtn;
+	};
+
+/*
 	car:
 */
 
-	template<typename Exp>
+	template<typename Exp, size_type index = 0>
 	struct car
 	{
 		using rtn = typename perunf_car
 		<
-			typename dispaf_evaluate<Exp>::rtn
+			typename cdr<Exp, index-1>::rtn
 
 		>::rtn;
 	};
 
-/*
-	cdr:
-*/
-
 	template<typename Exp>
-	struct cdr
+	struct car<Exp, 0>
 	{
-		using rtn = typename perunf_cdr
+		using rtn = typename perunf_car
 		<
 			typename dispaf_evaluate<Exp>::rtn
 
@@ -130,32 +152,6 @@ struct functor
 	struct push<Exp1, act<Exp2>>
 	{
 		using rtn = typename push<Exp1, typename Exp2::rtn>::rtn;
-	};
-
-/*
-	at:
-
-	This implementation is optimized using partial specialization pattern matching.
-*/
-
-	template<size_type, typename> struct at;
-
-	template<size_type index, typename Value, typename... Values, template<typename...> class ListType>
-	struct at<index, ListType<Value, Values...>>
-	{
-		using rtn = typename at<index-1, ListType<Values...>>::rtn;
-	};
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct at<0, ListType<Value, Values...>>
-	{
-		using rtn = Value;
-	};
-
-	template<size_type index, typename Exp>
-	struct at<index, act<Exp>>
-	{
-		using rtn = typename at<index, typename Exp::rtn>::rtn;
 	};
 
 /*

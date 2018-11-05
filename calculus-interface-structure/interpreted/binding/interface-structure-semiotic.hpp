@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	binding:
@@ -29,8 +29,6 @@ struct structure
 	struct binding
 	{
 		using kind					= module;
-
-		using type					= binding;
 
 		using rtn					= binding;
 

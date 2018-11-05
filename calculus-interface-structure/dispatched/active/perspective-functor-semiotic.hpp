@@ -24,7 +24,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -57,7 +57,7 @@ struct functor
 	template<typename Exp>
 	struct dereference
 	{
-		using rtn = typename perkef_dereference<typename evaluate<Exp>::rtn>::rtn;
+		using rtn = typename perdif_dereference<typename evaluate<Exp>::rtn>::rtn;
 	};
 
 /*

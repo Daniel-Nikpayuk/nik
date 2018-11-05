@@ -33,6 +33,14 @@
 	using nik_safe(PREFIX, apply)			= typename nik_module(operate, constant, calculus, semiotic)::functor::template
 							  apply<Type, Exps...>;
 
+							  template<typename Type, typename Exp>
+	using nik_safe(PREFIX, increment)		= typename nik_module(operate, constant, calculus, semiotic)::functor::template
+							  increment<Type, Exp>;
+
+							  template<typename Type, typename Exp>
+	using nik_safe(PREFIX, decrement)		= typename nik_module(operate, constant, calculus, semiotic)::functor::template
+							  decrement<Type, Exp>;
+
 //
 
 #undef PREFIX

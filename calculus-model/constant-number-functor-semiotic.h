@@ -31,19 +31,19 @@
 
 							  template
 							  <
-								nik_module(number, constant, calculus, semiotic)::register_type Value,
-								typename List
+								typename nik_module(number, constant, calculus, semiotic)::register_type
+								Value, typename List
 							  >
 	using nik_safe(PREFIX, cons)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
 							  cons<Value, List>;
 
-							  template<typename List>
+							  template<typename List, SIZE_TYPE Index = 0>
 	using nik_safe(PREFIX, car)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  car<List>;
+							  car<List, Index>;
 
-							  template<typename List>
+							  template<typename List, SIZE_TYPE Index = 0>
 	using nik_safe(PREFIX, cdr)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  cdr<List>;
+							  cdr<List, Index>;
 
 							  template<typename List1, typename List2, typename... Lists>
 	using nik_safe(PREFIX, catenate)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
@@ -51,15 +51,11 @@
 
 							  template
 							  <
-								nik_module(number, constant, calculus, semiotic)::register_type Value,
-								typename List
+								typename nik_module(number, constant, calculus, semiotic)::register_type
+								Value, typename List
 							  >
 	using nik_safe(PREFIX, push)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
 							  push<Value, List>;
-
-							  template<SIZE_TYPE Index, typename List>
-	using nik_safe(PREFIX, at)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  at<Index, List>;
 
 							  template<typename List>
 	using nik_safe(PREFIX, length)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
@@ -70,6 +66,14 @@
 							  template<typename... Exps>
 	using nik_safe(PREFIX, apply)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
 							  apply<Exps...>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, increment)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
+							  increment<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, decrement)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
+							  decrement<Exp>;
 
 //
 

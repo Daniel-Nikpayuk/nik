@@ -29,17 +29,33 @@
 
 //
 
-							  template<typename Binding, typename Environment>
-	using nik_safe(PREFIX, add)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  add<Binding, Environment>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, lambda_arguments)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  lambda_arguments<Exp>;
 
-							  template<typename Variables, typename Values, typename Environment>
-	using nik_safe(PREFIX, construct)		= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  construct<Variables, Values, Environment>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, lambda_body)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  lambda_body<Exp>;
 
-							  template<typename Variable, typename Environment>
-	using nik_safe(PREFIX, lookup)			= typename nik_module(environment, interpreted, calculus, semiotic)::functor::template
-							  lookup<Variable, Environment>;
+							  template<typename Args, typename Body>
+	using nik_safe(PREFIX, make_lambda)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  make_lambda<Args, Body>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, procedure_arguments)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  procedure_arguments<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, procedure_body)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  procedure_body<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, procedure_environment)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  procedure_environment<Exp>;
+
+							  template<typename Args, typename Body, typename Env>
+	using nik_safe(PREFIX, make_procedure)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
+							  make_procedure<Args, Body, Env>;
 
 //
 

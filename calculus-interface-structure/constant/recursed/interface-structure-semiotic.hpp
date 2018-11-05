@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	list:
@@ -29,8 +29,6 @@ struct structure
 	struct list
 	{
 		using kind					= module;
-
-		using type					= list;
 
 		using rtn					= list;
 	};

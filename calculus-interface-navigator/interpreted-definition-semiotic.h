@@ -18,7 +18,9 @@
 #ifndef CALCULUS_INTERPRETED_DEFINITION_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_DEFINITION_SEMIOTIC_H
 
+	#include"constant-literal-semiotic.h"
 	#include"interpreted-environment-semiotic.h"
+	#include"interpreted-lambda-semiotic.h"
 
 #define local_scope
 

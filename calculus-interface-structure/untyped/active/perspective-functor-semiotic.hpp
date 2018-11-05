@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -40,36 +40,56 @@ struct functor
 	{
 		using rtn = typename perunf_cons
 		<
-			typename keracf_evaluate<Exp1>::rtn,
-			typename keracf_evaluate<Exp2>::rtn
-
-		>::rtn;
-	};
-
-/*
-	car:
-*/
-
-	template<typename Exp>
-	struct car
-	{
-		using rtn = typename perunf_car
-		<
-			typename keracf_evaluate<Exp>::rtn
+			typename disacf_evaluate<Exp1>::rtn,
+			typename disacf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
 
 /*
 	cdr:
+
+	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename Exp>
+	template<typename Exp, size_type index = 0>
 	struct cdr
 	{
-		using rtn = typename perunf_cdr
+		using rtn = typename cdr<typename Exp::rtn, index>::rtn;
+	};
+
+	template<typename Value, typename... Values, size_type index, template<typename...> class ListType>
+	struct cdr<pass<ListType<Value, Values...>>, index>
+	{
+		using rtn = typename cdr<pass<ListType<Values...>>, index-1>::rtn;
+	};
+
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct cdr<pass<ListType<Value, Values...>>, 0>
+	{
+		using rtn = ListType<Values...>;
+	};
+
+/*
+	car:
+*/
+
+	template<typename Exp, size_type index = 0>
+	struct car
+	{
+		using rtn = typename perunf_car
 		<
-			typename keracf_evaluate<Exp>::rtn
+			typename cdr<Exp, index-1>::rtn
+
+		>::rtn;
+	};
+
+	template<typename Exp>
+	struct car<Exp, 0>
+	{
+		using rtn = typename perunf_car
+		<
+			typename disacf_evaluate<Exp>::rtn
 
 		>::rtn;
 	};
@@ -93,8 +113,8 @@ struct functor
 	{
 		using rtn = typename catenate
 		<
-			typename keracf_evaluate<Exp1>::rtn,
-			typename keracf_evaluate<Exp2>::rtn
+			typename disacf_evaluate<Exp1>::rtn,
+			typename disacf_evaluate<Exp2>::rtn
 
 		>::rtn;
 	};
@@ -127,31 +147,7 @@ struct functor
 	template<typename Exp, typename... Values, template<typename...> class ListType>
 	struct push<Exp, pass<ListType<Values...>>>
 	{
-		using rtn = ListType<Values..., typename keracf_evaluate<Exp>::rtn>;
-	};
-
-/*
-	at:
-
-	This implementation is optimized using partial specialization pattern matching.
-*/
-
-	template<size_type index, typename Exp>
-	struct at
-	{
-		using rtn = typename at<index, pass<typename Exp::rtn>>::rtn;
-	};
-
-	template<size_type index, typename Value, typename... Values, template<typename...> class ListType>
-	struct at<index, pass<ListType<Value, Values...>>>
-	{
-		using rtn = typename at<index-1, pass<ListType<Values...>>>::rtn;
-	};
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct at<0, pass<ListType<Value, Values...>>>
-	{
-		using rtn = Value;
+		using rtn = ListType<Values..., typename disacf_evaluate<Exp>::rtn>;
 	};
 
 /*
@@ -193,7 +189,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename keracf_if_then_else
+		using rtn = typename disacf_if_then_else
 		<
 			Pred::value,
 			Exp,
@@ -212,7 +208,7 @@ struct functor
 		then<Exp>
 	>
 	{
-		using rtn = typename keracf_evaluate<Exp>::rtn;
+		using rtn = typename disacf_evaluate<Exp>::rtn;
 	};
 
 /*
@@ -227,7 +223,7 @@ struct functor
 		Exps...
 	>
 	{
-		using rtn = typename keracf_if_then_else
+		using rtn = typename disacf_if_then_else
 		<
 			Pred::value,
 			Exp,

@@ -19,9 +19,35 @@ struct identity
 {
 	using kind		= module;
 
-	using type		= identity;
+	using rtn		= identity;
 
 	#include nik_typedef(calculus, interpreted, conditional, structure)
+
+/*
+	is_if_:
+*/
+
+	template<typename Exp>
+	struct is_if_
+	{
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<if_<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
 
 /*
 	is_cond:
@@ -30,13 +56,23 @@ struct identity
 	template<typename Exp>
 	struct is_cond
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename... Exps>
-	struct is_cond<cond<Exps...>>
-	{
-		using rtn = boolean<true>;
+		template<typename... Exps>
+		struct strict<cond<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 };
 

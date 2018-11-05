@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<register_type...>
 	struct boolean
 	{
 		using kind					= module;
-
-		using type					= boolean;
 
 		using rtn					= boolean;
 	};
@@ -35,8 +33,6 @@ struct structure
 	struct boolean<Value>
 	{
 		using kind					= module;
-
-		using type					= boolean;
 
 		using rtn					= boolean;
 

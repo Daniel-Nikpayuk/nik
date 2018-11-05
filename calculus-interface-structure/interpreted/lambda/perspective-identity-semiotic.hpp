@@ -19,9 +19,35 @@ struct identity
 {
 	using kind		= module;
 
-	using type		= identity;
+	using rtn		= identity;
 
 	#include nik_typedef(calculus, interpreted, lambda, structure)
+
+/*
+	is_arguments:
+*/
+
+	template<typename Exp>
+	struct is_arguments
+	{
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<arguments<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
 
 /*
 	is_lambda:
@@ -30,29 +56,49 @@ struct identity
 	template<typename Exp>
 	struct is_lambda
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename... Exps>
-	struct is_lambda<lambda<Exps...>>
-	{
-		using rtn = boolean<true>;
+		template<typename Args, typename Body>
+		struct strict<lambda<Args, Body>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 
 /*
-	is_body:
+	is_compound:
 */
 
 	template<typename Exp>
-	struct is_body
+	struct is_compound
 	{
-		using rtn = boolean<false>;
-	};
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-	template<typename... Exps>
-	struct is_body<body<Exps...>>
-	{
-		using rtn = boolean<true>;
+		template<typename Args, typename Body, typename Env>
+		struct strict<procedure<Args, Body, Env>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 };
 

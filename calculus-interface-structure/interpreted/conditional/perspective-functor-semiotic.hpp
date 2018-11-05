@@ -19,19 +19,45 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#include nik_typedef(calculus, interpreted, conditional, structure)
 
 /*
+	if__alternative:
+*/
+
+	template<typename Exp>
+	struct if__alternative
+	{
+		using exp_cdr = typename cdr_at<Exp>::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_null
+			<
+				cdr<exp_cdr>
+			>,
+
+			boolean<false>,
+
+
+		>::rtn;
+	};
+
+/*
 	evaluate_if:
 */
 
-	template<typename Exp, typename Env, typename Functor>
-	struct evaluate_if
+	template<typename Expression, typename Environment, typename Functor>
+	struct evaluate_if_
 	{
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
 		using rtn = typename if_then_else
 		<
 			Functor::evaluate // is_true

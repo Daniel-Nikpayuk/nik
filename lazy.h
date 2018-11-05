@@ -225,10 +225,10 @@ namespace nik
 			module_enum == Module::environment		||
 
 			module_enum == Module::quote			||
+			module_enum == Module::lambda			||
 			module_enum == Module::assignment		||
 			module_enum == Module::definition		||
 			module_enum == Module::conditional		||
-			module_enum == Module::lambda			||
 			module_enum == Module::begin			||
 			module_enum == Module::application		||
 

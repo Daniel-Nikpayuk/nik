@@ -19,20 +19,18 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
-	lambda:
+	arguments:
 */
 
 	template<typename...>
-	struct lambda
+	struct arguments
 	{
 		using kind					= module;
 
-		using type					= lambda;
-
-		using rtn					= lambda;
+		using rtn					= arguments;
 	};
 
 /*
@@ -44,9 +42,41 @@ struct structure
 	{
 		using kind					= module;
 
-		using type					= body;
-
 		using rtn					= body;
+	};
+
+/*
+	lambda:
+*/
+
+	template<typename Args, typename Body>
+	struct lambda
+	{
+		using kind					= module;
+
+		using rtn					= lambda;
+
+		using arguments					= Args;
+
+		using body					= Body;
+	};
+
+/*
+	procedure:
+*/
+
+	template<typename Args, typename Body, typename Env>
+	struct procedure
+	{
+		using kind					= module;
+
+		using rtn					= procedure;
+
+		using arguments					= Args;
+
+		using body					= Body;
+
+		using environment				= Env;
 	};
 };
 

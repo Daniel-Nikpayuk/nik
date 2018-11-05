@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	error:
@@ -29,8 +29,6 @@ struct structure
 	struct error
 	{
 		using kind					= module;
-
-		using type					= error;
 
 		using rtn					= error;
 	};

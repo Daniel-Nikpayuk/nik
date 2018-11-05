@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -42,15 +42,15 @@ struct functor
 	car:
 */
 
-				  template<typename List>
-	using car		= typpaf_car<register_type, List>;
+				  template<typename List, size_type index = 0>
+	using car		= typpaf_car<register_type, List, index>;
 
 /*
 	cdr:
 */
 
-				  template<typename List>
-	using cdr		= typpaf_cdr<register_type, List>;
+				  template<typename List, size_type index = 0>
+	using cdr		= typpaf_cdr<register_type, List, index>;
 
 /*
 	catenate:
@@ -67,13 +67,6 @@ struct functor
 	using push		= typpaf_push<register_type, Value, Exp>;
 
 /*
-	at:
-*/
-
-				  template<size_type Value, typename Exp>
-	using at		= typpaf_at<register_type, Value, Exp>;
-
-/*
 	length:
 */
 
@@ -86,6 +79,20 @@ struct functor
 
 				  template<typename... Exps>
 	using apply		= conopf_apply<register_type, Exps...>;
+
+/*
+	increment:
+*/
+
+				  template<typename Exp>
+	using increment		= conopf_increment<register_type, Exp>;
+
+/*
+	decrement:
+*/
+
+				  template<typename Exp>
+	using decrement		= conopf_decrement<register_type, Exp>;
 
 /*
 	display:

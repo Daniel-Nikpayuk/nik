@@ -19,7 +19,7 @@ struct identity
 {
 	using kind		= branch;
 
-	using type		= identity;
+	using rtn		= identity;
 
 /*
 	is_equal:

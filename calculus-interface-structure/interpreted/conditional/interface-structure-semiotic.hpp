@@ -19,7 +19,19 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
+
+/*
+	if_:
+*/
+
+	template<typename...>
+	struct if_
+	{
+		using kind					= module;
+
+		using rtn					= if_then_else;
+	};
 
 /*
 	cond:
@@ -29,8 +41,6 @@ struct structure
 	struct cond
 	{
 		using kind					= module;
-
-		using type					= cond;
 
 		using rtn					= cond;
 	};

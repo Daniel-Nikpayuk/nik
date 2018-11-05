@@ -19,7 +19,7 @@ struct identity
 {
 	using kind		= module;
 
-	using type		= identity;
+	using rtn		= identity;
 
 	#define safe_name
 
@@ -36,7 +36,7 @@ struct identity
 	template<typename Exp1, typename Exp2>
 	struct is_equal
 	{
-		static constexpr bool value = perkei_is_equal
+		static constexpr bool value = perdii_is_equal
 		<
 			typename evaluate<Exp1>::rtn,
 			typename evaluate<Exp2>::rtn

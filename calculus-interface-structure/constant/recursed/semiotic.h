@@ -20,13 +20,16 @@ namespace nik
 	template<typename SizeType>
 	struct module<Module::recursed, Branch::constant, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using rtn	= module;
 
 		using size_type	= SizeType;
 
 		//
 
 		#include nik_typedef(calculus, perspective, dispatched, module)
+
+		#include nik_typedef(calculus, constant, boolean, structure)
+		#include nik_typedef(calculus, constant, number, structure)
 
 		//
 

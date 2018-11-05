@@ -25,7 +25,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, perspective, typed, functor)
 
@@ -495,5 +495,61 @@ struct functor
 
 		>::rtn;
 	};
+
+	#define ONE 1
+
+/*
+	increment:
+
+	Technically this is a specialization of apply, but given its frequency
+	of use as an iterator I've reimplemented it to optimize.
+*/
+
+	template<typename Type, typename> struct increment;
+
+	template
+	<
+		typename Type, Type Value,
+		template<Type...> class Constant
+	>
+	struct increment
+	<
+		Type,
+		Constant<Value>
+	>
+	{
+		using rtn = Constant
+		<
+			Value + Type(ONE)
+		>;
+	};
+
+/*
+	decrement:
+
+	Technically this is a specialization of apply, but given its frequency
+	of use as an iterator I've reimplemented it to optimize.
+*/
+
+	template<typename Type, typename> struct decrement;
+
+	template
+	<
+		typename Type, Type Value,
+		template<Type...> class Constant
+	>
+	struct decrement
+	<
+		Type,
+		Constant<Value>
+	>
+	{
+		using rtn = Constant
+		<
+			Value - Type(ONE)
+		>;
+	};
+
+	#undef ONE
 };
 

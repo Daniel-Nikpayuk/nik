@@ -19,14 +19,12 @@ struct structure
 {
 	using kind				= module;
 
-	using type				= structure;
+	using rtn				= structure;
 
 	template<typename... Bindings>
 	struct frame
 	{
 		using kind			= module;
-
-		using type			= frame;
 
 		using rtn			= frame;
 	};

@@ -29,6 +29,14 @@
 
 //
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, assignment_variable)	= typename nik_module(assignment, interpreted, calculus, semiotic)::functor::template
+							  assignment_variable<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, assignment_value)	= typename nik_module(assignment, interpreted, calculus, semiotic)::functor::template
+							  assignment_value<Exp>;
+
 							  template<typename Exp, typename Env, typename Functor>
 	using nik_safe(PREFIX, evaluate_assignment)	= typename nik_module(assignment, interpreted, calculus, semiotic)::functor::template
 							  evaluate_assignment<Exp, Env, Functor>;

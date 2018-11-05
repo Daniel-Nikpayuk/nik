@@ -19,8 +19,9 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
+	#include nik_typedef(calculus, constant, literal, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#define safe_name
@@ -29,35 +30,65 @@ struct functor
 
 	#undef safe_name
 
+	#include nik_typedef(calculus, interpreted, lambda, functor)
+
 	#include nik_typedef(calculus, interpreted, definition, structure)
 
 /*
 	definition_variable:
 */
 
-	template<typename Exp>
+	template<typename Expression>
 	struct definition_variable
 	{
-		using rtn = typename Exp::rtn::variable;
+		using Exp		= typename Expression::rtn;
+		using VariableExp	= typename Exp::variable;
+
+		using rtn = typename if_then_else
+		<
+			is_literal<VariableExp>,
+			VariableExp,
+			car<VariableExp>
+
+		>::rtn;
 	};
 
 /*
 	definition_value:
 */
 
-	template<typename Exp>
+	template<typename Expression>
 	struct definition_value
 	{
-		using rtn = typename Exp::rtn::value;
+		using Exp		= typename Expression::rtn;
+		using VariableExp	= typename Exp::variable;
+		using ValueExp		= typename Exp::value;
+
+		using rtn = typename if_then_else
+		<
+			is_literal<VariableExp>,
+			ValueExp,
+
+			make_lambda
+			<
+				cdr<VariableExp>,
+				ValueExp
+			>
+
+		>::rtn;
 	};
 
 /*
 	evaluate_definition:
 */
 
-	template<typename Exp, typename Env, typename Functor>
+	template<typename Expression, typename Environment, typename Functor>
 	struct evaluate_definition
 	{
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
 		using rtn = typename intenf_define
 		<
 			definition_variable<Exp>,

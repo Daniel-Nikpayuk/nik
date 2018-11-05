@@ -39,13 +39,23 @@
 	using nik_safe(PREFIX, cons)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
 							  cons<Exp1, Exp2>;
 
-							  template<typename Exp>
+							  template
+							  <
+								typename Exp, typename Index = typename
+								nik_module(number, constant, calculus, semiotic)::structure::template
+								number<0>
+							  >
 	using nik_safe(PREFIX, car)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
-							  car<Exp>;
+							  car<Exp, Index>;
 
-							  template<typename Exp>
+							  template
+							  <
+								typename Exp, typename Index = typename
+								nik_module(number, constant, calculus, semiotic)::structure::template
+								number<0>
+							  >
 	using nik_safe(PREFIX, cdr)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
-							  cdr<Exp>;
+							  cdr<Exp, Index>;
 
 							  template<typename Exp1, typename Exp2, typename... Exps>
 	using nik_safe(PREFIX, catenate)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
@@ -58,10 +68,6 @@
 							  template<typename List1, typename Value, typename List2>
 	using nik_safe(PREFIX, unite)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
 							  unite<List1, Value, List2>;
-
-							  template<typename Index, typename Exp>
-	using nik_safe(PREFIX, at)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
-							  at<Index, Exp>;
 
 							  template<typename Exp>
 	using nik_safe(PREFIX, length)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template

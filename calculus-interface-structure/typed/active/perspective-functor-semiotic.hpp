@@ -24,7 +24,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -52,11 +52,54 @@ struct functor
 	};
 
 /*
+	cdr:
+
+	This implementation is optimized using partial specialization pattern matching.
+*/
+
+	template<typename Exp0, typename Exp1, size_type index = 0>
+	struct cdr
+	{
+		using rtn = typename cdr
+		<
+			typename disacf_evaluate<Exp0>::rtn,
+			typename Exp1::rtn,
+			index
+
+		>::rtn;
+	};
+
+	template<typename Type, Type Value, Type... Values, size_type index, template<Type...> class ListType>
+	struct cdr<Type, pass<ListType<Value, Values...>>, index>
+	{
+		using rtn = typename cdr<Type, pass<ListType<Values...>>, index-1>::rtn;
+	};
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct cdr<Type, pass<ListType<Value, Values...>>, 0>
+	{
+		using rtn = ListType<Values...>;
+	};
+
+/*
 	car:
 */
 
-	template<typename Exp0, typename Exp1>
+	template<typename Exp0, typename Exp1, size_type index = 0>
 	struct car
+	{
+		using Type = typename disacf_evaluate<Exp0>::rtn;
+
+		static constexpr Type value = pertyf_car
+		<
+			Type,
+			typename cdr<Type, Exp1, index-1>::rtn
+
+		>::value;
+	};
+
+	template<typename Exp0, typename Exp1>
+	struct car<Exp0, Exp1, 0>
 	{
 		using Type = typename disacf_evaluate<Exp0>::rtn;
 
@@ -66,21 +109,6 @@ struct functor
 			typename disacf_evaluate<Exp1>::rtn
 
 		>::value;
-	};
-
-/*
-	cdr:
-*/
-
-	template<typename Exp0, typename Exp1>
-	struct cdr
-	{
-		using rtn = typename pertyf_cdr
-		<
-			typename disacf_evaluate<Exp0>::rtn,
-			typename disacf_evaluate<Exp1>::rtn
-
-		>::rtn;
 	};
 
 /*
@@ -141,32 +169,6 @@ struct functor
 	struct push<Type, Value, ListType<Values...>>
 	{
 		using rtn = ListType<Values..., Value>;
-	};
-
-/*
-	at:
-
-	This implementation is optimized using partial specialization pattern matching.
-*/
-
-	template<typename Exp0, size_type index, typename Exp1>
-	struct at
-	{
-		using Type = typename disacf_evaluate<Exp0>::rtn;
-
-		static constexpr Type value = at<Type, index, typename disacf_evaluate<Exp1>::rtn>::value;
-	};
-
-	template<typename Type, size_type index, Type Value, Type... Values, template<Type...> class ListType>
-	struct at<Type, index, ListType<Value, Values...>>
-	{
-		static constexpr Type value = at<Type, index-1, ListType<Values...>>::value;
-	};
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct at<Type, 0, ListType<Value, Values...>>
-	{
-		static constexpr Type value = Value;
 	};
 
 /*

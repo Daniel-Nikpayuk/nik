@@ -20,8 +20,24 @@
 //
 
 				  template<typename... Exps>
+	using arguments		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  arguments<Exps...>;
+
+				  template<typename... Exps>
+	using args		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  arguments<Exps...>;
+
+				  template<typename... Exps>
+	using body		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  body<Exps...>;
+
+				  template<typename Args, typename Body>
 	using lambda		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
-				  lambda<Exps...>;
+				  lambda<Args, Body>;
+
+				  template<typename Args, typename Body, typename Env>
+	using procedure		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  procedure<Args, Body, Env>;
 
 //
 

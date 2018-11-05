@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	begin:
@@ -29,8 +29,6 @@ struct structure
 	struct begin
 	{
 		using kind					= module;
-
-		using type					= begin;
 
 		using rtn					= begin;
 	};

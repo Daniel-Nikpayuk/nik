@@ -29,6 +29,14 @@
 
 //
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, definition_variable)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::template
+							  definition_variable<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, definition_value)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::template
+							  definition_value<Exp>;
+
 							  template<typename Exp, typename Env, typename Functor>
 	using nik_safe(PREFIX, evaluate_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::template
 							  evaluate_definition<Exp, Env, Functor>;

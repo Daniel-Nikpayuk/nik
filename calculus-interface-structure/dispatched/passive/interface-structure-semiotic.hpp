@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<typename>
 	struct act
 	{
 		using kind					= module;
-
-		using type					= act;
 
 		using rtn					= act;
 	};

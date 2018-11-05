@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	undefined:
@@ -29,8 +29,6 @@ struct structure
 	struct undefined
 	{
 		using kind					= module;
-
-		using type					= undefined;
 
 		using rtn					= undefined;
 	};

@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
@@ -81,10 +81,10 @@ struct functor
 	template<typename Exp>
 	struct binding_body
 	{
-		using rtn = typename at
+		using rtn = typename car
 		<
-			one,
-			binding_value<Exp>
+			binding_value<Exp>,
+			one
 
 		>::rtn;
 	};

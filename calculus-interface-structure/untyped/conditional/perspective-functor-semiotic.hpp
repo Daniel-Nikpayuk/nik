@@ -24,7 +24,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, untyped, conditional, structure)
 

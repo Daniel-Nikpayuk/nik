@@ -19,9 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
-
-	#include nik_typedef(calculus, constant, recursed, functor)
+	using rtn		= functor;
 
 	#define safe_name
 
@@ -55,14 +53,18 @@ struct functor
 	evaluate_assignment:
 */
 
-	template<typename Exp, typename Env, typename Functor>
+	template<typename Expression, typename Environment, typename Functor>
 	struct evaluate_assignment
 	{
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
 		using rtn = typename intenf_set
 		<
 			assignment_variable<Exp>,
 
-			typename Functor::template evaluate
+			typename Func::template evaluate
 			<
 				assignment_value<Exp>,
 				Env

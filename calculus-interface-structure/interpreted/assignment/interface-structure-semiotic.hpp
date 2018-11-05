@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	set:
@@ -29,8 +29,6 @@ struct structure
 	struct set
 	{
 		using kind					= module;
-
-		using type					= set;
 
 		using rtn					= set;
 

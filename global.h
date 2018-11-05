@@ -76,10 +76,10 @@ namespace nik
 		environment,
 
 		quote,
+		lambda,
 		assignment,
 		definition,
 //		conditional,
-		lambda,
 		begin,
 		application,
 

@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	quote:
@@ -29,8 +29,6 @@ struct structure
 	struct quote
 	{
 		using kind					= module;
-
-		using type					= quote;
 
 		using rtn					= quote;
 	};

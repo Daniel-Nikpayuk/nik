@@ -19,7 +19,7 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
@@ -177,16 +177,16 @@ struct functor
 
 			unite
 			<
-				at<three, Tuple>,
+				car<Tuple, three>,
 
 				unite
 				<
-					at<one, Tuple>,
+					car<Tuple, one>,
 					binding<Variable, Value>,
-					at<two, Tuple>
+					car<Tuple, two>
 				>,
 
-				at<four, Tuple>
+				car<Tuple, four>
 			>
 
 		>::rtn;
@@ -228,14 +228,14 @@ struct functor
 				cons
 				<
 					binding<Variable, Value>,
-					at<one, Tuple>
+					car<Tuple, one>
 				>,
 
 				unite
 				<
-					at<one, Tuple>,
+					car<Tuple, one>,
 					binding<Variable, Value>,
-					at<two, Tuple>
+					car<Tuple, two>
 				>
 			>,
 

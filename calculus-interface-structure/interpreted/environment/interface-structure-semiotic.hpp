@@ -19,14 +19,12 @@ struct structure
 {
 	using kind				= module;
 
-	using type				= structure;
+	using rtn				= structure;
 
 	template<typename... Frames>
 	struct environment
 	{
 		using kind			= module;
-
-		using type			= environment;
 
 		using rtn			= environment;
 	};

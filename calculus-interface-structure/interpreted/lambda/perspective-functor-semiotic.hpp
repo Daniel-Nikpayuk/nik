@@ -19,11 +19,88 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
-
-	#include nik_typedef(calculus, constant, recursed, functor)
+	using rtn		= functor;
 
 	#include nik_typedef(calculus, interpreted, lambda, structure)
+
+/*
+	lambda_arguments:
+*/
+
+	template<typename Exp>
+	struct lambda_arguments
+	{
+		using rtn = typename Exp::rtn::arguments;
+	};
+
+/*
+	lambda_body:
+*/
+
+	template<typename Exp>
+	struct lambda_body
+	{
+		using rtn = typename Exp::rtn::body;
+	};
+
+/*
+	make_lambda:
+*/
+
+	template<typename Args, typename Body>
+	struct make_lambda
+	{
+		using rtn = lambda
+		<
+			typename Args::rtn,
+			typename Body::rtn
+		>;
+	};
+
+/*
+	procedure_arguments:
+*/
+
+	template<typename Exp>
+	struct procedure_arguments
+	{
+		using rtn = typename Exp::rtn::arguments;
+	};
+
+/*
+	procedure_body:
+*/
+
+	template<typename Exp>
+	struct procedure_body
+	{
+		using rtn = typename Exp::rtn::body;
+	};
+
+/*
+	procedure_environment:
+*/
+
+	template<typename Exp>
+	struct procedure_environment
+	{
+		using rtn = typename Exp::rtn::environment;
+	};
+
+/*
+	make_procedure:
+*/
+
+	template<typename Args, typename Body, typename Env>
+	struct make_procedure
+	{
+		using rtn = procedure
+		<
+			typename Args::rtn,
+			typename Body::rtn,
+			typename Env::rtn
+		>;
+	};
 
 /*
 	display:
@@ -32,11 +109,13 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
+/*
 	template<typename Exp>
-	inline static void display(const lambda<Exp> &)
+	inline static void display(const procedure<Exp> &)
 	{
 		Dispatched::functor::display("");
 		Exp::kind::functor::display(Exp());
 	}
+*/
 };
 

@@ -19,7 +19,7 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 /*
 	define:
@@ -29,8 +29,6 @@ struct structure
 	struct define
 	{
 		using kind					= module;
-
-		using type					= define;
 
 		using rtn					= define;
 

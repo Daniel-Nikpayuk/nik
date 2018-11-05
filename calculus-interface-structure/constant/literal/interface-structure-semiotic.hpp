@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<register_type...>
 	struct literal
 	{
 		using kind					= module;
-
-		using type					= literal;
 
 		using rtn					= literal;
 	};
@@ -35,8 +33,6 @@ struct structure
 	struct literal<Value>
 	{
 		using kind					= module;
-
-		using type					= literal;
 
 		using rtn					= literal;
 

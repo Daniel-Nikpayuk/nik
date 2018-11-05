@@ -19,16 +19,14 @@ struct functor
 {
 	using kind		= module;
 
-	using type		= functor;
+	using rtn		= functor;
 
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, untyped, functor)
+		#include nik_typedef(calculus, constant, number, functor)
 
 	#undef safe_name
-
-	#include nik_typedef(calculus, constant, boolean, structure)
-	#include nik_typedef(calculus, constant, number, structure)
 
 	#include nik_typedef(calculus, constant, recursed, structure)
 	#include nik_typedef(calculus, constant, recursed, identity)
@@ -71,29 +69,65 @@ struct functor
 	};
 
 /*
-	car:
+	cdr:
+
+	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename List>
-	struct car
+	template<typename Exp1, typename Exp2 = zero>
+	struct cdr
 	{
-		using rtn = typename perunf_car
+		using List = typename perunf_cdr
 		<
-			typename List::rtn
+			typename Exp1::rtn
+
+		>::rtn;
+
+		using Index = typename Exp2::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_equal<Index, zero>,
+
+			List,
+
+			cdr
+			<
+				List,
+				connuf_decrement<Index>
+			>
 
 		>::rtn;
 	};
 
 /*
-	cdr:
+	car:
+
+	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename List>
-	struct cdr
+	template<typename Exp1, typename Exp2 = zero>
+	struct car
 	{
-		using rtn = typename perunf_cdr
+		using Index	= typename Exp2::rtn;
+
+		using List	= typename if_then_else
 		<
-			typename List::rtn
+			is_equal<Index, zero>,
+
+			Exp1,
+
+			cdr
+			<
+				Exp1,
+				connuf_decrement<Index>
+			>
+
+		>::rtn;
+
+		using rtn = typename perunf_car
+		<
+			List
 
 		>::rtn;
 	};
@@ -175,41 +209,6 @@ struct functor
 			>
 
 		>::rtn;
-	};
-
-/*
-	at:
-
-	This implementation is optimized using partial specialization pattern matching.
-*/
-
-	template<typename Exp1, typename Exp2>
-	struct at
-	{
-		using rtn = typename at<typename Exp1::rtn, typename Exp2::rtn>::rtn;
-	};
-
-	template
-	<
-		size_type index,
-		typename Value, typename... Values,
-		template<size_type> class Number,
-		template<typename...> class ListType
-	>
-	struct at<Number<index>, ListType<Value, Values...>>
-	{
-		using rtn = typename at<Number<index-1>, ListType<Values...>>::rtn;
-	};
-
-	template
-	<
-		typename Value, typename... Values,
-		template<size_type> class Number,
-		template<typename...> class ListType
-	>
-	struct at<Number<0>, ListType<Value, Values...>>
-	{
-		using rtn = Value;
 	};
 
 /*

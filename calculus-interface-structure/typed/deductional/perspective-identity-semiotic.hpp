@@ -19,7 +19,7 @@ struct identity
 {
 	using kind		= module;
 
-	using type		= identity;
+	using rtn		= identity;
 
 	#include nik_typedef(calculus, perspective, typed, identity)
 	#include nik_typedef(calculus, untyped, conditional, structure)

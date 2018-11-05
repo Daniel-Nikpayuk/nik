@@ -33,13 +33,13 @@
 	using nik_safe(PREFIX, cons)			= typename nik_module(active, typed, calculus, semiotic)::functor::template
 							  cons<Type, Value, List>;
 
-							  template<typename Type, typename List>
+							  template<typename Type, typename List, SIZE_TYPE Index = 0>
 	using nik_safe(PREFIX, car)			= typename nik_module(active, typed, calculus, semiotic)::functor::template
-							  car<Type, List>;
+							  car<Type, List, Index>;
 
-							  template<typename Type, typename List>
+							  template<typename Type, typename List, SIZE_TYPE Index = 0>
 	using nik_safe(PREFIX, cdr)			= typename nik_module(active, typed, calculus, semiotic)::functor::template
-							  cdr<Type, List>;
+							  cdr<Type, List, Index>;
 
 							  template<typename Type, typename List1, typename List2, typename... Lists>
 	using nik_safe(PREFIX, catenate)		= typename nik_module(active, typed, calculus, semiotic)::functor::template
@@ -48,10 +48,6 @@
 							  template<typename Type, Type Value, typename List>
 	using nik_safe(PREFIX, push)			= typename nik_module(active, typed, calculus, semiotic)::functor::template
 							  push<Type, Value, List>;
-
-							  template<typename Type, SIZE_TYPE Index, typename List>
-	using nik_safe(PREFIX, at)			= typename nik_module(active, typed, calculus, semiotic)::functor::template
-							  at<Type, Index, List>;
 
 							  template<typename Type, typename List>
 	using nik_safe(PREFIX, length)			= typename nik_module(active, typed, calculus, semiotic)::functor::template

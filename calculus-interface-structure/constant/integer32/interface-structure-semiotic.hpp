@@ -19,14 +19,12 @@ struct structure
 {
 	using kind						= module;
 
-	using type						= structure;
+	using rtn						= structure;
 
 	template<register_type...>
 	struct integer32
 	{
 		using kind					= module;
-
-		using type					= integer32;
 
 		using rtn					= integer32;
 	};
@@ -35,8 +33,6 @@ struct structure
 	struct integer32<Value>
 	{
 		using kind					= module;
-
-		using type					= integer32;
 
 		using rtn					= integer32;
 

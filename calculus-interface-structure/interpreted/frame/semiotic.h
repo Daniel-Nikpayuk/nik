@@ -20,7 +20,7 @@ namespace nik
 	template<typename SizeType>
 	struct module<Module::frame, Branch::interpreted, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using type	= module;
+		using rtn	= module;
 
 		using size_type	= SizeType;
 

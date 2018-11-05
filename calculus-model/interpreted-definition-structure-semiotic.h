@@ -19,9 +19,9 @@
 
 //
 
-				  template<typename... Exps>
+				  template<typename Variable, typename Value>
 	using define		= typename nik_module(definition, interpreted, calculus, semiotic)::structure::template
-				  define<Exps...>;
+				  define<Variable, Value>;
 
 //
 
