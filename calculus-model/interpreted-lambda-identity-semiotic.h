@@ -30,10 +30,6 @@
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_arguments)		= typename nik_module(lambda, interpreted, calculus, semiotic)::identity::template
-							  is_arguments<Exp>;
-
-							  template<typename Exp>
 	using nik_safe(PREFIX, is_lambda)		= typename nik_module(lambda, interpreted, calculus, semiotic)::identity::template
 							  is_lambda<Exp>;
 

@@ -21,11 +21,15 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(calculus, constant, operate, identity)
-	#include nik_typedef(calculus, constant, boolean, identity)
-	#include nik_typedef(calculus, constant, boolean, functor)
+	#define safe_name
 
-	#include nik_typedef(calculus, constant, number, identity)
+		#include nik_typedef(calculus, constant, operate, identity)
+		#include nik_typedef(calculus, constant, boolean, identity)
+		#include nik_typedef(calculus, constant, number, identity)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, constant, boolean, functor)
 
 /*
 	is_self_evaluating:
@@ -36,14 +40,14 @@ struct identity
 	{
 		using Exp = typename Expression::rtn;
 
-		using rtn = apply
+		using rtn = typename apply
 		<
 			operate<'|', '|'>,
 
-			is_number<Exp>,
-//			is_string<Exp>,
-			is_operate<Exp>,
-			is_boolean<Exp>
+			connui_is_number<Exp>,
+//			consti_is_string<Exp>,
+			conopi_is_operate<Exp>,
+			conboi_is_boolean<Exp>
 
 		>::rtn;
 	};
