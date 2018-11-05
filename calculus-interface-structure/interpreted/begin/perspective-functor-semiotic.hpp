@@ -21,41 +21,104 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
 
+	#include nik_typedef(calculus, interpreted, environment, identity)
+
 	#include nik_typedef(calculus, interpreted, begin, structure)
+	#include nik_typedef(calculus, interpreted, begin, identity)
+
+/*
+	make_begin:
+*/
+
+	template<typename Exp>
+	struct make_begin
+	{
+		template<typename> struct strict;
+
+		template<typename... Exps, template<typename...> class Sequence>
+		struct strict<Sequence<Exps...>>
+		{
+			using rtn = begin<Exps...>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
+	sequence_to_expression:
+*/
+
+	template<typename Expressions>
+	struct sequence_to_expression
+	{
+		using Exps = typename Expressions::rtn;
+
+		using rtn = typename evaluate
+		<
+			if_then
+			<
+				is_null<Exps>,
+				Exps
+
+			>, else_then
+			<
+				is_last<Exps>,
+				car<Exps>
+
+			>, then
+			<
+				make_begin<Exps>
+			>
+
+		>::rtn;
+	};
 
 /*
 	evaluate_sequence:
+
+	Side-effects are possible within the sequence of evaluations.
+	The only effects necessary in considering are ones which change
+	the environment as it is applicable further down the sequence.
 */
 
-	template<typename Exps, typename Env, typename Functor>
+	template<typename Expressions, typename Environment, typename Functor>
 	struct evaluate_sequence
 	{
+		using Exps	= typename Expressions::rtn;
+		using Env0	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
+		using First = typename Func::template evaluate
+		<
+			car<Exps>, // first_exp
+			Env0
+
+		>::rtn;
+
 		using rtn = typename if_then_else
 		<
-			is_null<cdr<Exps>>, // is_last_exp
+			is_last<Exps>,
+			First,
 
-			Functor::evaluate
+			evaluate_sequence
 			<
-				car<Exps>, // first_exp
-				Env
-			>,
+				cdr<Exps>, // rest_exps
 
-			cons
-			<
-				Functor::evaluate
+				if_then_else
 				<
-					car<Exps>, // first_exp
-					Env
+					is_environment<First>,
+					First,
+					Env0
 				>,
 
-				evaluate_sequence
-				<
-					cdr<Exps>, // rest_exps
-					Env,
-					Functor
-				>
+				Functor
 			>
 
 		>::rtn;

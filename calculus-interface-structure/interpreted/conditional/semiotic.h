@@ -31,6 +31,8 @@ namespace nik
 		#include nik_typedef(calculus, constant, boolean, structure)
 		#include nik_typedef(calculus, constant, number, structure)
 
+		#include nik_typedef(calculus, interpreted, error, structure)
+
 		//
 
 		#include"interface-structure-semiotic.hpp"

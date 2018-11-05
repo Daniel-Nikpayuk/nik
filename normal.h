@@ -29,29 +29,17 @@
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-#include nik_source(., calculus, dispatched, passive, semiotic)
-#include nik_source(., calculus, dispatched, active, semiotic)
 
-#include nik_source(., calculus, untyped, conditional, semiotic)
 #include nik_source(., calculus, untyped, passive, semiotic)
 #include nik_source(., calculus, untyped, active, semiotic)
 
-#include nik_source(., calculus, typed, deductional, semiotic)
-#include nik_source(., calculus, typed, passive, semiotic)
-#include nik_source(., calculus, typed, active, semiotic)
-
-#include nik_source(., calculus, constant, operate, semiotic)
-#include nik_source(., calculus, constant, boolean, semiotic)
-#include nik_source(., calculus, constant, number, semiotic)
-#include nik_source(., calculus, constant, recursed, semiotic)
-
-/*
 #include nik_source(., calculus, interpreted, environment, semiotic)
 #include nik_source(., calculus, interpreted, quote, semiotic)
 #include nik_source(., calculus, interpreted, lambda, semiotic)
 #include nik_source(., calculus, interpreted, assignment, semiotic)
 #include nik_source(., calculus, interpreted, definition, semiotic)
-*/
+#include nik_source(., calculus, interpreted, begin, semiotic)
+#include nik_source(., calculus, interpreted, conditional, semiotic)
 
 
 //

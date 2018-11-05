@@ -21,9 +21,13 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
 
+	#include nik_typedef(calculus, interpreted, begin, functor)
+
 	#include nik_typedef(calculus, interpreted, conditional, structure)
+	#include nik_typedef(calculus, interpreted, conditional, identity)
 
 /*
 	if__alternative:
@@ -32,23 +36,34 @@ struct functor
 	template<typename Exp>
 	struct if__alternative
 	{
-		using exp_cdr = typename cdr_at<Exp>::rtn;
+		using Alt = typename cdr<Exp, one>::rtn;
 
 		using rtn = typename if_then_else
 		<
-			is_null
-			<
-				cdr<exp_cdr>
-			>,
-
+			is_null<Alt>,
 			boolean<false>,
-
+			car<Alt>
 
 		>::rtn;
 	};
 
 /*
-	evaluate_if:
+	make_if_:
+*/
+
+	template<typename Predicate, typename Consequent, typename Alternative>
+	struct make_if_
+	{
+		using rtn = if_
+		<
+			typename Predicate::rtn,
+			typename Consequent::rtn,
+			typename Alternative::rtn
+		>;
+	};
+
+/*
+	evaluate_if_:
 */
 
 	template<typename Expression, typename Environment, typename Functor>
@@ -60,22 +75,83 @@ struct functor
 
 		using rtn = typename if_then_else
 		<
-			Functor::evaluate // is_true
+			is_true
 			<
-				typename car<Exp>::rtn, // if_predicate
+				typename Functor::template evaluate
+				<
+					car<Exp>, // if__predicate
+					Env
+				>
+			>,
+
+			typename Functor::template evaluate
+			<
+				car<Exp, one>, // if__consequent
 				Env
 			>,
 
-			Functor::evaluate
+			typename Functor::template evaluate
 			<
-				typename at<one, Exp>::rtn, // if_consequent
+				if__alternative<Exp>,
 				Env
-			>,
+			>
 
-			Functor::evaluate
+		>::rtn;
+	};
+
+/*
+	cond_to_if_:
+*/
+
+	template<typename Expressions>
+	struct cond_to_if_
+	{
+		using Clauses = typename Expressions::rtn;
+
+		template<typename Exp1, typename Exp2>
+		struct recurse
+		{
+			using first = typename Exp1::rtn;
+			using rest = typename Exp2::rtn;
+
+			using rtn = typename if_then_else
 			<
-				typename at<two, Exp>::rtn, // if_alternative
-				Env
+				is_else_<first>,
+
+				if_then_else
+				<
+					is_null<rest>,
+
+					sequence_to_expression<first>,
+
+					error<'e', 'l', 's', 'e', '_', ' ', 'c', 'l', 'a', 'u', 's', 'e',
+						' ', 'i', 's', 'n', '\'', 't', ' ', 'l', 'a', 's', 't'>
+				>,
+
+				make_if_
+				<
+					car<first>, // cond_predicate
+
+					sequence_to_expression
+					<
+						cdr<first> // cond_actions
+					>,
+
+					cond_to_if_<rest>
+				>
+
+			>::rtn;
+		};
+
+		using rtn = typename if_then_else
+		<
+			is_null<Clauses>,
+			boolean<false>,
+
+			recurse
+			<
+				car<Clauses>,
+				cdr<Clauses>
 			>
 
 		>::rtn;

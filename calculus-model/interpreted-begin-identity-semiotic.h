@@ -33,6 +33,10 @@
 	using nik_safe(PREFIX, is_begin)		= typename nik_module(begin, interpreted, calculus, semiotic)::identity::template
 							  is_begin<Exp>;
 
+							  template<typename Exps>
+	using nik_safe(PREFIX, is_last)			= typename nik_module(begin, interpreted, calculus, semiotic)::identity::template
+							  is_last<Exps>;
+
 //
 
 #undef PREFIX

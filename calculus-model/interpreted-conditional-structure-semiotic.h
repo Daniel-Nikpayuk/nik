@@ -20,8 +20,16 @@
 //
 
 				  template<typename... Exps>
+	using if_		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
+				  if_<Exps...>;
+
+				  template<typename... Exps>
 	using cond		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
 				  cond<Exps...>;
+
+				  template<typename... Exps>
+	using else_		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
+				  else_<Exps...>;
 
 //
 

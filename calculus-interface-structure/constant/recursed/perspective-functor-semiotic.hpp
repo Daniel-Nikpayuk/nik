@@ -74,16 +74,23 @@ struct functor
 	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename Exp1, typename Exp2 = zero>
-	struct cdr
+	template<typename, typename...> struct cdr;
+
+	template<typename Exp>
+	struct cdr<Exp>
 	{
-		using List = typename perunf_cdr
+		using rtn = typename perunf_cdr
 		<
-			typename Exp1::rtn
+			typename Exp::rtn
 
 		>::rtn;
+	};
 
-		using Index = typename Exp2::rtn;
+	template<typename Exp1, typename Exp2>
+	struct cdr<Exp1, Exp2>
+	{
+		using List	= typename cdr<Exp1>::rtn;
+		using Index	= typename Exp2::rtn;
 
 		using rtn = typename if_then_else
 		<
@@ -106,28 +113,36 @@ struct functor
 	This implementation is optimized using partial specialization pattern matching.
 */
 
-	template<typename Exp1, typename Exp2 = zero>
-	struct car
+	template<typename, typename...> struct car;
+
+	template<typename Exp>
+	struct car<Exp>
 	{
-		using Index	= typename Exp2::rtn;
-
-		using List	= typename if_then_else
-		<
-			is_equal<Index, zero>,
-
-			Exp1,
-
-			cdr
-			<
-				Exp1,
-				connuf_decrement<Index>
-			>
-
-		>::rtn;
-
 		using rtn = typename perunf_car
 		<
-			List
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+	template<typename Exp1, typename Exp2>
+	struct car<Exp1, Exp2>
+	{
+		using Index = typename Exp2::rtn;
+
+		using rtn = typename car
+		<
+			if_then_else
+			<
+				is_equal<Index, zero>,
+				Exp1,
+
+				cdr
+				<
+					Exp1,
+					connuf_decrement<Index>
+				>
+			>
 
 		>::rtn;
 	};

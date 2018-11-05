@@ -30,7 +30,7 @@ struct structure
 	{
 		using kind					= module;
 
-		using rtn					= if_then_else;
+		using rtn					= if_;
 	};
 
 /*
@@ -43,6 +43,30 @@ struct structure
 		using kind					= module;
 
 		using rtn					= cond;
+	};
+
+/*
+	try_:
+*/
+
+	template<typename...>
+	struct try_
+	{
+		using kind					= module;
+
+		using rtn					= try_;
+	};
+
+/*
+	else_:
+*/
+
+	template<typename...>
+	struct else_
+	{
+		using kind					= module;
+
+		using rtn					= else_;
 	};
 };
 

@@ -15,15 +15,38 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_BEGIN_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_BEGIN_SEMIOTIC_H
+struct identity
+{
+	using kind		= module;
 
-	#include"interpreted-environment-semiotic.h"
+	using rtn		= identity;
 
-#define local_scope
+	#include nik_typedef(calculus, interpreted, environment, structure)
 
-	#include"../calculus-interface-structure/interpreted/begin/semiotic.h"
+/*
+	is_environment:
+*/
 
-#undef local_scope
+	template<typename Exp>
+	struct is_environment
+	{
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
 
-#endif
+		template<typename... Frames>
+		struct strict<environment<Frames...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+};
+

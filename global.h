@@ -79,8 +79,8 @@ namespace nik
 		lambda,
 		assignment,
 		definition,
-//		conditional,
 		begin,
+//		conditional,
 		application,
 
 		expression,

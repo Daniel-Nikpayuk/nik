@@ -21,6 +21,9 @@ struct identity
 
 	using rtn		= identity;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, functor)
+
 	#include nik_typedef(calculus, interpreted, begin, structure)
 
 /*
@@ -30,13 +33,37 @@ struct identity
 	template<typename Exp>
 	struct is_begin
 	{
-		using rtn = boolean<false>;
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<begin<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
 	};
 
-	template<typename... Exps>
-	struct is_begin<begin<Exps...>>
+/*
+	is_last:
+*/
+
+	template<typename Exps>
+	struct is_last
 	{
-		using rtn = boolean<true>;
+		using rtn = typename is_null
+		<
+			cdr<Exps>
+
+		>::rtn;
 	};
 };
 

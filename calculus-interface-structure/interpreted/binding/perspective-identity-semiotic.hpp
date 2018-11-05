@@ -21,8 +21,6 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(calculus, constant, boolean, structure)
-
 	#include nik_typedef(calculus, interpreted, binding, structure)
 
 /*

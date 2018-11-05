@@ -30,8 +30,12 @@
 //
 
 							  template<typename Exp, typename Env, typename Functor>
-	using nik_safe(PREFIX, evaluate_if)		= typename nik_module(conditional, interpreted, calculus, semiotic)::functor::template
-							  evaluate_if<Exp, Env, Functor>;
+	using nik_safe(PREFIX, evaluate_if_)		= typename nik_module(conditional, interpreted, calculus, semiotic)::functor::template
+							  evaluate_if_<Exp, Env, Functor>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, cond_to_if_)		= typename nik_module(conditional, interpreted, calculus, semiotic)::functor::template
+							  cond_to_if_<Exp>;
 
 //
 

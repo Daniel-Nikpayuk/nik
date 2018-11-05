@@ -30,8 +30,20 @@
 //
 
 							  template<typename Exp>
+	using nik_safe(PREFIX, is_true)			= typename nik_module(conditional, interpreted, calculus, semiotic)::identity::template
+							  is_true<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_if_)			= typename nik_module(conditional, interpreted, calculus, semiotic)::identity::template
+							  is_if_<Exp>;
+
+							  template<typename Exp>
 	using nik_safe(PREFIX, is_cond)			= typename nik_module(conditional, interpreted, calculus, semiotic)::identity::template
 							  is_cond<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_else_)		= typename nik_module(conditional, interpreted, calculus, semiotic)::identity::template
+							  is_else_<Exp>;
 
 //
 

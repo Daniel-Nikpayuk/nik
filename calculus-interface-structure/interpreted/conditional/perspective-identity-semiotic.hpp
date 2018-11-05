@@ -24,6 +24,32 @@ struct identity
 	#include nik_typedef(calculus, interpreted, conditional, structure)
 
 /*
+	is_true:
+*/
+
+	template<typename Exp>
+	struct is_true
+	{
+		template<typename Type, typename Filler = void>
+		struct strict
+		{
+			using rtn = boolean<true>;
+		};
+
+		template<typename Filler>
+		struct strict<boolean<false>, Filler>
+		{
+			using rtn = boolean<false>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
 	is_if_:
 */
 
@@ -64,6 +90,32 @@ struct identity
 
 		template<typename... Exps>
 		struct strict<cond<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
+	is_else_:
+*/
+
+	template<typename Exp>
+	struct is_else_
+	{
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<else_<Exps...>>
 		{
 			using rtn = boolean<true>;
 		};

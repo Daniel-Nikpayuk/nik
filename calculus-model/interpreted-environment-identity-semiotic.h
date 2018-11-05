@@ -15,15 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_BEGIN_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_BEGIN_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"interpreted-environment-semiotic.h"
+#ifdef safe_name
 
-#define local_scope
+	#define PREFIX		inteni_
 
-	#include"../calculus-interface-structure/interpreted/begin/semiotic.h"
+#else
 
-#undef local_scope
+	#define PREFIX
 
 #endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_environment)		= typename nik_module(environment, interpreted, calculus, semiotic)::identity::template
+							  is_environment<Exp>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
+
