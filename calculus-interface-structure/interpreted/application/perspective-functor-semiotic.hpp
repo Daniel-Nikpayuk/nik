@@ -21,17 +21,33 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
 	#include nik_typedef(calculus, constant, recursed, functor)
 
-	#include nik_typedef(calculus, interpreted, , structure)
+	#define safe_name
+
+		#include nik_typedef(calculus, interpreted, environment, functor)
+
+	#undef safe_name
+
+	#include nik_typedef(calculus, interpreted, lambda, identity)
+	#include nik_typedef(calculus, interpreted, lambda, functor)
+	#include nik_typedef(calculus, interpreted, begin, identity)
+	#include nik_typedef(calculus, interpreted, begin, functor)
+
+	#include nik_typedef(calculus, interpreted, application, identity)
 
 /*
 	list_of_values:
 */
 
-	template<typename Exps, typename Env, typename Functor>
+	template<typename Expressions, typename Environment, typename Functor>
 	struct list_of_values
 	{
+		using Exps	= typename Expressions::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
 		using rtn = typename if_then_else
 		<
 			is_null<Exps>, // has_no_operands
@@ -39,7 +55,7 @@ struct functor
 
 			cons
 			<
-				typename Functor::template evaluate
+				typename Func::template evaluate
 				<
 					car<Exps>, // first operand
 					Env
@@ -49,9 +65,37 @@ struct functor
 				<
 					cdr<Exps>, // rest_operands
 					Env,
-					Functor
+					Func
 				>
 			>
+
+		>::rtn;
+	};
+
+/*
+	apply_operate:
+
+	Assumes the template parameters have already been 
+*/
+
+	template<typename Operate, typename Arguments>
+	struct apply_operate
+	{
+		template<typename> struct strict;
+
+		template<typename Value, typename... Values, template<typename...> class Sequence>
+		struct strict<Sequence<Value, Values...>>
+		{
+			using rtn = typename Value::kind::functor::template apply
+			<
+				typename Operate::rtn, Value, Values...
+
+			>::rtn;
+		};
+
+		using rtn = typename strict
+		<
+			typename Arguments::rtn
 
 		>::rtn;
 	};
@@ -63,34 +107,38 @@ struct functor
 	template<typename Procedure, typename Arguments>
 	struct apply
 	{
+		using Proc	= typename Procedure::rtn;
+		using Args	= typename Arguments::rtn;
+
 		using rtn = typename evaluate
 		<
 			if_then
 			<
-				is_operate<Procedure>, // is_primitive
-				apply_primitive_procedure<Procedure, Arguments>
+				is_primitive<Proc>,
+				apply_operate<Proc, Args>
 
 			>, else_then
 			<
-				is_compound_procedure<Procedure>,
+				is_compound<Proc>,
 
 				evaluate_sequence
 				<
-					procedure_body<Procedure>,
+					procedure_body<Proc>,
 
-					extend_environment
+					intenf_construct // extend_environment
 					<
-						procedure_parameters<Procedure>,
-						Arguments,
-						procedure_environment<Procedure>
+						procedure_arguments<Proc>,
+						Args,
+						procedure_environment<Proc>
 					>,
 
-					procedure_functor<Procedure>
+					procedure_functor<Proc>
 				>
 
 			>, then
 			<
-				undefined
+				error<'u', 'n', 'k', 'n', 'o', 'w', 'n',
+					' ', 'p', 'r', 'o', 'c', 'e', 'd', 'u', 'r', 'e', ' ', 't', 'y', 'p', 'e'>
 			>
 
 		>::rtn;
@@ -103,11 +151,13 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
+/*
 	template<typename Exp>
 	inline static void display(const <Exp> &)
 	{
 		Dispatched::functor::display("");
 		Exp::kind::functor::display(Exp());
 	}
+*/
 };
 

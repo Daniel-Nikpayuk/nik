@@ -15,22 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+#include"define-size_type.h"
 
-	using rtn						= structure;
+#ifdef safe_name
 
-/*
-	undefined:
-*/
+	#define PREFIX		conopi_
 
-	template<typename>
-	struct undefined
-	{
-		using kind					= module;
+#else
 
-		using rtn					= undefined;
-	};
-};
+	#define PREFIX
+
+#endif
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_operate)		= typename nik_module(operate, constant, calculus, semiotic)::identity::template
+							  is_operate<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_null)			= typename nik_module(operate, constant, calculus, semiotic)::identity::template
+							  is_null<Exp>;
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

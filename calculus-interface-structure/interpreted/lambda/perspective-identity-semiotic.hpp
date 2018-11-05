@@ -24,32 +24,6 @@ struct identity
 	#include nik_typedef(calculus, interpreted, lambda, structure)
 
 /*
-	is_arguments:
-*/
-
-	template<typename Exp>
-	struct is_arguments
-	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename... Exps>
-		struct strict<arguments<Exps...>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Exp::rtn
-
-		>::rtn;
-	};
-
-/*
 	is_lambda:
 */
 
@@ -88,8 +62,8 @@ struct identity
 			using rtn = boolean<false>;
 		};
 
-		template<typename Args, typename Body, typename Env>
-		struct strict<procedure<Args, Body, Env>>
+		template<typename Args, typename Body, typename Env, typename Func>
+		struct strict<procedure<Args, Body, Env, Func>>
 		{
 			using rtn = boolean<true>;
 		};

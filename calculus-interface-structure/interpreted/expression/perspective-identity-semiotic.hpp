@@ -21,29 +21,29 @@ struct identity
 
 	using rtn		= identity;
 
+	#include nik_typedef(calculus, constant, operate, identity)
+	#include nik_typedef(calculus, constant, boolean, identity)
+	#include nik_typedef(calculus, constant, boolean, functor)
+
+	#include nik_typedef(calculus, constant, number, identity)
+
 /*
 	is_self_evaluating:
 */
 
-	template<typename Exp>
+	template<typename Expression>
 	struct is_self_evaluating
 	{
-		using rtn = typename evaluate
+		using Exp = typename Expression::rtn;
+
+		using rtn = apply
 		<
-			if_then
-			<
-				is_number<Exp>,
-				boolean<true>
+			operate<'|', '|'>,
 
-			>, else_then
-			<
-				is_literal<Exp>,
-				boolean<true>
-
-			>, then
-			<
-				boolean<false>
-			>
+			is_number<Exp>,
+//			is_string<Exp>,
+			is_operate<Exp>,
+			is_boolean<Exp>
 
 		>::rtn;
 	};

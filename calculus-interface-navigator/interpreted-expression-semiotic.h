@@ -18,8 +18,11 @@
 #ifndef CALCULUS_INTERPRETED_EXPRESSION_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_EXPRESSION_SEMIOTIC_H
 
-	#include"constant-literal-semiotic.h"
-	#include"interpreted-environment-semiotic.h"
+	#include"interpreted-quote-semiotic.h"
+	#include"interpreted-assignment-semiotic.h"
+	#include"interpreted-definition-semiotic.h"
+	#include"interpreted-conditional-semiotic.h"
+	#include"interpreted-application-semiotic.h"
 
 #define local_scope
 

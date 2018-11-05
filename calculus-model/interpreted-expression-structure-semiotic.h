@@ -19,12 +19,72 @@
 
 //
 
+				  template<bool... Values>
+	using b			= typename nik_module(boolean, constant, calculus, semiotic)::structure::template
+				  boolean<Values...>;
+
+				  template<char... Chars>
+	using l			= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<Chars...>;
+
+				  template<SIZE_TYPE... Values>
+	using n			= typename nik_module(number, constant, calculus, semiotic)::structure::template
+				  number<Values...>;
+
+				  template<char... Chars>
+	using op		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
+				  operate<Chars...>;
+
+				  template<typename Exp>
+	using quote		= typename nik_module(quote, interpreted, calculus, semiotic)::structure::template
+				  quote<Exp>;
+
+				  template<typename Variable, typename Value>
+	using set		= typename nik_module(assignment, interpreted, calculus, semiotic)::structure::template
+				  set<Variable, Value>;
+
+				  template<typename Variable, typename Value>
+	using define		= typename nik_module(definition, interpreted, calculus, semiotic)::structure::template
+				  define<Variable, Value>;
+
+				  template<typename... Exps>
+	using if_		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
+				  if_<Exps...>;
+
+				  template<typename... Exps>
+	using cond		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
+				  cond<Exps...>;
+
+				  template<typename... Exps>
+	using else_		= typename nik_module(conditional, interpreted, calculus, semiotic)::structure::template
+				  else_<Exps...>;
+
+				  template<typename... Exps>
+	using args		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  arguments<Exps...>;
+
+				  template<typename... Exps>
+	using body		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  body<Exps...>;
+
+				  template<typename Args, typename Body>
+	using lambda		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
+				  lambda<Args, Body>;
+
+				  template<typename... Exps>
+	using begin		= typename nik_module(begin, interpreted, calculus, semiotic)::structure::template
+				  begin<Exps...>;
+
 				  template<typename... Exps>
 	using expression	= typename nik_module(expression, interpreted, calculus, semiotic)::structure::template
 				  expression<Exps...>;
 
 				  template<typename... Exps>
 	using e			= typename nik_module(expression, interpreted, calculus, semiotic)::structure::template
+				  expression<Exps...>;
+
+				  template<typename... Exps>
+	using program		= typename nik_module(expression, interpreted, calculus, semiotic)::structure::template
 				  expression<Exps...>;
 
 	using null_expression	= typename nik_module(expression, interpreted, calculus, semiotic)::structure::template

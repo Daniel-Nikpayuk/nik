@@ -88,17 +88,28 @@ struct functor
 	};
 
 /*
+	procedure_functor:
+*/
+
+	template<typename Exp>
+	struct procedure_functor
+	{
+		using rtn = typename Exp::rtn::functor;
+	};
+
+/*
 	make_procedure:
 */
 
-	template<typename Args, typename Body, typename Env>
+	template<typename Args, typename Body, typename Env, typename Func>
 	struct make_procedure
 	{
 		using rtn = procedure
 		<
 			typename Args::rtn,
 			typename Body::rtn,
-			typename Env::rtn
+			typename Env::rtn,
+			typename Func::rtn
 		>;
 	};
 

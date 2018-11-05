@@ -35,9 +35,9 @@
 	using lambda		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
 				  lambda<Args, Body>;
 
-				  template<typename Args, typename Body, typename Env>
+				  template<typename Args, typename Body, typename Env, typename Func>
 	using procedure		= typename nik_module(lambda, interpreted, calculus, semiotic)::structure::template
-				  procedure<Args, Body, Env>;
+				  procedure<Args, Body, Env, Func>;
 
 //
 

@@ -29,9 +29,23 @@
 
 //
 
-							  template<typename... Exps>
+							  template
+							  <
+								typename Exp, typename Env = typename
+								nik_module(environment, interpreted, calculus, semiotic)::structure::template
+								environment<>
+							  >
 	using nik_safe(PREFIX, evaluate)		= typename nik_module(expression, interpreted, calculus, semiotic)::functor::template
-							  evaluate<Exps...>;
+							  evaluate<Exp, Env>;
+
+							  template
+							  <
+								typename Prog, typename Env = typename
+								nik_module(environment, interpreted, calculus, semiotic)::structure::template
+								environment<>
+							  >
+	using nik_safe(PREFIX, interpret)		= typename nik_module(expression, interpreted, calculus, semiotic)::functor::template
+							  interpret<Prog, Env>;
 
 //
 

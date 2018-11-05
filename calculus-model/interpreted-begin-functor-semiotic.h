@@ -30,6 +30,10 @@
 //
 
 							  template<typename Exps>
+	using nik_safe(PREFIX, make_begin)		= typename nik_module(begin, interpreted, calculus, semiotic)::functor::template
+							  make_begin<Exps>;
+
+							  template<typename Exps>
 	using nik_safe(PREFIX, sequence_to_expression)	= typename nik_module(begin, interpreted, calculus, semiotic)::functor::template
 							  sequence_to_expression<Exps>;
 

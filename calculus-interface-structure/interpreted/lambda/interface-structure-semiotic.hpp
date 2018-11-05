@@ -65,7 +65,7 @@ struct structure
 	procedure:
 */
 
-	template<typename Args, typename Body, typename Env>
+	template<typename Args, typename Body, typename Env, typename Func>
 	struct procedure
 	{
 		using kind					= module;
@@ -77,6 +77,8 @@ struct structure
 		using body					= Body;
 
 		using environment				= Env;
+
+		using functor					= Func;
 	};
 };
 

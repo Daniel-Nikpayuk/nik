@@ -21,16 +21,41 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(calculus, interpreted, application, structure)
+	#include nik_typedef(calculus, constant, operate, identity)
+	#include nik_typedef(calculus, constant, boolean, functor)
 
 /*
-	is_variable:
+	is_application:
 */
 
 	template<typename Exp>
-	struct is_variable
+	struct is_application
 	{
-		using rtn = typename is_literal<Exp>::rtn;
+		using Boolean = typename is_null<Exp>::rtn;
+
+		using rtn = typename apply
+		<
+			op<'!'>,
+			Boolean
+
+		>::rtn;
+	};
+
+/*
+	is_primitive:
+*/
+
+	template<typename Exp>
+	struct is_primitive
+	{
+		using rtn = boolean 
+		<
+			is_operate
+			<
+				typename Exp::rtn
+
+			>::value
+		>;
 	};
 };
 

@@ -29,13 +29,13 @@
 
 //
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_list)			= typename nik_module(active, untyped, calculus, semiotic)::identity::template
-							  is_list<List>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_application)		= typename nik_module(application, interpreted, calculus, semiotic)::identity::template
+							  is_application<Exp>;
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_null)			= typename nik_module(active, untyped, calculus, semiotic)::identity::template
-							  is_null<List>;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_primitive)		= typename nik_module(application, interpreted, calculus, semiotic)::identity::template
+							  is_primitive<Exp>;
 
 //
 

@@ -33,13 +33,7 @@
 #include nik_source(., calculus, untyped, passive, semiotic)
 #include nik_source(., calculus, untyped, active, semiotic)
 
-#include nik_source(., calculus, interpreted, environment, semiotic)
-#include nik_source(., calculus, interpreted, quote, semiotic)
-#include nik_source(., calculus, interpreted, lambda, semiotic)
-#include nik_source(., calculus, interpreted, assignment, semiotic)
-#include nik_source(., calculus, interpreted, definition, semiotic)
-#include nik_source(., calculus, interpreted, begin, semiotic)
-#include nik_source(., calculus, interpreted, conditional, semiotic)
+#include nik_source(., calculus, interpreted, expression, semiotic)
 
 
 //

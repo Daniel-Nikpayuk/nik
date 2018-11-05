@@ -21,43 +21,45 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(calculus, interpreted, recursed, identity)
+	#include nik_typedef(calculus, constant, literal, identity)
 
 	#define safe_name
 
-		#include nik_typedef(calculus, interpreted, recursed, functor)
+		#include nik_typedef(calculus, constant, recursed, identity)
+		#include nik_typedef(calculus, constant, recursed, functor)
+
 		#include nik_typedef(calculus, interpreted, environment, functor)
 
 	#undef safe_name
 
+	#include nik_typedef(calculus, interpreted, quote, identity)
+	#include nik_typedef(calculus, interpreted, assignment, identity)
+	#include nik_typedef(calculus, interpreted, assignment, functor)
+	#include nik_typedef(calculus, interpreted, definition, identity)
+	#include nik_typedef(calculus, interpreted, definition, functor)
+	#include nik_typedef(calculus, interpreted, conditional, identity)
+	#include nik_typedef(calculus, interpreted, conditional, functor)
+	#include nik_typedef(calculus, interpreted, lambda, identity)
+	#include nik_typedef(calculus, interpreted, lambda, functor)
+	#include nik_typedef(calculus, interpreted, begin, identity)
+	#include nik_typedef(calculus, interpreted, begin, functor)
+	#include nik_typedef(calculus, interpreted, application, identity)
+	#include nik_typedef(calculus, interpreted, application, functor)
+
 	#include nik_typedef(calculus, interpreted, expression, structure)
-
-/*
-	is_self_evaluating:
-*/
-
-	template<typename Exp>
-	struct is_self_evaluating
-	{
-		using rtn = apply
-		<
-			operate<'|', '|'>,
-
-			is_boolean<Exp>,
-			is_number<Exp>,
-			is_string<Exp>
-
-		>::rtn;
-	};
+	#include nik_typedef(calculus, interpreted, expression, identity)
 
 /*
 	evaluate:
 */
 
-	template<typename Exp, typename Env = null_environment>
+	template<typename Expression, typename Environment = null_environment>
 	struct evaluate
 	{
-		using rtn = typename intref_evaluate
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+
+		using rtn = typename conref_evaluate
 		<
 			if_then
 			<
@@ -71,73 +73,77 @@ struct functor
 
 			>, else_then
 			<
-				is_quoted<Exp>,
-				car<Exp> // text_of_quotation
+				is_quote<Exp>,
+				conref_car<Exp> // text_of_quotation
 
 			>, else_then
 			<
 				is_assignment<Exp>,
-				evaluate_assignment<Exp, Env>
+				evaluate_assignment<Exp, Env, functor>
 
-			>, else_then                          
-			<                                     
-				is_definition<Exp>,             
-				evaluate_definition<Exp, Env>
+			>, else_then
+			<
+				is_definition<Exp>,
+				evaluate_definition<Exp, Env, functor>
 
-			>, else_then                          
-			<                                     
-				is_if<Exp>,             
-				evaluate_if<Exp, Env>
+			>, else_then
+			<
+				is_if_<Exp>,
+				evaluate_if_<Exp, Env, functor>
 
-			>, else_then                          
-			<                                     
-				is_lambda<Exp>,             
+			>, else_then
+			<
+				is_lambda<Exp>,
 				make_procedure
 				<
-					lambda_parameters<Exp>,
+					lambda_arguments<Exp>,
 					lambda_body<Exp>,
-					Env
+					Env,
+					functor
 				>
 
-			>, else_then                          
-			<                                     
-				is_begin<Exp>,             
+			>, else_then
+			<
+				is_begin<Exp>,
 				evaluate_sequence
 				<
-					begin_actions<Exp>,
-					Env
+					Exp, // begin_actions
+					Env,
+					functor
 				>
 
-			>, else_then                          
-			<                                     
-				is_cond<Exp>,             
+			>, else_then
+			<
+				is_cond<Exp>,
 				evaluate
 				<
-					cond_to_if<Exp>,
+					cond_to_if_<Exp>,
 					Env
 				>
 
-			>, else_then                          
-			<                                     
-				is_application<Exp>,             
+			>, else_then
+			<
+				is_application<Exp>,
 				apply
 				<
 					evaluate
 					<
-						get_operator<Exp>,
+						conref_car<Exp>, // operator
 						Env
 					>,
 
 					list_of_values
 					<
-						get_operands<Exp>,
-						Env
+						conref_cdr<Exp>, // operands
+						Env,
+						functor
 					>
 				>
 
 			>, then
 			<
-				undefined
+				error<'u', 'n', 'k', 'n', 'o', 'w', 'n',
+					' ', 'e', 'x', 'p', 'r', 'e', 's', 's', 'i', 'o', 'n', ' ', 't', 'y', 'p', 'e'>
 			>
 
 		>::rtn;
@@ -146,7 +152,7 @@ struct functor
 	template<typename Env>
 	struct evaluate<null_expression, Env>
 	{
-		using rtn = null_expression;
+		using rtn = boolean<false>;
 	};
 
 /*
@@ -156,6 +162,11 @@ struct functor
 	template<typename Program, typename = null_environment>
 	struct interpret
 	{
+		using rtn = typename evaluate
+		<
+			make_begin<Program>
+ 
+		>::rtn;
 	};
 
 /*
@@ -168,7 +179,7 @@ struct functor
 	template<typename Exp, typename... Exps>
 	inline static void display(const expression<Exp, Exps...> & e)
 	{
-		using is_empty = typename is_null<expression<Exps...>>::rtn;
+		using is_empty = typename conrei_is_null<expression<Exps...>>::rtn;
 
 		Dispatched::functor::display("expression: ");
 		Exp::kind::functor::display(Exp());

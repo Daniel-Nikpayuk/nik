@@ -17,12 +17,25 @@
 
 #include"define-size_type.h"
 
+#ifdef safe_name
+
+	#define PREFIX		intexi_
+
+#else
+
+	#define PREFIX
+
+#endif
+
 //
 
-	using undefined		= typename nik_module(application, interpreted, calculus, semiotic)::structure::
-				  undefined;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_self_evaluating)	= typename nik_module(expression, interpreted, calculus, semiotic)::identity::template
+							  is_self_evaluating<Exp>;
 
 //
+
+#undef PREFIX
 
 #include"undef-size_type.h"
 

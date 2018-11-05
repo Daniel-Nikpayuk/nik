@@ -29,9 +29,13 @@
 
 //
 
-							  template<typename Procedure, typename Arguments>
+							  template<typename Exps, typename Env, typename Func>
+	using nik_safe(PREFIX, list_of_values)		= typename nik_module(application, interpreted, calculus, semiotic)::functor::template
+							  list_of_values<Exps, Env, Func>;
+
+							  template<typename Proc, typename Args>
 	using nik_safe(PREFIX, apply)			= typename nik_module(application, interpreted, calculus, semiotic)::functor::template
-							  apply<Procedure, Arguments>;
+							  apply<Proc, Args>;
 
 //
 

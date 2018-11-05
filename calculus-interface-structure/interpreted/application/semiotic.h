@@ -28,11 +28,11 @@ namespace nik
 
 		#include nik_typedef(calculus, perspective, dispatched, module)
 
+		#include nik_typedef(calculus, constant, operate, structure)
+		#include nik_typedef(calculus, constant, boolean, structure)
 		#include nik_typedef(calculus, constant, recursed, structure)
 
-		//
-
-		#include"interface-structure-semiotic.hpp"
+		#include nik_typedef(calculus, interpreted, error, structure)
 
 		//
 
