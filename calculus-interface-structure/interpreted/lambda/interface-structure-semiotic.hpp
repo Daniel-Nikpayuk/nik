@@ -49,16 +49,12 @@ struct structure
 	lambda:
 */
 
-	template<typename Args, typename Body>
+	template<typename...>
 	struct lambda
 	{
 		using kind					= module;
 
 		using rtn					= lambda;
-
-		using arguments					= Args;
-
-		using body					= Body;
 	};
 
 /*

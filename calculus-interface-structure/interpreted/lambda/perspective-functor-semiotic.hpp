@@ -22,28 +22,9 @@ struct functor
 	using rtn		= functor;
 
 	#include nik_typedef(calculus, constant, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#include nik_typedef(calculus, interpreted, lambda, structure)
-
-/*
-	lambda_arguments:
-*/
-
-	template<typename Exp>
-	struct lambda_arguments
-	{
-		using rtn = typename Exp::rtn::arguments;
-	};
-
-/*
-	lambda_body:
-*/
-
-	template<typename Exp>
-	struct lambda_body
-	{
-		using rtn = typename Exp::rtn::body;
-	};
 
 /*
 	make_lambda:
@@ -52,11 +33,24 @@ struct functor
 	template<typename Args, typename Body>
 	struct make_lambda
 	{
-		using rtn = lambda
+		template<typename> struct strict;
+
+		template<typename... Exps, template<typename...> class Sequence>
+		struct strict<Sequence<Exps...>>
+		{
+			using rtn = lambda<Exps...>;
+		};
+
+		using rtn = typename cons
 		<
 			typename Args::rtn,
-			typename Body::rtn
-		>;
+
+			strict
+			<
+				typename Body::rtn
+			>
+
+		>::rtn;
 	};
 
 /*
@@ -128,9 +122,7 @@ struct functor
 		using is_empty = typename is_null<arguments<Types...>>::rtn;
 
 		Dispatched::functor::display("arguments: ");
-		Type::kind::functor::display(Type());
-
-		if (!is_empty::value) Recursed::functor::display(arguments<Types...>(), ", ");
+		Recursed::functor::display(arguments<Type, Types...>(), ", ");
 	}
 
 	inline static void display(const null_arguments &)
@@ -144,9 +136,7 @@ struct functor
 		using is_empty = typename is_null<body<Types...>>::rtn;
 
 		Dispatched::functor::display("body: ");
-		Type::kind::functor::display(Type());
-
-		if (!is_empty::value) Recursed::functor::display(body<Types...>(), ", ");
+		Recursed::functor::display(body<Type, Types...>(), ", ");
 	}
 
 	inline static void display(const null_body &)
@@ -154,23 +144,28 @@ struct functor
 		Dispatched::functor::display("body: null");
 	}
 
-	template<typename Args, typename Body>
-	inline static void display(const lambda<Args, Body> &)
+	template<typename Type, typename... Types>
+	inline static void display(const lambda<Type, Types...> & a)
 	{
+		using is_empty = typename is_null<lambda<Types...>>::rtn;
+
 		Dispatched::functor::display("lambda: ");
-		Args::kind::functor::display(Args());
-		Dispatched::functor::display(",\n");
-		Body::kind::functor::display(Body());
+		Recursed::functor::display(lambda<Type, Types...>(), ", ");
+	}
+
+	inline static void display(const lambda<> &)
+	{
+		Dispatched::functor::display("lambda: null");
 	}
 
 	template<typename Args, typename Body, typename Env, typename Func>
 	inline static void display(const procedure<Args, Body, Env, Func> &)
 	{
-		Dispatched::functor::display("procedure: ");
+		Dispatched::functor::display("procedure:\n  ");
 		Args::kind::functor::display(Args());
-		Dispatched::functor::display(",\n");
+		Dispatched::functor::display(",\n  ");
 		Body::kind::functor::display(Body());
-		Dispatched::functor::display(",\n");
+		Dispatched::functor::display(",\n  ");
 		Env::kind::functor::display(Env());
 	}
 };

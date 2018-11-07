@@ -80,7 +80,7 @@ struct functor
 		template<typename SubExp1, typename SubExp2>
 		struct recurse
 		{
-			using binding	= typename SubExp1::rtn;
+			using first	= typename SubExp1::rtn;
 			using rest	= typename SubExp2::rtn;
 
 			using rtn = typename if_then_else
@@ -88,15 +88,15 @@ struct functor
 				is_equal
 				<
 					Variable,
-					intbif_binding_variable<binding>
+					intbif_binding_variable<first>
 				>,
 
-				list<binding, Frame1, rest>,
+				list<first, Frame1, rest>,
 
 				split
 				<
 					Variable,
-					push<Frame1, binding>,
+					push<first, Frame1>,
 					rest
 				>
 
@@ -135,10 +135,8 @@ struct functor
 	{
 		using is_empty = typename is_null<frame<Bindings...>>::rtn;
 
-		Dispatched::functor::display("frame: ");
-		Binding::kind::functor::display(Binding());
-
-		if (!is_empty::value) Recursed::functor::display(frame<Bindings...>(), ", ");
+		Dispatched::functor::display("frame:\n ");
+		Recursed::functor::display(frame<Binding, Bindings...>(), ", ");
 	}
 
 	inline static void display(const null_frame &)

@@ -19,7 +19,7 @@
 
 namespace nik
 {
-	using global_size_type = size_t;
+	using global_size_type = signed long long; //size_t;
 
 	constexpr void *null_ptr = 0; // use builtin "nullptr" instead ?
 

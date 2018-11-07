@@ -95,8 +95,8 @@ struct functor
 				is_lambda<Exp>,
 				make_procedure
 				<
-					lambda_arguments<Exp>,
-					lambda_body<Exp>,
+					conref_car<Exp>, // lambda_arguments
+					conref_cdr<Exp>, // lambda_body
 					Env,
 					functor
 				>
@@ -181,10 +181,9 @@ struct functor
 	{
 		using is_empty = typename is_null<expression<Exps...>>::rtn;
 
-		Dispatched::functor::display("expression: ");
-		Exp::kind::functor::display(Exp());
+		Dispatched::functor::display("expression:\n ");
 
-		if (!is_empty::value) Recursed::functor::display(expression<Exps...>(), ", ");
+		Recursed::functor::display(expression<Exp, Exps...>(), ", ");
 		Dispatched::functor::display('\n');
 	}
 

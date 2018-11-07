@@ -29,14 +29,6 @@
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, lambda_arguments)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  lambda_arguments<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, lambda_body)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  lambda_body<Exp>;
-
 							  template<typename Args, typename Body>
 	using nik_safe(PREFIX, make_lambda)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
 							  make_lambda<Args, Body>;

@@ -164,11 +164,20 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp>
-	inline static void display(const cond<Exp> &)
+	template<typename Exp, typename... Exps>
+	inline static void display(const if_<Exp, Exps...> & i)
 	{
-		Dispatched::functor::display("");
+		using is_empty = typename is_null<if_<Exps...>>::rtn;
+
+		Dispatched::functor::display("if_: ");
 		Exp::kind::functor::display(Exp());
+
+		if (!is_empty::value) Recursed::functor::display(if_<Exps...>(), ", ");
+	}
+
+	inline static void display(const if_<> &)
+	{
+		Dispatched::functor::display("if_: null");
 	}
 };
 

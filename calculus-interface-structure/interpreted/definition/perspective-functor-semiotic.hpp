@@ -110,13 +110,21 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp1, typename Exp2>
-	inline static void display(const define<Exp1, Exp2> &)
+	template<typename Exp, typename... Exps>
+	inline static void display(const define<Exp, Exps...> & e)
 	{
-		Dispatched::functor::display("define: ");
-		Exp1::kind::functor::display(Exp1());
-		Dispatched::functor::display(" as ");
-		Exp2::kind::functor::display(Exp2());
+		using is_empty = typename is_null<define<Exps...>>::rtn;
+
+		Dispatched::functor::display("definition: ");
+		Exp::kind::functor::display(Exp());
+
+		if (!is_empty::value) Recursed::functor::display(define<Exps...>(), ", ");
+		Dispatched::functor::display('\n');
+	}
+
+	inline static void display(const define<> &)
+	{
+		Dispatched::functor::display("definition: null\n");
 	}
 };
 

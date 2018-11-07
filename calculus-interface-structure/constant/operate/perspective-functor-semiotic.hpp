@@ -27,10 +27,13 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(calculus, perspective, dispatched, functor)
 	#include nik_typedef(calculus, perspective, typed, functor)
 
 	#include nik_typedef(calculus, constant, operate, structure)
 	#include nik_typedef(calculus, constant, operate, identity)
+
+	#include nik_typedef(calculus, constant, boolean, structure)
 
 /*
 	apply##:
@@ -110,7 +113,9 @@ struct functor
 */
 
 	declare_apply12('+', +)
+	declare_apply11('+', +)
 	declare_apply12('-', -)
+	declare_apply11('-', -)
 	declare_apply12('*', *)
 	declare_apply12('/', /)
 	declare_apply12('%', %)
@@ -177,6 +182,12 @@ struct functor
 
 /*
 	apply:
+
+	There is no apply21, as such there is no need for its variant here.
+	I have coded it but otherwise have commented it out.
+
+	Recursive apply only makes sense for monoid (binary) operators apply12, apply22,
+	but a generic version can handle them both which is supplied at the end.
 */
 
 	template<typename Type, typename...> struct apply;
@@ -240,30 +251,6 @@ struct functor
 		>;
 	};
 
-	template
-	<
-		typename Type,
-		char op_char,
-		typename TypedList1, typename TypedList2, typename... TypedLists,
-		template<char...> class op_list
-	>
-	struct apply
-	<
-		Type,
-		op_list<op_char>,
-		TypedList1, TypedList2, TypedLists...
-	>
-	{
-		using rtn = typename apply
-		<
-			Type,
-			op_list<op_char>,
-			typename apply<Type, op_list<op_char>, TypedList1>::rtn,
-			TypedList2, TypedLists...
-
-		>::rtn;
-	};
-
 /*
 	apply12:
 */
@@ -321,16 +308,24 @@ struct functor
 		typed_list<Value2>
 	>
 	{
-		using rtn = typed_list
+		static constexpr Type value		= apply12<Type, op_char, Value1, Value2>::value;
+
+		static constexpr bool to_boolean	= (op_char == '>') || (op_char == '<');
+
+		using rtn = typename if_then_else
 		<
-			apply12<Type, op_char, Value1, Value2>::value
-		>;
+			to_boolean,
+			boolean<value>,
+			typed_list<value>
+
+		>::rtn;
 	};
 
 /*
 	apply21:
 */
 
+/*
 	template
 	<
 		typename Type,
@@ -409,8 +404,7 @@ struct functor
 
 		>::rtn;
 	};
-
-	// multiple is implemented in apply22.
+*/
 
 /*
 	apply22:
@@ -469,11 +463,26 @@ struct functor
 		typed_list<Value2>
 	>
 	{
-		using rtn = typed_list
+		static constexpr Type value		= apply22<Type, op1_char, op2_char, Value1, Value2>::value;
+
+		static constexpr bool to_boolean	= (op2_char == '=') &&
+							((op1_char == '=') ||
+							 (op1_char == '!') ||
+						 	 (op1_char == '>') ||
+							 (op1_char == '<'));
+
+		using rtn = typename if_then_else
 		<
-			apply22<Type, op1_char, op2_char, Value1, Value2>::value
-		>;
+			to_boolean,
+			boolean<value>,
+			typed_list<value>
+
+		>::rtn;
 	};
+
+/*
+	recursive:
+*/
 
 	template
 	<
@@ -484,7 +493,8 @@ struct functor
 	struct apply
 	<
 		Type,
-		Op, TypedList1, TypedList2, TypedList3, TypedLists...
+		Op,
+		TypedList1, TypedList2, TypedList3, TypedLists...
 	>
 	{
 		using rtn = typename apply
@@ -497,14 +507,14 @@ struct functor
 		>::rtn;
 	};
 
-	#define ONE 1
-
 /*
 	increment:
 
 	Technically this is a specialization of apply, but given its frequency
 	of use as an iterator I've reimplemented it to optimize.
 */
+
+	#define ONE 1
 
 	template<typename Type, typename> struct increment;
 
@@ -565,10 +575,10 @@ struct functor
 	{
 		static constexpr bool is_empty = is_null<operate<Values...>>::value;
 
-		Dispatched::functor::display("operate:");
+		Dispatched::functor::display("operate: ");
 
 		if (is_empty)	Dispatched::functor::display(" null");
-		else		Passive::functor::display(register_type(), o);
+		else		Passive::functor::display(register_type(), o, "");
 	}
 };
 

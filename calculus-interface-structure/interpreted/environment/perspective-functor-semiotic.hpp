@@ -71,14 +71,14 @@ struct functor
 		template<typename SubExp1, typename SubExp2>
 		struct recurse
 		{
-			using frame	= typename SubExp1::rtn;
+			using first	= typename SubExp1::rtn;
 			using rest	= typename SubExp2::rtn;
 
 			using result = typename intfrf_split
 			<
 				Variable,
 				null_frame,
-				frame
+				first
 
 			>::rtn;
 
@@ -92,7 +92,7 @@ struct functor
 				split
 				<
 					Variable,
-					push<Env1, frame>,
+					push<Env1, first>,
 					rest
 				>,
 
@@ -217,14 +217,14 @@ struct functor
 		template<typename SubExp1, typename SubExp2>
 		struct local
 		{
-			using frame = typename SubExp1::rtn;
+			using first = typename SubExp1::rtn;
 			using rest = typename SubExp2::rtn;
 
 			using Tuple = typename intfrf_split
 			<
 				Variable,
 				null_frame,
-				frame
+				first
 
 			>::rtn;
 
@@ -240,7 +240,7 @@ struct functor
 					cons
 					<
 						binding<Variable, Value>,
-						frame
+						first
 					>,
 
 					unite
@@ -295,10 +295,8 @@ struct functor
 	{
 		using is_empty = typename is_null<environment<Frames...>>::rtn;
 
-		Dispatched::functor::display("environment: ");
-		Frame::kind::functor::display(Frame());
-
-		if (!is_empty::value) Recursed::functor::display(environment<Frames...>(), ", ");
+		Dispatched::functor::display("environment:\n ");
+		Recursed::functor::display(environment<Frame, Frames...>(), ", ");
 	}
 
 	inline static void display(const null_environment &)

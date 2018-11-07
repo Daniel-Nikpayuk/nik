@@ -92,10 +92,10 @@ struct functor
 	{
 		static constexpr bool is_empty = is_null<literal<Values...>>::value;
 
-		Dispatched::functor::display("literal:");
+		Dispatched::functor::display("literal: ");
 
 		if (is_empty)	Dispatched::functor::display(" null");
-		else		Passive::functor::display(register_type(), l);
+		else		Passive::functor::display(register_type(), l, "");
 	}
 };
 

@@ -36,8 +36,8 @@ struct identity
 			using rtn = boolean<false>;
 		};
 
-		template<typename Args, typename Body>
-		struct strict<lambda<Args, Body>>
+		template<typename... Exps>
+		struct strict<lambda<Exps...>>
 		{
 			using rtn = boolean<true>;
 		};

@@ -70,9 +70,11 @@ struct functor
 	template<typename Variable, typename Value>
 	inline static void display(const binding<Variable, Value> & b)
 	{
-		Dispatched::functor::display("binding: ");
+		Dispatched::functor::display("binding:\n <\n  ");
 		Variable::kind::functor::display(Variable());
+		Dispatched::functor::display(",\n  ");
 		Value::kind::functor::display(Value());
+		Dispatched::functor::display("\n >\n");
 	}
 };
 
