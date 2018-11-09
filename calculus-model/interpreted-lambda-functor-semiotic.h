@@ -33,25 +33,9 @@
 	using nik_safe(PREFIX, make_lambda)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
 							  make_lambda<Args, Body>;
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, procedure_arguments)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  procedure_arguments<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, procedure_body)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  procedure_body<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, procedure_environment)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  procedure_environment<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, procedure_functor)	= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  procedure_functor<Exp>;
-
-							  template<typename Args, typename Body, typename Env, typename Func>
+							  template<typename... Exps>
 	using nik_safe(PREFIX, make_procedure)		= typename nik_module(lambda, interpreted, calculus, semiotic)::functor::template
-							  make_procedure<Args, Body, Env, Func>;
+							  make_procedure<Exps...>;
 
 //
 

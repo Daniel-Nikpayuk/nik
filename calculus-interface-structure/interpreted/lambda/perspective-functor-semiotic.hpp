@@ -54,58 +54,57 @@ struct functor
 	};
 
 /*
-	procedure_arguments:
-*/
-
-	template<typename Exp>
-	struct procedure_arguments
-	{
-		using rtn = typename Exp::rtn::arguments;
-	};
-
-/*
-	procedure_body:
-*/
-
-	template<typename Exp>
-	struct procedure_body
-	{
-		using rtn = typename Exp::rtn::body;
-	};
-
-/*
-	procedure_environment:
-*/
-
-	template<typename Exp>
-	struct procedure_environment
-	{
-		using rtn = typename Exp::rtn::environment;
-	};
-
-/*
-	procedure_functor:
-*/
-
-	template<typename Exp>
-	struct procedure_functor
-	{
-		using rtn = typename Exp::rtn::functor;
-	};
-
-/*
 	make_procedure:
 */
 
-	template<typename Args, typename Body, typename Env, typename Func>
-	struct make_procedure
+	template<typename...> struct make_procedure;
+
+	template<typename Args, typename Body, typename Func>
+	struct make_procedure<Args, Body, Func>
+	{
+		template<typename> struct to_lambda;
+
+		template<typename... Exps, template<typename...> class Sequence>
+		struct to_lambda<Sequence<Exps...>>
+		{
+			using rtn = lambda<Exps...>;
+		};
+
+		using rtn = procedure
+		<
+			typename Args::rtn,
+
+			typename to_lambda
+			<
+				typename Body::rtn
+			>::rtn,
+
+			typename Func::rtn
+		>;
+	};
+
+	template<typename Args, typename Body, typename Func, typename Env>
+	struct make_procedure<Args, Body, Func, Env>
 	{
 		using rtn = procedure
 		<
 			typename Args::rtn,
 			typename Body::rtn,
+			typename Func::rtn,
+			typename Env::rtn
+		>;
+	};
+
+	template<typename Args, typename Body, typename Func, typename Env, typename Frame>
+	struct make_procedure<Args, Body, Func, Env, Frame>
+	{
+		using rtn = procedure
+		<
+			typename Args::rtn,
+			typename Body::rtn,
+			typename Func::rtn,
 			typename Env::rtn,
-			typename Func::rtn
+			typename Frame::rtn
 		>;
 	};
 
@@ -158,15 +157,37 @@ struct functor
 		Dispatched::functor::display("lambda: null");
 	}
 
-	template<typename Args, typename Body, typename Env, typename Func>
-	inline static void display(const procedure<Args, Body, Env, Func> &)
+	template<typename Args, typename Body, typename Func>
+	inline static void display(const procedure<Args, Body, Func> &)
 	{
-		Dispatched::functor::display("procedure:\n  ");
+		Dispatched::functor::display("procedure: ");
 		Args::kind::functor::display(Args());
-		Dispatched::functor::display(",\n  ");
+		Dispatched::functor::display(", ");
 		Body::kind::functor::display(Body());
-		Dispatched::functor::display(",\n  ");
+	}
+
+	template<typename Args, typename Body, typename Func, typename Env>
+	inline static void display(const procedure<Args, Body, Func, Env> &)
+	{
+		Dispatched::functor::display("procedure: ");
+		Args::kind::functor::display(Args());
+		Dispatched::functor::display(", ");
+		Body::kind::functor::display(Body());
+		Dispatched::functor::display(", ");
 		Env::kind::functor::display(Env());
+	}
+
+	template<typename Args, typename Body, typename Func, typename Env, typename Frame>
+	inline static void display(const procedure<Args, Body, Func, Env, Frame> &)
+	{
+		Dispatched::functor::display("procedure: ");
+		Args::kind::functor::display(Args());
+		Dispatched::functor::display(", ");
+		Body::kind::functor::display(Body());
+		Dispatched::functor::display(", ");
+		Env::kind::functor::display(Env());
+		Dispatched::functor::display(", ");
+		Frame::kind::functor::display(Frame());
 	}
 };
 

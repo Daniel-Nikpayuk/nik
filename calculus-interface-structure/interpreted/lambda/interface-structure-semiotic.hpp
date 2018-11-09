@@ -61,20 +61,12 @@ struct structure
 	procedure:
 */
 
-	template<typename Args, typename Body, typename Env, typename Func>
+	template<typename...>
 	struct procedure
 	{
 		using kind					= module;
 
 		using rtn					= procedure;
-
-		using arguments					= Args;
-
-		using body					= Body;
-
-		using environment				= Env;
-
-		using functor					= Func;
 	};
 };
 

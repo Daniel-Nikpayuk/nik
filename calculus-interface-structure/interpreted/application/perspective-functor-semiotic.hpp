@@ -101,6 +101,52 @@ struct functor
 	};
 
 /*
+	evaluate_application:
+*/
+
+	template<typename Variable, typename Environment, typename Functor>
+	struct evaluate_application
+	{
+		using Var	= typename Variable::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
+		using Proc = typename Func::template evaluate
+		<
+			Var,
+			Env
+
+		>::rtn;
+
+//		using Residual = typename cdr<Proc, two>::rtn;
+
+		using rtn = Proc;/*typename if_then_else
+		<
+			is_null<Residual>,
+
+			push
+			<
+				Env,
+				Proc
+			>,
+
+			make_procedure
+			<
+				car<Proc>,
+				car<Proc, one>,
+				car<Proc, two>,
+
+				cons
+				<
+					car<Proc, four>,
+					car<Proc, three>
+				>
+			>
+
+		>::rtn;*/
+	};
+
+/*
 	apply:
 */
 
@@ -123,16 +169,16 @@ struct functor
 
 				evaluate_sequence
 				<
-					procedure_body<Proc>,
+					car<Proc, one>, // procedure_body
 
 					intenf_construct // extend_environment
 					<
-						procedure_arguments<Proc>,
+						car<Proc>, // procedure_arguments
 						Values,
-						procedure_environment<Proc>
+						car<Proc, three> // procedure_environment
 					>,
 
-					procedure_functor<Proc>
+					car<Proc, two> // procedure_functor
 				>
 
 			>, then

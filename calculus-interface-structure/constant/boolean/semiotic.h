@@ -29,6 +29,8 @@ namespace nik
 		#include nik_typedef(calculus, perspective, dispatched, module)
 		#include nik_typedef(calculus, typed, passive, module)
 
+		#include nik_typedef(calculus, constant, operate, structure)
+
 		//
 
 		using register_type	= bool;

@@ -33,6 +33,7 @@ namespace nik
 		#include nik_typedef(calculus, constant, recursed, structure)
 
 		#include nik_typedef(calculus, interpreted, error, structure)
+		#include nik_typedef(calculus, interpreted, frame, structure)
 		#include nik_typedef(calculus, interpreted, environment, structure)
 
 		//

@@ -21,6 +21,9 @@ struct identity
 
 	using rtn		= identity;
 
+	#include nik_typedef(calculus, constant, recursed, identity)
+	#include nik_typedef(calculus, constant, recursed, functor)
+
 	#include nik_typedef(calculus, interpreted, definition, structure)
 
 /*
@@ -45,6 +48,51 @@ struct identity
 		using rtn = typename strict
 		<
 			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
+	is_value_definition:
+*/
+
+	template<typename Expression>
+	struct is_value_definition
+	{
+		using Exp = typename Expression::rtn;
+
+		using rtn = typename and_then
+		<
+			is_definition<Exp>,
+
+			is_literal
+			<
+				car<Exp>
+			>
+
+		>::rtn;
+	};
+
+/*
+	is_compound_definition:
+*/
+
+	template<typename Expression>
+	struct is_compound_definition
+	{
+		using Exp = typename Expression::rtn;
+
+		using rtn = typename and_then
+		<
+			is_definition<Exp>,
+
+			not_the_case
+			<
+				is_literal
+				<
+					car<Exp>
+				>
+			>
 
 		>::rtn;
 	};

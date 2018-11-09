@@ -34,8 +34,6 @@ struct identity
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, constant, boolean, structure)
-
 /*
 	is_equal:
 */

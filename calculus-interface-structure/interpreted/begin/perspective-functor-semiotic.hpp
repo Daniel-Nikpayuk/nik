@@ -25,6 +25,8 @@ struct functor
 	#include nik_typedef(calculus, constant, recursed, functor)
 
 	#include nik_typedef(calculus, interpreted, environment, identity)
+	#include nik_typedef(calculus, interpreted, definition, identity)
+	#include nik_typedef(calculus, interpreted, definition, functor)
 
 	#include nik_typedef(calculus, interpreted, begin, structure)
 	#include nik_typedef(calculus, interpreted, begin, identity)
@@ -81,44 +83,88 @@ struct functor
 	};
 
 /*
-	evaluate_sequence:
+	re_evaluate_sequence:
 
-	Side-effects are possible within the sequence of evaluations.
-	The only effects necessary in considering are ones which change
-	the environment as it is applicable further down the sequence.
+	Side-effects are still possible within the sequence
+	of residual evaluations as they might still include assignment.
 */
 
-	template<typename Expressions, typename Environment, typename Functor>
-	struct evaluate_sequence
+	template<typename Expressions1, typename Functor, typename Environment, typename Expressions2>
+	struct re_evaluate_sequence
 	{
-		using Exps	= typename Expressions::rtn;
-		using Env0	= typename Environment::rtn;
+		using Exps	= typename Expressions1::rtn;
 		using Func	= typename Functor::rtn;
+		using Env0	= typename Environment::rtn;
+		using Frame	= typename Expressions2::rtn;
 
-		using First = typename Func::template evaluate
+		using First	= typename car<Exps>::rtn;
+
+		using Evaluated	= typename if_then_else
 		<
-			car<Exps>, // first_exp
-			Env0
+			is_compound_definition<First>,
+
+			evaluate_compound_definition
+			<
+				First,
+				Func,
+				Env0,
+				Frame
+			>,
+
+			typename Func::template evaluate
+			<
+				First,
+				Env0
+			>
 
 		>::rtn;
 
 		using rtn = typename if_then_else
 		<
 			is_last<Exps>,
-			First,
+			Evaluated,
 
-			evaluate_sequence
+			re_evaluate_sequence
 			<
-				cdr<Exps>, // rest_exps
+				cdr<Exps>, // rest
+
+				Func,
 
 				if_then_else
 				<
-					is_environment<First>,
-					First,
+					is_environment<Evaluated>,
+					Evaluated,
 					Env0
 				>,
 
-				Func
+				Frame
+			>
+
+		>::rtn;
+	};
+
+/*
+	evaluate_sequence:
+*/
+
+	template<typename Expressions, typename Environment, typename Functor>
+	struct evaluate_sequence
+	{
+		using Exps	= typename Expressions::rtn;
+		using Func	= typename Functor::rtn;
+		using Frame	= typename evaluate_compound_definitions<Exps, Func>::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_null<Exps>,
+			error<>,
+
+			re_evaluate_sequence
+			<
+				Exps,
+				Func,
+				Environment,
+				Frame
 			>
 
 		>::rtn;
@@ -131,11 +177,21 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Exp>
-	inline static void display(const begin<Exp> &)
+	template<typename Exp, typename... Exps>
+	inline static void display(const begin<Exp, Exps...> & e)
 	{
-		Dispatched::functor::display("");
+		using is_empty = typename is_null<begin<Exps...>>::rtn;
+
+		Dispatched::functor::display("begin: ");
 		Exp::kind::functor::display(Exp());
+
+		if (!is_empty::value) Recursed::functor::display(begin<Exps...>(), ", ");
+		Dispatched::functor::display('\n');
+	}
+
+	inline static void display(const begin<> &)
+	{
+		Dispatched::functor::display("begin: null\n");
 	}
 };
 

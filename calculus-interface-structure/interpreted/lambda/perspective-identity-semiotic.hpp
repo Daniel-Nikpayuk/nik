@@ -62,8 +62,8 @@ struct identity
 			using rtn = boolean<false>;
 		};
 
-		template<typename Args, typename Body, typename Env, typename Func>
-		struct strict<procedure<Args, Body, Env, Func>>
+		template<typename... Exps>
+		struct strict<procedure<Exps...>>
 		{
 			using rtn = boolean<true>;
 		};

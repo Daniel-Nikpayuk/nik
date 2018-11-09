@@ -24,6 +24,8 @@ struct functor
 	#define safe_name
 
 		#include nik_typedef(calculus, perspective, untyped, functor)
+
+		#include nik_typedef(calculus, constant, boolean, functor)
 		#include nik_typedef(calculus, constant, number, functor)
 
 	#undef safe_name
@@ -243,33 +245,23 @@ struct functor
 	template<typename Exp1, typename Exp2 = number<0>>
 	struct length
 	{
-		using rtn = typename length<typename Exp1::rtn, typename Exp2::rtn>::rtn;
-	};
+		using List	= typename Exp1::rtn;
+		using Count	= typename Exp2::rtn;
 
-	template
-	<
-		typename Value, typename... Values,
-		size_type count,
-		template<typename...> class ListType,
-		template<size_type> class Number
-	>
-	struct length<ListType<Value, Values...>, Number<count>>
-	{
-		using rtn = typename length<ListType<Values...>, Number<count+1>>::rtn;
-	};
-
-	template
-	<
-		size_type count,
-		template<typename...> class ListType,
-		template<size_type> class Number
-	>
-	struct length<ListType<>, Number<count>>
-	{
-		using rtn = number
+		using rtn = typename if_then_else
 		<
-			count
-		>;
+			is_null<List>,
+
+			Count,
+
+			length
+			<
+				cdr<List>,
+				connuf_increment<Count>
+			>
+
+		>::rtn;
+
 	};
 
 /***********************************************************************************************************************/
@@ -330,6 +322,84 @@ struct functor
 			<
 				Exps...
 			>
+
+		>::rtn;
+	};
+
+/*
+	not_the_case:
+*/
+
+	template<typename Exp>
+	struct not_the_case
+	{
+		using rtn = typename conbof_apply
+		<
+			operate<'!'>,
+
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
+	or_else:
+*/
+
+	template<typename...> struct or_else;
+
+	template<typename Exp>
+	struct or_else<Exp>
+	{
+		using rtn = typename Exp::rtn;
+	};
+
+	template<typename Exp1, typename Exp2, typename... Exps>
+	struct or_else<Exp1, Exp2, Exps...>
+	{
+		using rtn = typename if_then_else
+		<
+			typename Exp1::rtn,
+
+			boolean<true>,
+
+			or_else
+			<
+				Exp2,
+
+				Exps...
+			>
+
+		>::rtn;
+	};
+
+/*
+	and_then:
+*/
+
+	template<typename...> struct and_then;
+
+	template<typename Exp>
+	struct and_then<Exp>
+	{
+		using rtn = typename Exp::rtn;
+	};
+
+	template<typename Exp1, typename Exp2, typename... Exps>
+	struct and_then<Exp1, Exp2, Exps...>
+	{
+		using rtn = typename if_then_else
+		<
+			typename Exp1::rtn,
+
+			and_then
+			<
+				Exp2,
+
+				Exps...
+			>,
+
+			boolean<false>
 
 		>::rtn;
 	};

@@ -82,8 +82,8 @@ struct functor
 
 			>, else_then
 			<
-				is_definition<Exp>,
-				evaluate_definition<Exp, Env, functor>
+				is_value_definition<Exp>,
+				evaluate_value_definition<Exp, Env, functor>
 
 			>, else_then
 			<
@@ -97,8 +97,9 @@ struct functor
 				<
 					conref_car<Exp>, // lambda_arguments
 					conref_cdr<Exp>, // lambda_body
+					functor,
 					Env,
-					functor
+					null_frame
 				>
 
 			>, else_then
@@ -125,10 +126,11 @@ struct functor
 				is_application<Exp>,
 				apply
 				<
-					evaluate
+					evaluate_application
 					<
 						conref_car<Exp>, // operator
-						Env
+						Env,
+						functor
 					>,
 
 					list_of_values

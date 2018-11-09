@@ -30,6 +30,7 @@ namespace nik
 
 		#include nik_typedef(calculus, constant, operate, structure)
 		#include nik_typedef(calculus, constant, boolean, structure)
+		#include nik_typedef(calculus, constant, number, structure)
 		#include nik_typedef(calculus, constant, recursed, structure)
 
 		#include nik_typedef(calculus, interpreted, error, structure)

@@ -23,6 +23,7 @@ struct functor
 
 	#define safe_name
 
+		#include nik_typedef(calculus, dispatched, active, functor)
 		#include nik_typedef(calculus, typed, passive, functor)
 		#include nik_typedef(calculus, constant, operate, functor)
 
@@ -75,10 +76,71 @@ struct functor
 
 /*
 	apply:
+
+	Redefined for short-circuit optimization.
 */
 
-				  template<typename... Exps>
-	using apply		= conopf_apply<register_type, Exps...>;
+	template<typename... Exps>
+	struct apply
+	{
+		using rtn = typename conopf_apply<register_type, Exps...>::rtn;
+	};
+
+	template<bool Value>
+	struct apply<operate<'|', '|'>, boolean<Value>>
+	{
+		using rtn = boolean<Value>;
+	};
+
+	template<bool Value, typename Boolean, typename... Booleans>
+	struct apply
+	<
+		operate<'|', '|'>,
+		boolean<Value>, Boolean, Booleans...
+	>
+	{
+		using rtn = typename disacf_if_then_else
+		<
+			Value,
+
+			boolean<true>,
+
+			apply
+			<
+				operate<'|', '|'>,
+				Boolean, Booleans...
+			>
+
+		>::rtn;
+	};
+
+	template<bool Value>
+	struct apply<operate<'&', '&'>, boolean<Value>>
+	{
+		using rtn = boolean<Value>;
+	};
+
+	template<bool Value, typename Boolean, typename... Booleans>
+	struct apply
+	<
+		operate<'&', '&'>,
+		boolean<Value>, Boolean, Booleans...
+	>
+	{
+		using rtn = typename disacf_if_then_else
+		<
+			Value,
+
+			apply
+			<
+				operate<'&', '&'>,
+				Boolean, Booleans...
+			>,
+
+			boolean<false>
+
+		>::rtn;
+	};
 
 /*
 	display:

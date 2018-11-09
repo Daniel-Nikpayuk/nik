@@ -58,14 +58,25 @@ struct identity
 			>::rtn;
 		};
 
-		using rtn = typename if_then_else
+		using rtn = typename evaluate
 		<
-			is_null<Exp>,
-			boolean<false>,
-
-			local
+			if_then
 			<
-				car<Exp>
+				is_null<Exp>,
+				boolean<false>
+
+			>, else_then
+			<
+				is_list<Exp>,
+
+				local
+				<
+					car<Exp>
+				>
+
+			>, then
+			<
+				boolean<false>
 			>
 
 		>::rtn;

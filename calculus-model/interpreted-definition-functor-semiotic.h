@@ -29,9 +29,22 @@
 
 //
 
-							  template<typename Exp, typename Env, typename Func>
-	using nik_safe(PREFIX, evaluate_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::template
-							  evaluate_definition<Exp, Env, Func>;
+								  template<typename Exp, typename Env, typename Func>
+	using nik_safe(PREFIX, evaluate_value_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::
+								  template evaluate_value_definition<Exp, Env, Func>;
+
+								  template<typename... Exps>
+	using nik_safe(PREFIX, evaluate_compound_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::
+								  template evaluate_compound_definition<Exps...>;
+
+								  template
+								  <
+									typename Seq, typename Func, typename Frame = typename
+									nik_module(frame, interpreted, calculus, semiotic)::structure::
+									template frame<>
+								  >
+	using nik_safe(PREFIX, evaluate_compound_definitions)	= typename nik_module(definition, interpreted, calculus, semiotic)::functor::
+								  template evaluate_compound_definitions<Seq, Func, Frame>;
 
 //
 

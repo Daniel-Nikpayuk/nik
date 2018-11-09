@@ -33,6 +33,14 @@
 	using nik_safe(PREFIX, is_definition)		= typename nik_module(definition, interpreted, calculus, semiotic)::identity::template
 							  is_definition<Exp>;
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_value_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::identity::template
+							  is_value_definition<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_compound_definition)	= typename nik_module(definition, interpreted, calculus, semiotic)::identity::template
+							  is_compound_definition<Exp>;
+
 //
 
 #undef PREFIX

@@ -79,6 +79,18 @@
 	using nik_safe(PREFIX, evaluate)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
 							  evaluate<Exps...>;
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, not_the_case)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+							  not_the_case<Exp>;
+
+							  template<typename... Exps>
+	using nik_safe(PREFIX, or_else)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+							  or_else<Exps...>;
+
+							  template<typename... Exps>
+	using nik_safe(PREFIX, and_then)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+							  and_then<Exps...>;
+
 //
 
 #undef PREFIX
