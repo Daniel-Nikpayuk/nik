@@ -73,13 +73,11 @@ struct functor
 	};
 
 /*
-	apply_operate:
-
-	Assumes the template parameters have already been 
+	apply_primitive:
 */
 
-	template<typename Operate, typename Arguments>
-	struct apply_operate
+	template<typename Operate, typename ArgValues>
+	struct apply_primitive
 	{
 		template<typename> struct strict;
 
@@ -88,26 +86,28 @@ struct functor
 		{
 			using rtn = typename Value::kind::functor::template apply
 			<
-				typename Operate::rtn, Value, Values...
+				typename Operate::rtn,
+				Value, Values...
 
 			>::rtn;
 		};
 
 		using rtn = typename strict
 		<
-			typename Arguments::rtn
+			typename ArgValues::rtn
 
 		>::rtn;
 	};
 
 /*
-	evaluate_application:
+	apply_compound:
 */
 
-	template<typename Variable, typename Environment, typename Functor>
-	struct evaluate_application
+	template<typename Variable, typename ArgValues, typename Environment, typename Functor>
+	struct apply_compound
 	{
 		using Var	= typename Variable::rtn;
+		using Values	= typename ArgValues::rtn;
 		using Env	= typename Environment::rtn;
 		using Func	= typename Functor::rtn;
 
@@ -118,9 +118,9 @@ struct functor
 
 		>::rtn;
 
-//		using Residual = typename cdr<Proc, two>::rtn;
+		using Residual = typename cdr<Proc, two>::rtn;
 
-		using rtn = Proc;/*typename if_then_else
+		using Compound = typename if_then_else
 		<
 			is_null<Residual>,
 
@@ -132,59 +132,70 @@ struct functor
 
 			make_procedure
 			<
-				car<Proc>,
-				car<Proc, one>,
-				car<Proc, two>,
+				car<Proc>, // ProcArgs
+				car<Proc, one>, // ProcBody
+				car<Proc, two>, // ProcFunc
 
 				cons
 				<
-					car<Proc, four>,
-					car<Proc, three>
+					car<Proc, four>, // ProcFrm
+					car<Proc, three> // ProcEnv
 				>
 			>
 
-		>::rtn;*/
+		>::rtn;
+
+		using rtn = typename evaluate_sequence
+		<
+			car<Compound, one>, // CompoundBody
+
+			intenf_construct // extend_environment
+			<
+				car<Compound>, // CompoundArgs
+				Values,
+				car<Compound, three> // CompoundEnv
+			>,
+
+			car<Compound, two> // CompoundFunc
+
+		>::rtn;
 	};
 
 /*
-	apply:
+	evaluate_application:
 */
 
-	template<typename Procedure, typename Arguments>
-	struct apply
+	template<typename Operator, typename Arguments, typename Environment, typename Functor>
+	struct evaluate_application
 	{
-		using Proc	= typename Procedure::rtn;
-		using Values	= typename Arguments::rtn;
+		using Method	= typename Operator::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
 
-		using rtn = typename evaluate
+		using Values	= typename list_of_values
 		<
-			if_then
+			Arguments,
+			Env,
+			Func
+
+		>::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_operate<Method>, // is_primitive
+
+			apply_primitive
 			<
-				is_operate<Proc>, // is_primitive
-				apply_operate<Proc, Values>
+				Method,
+				Values
+			>,
 
-			>, else_then
+			apply_compound
 			<
-				is_compound<Proc>,
-
-				evaluate_sequence
-				<
-					car<Proc, one>, // procedure_body
-
-					intenf_construct // extend_environment
-					<
-						car<Proc>, // procedure_arguments
-						Values,
-						car<Proc, three> // procedure_environment
-					>,
-
-					car<Proc, two> // procedure_functor
-				>
-
-			>, then
-			<
-				error<'u', 'n', 'k', 'n', 'o', 'w', 'n',
-					' ', 'p', 'r', 'o', 'c', 'e', 'd', 'u', 'r', 'e', ' ', 't', 'y', 'p', 'e'>
+				Method,
+				Values,
+				Env,
+				Func
 			>
 
 		>::rtn;

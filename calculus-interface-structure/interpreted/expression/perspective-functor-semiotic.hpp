@@ -124,21 +124,12 @@ struct functor
 			>, else_then
 			<
 				is_application<Exp>,
-				apply
+				evaluate_application
 				<
-					evaluate_application
-					<
-						conref_car<Exp>, // operator
-						Env,
-						functor
-					>,
-
-					list_of_values
-					<
-						conref_cdr<Exp>, // operands
-						Env,
-						functor
-					>
+					conref_car<Exp>, // operator
+					conref_cdr<Exp>, // operands
+					Env,
+					functor
 				>
 
 			>, then

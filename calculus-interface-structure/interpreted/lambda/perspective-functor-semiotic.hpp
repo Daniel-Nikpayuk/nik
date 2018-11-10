@@ -27,11 +27,11 @@ struct functor
 	#include nik_typedef(calculus, interpreted, lambda, structure)
 
 /*
-	make_lambda:
+	to_lambda:
 */
 
-	template<typename Args, typename Body>
-	struct make_lambda
+	template<typename Exp>
+	struct to_lambda
 	{
 		template<typename> struct strict;
 
@@ -41,14 +41,24 @@ struct functor
 			using rtn = lambda<Exps...>;
 		};
 
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
+	make_lambda:
+*/
+
+	template<typename Args, typename Body>
+	struct make_lambda
+	{
 		using rtn = typename cons
 		<
-			typename Args::rtn,
-
-			strict
-			<
-				typename Body::rtn
-			>
+			Args,
+			to_lambda<Body>
 
 		>::rtn;
 	};
@@ -62,22 +72,11 @@ struct functor
 	template<typename Args, typename Body, typename Func>
 	struct make_procedure<Args, Body, Func>
 	{
-		template<typename> struct to_lambda;
-
-		template<typename... Exps, template<typename...> class Sequence>
-		struct to_lambda<Sequence<Exps...>>
-		{
-			using rtn = lambda<Exps...>;
-		};
-
 		using rtn = procedure
 		<
 			typename Args::rtn,
 
-			typename to_lambda
-			<
-				typename Body::rtn
-			>::rtn,
+			typename to_lambda<Body>::rtn,
 
 			typename Func::rtn
 		>;
@@ -89,7 +88,7 @@ struct functor
 		using rtn = procedure
 		<
 			typename Args::rtn,
-			typename Body::rtn,
+			typename to_lambda<Body>::rtn,
 			typename Func::rtn,
 			typename Env::rtn
 		>;
@@ -101,7 +100,7 @@ struct functor
 		using rtn = procedure
 		<
 			typename Args::rtn,
-			typename Body::rtn,
+			typename to_lambda<Body>::rtn,
 			typename Func::rtn,
 			typename Env::rtn,
 			typename Frame::rtn

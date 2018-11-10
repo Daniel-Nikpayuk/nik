@@ -34,49 +34,30 @@ struct identity
 		using Exp = typename Expression::rtn;
 
 		template<typename SubExp>
-		struct local
+		struct type_match
 		{
 			using first = typename SubExp::rtn;
 
-			using rtn = typename evaluate
+			using rtn = typename or_else
 			<
-				if_then
-				<
-					is_operate<first>,
-					boolean<true>
-
-				>, else_then
-				<
-					is_literal<first>,
-					boolean<true>
-
-				>, then
-				<
-					boolean<false>
-				>
+				is_operate<first>,
+				is_literal<first>
 
 			>::rtn;
 		};
 
-		using rtn = typename evaluate
+		using rtn = typename and_then
 		<
-			if_then
-			<
-				is_null<Exp>,
-				boolean<false>
+			is_list<Exp>,
 
-			>, else_then
+			not_the_case
 			<
-				is_list<Exp>,
+				is_null<Exp>
+			>,
 
-				local
-				<
-					car<Exp>
-				>
-
-			>, then
+			type_match
 			<
-				boolean<false>
+				car<Exp>
 			>
 
 		>::rtn;
