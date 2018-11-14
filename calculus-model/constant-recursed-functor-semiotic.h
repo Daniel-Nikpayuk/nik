@@ -29,6 +29,12 @@
 
 //
 
+							  template<typename Type>
+	using nik_safe(PREFIX, size_of)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+							  size_of<Type>;
+
+//
+
 							  template<typename Pred, typename Ante, typename Conse>
 	using nik_safe(PREFIX, if_then_else)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
 							  if_then_else<Pred, Ante, Conse>;

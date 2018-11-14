@@ -21,10 +21,9 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(calculus, constant, recursed, identity)
-
 	#define safe_name
 
+		#include nik_typedef(calculus, constant, recursed, identity)
 		#include nik_typedef(calculus, constant, recursed, functor)
 
 		#include nik_typedef(calculus, interpreted, environment, functor)
@@ -67,7 +66,7 @@ struct functor
 
 			>, else_then
 			<
-				is_literal<Exp>, // is_variable
+				conrei_is_literal<Exp>, // is_variable
 				intenf_lookup<Exp, Env>
 
 			>, else_then
@@ -172,7 +171,7 @@ struct functor
 	template<typename Exp, typename... Exps>
 	inline static void display(const expression<Exp, Exps...> & e)
 	{
-		using is_empty = typename is_null<expression<Exps...>>::rtn;
+		using is_empty = typename conrei_is_null<expression<Exps...>>::rtn;
 
 		Dispatched::functor::display("expression:\n ");
 

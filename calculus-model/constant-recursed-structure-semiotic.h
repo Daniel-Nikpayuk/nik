@@ -19,6 +19,10 @@
 
 //
 
+				  template<typename Exp>
+	using type		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+				  type<Exp>;
+
 				  template<typename... Exps>
 	using list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
 				  list<Exps...>;

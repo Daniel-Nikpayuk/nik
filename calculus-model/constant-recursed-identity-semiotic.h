@@ -29,6 +29,16 @@
 
 //
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_type)			= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_type<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_list_type)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+							  is_list_type<Exp>;
+
+//
+
 							  template<typename Exp1, typename Exp2>
 	using nik_safe(PREFIX, is_equal)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
 							  is_equal<Exp1, Exp2>;

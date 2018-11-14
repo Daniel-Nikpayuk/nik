@@ -22,6 +22,18 @@ struct structure
 	using rtn						= structure;
 
 /*
+	type:
+*/
+
+	template<typename Exp>
+	struct type
+	{
+		using kind					= module;
+
+		using rtn					= type;
+	};
+
+/*
 	list:
 */
 

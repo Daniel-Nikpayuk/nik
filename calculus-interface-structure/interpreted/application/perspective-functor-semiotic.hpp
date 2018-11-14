@@ -73,33 +73,6 @@ struct functor
 	};
 
 /*
-	apply_primitive:
-*/
-
-	template<typename Operate, typename ArgValues>
-	struct apply_primitive
-	{
-		template<typename> struct strict;
-
-		template<typename Value, typename... Values, template<typename...> class Sequence>
-		struct strict<Sequence<Value, Values...>>
-		{
-			using rtn = typename Value::kind::functor::template apply
-			<
-				typename Operate::rtn,
-				Value, Values...
-
-			>::rtn;
-		};
-
-		using rtn = typename strict
-		<
-			typename ArgValues::rtn
-
-		>::rtn;
-	};
-
-/*
 	apply_compound:
 */
 
@@ -162,6 +135,178 @@ struct functor
 	};
 
 /*
+	car_apply:
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct car_apply
+	{
+		using first	= typename Exp1::rtn;
+		using rest	= typename Exp2::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_null<rest>,
+			car<first>,
+
+			car
+			<
+				car<rest>,
+				first
+			>
+
+		>::rtn;
+	};
+
+/*
+	cdr_apply:
+*/
+
+	template<typename Exp1, typename Exp2>
+	struct cdr_apply
+	{
+		using first	= typename Exp1::rtn;
+		using rest	= typename Exp2::rtn;
+
+		using rtn = typename if_then_else
+		<
+			is_null<rest>,
+			cdr<first>,
+
+			cdr
+			<
+				car<rest>,
+				first
+			>
+
+		>::rtn;
+	};
+
+/*
+	literal_apply:
+*/
+
+	template<typename Operator, typename Arguments, typename Environment, typename Functor>
+	struct literal_apply
+	{
+		using Method	= typename Operator::rtn;
+		using Values	= typename Arguments::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
+		using rtn = typename evaluate
+		<
+			if_then
+			<
+				is_equal
+				<
+					Method,
+					literal<'s', 'i', 'z', 'e', '_', 'o', 'f'>
+				>,
+
+				size_of
+				<
+					car<Values>
+				>
+
+			>, else_then
+			<
+				is_equal
+				<
+					Method,
+					literal<'i', 's', '_', 'n', 'u', 'l', 'l'>
+				>,
+
+				is_null
+				<
+					car<Values>
+				>
+
+			>, else_then
+			<
+				is_equal
+				<
+					Method,
+					literal<'c', 'o', 'n', 's'>
+				>,
+
+				cons
+				<
+					car<Values>,
+					car<Values, one>
+				>
+
+			>, else_then
+			<
+				is_equal
+				<
+					Method,
+					literal<'c', 'a', 'r'>
+				>,
+
+				car_apply
+				<
+					car<Values>,
+					cdr<Values>
+				>
+
+			>, else_then
+			<
+				is_equal
+				<
+					Method,
+					literal<'c', 'd', 'r'>
+				>,
+
+				cdr_apply
+				<
+					car<Values>,
+					cdr<Values>
+				>
+
+			>, then
+			<
+				apply_compound
+				<
+					Method,
+					Values,
+					Env,
+					Func
+				>
+			>
+
+		>::rtn;
+
+	};
+
+/*
+	apply_primitive:
+
+	template<typename Operate, typename ArgValues>
+	struct apply_primitive
+	{
+		template<typename> struct strict;
+
+		template<typename Value, typename... Values, template<typename...> class Sequence>
+		struct strict<Sequence<Value, Values...>>
+		{
+			using rtn = typename Value::kind::functor::template apply
+			<
+				typename Operate::rtn,
+				Value, Values...
+
+			>::rtn;
+		};
+
+		using rtn = typename strict
+		<
+			typename ArgValues::rtn
+
+		>::rtn;
+	};
+*/
+
+/*
 	evaluate_application:
 */
 
@@ -180,17 +325,26 @@ struct functor
 
 		>::rtn;
 
-		using rtn = typename if_then_else
-		<
-			is_operate<Method>, // is_primitive
+		template<typename> struct to_apply;
 
-			apply_primitive
+		template<typename Param, typename... Params, template<typename...> class Sequence>
+		struct to_apply<Sequence<Param, Params...>>
+		{
+			using rtn = typename Param::kind::functor::template apply
 			<
 				Method,
-				Values
-			>,
+				Param, Params...
 
-			apply_compound
+			>::rtn;
+		};
+
+		using rtn = typename if_then_else
+		<
+			is_operate<Method>,
+
+			to_apply<Values>,
+
+			literal_apply
 			<
 				Method,
 				Values,

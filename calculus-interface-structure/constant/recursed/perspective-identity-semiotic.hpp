@@ -34,6 +34,60 @@ struct identity
 
 	#undef safe_name
 
+	#include nik_typedef(calculus, constant, recursed, structure)
+
+/*
+	is_type:
+*/
+
+	template<typename Expression>
+	struct is_type
+	{
+		template<typename>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename Exp>
+		struct strict<type<Exp>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Expression::rtn
+
+		>::rtn;
+	};
+
+/*
+	is_list_type:
+*/
+
+	template<typename Expression>
+	struct is_list_type
+	{
+		template<typename>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<list<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Expression::rtn
+
+		>::rtn;
+	};
+
 /*
 	is_equal:
 */

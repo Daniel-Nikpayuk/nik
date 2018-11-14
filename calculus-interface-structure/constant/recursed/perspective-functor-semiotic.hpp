@@ -34,6 +34,31 @@ struct functor
 	#include nik_typedef(calculus, constant, recursed, identity)
 
 /*
+	size_of:
+*/
+
+	template<typename Expression>
+	struct size_of
+	{
+		template<typename> struct strict;
+
+		template<typename Exp>
+		struct strict<type<Exp>>
+		{
+			using rtn = number
+			<
+				sizeof(Exp)
+			>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Expression::rtn
+
+		>::rtn;
+	};
+
+/*
 	if_then_else:
 */
 

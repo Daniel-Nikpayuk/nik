@@ -33,34 +33,16 @@ struct identity
 	{
 		using Exp = typename Expression::rtn;
 
-		using rtn = typename evaluate
+		using rtn = typename or_else
 		<
-			if_then
-			<
-				is_number<Exp>,
-				boolean<true>
-
+			is_number<Exp>,
 /*
-			>, else_then
-			<
-				is_string<Exp>,
-				boolean<true>
+			is_string<Exp>,
 */
+			is_boolean<Exp>,
 
-			>, else_then
-			<
-				is_operate<Exp>,
-				boolean<true>
-
-			>, else_then
-			<
-				is_boolean<Exp>,
-				boolean<true>
-
-			>, then
-			<
-				boolean<false>
-			>
+			is_type<Exp>,
+			is_list_type<Exp>
 
 		>::rtn;
 	};

@@ -31,6 +31,14 @@
 	using n			= typename nik_module(number, constant, calculus, semiotic)::structure::template
 				  number<Values...>;
 
+				  template<typename Type>
+	using t			= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+				  type<Type>;
+
+				  template<typename... Types>
+	using list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+				  list<Types...>;
+
 				  template<char... Chars>
 	using op		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
 				  operate<Chars...>;
@@ -93,6 +101,23 @@
 
 	using null_expression	= typename nik_module(expression, interpreted, calculus, semiotic)::structure::template
 				  expression<>;
+
+//
+
+	using size_of		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<'s', 'i', 'z', 'e', '_', 'o', 'f'>;
+
+	using is_null		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<'i', 's', '_', 'n', 'u', 'l', 'l'>;
+
+	using cons		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<'c', 'o', 'n', 's'>;
+
+	using car		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<'c', 'a', 'r'>;
+
+	using cdr		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+				  literal<'c', 'd', 'r'>;
 
 //
 
