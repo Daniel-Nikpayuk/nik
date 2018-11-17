@@ -34,6 +34,7 @@ namespace nik
 
 		//
 
+		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

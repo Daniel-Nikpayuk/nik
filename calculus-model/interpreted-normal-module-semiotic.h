@@ -15,44 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+#include"define-size_type.h"
 
-	using rtn						= structure;
+//
 
-	template<typename Predicate, typename Expression>
-	struct if_then
-	{
-		using kind					= module;
+	using Normal = nik_module(normal, interpreted, calculus, semiotic);
 
-		using rtn					= if_then;
+//
 
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
+#include"undef-size_type.h"
 

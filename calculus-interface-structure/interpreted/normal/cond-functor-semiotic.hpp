@@ -15,44 +15,61 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+/*
+	cond_to_if_:
+*/
 
-	using rtn						= structure;
-
-	template<typename Predicate, typename Expression>
-	struct if_then
+	template<typename Expressions>
+	struct cond_to_if_
 	{
-		using kind					= module;
+		using Clauses = typename Expressions::rtn;
 
-		using rtn					= if_then;
+		template<typename Exp1, typename Exp2>
+		struct recurse
+		{
+			using first = typename Exp1::rtn;
+			using rest = typename Exp2::rtn;
 
-		using predicate					= Predicate;
+			using rtn = typename if_then_else
+			<
+				is_else_<first>,
 
-		using expression				= Expression;
+				if_then_else
+				<
+					is_null<rest>,
+
+					sequence_to_expression<first>,
+
+					error<'e', 'l', 's', 'e', '_', ' ', 'c', 'l', 'a', 'u', 's', 'e',
+						' ', 'i', 's', 'n', '\'', 't', ' ', 'l', 'a', 's', 't'>
+				>,
+
+				if__make
+				<
+					car<first>, // cond_predicate
+
+					sequence_to_expression
+					<
+						cdr<first> // cond_actions
+					>,
+
+					cond_to_if_<rest>
+				>
+
+			>::rtn;
+		};
+
+		using rtn = typename if_then_else
+		<
+			is_null<Clauses>,
+			boolean<false>,
+
+			recurse
+			<
+				car<Clauses>,
+				cdr<Clauses>
+			>
+
+		>::rtn;
 	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
 

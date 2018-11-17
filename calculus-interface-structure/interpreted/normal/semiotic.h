@@ -15,44 +15,34 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+namespace nik
 {
-	using kind						= module;
-
-	using rtn						= structure;
-
-	template<typename Predicate, typename Expression>
-	struct if_then
+	template<typename SizeType>
+	struct module<Module::normal, Branch::interpreted, Lens::calculus, Permission::semiotic, SizeType>
 	{
-		using kind					= module;
+		using rtn	= module;
 
-		using rtn					= if_then;
+		using size_type	= SizeType;
 
-		using predicate					= Predicate;
+		//
 
-		using expression				= Expression;
+		#include nik_typedef(calculus, perspective, dispatched, module)
+		#include nik_typedef(calculus, typed, passive, module)
+		#include nik_typedef(calculus, constant, recursed, module)
+
+		#include nik_typedef(calculus, constant, boolean, structure)
+		#include nik_typedef(calculus, constant, literal, structure)
+		#include nik_typedef(calculus, constant, number, structure)
+		#include nik_typedef(calculus, constant, recursed, structure)
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
+}
 

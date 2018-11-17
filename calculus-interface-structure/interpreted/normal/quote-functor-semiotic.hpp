@@ -15,44 +15,17 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+/*
+	display:
 
-	using rtn						= structure;
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
 
-	template<typename Predicate, typename Expression>
-	struct if_then
+	template<typename Exp>
+	inline static void display(const quote<Exp> &)
 	{
-		using kind					= module;
-
-		using rtn					= if_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
+		Dispatched::functor::display("quote: ");
+		Exp::kind::functor::display(Exp());
+	}
 

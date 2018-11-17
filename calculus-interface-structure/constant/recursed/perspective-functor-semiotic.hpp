@@ -34,6 +34,28 @@ struct functor
 	#include nik_typedef(calculus, constant, recursed, identity)
 
 /*
+	relabel:
+*/
+
+	template<typename Exp, template<typename...> class Label>
+	struct relabel
+	{
+		template<typename> struct strict;
+
+		template<typename... Exps, template<typename...> class InitialLabel>
+		struct strict<InitialLabel<Exps...>>
+		{
+			using rtn = Label<Exps...>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
 	size_of:
 */
 
@@ -59,9 +81,37 @@ struct functor
 	};
 
 /*
+	memoize_if_then_else:
+*/
+
+	template<typename, typename Filler = void> struct memoize_if_then_else;
+
+	template<typename Filler>
+	struct memoize_if_then_else<boolean<true>, Filler>
+	{
+		template<typename Exp1, typename Exp2>
+		using type = Exp1;
+	};
+
+	template<typename Filler>
+	struct memoize_if_then_else<boolean<false>, Filler>
+	{
+		template<typename Exp1, typename Exp2>
+		using type = Exp2;
+	};
+
+/*
 	if_then_else:
 */
 
+	template<typename Pred, typename Ante, typename Conse>
+	using if_then_else = typename memoize_if_then_else
+	<
+		typename Pred::rtn
+
+	>::template type<Ante, Conse>;
+
+/*
 	template<typename Exp0, typename Exp1, typename Exp2>
 	struct if_then_else
 	{
@@ -87,6 +137,7 @@ struct functor
 
 		>::rtn;
 	};
+*/
 
 /*
 	cons:
@@ -329,6 +380,7 @@ struct functor
 /*
 	evaluate:
 */
+
 	template<typename...> struct evaluate;
 
 	template<typename Pred, typename Exp, typename... Exps>
@@ -350,6 +402,59 @@ struct functor
 
 		>::rtn;
 	};
+
+/*
+//	memoize_evaluate:
+
+	template<size_type, typename Filler = void> struct memoize_evaluate;
+
+	template<typename Filler>
+	struct memoize_evaluate<1, Filler> // else_then<Pred, Exp>
+	{
+		template<typename Else_Then, typename Next, typename... Rest>
+		using type = if_then_else
+		<
+			typename Else_Then::predicate,
+			typename Else_Then::expression,
+
+			typename memoize_evaluate
+			<
+				is_else_then<Next>::value,
+				Filler
+
+			>::template type<Next, Rest...>
+		>;
+	};
+
+	template<typename Filler>
+	struct memoize_evaluate<0, Filler> // then<Exp>
+	{
+		template<typename Then, typename... Rest>
+		using type = typename Then::expression;
+	};
+
+//	No safety checks are done.
+
+	template<typename... Expressions>
+	struct evaluate
+	{
+		using rtn = typename memoize_evaluate<1>::template type<Expressions...>::rtn;
+	};
+
+//	The compiler has difficulty with these.
+
+	template<typename... Expressions> // if_then as else_then
+	using evaluate = typename memoize_evaluate<1>::template type<Expressions...>;
+
+	template<typename First, typename... Rest> // if_then as else_then
+	using evaluate = if_then_else
+	<
+		is_if_then<First>,
+		typename First
+		typename memoize_evaluate<1>::template type<Expressions...>,
+		void // return as error<> ?
+	>;
+*/
 
 /*
 	not_the_case:

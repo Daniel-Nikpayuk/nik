@@ -15,44 +15,14 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
-
-	using rtn						= structure;
-
-	template<typename Predicate, typename Expression>
-	struct if_then
+	template<char... Chars>
+	inline static void display(const error<Chars...> & e)
 	{
-		using kind					= module;
+		using is_empty = typename is_null<error<Chars...>>::rtn;
 
-		using rtn					= if_then;
+		Dispatched::functor::display("error:");
 
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
+		if (is_empty::value)	Dispatched::functor::display(" null");
+		else			Passive::functor::display(char(), e);
+	}
 

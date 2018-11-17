@@ -69,22 +69,8 @@ namespace nik
 
 	// interpreted:
 
-		error,
-
-		binding,
-		frame,
-		environment,
-
-		quote,
-		lambda,
-		assignment,
-		definition,
-		begin,
-//		conditional,
-		application,
-
-		expression,
-		analysis,
+		normal,
+		lazy,
 
 	// generic:
 

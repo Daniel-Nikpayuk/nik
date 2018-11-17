@@ -15,44 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
 
-	using rtn						= structure;
+	#include"constant-recursed-semiotic.h"
 
-	template<typename Predicate, typename Expression>
-	struct if_then
-	{
-		using kind					= module;
+#define local_scope
 
-		using rtn					= if_then;
+	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
 
-		using predicate					= Predicate;
+#undef local_scope
 
-		using expression				= Expression;
-	};
-
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
-	};
-
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
-
-		using rtn					= then;
-
-		using expression				= Expression;
-	};
-};
-
+#endif

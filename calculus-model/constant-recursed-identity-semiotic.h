@@ -75,6 +75,20 @@
 
 //
 
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_if_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_if_then<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_else_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_else_then<Exp>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_then)			= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_then<Exp>;
+
+//
+
 #undef PREFIX
 
 #include"undef-size_type.h"

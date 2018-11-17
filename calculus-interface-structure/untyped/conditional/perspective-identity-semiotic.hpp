@@ -15,44 +15,64 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+/*
+	Assumes no evaluation for all tests.
+*/
+
+struct identity
 {
-	using kind						= module;
+	using kind		= module;
 
-	using rtn						= structure;
+	using rtn		= identity;
 
-	template<typename Predicate, typename Expression>
-	struct if_then
+	#include nik_typedef(calculus, untyped, conditional, structure)
+
+/*
+	is_if_then:
+*/
+
+	template<typename>
+	struct is_if_then
 	{
-		using kind					= module;
-
-		using rtn					= if_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
+		static constexpr bool value = false;
 	};
 
-	template<typename Predicate, typename Expression>
-	struct else_then
+	template<typename Pred, typename Exp>
+	struct is_if_then<if_then<Pred, Exp>>
 	{
-		using kind					= module;
-
-		using rtn					= else_then;
-
-		using predicate					= Predicate;
-
-		using expression				= Expression;
+		static constexpr bool value = true;
 	};
 
-	template<typename Expression>
-	struct then
+/*
+	is_else_then:
+*/
+
+	template<typename>
+	struct is_else_then
 	{
-		using kind					= module;
+		static constexpr bool value = false;
+	};
 
-		using rtn					= then;
+	template<typename Pred, typename Exp>
+	struct is_else_then<else_then<Pred, Exp>>
+	{
+		static constexpr bool value = true;
+	};
 
-		using expression				= Expression;
+/*
+	is_then:
+*/
+
+	template<typename>
+	struct is_then
+	{
+		static constexpr bool value = false;
+	};
+
+	template<typename Exp>
+	struct is_then<then<Exp>>
+	{
+		static constexpr bool value = true;
 	};
 };
 

@@ -41,6 +41,24 @@ struct functor
 	if_then_else:
 */
 
+	template<bool True, typename Filler = void>
+	struct memoized_if_then_else
+	{
+		template<typename Ante, typename Conse>
+		using rtn = Ante;
+	};
+
+	template<typename Filler>
+	struct memoized_if_then_else<false, Filler>
+	{
+		template<typename Ante, typename Conse>
+		using rtn = Conse;
+	};
+
+	template<bool Pred, typename Ante, typename Conse>
+	using if_then_else = typename memoized_if_then_else<Pred>::template rtn<Ante, Conse>;
+
+/*
 	template<bool True, typename Ante, typename Conse>
 	struct if_then_else
 	{
@@ -52,6 +70,7 @@ struct functor
 	{
 		using rtn = Conse;
 	};
+*/
 
 /*
 	display:

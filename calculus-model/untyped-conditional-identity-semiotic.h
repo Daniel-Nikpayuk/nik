@@ -15,44 +15,35 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind						= module;
+#include"define-size_type.h"
 
-	using rtn						= structure;
+#ifdef safe_name
 
-	template<typename Predicate, typename Expression>
-	struct if_then
-	{
-		using kind					= module;
+	#define PREFIX		untcoi_
 
-		using rtn					= if_then;
+#else
 
-		using predicate					= Predicate;
+	#define PREFIX
 
-		using expression				= Expression;
-	};
+#endif
 
-	template<typename Predicate, typename Expression>
-	struct else_then
-	{
-		using kind					= module;
+//
 
-		using rtn					= else_then;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_if_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_if_then<Exp>;
 
-		using predicate					= Predicate;
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_else_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_else_then<Exp>;
 
-		using expression				= Expression;
-	};
+							  template<typename Exp>
+	using nik_safe(PREFIX, is_then)			= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+							  is_then<Exp>;
 
-	template<typename Expression>
-	struct then
-	{
-		using kind					= module;
+//
 
-		using rtn					= then;
+#undef PREFIX
 
-		using expression				= Expression;
-	};
-};
+#include"undef-size_type.h"
 

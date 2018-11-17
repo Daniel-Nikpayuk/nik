@@ -25,6 +25,19 @@ struct functor
 	cons:
 */
 
+/*
+	template<typename> struct memoized_cons;
+
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct memoized_cons<Value>
+	{
+		using rtn = ListType<Value, Values...>;
+	};
+
+	template<typename Value, typename List>
+	using cons = typename memoized_cons<Value>::template rtn<Value, List>;
+*/
+
 	template<typename, typename> struct cons;
 
 	template<typename Value, typename... Values, template<typename...> class ListType>

@@ -29,6 +29,12 @@
 
 //
 
+							  template<typename Exp, template<typename...> class Label>
+	using nik_safe(PREFIX, relabel)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+							  relabel<Exp, Label>;
+
+//
+
 							  template<typename Type>
 	using nik_safe(PREFIX, size_of)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
 							  size_of<Type>;
