@@ -16,11 +16,18 @@
 ************************************************************************************************************************/
 
 /*
-	sequence_to_expression:
+	To do ?	After extending the environment through pre-evaluation,
+		remove those definitions from the list to be evaluated.
+		If they exist in a recursive function definition,
+		they will be processed each time for nothing.
+*/
+
+/*
+	begin_sequence_to_expression:
 */
 
 	template<typename Expressions>
-	struct sequence_to_expression
+	struct begin_sequence_to_expression
 	{
 		using Exps = typename Expressions::rtn;
 
@@ -38,45 +45,49 @@
 
 			>, then
 			<
-				relabel<Exps, begin>
+				cons
+				<
+					begin,
+					Exps
+				>
 			>
 
 		>::rtn;
 	};
 
 /*
-	re_evaluate_sequence:
+	begin_sequence_eval:
 
 	Side-effects are still possible within the sequence
 	of residual evaluations as they might still include assignment.
 */
 
-	template<typename Expressions1, typename Functor, typename Environment, typename Expressions2>
-	struct re_evaluate_sequence
+	template<typename Expressions, typename Environment, typename Functor>
+	struct begin_sequence_eval
 	{
-		using Exps	= typename Expressions1::rtn;
-		using Func	= typename Functor::rtn;
-		using Env0	= typename Environment::rtn;
-		using Frame	= typename Expressions2::rtn;
+		using Exps		= typename Expressions::rtn;
+		using Env		= typename Environment::rtn;
+		using Func		= typename Functor::rtn;
 
-		using First	= typename car<Exps>::rtn;
+		using First		= typename car<Exps>::rtn;
 
-		using Evaluated	= typename if_then_else
+		using Current = typename if_then_else
 		<
 			is_compound_definition<First>,
 
-			evaluate_compound_definition
+			definition_define_compound
 			<
-				First,
-				Func,
-				Env0,
-				Frame
+				cdr<First>,
+				Env
 			>,
 
-			typename Func::template eval
+			trampoline_eval
 			<
 				First,
-				Env0
+				Env,
+				Func,
+				stack_depth,	
+				stack_depth
 			>
 
 		>::rtn;
@@ -84,81 +95,57 @@
 		using rtn = typename if_then_else
 		<
 			is_last<Exps>,
-			Evaluated,
 
-			re_evaluate_sequence
+			Current,
+
+			begin_sequence_eval
 			<
 				cdr<Exps>, // rest
 
-				Func,
-
 				if_then_else
 				<
-					is_environment<Evaluated>,
-					Evaluated,
-					Env0
+					is_<Current, environment>,
+					Current,
+					Env
 				>,
 
-				Frame
+				Func
 			>
 
 		>::rtn;
 	};
 
 /*
-	evaluate_sequence:
+	begin_eval
+
+	Assumes the "begin" tag has been removed.
 */
 
 	template<typename Expressions, typename Environment, typename Functor>
-	struct evaluate_sequence
+	struct begin_eval
 	{
 		using Exps	= typename Expressions::rtn;
 		using Func	= typename Functor::rtn;
 
-		using Frame = typename evaluate_compound_definitions
-		<
-			Exps,
-			Func
-
-		>::rtn;
-
 		using rtn = typename if_then_else
 		<
 			is_null<Exps>,
+
 			error_null_sequence,
 
-			re_evaluate_sequence
+			begin_sequence_eval
 			<
 				Exps,
-				Func,
-				Environment,
-				Frame
+
+				cons
+				<
+					definition_scan_scope<Exps>,
+					Environment
+				>,
+
+				Func
 			>
 
 		>::rtn;
 	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<typename Exp, typename... Exps>
-	inline static void display(const begin<Exp, Exps...> & e)
-	{
-		using is_empty = typename is_null<begin<Exps...>>::rtn;
-
-		Dispatched::functor::display("begin: ");
-		Exp::kind::functor::display(Exp());
-
-		if (!is_empty::value) Recursed::functor::display(begin<Exps...>(), ", ");
-		Dispatched::functor::display('\n');
-	}
-
-	inline static void display(const begin<> &)
-	{
-		Dispatched::functor::display("begin: null\n");
-	}
 

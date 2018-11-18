@@ -246,11 +246,11 @@ struct functor
 	template<typename Value, typename... Values, template<typename...> class ListType>
 	inline static void display(const pass<ListType<Value, Values...>> &, const char *sep = " ")
 	{
-		static constexpr bool value_is_list		= peruni_is_list<Value>::value;
+		static constexpr bool value_is_list_type	= peruni_is_list_type<Value>::value;
 		static constexpr bool values_is_null		= peruni_is_null<ListType<Values...>>::value;
 
-		static constexpr char l				= value_is_list ? '[' : '(';
-		static constexpr char r				= value_is_list ? ']' : ')';
+		static constexpr char l				= value_is_list_type ? '[' : '(';
+		static constexpr char r				= value_is_list_type ? ']' : ')';
 
 		Dispatched::functor::display(l);
 		Value::kind::functor::display(Value());

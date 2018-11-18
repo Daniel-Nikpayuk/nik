@@ -39,35 +39,16 @@
 	using nik_safe(PREFIX, is_binding)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
 							  is_binding<Exp>;
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_frame)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_frame<Exp>;
+//	is_tagged:
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_environment)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_environment<Exp>;
+							  template<typename Exp, typename Tag>
+	using nik_safe(PREFIX, is_tagged)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
+							  is_tagged<Exp, Tag>;
 
 //	quote:
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_quote)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_quote<Exp>;
-
 //	lambda:
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_lambda)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_lambda<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_compound)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_compound<Exp>;
-
 //	definition:
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_definition)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_definition<Exp>;
 
 							  template<typename Exp>
 	using nik_safe(PREFIX, is_value_definition)	= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
@@ -79,39 +60,19 @@
 
 //	assignment:
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_assignment)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_assignment<Exp>;
-
 //	if_:
 
 							  template<typename Exp>
 	using nik_safe(PREFIX, is_true)			= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
 							  is_true<Exp>;
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_if_)			= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_if_<Exp>;
-
 //	begin:
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_begin)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_begin<Exp>;
 
 							  template<typename Exp>
 	using nik_safe(PREFIX, is_last)			= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
 							  is_last<Exp>;
 
 //	cond:
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_cond)			= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_cond<Exp>;
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_else_)		= typename nik_module(normal, interpreted, calculus, semiotic)::identity::template
-							  is_else_<Exp>;
 
 //	application:
 

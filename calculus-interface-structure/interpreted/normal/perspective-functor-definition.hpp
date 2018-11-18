@@ -16,11 +16,13 @@
 ************************************************************************************************************************/
 
 /*
-	evaluate_value_definition:
+	definition_define_value:
+
+	Assumes the "define" tag has been removed.
 */
 
 	template<typename Expression, typename Environment, typename Functor>
-	struct evaluate_value_definition
+	struct definition_define_value
 	{
 		using Exp	= typename Expression::rtn;
 		using Env	= typename Environment::rtn;
@@ -28,11 +30,80 @@
 
 		using rtn = typename environment_define
 		<
-			car<Exp>, // definition_variable
+			car<Exp>,		// definition_variable
 
-			typename Func::template eval
+			trampoline_eval
 			<
-				car<Exp, one>, // definition_value
+				car<Exp, one>,	// definition_value
+				Env,
+				Func,
+				stack_depth,
+				stack_depth
+			>,
+
+			Env
+
+		>::rtn;
+	};
+
+/*
+	definition_frame_define:
+
+	We store the procedure definitions as continuations
+	to signal that whenever they're looked up they are
+	continuations.
+
+	Assumes the "define" tag has been removed.
+*/
+
+	template<typename Expression1, typename Expression2>
+	struct definition_frame_define
+	{
+		using Exp	= typename Expression1::rtn;
+		using Frame	= typename Expression2::rtn;
+
+		using Params	= typename car<Exp>::rtn;
+
+		using rtn = typename cons
+		<
+			binding_make
+			<
+				car<Params>,		// definition_variable
+
+				continuation_make
+				<
+					cdr<Params>,	// lambda_arguments
+					cdr<Exp>	// lambda_body
+				>
+			>,
+
+			Frame
+
+		>::rtn;
+	};
+
+/*
+	definition_define_compound:
+
+	Assumes the "define" tag has been removed.
+*/
+
+	template<typename Expression, typename Environment>
+	struct definition_define_compound
+	{
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+
+		using Params	= typename car<Exp>::rtn;
+
+		using rtn = typename environment_define
+		<
+			car<Params>,		// definition_variable
+
+			procedure_make
+			<
+				cdr<Params>,	// lambda_arguments
+				cdr<Exp>,	// lambda_body
 				Env
 			>,
 
@@ -42,76 +113,13 @@
 	};
 
 /*
-	evaluate_compound_definition:
+	definition_scan_scope:
 */
 
-	template<typename...> struct evaluate_compound_definition;
-
-	template<typename Expression1, typename Functor, typename Expression2>
-	struct evaluate_compound_definition<Expression1, Functor, Expression2>
+	template<typename Exps1, typename Exps2 = null_frame>
+	struct definition_scan_scope
 	{
-		using Exp	= typename Expression1::rtn;
-		using Func	= typename Functor::rtn;
-		using Frame	= typename Expression2::rtn;
-
-		using Params	= typename car<Exp>::rtn;
-
-		using rtn = typename cons
-		<
-			binding_make
-			<
-				car<Params>, // definition_variable
-
-				procedure_make
-				<
-					cdr<Params>, // lambda_arguments
-					cdr<Exp>, // lambda_body
-					Func
-				>
-			>,
-
-			Frame
-
-		>::rtn;
-	};
-
-	template<typename Expression1, typename Functor, typename Environment, typename Expression2>
-	struct evaluate_compound_definition<Expression1, Functor, Environment, Expression2>
-	{
-		using Exp	= typename Expression1::rtn;
-		using Func	= typename Functor::rtn;
-		using Env	= typename Environment::rtn;
-		using Frame	= typename Expression2::rtn;
-
-		using Params	= typename car<Exp>::rtn;
-
-		using rtn = typename environment_define
-		<
-			car<Params>, // definition_variable
-
-			procedure_make
-			<
-				cdr<Params>, // lambda_arguments
-				cdr<Exp>, // lambda_body
-				Func,
-				Env,
-				Frame
-			>,
-
-			Env
-
-		>::rtn;
-	};
-
-/*
-	evaluate_compound_definitions:
-*/
-
-	template<typename Exps1, typename Functor, typename Exps2 = null_frame>
-	struct evaluate_compound_definitions
-	{
-		using Sequence	= typename Exps1::rtn;
-		using Func	= typename Functor::rtn;
+		using Scope	= typename Exps1::rtn;
 		using Frame	= typename Exps2::rtn;
 
 		template<typename Exp1, typename Exp2>
@@ -119,19 +127,17 @@
 		{
 			using first = typename Exp1::rtn;
 
-			using rtn = typename evaluate_compound_definitions
+			using rtn = typename definition_scan_scope
 			<
 				Exp2, // rest
-				Func,
 
 				if_then_else
 				<
 					is_compound_definition<first>,
 
-					evaluate_compound_definition
+					definition_frame_define
 					<
-						first,
-						Func,
+						cdr<first>,
 						Frame
 					>,
 
@@ -143,39 +149,16 @@
 
 		using rtn = typename if_then_else
 		<
-			is_null<Sequence>,
+			is_null<Scope>,
+
 			Frame,
 
 			recurse
 			<
-				car<Sequence>,
-				cdr<Sequence>
+				car<Scope>,
+				cdr<Scope>
 			>
 
 		>::rtn;
 	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<typename Exp, typename... Exps>
-	inline static void display(const define<Exp, Exps...> & e)
-	{
-		using is_empty = typename is_null<define<Exps...>>::rtn;
-
-		Dispatched::functor::display("definition: ");
-		Exp::kind::functor::display(Exp());
-
-		if (!is_empty::value) Recursed::functor::display(define<Exps...>(), ", ");
-		Dispatched::functor::display('\n');
-	}
-
-	inline static void display(const define<> &)
-	{
-		Dispatched::functor::display("definition: null\n");
-	}
 

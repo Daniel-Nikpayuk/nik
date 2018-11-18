@@ -31,32 +31,6 @@ struct identity
 	#include nik_typedef(calculus, interpreted, normal, structure)
 
 /*
-	((generic)) is_:
-*/
-
-	template<typename Exp, template<typename...> class label>
-	struct is_
-	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename... Exps>
-		struct strict<label<Exps...>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Exp::rtn
-
-		>::rtn;
-	};
-
-/*
 	error:
 */
 
@@ -108,54 +82,34 @@ struct identity
 		>::rtn;
 	};
 
-	template<typename Exp>
-	using is_frame = is_<Exp, frame>;
-
-	template<typename Exp>
-	using is_environment = is_<Exp, environment>;
-
 /*
-	quote:
+	is_tagged:
 */
 
-	template<typename Exp>
-	struct is_quote
+	template<typename Exp, typename Tag>
+	struct is_tagged
 	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename SubExp>
-		struct strict<quote<SubExp>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
+		using rtn = typename conref_and_then
 		<
-			typename Exp::rtn
+			conrei_is_list_type<Exp>,
+
+			conrei_is_equal
+			<
+				conref_car<Exp>,
+				Tag
+			>
 
 		>::rtn;
 	};
 
 /*
+	quote:
 	lambda:
 */
-
-	template<typename Exp>
-	using is_lambda = is_<Exp, lambda>;
-
-	template<typename Exp>
-	using is_compound = is_<Exp, procedure>;
 
 /*
 	definition:
 */
-
-	template<typename Exp>
-	using is_definition = is_<Exp, define>;
 
 	template<typename Expression>
 	struct is_value_definition
@@ -164,11 +118,11 @@ struct identity
 
 		using rtn = typename conref_and_then
 		<
-			is_definition<Exp>,
+			is_tagged<Exp, define>,
 
 			conrei_is_literal
 			<
-				conref_car<Exp>
+				conref_car<Exp, one>
 			>
 
 		>::rtn;
@@ -181,13 +135,13 @@ struct identity
 
 		using rtn = typename conref_and_then
 		<
-			is_definition<Exp>,
+			is_tagged<Exp, define>,
 
 			conref_not_the_case
 			<
 				conrei_is_literal
 				<
-					conref_car<Exp>
+					conref_car<Exp, one>
 				>
 			>
 
@@ -197,28 +151,6 @@ struct identity
 /*
 	assignment:
 */
-
-	template<typename Exp>
-	struct is_assignment
-	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename Variable, typename Value>
-		struct strict<set<Variable, Value>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Exp::rtn
-
-		>::rtn;
-	};
 
 /*
 	if_
@@ -246,15 +178,9 @@ struct identity
 		>::rtn;
 	};
 
-	template<typename Exp>
-	using is_if_ = is_<Exp, if_>;
-
 /*
 	begin:
 */
-
-	template<typename Exp>
-	using is_begin = is_<Exp, begin>;
 
 	template<typename Exps>
 	struct is_last
@@ -269,50 +195,6 @@ struct identity
 /*
 	cond:
 */
-
-	template<typename Exp>
-	struct is_cond
-	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename... Exps>
-		struct strict<cond<Exps...>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Exp::rtn
-
-		>::rtn;
-	};
-
-	template<typename Exp>
-	struct is_else_
-	{
-		template<typename Type>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename... Exps>
-		struct strict<else_<Exps...>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Exp::rtn
-
-		>::rtn;
-	};
 
 /*
 	application:
@@ -338,7 +220,7 @@ struct identity
 
 		using rtn = typename conref_and_then
 		<
-			conrei_is_list<Exp>,
+			conrei_is_list_type<Exp>,
 
 			conref_not_the_case
 			<
@@ -369,7 +251,7 @@ struct identity
 			conrei_is_boolean<Exp>,
 
 			conrei_is_type<Exp>,
-			conrei_is_list_type<Exp>
+			conrei_is_list<Exp>
 
 		>::rtn;
 	};

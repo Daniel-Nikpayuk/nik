@@ -544,11 +544,11 @@ struct functor
 	template<typename Value, typename... Values, template<typename...> class ListType>
 	inline static void display(const ListType<Value, Values...> &, const char *sep = " ")
 	{
-		using value_is_list		= typename is_list<Value>::rtn;
+		using value_is_list_type	= typename is_list_type<Value>::rtn;
 		using values_is_null		= typename is_null<ListType<Values...>>::rtn;
 
-		static constexpr char l		= value_is_list::value ? '[' : '(';
-		static constexpr char r		= value_is_list::value ? ']' : ')';
+		static constexpr char l		= value_is_list_type::value ? '[' : '(';
+		static constexpr char r		= value_is_list_type::value ? ']' : ')';
 
 		Dispatched::functor::display(l);
 		Value::kind::functor::display(Value());

@@ -30,8 +30,8 @@
 //
 
 							  template<typename List>
-	using nik_safe(PREFIX, is_list)			= typename nik_module(active, untyped, calculus, semiotic)::identity::template
-							  is_list<List>;
+	using nik_safe(PREFIX, is_list_type)		= typename nik_module(active, untyped, calculus, semiotic)::identity::template
+							  is_list_type<List>;
 
 							  template<typename List>
 	using nik_safe(PREFIX, is_null)			= typename nik_module(active, untyped, calculus, semiotic)::identity::template

@@ -30,8 +30,8 @@
 //
 
 							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_list)			= typename nik_branch(typed, calculus, semiotic)::identity::template
-							  is_list<Type, List>;
+	using nik_safe(PREFIX, is_list_type)		= typename nik_branch(typed, calculus, semiotic)::identity::template
+							  is_list_type<Type, List>;
 
 							  template<typename Type, typename List>
 	using nik_safe(PREFIX, is_null)			= typename nik_branch(typed, calculus, semiotic)::identity::template

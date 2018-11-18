@@ -37,6 +37,32 @@ struct identity
 	#include nik_typedef(calculus, constant, recursed, structure)
 
 /*
+	is_:
+*/
+
+	template<typename Exp, template<typename...> class label>
+	struct is_
+	{
+		template<typename Type>
+		struct strict
+		{
+			using rtn = boolean<false>;
+		};
+
+		template<typename... Exps>
+		struct strict<label<Exps...>>
+		{
+			using rtn = boolean<true>;
+		};
+
+		using rtn = typename strict
+		<
+			typename Exp::rtn
+
+		>::rtn;
+	};
+
+/*
 	is_type:
 */
 
@@ -63,30 +89,11 @@ struct identity
 	};
 
 /*
-	is_list_type:
+	is_list:
 */
 
-	template<typename Expression>
-	struct is_list_type
-	{
-		template<typename>
-		struct strict
-		{
-			using rtn = boolean<false>;
-		};
-
-		template<typename... Exps>
-		struct strict<list<Exps...>>
-		{
-			using rtn = boolean<true>;
-		};
-
-		using rtn = typename strict
-		<
-			typename Expression::rtn
-
-		>::rtn;
-	};
+	template<typename Exp>
+	using is_list = is_<Exp, list>;
 
 /*
 	is_equal:
@@ -102,15 +109,15 @@ struct identity
 	};
 
 /*
-	is_list:
+	is_list_type:
 */
 
 	template<typename Exp>
-	struct is_list
+	struct is_list_type
 	{
 		using rtn = boolean
 		<
-			peruni_is_list<typename Exp::rtn>::value
+			peruni_is_list_type<typename Exp::rtn>::value
 		>;
 	};
 

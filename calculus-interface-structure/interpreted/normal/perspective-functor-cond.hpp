@@ -15,31 +15,60 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+/*
+	cond_to_if_:
 
-#ifdef safe_name
+	Assumes the "cond" tag has been removed.
+*/
 
-	#define PREFIX		untpai_
+	template<typename Expressions>
+	struct cond_to_if_
+	{
+		using Clauses = typename Expressions::rtn;
 
-#else
+		template<typename Exp1, typename Exp2>
+		struct recurse
+		{
+			using first = typename Exp1::rtn;
+			using rest = typename Exp2::rtn;
 
-	#define PREFIX
+			using rtn = typename if_then_else
+			<
+				is_tagged<first, else_>,
 
-#endif
+				if_then_else
+				<
+					is_null<rest>,
+					begin_sequence_to_expression<first>,
+					error_else_clause_not_last
+				>,
 
-//
+				if__make
+				<
+					car<first, one>, // cond_predicate
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_list_type)		= typename nik_module(passive, untyped, calculus, semiotic)::identity::template
-							  is_list_type<List>;
+					begin_sequence_to_expression
+					<
+						cdr<first, one> // cond_actions
+					>,
 
-							  template<typename List>
-	using nik_safe(PREFIX, is_null)			= typename nik_module(passive, untyped, calculus, semiotic)::identity::template
-							  is_null<List>;
+					cond_to_if_<rest>
+				>
 
-//
+			>::rtn;
+		};
 
-#undef PREFIX
+		using rtn = typename if_then_else
+		<
+			is_null<Clauses>,
+			boolean<false>,
 
-#include"undef-size_type.h"
+			recurse
+			<
+				car<Clauses>,
+				cdr<Clauses>
+			>
+
+		>::rtn;
+	};
 

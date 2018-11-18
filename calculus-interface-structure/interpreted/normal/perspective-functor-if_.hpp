@@ -16,64 +16,94 @@
 ************************************************************************************************************************/
 
 /*
-	assignment_variable:
+	if__alternative:
+
+	Assumes the "if_" tag has been removed.
 */
 
 	template<typename Exp>
-	struct assignment_variable
+	struct if__alternative
 	{
-		using rtn = typename Exp::rtn::variable;
-	};
+		using Alt = typename cdr<Exp, one>::rtn;
 
-/*
-	assignment_value:
-*/
-
-	template<typename Exp>
-	struct assignment_value
-	{
-		using rtn = typename Exp::rtn::value;
-	};
-
-/*
-	evaluate_assignment:
-*/
-
-	template<typename Expression, typename Environment, typename Functor>
-	struct evaluate_assignment
-	{
-		using Exp	= typename Expression::rtn;
-		using Env	= typename Environment::rtn;
-		using Func	= typename Functor::rtn;
-
-		using rtn = typename environment_set
+		using rtn = typename if_then_else
 		<
-			assignment_variable<Exp>,
-
-			typename Func::template eval
-			<
-				assignment_value<Exp>,
-				Env
-			>,
-
-			Env
+			is_null<Alt>,
+			boolean<false>,
+			car<Alt>
 
 		>::rtn;
 	};
 
 /*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
+	if__make:
 */
 
-	template<typename Exp1, typename Exp2>
-	inline static void display(const set<Exp1, Exp2> &)
+	template<typename, typename, typename...> struct if__make;
+
+	template<typename Predicate, typename Consequent>
+	struct if__make<Predicate, Consequent>
 	{
-		Dispatched::functor::display("set: ");
-		Exp1::kind::functor::display(Exp1());
-		Dispatched::functor::display(" as ");
-		Exp2::kind::functor::display(Exp2());
-	}
+		using rtn = expression
+		<
+			if_,
+			typename Predicate::rtn,
+			typename Consequent::rtn
+		>;
+	};
+
+	template<typename Predicate, typename Consequent, typename Alternative>
+	struct if__make<Predicate, Consequent, Alternative>
+	{
+		using rtn = expression
+		<
+			if_,
+			typename Predicate::rtn,
+			typename Consequent::rtn,
+			typename Alternative::rtn
+		>;
+	};
+
+/*
+	if__eval:
+
+	Assumes the "if_" tag has been removed.
+*/
+
+	template<typename Expression, typename Environment, typename Functor>
+	struct if__eval
+	{
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
+
+		using rtn = typename trampoline_eval
+		<
+			if_then_else
+			<
+				is_true
+				<
+					trampoline_eval
+					<
+						car<Exp>,		// if__predicate
+						Env,
+						Func,
+						stack_depth,
+						stack_depth
+					>
+				>,
+
+				car<Exp, one>,				// if__consequent
+
+				if__alternative<Exp>
+			>,
+
+			Env,
+			Func,
+
+			stack_depth,
+			stack_depth
+
+		>::rtn;
+	};
 

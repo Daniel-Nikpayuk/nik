@@ -16,60 +16,38 @@
 ************************************************************************************************************************/
 
 /*
-	cond_to_if_:
+	lambda_make:
 */
 
-	template<typename Expressions>
-	struct cond_to_if_
+	template<typename Args, typename Body>
+	struct lambda_make
 	{
-		using Clauses = typename Expressions::rtn;
-
-		template<typename Exp1, typename Exp2>
-		struct recurse
-		{
-			using first = typename Exp1::rtn;
-			using rest = typename Exp2::rtn;
-
-			using rtn = typename if_then_else
-			<
-				is_else_<first>,
-
-				if_then_else
-				<
-					is_null<rest>,
-
-					sequence_to_expression<first>,
-
-					error<'e', 'l', 's', 'e', '_', ' ', 'c', 'l', 'a', 'u', 's', 'e',
-						' ', 'i', 's', 'n', '\'', 't', ' ', 'l', 'a', 's', 't'>
-				>,
-
-				if__make
-				<
-					car<first>, // cond_predicate
-
-					sequence_to_expression
-					<
-						cdr<first> // cond_actions
-					>,
-
-					cond_to_if_<rest>
-				>
-
-			>::rtn;
-		};
-
-		using rtn = typename if_then_else
+		using rtn = typename cons
 		<
-			is_null<Clauses>,
-			boolean<false>,
+			lambda,
 
-			recurse
+			cons
 			<
-				car<Clauses>,
-				cdr<Clauses>
+				Args,
+				Body
 			>
 
 		>::rtn;
+	};
+
+/*
+	procedure_make:
+*/
+
+	template<typename Args, typename Body, typename Env>
+	struct procedure_make
+	{
+		using rtn = expression
+		<
+			procedure,
+			typename Args::rtn,
+			typename Body::rtn,
+			typename Env::rtn
+		>;
 	};
 

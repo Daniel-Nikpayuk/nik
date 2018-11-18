@@ -22,17 +22,17 @@ struct identity
 	using rtn		= identity;
 
 /*
-	is_list:
+	is_list_type:
 */
 
 	template<typename>
-	struct is_list
+	struct is_list_type
 	{
 		static constexpr bool value = false;
 	};
 
 	template<typename... Exps, template<typename...> class ListType>
-	struct is_list<ListType<Exps...>>
+	struct is_list_type<ListType<Exps...>>
 	{
 		static constexpr bool value = true;
 	};

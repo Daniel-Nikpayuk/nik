@@ -27,19 +27,19 @@ struct functor
 	#include nik_typedef(calculus, interpreted, normal, structure)
 	#include nik_typedef(calculus, interpreted, normal, identity)
 
-	#include"error-functor-semiotic.hpp"
-	#include"environment-functor-semiotic.hpp"
-	#include"quote-functor-semiotic.hpp"
-	#include"lambda-functor-semiotic.hpp"
-	#include"definition-functor-semiotic.hpp"
-	#include"assignment-functor-semiotic.hpp"
-	#include"if_-functor-semiotic.hpp"
-	#include"begin-functor-semiotic.hpp"
-	#include"cond-functor-semiotic.hpp"
-	#include"application-functor-semiotic.hpp"
+	#include"perspective-functor-error.hpp"
+	#include"perspective-functor-environment.hpp"
+	#include"perspective-functor-trampoline.hpp"
+	#include"perspective-functor-lambda.hpp"
+	#include"perspective-functor-definition.hpp"
+	#include"perspective-functor-assignment.hpp"
+	#include"perspective-functor-if_.hpp"
+	#include"perspective-functor-begin.hpp"
+	#include"perspective-functor-cond.hpp"
+	#include"perspective-functor-application.hpp"
 
 /*
-	normal order evaluation:
+	normal order eval:
 */
 
 	template<typename Expression, typename Environment = null_environment>
@@ -57,67 +57,85 @@ struct functor
 
 			>, else_then
 			<
-				is_literal<Exp>, // is_variable
+				is_literal<Exp>,				// is_variable
 				environment_lookup<Exp, Env>
 
 			>, else_then
 			<
-				is_quote<Exp>,
-				car<Exp> // text_of_quotation
-
-			>, else_then
-			<
-				is_assignment<Exp>,
-				evaluate_assignment<Exp, Env, functor>
-
-			>, else_then
-			<
-				is_value_definition<Exp>,
-				evaluate_value_definition<Exp, Env, functor>
-
-			>, else_then
-			<
-				is_if_<Exp>,
-				evaluate_if_<Exp, Env, functor>
-
-			>, else_then
-			<
-				is_lambda<Exp>,
-				procedure_make
+				is_<Exp, continuation>,
+				begin_eval
 				<
-					car<Exp>, // lambda_arguments
-					cdr<Exp>, // lambda_body
-					functor,
-					Env,
-					null_frame
+					car<Exp, one>,				// body
+
+					environment_make
+					<
+						car<Exp>,			// args
+						car<Exp, three>,		// values
+						car<Exp, two>			// env
+					>,
+
+					functor
 				>
 
 			>, else_then
 			<
-				is_begin<Exp>,
-				evaluate_sequence
+				is_tagged<Exp, quote>,
+				car<Exp, one>					// text_of_quotation
+
+			>, else_then
+			<
+				is_tagged<Exp, set>,
+				assignment_eval<cdr<Exp>, Env, functor>
+
+			>, else_then
+			<
+				is_value_definition<Exp>,
+				definition_define_value<cdr<Exp>, Env, functor>
+
+			>, else_then
+			<
+				is_tagged<Exp, if_>,
+				if__eval<cdr<Exp>, Env, functor>
+
+			>, else_then
+			<
+				is_tagged<Exp, lambda>,
+				procedure_make
 				<
-					Exp, // begin_actions
+					car<Exp, one>,				// lambda_arguments
+					cdr<Exp, one>,				// lambda_body
+					Env
+				>
+
+			>, else_then
+			<
+				is_tagged<Exp, begin>,
+				begin_sequence_eval
+				<
+					cdr<Exp>,				// begin_actions
 					Env,
 					functor
 				>
 
 			>, else_then
 			<
-				is_cond<Exp>,
-				evaluate
+				is_tagged<Exp, cond>,
+				trampoline_eval
 				<
-					cond_to_if_<Exp>,
-					Env
+					cond_to_if_<cdr<Exp>>,
+					Env,
+					functor,
+					stack_depth,
+					stack_depth
 				>
 
 			>, else_then
 			<
 				is_application<Exp>,
-				evaluate_application
+				application_eval
 				<
-					car<Exp>, // operator
-					cdr<Exp>, // operands
+					car<Exp>,				// operator
+					cdr<Exp>,				// operands
 					Env,
 					functor
 				>
@@ -133,68 +151,28 @@ struct functor
 	template<typename Env>
 	struct eval<null_expression, Env>
 	{
-		using rtn = boolean<false>;
+		using rtn = error_null_expression;
 	};
 
 /*
-	template<typename, typename = null_environment, size_type...> struct trampoline;
-
-	template<typename Program, typename Env>
-	struct trampoline<Program, Env>
-	{
-		using rtn = error<'n', 'e', 's', 't', 'i', 'n', 'g', ' ',
-					'd', 'e', 'p', 't', 'h', ' ',
-					'r', 'e', 'a', 'c', 'h', 'e', 'd'>; // "nesting depth reached"
-	};
-
-	template<typename Program, typename Env, size_type depth, size_type... depths>
-	struct trampoline<Program, Env, depth, depths...>
-	{
-		using Continuation = typename evaluate
-		<
-			make_begin<Program>,
-			Env
- 
-		>::rtn;
-
-		using rtn = typename if_then_else
-		<
-			is_continuation<first>,
-
-			if_then_else
-			<
-				(depth == 0),
-
-				trampoline
-				<
-					car<Continuation>,	// Program
-					car<Continuation, one>,	// Env,
-
-					depths...
-				>,
-
-				trampoline
-				<
-					car<Continuation>,	// Program
-					car<Continuation, one>,	// Env,
-
-					depths...
-				>,
-			>,
-
-			Continuation
-
-		>::rtn;
-	};
+	interpret:
 */
 
 	template<typename Program, typename Env = null_environment>
 	struct interpret
 	{
-		using rtn = typename eval
+		using rtn = typename trampoline_eval
 		<
-			relabel<Program, begin>,
-			Env
+			cons
+			<
+				begin,
+				Program
+			>,
+
+			Env,
+			functor,
+			stack_depth,
+			stack_depth
  
 		>::rtn;
 	};
@@ -207,10 +185,18 @@ struct functor
 */
 
 /*
+	template<typename Exp, template<typename, typename> class ListType>
+	inline static void display(const ListType<quote, Exp> &)
+	{
+		Dispatched::functor::display("quote: ");
+		Exp::kind::functor::display(Exp());
+	}
+*/
+
 	template<typename Exp, typename... Exps>
 	inline static void display(const expression<Exp, Exps...> & e)
 	{
-		using is_empty = typename conrei_is_null<expression<Exps...>>::rtn;
+		using is_empty = typename is_null<expression<Exps...>>::rtn;
 
 		Dispatched::functor::display("expression:\n ");
 
@@ -222,6 +208,5 @@ struct functor
 	{
 		Dispatched::functor::display("expression: null\n");
 	}
-*/
 };
 

@@ -26,8 +26,19 @@
 	using error_unbound_variable		= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  error<'u', 'n', 'b', 'o', 'u', 'n', 'd', '_', 'v', 'a', 'r', 'i', 'a', 'b', 'l', 'e'>;
 
+	using error_nesting_depth_exceeded	= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+						  error<'n', 'e', 's', 't', 'i', 'n', 'g', '_',
+							'd', 'e', 'p', 't', 'h', '_', 'e', 'x', 'c', 'e', 'e', 'd', 'e', 'd'>;
+
 	using error_null_sequence		= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  error<'n', 'u', 'l', 'l', '_', 's', 'e', 'q', 'u', 'e', 'n', 'c', 'e'>;
+
+	using error_else_clause_not_last	= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+						  error<'e', 'l', 's', 'e', '_',
+							'c', 'l', 'a', 'u', 's', 'e', '_', 'n', 'o', 't', '_', 'l', 'a', 's', 't'>;
+
+	using error_null_expression		= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+						  error<'n', 'u', 'l', 'l', '_', 'e', 'x', 'p', 'r', 'e', 's', 's', 'i', 'o', 'n'>;
 
 	using error_unknown_expression_type	= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  error<'u', 'n', 'k', 'n', 'o', 'w', 'n', '_',
@@ -55,65 +66,46 @@
 
 //	quote:
 
-						  template<typename Exp>
-	using quote				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  quote<Exp>;
+	using quote				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  quote;
 
 //	lambda:
 
-						  template<typename... Exps>
-	using arguments				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  arguments<Exps...>;
+	using lambda				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  lambda;
 
-						  template<typename... Exps>
-	using body				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  body<Exps...>;
 
-						  template<typename... Exps>
-	using lambda				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  lambda<Exps...>;
-
-						  template<typename... Exps>
-	using procedure				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  procedure<Exps...>;
+	using procedure				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  procedure;
 
 //	definition:
 
-						  template<typename... Exps>
-	using define				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  define<Exps...>;
+	using define				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  define;
 
 //	assignment:
 
-						  template<typename Variable, typename Value>
-	using set				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  set<Variable, Value>;
+	using set				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  set;
 
 //	if_:
 
-						  template<typename... Exps>
-	using if_				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  if_<Exps...>;
+	using if_				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  if_;
 
 //	begin:
 
-						  template<typename... Exps>
-	using begin				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  begin<Exps...>;
+	using begin				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  begin;
 
 //	cond:
 
-						  template<typename... Exps>
-	using cond				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  cond<Exps...>;
+	using cond				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  cond;
 
-						  template<typename... Exps>
-	using try_				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  try_<Exps...>;
 
-						  template<typename... Exps>
-	using else_				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  else_<Exps...>;
+	using else_				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+						  else_;
 
 //	expression:
 
@@ -123,6 +115,12 @@
 
 	using null_expression			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  expression<>;
+
+//	continuation:
+
+						  template<typename... Exps>
+	using continuation			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+						  continuation<Exps...>;
 
 //
 

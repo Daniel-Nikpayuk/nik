@@ -52,77 +52,77 @@ struct identity
 		<
 			if_then
 			<
-				is_list<bool, Type>,
+				is_list_type<bool, Type>,
 				typed_list<bool>
 
 			>, else_then
 			<
-				is_list<char, Type>,
+				is_list_type<char, Type>,
 				typed_list<char>
 
 			>, else_then
 			<
-				is_list<wchar_t, Type>,
+				is_list_type<wchar_t, Type>,
 				typed_list<wchar_t>
 
 			>, else_then
 			<
-				is_list<char16_t, Type>,
+				is_list_type<char16_t, Type>,
 				typed_list<char16_t>
 
 			>, else_then
 			<
-				is_list<char32_t, Type>,
+				is_list_type<char32_t, Type>,
 				typed_list<char32_t>
 
 			>, else_then
 			<
-				is_list<unsigned char, Type>,
+				is_list_type<unsigned char, Type>,
 				typed_list<unsigned char>
 
 			>, else_then
 			<
-				is_list<unsigned short, Type>,
+				is_list_type<unsigned short, Type>,
 				typed_list<unsigned short>
 
 			>, else_then
 			<
-				is_list<unsigned int, Type>,
+				is_list_type<unsigned int, Type>,
 				typed_list<unsigned int>
 
 			>, else_then
 			<
-				is_list<unsigned long, Type>,
+				is_list_type<unsigned long, Type>,
 				typed_list<unsigned long>
 
 			>, else_then
 			<
-				is_list<unsigned long long, Type>,
+				is_list_type<unsigned long long, Type>,
 				typed_list<unsigned long long>
 
 			>, else_then
 			<
-				is_list<signed char, Type>,
+				is_list_type<signed char, Type>,
 				typed_list<signed char>
 
 			>, else_then
 			<
-				is_list<signed short, Type>,
+				is_list_type<signed short, Type>,
 				typed_list<signed short>
 
 			>, else_then
 			<
-				is_list<signed int, Type>,
+				is_list_type<signed int, Type>,
 				typed_list<signed int>
 
 			>, else_then
 			<
-				is_list<signed long, Type>,
+				is_list_type<signed long, Type>,
 				typed_list<signed long>
 
 			>, else_then
 			<
-				is_list<signed long long, Type>,
+				is_list_type<signed long long, Type>,
 				typed_list<signed long long>
 
 			>, then

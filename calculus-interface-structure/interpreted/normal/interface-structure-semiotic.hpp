@@ -69,129 +69,45 @@ struct structure
 	quote:
 */
 
-	template<typename>
-	struct quote
-	{
-		using kind					= module;
-
-		using rtn					= quote;
-	};
+	using quote		= literal<'q', 'u', 'o', 't', 'e'>;
 
 /*
 	lambda:
 */
 
-	template<typename...>
-	struct arguments
-	{
-		using kind					= module;
-
-		using rtn					= arguments;
-	};
-
-	template<typename...>
-	struct body
-	{
-		using kind					= module;
-
-		using rtn					= body;
-	};
-
-	template<typename...>
-	struct lambda
-	{
-		using kind					= module;
-
-		using rtn					= lambda;
-	};
-
-	template<typename...>
-	struct procedure
-	{
-		using kind					= module;
-
-		using rtn					= procedure;
-	};
+	using lambda		= literal<'l', 'a', 'm', 'b', 'd', 'a'>;
+	using procedure		= literal<'p', 'r', 'o', 'c', 'e', 'd', 'u', 'r', 'e'>;
 
 /*
 	definition:
 */
 
-	template<typename...>
-	struct define
-	{
-		using kind					= module;
-
-		using rtn					= define;
-	};
+	using define 		= literal<'d', 'e', 'f', 'i', 'n', 'e'>;
 
 /*
 	assignment:
 */
 
-	template<typename Variable, typename Value>
-	struct set
-	{
-		using kind					= module;
-
-		using rtn					= set;
-
-		using variable					= Variable;
-
-		using value					= Value;
-	};
+	using set 		= literal<'s', 'e', 't'>;
 
 /*
 	if_:
 */
 
-	template<typename...>
-	struct if_
-	{
-		using kind					= module;
-
-		using rtn					= if_;
-	};
+	using if_ 		= literal<'i', 'f', '_'>;
 
 /*
 	begin:
 */
 
-	template<typename...>
-	struct begin
-	{
-		using kind					= module;
-
-		using rtn					= begin;
-	};
+	using begin 		= literal<'b', 'e', 'g', 'i', 'n'>;
 
 /*
 	cond:
 */
 
-	template<typename...>
-	struct cond
-	{
-		using kind					= module;
-
-		using rtn					= cond;
-	};
-
-	template<typename...>
-	struct try_
-	{
-		using kind					= module;
-
-		using rtn					= try_;
-	};
-
-	template<typename...>
-	struct else_
-	{
-		using kind					= module;
-
-		using rtn					= else_;
-	};
+	using cond 		= literal<'c', 'o', 'n', 'd'>;
+	using else_ 		= literal<'e', 'l', 's', 'e', '_'>;
 
 /*
 	expression:
@@ -203,6 +119,18 @@ struct structure
 		using kind					= module;
 
 		using rtn					= expression;
+	};
+
+/*
+	continuation:
+*/
+
+	template<typename... Exps>
+	struct continuation
+	{
+		using kind					= module;
+
+		using rtn					= continuation;
 	};
 };
 

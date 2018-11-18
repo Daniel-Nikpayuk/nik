@@ -15,14 +15,34 @@
 **
 ************************************************************************************************************************/
 
-	template<char... Chars>
-	inline static void display(const error<Chars...> & e)
+/*
+	assignment_eval:
+
+	Assumes the "set" tag has been removed.
+*/
+
+	template<typename Expression, typename Environment, typename Functor>
+	struct assignment_eval
 	{
-		using is_empty = typename is_null<error<Chars...>>::rtn;
+		using Exp	= typename Expression::rtn;
+		using Env	= typename Environment::rtn;
+		using Func	= typename Functor::rtn;
 
-		Dispatched::functor::display("error:");
+		using rtn = typename environment_set
+		<
+			car<Exp>,			// assignment_variable
 
-		if (is_empty::value)	Dispatched::functor::display(" null");
-		else			Passive::functor::display(char(), e);
-	}
+			trampoline_eval
+			<
+				car<Exp, one>,		// assignment_value
+				Env,
+				Func,
+				stack_depth,
+				stack_depth
+			>,
+
+			Env
+
+		>::rtn;
+	};
 

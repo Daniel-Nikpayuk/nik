@@ -26,6 +26,10 @@ namespace nik
 
 		//
 
+		static constexpr size_type stack_depth = 5;
+
+		//
+
 		#include nik_typedef(calculus, perspective, dispatched, module)
 		#include nik_typedef(calculus, typed, passive, module)
 		#include nik_typedef(calculus, constant, recursed, module)

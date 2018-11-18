@@ -15,17 +15,14 @@
 **
 ************************************************************************************************************************/
 
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<typename Exp>
-	inline static void display(const quote<Exp> &)
+	template<char... Chars>
+	inline static void display(const error<Chars...> & e)
 	{
-		Dispatched::functor::display("quote: ");
-		Exp::kind::functor::display(Exp());
+		using is_empty = typename is_null<error<Chars...>>::rtn;
+
+		Dispatched::functor::display("error: ");
+
+		if (is_empty::value)	Dispatched::functor::display("null");
+		else			Passive::functor::display(char(), e, "");
 	}
 

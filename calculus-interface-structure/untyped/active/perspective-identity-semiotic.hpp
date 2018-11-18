@@ -30,13 +30,13 @@ struct identity
 	#include nik_typedef(calculus, dispatched, active, functor)
 
 /*
-	is_list:
+	is_list_type:
 */
 
 	template<typename Exp>
-	struct is_list
+	struct is_list_type
 	{
-		static constexpr bool value = peruni_is_list<typename evaluate<Exp>::rtn>::value;
+		static constexpr bool value = peruni_is_list_type<typename evaluate<Exp>::rtn>::value;
 	};
 
 /*

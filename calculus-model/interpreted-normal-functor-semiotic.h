@@ -71,6 +71,35 @@
 
 //	keywords:
 
+	using quote					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  quote;
+
+	using lambda					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  lambda;
+
+	using procedure					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  procedure;
+
+	using define					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  define;
+
+	using set					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  set;
+
+	using if_					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  if_;
+
+	using begin					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  begin;
+
+	using cond					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  cond;
+
+	using else_					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
+							  else_;
+
+//
+
 	using size_of					= typename nik_module(literal, constant, calculus, semiotic)::structure::template
 							  literal<'s', 'i', 'z', 'e', '_', 'o', 'f'>;
 
@@ -86,72 +115,6 @@
 	using cdr					= typename nik_module(literal, constant, calculus, semiotic)::structure::template
 							  literal<'c', 'd', 'r'>;
 
-//	quote:
-
-							  template<typename Exp>
-	using quote					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  quote<Exp>;
-
-//	lambda:
-
-							  template<typename... Exps>
-	using function					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  arguments<Exps...>;
-
-							  template<typename... Exps>
-	using arguments					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  arguments<Exps...>;
-
-							  template<typename... Exps>
-	using args					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  arguments<Exps...>;
-
-							  template<typename... Exps>
-	using body					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  body<Exps...>;
-
-							  template<typename... Exps>
-	using lambda					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  lambda<Exps...>;
-
-//	definition:
-
-							  template<typename... Exps>
-	using define					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  define<Exps...>;
-
-//	assignment:
-
-							  template<typename Variable, typename Value>
-	using set					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  set<Variable, Value>;
-
-//	if_:
-
-							  template<typename... Exps>
-	using if_					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  if_<Exps...>;
-
-//	begin:
-
-							  template<typename... Exps>
-	using begin					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  begin<Exps...>;
-
-//	cond:
-
-							  template<typename... Exps>
-	using cond					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  cond<Exps...>;
-
-							  template<typename... Exps>
-	using try_					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  try_<Exps...>;
-
-							  template<typename... Exps>
-	using else_					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  else_<Exps...>;
-
 //	expression:
 
 							  template<typename... Exps>
@@ -162,23 +125,18 @@
 							  expression<>;
 
 							  template<typename... Exps>
-	using e						= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-							  expression<Exps...>;
-
-							  template<typename... Exps>
 	using program					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 							  expression<Exps...>;
 
-//	evaluators:
+							  template<typename... Exps>
+	using exp					= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+							  expression<Exps...>;
 
-							  template
-							  <
-								typename Exp, typename Env = typename
-								nik_module(normal, interpreted, calculus, semiotic)::structure::template
-								environment<>
-							  >
-	using nik_safe(PREFIX, eval)			= typename nik_module(normal, interpreted, calculus, semiotic)::functor::template
-							  eval<Exp, Env>;
+							  template<typename... Exps>
+	using e						= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+							  expression<Exps...>;
+
+//	interpeter:
 
 							  template
 							  <
