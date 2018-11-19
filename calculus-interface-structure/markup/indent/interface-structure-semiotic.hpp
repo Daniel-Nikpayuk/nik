@@ -15,16 +15,22 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+struct structure
+{
+	using kind						= module;
 
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+	using rtn						= structure;
 
-#define local_scope
+/*
+	indent:
+*/
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
+	template<size_type, typename>
+	struct indent
+	{
+		using kind					= module;
 
-#undef local_scope
+		using rtn					= indent;
+	};
+};
 
-#endif

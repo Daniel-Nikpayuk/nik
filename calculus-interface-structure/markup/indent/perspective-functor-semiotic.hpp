@@ -15,16 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+struct functor
+{
+	using kind		= module;
 
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+	using rtn		= functor;
 
-#define local_scope
+	#include nik_typedef(calculus, markup, indent, structure)
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
+/*
+	display:
 
-#undef local_scope
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
 
-#endif
+	template<size_type length, typename Type>
+	inline static void display(const indent<length, Type> &)
+	{
+		for (size_type k=0; k < length; ++k) Dispatched::functor::display(' ');
+
+		Type::kind::functor::display(Type());
+	}
+};
+

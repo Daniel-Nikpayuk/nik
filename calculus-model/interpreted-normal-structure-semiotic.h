@@ -64,6 +64,12 @@
 	using null_environment			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  environment<>;
 
+//	continuation:
+
+						  template<typename... Exps>
+	using continuation			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
+						  continuation<Exps...>;
+
 //	quote:
 
 	using quote				= typename nik_module(normal, interpreted, calculus, semiotic)::structure::
@@ -115,12 +121,6 @@
 
 	using null_expression			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
 						  expression<>;
-
-//	continuation:
-
-						  template<typename... Exps>
-	using continuation			= typename nik_module(normal, interpreted, calculus, semiotic)::structure::template
-						  continuation<Exps...>;
 
 //
 

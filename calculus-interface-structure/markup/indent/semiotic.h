@@ -15,16 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::indent, Branch::markup, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using rtn	= module;
 
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+		using size_type	= SizeType;
 
-#define local_scope
+		//
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
+		#include nik_typedef(calculus, perspective, dispatched, module)
 
-#undef local_scope
+		//
 
-#endif
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
+

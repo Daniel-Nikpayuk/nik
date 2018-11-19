@@ -141,7 +141,8 @@ namespace nik
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
 
-			branch_enum == Branch::dispatched		||
+			branch_enum == Branch::markup			||
+//			branch_enum == Branch::dispatched		||
 //			branch_enum == Branch::untyped			||
 //			branch_enum == Branch::typed			||
 			branch_enum == Branch::constant			||
@@ -178,6 +179,10 @@ namespace nik
 
 		static_assert
 		(
+
+		// markup:
+
+			module_enum == Module::indent			||
 
 		// dispatched:
 
@@ -241,6 +246,7 @@ namespace nik
 			branch_enum == Branch::untyped			||
 			branch_enum == Branch::typed			||
 
+			branch_enum == Branch::markup			||
 //			branch_enum == Branch::dispatched		||
 //			branch_enum == Branch::untyped			||
 //			branch_enum == Branch::typed			||

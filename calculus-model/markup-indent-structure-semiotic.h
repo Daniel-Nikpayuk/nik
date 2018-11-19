@@ -15,16 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+//
 
-#define local_scope
+				  template<SIZE_TYPE index, typename Type>
+	using indent		= typename nik_module(indent, markup, calculus, semiotic)::structure::template
+				  indent<index, Type>;
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
+//
 
-#undef local_scope
+#include"undef-size_type.h"
 
-#endif

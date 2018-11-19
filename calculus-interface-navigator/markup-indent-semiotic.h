@@ -15,15 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+#ifndef CALCULUS_MARKUP_INDENT_SEMIOTIC_H
+#define CALCULUS_MARKUP_INDENT_SEMIOTIC_H
 
 #define local_scope
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
+	#include"../calculus-interface-structure/markup/indent/semiotic.h"
 
 #undef local_scope
 

@@ -15,14 +15,13 @@
 **
 ************************************************************************************************************************/
 
-	template<char... Chars>
-	inline static void display(const error<Chars...> & e)
-	{
-		using is_empty = typename is_null<error<Chars...>>::rtn;
+#include"define-size_type.h"
 
-		Dispatched::functor::display("error: ");
+//
 
-		if (is_empty::value)	Dispatched::functor::display("null");
-		else			Passive::functor::display(char(), e, "");
-	}
+	using Indent = nik_module(indent, markup, calculus, semiotic);
+
+//
+
+#include"undef-size_type.h"
 

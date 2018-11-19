@@ -15,16 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
-#define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
+struct identity
+{
+	using kind		= module;
 
-	#include"markup-indent-semiotic.h"
-	#include"constant-recursed-semiotic.h"
+	using rtn		= identity;
 
-#define local_scope
+	#include nik_typedef(calculus, markup, indent, structure)
+};
 
-	#include"../calculus-interface-structure/interpreted/normal/semiotic.h"
-
-#undef local_scope
-
-#endif

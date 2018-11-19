@@ -66,6 +66,18 @@ struct structure
 	};
 
 /*
+	continuation:
+*/
+
+	template<typename... Exps>
+	struct continuation
+	{
+		using kind					= module;
+
+		using rtn					= continuation;
+	};
+
+/*
 	quote:
 */
 
@@ -122,15 +134,15 @@ struct structure
 	};
 
 /*
-	continuation:
+	space:
 */
 
-	template<typename... Exps>
-	struct continuation
+	template<size_type length, typename Type>
+	struct space
 	{
 		using kind					= module;
 
-		using rtn					= continuation;
+		using rtn					= space;
 	};
 };
 

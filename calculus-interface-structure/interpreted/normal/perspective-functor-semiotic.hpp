@@ -27,7 +27,6 @@ struct functor
 	#include nik_typedef(calculus, interpreted, normal, structure)
 	#include nik_typedef(calculus, interpreted, normal, identity)
 
-	#include"perspective-functor-error.hpp"
 	#include"perspective-functor-environment.hpp"
 	#include"perspective-functor-trampoline.hpp"
 	#include"perspective-functor-lambda.hpp"
@@ -85,17 +84,32 @@ struct functor
 			>, else_then
 			<
 				is_tagged<Exp, set>,
-				assignment_eval<cdr<Exp>, Env, functor>
+				assignment_eval
+				<
+					cdr<Exp>,
+					Env,
+					functor
+				>
 
 			>, else_then
 			<
 				is_value_definition<Exp>,
-				definition_define_value<cdr<Exp>, Env, functor>
+				definition_define_value
+				<
+					cdr<Exp>,
+					Env,
+					functor
+				>
 
 			>, else_then
 			<
 				is_tagged<Exp, if_>,
-				if__eval<cdr<Exp>, Env, functor>
+				if__eval
+				<
+					cdr<Exp>,
+					Env,
+					functor
+				>
 
 			>, else_then
 			<
@@ -110,7 +124,7 @@ struct functor
 			>, else_then
 			<
 				is_tagged<Exp, begin>,
-				begin_sequence_eval
+				begin_eval
 				<
 					cdr<Exp>,				// begin_actions
 					Env,
@@ -122,7 +136,11 @@ struct functor
 				is_tagged<Exp, cond>,
 				trampoline_eval
 				<
-					cond_to_if_<cdr<Exp>>,
+					cond_to_if_
+					<
+						cdr<Exp>
+					>,
+
 					Env,
 					functor,
 					stack_depth,
@@ -158,6 +176,7 @@ struct functor
 	interpret:
 */
 
+/*
 	template<typename Program, typename Env = null_environment>
 	struct interpret
 	{
@@ -176,37 +195,8 @@ struct functor
  
 		>::rtn;
 	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
 */
 
-/*
-	template<typename Exp, template<typename, typename> class ListType>
-	inline static void display(const ListType<quote, Exp> &)
-	{
-		Dispatched::functor::display("quote: ");
-		Exp::kind::functor::display(Exp());
-	}
-*/
-
-	template<typename Exp, typename... Exps>
-	inline static void display(const expression<Exp, Exps...> & e)
-	{
-		using is_empty = typename is_null<expression<Exps...>>::rtn;
-
-		Dispatched::functor::display("expression:\n ");
-
-		Recursed::functor::display(expression<Exp, Exps...>(), ", ");
-		Dispatched::functor::display('\n');
-	}
-
-	inline static void display(const null_expression &)
-	{
-		Dispatched::functor::display("expression: null\n");
-	}
+	#include"perspective-functor-display.hpp"
 };
 

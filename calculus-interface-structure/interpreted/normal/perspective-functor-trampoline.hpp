@@ -25,8 +25,7 @@
 		using rtn = continuation
 		<
 			typename Args::rtn,
-
-			typename car<lambda, Body>::rtn
+			typename Body::rtn
 		>;
 	};
 
@@ -124,20 +123,4 @@
 
 		>::rtn;
 	};
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<typename Args, typename Body>
-	inline static void display(const continuation<Args, Body> &)
-	{
-		Dispatched::functor::display("continuation: ");
-		Args::kind::functor::display(Args());
-		Dispatched::functor::display(", ");
-		Body::kind::functor::display(Body());
-	}
 
