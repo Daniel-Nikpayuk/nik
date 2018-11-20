@@ -15,15 +15,32 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::literal, Branch::constant, Lens::calculus, Permission::semiotic, SizeType>
+	{
+		using rtn		= module;
 
-//
+		using size_type		= SizeType;
 
-				  template<SIZE_TYPE index, typename Type>
-	using indent		= typename nik_module(indent, markup, calculus, semiotic)::structure::template
-				  indent<index, Type>;
+		//
 
-//
+		#include nik_typedef(calculus, perspective, dispatched, module)
+		#include nik_typedef(calculus, typed, passive, module)
 
-#include"undef-size_type.h"
+		//
+
+		using register_type	= char;
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
 

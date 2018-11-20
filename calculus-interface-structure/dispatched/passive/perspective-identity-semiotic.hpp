@@ -38,8 +38,8 @@ struct identity
 	{
 		static constexpr bool value = perdii_is_equal
 		<
-			typename evaluate<Exp1>::rtn,
-			typename evaluate<Exp2>::rtn
+			typename call<Exp1>::rtn,
+			typename call<Exp2>::rtn
 
 		>::value;
 	};

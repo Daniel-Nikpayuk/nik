@@ -35,17 +35,17 @@ struct functor
 	#include nik_typedef(calculus, dispatched, passive, structure)
 
 /*
-	evaluate:
+	call:
 */
 
 	template<typename Exp>
-	struct evaluate
+	struct call
 	{
 		using rtn = Exp;
 	};
 
 	template<typename Exp>
-	struct evaluate<act<Exp>>
+	struct call<act<Exp>>
 	{
 		using rtn = typename Exp::rtn;
 	};
@@ -55,25 +55,18 @@ struct functor
 */
 
 	template<typename Exp>
-	struct dereference
-	{
-		using rtn = typename perdif_dereference<typename evaluate<Exp>::rtn>::rtn;
-	};
+	using dereference = perdif_dereference<typename call<Exp>::rtn>;
 
 /*
 	if_then_else:
 */
 
-	template<bool True, typename Ante, typename Conse>
-	struct if_then_else
-	{
-		using rtn = typename evaluate<Ante>::rtn;
-	};
-
-	template<typename Ante, typename Conse>
-	struct if_then_else<false, Ante, Conse>
-	{
-		using rtn = typename evaluate<Conse>::rtn;
-	};
+	template<bool Pred, typename Ante, typename Conse>
+	using if_then_else = perdif_if_then_else
+	<
+		Pred,
+		typename call<Ante>::rtn,
+		typename call<Conse>::rtn
+	>;
 };
 

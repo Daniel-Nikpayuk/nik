@@ -15,12 +15,30 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+struct structure
 {
-	using kind		= module;
+	using kind						= module;
 
-	using rtn		= identity;
+	using rtn						= structure;
 
-	#include nik_typedef(calculus, markup, indent, structure)
+	template<register_type...>
+	struct string
+	{
+		using kind					= module;
+
+		using rtn					= literal;
+	};
 };
+
+/*
+	I've wanted to add an "array" thinking it might be useful,
+	but as of yet, I have not had need to use it.
+
+	template<char... params>
+	struct array
+	{
+		static constexpr size_type size = length<list<char...>>::rtn::value;
+		static constexpr char names[size] { params... };
+	};
+*/
 

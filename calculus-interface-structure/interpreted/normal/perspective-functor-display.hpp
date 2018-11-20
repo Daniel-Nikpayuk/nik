@@ -46,7 +46,22 @@
 			env
 		>;
 
-		using rtn = vert_bind;
+		using cont = continuation
+		<
+			expression
+			<
+				literal<'x'>,
+				literal<'y'>
+			>,
+
+			expression
+			<
+				literal<'x'>,
+				boolean<true>
+			>
+		>;
+
+		using rtn = env;
 	};
 
 /*
@@ -57,31 +72,53 @@
 */
 
 	template<typename Exp>
-	using is_vertical = typename or_else
-	<
-		is_<Exp, frame>,
-		is_<Exp, environment>,
-		is_<Exp, continuation>,
-		is_<Exp, expression>
+	struct is_vertical
+	{
+		using rtn = typename or_else
+		<
+			is_<Exp, frame>,
+			is_<Exp, environment>,
+			is_<Exp, continuation>,
+			is_<Exp, expression>
 
-	>::rtn;
+		>::rtn;
+
+		static constexpr bool value = rtn::value;
+	};
 
 	template<typename Variable, typename Value>
-	using are_vertical = typename or_else
+	struct is_vertical<binding<Variable, Value>>
+	{
+		using rtn = typename or_else
+		<
+			is_vertical<Variable>,
+			is_vertical<Value>
+
+		>::rtn;
+
+		static constexpr bool value = rtn::value;
+	};
+
+	template<typename Type, size_type margin, size_type padding>
+	using Markup = if_then_else
 	<
-		is_vertical<Variable>,
-		is_vertical<Value>
+		is_vertical<Type>,
 
-	>::rtn;
+		vertical
+		<
+			Type,
+			margin,
+			padding,
+			functor
+		>,
 
-	template<size_type length, typename Exp>
-	using Safe = if_then_else
-	<
-		is_vertical<Exp>,
-		indent<length, Exp>,
-		Exp
+		indent
+		<
+			Type,
+			margin
+		>
 
-	>;
+	>; // ::rtn call unnecessary
 
 	inline static void space(size_type length)
 	{
@@ -93,13 +130,6 @@
 	{
 		space(length);
 		Dispatched::functor::display(t);
-	}
-
-	template<typename Type>
-	inline static void print(const Type & t, size_type length = 0)
-	{
-		Dispatched::functor::display(t);
-		space(length);
 	}
 
 /*
@@ -121,157 +151,108 @@
 	 binding:
 */
 
-	template<size_type length, typename Variable, typename Value>
-	inline static void display(const indent<length, binding<Variable, Value>> &)
+	template<typename Variable, typename Value>
+	inline static void display(const binding<Variable, Value> &)
 	{
-		static constexpr size_type longer = length + 2;
+		Dispatched::functor::display("<binding: (");
+		Variable::kind::functor::display(Variable());
+		Dispatched::functor::display("), (");
+		Value::kind::functor::display(Value());
+		Dispatched::functor::display(")>");
+	}
 
-		print(length, "<binding:");
+	template<typename Variable, typename Value, size_type margin, size_type padding>
+	inline static void display(const vertical<binding<Variable, Value>, margin, padding, functor> &)
+	{
+		static constexpr size_type width = margin + padding;
 
-		if (are_vertical<Variable, Value>::value)
-		{
-			print("\n\n", is_vertical<Variable>::rtn::value ? 0 : longer);
-			Variable::kind::functor::display(Safe<longer, Variable>());
-			Dispatched::functor::display(" ,");
+		using SafeVar = Markup<Variable, width, padding>;
+		using SafeVal = Markup<Value, width, padding>;
 
-			print("\n\n", is_vertical<Value>::rtn::value ? 0 : longer);
-			Value::kind::functor::display(Safe<longer, Value>());
+		print(margin, "<binding:\n");
+		SafeVar::kind::functor::display(SafeVar());
 
-			print("\n\n", length);
-			Dispatched::functor::display(">");
-		}
-		else
-		{
-			Dispatched::functor::display(" (");
-			Variable::kind::functor::display(Variable());
-			Dispatched::functor::display("), (");
-			Value::kind::functor::display(Value());
-			Dispatched::functor::display(")>");
-		}
+		Dispatched::functor::display(" ,\n");
+		SafeVal::kind::functor::display(SafeVal());
+
+		print(margin, ">");
 	}
 
 /*
 	frame:
 */
 
-	template<size_type length, typename Binding, typename... Bindings>
-	inline static void frame_display(const indent<length, frame<Binding, Bindings...>> &)
+	struct frame_markup
 	{
-		using Rest = frame<Bindings...>;
+		static constexpr const char *label	= "boolean";
+		static constexpr const char *before	= ": ";
+		static constexpr const char *front	= "";
+		static constexpr const char *back	= "";
+		static constexpr const char *after	= "";
+	};
 
-		display(indent<length + 2, Binding>());
-		if (!is_null<Rest>::rtn::value) Dispatched::functor::display(" ,");
-		print("\n\n");
-		frame_display(indent<length, Rest>());
+	template<typename... Bindings, size_type margin, size_type padding>
+	inline static void display(const vertical<frame<Bindings...>, margin, padding, functor> &)
+	{
+		using Type = vertical<frame<Bindings...>, margin, padding, functor>;
+
+		Dispatched::functor::display("[frame:\n");
+		Type::kind::functor::display(Type());
+		Dispatched::functor::display("\n]");
 	}
 
-	template<size_type length>
-	inline static void frame_display(const indent<length, null_frame> &)
+	template<typename... Bindings>
+	inline static void display(const frame<Bindings...> &)
 	{
-		print(length, "]");
-	}
-
-	template<size_type length, typename... Bindings>
-	inline static void display(const indent<length, frame<Bindings...>> & i)
-	{
-		print(length, "[frame:\n\n");
-		frame_display(i);
+		display(vertical<frame<Bindings...>, 4, 4, functor>());
 	}
 
 /*
 	environment:
 */
 
-	template<size_type length, typename Frame, typename... Frames>
-	inline static void environment_display(const indent<length, environment<Frame, Frames...>> &)
+	struct frame_markup
 	{
-		using Rest = environment<Frames...>;
+		static constexpr const char *label	= "boolean";
+		static constexpr const char *before	= ": ";
+		static constexpr const char *front	= "";
+		static constexpr const char *back	= "";
+		static constexpr const char *after	= "";
+	};
 
-		display(indent<length + 2, Frame>());
-		if (!is_null<Rest>::rtn::value) Dispatched::functor::display(" ,");
-		print("\n\n");
-		environment_display(indent<length, Rest>());
-	}
-
-	template<size_type length>
-	inline static void environment_display(const indent<length, null_environment> &)
+	template<typename... Frames>
+	inline static void display(const environment<Frames...> &)
 	{
-		print(length, "}");
-	}
+		using SafeEnv = vertical<environment<Frames...>, 4, 4, functor>;
 
-	template<size_type length, typename... Frames>
-	inline static void display(const indent<length, environment<Frames...>> & i)
-	{
-		print(length, "{environment:\n\n");
-		environment_display(i);
+		Dispatched::functor::display("{environment:\n");
+		SafeEnv::kind::functor::display(SafeEnv());
+		Dispatched::functor::display("\n}");
 	}
 
 /*
 	continuation:
 */
 
-	template<typename Exp, typename... Exps>
-	inline static void display_continuation(const continuation<Exp, Exps...> & f, size_type count)
+/*
+	template<size_type length, typename... Types>
+	inline static void display(const indent<length, continuation<Types...>> & i)
 	{
-		space(count + 2);
-		Exp::kind::functor::display(Exp());
-		if (!is_null<continuation<Exps...>>::rtn::value) Dispatched::functor::display(" ,");
-		Dispatched::functor::display("\n\n");
-		display_continuation(continuation<Exps...>(), count);
+		print(length, "|<continuation:");
+		vertical_display(i, ">|");
 	}
-
-	inline static void display_continuation(const continuation<> &, size_type count)
-	{
-		space(count);
-		Dispatched::functor::display(">|");
-	}
-
-	template<typename... Exps>
-	inline static void display(const continuation<Exps...> & f, size_type count = 0)
-	{
-		space(count);
-		Dispatched::functor::display("|<continuation:\n\n");
-		display_continuation(f, count);
-	}
+*/
 
 /*
 	expression:
 */
 
-	template<typename Exp, typename... Exps>
-	inline static void display_expression(const expression<Exp, Exps...> & f, size_type count)
-	{
-		space(count + 2);
-
-		Exp::kind::functor::display(Exp());
-
-		if (!is_null<expression<Exps...>>::rtn::value) Dispatched::functor::display(" ,");
-
-		Dispatched::functor::display("\n\n");
-		display_expression(expression<Exps...>(), count);
-	}
-
-	inline static void display_expression(const null_expression &, size_type count)
-	{
-		space(count);
-		Dispatched::functor::display("))");
-	}
-
-	template<typename... Exps>
-	inline static void display(const expression<Exps...> & f, size_type count = 0)
-	{
-		space(count);
-		Dispatched::functor::display("((expression:\n\n");
-		display_expression(f, count);
-	}
-
 /*
-	default:
-*/
-
-	template<typename Type>
-	inline static void display(const Type &)
+	template<size_type length, typename... Types>
+	inline static void display(const indent<length, expression<Types...>> & i)
 	{
-		display(indent<0, Type>());
+		print(length, "((expression:");
+		vertical_display(i, "))");
 	}
+*/
 

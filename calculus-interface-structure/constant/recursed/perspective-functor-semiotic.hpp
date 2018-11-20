@@ -541,34 +541,12 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	inline static void display(const ListType<Value, Values...> &, const char *sep = " ")
-	{
-		using value_is_list_type	= typename is_list_type<Value>::rtn;
-		using values_is_null		= typename is_null<ListType<Values...>>::rtn;
-
-		static constexpr char l		= value_is_list_type::value ? '[' : '(';
-		static constexpr char r		= value_is_list_type::value ? ']' : ')';
-
-		Dispatched::functor::display(l);
-		Value::kind::functor::display(Value());
-		Dispatched::functor::display(r);
-
-		if (!values_is_null::value) Dispatched::functor::display(sep);
-
-		display(ListType<Values...>(), sep);
-	}
-
-	template<template<typename...> class ListType>
-	inline static void display(const ListType<> &, const char *sep = " ")
-	{
-		// do nothing.
-	}
-
 	template<typename Exp>
-	inline static void display(const Exp &, const char *sep = " ")
+	inline static void display(const Exp &)
 	{
-		display(typename Exp::rtn(), sep);
+		using Type = typename Exp::rtn;
+	
+		Type::kind::functor::display(Type());
 	}
 };
 

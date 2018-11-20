@@ -52,5 +52,27 @@ struct identity
 	{
 		static constexpr bool value = true;
 	};
+
+/*
+	is_:
+*/
+
+	template<typename Type, typename Exp, template<Type...> class label>
+	struct is_
+	{
+		template<typename>
+		struct strict
+		{
+			static constexpr bool value = false;
+		};
+
+		template<Type... Exps>
+		struct strict<label<Type...>>
+		{
+			static constexpr bool value = true;
+		};
+
+		static constexpr bool value = strict<Exp>::value;
+	};
 };
 

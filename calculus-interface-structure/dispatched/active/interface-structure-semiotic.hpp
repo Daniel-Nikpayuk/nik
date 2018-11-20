@@ -21,6 +21,22 @@ struct structure
 
 	using rtn						= structure;
 
+	template<typename...> struct pass;
+
+	template<>
+	struct pass<>
+	{
+		using kind					= module;
+
+		using rtn					= pass;
+
+		struct markup
+		{
+			static constexpr const char *label	= "pass";
+			static constexpr const char *before	= ": ";
+		};
+	};
+
 	template<typename>
 	struct pass
 	{

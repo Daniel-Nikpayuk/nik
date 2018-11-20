@@ -18,7 +18,6 @@
 #ifndef CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
 #define CALCULUS_INTERPRETED_NORMAL_SEMIOTIC_H
 
-	#include"markup-indent-semiotic.h"
 	#include"constant-recursed-semiotic.h"
 
 #define local_scope

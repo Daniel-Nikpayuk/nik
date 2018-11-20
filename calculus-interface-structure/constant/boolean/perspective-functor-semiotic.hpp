@@ -149,6 +149,15 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
+	struct markup
+	{
+		static constexpr const char *label	= "boolean";
+		static constexpr const char *before	= ": ";
+		static constexpr const char *front	= "";
+		static constexpr const char *back	= "";
+		static constexpr const char *after	= "";
+	};
+
 	template<register_type... Values>
 	inline static void display(const boolean<Values...> & b)
 	{

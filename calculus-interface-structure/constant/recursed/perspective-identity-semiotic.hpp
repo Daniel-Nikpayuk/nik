@@ -43,7 +43,7 @@ struct identity
 	template<typename Exp, template<typename...> class label>
 	struct is_
 	{
-		template<typename Type>
+		template<typename>
 		struct strict
 		{
 			using rtn = boolean<false>;

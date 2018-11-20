@@ -45,32 +45,18 @@ struct functor
 	struct memoized_if_then_else
 	{
 		template<typename Ante, typename Conse>
-		using rtn = Ante;
+		using type = Ante;
 	};
 
 	template<typename Filler>
 	struct memoized_if_then_else<false, Filler>
 	{
 		template<typename Ante, typename Conse>
-		using rtn = Conse;
+		using type = Conse;
 	};
 
 	template<bool Pred, typename Ante, typename Conse>
-	using if_then_else = typename memoized_if_then_else<Pred>::template rtn<Ante, Conse>;
-
-/*
-	template<bool True, typename Ante, typename Conse>
-	struct if_then_else
-	{
-		using rtn = Ante;
-	};
-
-	template<typename Ante, typename Conse>
-	struct if_then_else<false, Ante, Conse>
-	{
-		using rtn = Conse;
-	};
-*/
+	using if_then_else = typename memoized_if_then_else<Pred>::template type<Ante, Conse>;
 
 /*
 	display:
@@ -95,26 +81,5 @@ struct functor
 	inline static void display(double v)			{ printf("%f", v);			}
 	inline static void display(long double v)		{ printf("%Lf", v);			}
 	inline static void display(const char *v)		{ printf("%s", v);			}
-
-/*
-	display:
-
-	As there is no (direct/builtin) compile time screen in C++,
-	there is no loss implementing as run time here.
-*/
-
-	template<bool Pred, typename Ante, typename Conse>
-	inline static void display(const if_then_else<Pred, Ante, Conse> &)
-	{
-		display("if_then_else: ");
-
-		display(Pred);
-		display(" ? ");
-
-		Ante::kind::functor::display(Ante());
-		display(" : ");
-
-		Conse::kind::functor::display(Conse());
-	}
 };
 

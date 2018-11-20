@@ -35,17 +35,17 @@ struct functor
 	#include nik_typedef(calculus, dispatched, active, structure)
 
 /*
-	evaluate:
+	call:
 */
 
 	template<typename Exp>
-	struct evaluate
+	struct call
 	{
 		using rtn = typename Exp::rtn;
 	};
 
 	template<typename Exp>
-	struct evaluate<pass<Exp>>
+	struct call<pass<Exp>>
 	{
 		using rtn = Exp;
 	};
@@ -55,10 +55,7 @@ struct functor
 */
 
 	template<typename Exp>
-	struct dereference
-	{
-		using rtn = typename perdif_dereference<typename evaluate<Exp>::rtn>::rtn;
-	};
+	using dereference = typename perdif_dereference<typename evaluate<Exp>::rtn>;
 
 /*
 	if_then_else:

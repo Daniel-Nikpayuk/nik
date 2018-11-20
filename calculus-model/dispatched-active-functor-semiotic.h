@@ -30,8 +30,8 @@
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(active, dispatched, calculus, semiotic)::functor::template
-							  evaluate<Exp>;
+	using nik_safe(PREFIX, call)			= typename nik_module(active, dispatched, calculus, semiotic)::functor::template
+							  call<Exp>;
 
 //
 

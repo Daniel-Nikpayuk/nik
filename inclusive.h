@@ -15,25 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NORMAL_H
-#define NORMAL_H
+#ifndef INCLUSIVE_H
+#define INCLUSIVE_H
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include"lazy.h"
+#include"exclusive.h"
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include nik_source(., calculus, untyped, passive, semiotic)
-#include nik_source(., calculus, untyped, active, semiotic)
+#include nik_source(., calculus, perspective, dispatched, semiotic)
 
-#include nik_source(., calculus, interpreted, normal, semiotic)
+//#include nik_source(., calculus, untyped, passive, semiotic)
+//#include nik_source(., calculus, untyped, active, semiotic)
+
+//#include nik_source(., calculus, constant, recursed, semiotic)
+//#include nik_source(., calculus, interpreted, normal, semiotic)
 
 
 //

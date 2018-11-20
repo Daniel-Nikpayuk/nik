@@ -37,6 +37,10 @@
 	using nik_safe(PREFIX, is_null)			= typename nik_branch(untyped, calculus, semiotic)::identity::template
 							  is_null<List>;
 
+							  template<typename Exp, template<typename...> class label>
+	using nik_safe(PREFIX, is_)			= typename nik_branch(untyped, calculus, semiotic)::identity::template
+							  is_<Exp, label>;
+
 //
 
 #undef PREFIX

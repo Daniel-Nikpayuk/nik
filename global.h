@@ -30,10 +30,6 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// markup:
-
-		indent,
-
 	// dispatched:
 
 		passive,
@@ -105,7 +101,6 @@ namespace nik
 
 	// calculus:
 
-		markup,
 //		dispatched,
 //		untyped,
 //		typed,

@@ -38,18 +38,5 @@ struct structure
 
 		static constexpr register_type value		= Value;
 	};
-
-/*
-	I've wanted to add an "array" thinking it might be useful,
-	but as of yet, I have not had need to use it.
-
-	template<char... params>
-	struct array
-	{
-		static constexpr size_type size = length<list<char...>>::rtn::value;
-		static constexpr char names[size] { params... };
-	};
-*/
-
 };
 

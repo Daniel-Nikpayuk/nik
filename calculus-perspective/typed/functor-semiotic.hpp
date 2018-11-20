@@ -25,6 +25,20 @@ struct functor
 	cons:
 */
 
+/*
+	template<typename Type, typename> struct memoized_cons;
+
+	template<typename Type, Type... Values, template<Type...> class ListType>
+	struct memoized_cons<ListType<Values...>>
+	{
+		template<Type Value>
+		using type = ListType<Value, Values...>;
+	};
+
+	template<typename Type, Type Value, typename List>
+	using cons = typename memoized_cons<List>::template type<Value>;
+*/
+
 	template<typename Type, Type, typename> struct cons;
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
@@ -34,7 +48,24 @@ struct functor
 	};
 
 /*
+	template<typename, typename> struct memoized_projection;
+
+	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
+	struct memoized_projection<ListType<Value, Values...>>
+	{
+		static constexpr Type car = Value;
+
+		using cdr = ListType<Values...>;
+	};
+*/
+
+/*
 	car:
+*/
+
+/*
+	template<typename Type, typename List>
+	static constexpr Type car = memoized_projection<Type, List>::car;
 */
 
 	template<typename Type, typename> struct car;
@@ -47,6 +78,11 @@ struct functor
 
 /*
 	cdr:
+*/
+
+/*
+	template<typename Type, typename List>
+	using cdr = typename memoized_projection<Type, List>::cdr;
 */
 
 	template<typename Type, typename> struct cdr;

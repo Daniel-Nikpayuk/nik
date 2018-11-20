@@ -15,13 +15,44 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct identity
+{
+	using kind		= module;
 
-//
+	using rtn		= identity;
 
-	using Indent = nik_module(indent, markup, calculus, semiotic);
+	#define safe_name
 
-//
+		#include nik_typedef(calculus, perspective, typed, identity)
 
-#include"undef-size_type.h"
+	#undef safe_name
+
+	#include nik_typedef(calculus, constant, literal, structure)
+
+/*
+	is literal:
+*/
+
+	template<typename>
+	struct is_literal
+	{
+		static constexpr bool value = false;
+	};
+
+	template<register_type... Values>
+	struct is_literal<literal<Values...>>
+	{
+		static constexpr bool value = true;
+	};
+
+/*
+	is null:
+*/
+
+	template<typename List>
+	struct is_null
+	{
+		static constexpr bool value = pertyi_is_null<register_type, List>::value;
+	};
+};
 

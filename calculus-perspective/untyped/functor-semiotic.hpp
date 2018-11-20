@@ -21,21 +21,31 @@ struct functor
 
 	using rtn		= functor;
 
+	template<template<typename...> class label, typename... Exps>
+	struct delay
+	{
+		using force = label<Exps...>;
+	};
+
 /*
 	cons:
+
+	A memoized version either memoizes the value or the list,
+	but as we need to pattern match the list, it cannot be used.
 */
 
 /*
 	template<typename> struct memoized_cons;
 
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct memoized_cons<Value>
+	template<typename... Values, template<typename...> class ListType>
+	struct memoized_cons<ListType<Values...>>
 	{
-		using rtn = ListType<Value, Values...>;
+		template<typename Value>
+		using type = ListType<Value, Values...>;
 	};
 
 	template<typename Value, typename List>
-	using cons = typename memoized_cons<Value>::template rtn<Value, List>;
+	using cons = typename memoized_cons<List>::template type<Value>;
 */
 
 	template<typename, typename> struct cons;
@@ -47,7 +57,24 @@ struct functor
 	};
 
 /*
+	template<typename> struct memoized_projection;
+
+	template<typename Value, typename... Values, template<typename...> class ListType>
+	struct memoized_projection<ListType<Value, Values...>>
+	{
+		using car = Value;
+
+		using cdr = ListType<Values...>;
+	};
+*/
+
+/*
 	car:
+*/
+
+/*
+	template<typename List>
+	using car = typename memoized_projection<List>::car;
 */
 
 	template<typename> struct car;
@@ -60,6 +87,11 @@ struct functor
 
 /*
 	cdr:
+*/
+
+/*
+	template<typename List>
+	using cdr = typename memoized_projection<List>::cdr;
 */
 
 	template<typename> struct cdr;
