@@ -23,6 +23,9 @@ struct identity
 
 /*
 	is_equal:
+
+	template template variables are currently not allowed.
+	As such, this library requires eager aliases to return typenames.
 */
 
 	template<typename Type1, typename Type2>

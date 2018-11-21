@@ -21,20 +21,48 @@ struct functor
 
 	using rtn		= functor;
 
-	template<template<typename...> class label, typename... Exps>
+/*
+	delay:
+
+	template template variables are currently not allowed.
+	As such, this library requires eager aliases to return typenames.
+*/
+
+	template<typename Type, template<typename...> class eager, typename... Params>
 	struct delay
 	{
-		using force = label<Exps...>;
+		static constexpr Type value = eager<Params...>::value;
+	};
+
+	template<template<typename...> class eager, typename... Params>
+	struct delay<void, eager, Params...>
+	{
+		using rtn = eager<Params...>;
 	};
 
 /*
-	cons:
-
-	A memoized version either memoizes the value or the list,
-	but as we need to pattern match the list, it cannot be used.
+	force:
 */
 
+	template<typename Exp>
+	struct memoized_force // includes delay<Type, eager, Params...>
+	{
+		using rtn = Exp;
+	};
+
+	template<template<typename...> class eager, typename... Params>
+	struct memoized_force<delay<void, eager, Params...>>
+	{
+		using rtn = eager<Params...>;
+	};
+
+	template<typename Exp>
+	using force = typename memoized_force<Exp>::rtn;
+
 /*
+	cons:
+*/
+
 	template<typename> struct memoized_cons;
 
 	template<typename... Values, template<typename...> class ListType>
@@ -46,17 +74,11 @@ struct functor
 
 	template<typename Value, typename List>
 	using cons = typename memoized_cons<List>::template type<Value>;
-*/
-
-	template<typename, typename> struct cons;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct cons<Value, ListType<Values...>>
-	{
-		using rtn = ListType<Value, Values...>;
-	};
 
 /*
+	projection:
+*/
+
 	template<typename> struct memoized_projection;
 
 	template<typename Value, typename... Values, template<typename...> class ListType>
@@ -66,40 +88,19 @@ struct functor
 
 		using cdr = ListType<Values...>;
 	};
-*/
 
 /*
 	car:
 */
 
-/*
 	template<typename List>
 	using car = typename memoized_projection<List>::car;
-*/
-
-	template<typename> struct car;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct car<ListType<Value, Values...>>
-	{
-		using rtn = Value;
-	};
 
 /*
 	cdr:
 */
 
-/*
 	template<typename List>
 	using cdr = typename memoized_projection<List>::cdr;
-*/
-
-	template<typename> struct cdr;
-
-	template<typename Value, typename... Values, template<typename...> class ListType>
-	struct cdr<ListType<Value, Values...>>
-	{
-		using rtn = ListType<Values...>;
-	};
 };
 

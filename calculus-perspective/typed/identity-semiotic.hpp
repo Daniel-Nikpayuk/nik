@@ -57,22 +57,23 @@ struct identity
 	is_:
 */
 
-	template<typename Type, typename Exp, template<Type...> class label>
-	struct is_
+	template<typename Type, template<Type...> class label>
+	struct memoized_is_
 	{
-		template<typename>
-		struct strict
+		template<typename Exp>
+		struct type
 		{
 			static constexpr bool value = false;
 		};
 
 		template<Type... Exps>
-		struct strict<label<Type...>>
+		struct type<label<Exps...>>
 		{
 			static constexpr bool value = true;
 		};
-
-		static constexpr bool value = strict<Exp>::value;
 	};
+
+	template<typename Type, typename Exp, template<Type...> class label>
+	static constexpr bool is_ = memoized_is_<Type, label>::template type<Exp>;
 };
 

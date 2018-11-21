@@ -26,16 +26,19 @@ struct functor
 */
 
 	template<typename Type>
-	struct dereference
+	struct memoized_dereference
 	{
 		using rtn = Type;
 	};
 
 	template<typename Type>
-	struct dereference<Type*>
+	struct memoized_dereference<Type*>
 	{
 		using rtn = Type;
 	};
+
+	template<typename Exp>
+	using dereference = typename memoized_dereference<Exp>::rtn;
 
 /*
 	if_then_else:

@@ -31,6 +31,8 @@
 
 
 #include nik_source(., calculus, perspective, dispatched, semiotic)
+#include nik_source(., calculus, perspective, untyped, semiotic)
+#include nik_source(., calculus, perspective, typed, semiotic)
 
 //#include nik_source(., calculus, untyped, passive, semiotic)
 //#include nik_source(., calculus, untyped, active, semiotic)

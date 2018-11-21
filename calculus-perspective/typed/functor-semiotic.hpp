@@ -22,75 +22,82 @@ struct functor
 	using rtn		= functor;
 
 /*
+	delay:
+*/
+
+	template<typename Kind, typename Type, template<Type...> class eager, Type... Params>
+	struct delay
+	{
+		static constexpr Kind value = eager<Params...>::value;
+	};
+
+	template<typename Type, template<Type...> class eager, Type... Params>
+	struct delay<void, Type, eager, Params...>
+	{
+		using rtn = eager<Params...>;
+	};
+
+/*
+	force:
+*/
+
+	template<typename Exp>
+	struct memoized_force // includes delay<Kind, Type, eager, Params...>
+	{
+		using rtn = Exp;
+	};
+
+	template<typename Type, template<Type...> class eager, Type... Params>
+	struct memoized_force<delay<void, Type, eager, Params...>>
+	{
+		using rtn = eager<Params...>;
+	};
+
+	template<typename Exp>
+	using force = typename memoized_force<Exp>::rtn;
+
+/*
 	cons:
 */
 
-/*
 	template<typename Type, typename> struct memoized_cons;
 
 	template<typename Type, Type... Values, template<Type...> class ListType>
-	struct memoized_cons<ListType<Values...>>
+	struct memoized_cons<Type, ListType<Values...>>
 	{
 		template<Type Value>
 		using type = ListType<Value, Values...>;
 	};
 
 	template<typename Type, Type Value, typename List>
-	using cons = typename memoized_cons<List>::template type<Value>;
-*/
-
-	template<typename Type, Type, typename> struct cons;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct cons<Type, Value, ListType<Values...>>
-	{
-		using rtn = ListType<Value, Values...>;
-	};
+	using cons = typename memoized_cons<Type, List>::template type<Value>;
 
 /*
+	projection:
+*/
+
 	template<typename, typename> struct memoized_projection;
 
 	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct memoized_projection<ListType<Value, Values...>>
+	struct memoized_projection<Type, ListType<Value, Values...>>
 	{
-		static constexpr Type car = Value;
+		static constexpr Type value = Value;
 
-		using cdr = ListType<Values...>;
+		using rtn = ListType<Values...>;
 	};
-*/
 
 /*
 	car:
 */
 
-/*
 	template<typename Type, typename List>
-	static constexpr Type car = memoized_projection<Type, List>::car;
-*/
-
-	template<typename Type, typename> struct car;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct car<Type, ListType<Value, Values...>>
-	{
-		static constexpr Type value = Value;
-	};
+	using car = memoized_projection<Type, List>;
 
 /*
 	cdr:
 */
 
-/*
 	template<typename Type, typename List>
-	using cdr = typename memoized_projection<Type, List>::cdr;
-*/
-
-	template<typename Type, typename> struct cdr;
-
-	template<typename Type, Type Value, Type... Values, template<Type...> class ListType>
-	struct cdr<Type, ListType<Value, Values...>>
-	{
-		using rtn = ListType<Values...>;
-	};
+	using cdr = typename memoized_projection<Type, List>::rtn;
 };
 

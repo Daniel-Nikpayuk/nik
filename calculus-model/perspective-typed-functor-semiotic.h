@@ -29,6 +29,20 @@
 
 //
 
+							  template
+							  <
+								typename Kind, typename Type,
+								template<Type...> class eager, Type... Params
+							  >
+	using nik_safe(PREFIX, delay)			= typename nik_branch(typed, calculus, semiotic)::functor::template
+							  delay<Kind, Type, eager, Params...>;
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, force)			= typename nik_branch(typed, calculus, semiotic)::functor::template
+							  force<Exp>;
+
+//
+
 							  template<typename Type, Type Value, typename List>
 	using nik_safe(PREFIX, cons)			= typename nik_branch(typed, calculus, semiotic)::functor::template
 							  cons<Type, Value, List>;

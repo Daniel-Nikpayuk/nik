@@ -29,17 +29,17 @@
 
 //
 
-							  template<typename Type, typename Exp>
-	using nik_safe(PREFIX, is_list_type)		= typename nik_branch(typed, calculus, semiotic)::identity::template
-							  is_list_type<Type, Exp>;
+								  template<typename Type, typename Exp>
+	using nik_safe(PREFIX, is_list_type)			= typename nik_branch(typed, calculus, semiotic)::identity::template
+								  is_list_type<Type, Exp>;
 
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, is_null)			= typename nik_branch(typed, calculus, semiotic)::identity::template
-							  is_null<Type, List>;
+								  template<typename Type, typename List>
+	using nik_safe(PREFIX, is_null)				= typename nik_branch(typed, calculus, semiotic)::identity::template
+								  is_null<Type, List>;
 
-							  template<typename Type, typename Exp, template<Type...> class label>
-	using nik_safe(PREFIX, is_)			= typename nik_branch(typed, calculus, semiotic)::identity::template
-							  is_list_type<Type, Exp, label>;
+								  template<typename Type, typename Exp, template<Type...> class label>
+	using nik_safe(PREFIX, is_)				= typename nik_branch(typed, calculus, semiotic)::identity::template
+								  memoized_is_<Type, label>::template type<Exp>;
 
 //
 
