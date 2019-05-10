@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -30,21 +30,26 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., calculus, perspective, dispatched, semiotic)
-#include nik_source(., calculus, perspective, untyped, semiotic)
-#include nik_source(., calculus, perspective, typed, semiotic)
+//#include nik_source(., symbolic, perspective, kernel, semiotic)		// redundant inclusion
 
-//#include nik_source(., calculus, untyped, passive, semiotic)
-//#include nik_source(., calculus, untyped, active, semiotic)
+//#include nik_source(., symbolic, kernel, core, semiotic)			// redundant inclusion
 
-//#include nik_source(., calculus, constant, recursed, semiotic)
-//#include nik_source(., calculus, interpreted, normal, semiotic)
+#include nik_source(., symbolic, calculus, product, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, calculus, coproduct, semiotic)		// redundant inclusion
+//#include nik_source(., symbolic, calculus, power, semiotic)
+//#include nik_source(., symbolic, calculus, copower, semiotic)
+
+//#include nik_source(., symbolic, lift, operate, semiotic)
+//#include nik_source(., symbolic, lift, boolean, semiotic)
+//#include nik_source(., symbolic, lift, literal, semiotic)
+//#include nik_source(., symbolic, lift, number, semiotic)
+//#include nik_source(., symbolic, lift, integer32, semiotic)
 
 
 //
 
 
-#include nik_source(., hardware, graphic, printer, media)
+#include nik_source(., assemblic, graphic, printer, media)
 
 
 /***********************************************************************************************************************/

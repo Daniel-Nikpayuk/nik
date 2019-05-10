@@ -1,0 +1,139 @@
+/************************************************************************************************************************
+**
+** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+**
+** This file is part of nik.
+**
+** nik is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+**
+** nik is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+** of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along with nik. If not, see
+** <http://www.gnu.org/licenses/>.
+**
+************************************************************************************************************************/
+
+
+/*
+	C++ core deduction system:
+
+
+		judgement		:=	( instance           : type               )
+
+
+		register_judgement	:=	( value_instance     : value_type         )
+
+						( boolean            : bool               )
+						( literal            : unsigned char      )
+						( literal            : signed   char      )
+						( numeric            : unsigned short     )
+						( numeric            : signed   short     )
+						( numeric            : unsigned int       )
+						( numeric            : signed   int       )
+						( numeric            : unsigned long      )
+						( numeric            : signed   long      )
+						( numeric            : unsigned long long )
+						( numeric            : signed   long long )
+						( numeric            : pointer            )
+
+
+		address_judgement	:=	( object_instance    : object_type        )
+
+						( initialization     : array              )
+						( struct             : abstraction        )
+						( specialization     : template           )
+
+
+		symbolic_judgement	:=	( parameter_instance : parameter_type     )
+
+						( value_instance     : value_type         )
+						( value_type         : typename           )
+						( abstraction        : typename           )
+						( template           : typename           )
+
+
+/***********************************************************************************************************************/
+
+
+	Nik library symbolic lens deduction system:
+
+
+		alias			:=	( terminal_name      : initial_name       )
+
+						( builtin            : value_type         )
+
+
+	1. A computable space is a class of duals.
+	2. Duals have states.
+	3. States have partitions.
+	4. A patch can be viewed as an evaluation code with respect to a dual's judgement.
+	5. Patches are partitioned as follows:
+
+
+		reflex				a) Reflexive patches evaluate to themselves.
+						b) Reflexes are divided based on their judgement types.
+
+
+							echo : builtin  --> builtin
+							ping : typename --> typename
+
+
+		transit				a) Transitive patches correspond to
+						   type theoretic function objects
+
+							(A --> B) x A
+
+						b) Transits are divided based on local implementation grammar.
+
+							static constexpr:
+
+								pose : ( builtin  --> builtin  ) x builtin  --> builtin
+
+							scope resolution:
+
+								turn : ( typename --> builtin  ) x typename --> builtin
+								moiz : ( builtin  --> typename ) x builtin  --> typename
+								call : ( typename --> typename ) x typename --> typename
+
+
+	6. Let A,B,C be types, with f : B --> C. The compositional form of f with respect to A is defined to be
+
+		f_A : (A --> B) x A --> C
+
+		    := f . transit_{A, B}
+
+	   These definitions allow us to declare grammar with what is otherwise function object (delayed; lazy) input.
+	   They also suggest that at bare minimum typed input along with the various transits are necessary for compositional
+	   robustness.
+
+	   If a particular form is common enough it should be optimized---if it is effective to do so.
+
+	7. The existence of transits allows for the apriori/aposteriori paradigm: Refined specifications can be optimized,
+	   and if the context is known in advanced the appropriate optimization can be dispatched manually. Otherwise,
+	   a generic version is also needed which will pattern match and dispatch appropriately automatically.
+
+	8. Builtin template templates are not composable, and parameter packs are not objects (C++ standard). As a consequence,
+	   whenever a builtin or a parameter pack is returned from a symbolic function, it is a best practice for the function
+	   grammar to adhere to the continuation passing paradigm. This allows for composability while minimizing memoization.
+
+
+/***********************************************************************************************************************/
+
+
+		dual			:=	( judgement                               ; patch           )
+
+
+		symbolic_dual		:=	( parameter_instance : parameter_type     ; parameter_patch )
+
+						( value_instance     : builtin            ; echo            )
+						( value_instance     : builtin            ; moiz            )
+						( value_instance     : builtin            ; pose            )
+						( value_type         : typename           ; ping            )
+						( abstraction        : typename           ; turn            )
+						( abstraction        : typename           ; call            )
+						( template           : typename           ; turn            )
+						( template           : typename           ; call            )
+*/
+

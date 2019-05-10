@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -42,35 +42,35 @@
 /***********************************************************************************************************************/
 
 
-#define nik_source(path, narrative, branch, module, space)								\
+#define nik_source(path, lens, branch, module, space)									\
 															\
-	nik_stringify(path/narrative-interface-navigator/branch-module-space.h)
+	nik_stringify(path/lens-interface-navigator/branch-module-space.h)
 
 
 /***********************************************************************************************************************/
 
 
-#define nik_typedef(narrative, branch, module, name)									\
+#define nik_typedef(lens, branch, module, name)										\
 															\
-	nik_stringify(../../../narrative-model/branch-module-name-semiotic.h)
+	nik_stringify(../../../lens-model/branch-module-name-semiotic.h)
 
 
-#define nik_unpack(path, narrative, branch, module, name)								\
+#define nik_unpack(path, lens, branch, module, name)									\
 															\
-	nik_stringify(path/narrative-model/branch-module-name-semiotic.h)
+	nik_stringify(path/lens-model/branch-module-name-semiotic.h)
 
 
 /***********************************************************************************************************************/
 
 
-#define nik_using(narrative, branch, module, name)									\
+#define nik_using(lens, branch, module, name)										\
 															\
-	nik_stringify(../../../narrative-model/branch-module-name-media.h)
+	nik_stringify(../../../lens-model/branch-module-name-media.h)
 
 
-#define nik_import(path, narrative, branch, module, name)								\
+#define nik_import(path, lens, branch, module, name)									\
 															\
-	nik_stringify(path/narrative-model/branch-module-name-media.h)
+	nik_stringify(path/lens-model/branch-module-name-media.h)
 
 
 /***********************************************************************************************************************/
@@ -78,7 +78,7 @@
 
 #define nik_printer(path)												\
 															\
-	nik_stringify(path/hardware-model/graphic-printer-media.h)
+	nik_stringify(path/assemblic-model/graphic-printer-media.h)
 
 
 /***********************************************************************************************************************/
@@ -136,16 +136,13 @@ namespace nik
 
 		static_assert
 		(
+			branch_enum == Branch::kernel			||
 
-			branch_enum == Branch::dispatched		||
-			branch_enum == Branch::untyped			||
-			branch_enum == Branch::typed			||
-
-//			branch_enum == Branch::dispatched		||
-//			branch_enum == Branch::untyped			||
-//			branch_enum == Branch::typed			||
-			branch_enum == Branch::constant			||
-			branch_enum == Branch::interpreted		||
+//			branch_enum == Branch::kernel			||
+			branch_enum == Branch::calculus			||
+			branch_enum == Branch::lift			||
+			branch_enum == Branch::scheme			||
+			branch_enum == Branch::kin			||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||
@@ -179,24 +176,18 @@ namespace nik
 		static_assert
 		(
 
-		// dispatched:
+		// kernel:
 
-			module_enum == Module::passive			||
-			module_enum == Module::active			||
+			module_enum == Module::core			||
 
-		// untyped:
+		// calculus:
 
-			module_enum == Module::conditional		||
-//			module_enum == Module::passive			||
-//			module_enum == Module::active			||
+			module_enum == Module::product			||
+			module_enum == Module::coproduct		||
+			module_enum == Module::power			||
+			module_enum == Module::copower			||
 
-		// typed:
-
-			module_enum == Module::deductional		||
-//			module_enum == Module::passive			||
-//			module_enum == Module::active			||
-
-		// constant:
+		// lift:
 
 			module_enum == Module::operate			||
 
@@ -214,17 +205,22 @@ namespace nik
 			module_enum == Module::integer32		||
 			module_enum == Module::integer64		||
 
-			module_enum == Module::recursed			||
-
-		// interpreted:
+		// scheme:
 
 			module_enum == Module::normal			||
 			module_enum == Module::lazy			||
 
+		// kin:
+
+			module_enum == Module::concept			||
+			module_enum == Module::instance			||
+			module_enum == Module::type			||
+			module_enum == Module::judgement		||
+
 		// generic:
 
 			module_enum == Module::pointer			||
-			module_enum == Module::power			||
+//			module_enum == Module::power			||
 
 		// numeric:
 
@@ -237,15 +233,13 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::dispatched		||
-			branch_enum == Branch::untyped			||
-			branch_enum == Branch::typed			||
+			branch_enum == Branch::kernel			||
 
-//			branch_enum == Branch::dispatched		||
-//			branch_enum == Branch::untyped			||
-//			branch_enum == Branch::typed			||
-			branch_enum == Branch::constant			||
-			branch_enum == Branch::interpreted		||
+//			branch_enum == Branch::kernel			||
+			branch_enum == Branch::calculus			||
+			branch_enum == Branch::lift			||
+			branch_enum == Branch::scheme			||
+			branch_enum == Branch::kin			||
 
 			branch_enum == Branch::generic			||
 			branch_enum == Branch::numeric			||

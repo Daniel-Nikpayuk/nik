@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2018 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -30,24 +30,18 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// dispatched:
+	// kernel:
 
-		passive,
-		active,
+		core,
 
-	// untyped:
+	// calculus:
 
-		conditional,
-//		passive,
-//		active,
+		product,
+		coproduct,
+		power,
+		copower,
 
-	// typed:
-
-		deductional,
-//		passive,
-//		active,
-
-	// constant:
+	// lift:
 
 		operate,
 
@@ -65,17 +59,22 @@ namespace nik
 		integer32,
 		integer64,
 
-		recursed,
-
-	// interpreted:
+	// scheme:
 
 		normal,
 		lazy,
 
+	// kin:
+
+		concept,
+		instance,
+		type,
+		judgement,
+
 	// generic:
 
 		pointer,
-		power,
+//		power,
 
 	// numeric:
 
@@ -95,19 +94,17 @@ namespace nik
 
 	// perspective:
 
-		dispatched,
-		untyped,
-		typed,
+		kernel,
 
-	// calculus:
+	// symbolic:
 
-//		dispatched,
-//		untyped,
-//		typed,
-		constant,
-		interpreted,
+//		kernel,
+		calculus,
+		lift,
+		scheme,
+		kin,
 
-	// hardware:
+	// assemblic:
 
 		generic,
 		numeric,
@@ -122,8 +119,8 @@ namespace nik
 
 	enum struct Lens : global_size_type
 	{
-		calculus,
-		hardware,
+		symbolic,
+		assemblic,
 
 		dimension // filler
 	};
