@@ -15,27 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Module::neutral, Branch::untyped, Lens::calculus, Permission::semiotic, SizeType>
-	{
-		using rtn	= module;
+#ifndef SYMBOLIC_CALCULUS_CONDITIONAL_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_CONDITIONAL_SEMIOTIC_H
 
-		using size_type	= SizeType;
+	#include"calculus-coproduct-semiotic.h"
 
-		//
+#define local_scope
 
-		#include nik_typedef(calculus, perspective, dispatched, module)
+	#include"../symbolic-interface-structure/calculus/conditional/semiotic.h"
 
-		//
+#undef local_scope
 
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
-
+#endif

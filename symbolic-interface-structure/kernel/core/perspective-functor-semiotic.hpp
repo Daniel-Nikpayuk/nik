@@ -49,34 +49,32 @@ struct functor
 	using ping = Type;
 
 /*
-	pose:
-
-	A constexpr function should be used for intermediate function composition.
-
-	On the one hand, pose is an extension of moiz as it reads builtin --> typename,
-	on the other hand it implies there's no ideal direct way to compose builtin
-	valued functions without eventually passing them off to a typename.
-*/
-
-	template<typename Continuation, typename Op, typename Type, Type Value>
-	using pose = typename Continuation::template result<Type, Op::value(Value)>;
-
-/*
-	turn:
-*/
-
-	template<typename Continuation, typename Type, typename Dual>
-	using turn = typename Continuation::template result<Type, Dual::value>;
-
-/*
 	moiz:
 */
 
-	struct moiz
+	struct cp_moiz
 	{
 		template<typename Type, Type Value>
 		using result = memoized_value<Type, Value>;
 	};
+
+/*
+	pose:
+
+	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+*/
+
+	template<typename Op, typename Type, Type Value, typename Continuation = cp_moiz>
+	using pose = typename Continuation::template result<Type, Op::value(Value)>;
+
+/*
+	turn:
+
+	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+*/
+
+	template<typename Type, typename Dual, typename Continuation = cp_moiz>
+	using turn = typename Continuation::template result<Type, Dual::value>;
 
 /*
 	call:

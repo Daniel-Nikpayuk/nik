@@ -19,7 +19,7 @@
 
 //
 
-	using Recursed = nik_module(recursed, calculus, symbolic, semiotic);
+	using Product = nik_module(product, calculus, symbolic, semiotic);
 
 //
 

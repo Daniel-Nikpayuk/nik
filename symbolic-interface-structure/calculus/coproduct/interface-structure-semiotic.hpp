@@ -15,15 +15,26 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_CALCULUS_COPOWER_SEMIOTIC_H
-#define SYMBOLIC_CALCULUS_COPOWER_SEMIOTIC_H
+struct structure
+{
+	using kind		= module;
 
-	#include"typed-neutral-semiotic.h"
+	using rtn		= structure;
 
-#define local_scope
+	#include nik_typedef(symbolic, calculus, product, structure)
 
-	#include"../symbolic-interface-structure/calculus/copower/semiotic.h"
+/*
+	memoized_builtin_copair:
+*/
 
-#undef local_scope
+	template<typename Type, typename Exp>
+	using memoized_builtin_copair = memoized_builtin_builtin_pair<bool, Type, Exp>;
 
-#endif
+/*
+	memoized_typename_copair:
+*/
+
+	template<typename Exp>
+	using memoized_typename_copair = memoized_builtin_typename_pair<bool, Exp>;
+};
+

@@ -15,21 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Module::coproduct, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
-	{
-		using rtn	= module;
+#include"define-size_type.h"
 
-		using size_type	= SizeType;
+							  template<typename Type, typename Exp>
+	using memoized_builtin_copair			= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_builtin_pair<bool, Type, Exp>;
 
-		#include"interface-structure-semiotic.hpp"
+							  template<typename Exp>
+	using memoized_typename_copair			= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_typename_pair<bool, Exp>;
 
-		//
-
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#include"undef-size_type.h"
 

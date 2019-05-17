@@ -21,61 +21,48 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(symbolic, perspective, kernel, structure)
-	#include nik_typedef(symbolic, perspective, calculus, structure)
-	#include nik_typedef(symbolic, perspective, calculus, identity)
+	#include nik_typedef(symbolic, kernel, core, identity)
 
 	#include nik_typedef(symbolic, calculus, product, structure)
 
-	// act:
+/*
+	is_builtin_builtin_pair:
+*/
 
-	template<typename Exp>
-	using act_id = typename memoized_chain<Exp>::template wrap
+	template<typename TypeX, typename TypeY, typename Exp, typename Continuation = cp_bool_moiz>
+	using is_builtin_builtin_pair = typename memoized_builtin_builtin_pair<TypeX, TypeY, Exp>::template match
 	<
-		chain_name, act
-	>;
-
-	// pass:
-
-	template<typename Exp>
-	using pass_id = typename memoized_chain<Exp>::template wrap
-	<
-		chain_name, pass
+		Continuation
 	>;
 
 /*
-	is_name:
+	is_builtin_typename_pair:
 */
 
-	template<typename Exp, template<typename> class name_id>
-	using is_name = typename memoized_conditional
+	template<typename TypeX, typename Exp, typename Continuation = cp_bool_moiz>
+	using is_builtin_typename_pair = typename memoized_builtin_typename_pair<TypeX, Exp>::template match
 	<
-		memoized_chain<Exp>::template match<chain_id>::value
-
-	>::template left_inject
-	<
-		name_id, Exp,
-
-		memoized_value<bool, false>
+		Continuation
 	>;
 
 /*
-	is_act:
+	is_typename_builtin_pair:
 */
 
-	template<typename Exp>
-	using is_act = is_name<Exp, act_id>;
+	template<typename TypeY, typename Exp, typename Continuation = cp_bool_moiz>
+	using is_typename_builtin_pair = typename memoized_typename_builtin_pair<TypeY, Exp>::template match
+	<
+		Continuation
+	>;
 
 /*
-	is_pass:
+	is_typename_typename_pair:
 */
 
-	template<typename Exp>
-	using is_pass = is_name<Exp, pass_id>;
-
-/*
-	Passive/active comparisons would only be provided
-	for convenience if they were used often enough.
-*/
+	template<typename Exp, typename Continuation = cp_bool_moiz>
+	using is_typename_typename_pair = typename memoized_typename_typename_pair<Exp>::template match
+	<
+		Continuation
+	>;
 };
 

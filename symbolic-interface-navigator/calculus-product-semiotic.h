@@ -18,8 +18,6 @@
 #ifndef SYMBOLIC_CALCULUS_PRODUCT_SEMIOTIC_H
 #define SYMBOLIC_CALCULUS_PRODUCT_SEMIOTIC_H
 
-	#include"perspective-calculus-semiotic.h"
-
 	#include"kernel-core-semiotic.h"
 
 #define local_scope

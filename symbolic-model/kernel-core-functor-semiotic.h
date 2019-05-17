@@ -29,20 +29,37 @@
 
 //
 
+	using nik_safe(PREFIX, echo)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
+							  echo;
+
 							  template<typename Type>
 	using nik_safe(PREFIX, ping)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
 							  ping<Type>;
 
-	using nik_safe(PREFIX, moiz)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
-							  moiz;
+	using nik_safe(PREFIX, cp_moiz)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
+							  cp_moiz;
 
-							  template<typename Continuation, typename Type, Type Value>
+							  template
+							  <
+								typename Op, typename Type, Type Value,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								functor::cp_moiz
+							  >
 	using nik_safe(PREFIX, pose)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  pose<Continuation, Type, Value>;
+							  pose<Continuation, Op, Type, Value>;
 
-							  template<typename Continuation, typename Type, typename Dual>
+							  template
+							  <
+								typename Type, typename Dual,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								functor::cp_moiz
+							  >
 	using nik_safe(PREFIX, turn)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  turn<Continuation, Type, Value, Dual>;
+							  turn<Continuation, Type, Dual>;
 
 							  template<typename Dual>
 	using nik_safe(PREFIX, call)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template

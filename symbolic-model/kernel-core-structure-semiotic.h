@@ -21,9 +21,13 @@
 	using memoized_value		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
 					  memoized_value<Type, Value>;
 
+					  template<bool Value>
+	using memoized_bool		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
+					  memoized_bool<Value>;
+
 					  template<typename Type1, typename Type2>
-	using memoized_equality		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_equality<Type1, Type2>;
+	using memoized_couple		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
+					  memoized_couple<Type1, Type2>;
 
 					  template<typename Type>
 	using memoized_pointer		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template

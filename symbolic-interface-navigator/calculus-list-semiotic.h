@@ -18,7 +18,7 @@
 #ifndef SYMBOLIC_CALCULUS_LIST_SEMIOTIC_H
 #define SYMBOLIC_CALCULUS_LIST_SEMIOTIC_H
 
-	#include"typed-neutral-semiotic.h"
+	#include"calculus-conditional-semiotic.h"
 
 #define local_scope
 

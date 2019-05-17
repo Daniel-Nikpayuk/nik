@@ -38,8 +38,10 @@ namespace nik
 
 		product,
 		coproduct,
-		power,
-		copower,
+		conditional,
+
+		list,
+		colist,
 
 	// lift:
 
@@ -74,7 +76,7 @@ namespace nik
 	// generic:
 
 		pointer,
-//		power,
+		power,
 
 	// numeric:
 

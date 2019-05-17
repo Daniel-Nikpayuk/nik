@@ -29,13 +29,36 @@
 
 //
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
-							  is_equal<Type1, Type2>;
+	using nik_safe(PREFIX, cp_bool_moiz)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::
+							  cp_bool_moiz;
 
-							  template<typename Type>
+							  template<typename Continuation>
+	using nik_safe(PREFIX, cp_negate)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
+							  cp_negate<Continuation>;
+
+//
+
+							  template
+							  <
+								typename Type1, typename Type2,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								identity::cp_bool_moiz
+							  >
+	using nik_safe(PREFIX, is_equal)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
+							  is_equal<Type1, Type2, Continuation>;
+
+							  template
+							  <
+								typename Type,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								identity::cp_bool_moiz
+							  >
 	using nik_safe(PREFIX, is_pointer)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
-							  is_pointer<Type>;
+							  is_pointer<Type, Continuation>;
 
 //
 

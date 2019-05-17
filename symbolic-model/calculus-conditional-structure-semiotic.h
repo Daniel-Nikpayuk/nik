@@ -15,21 +15,11 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	template<typename SizeType>
-	struct module<Module::coproduct, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
-	{
-		using rtn	= module;
+#include"define-size_type.h"
 
-		using size_type	= SizeType;
+						  template<bool Value, typename Filler = void>
+	using memoized_conditional		= typename nik_module(conditional, calculus, symbolic, semiotic)::structure::template
+						  memoized_conditional<Value, Filler>;
 
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+#include"undef-size_type.h"
 

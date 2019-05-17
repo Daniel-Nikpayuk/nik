@@ -15,15 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_CALCULUS_POWER_SEMIOTIC_H
-#define SYMBOLIC_CALCULUS_POWER_SEMIOTIC_H
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::colist, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
+	{
+		using rtn	= module;
 
-	#include"calculus-dispatched-semiotic.h"
+		using size_type	= SizeType;
 
-#define local_scope
+		//
 
-	#include"../symbolic-interface-structure/calculus/power/semiotic.h"
+		#include"interface-structure-semiotic.hpp"
 
-#undef local_scope
+		//
 
-#endif
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
+

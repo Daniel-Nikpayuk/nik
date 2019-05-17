@@ -16,33 +16,19 @@
 ************************************************************************************************************************/
 
 /*
-	Let A,B,C be Types, with f : B --> C, the compositional form is
-
-		f_A : (A --> B) x A --> C
-
-		    := f . transit_A,B
-
-	This theorem says we can decompose the combinatorial possibilities
-	into the grammatical forms with type input (builtin, typename) composed
-	with the appropriate transit grammar (passed: moiz, pose; scoped: turn, call).
-
-	moiz: (c, builtin)   --> typename
-	pose: (c, builtin)   --> builtin
-	turn: (f, typename)  --> builtin
-	call: (f, typename)  --> typename
+	Combinatorial acknowledgement:
 
 	echo_echo_cons			echo_ping_cons			ping_echo_cons			ping_ping_cons
-                                                                                                
-		echo_pose_cons			echo_moiz_cons			ping_pose_cons			ping_moiz_cons
-		echo_turn_cons			echo_call_cons			ping_turn_cons			ping_call_cons
-                                                                                                
-		pose_echo_cons			pose_ping_cons			moiz_echo_cons			moiz_ping_cons
-		pose_pose_cons			pose_moiz_cons			moiz_pose_cons			moiz_moiz_cons
-		pose_turn_cons			pose_call_cons			moiz_turn_cons			moiz_call_cons
-                                                                                                
-		turn_echo_cons			turn_ping_cons			call_echo_cons			call_ping_cons
-		turn_pose_cons			turn_moiz_cons			call_pose_cons			call_moiz_cons
-		turn_turn_cons			turn_call_cons			call_turn_cons			call_call_cons
+	echo_pose_cons			echo_moiz_cons			ping_pose_cons			ping_moiz_cons
+	echo_turn_cons			echo_call_cons			ping_turn_cons			ping_call_cons
+
+	pose_echo_cons			pose_ping_cons			moiz_echo_cons			moiz_ping_cons
+	pose_pose_cons			pose_moiz_cons			moiz_pose_cons			moiz_moiz_cons
+	pose_turn_cons			pose_call_cons			moiz_turn_cons			moiz_call_cons
+
+	turn_echo_cons			turn_ping_cons			call_echo_cons			call_ping_cons
+	turn_pose_cons			turn_moiz_cons			call_pose_cons			call_moiz_cons
+	turn_turn_cons			turn_call_cons			call_turn_cons			call_call_cons
 */
 
 struct functor
@@ -51,92 +37,144 @@ struct functor
 
 	using rtn		= functor;
 
-//	#include nik_typedef(symbolic, calculus, product, identity)
+	#include nik_typedef(symbolic, kernel, core, functor)
 
-	// cons:
+	#include nik_typedef(symbolic, calculus, product, structure)
 
-	struct echo_echo_cons
+/*
+	cons:
+*/
+
+	struct cp_echo_echo_cons
 	{
 		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
 		using result = PairType<ValueX, ValueY>;
 	};
 
-	struct echo_ping_cons
+	struct cp_echo_ping_cons
 	{
 		template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename BuiltinY>
 		using result = PairType<ValueX, BuiltinY>;
 	};
 
-	struct ping_echo_cons
+	struct cp_ping_echo_cons
 	{
 		template<typename TypeY, template<typename, TypeY> class PairType, typename BuiltinX, TypeY ValueY>
 		using result = PairType<BuiltinX, ValueY>;
 	};
 
-	struct ping_ping_cons
+	struct cp_ping_ping_cons
 	{
 		template<template<typename, typename> class PairType, typename BuiltinX, typename BuiltinY>
 		using result = PairType<BuiltinX, BuiltinY>;
 	};
 
-	// car:
+/*
+	car:
+*/
 
 	template<typename Continuation>
-	struct builtin_builtin_car
+	struct cp_builtin_builtin_car
 	{
 		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-		using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
+		using result = typename Continuation::template result<TypeX, ValueX>;
 	};
 
+	template<typename TypeX, typename TypeY, typename Pair, typename Continuation = cp_moiz>
+	using builtin_builtin_car = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
+	<
+		cp_builtin_builtin_car<Continuation>
+	>;
+
 	template<typename Continuation>
-	struct builtin_typename_car
+	struct cp_builtin_typename_car
 	{
 		template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
-		using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
+		using result = typename Continuation::template result<TypeX, ValueX>;
 	};
 
-	template<typename Continuation>
-	struct typename_builtin_car
+	template<typename TypeX, typename Pair, typename Continuation = cp_moiz>
+	using builtin_typename_car = typename memoized_builtin_typename_pair<TypeX, Pair>::template pop
+	<
+		cp_builtin_typename_car<Continuation>
+	>;
+
+	struct cp_typename_builtin_car
 	{
 		template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
-		using result = typename Continuation::template result<TypeY, PairType, TypenameX>;
+		using result = TypenameX;
 	};
 
-	template<typename Continuation>
-	struct typename_typename_car
+	template<typename TypeY, typename Pair>
+	using typename_builtin_car = typename memoized_typename_builtin_pair<TypeY, Pair>::template pop
+	<
+		cp_typename_builtin_car
+	>;
+
+	struct cp_typename_typename_car
 	{
 		template<template<typename, typename> class PairType, typename TypenameX, typename TypenameY>
-		using result = typename Continuation::template result<PairType, TypenameX>;
+		using result = TypenameX;
 	};
 
-	// cdr:
+	template<typename Pair>
+	using typename_typename_car = typename memoized_typename_typename_pair<Pair>::template pop
+	<
+		cp_typename_typename_car
+	>;
+
+/*
+	cdr:
+*/
 
 	template<typename Continuation>
-	struct ping_builtin_builtin_cdr
+	struct cp_builtin_builtin_cdr
 	{
 		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-		using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
+		using result = typename Continuation::template result<TypeY, ValueY>;
 	};
 
-		template<typename Continuation>
-		struct ping_builtin_typename_cdr
-		{
-			template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-			using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
-		};
+	template<typename TypeX, typename TypeY, typename Pair, typename Continuation = cp_moiz>
+	using builtin_builtin_cdr = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
+	<
+		cp_builtin_builtin_cdr<Continuation>
+	>;
 
-		template<typename Continuation>
-		struct ping_typename_builtin_cdr
-		{
-			template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-			using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
-		};
+	struct cp_builtin_typename_cdr
+	{
+		template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
+		using result = TypenameY;
+	};
 
-		template<typename Continuation>
-		struct ping_typename_typename_cdr
-		{
-			template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-			using result = typename Continuation::template result<TypeX, TypeY, PairType, ValueX>;
-		};
+	template<typename TypeX, typename Pair>
+	using builtin_typename_cdr = typename memoized_builtin_typename_pair<TypeX, Pair>::template pop
+	<
+		cp_builtin_typename_cdr
+	>;
+
+	template<typename Continuation>
+	struct cp_typename_builtin_cdr
+	{
+		template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
+		using result = typename Continuation::template result<TypeY, ValueY>;
+	};
+
+	template<typename TypeY, typename Pair, typename Continuation = cp_moiz>
+	using typename_builtin_cdr = typename memoized_typename_builtin_pair<TypeY, Pair>::template pop
+	<
+		cp_typename_builtin_cdr<Continuation>
+	>;
+
+	struct cp_typename_typename_cdr
+	{
+		template<template<typename, typename> class PairType, typename TypenameX, typename TypenameY>
+		using result = TypenameY;
+	};
+
+	template<typename Pair>
+	using typename_typename_cdr = typename memoized_typename_typename_pair<Pair>::template pop
+	<
+		cp_typename_typename_cdr
+	>;
 };
 

@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calpri_
+	#define PREFIX		calcopi_
 
 #else
 
@@ -31,36 +31,36 @@
 
 								  template
 								  <
-									typename TypeX, typename TypeY, typename Exp,
+									typename Type, typename Exp,
 
 									typename Continuation =
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_builtin_builtin_pair)		= typename nik_module(product, calculus, symbolic, semiotic)::identity::
-								  template is_builtin_builtin_pair<TypeX, TypeY, Exp>;
+	using nik_safe(PREFIX, is_builtin_copair)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template is_builtin_copair<Type, Exp>;
 
 								  template
 								  <
-									typename TypeX, typename Exp,
+									typename Type, typename Copair,
 
 									typename Continuation =
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_builtin_typename_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
-								  template is_builtin_typename_pair<TypeX, Exp>;
+	using nik_safe(PREFIX, builtin_copair_is_left)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template builtin_copair_is_left<Type, Copair>;
 
 								  template
 								  <
-									typename TypeY, typename Exp,
+									typename Type, typename Copair,
 
 									typename Continuation =
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_typename_builtin_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
-								  template is_typename_builtin_pair<TypeY, Exp>;
+	using nik_safe(PREFIX, builtin_copair_is_right)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template builtin_copair_is_right<Type, Copair>;
 
 								  template
 								  <
@@ -70,8 +70,30 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_typename_typename_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
-								  template is_typename_typename_pair<Exp>;
+	using nik_safe(PREFIX, is_typename_copair)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template is_typename_copair<Exp>;
+
+								  template
+								  <
+									typename Copair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									identity::cp_bool_moiz
+								  >
+	using nik_safe(PREFIX, typename_copair_is_left)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template typename_copair_is_left<Copair>;
+
+								  template
+								  <
+									typename Copair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									identity::cp_bool_moiz
+								  >
+	using nik_safe(PREFIX, typename_copair_is_right)	= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+								  template typename_copair_is_right<Copair>;
 
 //
 

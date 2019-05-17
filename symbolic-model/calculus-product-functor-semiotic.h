@@ -29,81 +29,121 @@
 
 //
 
-							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, reflex_list_cons)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_list_cons<Type, Value, List>;
+	using nik_safe(PREFIX, cp_echo_echo_cons)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_echo_echo_cons;
 
-							  template<typename Type, typename Value, typename List>
-	using nik_safe(PREFIX, transit_list_cons)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_list_cons<Type, Value, List>;
+	using nik_safe(PREFIX, cp_echo_ping_cons)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_echo_ping_cons;
 
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, reflex_list_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_list_car<Type, List>;
+	using nik_safe(PREFIX, cp_ping_echo_cons)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_ping_echo_cons;
 
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, transit_list_car)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_list_car<Type, List>;
-
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, reflex_list_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_list_cdr<Type, List>;
-
-							  template<typename Type, typename List>
-	using nik_safe(PREFIX, transit_list_cdr)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_list_cdr<Type, List>;
-
-							  template<typename Type, Type Value, typename List>
-	using nik_safe(PREFIX, reflex_list_push)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_list_push<Type, Value, List>;
-
-							  template<typename Type, typename Value, typename List>
-	using nik_safe(PREFIX, transit_list_push)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_list_push<Type, Value, List>;
+	using nik_safe(PREFIX, cp_ping_ping_cons)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_ping_ping_cons;
 
 //
 
-							  template<typename Value, typename Chain>
-	using nik_safe(PREFIX, reflex_chain_cons)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_chain_cons<Value, Chain>;
+								  template<typename Continuation>
+	using nik_safe(PREFIX, cp_builtin_builtin_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template cp_builtin_builtin_car<Continuation>;
 
-							  template<typename Value, typename Chain>
-	using nik_safe(PREFIX, transit_chain_cons)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_chain_cons<Value, Chain>;
+								  template
+								  <
+									typename TypeX, typename TypeY, typename Pair,
 
-							  template<typename Chain>
-	using nik_safe(PREFIX, reflex_chain_car)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_chain_car<Chain>;
-
-							  template<typename Chain>
-	using nik_safe(PREFIX, transit_chain_car)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_chain_car<Chain>;
-
-							  template<typename Chain>
-	using nik_safe(PREFIX, reflex_chain_cdr)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_chain_cdr<Chain>;
-
-							  template<typename Chain>
-	using nik_safe(PREFIX, transit_chain_cdr)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_chain_cdr<Chain>;
-
-							  template<typename Value, typename Chain>
-	using nik_safe(PREFIX, reflex_chain_push)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  reflex_chain_push<Value, Chain>;
-
-							  template<typename Value, typename Chain>
-	using nik_safe(PREFIX, transit_chain_push)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  transit_chain_push<Value, Chain>;
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, builtin_builtin_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template builtin_builtin_car<TypeX, TypeY, Pair, Continuation>;
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, mostly_reflex)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  mostly_reflex<Exp>;
+								  template<typename Continuation>
+	using nik_safe(PREFIX, cp_builtin_typename_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template cp_builtin_typename_car<Continuation>;
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, mostly_transit)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::template
-							  mostly_transit<Exp>;
+								  template
+								  <
+									typename TypeX, typename Pair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, builtin_typename_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template builtin_typename_car<TypeX, Pair, Continuation>;
+
+//
+
+	using nik_safe(PREFIX, cp_typename_builtin_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_typename_builtin_car;
+
+								  template<typename TypeY, typename Pair>
+	using nik_safe(PREFIX, typename_builtin_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template typename_builtin_car<TypeY, Pair>;
+
+//
+
+	using nik_safe(PREFIX, cp_typename_typename_car)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_typename_typename_car;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, typename_typename_car)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template typename_typename_car<Pair>;
+
+//
+
+								  template<typename Continuation>
+	using nik_safe(PREFIX, cp_builtin_builtin_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template cp_builtin_builtin_cdr<Continuation>;
+
+								  template
+								  <
+									typename TypeX, typename TypeY, typename Pair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, builtin_builtin_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template builtin_builtin_cdr<TypeX, TypeY, Pair, Continuation>;
+
+//
+
+	using nik_safe(PREFIX, cp_builtin_typename_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_builtin_typename_cdr;
+
+								  template<typename TypeX, typename Pair>
+	using nik_safe(PREFIX, builtin_typename_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template builtin_typename_cdr<TypeX, Pair>;
+
+//
+
+								  template<typename Continuation>
+	using nik_safe(PREFIX, cp_typename_builtin_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template cp_typename_builtin_cdr<Continuation>;
+
+								  template
+								  <
+									typename TypeY, typename Pair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, typename_builtin_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template typename_builtin_cdr<TypeY, Pair, Continuation>;
+
+//
+
+	using nik_safe(PREFIX, cp_typename_typename_cdr)	= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  cp_typename_typename_cdr;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, typename_typename_cdr)		= typename nik_module(product, calculus, symbolic, semiotic)::functor::
+								  template typename_typename_cdr<Pair>;
 
 //
 

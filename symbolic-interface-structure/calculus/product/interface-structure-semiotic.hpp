@@ -22,49 +22,187 @@ struct structure
 	using rtn						= structure;
 
 /*
-	memoized_list:
+	memoized_builtin_builtin_pair:
 */
 
 	template<typename, typename, typename>
-	struct builtin_builtin_pair
+	struct memoized_builtin_builtin_pair
 	{
-		using rtn = builtin_builtin_pair;
+		using rtn = memoized_builtin_builtin_pair;
 
 		// identify:
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<false>;
+		> using match = typename Continuation::template result<false>;
 	};
 
 	template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-	struct builtin_builtin_pair<TypeX, TypeY, PairType<ValueX, ValueY>>
+	struct memoized_builtin_builtin_pair<TypeX, TypeY, PairType<ValueX, ValueY>>
 	{
-		using rtn = builtin_builtin_pair;
+		using rtn = memoized_builtin_builtin_pair;
 
 		// identify:
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<true>;
+		> using match = typename Continuation::template result<true>;
 
 		// shrink:
 
 		template
 		<
-			typename Continuation,
+			typename Continuation
 
 				//   signature: car, cdr.
 
 		> using pop = typename Continuation::template result<TypeX, TypeY, PairType, ValueX, ValueY>;
+	};
+
+/*
+	memoized_builtin_typename_pair:
+*/
+
+	template<typename, typename>
+	struct memoized_builtin_typename_pair
+	{
+		using rtn = memoized_builtin_typename_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<false>;
+	};
+
+	template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
+	struct memoized_builtin_typename_pair<TypeX, PairType<ValueX, TypenameY>>
+	{
+		using rtn = memoized_builtin_typename_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: car, cdr.
+
+		> using pop = typename Continuation::template result<TypeX, PairType, ValueX, TypenameY>;
+	};
+
+/*
+	memoized_typename_builtin_pair:
+*/
+
+	template<typename, typename>
+	struct memoized_typename_builtin_pair
+	{
+		using rtn = memoized_typename_builtin_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<false>;
+	};
+
+	template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
+	struct memoized_typename_builtin_pair<TypeY, PairType<TypenameX, ValueY>>
+	{
+		using rtn = memoized_typename_builtin_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: car, cdr.
+
+		> using pop = typename Continuation::template result<TypeY, PairType, TypenameX, ValueY>;
+	};
+
+/*
+	memoized_typename_typename_pair:
+*/
+
+	template<typename>
+	struct memoized_typename_typename_pair
+	{
+		using rtn = memoized_typename_typename_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<false>;
+	};
+
+	template<template<typename, typename> class PairType, typename TypenameX, typename TypenameY>
+	struct memoized_typename_typename_pair<PairType<TypenameX, TypenameY>>
+	{
+		using rtn = memoized_typename_typename_pair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: car, cdr.
+
+		> using pop = typename Continuation::template result<PairType, TypenameX, TypenameY>;
 	};
 };
 

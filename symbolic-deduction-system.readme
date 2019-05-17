@@ -67,23 +67,23 @@
 
 	1. A computable space is a class of duals.
 	2. Duals have states.
-	3. States have partitions.
+	3. Dual states: judgements; patches.
 	4. A patch can be viewed as an evaluation code with respect to a dual's judgement.
 	5. Patches are partitioned as follows:
 
 
-		reflex				a) Reflexive patches evaluate to themselves.
-						b) Reflexes are divided based on their judgement types.
+		reflex				a) Reflexive patches evaluate instances to themselves.
 
+							reflex_A : A --> A
+
+						b) Reflexes are divided based on their judgement types.
 
 							echo : builtin  --> builtin
 							ping : typename --> typename
 
+		transit				a) Transitive patches correspond to type theoretic function objects
 
-		transit				a) Transitive patches correspond to
-						   type theoretic function objects
-
-							(A --> B) x A
+							transit_{A, B} : (A --> B) x A --> B
 
 						b) Transits are divided based on local implementation grammar.
 
@@ -91,32 +91,41 @@
 
 								pose : ( builtin  --> builtin  ) x builtin  --> builtin
 
-							scope resolution:
+							using alias:
 
 								turn : ( typename --> builtin  ) x typename --> builtin
 								moiz : ( builtin  --> typename ) x builtin  --> typename
 								call : ( typename --> typename ) x typename --> typename
 
 
-	6. Let A,B,C be types, with f : B --> C. The compositional form of f with respect to A is defined to be
+	6. Let A, B, C be types, with f : B --> C. The compositional form of f with respect to A is defined to be
 
 		f_A : (A --> B) x A --> C
 
 		    := f . transit_{A, B}
 
 	   These definitions allow us to declare grammar with what is otherwise function object (delayed; lazy) input.
-	   They also suggest that at bare minimum typed input along with the various transits are necessary for compositional
-	   robustness.
+	   Such function objects themselves may be constructed under various local grammatical implementations, and in
+	   practice might not even be defined strictly as a single object.
 
-	   If a particular form is common enough it should be optimized---if it is effective to do so.
+	   These objects also suggest grammatical forms having typed input, composed with various transits, are the bare
+	   minimum requirements for compositional robustness. If a particular form is common enough it can then be
+	   optimized---when effective to do so.
 
 	7. The existence of transits allows for the apriori/aposteriori paradigm: Refined specifications can be optimized,
 	   and if the context is known in advanced the appropriate optimization can be dispatched manually. Otherwise,
-	   a generic version is also needed which will pattern match and dispatch appropriately automatically.
+	   a generic version is then needed to pattern match and dispatch automatically.
 
 	8. Builtin template templates are not composable, and parameter packs are not objects (C++ standard). As a consequence,
-	   whenever a builtin or a parameter pack is returned from a symbolic function, it is a best practice for the function
-	   grammar to adhere to the continuation passing paradigm. This allows for composability while minimizing memoization.
+	   whenever a builtin or a parameter pack is (stand alone) returned from a symbolic function, it is a best practice
+	   to adhere to the continuation passing paradigm. This allows for composability while minimizing memoization.
+
+	9. This library privileges the combinatorial paradigm: Minimalist grammatical forms are composed to implement composite
+	   grammatical forms. The combinatorial space of such compositions is associated with its given module, and any
+	   composite form is only reimplemented if it can be optimized effectively away from its composed minimal forms.
+
+	   In other words: Lazy implementation of grammar while acknowledging the appropriate extensional location if and
+	   when it is reimplemented as an optimization.
 
 
 /***********************************************************************************************************************/
@@ -128,8 +137,8 @@
 		symbolic_dual		:=	( parameter_instance : parameter_type     ; parameter_patch )
 
 						( value_instance     : builtin            ; echo            )
-						( value_instance     : builtin            ; moiz            )
 						( value_instance     : builtin            ; pose            )
+						( value_instance     : builtin            ; moiz            )
 						( value_type         : typename           ; ping            )
 						( abstraction        : typename           ; turn            )
 						( abstraction        : typename           ; call            )

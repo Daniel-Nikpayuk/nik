@@ -184,8 +184,10 @@ namespace nik
 
 			module_enum == Module::product			||
 			module_enum == Module::coproduct		||
-			module_enum == Module::power			||
-			module_enum == Module::copower			||
+			module_enum == Module::conditional		||
+
+			module_enum == Module::list			||
+			module_enum == Module::colist			||
 
 		// lift:
 
@@ -220,7 +222,7 @@ namespace nik
 		// generic:
 
 			module_enum == Module::pointer			||
-//			module_enum == Module::power			||
+			module_enum == Module::power			||
 
 		// numeric:
 

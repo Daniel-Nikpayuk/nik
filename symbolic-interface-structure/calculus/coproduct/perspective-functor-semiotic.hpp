@@ -16,8 +16,22 @@
 ************************************************************************************************************************/
 
 /*
-	The default policy for a componentwise expression is lazy evaluation.
-	This can be overridden by encapsulating the statement within an act<>:
+	This branch is the (near) untyped calculus. The only "types" are distinct grammatical
+	forms, so "copair" in this context is only relevant if the input takes distinct
+	grammatical forms.
+*/
+
+/*
+	Is this worth declaring?
+
+	Copairs are only intended for when the grammatical forms differ, but in the case of the two projections
+	it's the same.
+
+	template<typename TypeX, typename TypeY, typename Copair, typename Pair>
+	using builtin_builtin_cpr = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
+	<
+		typename_copair_cdr<Copair>
+	>;
 */
 
 struct functor
@@ -26,156 +40,125 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, perspective, kernel, structure)
-
 	#include nik_typedef(symbolic, kernel, core, functor)
 
+	#include nik_typedef(symbolic, calculus, product, structure)
+	#include nik_typedef(symbolic, calculus, product, functor)
+
 /*
-	memoized_conditional:
+	echo_left_inject:
 */
 
-	template<bool True, typename Filler = void>
-	struct memoized_conditional
+	struct cp_echo_left_inject
 	{
-		template
-		<
-			typename Ante, typename Conse
-
-		> using project = Ante;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_inject = signature<Ante>;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_inject = Ante;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
-
-			typename Conse
-
-		> using inject = ante_signature<Ante>;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			template<typename> class conse_signature,
-
-			typename Exp
-
-		> using coinject = ante_signature<Exp>;
+		template<typename Type, template<bool, Type> class CopairType, Type Value>
+		using result = CopairType<false, Value>;
 	};
 
-	template<typename Filler>
-	struct memoized_conditional<false, Filler>
+/*
+	ping_left_inject:
+*/
+
+	struct cp_ping_left_inject
 	{
-		template
-		<
-			typename Ante, typename Conse
-
-		> using project = Conse;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_inject = Conse;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_inject = signature<Conses...>;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
-
-			typename Conse
-
-		> using inject = conse_signature<Conse>;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			template<typename> class conse_signature,
-
-			typename Exp
-
-		> using coinject = conse_signature<Exp>;
+		template<template<bool, typename> class CopairType, typename Value>
+		using result = CopairType<false, Value>;
 	};
 
-//	#include nik_typedef(symbolic, calculus, product, functor)
-
 /*
-	echoed:
-
-	better to use (Pred ? Ante : Conse) grammar directly.
+	echo_right_inject:
 */
 
-	template<typename Type>
-	static constexpr Type echoed_if_then_else(bool Pred, Type Ante, Type Conse)
+	struct cp_echo_right_inject
 	{
-		return (Pred ? Ante : Conse);
-	}
+		template<typename Type, template<bool, Type> class CopairType, Type Value>
+		using result = CopairType<true, Value>;
+	};
 
 /*
-	pinged:
+	ping_right_inject:
 */
 
-	template<bool Pred, typename Ante, typename Conse>
-	using pinged_if_then_else = typename memoized_conditional<Pred>::template project
+	struct cp_ping_right_inject
+	{
+		template<template<bool, typename> class CopairType, typename Value>
+		using result = CopairType<true, Value>;
+	};
+
+/*
+	builtin_copair_car:
+*/
+
+	template<typename Type, typename Copair, typename Continuation = cp_moiz>
+	using builtin_copair_car = builtin_builtin_car<bool, Type, Copair, Continuation>;
+
+/*
+	typename_copair_car:
+*/
+
+	template<typename Copair>
+	using typename_copair_car = builtin_typename_car<bool, Copair>;
+
+/*
+	builtin_copair_cdr:
+*/
+
+	template<typename Type, typename Copair, typename Continuation = cp_moiz>
+	using builtin_copair_cdr = builtin_builtin_cdr<bool, Type, Copair, Continuation>;
+
+/*
+	typename_copair_cdr:
+*/
+
+	template<typename Copair>
+	using typename_copair_cdr = builtin_typename_cdr<bool, Copair>;
+
+/*
+	builtin_builtin_cpr:
+
+	Continuations are necessarily embedded into the Projection.
+*/
+
+	template<typename TypeX, typename TypeY, typename Projection, typename Pair>
+	using builtin_builtin_cpr = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
 	<
-		Ante, Conse
+		Projection
 	>;
 
 /*
-	called:
+	builtin_typename_cpr:
+
+	Continuations are necessarily embedded into the Projection.
 */
 
-	template<bool Pred, typename Ante, typename Conse>
-	using called_if_then_else = call
+	template<typename TypeX, typename Projection, typename Pair>
+	using builtin_typename_cpr = typename memoized_builtin_typename_pair<TypeX, Pair>::template pop
 	<
-		pinged_if_then_else<Pred, Ante, Conse>
+		Projection
 	>;
 
-	template<bool Pred, typename Ante, typename Conse>
-	using head_if_then_else = typename memoized_conditional<Pred>::template left_inject
+/*
+	typename_builtin_cpr:
+
+	Continuations are necessarily embedded into the Projection.
+*/
+
+	template<typename TypeY, typename Projection, typename Pair>
+	using typename_builtin_cpr = typename memoized_typename_builtin_pair<TypeY, Pair>::template pop
 	<
-		call, Ante,
-		Conse
+		Projection
 	>;
 
-	template<bool Pred, typename Ante, typename Conse>
-	using tail_if_then_else = typename memoized_conditional<Pred>::template right_inject
+/*
+	typename_typename_cpr:
+
+	Continuations are necessarily embedded into the Projection.
+*/
+
+	template<typename Projection, typename Pair>
+	using typename_typename_cpr = typename memoized_typename_typename_pair<Pair>::template pop
 	<
-		Ante,
-		call, Conse
+		Projection
 	>;
 };
 

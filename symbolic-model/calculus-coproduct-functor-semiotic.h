@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calcoprf_
+	#define PREFIX		calcopf_
 
 #else
 
@@ -29,21 +29,69 @@
 
 //
 
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, pinged_if_then_else)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
-								  template pinged_if_then_else<Pred, Ante, Conse>;
+	using nik_safe(PREFIX, cp_echo_left_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  cp_echo_left_inject;
 
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, called_if_then_else)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
-								  template called_if_then_else<Pred, Ante, Conse>;
+	using nik_safe(PREFIX, cp_ping_left_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  cp_ping_left_inject;
 
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
-								  template head_if_then_else<Pred, Ante, Conse>;
+	using nik_safe(PREFIX, cp_echo_right_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  cp_echo_right_inject;
 
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
-								  template tail_if_then_else<Pred, Ante, Conse>;
+	using nik_safe(PREFIX, cp_ping_right_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  cp_ping_right_inject;
+
+//
+
+								  template
+								  <
+									typename Type, typename Copair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, builtin_copair_car)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template builtin_copair_car<Type, Copair, Continuation>;
+
+								  template<typename Copair>
+	using nik_safe(PREFIX, typename_copair_car)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template typename_copair_car<Copair>;
+
+//
+
+								  template
+								  <
+									typename Type, typename Copair,
+
+									typename Continuation =
+									typename nik_module(core, kernel, symbolic, semiotic)::
+									functor::cp_moiz
+								  >
+	using nik_safe(PREFIX, builtin_copair_cdr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template builtin_copair_cdr<Type, Copair, Continuation>;
+
+								  template<typename Copair>
+	using nik_safe(PREFIX, typename_copair_cdr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template typename_copair_cdr<Copair>;
+
+//
+
+								  template<typename TypeX, typename TypeY, typename Proj, typename Pair>
+	using nik_safe(PREFIX, builtin_builtin_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template builtin_builtin_cpr<TypeX, TypeY, Proj, Pair>;
+
+								  template<typename TypeX, typename Proj, typename Pair>
+	using nik_safe(PREFIX, builtin_typename_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template builtin_typename_cpr<TypeX, Proj, Pair>;
+
+								  template<typename TypeY, typename Proj, typename Pair>
+	using nik_safe(PREFIX, typename_builtin_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template typename_builtin_cpr<TypeY, Proj, Pair>;
+
+								  template<typename Proj, typename Pair>
+	using nik_safe(PREFIX, typename_typename_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+								  template typename_typename_cpr<Proj, Pair>;
 
 //
 

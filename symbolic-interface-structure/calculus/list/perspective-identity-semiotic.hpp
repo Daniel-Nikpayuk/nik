@@ -101,5 +101,57 @@ struct identity
 		call<Exp>,
 		label
 	>;
+
+	// act:
+
+	template<typename Exp>
+	using act_id = typename memoized_chain<Exp>::template wrap
+	<
+		chain_name, act
+	>;
+
+	// pass:
+
+	template<typename Exp>
+	using pass_id = typename memoized_chain<Exp>::template wrap
+	<
+		chain_name, pass
+	>;
+
+/*
+	is_name:
+*/
+
+	template<typename Exp, template<typename> class name_id>
+	using is_name = typename memoized_conditional
+	<
+		memoized_chain<Exp>::template match<chain_id>::value
+
+	>::template left_inject
+	<
+		name_id, Exp,
+
+		memoized_value<bool, false>
+	>;
+
+/*
+	is_act:
+*/
+
+	template<typename Exp>
+	using is_act = is_name<Exp, act_id>;
+
+/*
+	is_pass:
+*/
+
+	template<typename Exp>
+	using is_pass = is_name<Exp, pass_id>;
+
+/*
+	Passive/active comparisons would only be provided
+	for convenience if they were used often enough.
+*/
+
 };
 

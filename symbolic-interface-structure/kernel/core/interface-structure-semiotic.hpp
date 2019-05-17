@@ -34,39 +34,39 @@ struct structure
 	};
 
 /*
-	memoized_equality:
+	memoized_couple:
 */
 
 	template<typename, typename>
-	struct memoized_equality
+	struct memoized_couple
 	{
-		using rtn = memoized_equality;
+		using rtn = memoized_couple;
 
 		// identify:
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<false>;
+		> using match = typename Continuation::template result<false>;
 	};
 
 	template<typename Type>
-	struct memoized_equality<Type, Type>
+	struct memoized_couple<Type, Type>
 	{
-		using rtn = memoized_equality;
+		using rtn = memoized_couple;
 
 		// identify:
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<true>;
+		> using match = typename Continuation::template result<true>;
 	};
 
 /*
@@ -82,11 +82,11 @@ struct structure
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<false>;
+		> using match = typename Continuation::template result<false>;
 	};
 
 	template<typename Type>
@@ -98,11 +98,11 @@ struct structure
 
 		template
 		<
-			template<bool> class signature
+			typename Continuation
 
 			//      signature: id.
 
-		> using match = signature<true>;
+		> using match = typename Continuation::template result<true>;
 
 		// shrink:
 

@@ -17,13 +17,21 @@
 
 #include"define-size_type.h"
 
-				  template<typename... Exps>
-	using act		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-				  act<Exps...>;
+							  template<typename TypeX, typename TypeY, typename Exp>
+	using memoized_builtin_builtin_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_builtin_pair<TypeX, TypeY, Exp>;
 
-				  template<typename... Exps>
-	using pass		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-				  pass<Exps...>;
+							  template<typename TypeX, typename Exp>
+	using memoized_builtin_typename_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_typename_pair<TypeX, Exp>;
+
+							  template<typename TypeY, typename Exp>
+	using memoized_typename_builtin_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_typename_builtin_pair<TypeY, Exp>;
+
+							  template<typename Exp>
+	using memoized_typename_typename_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+							  memoized_typename_typename_pair<Exp>;
 
 #include"undef-size_type.h"
 
