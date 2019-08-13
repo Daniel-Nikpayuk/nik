@@ -57,7 +57,7 @@
 /***********************************************************************************************************************/
 
 
-	Nik library symbolic lens deduction system:
+	Nik library symbolic lens dependency narrative:
 
 
 		alias			:=	( terminal_name      : initial_name       )
@@ -65,14 +65,14 @@
 						( builtin            : value_type         )
 
 
-	1. A computable space is a class of duals.
-	2. Duals have states.
-	3. Dual states: judgements; patches.
-	4. A patch can be viewed as an evaluation code with respect to a dual's judgement.
-	5. Patches are partitioned as follows:
+	1.  Type Theory is our Interface.
+	2.  We use Category Theory to model Type Theory as it privileges compositionality.
+	3.  We use Set Theory to model Category Theory as it is compatible with C++.
+	4.  From this perspective, functions are the initial grammar type. Primitive functions
+            are as follows:
 
 
-		reflex				a) Reflexive patches evaluate instances to themselves.
+		reflex				a) These are the identity functions for their respective types.
 
 							reflex_A : A --> A
 
@@ -81,7 +81,14 @@
 							echo : builtin  --> builtin
 							ping : typename --> typename
 
-		transit				a) Transitive patches correspond to type theoretic function objects
+
+	5.  From here we build set theoretic pairs, products, and projections to define our interface product type.
+	6.  From here we build the function object type, which is a way to locally implement lazy evaluation. We "force"
+	    the function object with the following polymorphic function:
+
+
+		transit				a) These are the "force" functions classically used to implement
+						   the local lazy paradigm.
 
 							transit_{A, B} : (A --> B) x A --> B
 
@@ -98,51 +105,62 @@
 								call : ( typename --> typename ) x typename --> typename
 
 
-	6. Let A, B, C be types, with f : B --> C. The compositional form of f with respect to A is defined to be
+	7.  Let A, B, C be types, with f : B --> C. The "function object form" of f with respect to A is defined to be
 
 		f_A : (A --> B) x A --> C
 
 		    := f . transit_{A, B}
 
-	   These definitions allow us to declare grammar with what is otherwise function object (delayed; lazy) input.
-	   Such function objects themselves may be constructed under various local grammatical implementations, and in
-	   practice might not even be defined strictly as a single object.
+            In practice, function composition is often written in what is otherwise an ambiguous shortform. These definitions
+	    allow us to declare properly defined grammar for such compositional cases. Keep in mind, these function objects
+	    themselves may be constructed under various local grammatical implementations, and in practice might not even
+	    be defined strictly as a single object, which is to say keep your grammar flexible when interpreting what
+	    is and isn't a function object in the implementation language.
 
-	   These objects also suggest grammatical forms having typed input, composed with various transits, are the bare
-	   minimum requirements for compositional robustness. If a particular form is common enough it can then be
-	   optimized---when effective to do so.
+	    These objects also suggest that grammatical forms having typed input---composed with various transits---are
+	    the bare minimum requirements for compositional robustness. If a particular form is common enough it can
+	    also then be optimized---when effective to do so.
 
-	7. The existence of transits allows for the apriori/aposteriori paradigm: Refined specifications can be optimized,
-	   and if the context is known in advanced the appropriate optimization can be dispatched manually. Otherwise,
-	   a generic version is then needed to pattern match and dispatch automatically.
+	8.  From set theoretic pairs and projections we can define coprojections and our interface coproduct types.
+	9.  From our coproduct type we can define conditional or boolean types along with the all important grammatical
+	    construct:
 
-	8. Builtin template templates are not composable, and parameter packs are not objects (C++ standard). As a consequence,
-	   whenever a builtin or a parameter pack is (stand alone) returned from a symbolic function, it is a best practice
-	   to adhere to the continuation passing paradigm. This allows for composability while minimizing memoization.
+		if_then_else : bool x A x B --> (A | B)
 
-	9. This library privileges the combinatorial paradigm: Minimalist grammatical forms are composed to implement composite
-	   grammatical forms. The combinatorial space of such compositions is associated with its given module, and any
-	   composite form is only reimplemented if it can be optimized effectively away from its composed minimal forms.
+	10. With the ability to now dispatch by type, the following function can be defined:
 
-	   In other words: Lazy implementation of grammar while acknowledging the appropriate extensional location if and
-	   when it is reimplemented as an optimization.
+		dual : (A | (A -->B) x A --> B) --> (A | B)
 
+	    which dispatches to the appropriate transit function if the input is a function object, and dispatches
+	    to the appropriate reflex function otherwise. This function is very important in implementing the
 
-/***********************************************************************************************************************/
+		eval
 
+            function for general interpretation later on.
 
-		dual			:=	( judgement                               ; patch           )
+	11. Through a combination of dual . if_then_else function along with ("delayed") function objects, tail recursion
+	    becomes possible.
 
+	12. With tail recursion comes the ability to implement the power (list) type. Technically the list type itself can
+	    be defined without tail recursion, but the functions commonly associated with this type do require tail recursion.
 
-		symbolic_dual		:=	( parameter_instance : parameter_type     ; parameter_patch )
+	13. With the power type comes the copower type, which in C++ is known as "switch", and in other literature is known
+	    as "cases" or some variation of it.
 
-						( value_instance     : builtin            ; echo            )
-						( value_instance     : builtin            ; pose            )
-						( value_instance     : builtin            ; moiz            )
-						( value_type         : typename           ; ping            )
-						( abstraction        : typename           ; turn            )
-						( abstraction        : typename           ; call            )
-						( template           : typename           ; turn            )
-						( template           : typename           ; call            )
-*/
+	14. This library contextually privileges continuation passing: Builtin template templates are not composable,
+	    and parameter packs are not objects (C++ standard). As a consequence, whenever a builtin or a parameter pack
+	    is (stand alone) returned from a symbolic function, it is a best practice to adhere to the continuation passing
+	    paradigm. This allows for composability while minimizing memoization.
+
+	15. This library privileges the combinatorial paradigm: Minimalist grammatical forms are composed to implement composite
+	    grammatical forms. The combinatorial space of such compositions is associated with its given module, and any
+	    composite form is only reimplemented if it can be optimized effectively away from its composed minimal forms.
+
+	    In other words: Lazy implementation of grammar while acknowledging the appropriate declaration (extensional)
+	    location if and when it is reimplemented as an optimization.
+
+	16. This library privileges the apriori/aposteriori paradigm: Generic functions will exist in contexts in which
+	    only given aposteriori (after the fact), otherwise if the context is known apriori (in advance) then the
+	    appropriate optimized dispatch function can be unpacked and called manually.
+
 

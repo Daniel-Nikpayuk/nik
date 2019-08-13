@@ -31,34 +31,36 @@ struct identity
 
 	// list:
 
-	template<bool Value>
-	using builtin_list_id = memoized_value<bool, Value>;
-
-	template<typename Type, template<Type...> class ListType, Type... Values>
-	using builtin_list_null = memoized_value<bool, sizeof...(Values)>;
+	template<typename Type, template<Type...> class ListType, Type... Values, typename Continuation = cp_bool_moiz>
+	using builtin_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
 
 		// implements with empty lists.
 
-	template<typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values>
-	using builtin_list_name = typename memoized_equality<ListType0<>, ListType1<>>::template match
+	template
 	<
-		equality_id
+		typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values,
+		typename Continuation = cp_bool_moiz
+	>
+	using builtin_list_name = typename memoized_couple<ListType0<>, ListType1<>>::template match
+	<
+		Continuation
 	>;
 
 	// chain:
 
-	template<bool Value>
-	using typename_list_id = memoized_value<bool, Value>;
-
-	template<template<typename...> class ListType, typename... Values>
-	using typename_list_null = memoized_value<bool, sizeof...(Values)>;
+	template<template<typename...> class ListType, typename... Values, typename Continuation = cp_bool_moiz>
+	using typename_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
 
 		// implements with empty lists.
 
-	template<template<typename...> class ListType0, template<typename...> class ListType1, typename... Values>
-	using typename_list_name = typename memoized_equality<ListType0<>, ListType1<>>::template match
+	template
 	<
-		equality_id
+		template<typename...> class ListType0, template<typename...> class ListType1, typename... Values,
+		typename Continuation = cp_bool_moiz
+	>
+	using typename_list_name = typename memoized_couple<ListType0<>, ListType1<>>::template match
+	<
+		Continuation
 	>;
 
 /*
@@ -72,34 +74,30 @@ struct identity
 	is_list_type:
 */
 
-	template<typename Exp0, typename Exp1>
-	using is_list_type = pertyi_is_list_type
+	template<typename Type, typename Exp, typename Continuation = cp_bool_moiz>
+	using is_list_type = typename memoized_list<Type, Exp>::template match
 	<
-		call<Exp0>,
-		call<Exp1>
+		Continuation
 	>;
 
 /*
 	is_null_type:
 */
 
-	template<typename Exp0, typename Exp1>
-	using is_null_type = pertyi_is_null_type
+	template<typename Type, typename Exp, typename Continuation = cp_bool_moiz>
+	using is_null_type = typename memoized_list<Type, Exp>::template match
 	<
-		call<Exp0>,
-		call<Exp1>
+		is_null<Continuation>
 	>;
 
 /*
 	is_struct_type:
 */
 
-	template<typename Type, typename Exp, template<Type...> class label>
-	using is_struct_type = pertyi_is_struct_type
+	template<typename Type, typename Exp, template<Type...> class label, typename Continuation = cp_bool_moiz>
+	using is_struct_type = typename memoized_list<Type, Exp>::template match
 	<
-		Type,
-		call<Exp>,
-		label
+		is_list_name, label
 	>;
 
 	// act:
