@@ -17,17 +17,21 @@
 
 #include"define-size_type.h"
 
-					  template<typename Type, Type Value>
-	using memoized_value		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_value<Type, Value>;
+							  template<typename TypeX, typename TypeY, typename Exp>
+	using memoized_builtin_builtin_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_builtin_pair<TypeX, TypeY, Exp>;
 
-					  template<typename Type1, typename Type2>
-	using memoized_couple		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_couple<Type1, Type2>;
+							  template<typename TypeX, typename Exp>
+	using memoized_builtin_typename_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
+							  memoized_builtin_typename_pair<TypeX, Exp>;
 
-					  template<typename Type>
-	using memoized_pointer		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_pointer<Type>;
+							  template<typename TypeY, typename Exp>
+	using memoized_typename_builtin_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
+							  memoized_typename_builtin_pair<TypeY, Exp>;
+
+							  template<typename Exp>
+	using memoized_typename_typename_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
+							  memoized_typename_typename_pair<Exp>;
 
 #include"undef-size_type.h"
 

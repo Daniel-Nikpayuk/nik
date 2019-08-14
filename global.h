@@ -36,9 +36,10 @@ namespace nik
 
 	// calculus:
 
-		product,
-		coproduct,
-		conditional,
+		pair,
+		handle,
+		copair,
+		boolean,
 
 		list,
 		colist,
@@ -47,7 +48,7 @@ namespace nik
 
 		operate,
 
-		boolean,
+//		boolean,
 		literal,
 		number,
 

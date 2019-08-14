@@ -15,23 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef SYMBOLIC_CALCULUS_HANDLE_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_HANDLE_SEMIOTIC_H
 
-							  template<typename TypeX, typename TypeY, typename Exp>
-	using memoized_builtin_builtin_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_builtin_pair<TypeX, TypeY, Exp>;
+	#include"calculus-pair-semiotic.h"
 
-							  template<typename TypeX, typename Exp>
-	using memoized_builtin_typename_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_typename_pair<TypeX, Exp>;
+#define local_scope
 
-							  template<typename TypeY, typename Exp>
-	using memoized_typename_builtin_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-							  memoized_typename_builtin_pair<TypeY, Exp>;
+	#include"../symbolic-interface-structure/calculus/handle/semiotic.h"
 
-							  template<typename Exp>
-	using memoized_typename_typename_pair		= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
-							  memoized_typename_typename_pair<Exp>;
+#undef local_scope
 
-#include"undef-size_type.h"
-
+#endif

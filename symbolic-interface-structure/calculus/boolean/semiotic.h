@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::conditional, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
+	struct module<Module::boolean, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
 	{
 		using rtn	= module;
 

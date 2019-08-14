@@ -34,8 +34,11 @@ struct functor
 
 	struct echo
 	{
-		template<typename Type, Type Value>
-		using result = memoized_value<Type, Value>;
+		template<typename Type>
+		static constexpr Type value(const Type Value)
+		{
+			return Value;
+		}
 	};
 
 /*
@@ -44,6 +47,41 @@ struct functor
 
 	template<typename Type>
 	using ping = Type;
+
+/*
+	moiz:
+*/
+
+	struct cp_moiz
+	{
+		template<typename Type, Type Value>
+		using result = memoized_value<Type, Value>;
+	};
+
+/*
+	pose:
+
+	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+*/
+
+	template<typename Op, typename Return, typename Type, Type Value, typename Continuation = cp_moiz>
+	using pose = typename Continuation::template result<Return, Op::value(Value)>;
+
+/*
+	turn:
+
+	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+*/
+
+	template<typename Type, typename Struct, typename Continuation = cp_moiz>
+	using turn = typename Continuation::template result<Type, Struct::value>;
+
+/*
+	call:
+*/
+
+	template<typename Dual>
+	using call = typename Dual::rtn;
 
 /*
 	dereference:

@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_CALCULUS_CONDITIONAL_SEMIOTIC_H
-#define SYMBOLIC_CALCULUS_CONDITIONAL_SEMIOTIC_H
+#ifndef SYMBOLIC_CALCULUS_BOOLEAN_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_BOOLEAN_SEMIOTIC_H
 
-	#include"calculus-coproduct-semiotic.h"
+	#include"calculus-copair-semiotic.h"
 
 #define local_scope
 
-	#include"../symbolic-interface-structure/calculus/conditional/semiotic.h"
+	#include"../symbolic-interface-structure/calculus/boolean/semiotic.h"
 
 #undef local_scope
 

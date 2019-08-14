@@ -34,9 +34,10 @@
 
 //#include nik_source(., symbolic, kernel, core, semiotic)			// redundant inclusion
 
-//#include nik_source(., symbolic, calculus, product, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, coproduct, semiotic)		// redundant inclusion
-#include nik_source(., symbolic, calculus, conditional, semiotic)		// redundant inclusion
+#include nik_source(., symbolic, calculus, pair, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, calculus, handle, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, calculus, copair, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, calculus, boolean, semiotic)			// redundant inclusion
 //#include nik_source(., symbolic, calculus, list, semiotic)
 //#include nik_source(., symbolic, calculus, colist, semiotic)
 

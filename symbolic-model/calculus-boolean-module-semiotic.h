@@ -15,15 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_CALCULUS_COPRODUCT_SEMIOTIC_H
-#define SYMBOLIC_CALCULUS_COPRODUCT_SEMIOTIC_H
+#include"define-size_type.h"
 
-	#include"calculus-product-semiotic.h"
+//
 
-#define local_scope
+	using Boolean = nik_module(boolean, calculus, symbolic, semiotic);
 
-	#include"../symbolic-interface-structure/calculus/coproduct/semiotic.h"
+//
 
-#undef local_scope
+#include"undef-size_type.h"
 
-#endif

@@ -15,13 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::pair, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
+	{
+		using rtn	= module;
 
-//
+		using size_type	= SizeType;
 
-	using Coproduct = nik_module(coproduct, calculus, symbolic, semiotic);
+		//
 
-//
+		#include"interface-structure-semiotic.hpp"
 
-#include"undef-size_type.h"
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
 

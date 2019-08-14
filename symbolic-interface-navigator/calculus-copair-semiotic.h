@@ -15,13 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef SYMBOLIC_CALCULUS_COPAIR_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_COPAIR_SEMIOTIC_H
 
-//
+	#include"calculus-handle-semiotic.h"
 
-	using Product = nik_module(product, calculus, symbolic, semiotic);
+#define local_scope
 
-//
+	#include"../symbolic-interface-structure/calculus/copair/semiotic.h"
 
-#include"undef-size_type.h"
+#undef local_scope
 
+#endif

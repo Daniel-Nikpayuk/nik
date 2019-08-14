@@ -15,19 +15,21 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	template<typename SizeType>
+	struct module<Module::copair, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
+	{
+		using rtn	= module;
 
-					  template<typename Type, Type Value>
-	using memoized_value		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_value<Type, Value>;
+		using size_type	= SizeType;
 
-					  template<typename Type1, typename Type2>
-	using memoized_couple		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_couple<Type1, Type2>;
+		#include"interface-structure-semiotic.hpp"
 
-					  template<typename Type>
-	using memoized_pointer		= typename nik_module(core, kernel, symbolic, semiotic)::structure::template
-					  memoized_pointer<Type>;
+		//
 
-#include"undef-size_type.h"
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
+	};
+}
 

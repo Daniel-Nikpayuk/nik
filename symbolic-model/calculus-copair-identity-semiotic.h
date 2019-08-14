@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calcopi_
+	#define PREFIX		calcoi_
 
 #else
 
@@ -37,7 +37,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_builtin_copair)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_builtin_copair)		= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template is_builtin_copair<Type, Exp>;
 
 								  template
@@ -48,7 +48,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, builtin_copair_is_left)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, builtin_copair_is_left)		= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template builtin_copair_is_left<Type, Copair>;
 
 								  template
@@ -59,7 +59,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, builtin_copair_is_right)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, builtin_copair_is_right)		= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template builtin_copair_is_right<Type, Copair>;
 
 								  template
@@ -70,7 +70,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_typename_copair)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_typename_copair)		= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template is_typename_copair<Exp>;
 
 								  template
@@ -81,7 +81,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, typename_copair_is_left)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, typename_copair_is_left)		= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template typename_copair_is_left<Copair>;
 
 								  template
@@ -92,7 +92,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, typename_copair_is_right)	= typename nik_module(coproduct, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, typename_copair_is_right)	= typename nik_module(copair, calculus, symbolic, semiotic)::identity::
 								  template typename_copair_is_right<Copair>;
 
 //

@@ -15,11 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef SYMBOLIC_CALCULUS_PAIR_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_PAIR_SEMIOTIC_H
 
-						  template<bool Value, typename Filler = void>
-	using memoized_conditional		= typename nik_module(conditional, calculus, symbolic, semiotic)::structure::template
-						  memoized_conditional<Value, Filler>;
+	#include"kernel-core-semiotic.h"
 
-#include"undef-size_type.h"
+#define local_scope
 
+	#include"../symbolic-interface-structure/calculus/pair/semiotic.h"
+
+#undef local_scope
+
+#endif

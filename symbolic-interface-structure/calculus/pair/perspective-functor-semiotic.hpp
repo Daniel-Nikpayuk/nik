@@ -39,7 +39,7 @@ struct functor
 
 	#include nik_typedef(symbolic, kernel, core, functor)
 
-	#include nik_typedef(symbolic, calculus, product, structure)
+	#include nik_typedef(symbolic, calculus, pair, structure)
 
 /*
 	cons:

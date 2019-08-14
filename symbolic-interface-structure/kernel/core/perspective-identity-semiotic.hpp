@@ -24,10 +24,10 @@ struct identity
 	#include nik_typedef(symbolic, kernel, core, structure)
 
 /*
-	bool_moiz:
+	bool_echo:
 */
 
-	struct cp_bool_moiz
+	struct bool_echo
 	{
 		template<bool Value>
 		using result = memoized_value<bool, Value>;
@@ -38,7 +38,7 @@ struct identity
 */
 
 	template<typename Continuation>
-	struct cp_negate
+	struct negate
 	{
 		template<bool Value>
 		using result = typename Continuation::template result<!Value>;
@@ -48,7 +48,7 @@ struct identity
 	is_equal:
 */
 
-	template<typename Type1, typename Type2, typename Continuation = cp_bool_moiz>
+	template<typename Type1, typename Type2, typename Continuation = bool_echo>
 	using is_equal = typename memoized_couple<Type1, Type2>::template match
 	<
 		Continuation
@@ -58,7 +58,7 @@ struct identity
 	is_pointer:
 */
 
-	template<typename Type, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Continuation = bool_echo>
 	using is_pointer = typename memoized_pointer<Type>::template match
 	<
 		Continuation

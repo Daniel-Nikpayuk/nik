@@ -17,11 +17,9 @@
 
 #include"define-size_type.h"
 
-//
-
-	using Conditional = nik_module(conditional, calculus, symbolic, semiotic);
-
-//
+						  template<bool Value>
+	using boolean				= typename nik_module(boolean, calculus, symbolic, semiotic)::structure::template
+						  boolean<Value>;
 
 #include"undef-size_type.h"
 

@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calcopf_
+	#define PREFIX		calcof_
 
 #else
 
@@ -29,16 +29,16 @@
 
 //
 
-	using nik_safe(PREFIX, cp_echo_left_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, cp_echo_left_inject)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  cp_echo_left_inject;
 
-	using nik_safe(PREFIX, cp_ping_left_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, cp_ping_left_inject)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  cp_ping_left_inject;
 
-	using nik_safe(PREFIX, cp_echo_right_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, cp_echo_right_inject)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  cp_echo_right_inject;
 
-	using nik_safe(PREFIX, cp_ping_right_inject)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, cp_ping_right_inject)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  cp_ping_right_inject;
 
 //
@@ -51,11 +51,11 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									functor::cp_moiz
 								  >
-	using nik_safe(PREFIX, builtin_copair_car)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, builtin_copair_car)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template builtin_copair_car<Type, Copair, Continuation>;
 
 								  template<typename Copair>
-	using nik_safe(PREFIX, typename_copair_car)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, typename_copair_car)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template typename_copair_car<Copair>;
 
 //
@@ -68,29 +68,29 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									functor::cp_moiz
 								  >
-	using nik_safe(PREFIX, builtin_copair_cdr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, builtin_copair_cdr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template builtin_copair_cdr<Type, Copair, Continuation>;
 
 								  template<typename Copair>
-	using nik_safe(PREFIX, typename_copair_cdr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, typename_copair_cdr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template typename_copair_cdr<Copair>;
 
 //
 
 								  template<typename TypeX, typename TypeY, typename Proj, typename Pair>
-	using nik_safe(PREFIX, builtin_builtin_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, builtin_builtin_cpr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template builtin_builtin_cpr<TypeX, TypeY, Proj, Pair>;
 
 								  template<typename TypeX, typename Proj, typename Pair>
-	using nik_safe(PREFIX, builtin_typename_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, builtin_typename_cpr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template builtin_typename_cpr<TypeX, Proj, Pair>;
 
 								  template<typename TypeY, typename Proj, typename Pair>
-	using nik_safe(PREFIX, typename_builtin_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, typename_builtin_cpr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template typename_builtin_cpr<TypeY, Proj, Pair>;
 
 								  template<typename Proj, typename Pair>
-	using nik_safe(PREFIX, typename_typename_cpr)		= typename nik_module(coproduct, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, typename_typename_cpr)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
 								  template typename_typename_cpr<Proj, Pair>;
 
 //

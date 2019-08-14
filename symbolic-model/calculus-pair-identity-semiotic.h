@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calpri_
+	#define PREFIX		calpai_
 
 #else
 
@@ -37,7 +37,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_builtin_builtin_pair)		= typename nik_module(product, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_builtin_builtin_pair)		= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
 								  template is_builtin_builtin_pair<TypeX, TypeY, Exp>;
 
 								  template
@@ -48,7 +48,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_builtin_typename_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_builtin_typename_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
 								  template is_builtin_typename_pair<TypeX, Exp>;
 
 								  template
@@ -59,7 +59,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_typename_builtin_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_typename_builtin_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
 								  template is_typename_builtin_pair<TypeY, Exp>;
 
 								  template
@@ -70,7 +70,7 @@
 									typename nik_module(core, kernel, symbolic, semiotic)::
 									identity::cp_bool_moiz
 								  >
-	using nik_safe(PREFIX, is_typename_typename_pair)	= typename nik_module(product, calculus, symbolic, semiotic)::identity::
+	using nik_safe(PREFIX, is_typename_typename_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
 								  template is_typename_typename_pair<Exp>;
 
 //

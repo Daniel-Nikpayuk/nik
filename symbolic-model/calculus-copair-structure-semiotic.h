@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 							  template<typename Type, typename Exp>
-	using memoized_builtin_copair			= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+	using memoized_builtin_copair			= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
 							  memoized_builtin_builtin_pair<bool, Type, Exp>;
 
 							  template<typename Exp>
-	using memoized_typename_copair			= typename nik_module(product, calculus, symbolic, semiotic)::structure::template
+	using memoized_typename_copair			= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
 							  memoized_builtin_typename_pair<bool, Exp>;
 
 #include"undef-size_type.h"

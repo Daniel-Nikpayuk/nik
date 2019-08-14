@@ -182,9 +182,10 @@ namespace nik
 
 		// calculus:
 
-			module_enum == Module::product			||
-			module_enum == Module::coproduct		||
-			module_enum == Module::conditional		||
+			module_enum == Module::pair			||
+			module_enum == Module::handle			||
+			module_enum == Module::copair			||
+			module_enum == Module::boolean			||
 
 			module_enum == Module::list			||
 			module_enum == Module::colist			||
@@ -193,7 +194,7 @@ namespace nik
 
 			module_enum == Module::operate			||
 
-			module_enum == Module::boolean			||
+//			module_enum == Module::boolean			||
 			module_enum == Module::literal			||
 			module_enum == Module::number			||
 

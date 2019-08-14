@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		kercoi_
+	#define PREFIX		kercof_
 
 #else
 
@@ -29,36 +29,47 @@
 
 //
 
-	using nik_safe(PREFIX, bool_echo)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::
-							  bool_echo;
+	using nik_safe(PREFIX, echo)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
+							  echo;
 
-							  template<typename Continuation>
-	using nik_safe(PREFIX, negate)			= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
-							  negate<Continuation>;
+							  template<typename Type>
+	using nik_safe(PREFIX, ping)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
+							  ping<Type>;
+
+	using nik_safe(PREFIX, cp_moiz)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
+							  cp_moiz;
+
+							  template
+							  <
+								typename Op, typename Type, Type Value,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								functor::cp_moiz
+							  >
+	using nik_safe(PREFIX, pose)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
+							  pose<Continuation, Op, Type, Value>;
+
+							  template
+							  <
+								typename Type, typename Dual,
+
+								typename Continuation =
+								typename nik_module(core, kernel, symbolic, semiotic)::
+								functor::cp_moiz
+							  >
+	using nik_safe(PREFIX, turn)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
+							  turn<Continuation, Type, Dual>;
+
+							  template<typename Dual>
+	using nik_safe(PREFIX, call)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
+							  call<Dual>;
 
 //
 
-							  template
-							  <
-								typename Type1, typename Type2,
-
-								typename Continuation =
-								typename nik_module(core, kernel, symbolic, semiotic)::
-								identity::bool_echo
-							  >
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
-							  is_equal<Type1, Type2, Continuation>;
-
-							  template
-							  <
-								typename Type,
-
-								typename Continuation =
-								typename nik_module(core, kernel, symbolic, semiotic)::
-								identity::bool_echo
-							  >
-	using nik_safe(PREFIX, is_pointer)		= typename nik_module(core, kernel, symbolic, semiotic)::identity::template
-							  is_pointer<Type, Continuation>;
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
+							  dereference<Type>;
 
 //
 

@@ -18,11 +18,13 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::coproduct, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
+	struct module<Module::core, Branch::kernel, Lens::symbolic, Permission::semiotic, SizeType>
 	{
 		using rtn	= module;
 
 		using size_type	= SizeType;
+
+		//
 
 		#include"interface-structure-semiotic.hpp"
 
