@@ -15,23 +15,44 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+/*
+	The main intention in defining these functions are for grammatical
+	formalization, though some of them will be used regularly in practice.
+*/
+
+struct functor
 {
-	template<typename SizeType>
-	struct module<Module::core, Branch::kernel, Lens::symbolic, Permission::semiotic, SizeType>
+	using kind		= module;
+
+	using rtn		= functor;
+
+	#include nik_typedef(symbolic, core, kernel, structure)
+
+/*
+	ch_echo:
+*/
+
+	struct ch_echo
 	{
-		using rtn	= module;
-
-		using size_type	= SizeType;
-
-		//
-
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
+		template<typename Type, Type Value>
+		using result = memoized_value<Type, Value>;
 	};
-}
+
+/*
+	ping:
+*/
+
+	template<typename Type>
+	using ping = Type;
+
+/*
+	dereference:
+*/
+
+	template<typename Type>
+	using dereference = typename memoized_pointer<Type>::template pop
+	<
+		ping
+	>;
+};
 

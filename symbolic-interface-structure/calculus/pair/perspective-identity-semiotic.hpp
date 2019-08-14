@@ -21,7 +21,7 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(symbolic, kernel, core, identity)
+	#include nik_typedef(symbolic, core, kernel, identity)
 
 	#include nik_typedef(symbolic, calculus, pair, structure)
 
@@ -29,8 +29,8 @@ struct identity
 	is_builtin_builtin_pair:
 */
 
-	template<typename TypeX, typename TypeY, typename Exp, typename Continuation = bool_echo>
-	using is_builtin_builtin_pair = typename memoized_builtin_builtin_pair<TypeX, TypeY, Exp>::template match
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_builtin_pair = typename memoized_builtin_builtin_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -39,8 +39,8 @@ struct identity
 	is_builtin_typename_pair:
 */
 
-	template<typename TypeX, typename Exp, typename Continuation = bool_echo>
-	using is_builtin_typename_pair = typename memoized_builtin_typename_pair<TypeX, Exp>::template match
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_typename_pair = typename memoized_builtin_typename_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -49,8 +49,8 @@ struct identity
 	is_typename_builtin_pair:
 */
 
-	template<typename TypeY, typename Exp, typename Continuation = bool_echo>
-	using is_typename_builtin_pair = typename memoized_typename_builtin_pair<TypeY, Exp>::template match
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_typename_builtin_pair = typename memoized_typename_builtin_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -59,7 +59,7 @@ struct identity
 	is_typename_typename_pair:
 */
 
-	template<typename Exp, typename Continuation = bool_echo>
+	template<typename Exp, typename Continuation = ch_bool_echo>
 	using is_typename_typename_pair = typename memoized_typename_typename_pair<Exp>::template match
 	<
 		Continuation

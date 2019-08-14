@@ -18,7 +18,7 @@
 #ifndef SYMBOLIC_CALCULUS_PAIR_SEMIOTIC_H
 #define SYMBOLIC_CALCULUS_PAIR_SEMIOTIC_H
 
-	#include"kernel-core-semiotic.h"
+	#include"core-kernel-semiotic.h"
 
 #define local_scope
 

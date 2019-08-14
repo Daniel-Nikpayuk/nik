@@ -17,11 +17,34 @@
 
 #include"define-size_type.h"
 
+#ifdef safe_name
+
+	#define PREFIX		corkef_
+
+#else
+
+	#define PREFIX
+
+#endif
+
 //
 
-	using Kernel = nik_branch(kernel, symbolic, semiotic);
+	using nik_safe(PREFIX, ch_echo)			= typename nik_module(kernel, core, symbolic, semiotic)::functor::
+							  ch_echo;
+
+							  template<typename Type>
+	using nik_safe(PREFIX, ping)			= typename nik_module(kernel, core, symbolic, semiotic)::functor::template
+							  ping<Type>;
 
 //
+
+							  template<typename Type>
+	using nik_safe(PREFIX, dereference)		= typename nik_module(kernel, core, symbolic, semiotic)::functor::template
+							  dereference<Type>;
+
+//
+
+#undef PREFIX
 
 #include"undef-size_type.h"
 

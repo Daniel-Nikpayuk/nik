@@ -15,44 +15,15 @@
 **
 ************************************************************************************************************************/
 
-/*
-	The main intention in defining these functions are for grammatical
-	formalization, though some of them will be used regularly in practice.
-*/
+#ifndef SYMBOLIC_CORE_KERNEL_SEMIOTIC_H
+#define SYMBOLIC_CORE_KERNEL_SEMIOTIC_H
 
-struct functor
-{
-	using kind		= module;
+	#include"perspective-core-semiotic.h"
 
-	using rtn		= functor;
+#define local_scope
 
-	#include nik_typedef(symbolic, kernel, core, structure)
+	#include"../symbolic-interface-structure/core/kernel/semiotic.h"
 
-/*
-	echo:
-*/
+#undef local_scope
 
-	struct echo
-	{
-		template<typename Type, Type Value>
-		using result = memoized_value<Type, Value>;
-	};
-
-/*
-	ping:
-*/
-
-	template<typename Type>
-	using ping = Type;
-
-/*
-	dereference:
-*/
-
-	template<typename Type>
-	using dereference = typename memoized_pointer<Type>::template pop
-	<
-		ping
-	>;
-};
-
+#endif

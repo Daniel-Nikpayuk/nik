@@ -136,9 +136,9 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
+			branch_enum == Branch::core			||
 
-//			branch_enum == Branch::kernel			||
+//			branch_enum == Branch::core			||
 			branch_enum == Branch::calculus			||
 			branch_enum == Branch::lift			||
 			branch_enum == Branch::scheme			||
@@ -178,7 +178,7 @@ namespace nik
 
 		// kernel:
 
-			module_enum == Module::core			||
+			module_enum == Module::kernel			||
 
 		// calculus:
 
@@ -186,6 +186,7 @@ namespace nik
 			module_enum == Module::handle			||
 			module_enum == Module::copair			||
 			module_enum == Module::boolean			||
+			module_enum == Module::recurse			||
 
 			module_enum == Module::list			||
 			module_enum == Module::colist			||
@@ -236,9 +237,9 @@ namespace nik
 
 		static_assert
 		(
-			branch_enum == Branch::kernel			||
+			branch_enum == Branch::core			||
 
-//			branch_enum == Branch::kernel			||
+//			branch_enum == Branch::core			||
 			branch_enum == Branch::calculus			||
 			branch_enum == Branch::lift			||
 			branch_enum == Branch::scheme			||

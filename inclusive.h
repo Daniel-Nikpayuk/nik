@@ -30,14 +30,15 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., symbolic, perspective, kernel, semiotic)		// redundant inclusion
+//#include nik_source(., symbolic, perspective, core, semiotic)			// redundant inclusion
 
-//#include nik_source(., symbolic, kernel, core, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, core, kernel, semiotic)			// redundant inclusion
 
 #include nik_source(., symbolic, calculus, pair, semiotic)			// redundant inclusion
 //#include nik_source(., symbolic, calculus, handle, semiotic)			// redundant inclusion
 //#include nik_source(., symbolic, calculus, copair, semiotic)			// redundant inclusion
 //#include nik_source(., symbolic, calculus, boolean, semiotic)			// redundant inclusion
+//#include nik_source(., symbolic, calculus, recurse, semiotic)			// redundant inclusion
 //#include nik_source(., symbolic, calculus, list, semiotic)
 //#include nik_source(., symbolic, calculus, colist, semiotic)
 

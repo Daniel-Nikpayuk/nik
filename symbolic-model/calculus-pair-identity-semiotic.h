@@ -31,44 +31,44 @@
 
 								  template
 								  <
-									typename TypeX, typename TypeY, typename Exp,
+									typename Exp,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									identity::cp_bool_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									identity::ch_bool_echo
 								  >
 	using nik_safe(PREFIX, is_builtin_builtin_pair)		= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
-								  template is_builtin_builtin_pair<TypeX, TypeY, Exp>;
-
-								  template
-								  <
-									typename TypeX, typename Exp,
-
-									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									identity::cp_bool_moiz
-								  >
-	using nik_safe(PREFIX, is_builtin_typename_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
-								  template is_builtin_typename_pair<TypeX, Exp>;
-
-								  template
-								  <
-									typename TypeY, typename Exp,
-
-									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									identity::cp_bool_moiz
-								  >
-	using nik_safe(PREFIX, is_typename_builtin_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
-								  template is_typename_builtin_pair<TypeY, Exp>;
+								  template is_builtin_builtin_pair<Exp>;
 
 								  template
 								  <
 									typename Exp,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									identity::cp_bool_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									identity::ch_bool_echo
+								  >
+	using nik_safe(PREFIX, is_builtin_typename_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
+								  template is_builtin_typename_pair<Exp>;
+
+								  template
+								  <
+									typename Exp,
+
+									typename Continuation =
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									identity::ch_bool_echo
+								  >
+	using nik_safe(PREFIX, is_typename_builtin_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
+								  template is_typename_builtin_pair<Exp>;
+
+								  template
+								  <
+									typename Exp,
+
+									typename Continuation =
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									identity::ch_bool_echo
 								  >
 	using nik_safe(PREFIX, is_typename_typename_pair)	= typename nik_module(pair, calculus, symbolic, semiotic)::identity::
 								  template is_typename_typename_pair<Exp>;

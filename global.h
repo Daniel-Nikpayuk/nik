@@ -30,9 +30,9 @@ namespace nik
 	enum struct Module : global_size_type
 	{
 
-	// kernel:
+	// core:
 
-		core,
+		kernel,
 
 	// calculus:
 
@@ -40,6 +40,7 @@ namespace nik
 		handle,
 		copair,
 		boolean,
+		recurse,
 
 		list,
 		colist,
@@ -97,11 +98,11 @@ namespace nik
 
 	// perspective:
 
-		kernel,
+		core,
 
 	// symbolic:
 
-//		kernel,
+//		core,
 		calculus,
 		lift,
 		scheme,

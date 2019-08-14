@@ -25,7 +25,7 @@ struct structure
 	memoized_builtin_builtin_pair:
 */
 
-	template<typename, typename, typename>
+	template<typename>
 	struct memoized_builtin_builtin_pair
 	{
 		using rtn = memoized_builtin_builtin_pair;
@@ -42,7 +42,7 @@ struct structure
 	};
 
 	template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-	struct memoized_builtin_builtin_pair<TypeX, TypeY, PairType<ValueX, ValueY>>
+	struct memoized_builtin_builtin_pair<PairType<ValueX, ValueY>>
 	{
 		using rtn = memoized_builtin_builtin_pair;
 
@@ -71,7 +71,7 @@ struct structure
 	memoized_builtin_typename_pair:
 */
 
-	template<typename, typename>
+	template<typename>
 	struct memoized_builtin_typename_pair
 	{
 		using rtn = memoized_builtin_typename_pair;
@@ -88,7 +88,7 @@ struct structure
 	};
 
 	template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
-	struct memoized_builtin_typename_pair<TypeX, PairType<ValueX, TypenameY>>
+	struct memoized_builtin_typename_pair<PairType<ValueX, TypenameY>>
 	{
 		using rtn = memoized_builtin_typename_pair;
 
@@ -117,7 +117,7 @@ struct structure
 	memoized_typename_builtin_pair:
 */
 
-	template<typename, typename>
+	template<typename>
 	struct memoized_typename_builtin_pair
 	{
 		using rtn = memoized_typename_builtin_pair;
@@ -134,7 +134,7 @@ struct structure
 	};
 
 	template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
-	struct memoized_typename_builtin_pair<TypeY, PairType<TypenameX, ValueY>>
+	struct memoized_typename_builtin_pair<PairType<TypenameX, ValueY>>
 	{
 		using rtn = memoized_typename_builtin_pair;
 

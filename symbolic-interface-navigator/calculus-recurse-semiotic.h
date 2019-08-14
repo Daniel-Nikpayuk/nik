@@ -15,23 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef SYMBOLIC_CALCULUS_RECURSE_SEMIOTIC_H
+#define SYMBOLIC_CALCULUS_RECURSE_SEMIOTIC_H
 
-							  template<typename Exp>
-	using memoized_builtin_builtin_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_builtin_pair<Exp>;
+	#include"calculus-boolean-semiotic.h"
 
-							  template<typename Exp>
-	using memoized_builtin_typename_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_typename_pair<Exp>;
+#define local_scope
 
-							  template<typename Exp>
-	using memoized_typename_builtin_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_typename_builtin_pair<Exp>;
+	#include"../symbolic-interface-structure/calculus/recurse/semiotic.h"
 
-							  template<typename Exp>
-	using memoized_typename_typename_pair		= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_typename_typename_pair<Exp>;
+#undef local_scope
 
-#include"undef-size_type.h"
-
+#endif

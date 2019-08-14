@@ -16,6 +16,26 @@
 ************************************************************************************************************************/
 
 /*
+	Create a grammatical compose operator, to shortform f . transit.
+*/
+
+/*
+	Combinatorial acknowledgement:
+
+	echo_echo_cons			echo_ping_cons			ping_echo_cons			ping_ping_cons
+	echo_pose_cons			echo_moiz_cons			ping_pose_cons			ping_moiz_cons
+	echo_turn_cons			echo_call_cons			ping_turn_cons			ping_call_cons
+
+	pose_echo_cons			pose_ping_cons			moiz_echo_cons			moiz_ping_cons
+	pose_pose_cons			pose_moiz_cons			moiz_pose_cons			moiz_moiz_cons
+	pose_turn_cons			pose_call_cons			moiz_turn_cons			moiz_call_cons
+
+	turn_echo_cons			turn_ping_cons			call_echo_cons			call_ping_cons
+	turn_pose_cons			turn_moiz_cons			call_pose_cons			call_moiz_cons
+	turn_turn_cons			turn_call_cons			call_turn_cons			call_call_cons
+*/
+
+/*
 	The main intention in defining these functions are for grammatical
 	formalization, though some of them will be used regularly in practice.
 */

@@ -34,13 +34,13 @@ struct structure
 	};
 
 /*
-	memoized_couple:
+	memoized_comparison:
 */
 
 	template<typename, typename>
-	struct memoized_couple
+	struct memoized_comparison
 	{
-		using rtn = memoized_couple;
+		using rtn = memoized_comparison;
 
 		// identify:
 
@@ -54,9 +54,9 @@ struct structure
 	};
 
 	template<typename Type>
-	struct memoized_couple<Type, Type>
+	struct memoized_comparison<Type, Type>
 	{
-		using rtn = memoized_couple;
+		using rtn = memoized_comparison;
 
 		// identify:
 

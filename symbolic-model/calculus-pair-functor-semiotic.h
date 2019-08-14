@@ -29,17 +29,17 @@
 
 //
 
-	using nik_safe(PREFIX, cp_echo_echo_cons)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_echo_echo_cons;
+	using nik_safe(PREFIX, ch_builtin_builtin_cons)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_builtin_cons;
 
-	using nik_safe(PREFIX, cp_echo_ping_cons)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_echo_ping_cons;
+	using nik_safe(PREFIX, ch_builtin_typename_cons)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_typename_cons;
 
-	using nik_safe(PREFIX, cp_ping_echo_cons)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_ping_echo_cons;
+	using nik_safe(PREFIX, ch_typename_builtin_cons)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_typename_builtin_cons;
 
-	using nik_safe(PREFIX, cp_ping_ping_cons)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_ping_ping_cons;
+	using nik_safe(PREFIX, ch_typename_typename_cons)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_typename_typename_cons;
 
 //
 
@@ -49,14 +49,14 @@
 
 								  template
 								  <
-									typename TypeX, typename TypeY, typename Pair,
+									typename Pair,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									functor::cp_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									functor::ch_echo
 								  >
 	using nik_safe(PREFIX, builtin_builtin_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  template builtin_builtin_car<TypeX, TypeY, Pair, Continuation>;
+								  template builtin_builtin_car<Pair, Continuation>;
 
 //
 
@@ -66,28 +66,28 @@
 
 								  template
 								  <
-									typename TypeX, typename Pair,
+									typename Pair,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									functor::cp_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									functor::ch_echo
 								  >
 	using nik_safe(PREFIX, builtin_typename_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  template builtin_typename_car<TypeX, Pair, Continuation>;
+								  template builtin_typename_car<Pair, Continuation>;
 
 //
 
-	using nik_safe(PREFIX, cp_typename_builtin_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_typename_builtin_car;
+	using nik_safe(PREFIX, ch_typename_builtin_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_typename_builtin_car;
 
-								  template<typename TypeY, typename Pair>
+								  template<typename Pair>
 	using nik_safe(PREFIX, typename_builtin_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  template typename_builtin_car<TypeY, Pair>;
+								  template typename_builtin_car<Pair>;
 
 //
 
-	using nik_safe(PREFIX, cp_typename_typename_car)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_typename_typename_car;
+	using nik_safe(PREFIX, ch_typename_typename_car)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_typename_typename_car;
 
 								  template<typename Pair>
 	using nik_safe(PREFIX, typename_typename_car)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
@@ -101,23 +101,23 @@
 
 								  template
 								  <
-									typename TypeX, typename TypeY, typename Pair,
+									typename Pair,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									functor::cp_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									functor::ch_echo
 								  >
 	using nik_safe(PREFIX, builtin_builtin_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
 								  template builtin_builtin_cdr<TypeX, TypeY, Pair, Continuation>;
 
 //
 
-	using nik_safe(PREFIX, cp_builtin_typename_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_builtin_typename_cdr;
+	using nik_safe(PREFIX, ch_builtin_typename_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_typename_cdr;
 
-								  template<typename TypeX, typename Pair>
+								  template<typename Pair>
 	using nik_safe(PREFIX, builtin_typename_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  template builtin_typename_cdr<TypeX, Pair>;
+								  template builtin_typename_cdr<Pair>;
 
 //
 
@@ -127,19 +127,19 @@
 
 								  template
 								  <
-									typename TypeY, typename Pair,
+									typename Pair,
 
 									typename Continuation =
-									typename nik_module(core, kernel, symbolic, semiotic)::
-									functor::cp_moiz
+									typename nik_module(kernel, core, symbolic, semiotic)::
+									functor::ch_echo
 								  >
 	using nik_safe(PREFIX, typename_builtin_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  template typename_builtin_cdr<TypeY, Pair, Continuation>;
+								  template typename_builtin_cdr<Pair, Continuation>;
 
 //
 
-	using nik_safe(PREFIX, cp_typename_typename_cdr)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
-								  cp_typename_typename_cdr;
+	using nik_safe(PREFIX, ch_typename_typename_cdr)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_typename_typename_cdr;
 
 								  template<typename Pair>
 	using nik_safe(PREFIX, typename_typename_cdr)		= typename nik_module(pair, calculus, symbolic, semiotic)::functor::

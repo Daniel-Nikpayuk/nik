@@ -15,13 +15,19 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_PERSPECTIVE_KERNEL_SEMIOTIC_H
-#define SYMBOLIC_PERSPECTIVE_KERNEL_SEMIOTIC_H
+#include"define-size_type.h"
 
-#define local_scope
+					  template<typename Type, Type Value>
+	using memoized_value		= typename nik_module(kernel, core, symbolic, semiotic)::structure::template
+					  memoized_value<Type, Value>;
 
-	#include"../symbolic-perspective/kernel/semiotic.h"
+					  template<typename Type1, typename Type2>
+	using memoized_comparison	= typename nik_module(kernel, core, symbolic, semiotic)::structure::template
+					  memoized_comparison<Type1, Type2>;
 
-#undef local_scope
+					  template<typename Type>
+	using memoized_pointer		= typename nik_module(kernel, core, symbolic, semiotic)::structure::template
+					  memoized_pointer<Type>;
 
-#endif
+#include"undef-size_type.h"
+
