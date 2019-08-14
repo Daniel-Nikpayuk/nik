@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		kercof_
+	#define PREFIX		calhaf_
 
 #else
 
@@ -29,47 +29,38 @@
 
 //
 
-	using nik_safe(PREFIX, echo)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
-							  echo;
+							  template
+							  <
+								typename Kind, typename Handle, typename Type, Type Value,
 
-							  template<typename Type>
-	using nik_safe(PREFIX, ping)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  ping<Type>;
-
-	using nik_safe(PREFIX, cp_moiz)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::
-							  cp_moiz;
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								functor::ch_echo
+							  >
+	using nik_safe(PREFIX, pose)			= typename nik_module(handle, calculus, symbolic, semiotic)::functor::template
+							  pose<Kind, Handle, Type, Value, Continuation>;
 
 							  template
 							  <
-								typename Op, typename Type, Type Value,
+								typename Type, typename Handle,
 
 								typename Continuation =
-								typename nik_module(core, kernel, symbolic, semiotic)::
-								functor::cp_moiz
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								functor::ch_echo
 							  >
-	using nik_safe(PREFIX, pose)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  pose<Continuation, Op, Type, Value>;
+	using nik_safe(PREFIX, turn)			= typename nik_module(handle, calculus, symbolic, semiotic)::functor::template
+							  turn<Type, Handle, Continuation>;
 
 							  template
 							  <
-								typename Type, typename Dual,
-
-								typename Continuation =
-								typename nik_module(core, kernel, symbolic, semiotic)::
-								functor::cp_moiz
+								typename Type, template<typename, Type> class Handle, Type Value
 							  >
-	using nik_safe(PREFIX, turn)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  turn<Continuation, Type, Dual>;
+	using nik_safe(PREFIX, moiz)			= typename nik_module(handle, calculus, symbolic, semiotic)::functor::template
+							  moiz<Type, Handle, Value>;
 
-							  template<typename Dual>
-	using nik_safe(PREFIX, call)			= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  call<Dual>;
-
-//
-
-							  template<typename Type>
-	using nik_safe(PREFIX, dereference)		= typename nik_module(core, kernel, symbolic, semiotic)::functor::template
-							  dereference<Type>;
+							  template<typename Handle>
+	using nik_safe(PREFIX, call)			= typename nik_module(handle, calculus, symbolic, semiotic)::functor::template
+							  call<Handle>;
 
 //
 

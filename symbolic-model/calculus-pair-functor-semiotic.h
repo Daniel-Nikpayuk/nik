@@ -147,6 +147,42 @@
 
 //
 
+	using nik_safe(PREFIX, ch_builtin_builtin_left_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_builtin_left_type;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, builtin_builtin_left_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  template builtin_builtin_left_type<Pair>;
+
+//
+
+	using nik_safe(PREFIX, ch_builtin_typename_left_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_typename_left_type;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, builtin_typename_left_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  template builtin_typename_left_type<Pair>;
+
+//
+
+	using nik_safe(PREFIX, ch_builtin_builtin_right_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_builtin_right_type;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, builtin_builtin_right_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  template builtin_builtin_right_type<Pair>;
+
+//
+
+	using nik_safe(PREFIX, ch_builtin_typename_right_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  ch_builtin_typename_right_type;
+
+								  template<typename Pair>
+	using nik_safe(PREFIX, builtin_typename_right_type)	= typename nik_module(pair, calculus, symbolic, semiotic)::functor::
+								  template builtin_typename_right_type<Pair>;
+
+//
+
 #undef PREFIX
 
 #include"undef-size_type.h"

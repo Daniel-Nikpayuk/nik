@@ -15,53 +15,20 @@
 **
 ************************************************************************************************************************/
 
-struct identity
+namespace nik
 {
-	using kind		= module;
-
-	using rtn		= identity;
-
-	#include nik_typedef(symbolic, kernel, core, structure)
-
-/*
-	bool_echo:
-*/
-
-	struct bool_echo
+	template<typename SizeType>
+	struct module<Module::boolean, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
 	{
-		template<bool Value>
-		using result = memoized_value<bool, Value>;
+		using rtn	= module;
+
+		using size_type	= SizeType;
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-functor-semiotic.hpp"
 	};
-
-/*
-	negate:
-*/
-
-	template<typename Continuation>
-	struct negate
-	{
-		template<bool Value>
-		using result = typename Continuation::template result<!Value>;
-	};
-
-/*
-	is_equal:
-*/
-
-	template<typename Type1, typename Type2, typename Continuation = bool_echo>
-	using is_equal = typename memoized_couple<Type1, Type2>::template match
-	<
-		Continuation
-	>;
-
-/*
-	is_pointer:
-*/
-
-	template<typename Type, typename Continuation = bool_echo>
-	using is_pointer = typename memoized_pointer<Type>::template match
-	<
-		Continuation
-	>;
-};
+}
 

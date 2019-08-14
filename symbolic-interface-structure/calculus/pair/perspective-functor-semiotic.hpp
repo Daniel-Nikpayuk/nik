@@ -166,5 +166,65 @@ struct functor
 	<
 		ch_typename_typename_cdr
 	>;
+
+/*
+	left_type:
+*/
+
+	struct ch_builtin_builtin_left_type
+	{
+		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
+		using result = TypeX;
+	};
+
+	template<typename Pair>
+	using builtin_builtin_left_type = typename memoized_builtin_builtin_pair<Pair>::template pop
+	<
+		ch_builtin_builtin_left_type
+	>;
+
+	//
+
+	struct ch_builtin_typename_left_type
+	{
+		template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename BuiltinY>
+		using result = TypeX;
+	};
+
+	template<typename Pair>
+	using builtin_typename_left_type = typename memoized_builtin_typename_pair<Pair>::template pop
+	<
+		ch_builtin_typename_left_type
+	>;
+
+/*
+	right_type:
+*/
+
+	struct ch_builtin_builtin_right_type
+	{
+		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
+		using result = TypeY;
+	};
+
+	template<typename Pair>
+	using builtin_builtin_right_type = typename memoized_builtin_builtin_pair<Pair>::template pop
+	<
+		ch_builtin_builtin_right_type
+	>;
+
+	//
+
+	struct ch_typename_builtin_right_type
+	{
+		template<typename TypeY, template<typename, TypeY> class PairType, typename BuiltinX, TypeY ValueY>
+		using result = TypeY;
+	};
+
+	template<typename Pair>
+	using typename_builtin_right_type = typename memoized_typename_builtin_pair<Pair>::template pop
+	<
+		ch_typename_builtin_right_type
+	>;
 };
 

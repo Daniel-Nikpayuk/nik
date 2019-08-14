@@ -15,104 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind		= module;
-
-	using rtn		= structure;
-
 /*
-	memoized_value:
+	This module is meant to be the interface to Type Theoretic Function Objects:
+
+		(A --> B) x A
+
+	As such functions can be considered "lazy", their constructors would be the classical "delay" function,
+	while their selectors would then be "force". Given C++ grammar, I do not know of any practical way
+	to provide the necessary constructors nor are there a single standardized internal structure to define
+	or pattern match here. As such I only offer common signatures for their selectors. These are the patterns
+	for which template meta-programming is in fact built upon.
 */
-
-	template<typename Type, Type Value>
-	struct memoized_value
-	{
-		using rtn = memoized_value;
-
-		static constexpr Type value = Value;
-	};
-
-/*
-	memoized_couple:
-*/
-
-	template<typename, typename>
-	struct memoized_couple
-	{
-		using rtn = memoized_couple;
-
-		// identify:
-
-		template
-		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
-	};
-
-	template<typename Type>
-	struct memoized_couple<Type, Type>
-	{
-		using rtn = memoized_couple;
-
-		// identify:
-
-		template
-		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-	};
-
-/*
-	memoized_pointer:
-*/
-
-	template<typename Type>
-	struct memoized_pointer
-	{
-		using rtn = memoized_pointer;
-
-		// identify:
-
-		template
-		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
-	};
-
-	template<typename Type>
-	struct memoized_pointer<Type*>
-	{
-		using rtn = memoized_pointer;
-
-		// identify:
-
-		template
-		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-
-		// shrink:
-
-		template
-		<
-			template<typename> class signature
-
-			//      signature: dereference.
-
-		> using pop = signature<Type>;
-	};
-};
 

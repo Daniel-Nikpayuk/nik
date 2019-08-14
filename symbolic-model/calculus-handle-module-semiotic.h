@@ -15,26 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct structure
-{
-	using kind		= module;
+#include"define-size_type.h"
 
-	using rtn		= structure;
+//
 
-	#include nik_typedef(symbolic, calculus, pair, structure)
+	using Handle = nik_module(handle, calculus, symbolic, semiotic);
 
-/*
-	memoized_builtin_copair:
-*/
+//
 
-	template<typename Exp>
-	using memoized_builtin_copair = memoized_builtin_builtin_pair<Exp>;
-
-/*
-	memoized_typename_copair:
-*/
-
-	template<typename Exp>
-	using memoized_typename_copair = memoized_builtin_typename_pair<Exp>;
-};
+#include"undef-size_type.h"
 

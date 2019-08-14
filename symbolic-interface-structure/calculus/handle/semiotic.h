@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::core, Branch::kernel, Lens::symbolic, Permission::semiotic, SizeType>
+	struct module<Module::handle, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
 	{
 		using rtn	= module;
 
@@ -26,11 +26,6 @@ namespace nik
 
 		//
 
-		#include"interface-structure-semiotic.hpp"
-
-		//
-
-		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

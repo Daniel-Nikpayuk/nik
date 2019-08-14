@@ -62,7 +62,7 @@ struct structure
 		<
 			typename Continuation
 
-				//   signature: car, cdr.
+				//   signature: car, cdr, left, right.
 
 		> using pop = typename Continuation::template result<TypeX, TypeY, PairType, ValueX, ValueY>;
 	};
@@ -108,7 +108,7 @@ struct structure
 		<
 			typename Continuation
 
-				//   signature: car, cdr.
+				//   signature: car, cdr, left.
 
 		> using pop = typename Continuation::template result<TypeX, PairType, ValueX, TypenameY>;
 	};
@@ -154,7 +154,7 @@ struct structure
 		<
 			typename Continuation
 
-				//   signature: car, cdr.
+				//   signature: car, cdr, right.
 
 		> using pop = typename Continuation::template result<TypeY, PairType, TypenameX, ValueY>;
 	};

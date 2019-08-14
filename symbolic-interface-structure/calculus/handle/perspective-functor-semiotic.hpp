@@ -16,28 +16,10 @@
 ************************************************************************************************************************/
 
 /*
-	Create a grammatical compose operator, to shortform f . transit.
-*/
+	The main intention in defining these functions are for grammatical formalization, though some
+	of them will be used regularly in practice.
 
-/*
-	Combinatorial acknowledgement:
-
-	echo_echo_cons			echo_ping_cons			ping_echo_cons			ping_ping_cons
-	echo_pose_cons			echo_moiz_cons			ping_pose_cons			ping_moiz_cons
-	echo_turn_cons			echo_call_cons			ping_turn_cons			ping_call_cons
-
-	pose_echo_cons			pose_ping_cons			moiz_echo_cons			moiz_ping_cons
-	pose_pose_cons			pose_moiz_cons			moiz_pose_cons			moiz_moiz_cons
-	pose_turn_cons			pose_call_cons			moiz_turn_cons			moiz_call_cons
-
-	turn_echo_cons			turn_ping_cons			call_echo_cons			call_ping_cons
-	turn_pose_cons			turn_moiz_cons			call_pose_cons			call_moiz_cons
-	turn_turn_cons			turn_call_cons			call_turn_cons			call_call_cons
-*/
-
-/*
-	The main intention in defining these functions are for grammatical
-	formalization, though some of them will be used regularly in practice.
+	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
 */
 
 struct functor
@@ -46,71 +28,39 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, kernel, core, structure)
+	#include nik_typedef(symbolic, core, kernel, functor)
 
 /*
-	echo:
+	pose: ( builtin  --> builtin  ) x builtin  --> builtin
 */
 
-	struct echo
-	{
-		template<typename Type>
-		static constexpr Type value(const Type Value)
-		{
-			return Value;
-		}
-	};
+	template<typename Kind, typename Handle, typename Type, Type Value, typename Continuation = ch_echo>
+	using pose = typename Continuation::template result<Kind, Handle::value(Value)>;
 
 /*
-	ping:
+	turn: ( typename --> builtin  ) x typename --> builtin
 */
 
-	template<typename Type>
-	using ping = Type;
+	template<typename Type, typename Handle, typename Continuation = ch_echo>
+	using turn = typename Continuation::template result<Type, Handle::value>;
 
 /*
-	moiz:
+	moiz: ( builtin  --> typename ) x builtin  --> typename
 */
 
-	struct cp_moiz
-	{
-		template<typename Type, Type Value>
-		using result = memoized_value<Type, Value>;
-	};
+	template<typename Type, template<typename, Type> class Handle, Type Value>
+	using moiz = Handle<Type, Value>;
 
 /*
-	pose:
-
-	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+	call: ( typename --> typename ) x typename --> typename
 */
 
-	template<typename Op, typename Return, typename Type, Type Value, typename Continuation = cp_moiz>
-	using pose = typename Continuation::template result<Return, Op::value(Value)>;
+	template<typename Handle>
+	using call = typename Handle::rtn;
 
 /*
-	turn:
-
-	Continuation passing grammar is secondary here, and is not part of the grammatical formalization.
+	It would be ideal to create a grammatical "compose" operator as a shortform for f . transit, but
+	there are too many variations which are entirely dependent upon the signature of the grammar point f.
 */
-
-	template<typename Type, typename Struct, typename Continuation = cp_moiz>
-	using turn = typename Continuation::template result<Type, Struct::value>;
-
-/*
-	call:
-*/
-
-	template<typename Dual>
-	using call = typename Dual::rtn;
-
-/*
-	dereference:
-*/
-
-	template<typename Type>
-	using dereference = typename memoized_pointer<Type>::template pop
-	<
-		ping
-	>;
 };
 

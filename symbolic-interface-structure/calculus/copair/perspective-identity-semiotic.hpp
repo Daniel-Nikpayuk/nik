@@ -21,7 +21,7 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(symbolic, kernel, core, identity)
+	#include nik_typedef(symbolic, core, kernel, identity)
 
 	#include nik_typedef(symbolic, calculus, product, structure)
 	#include nik_typedef(symbolic, calculus, product, functor)
@@ -30,17 +30,44 @@ struct identity
 	is_builtin_copair:
 */
 
-	template<typename Type, typename Exp, typename Continuation = cp_bool_moiz>
-	using is_builtin_copair = typename memoized_builtin_builtin_pair<bool, Type, Exp>::template match
+	template<typename Continuation>
+	struct cp_is_builtin_copair
+	{
+		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
+		using result = typename Continuation::template result
+		<
+			bool,
+
+			is_equal<TypeX, bool>::value &&
+			
+		>;
+	};
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_copair = typename Continuation::template result
 	<
-		Continuation
+		bool,
+
+		is_builtin_builtin_pair<Exp>::value &&
+
+		is_equal
+		<
+			builtin_builtin_left_type<Exp>,
+			bool
+		>
+	>;
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_copair = typename memoized_builtin_builtin_pair<Exp>::template pop
+	<
+		cp_is_builtin_copair<Continuation>
 	>;
 
 /*
 	builtin_copair_is_left:
 */
 
-	template<typename Type, typename Copair, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Copair, typename Continuation = ch_bool_echo>
 	using builtin_copair_is_left = typename memoized_builtin_builtin_pair<bool, Type, Copair>::template pop
 	<
 		cp_builtin_builtin_car<cp_negate<Continuation>>
@@ -50,7 +77,7 @@ struct identity
 	builtin_copair_is_right:
 */
 
-	template<typename Type, typename Copair, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Copair, typename Continuation = ch_bool_echo>
 	using builtin_copair_is_right = typename memoized_builtin_builtin_pair<bool, Type, Copair>::template pop
 	<
 		cp_builtin_builtin_car<Continuation>
@@ -60,7 +87,7 @@ struct identity
 	is_typename_copair:
 */
 
-	template<typename Exp, typename Continuation = cp_bool_moiz>
+	template<typename Exp, typename Continuation = ch_bool_echo>
 	using is_typename_copair = typename memoized_builtin_typename_pair<bool, Exp>::template match
 	<
 		Continuation
@@ -70,7 +97,7 @@ struct identity
 	typename_copair_is_left:
 */
 
-	template<typename Copair, typename Continuation = cp_bool_moiz>
+	template<typename Copair, typename Continuation = ch_bool_echo>
 	using typename_copair_is_left = typename memoized_builtin_typename_pair<bool, Copair>::template pop
 	<
 		cp_builtin_typename_car<cp_negate<Continuation>>
@@ -80,7 +107,7 @@ struct identity
 	typename_copair_is_right:
 */
 
-	template<typename Copair, typename Continuation = cp_bool_moiz>
+	template<typename Copair, typename Continuation = ch_bool_echo>
 	using typename_copair_is_right = typename memoized_builtin_typename_pair<bool, Copair>::template pop
 	<
 		cp_builtin_typename_car<Continuation>
