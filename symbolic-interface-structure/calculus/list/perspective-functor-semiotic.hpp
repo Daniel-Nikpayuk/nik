@@ -41,19 +41,46 @@ struct functor
 	{
 		// builtin:
 
-		template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
-		using builtin_car = typename dispatch<(count > 1)>::template builtin_car<Type, ListType, count-1, Values...>;
+		template<typename Continuation>
+		struct cp_builtin_car
+		{
+			template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
+			using result = typename dispatch<(count > 1)>::template cp_builtin_car<Continuation>::template result
+			<
+				Type, ListType, count-1, Values...
+			>;
+		};
 
-		template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
-		using builtin_cdr = typename dispatch<(count > 1)>::template builtin_cdr<Type, ListType, count-1, Values...>;
+		template<typename Continuation>
+		struct cp_builtin_cdr
+		{
+			template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
+			using result = typename dispatch<(count > 1)>::template cp_builtin_cdr<Continuation>::template result
+			<
+				Type, ListType, count-1, Values...
+			>;
+		};
 
 		// typename:
 
-		template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
-		using typename_car = typename dispatch<(count > 1)>::template typename_car<ListType, count-1, Values...>;
+		struct ch_typename_car
+		{
+			template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
+			using result = typename dispatch<(count > 1)>::ch_typename_car::template result
+			<
+				ListType, count-1, Values...
+			>;
+		};
 
-		template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
-		using typename_cdr = typename dispatch<(count > 1)>::template typename_cdr<ListType, count-1, Values...>;
+		template<typename Continuation>
+		struct cp_typename_cdr
+		{
+			template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
+			using result = typename dispatch<(count > 1)>::template cp_typename_cdr<Continuation>::template result
+			<
+				ListType, count-1, Values...
+			>;
+		};
 	};
 
 	template<typename Filler>
@@ -61,19 +88,34 @@ struct functor
 	{
 		// builtin:
 
-		template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
-		using builtin_car = memoized_value<Type, Value>;
+		template<typename Continuation>
+		struct cp_builtin_car
+		{
+			template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
+			using result = typename Continuation::template result<Type, Value>;
+		};
 
-		template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
-		using builtin_cdr = ListType<Values...>;
+		template<typename Continuation>
+		struct cp_builtin_cdr
+		{
+			template<typename Type, template<Type...> class ListType, size_type count, Type Value, Type... Values>
+			using result = typename Continuation::template result<Type, ListType, Values...>;
+		};
 
 		// typename:
 
-		template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
-		using typename_car = Value;
+		struct ch_typename_car
+		{
+			template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
+			using result = Value;
+		};
 
-		template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
-		using typename_cdr = ListType<Values...>;
+		template<typename Continuation>
+		struct cp_typename_cdr
+		{
+			template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
+			using result = typename Continuation::template result<ListType, Values...>;
+		};
 	};
 
 /*
@@ -82,69 +124,43 @@ struct functor
 
 	// cons:
 
-	struct ch_builtin_cons
+	struct ch_builtin_list_cons
 	{
 		template<typename Type, template<Type...> class ListType, Type... Values>
 		using result = ListType<Values...>;
 	};
 
-	template<typename Type, Type Value, typename List>
-	using builtin_cons = typename pattern_match_builtin_list<List>::template push_front
+	template<typename Continuation>
+	struct cp_builtin_list_cons
+	{
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = typename Continuation::template result<Type, ListType, Values...>;
+	};
+
+	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list_cons>
+	using builtin_list_cons = typename pattern_match_builtin_list<List>::template push_front
 	<
-		ch_builtin_cons, Value
+		Continuation, Value
 	>;
 
 	// car:
 
-	template<typename Continuation>
-	struct cp_builtin_car
-	{
-		template<typename Type, template<Type...> class ListType, Type Value, Type... Values>
-		using result = typename Continuation::template result<Type, Value>;
-	};
-
-	template<typename List, typename Continuation = ch_echo>
-	using builtin_car = typename pattern_match_builtin_list<List>::template push_front
-	<
-		cp_builtin_car<Continuation>
-	>;
-
-	// car ? :
-
-	template<typename Continuation>
-	struct cp_builtin_car
-	{
-		template<typename Type, template<Type...> class ListType, Type Value, Type... Values>
-		using result = typename Continuation::template result
-		<
-			Type,
-
-			typename pattern_match_typename_list<Chain>::template pop
-			<
-				dispatch<bool(index)>::template chain_car, index
-
-			>::value
-		>;
-	};
-
 	template<typename List, size_type index = 0, typename Continuation = ch_echo>
-	using builtin_car = typename pattern_match_builtin_list<List>::template pop
+	using builtin_list_car = typename pattern_match_builtin_list<List>::template pop
 	<
-		cp_builtin_car<Continuation>, index
+		typename dispatch<bool(index)>::template cp_builtin_car<Continuation>,
+
+		index
 	>;
 
 	// cdr:
 
-	struct ch_builtin_cdr
-	{
-		template<typename Type, template<Type...> class ListType, Type Value, Type... Values>
-		using result = ListType<Values...>;
-	};
-
-	template<typename List>
-	using builtin_cdr = typename pattern_match_builtin_list<List>::template push_front
+	template<typename List, size_type index = 0, typename Continuation = ch_builtin_list_cons>
+	using builtin_list_cdr = typename pattern_match_builtin_list<List>::template pop
 	<
-		ch_builtin_cdr
+		typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>,
+
+		index
 	>;
 };
 

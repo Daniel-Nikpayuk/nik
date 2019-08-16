@@ -133,6 +133,7 @@ struct structure
 			//    signature: zip.
 
 		> using zip = typename Continuation::template result<Kind, ListKind, Type, Op, List, Values...>;
+*/
 
 		// shrink:
 
@@ -144,6 +145,7 @@ struct structure
 
 		> using pop = typename Continuation::template result<Type, ListType, count, Values...>;
 
+/*
 		template
 		<
 			typename Continuation, typename Op, Type Arg, size_type count
