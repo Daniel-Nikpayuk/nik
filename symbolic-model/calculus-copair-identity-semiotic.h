@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calcoi_
+	#define PREFIX		calcopi_
 
 #else
 

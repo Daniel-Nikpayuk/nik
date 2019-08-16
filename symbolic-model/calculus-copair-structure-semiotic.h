@@ -17,13 +17,33 @@
 
 #include"define-size_type.h"
 
-							  template<typename Type, typename Exp>
-	using memoized_builtin_copair			= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_builtin_pair<bool, Type, Exp>;
+							  template<typename Type, Type Value>
+	using builtin_inl				= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  builtin_inl<Type, Value>;
+
+							  template<typename Type, Type Value>
+	using builtin_inr				= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  builtin_inr<Type, Value>;
+
+//
+
+							  template<typename Value>
+	using typename_inl				= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  typename_inl<Value>;
+
+							  template<typename Value>
+	using typename_inr				= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  typename_inr<Value>;
+
+//
 
 							  template<typename Exp>
-	using memoized_typename_copair			= typename nik_module(pair, calculus, symbolic, semiotic)::structure::template
-							  memoized_builtin_typename_pair<bool, Exp>;
+	using pattern_match_builtin_copair		= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  pattern_match_builtin_copair<Exp>;
+
+							  template<typename Exp>
+	using pattern_match_typename_copair		= typename nik_module(copair, calculus, symbolic, semiotic)::structure::template
+							  pattern_match_typename_copair<Exp>;
 
 #include"undef-size_type.h"
 

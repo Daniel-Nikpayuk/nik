@@ -21,66 +21,50 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(symbolic, core, kernel, identity)
-
-	#include nik_typedef(symbolic, calculus, product, structure)
-	#include nik_typedef(symbolic, calculus, product, functor)
+	#include nik_typedef(symbolic, calculus, copair, structure)
 
 /*
 	is_builtin_copair:
 */
 
-	template<typename Continuation>
-	struct cp_is_builtin_copair
-	{
-		template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-		using result = typename Continuation::template result
-		<
-			bool,
-
-			is_equal<TypeX, bool>::value &&
-			
-		>;
-	};
-
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_copair = typename Continuation::template result
+	using is_builtin_copair = typename pattern_match_builtin_copair<Exp>::template match
 	<
-		bool,
-
-		is_builtin_builtin_pair<Exp>::value &&
-
-		is_equal
-		<
-			builtin_builtin_left_type<Exp>,
-			bool
-		>
-	>;
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_copair = typename memoized_builtin_builtin_pair<Exp>::template pop
-	<
-		cp_is_builtin_copair<Continuation>
+		Continuation
 	>;
 
 /*
 	builtin_copair_is_left:
 */
 
-	template<typename Type, typename Copair, typename Continuation = ch_bool_echo>
-	using builtin_copair_is_left = typename memoized_builtin_builtin_pair<bool, Type, Copair>::template pop
+	template<typename Continuation>
+	struct cp_builtin_copair_is_left
+	{
+		template<bool Tag, typename Type, Type Value>
+		using result = typename Continuation::template result<!Tag>;
+	};
+
+	template<typename CoPair, typename Continuation = ch_bool_echo>
+	using builtin_copair_is_left = typename pattern_match_builtin_copair<CoPair>::template pop
 	<
-		cp_builtin_builtin_car<cp_negate<Continuation>>
+		cp_builtin_copair_is_left<Continuation>
 	>;
 
 /*
 	builtin_copair_is_right:
 */
 
-	template<typename Type, typename Copair, typename Continuation = ch_bool_echo>
-	using builtin_copair_is_right = typename memoized_builtin_builtin_pair<bool, Type, Copair>::template pop
+	template<typename Continuation>
+	struct cp_builtin_copair_is_right
+	{
+		template<bool Tag, typename Type, Type Value>
+		using result = typename Continuation::template result<Tag>;
+	};
+
+	template<typename CoPair, typename Continuation = ch_bool_echo>
+	using builtin_copair_is_right = typename pattern_match_builtin_copair<CoPair>::template pop
 	<
-		cp_builtin_builtin_car<Continuation>
+		cp_builtin_copair_is_right<Continuation>
 	>;
 
 /*
@@ -88,7 +72,7 @@ struct identity
 */
 
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_typename_copair = typename memoized_builtin_typename_pair<bool, Exp>::template match
+	using is_typename_copair = typename pattern_match_typename_copair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -97,20 +81,34 @@ struct identity
 	typename_copair_is_left:
 */
 
-	template<typename Copair, typename Continuation = ch_bool_echo>
-	using typename_copair_is_left = typename memoized_builtin_typename_pair<bool, Copair>::template pop
+	template<typename Continuation>
+	struct cp_typename_copair_is_left
+	{
+		template<bool Tag, typename Value>
+		using result = typename Continuation::template result<!Tag>;
+	};
+
+	template<typename CoPair, typename Continuation = ch_bool_echo>
+	using typename_copair_is_left = typename pattern_match_typename_copair<CoPair>::template pop
 	<
-		cp_builtin_typename_car<cp_negate<Continuation>>
+		cp_typename_copair_is_left<Continuation>
 	>;
 
 /*
 	typename_copair_is_right:
 */
 
-	template<typename Copair, typename Continuation = ch_bool_echo>
-	using typename_copair_is_right = typename memoized_builtin_typename_pair<bool, Copair>::template pop
+	template<typename Continuation>
+	struct cp_typename_copair_is_right
+	{
+		template<bool Tag, typename Value>
+		using result = typename Continuation::template result<!Tag>;
+	};
+
+	template<typename CoPair, typename Continuation = ch_bool_echo>
+	using typename_copair_is_right = typename pattern_match_typename_copair<CoPair>::template pop
 	<
-		cp_builtin_typename_car<Continuation>
+		cp_typename_copair_is_right<Continuation>
 	>;
 };
 

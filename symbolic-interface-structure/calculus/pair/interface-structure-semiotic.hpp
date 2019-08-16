@@ -22,13 +22,13 @@ struct structure
 	using rtn						= structure;
 
 /*
-	memoized_builtin_builtin_pair:
+	pattern_match_builtin_builtin_pair:
 */
 
 	template<typename>
-	struct memoized_builtin_builtin_pair
+	struct pattern_match_builtin_builtin_pair
 	{
-		using rtn = memoized_builtin_builtin_pair;
+		using rtn = pattern_match_builtin_builtin_pair;
 
 		// identify:
 
@@ -42,9 +42,9 @@ struct structure
 	};
 
 	template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-	struct memoized_builtin_builtin_pair<PairType<ValueX, ValueY>>
+	struct pattern_match_builtin_builtin_pair<PairType<ValueX, ValueY>>
 	{
-		using rtn = memoized_builtin_builtin_pair;
+		using rtn = pattern_match_builtin_builtin_pair;
 
 		// identify:
 
@@ -68,13 +68,13 @@ struct structure
 	};
 
 /*
-	memoized_builtin_typename_pair:
+	pattern_match_builtin_typename_pair:
 */
 
 	template<typename>
-	struct memoized_builtin_typename_pair
+	struct pattern_match_builtin_typename_pair
 	{
-		using rtn = memoized_builtin_typename_pair;
+		using rtn = pattern_match_builtin_typename_pair;
 
 		// identify:
 
@@ -88,9 +88,9 @@ struct structure
 	};
 
 	template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
-	struct memoized_builtin_typename_pair<PairType<ValueX, TypenameY>>
+	struct pattern_match_builtin_typename_pair<PairType<ValueX, TypenameY>>
 	{
-		using rtn = memoized_builtin_typename_pair;
+		using rtn = pattern_match_builtin_typename_pair;
 
 		// identify:
 
@@ -114,13 +114,13 @@ struct structure
 	};
 
 /*
-	memoized_typename_builtin_pair:
+	pattern_match_typename_builtin_pair:
 */
 
 	template<typename>
-	struct memoized_typename_builtin_pair
+	struct pattern_match_typename_builtin_pair
 	{
-		using rtn = memoized_typename_builtin_pair;
+		using rtn = pattern_match_typename_builtin_pair;
 
 		// identify:
 
@@ -134,9 +134,9 @@ struct structure
 	};
 
 	template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
-	struct memoized_typename_builtin_pair<PairType<TypenameX, ValueY>>
+	struct pattern_match_typename_builtin_pair<PairType<TypenameX, ValueY>>
 	{
-		using rtn = memoized_typename_builtin_pair;
+		using rtn = pattern_match_typename_builtin_pair;
 
 		// identify:
 
@@ -160,13 +160,13 @@ struct structure
 	};
 
 /*
-	memoized_typename_typename_pair:
+	pattern_match_typename_typename_pair:
 */
 
 	template<typename>
-	struct memoized_typename_typename_pair
+	struct pattern_match_typename_typename_pair
 	{
-		using rtn = memoized_typename_typename_pair;
+		using rtn = pattern_match_typename_typename_pair;
 
 		// identify:
 
@@ -180,9 +180,9 @@ struct structure
 	};
 
 	template<template<typename, typename> class PairType, typename TypenameX, typename TypenameY>
-	struct memoized_typename_typename_pair<PairType<TypenameX, TypenameY>>
+	struct pattern_match_typename_typename_pair<PairType<TypenameX, TypenameY>>
 	{
-		using rtn = memoized_typename_typename_pair;
+		using rtn = pattern_match_typename_typename_pair;
 
 		// identify:
 

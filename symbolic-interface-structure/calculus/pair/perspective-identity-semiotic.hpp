@@ -30,7 +30,7 @@ struct identity
 */
 
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_builtin_pair = typename memoized_builtin_builtin_pair<Exp>::template match
+	using is_builtin_builtin_pair = typename pattern_match_builtin_builtin_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -40,7 +40,7 @@ struct identity
 */
 
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_typename_pair = typename memoized_builtin_typename_pair<Exp>::template match
+	using is_builtin_typename_pair = typename pattern_match_builtin_typename_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -50,7 +50,7 @@ struct identity
 */
 
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_typename_builtin_pair = typename memoized_typename_builtin_pair<Exp>::template match
+	using is_typename_builtin_pair = typename pattern_match_typename_builtin_pair<Exp>::template match
 	<
 		Continuation
 	>;
@@ -60,7 +60,7 @@ struct identity
 */
 
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_typename_typename_pair = typename memoized_typename_typename_pair<Exp>::template match
+	using is_typename_typename_pair = typename pattern_match_typename_typename_pair<Exp>::template match
 	<
 		Continuation
 	>;

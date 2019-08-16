@@ -21,35 +21,6 @@
 	grammatical forms.
 */
 
-/*
-	Is this worth declaring?
-
-	Copairs are only intended for when the grammatical forms differ, but in the case of the two projections
-	it's the same.
-
-	template<typename TypeX, typename TypeY, typename Copair, typename Pair>
-	using builtin_builtin_cpr = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
-	<
-		typename_copair_cdr<Copair>
-	>;
-*/
-
-/*
-	Combinatorial acknowledgement:
-
-	echo_echo_cons			echo_ping_cons			ping_echo_cons			ping_ping_cons
-	echo_pose_cons			echo_moiz_cons			ping_pose_cons			ping_moiz_cons
-	echo_turn_cons			echo_call_cons			ping_turn_cons			ping_call_cons
-
-	pose_echo_cons			pose_ping_cons			moiz_echo_cons			moiz_ping_cons
-	pose_pose_cons			pose_moiz_cons			moiz_pose_cons			moiz_moiz_cons
-	pose_turn_cons			pose_call_cons			moiz_turn_cons			moiz_call_cons
-
-	turn_echo_cons			turn_ping_cons			call_echo_cons			call_ping_cons
-	turn_pose_cons			turn_moiz_cons			call_pose_cons			call_moiz_cons
-	turn_turn_cons			turn_call_cons			call_turn_cons			call_call_cons
-*/
-
 struct functor
 {
 	using kind		= module;
@@ -62,117 +33,109 @@ struct functor
 	#include nik_typedef(symbolic, calculus, product, functor)
 
 /*
-	echo_left_inject:
+	builtin_inject_left:
 */
 
-	struct cp_echo_left_inject
+	template<typename Type, Type Value>
+	using builtin_inject_left = builtin_inl<Type, Value>;
+
+/*
+	builtin_inject_right:
+*/
+
+	template<typename Type, Type Value>
+	using builtin_inject_right = builtin_inr<Type, Value>;
+
+/*
+	typename_inject_left:
+*/
+
+	template<typename Value>
+	using typename_inject_left = typename_inl<Value>;
+
+/*
+	typename_inject_right:
+*/
+
+	template<typename Value>
+	using typename_inject_right = typename_inr<Value>;
+
+/*
+	builtin_copair_value:
+*/
+
+	template<typename Continuation>
+	struct cp_builtin_copair_value
 	{
-		template<typename Type, template<bool, Type> class CopairType, Type Value>
-		using result = CopairType<false, Value>;
+		template<bool Tag, typename Type, Type Value>
+		using result = typename Continuation::template result<Type, Value>;
 	};
 
+	template<typename Copair, typename Continuation = cp_echo>
+	using builtin_copair_value = typename pattern_match_builtin_copair<Copair>::template pop
+	<
+		cp_builtin_copair_value<Continuation>
+	>;
+
 /*
-	ping_left_inject:
+	typename_copair_value:
 */
 
-	struct cp_ping_left_inject
+	struct ch_typename_copair_value
 	{
-		template<template<bool, typename> class CopairType, typename Value>
-		using result = CopairType<false, Value>;
+		template<bool Tag, typename Value>
+		using result = Value;
 	};
-
-/*
-	echo_right_inject:
-*/
-
-	struct cp_echo_right_inject
-	{
-		template<typename Type, template<bool, Type> class CopairType, Type Value>
-		using result = CopairType<true, Value>;
-	};
-
-/*
-	ping_right_inject:
-*/
-
-	struct cp_ping_right_inject
-	{
-		template<template<bool, typename> class CopairType, typename Value>
-		using result = CopairType<true, Value>;
-	};
-
-/*
-	builtin_copair_car:
-*/
-
-	template<typename Type, typename Copair, typename Continuation = cp_moiz>
-	using builtin_copair_car = builtin_builtin_car<bool, Type, Copair, Continuation>;
-
-/*
-	typename_copair_car:
-*/
 
 	template<typename Copair>
-	using typename_copair_car = builtin_typename_car<bool, Copair>;
+	using typename_copair_value = typename pattern_match_typename_copair<Copair>::template pop
+	<
+		ch_typename_copair_value
+	>;
 
 /*
-	builtin_copair_cdr:
+	The following functions act on pair (not copairs), but are categorized here because from a formal
+	perspective they can not properly be constructed without the copair type.
+
+	Continuations are necessarily embedded into their respective projections.
 */
-
-	template<typename Type, typename Copair, typename Continuation = cp_moiz>
-	using builtin_copair_cdr = builtin_builtin_cdr<bool, Type, Copair, Continuation>;
-
-/*
-	typename_copair_cdr:
-*/
-
-	template<typename Copair>
-	using typename_copair_cdr = builtin_typename_cdr<bool, Copair>;
 
 /*
 	builtin_builtin_cpr:
-
-	Continuations are necessarily embedded into the Projection.
 */
 
-	template<typename TypeX, typename TypeY, typename Projection, typename Pair>
-	using builtin_builtin_cpr = typename memoized_builtin_builtin_pair<TypeX, TypeY, Pair>::template pop
+	template<typename Projection, typename Pair>
+	using builtin_builtin_cpr = typename pattern_match_builtin_builtin_pair<Pair>::template pop
 	<
 		Projection
 	>;
 
 /*
 	builtin_typename_cpr:
-
-	Continuations are necessarily embedded into the Projection.
 */
 
-	template<typename TypeX, typename Projection, typename Pair>
-	using builtin_typename_cpr = typename memoized_builtin_typename_pair<TypeX, Pair>::template pop
+	template<typename Projection, typename Pair>
+	using builtin_typename_cpr = typename pattern_match_builtin_typename_pair<Pair>::template pop
 	<
 		Projection
 	>;
 
 /*
 	typename_builtin_cpr:
-
-	Continuations are necessarily embedded into the Projection.
 */
 
-	template<typename TypeY, typename Projection, typename Pair>
-	using typename_builtin_cpr = typename memoized_typename_builtin_pair<TypeY, Pair>::template pop
+	template<typename Projection, typename Pair>
+	using typename_builtin_cpr = typename pattern_match_typename_builtin_pair<Pair>::template pop
 	<
 		Projection
 	>;
 
 /*
 	typename_typename_cpr:
-
-	Continuations are necessarily embedded into the Projection.
 */
 
 	template<typename Projection, typename Pair>
-	using typename_typename_cpr = typename memoized_typename_typename_pair<Pair>::template pop
+	using typename_typename_cpr = typename pattern_match_typename_typename_pair<Pair>::template pop
 	<
 		Projection
 	>;

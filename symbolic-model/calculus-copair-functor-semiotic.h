@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calcof_
+	#define PREFIX		calcopf_
 
 #else
 

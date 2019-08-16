@@ -15,26 +15,166 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Given that copair is implemented as a specific pair, pattern matching here is redundant,
+	but is still included for optimization purposes. For this reason it is better to use these
+	operators for copairs instead of the more generic pair operators, when possible.
+*/
+
 struct structure
 {
 	using kind		= module;
 
 	using rtn		= structure;
 
-	#include nik_typedef(symbolic, calculus, pair, structure)
+	template<typename Type, Type Value>	struct builtin_inl	{ };
+	template<typename Value>		struct typename_inl	{ };
+
+	template<typename Type, Type Value>	struct builtin_inr	{ };
+	template<typename Value>		struct typename_inr	{ };
 
 /*
-	memoized_builtin_copair:
+	pattern_match_builtin_copair:
 */
 
-	template<typename Exp>
-	using memoized_builtin_copair = memoized_builtin_builtin_pair<Exp>;
+	template<typename>
+	struct pattern_match_builtin_copair
+	{
+		using rtn = pattern_match_builtin_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<false>;
+	};
+
+	template<typename Type, Type Value>
+	struct pattern_match_builtin_copair<builtin_inl<Type, Value>>
+	{
+		using rtn = pattern_match_builtin_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: value.
+
+		> using pop = typename Continuation::template result<false, Type, Value>;
+	};
+
+	template<typename Type, Type Value>
+	struct pattern_match_builtin_copair<builtin_inr<Type, Value>>
+	{
+		using rtn = pattern_match_builtin_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: value.
+
+		> using pop = typename Continuation::template result<true, Type, Value>;
+	};
 
 /*
-	memoized_typename_copair:
+	pattern_match_typename_copair:
 */
 
-	template<typename Exp>
-	using memoized_typename_copair = memoized_builtin_typename_pair<Exp>;
+	template<typename>
+	struct pattern_match_typename_copair
+	{
+		using rtn = pattern_match_typename_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<false>;
+	};
+
+	template<typename Value>
+	struct pattern_match_typename_copair<typename_inl<Value>>
+	{
+		using rtn = pattern_match_typename_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: value.
+
+		> using pop = typename Continuation::template result<false, Value>;
+	};
+
+	template<typename Value>
+	struct pattern_match_typename_copair<typename_inr<Value>>
+	{
+		using rtn = pattern_match_typename_copair;
+
+		// identify:
+
+		template
+		<
+			typename Continuation
+
+			//      signature: id.
+
+		> using match = typename Continuation::template result<true>;
+
+		// shrink:
+
+		template
+		<
+			typename Continuation
+
+				//   signature: value.
+
+		> using pop = typename Continuation::template result<true, Value>;
+	};
 };
 
