@@ -15,23 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	template<typename SizeType>
-	struct module<Module::list, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
-	{
-		using rtn	= module;
+	using kind		= module;
 
-		using size_type	= SizeType;
+	using rtn		= identity;
 
-		//
+	#include nik_typedef(symbolic, core, kernel, identity)
 
-		#include"interface-structure-semiotic.hpp"
+	#include nik_typedef(symbolic, calculus, boolean, structure)
 
-		//
+/*
+	is_boolean:
+*/
 
-//		#include"perspective-identity-semiotic.hpp"
-		#include"perspective-functor-semiotic.hpp"
-	};
-}
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_boolean = typename pattern_match_boolean<Exp>::template match
+	<
+		Continuation
+	>;
+};
 

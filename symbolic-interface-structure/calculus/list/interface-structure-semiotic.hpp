@@ -21,6 +21,7 @@ struct structure
 
 	using rtn						= structure;
 
+/*
 	template<typename...> struct act			{ };
 	template<typename...> struct pass			{ };
 
@@ -30,15 +31,16 @@ struct structure
 
 		using rtn					= skip;
 	};
-
-/*
-	memoized_builtin_list:
 */
 
-	template<typename, typename>
-	struct memoized_builtin_list
+/*
+	pattern_match_builtin_list:
+*/
+
+	template<typename>
+	struct pattern_match_builtin_list
 	{
-		using rtn = memoized_builtin_list;
+		using rtn = pattern_match_builtin_list;
 
 		// identify:
 
@@ -51,10 +53,10 @@ struct structure
 		> using match = typename Continuation::template result<false>;
 	};
 
-	template<typename Type, Type... Values, template<Type...> class ListType>
-	struct memoized_builtin_list<Type, ListType<Values...>>
+	template<typename Type, template<Type...> class ListType, Type... Values>
+	struct pattern_match_builtin_list<ListType<Values...>>
 	{
-		using rtn = memoized_builtin_list;
+		using rtn = pattern_match_builtin_list;
 
 		// identify:
 
@@ -76,6 +78,7 @@ struct structure
 
 		> using push_front = typename Continuation::template result<Type, ListType, Args..., Values...>;
 
+/*
 		template
 		<
 			typename Continuation, Type... Args
@@ -148,16 +151,17 @@ struct structure
 			//     signature: fold.
 
 		> using fold = typename Continuation::template result<Type, Op, Arg, count, Values...>;
+*/
 	};
 
 /*
-	memoized_typename_list:
+	pattern_match_typename_list:
 */
 
 	template<typename>
-	struct memoized_typename_list
+	struct pattern_match_typename_list
 	{
-		using rtn = memoized_typename_list;
+		using rtn = pattern_match_typename_list;
 
 		// identify:
 
@@ -171,9 +175,9 @@ struct structure
 	};
 
 	template<typename... Values, template<typename...> class ListType>
-	struct memoized_typename_list<ListType<Values...>>
+	struct pattern_match_typename_list<ListType<Values...>>
 	{
-		using rtn = memoized_typename_list;
+		using rtn = pattern_match_typename_list;
 
 		// identify:
 

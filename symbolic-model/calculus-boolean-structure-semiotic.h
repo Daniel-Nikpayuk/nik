@@ -18,8 +18,8 @@
 #include"define-size_type.h"
 
 						  template<bool Value>
-	using boolean				= typename nik_module(boolean, calculus, symbolic, semiotic)::structure::template
-						  boolean<Value>;
+	using pattern_match_boolean		= typename nik_module(boolean, calculus, symbolic, semiotic)::structure::template
+						  pattern_match_boolean<Value>;
 
 #include"undef-size_type.h"
 

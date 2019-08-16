@@ -31,7 +31,7 @@ struct identity
 
 	// list:
 
-	template<typename Type, template<Type...> class ListType, Type... Values, typename Continuation = cp_bool_moiz>
+	template<typename Type, template<Type...> class ListType, Type... Values, typename Continuation = ch_bool_echo>
 	using builtin_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
 
 		// implements with empty lists.
@@ -39,7 +39,7 @@ struct identity
 	template
 	<
 		typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values,
-		typename Continuation = cp_bool_moiz
+		typename Continuation = ch_bool_echo
 	>
 	using builtin_list_name = typename memoized_couple<ListType0<>, ListType1<>>::template match
 	<
@@ -48,7 +48,7 @@ struct identity
 
 	// chain:
 
-	template<template<typename...> class ListType, typename... Values, typename Continuation = cp_bool_moiz>
+	template<template<typename...> class ListType, typename... Values, typename Continuation = ch_bool_echo>
 	using typename_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
 
 		// implements with empty lists.
@@ -56,7 +56,7 @@ struct identity
 	template
 	<
 		template<typename...> class ListType0, template<typename...> class ListType1, typename... Values,
-		typename Continuation = cp_bool_moiz
+		typename Continuation = ch_bool_echo
 	>
 	using typename_list_name = typename memoized_couple<ListType0<>, ListType1<>>::template match
 	<
@@ -74,7 +74,7 @@ struct identity
 	is_list_type:
 */
 
-	template<typename Type, typename Exp, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Exp, typename Continuation = ch_bool_echo>
 	using is_list_type = typename memoized_list<Type, Exp>::template match
 	<
 		Continuation
@@ -84,7 +84,7 @@ struct identity
 	is_null_type:
 */
 
-	template<typename Type, typename Exp, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Exp, typename Continuation = ch_bool_echo>
 	using is_null_type = typename memoized_list<Type, Exp>::template match
 	<
 		is_null<Continuation>
@@ -94,7 +94,7 @@ struct identity
 	is_struct_type:
 */
 
-	template<typename Type, typename Exp, template<Type...> class label, typename Continuation = cp_bool_moiz>
+	template<typename Type, typename Exp, template<Type...> class label, typename Continuation = ch_bool_echo>
 	using is_struct_type = typename memoized_list<Type, Exp>::template match
 	<
 		is_list_name, label

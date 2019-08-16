@@ -21,6 +21,8 @@ struct identity
 
 	using rtn		= identity;
 
+	#include nik_typedef(symbolic, core, kernel, identity)
+
 	#include nik_typedef(symbolic, calculus, copair, structure)
 
 /*
@@ -44,8 +46,8 @@ struct identity
 		using result = typename Continuation::template result<!Tag>;
 	};
 
-	template<typename CoPair, typename Continuation = ch_bool_echo>
-	using builtin_copair_is_left = typename pattern_match_builtin_copair<CoPair>::template pop
+	template<typename Copair, typename Continuation = ch_bool_echo>
+	using builtin_copair_is_left = typename pattern_match_builtin_copair<Copair>::template pop
 	<
 		cp_builtin_copair_is_left<Continuation>
 	>;
@@ -61,8 +63,8 @@ struct identity
 		using result = typename Continuation::template result<Tag>;
 	};
 
-	template<typename CoPair, typename Continuation = ch_bool_echo>
-	using builtin_copair_is_right = typename pattern_match_builtin_copair<CoPair>::template pop
+	template<typename Copair, typename Continuation = ch_bool_echo>
+	using builtin_copair_is_right = typename pattern_match_builtin_copair<Copair>::template pop
 	<
 		cp_builtin_copair_is_right<Continuation>
 	>;
@@ -88,8 +90,8 @@ struct identity
 		using result = typename Continuation::template result<!Tag>;
 	};
 
-	template<typename CoPair, typename Continuation = ch_bool_echo>
-	using typename_copair_is_left = typename pattern_match_typename_copair<CoPair>::template pop
+	template<typename Copair, typename Continuation = ch_bool_echo>
+	using typename_copair_is_left = typename pattern_match_typename_copair<Copair>::template pop
 	<
 		cp_typename_copair_is_left<Continuation>
 	>;
@@ -105,8 +107,8 @@ struct identity
 		using result = typename Continuation::template result<!Tag>;
 	};
 
-	template<typename CoPair, typename Continuation = ch_bool_echo>
-	using typename_copair_is_right = typename pattern_match_typename_copair<CoPair>::template pop
+	template<typename Copair, typename Continuation = ch_bool_echo>
+	using typename_copair_is_right = typename pattern_match_typename_copair<Copair>::template pop
 	<
 		cp_typename_copair_is_right<Continuation>
 	>;

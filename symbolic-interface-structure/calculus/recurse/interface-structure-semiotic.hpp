@@ -22,111 +22,51 @@ struct structure
 	using rtn		= structure;
 
 /*
-	memoized_conditional:
+	pattern_match_recurse:
 */
 
 	template<bool True, typename Filler = void>
-	struct memoized_conditional
+	struct pattern_match_recurse
 	{
-		using rtn = memoized_conditional;
+		using rtn = pattern_match_recurse;
 
 		template
 		<
-			typename Ante, typename Conse
-
-		> using reflex = Ante;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_transit = signature<Ante>;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_transit = Ante;
-
-/*
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
+			template<typename> class signature, typename Ante,
 
 			typename Conse
 
-		> using transit = ante_signature<Ante>;
+		> using transit_reflex_conditional = signature<Ante>;
 
 		template
 		<
-			template<typename> class ante_signature,
+			typename Ante,
 
-			template<typename> class conse_signature,
+			template<typename> class signature, typename... Conses
 
-			typename Exp
-
-		> using cotransit = ante_signature<Exp>;
-*/
+		> using reflex_transit_conditional = Ante;
 	};
 
 	template<typename Filler>
-	struct memoized_conditional<false, Filler>
+	struct pattern_match_recurse<false, Filler>
 	{
-		using rtn = memoized_conditional;
+		using rtn = pattern_match_recurse;
 
 		template
 		<
-			typename Ante, typename Conse
-
-		> using reflex = Conse;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_transit = Conse;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_transit = signature<Conses...>;
-
-/*
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
+			template<typename> class signature, typename Ante,
 
 			typename Conse
 
-		> using transit = conse_signature<Conse>;
+		> using transit_reflex_conditional = Conse;
 
 		template
 		<
-			template<typename> class ante_signature,
+			typename Ante,
 
-			template<typename> class conse_signature,
+			template<typename> class signature, typename... Conses
 
-			typename Exp
-
-		> using cotransit = conse_signature<Exp>;
-*/
+		> using reflex_transit_conditional = signature<Conses...>;
 	};
 };
 

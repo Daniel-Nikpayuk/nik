@@ -16,24 +16,8 @@
 ************************************************************************************************************************/
 
 /*
-	Narratively speaking, "conditional" is built from "cpr", but given its frequency of use
+	Narratively speaking, "if_then_else" is built from "cpr", but given its frequency of use
 	it is optimized here.
-*/
-
-/*
-	Combinatorial acknowledgement:
-
-	echo_echo_if_then_else		echo_ping_if_then_else		ping_echo_if_then_else		ping_ping_if_then_else
-	echo_pose_if_then_else		echo_moiz_if_then_else		ping_pose_if_then_else		ping_moiz_if_then_else
-	echo_turn_if_then_else		echo_call_if_then_else		ping_turn_if_then_else		ping_call_if_then_else
-
-	pose_echo_if_then_else		pose_ping_if_then_else		moiz_echo_if_then_else		moiz_ping_if_then_else
-	pose_pose_if_then_else		pose_moiz_if_then_else		moiz_pose_if_then_else		moiz_moiz_if_then_else
-	pose_turn_if_then_else		pose_call_if_then_else		moiz_turn_if_then_else		moiz_call_if_then_else
-
-	turn_echo_if_then_else		turn_ping_if_then_else		call_echo_if_then_else		call_ping_if_then_else
-	turn_pose_if_then_else		turn_moiz_if_then_else		call_pose_if_then_else		call_moiz_if_then_else
-	turn_turn_if_then_else		turn_call_if_then_else		call_turn_if_then_else		call_call_if_then_else
 */
 
 struct functor
@@ -42,57 +26,18 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, kernel, core, functor)
+	#include nik_typedef(symbolic, core, kernel, identity)
 
-	#include nik_typedef(symbolic, calculus, conditional, structure)
-
-/*
-	echo:
-
-	better to use (Pred ? Ante : Conse) grammar directly.
-*/
-
-	struct echo_if_then_else
-	{
-		template<typename Type>
-		static constexpr Type value(bool Pred, Type Ante, Type Conse)
-		{
-			return (Pred ? Ante : Conse);
-		}
-	};
+	#include nik_typedef(symbolic, calculus, boolean, structure)
 
 /*
-	ping:
+	if_then_else:
 */
 
 	template<bool Pred, typename Ante, typename Conse>
-	using ping_if_then_else = typename memoized_conditional<Pred>::template reflex
+	using if_then_else = typename pattern_match_boolean<Pred>::template conditional
 	<
 		Ante, Conse
-	>;
-
-/*
-	call:
-*/
-
-	template<bool Pred, typename Ante, typename Conse>
-	using call_if_then_else = call
-	<
-		ping_if_then_else<Pred, Ante, Conse>
-	>;
-
-	template<bool Pred, typename Ante, typename Conse>
-	using head_if_then_else = typename memoized_conditional<Pred>::template left_transit
-	<
-		call, Ante,
-		Conse
-	>;
-
-	template<bool Pred, typename Ante, typename Conse>
-	using tail_if_then_else = typename memoized_conditional<Pred>::template right_transit
-	<
-		Ante,
-		call, Conse
 	>;
 };
 

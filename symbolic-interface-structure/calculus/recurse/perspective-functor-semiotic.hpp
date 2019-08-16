@@ -15,10 +15,40 @@
 **
 ************************************************************************************************************************/
 
+struct functor
+{
+	using kind		= module;
+
+	using rtn		= functor;
+
+	#include nik_typedef(symbolic, calculus, handle, functor)
+
+	#include nik_typedef(symbolic, calculus, recurse, structure)
+
 /*
-	Narratively speaking, "conditional" is built from "cpr", but given its frequency of use
-	it is optimized here.
+	head_if_then_else:
 */
+
+	template<bool Pred, typename Ante, typename Conse>
+	using head_if_then_else = typename pattern_match_recurse<Pred>::template transit_reflex_conditional
+	<
+		call, Ante,
+
+		Conse
+	>;
+
+/*
+	tail_if_then_else:
+*/
+
+	template<bool Pred, typename Ante, typename Conse>
+	using tail_if_then_else = typename pattern_match_recurse<Pred>::template reflex_transit_conditional
+	<
+		Ante,
+
+		call, Conse
+	>;
+};
 
 /*
 	Combinatorial acknowledgement:
@@ -35,64 +65,4 @@
 	turn_pose_if_then_else		turn_moiz_if_then_else		call_pose_if_then_else		call_moiz_if_then_else
 	turn_turn_if_then_else		turn_call_if_then_else		call_turn_if_then_else		call_call_if_then_else
 */
-
-struct functor
-{
-	using kind		= module;
-
-	using rtn		= functor;
-
-	#include nik_typedef(symbolic, kernel, core, functor)
-
-	#include nik_typedef(symbolic, calculus, conditional, structure)
-
-/*
-	echo:
-
-	better to use (Pred ? Ante : Conse) grammar directly.
-*/
-
-	struct echo_if_then_else
-	{
-		template<typename Type>
-		static constexpr Type value(bool Pred, Type Ante, Type Conse)
-		{
-			return (Pred ? Ante : Conse);
-		}
-	};
-
-/*
-	ping:
-*/
-
-	template<bool Pred, typename Ante, typename Conse>
-	using ping_if_then_else = typename memoized_conditional<Pred>::template reflex
-	<
-		Ante, Conse
-	>;
-
-/*
-	call:
-*/
-
-	template<bool Pred, typename Ante, typename Conse>
-	using call_if_then_else = call
-	<
-		ping_if_then_else<Pred, Ante, Conse>
-	>;
-
-	template<bool Pred, typename Ante, typename Conse>
-	using head_if_then_else = typename memoized_conditional<Pred>::template left_transit
-	<
-		call, Ante,
-		Conse
-	>;
-
-	template<bool Pred, typename Ante, typename Conse>
-	using tail_if_then_else = typename memoized_conditional<Pred>::template right_transit
-	<
-		Ante,
-		call, Conse
-	>;
-};
 

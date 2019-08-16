@@ -15,6 +15,11 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Although this module fits the narrative design, I have chosen to only implement an optimized version
+	of this concept entirely for performance reasons.
+*/
+
 struct structure
 {
 	using kind		= module;
@@ -22,111 +27,41 @@ struct structure
 	using rtn		= structure;
 
 /*
-	memoized_conditional:
+	pattern_match_boolean:
 */
 
 	template<bool True, typename Filler = void>
-	struct memoized_conditional
+	struct pattern_match_boolean
 	{
-		using rtn = memoized_conditional;
+		using rtn = pattern_match_boolean;
+
+		// conditional:
 
 		template
 		<
-			typename Ante, typename Conse
+			typename Antecedent,
+			typename Consequent
 
-		> using reflex = Ante;
+				//   signature: if_then_else.
 
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_transit = signature<Ante>;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_transit = Ante;
-
-/*
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
-
-			typename Conse
-
-		> using transit = ante_signature<Ante>;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			template<typename> class conse_signature,
-
-			typename Exp
-
-		> using cotransit = ante_signature<Exp>;
-*/
+		> using conditional = Antecedent;
 	};
 
 	template<typename Filler>
-	struct memoized_conditional<false, Filler>
+	struct pattern_match_boolean<false, Filler>
 	{
-		using rtn = memoized_conditional;
+		using rtn = pattern_match_boolean;
+
+		// conditional:
 
 		template
 		<
-			typename Ante, typename Conse
+			typename Antecedent,
+			typename Consequent
 
-		> using reflex = Conse;
+				//   signature: if_then_else.
 
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename Conse
-
-		> using left_transit = Conse;
-
-		template
-		<
-			template<typename> class signature,
-
-			typename Ante, typename... Conses
-
-		> using right_transit = signature<Conses...>;
-
-/*
-		template
-		<
-			template<typename> class ante_signature,
-
-			typename Ante,
-
-			template<typename> class conse_signature,
-
-			typename Conse
-
-		> using transit = conse_signature<Conse>;
-
-		template
-		<
-			template<typename> class ante_signature,
-
-			template<typename> class conse_signature,
-
-			typename Exp
-
-		> using cotransit = conse_signature<Exp>;
-*/
+		> using conditional = Consequent;
 	};
 };
 

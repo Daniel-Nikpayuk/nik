@@ -27,10 +27,10 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, kernel, core, functor)
+	#include nik_typedef(symbolic, core, kernel, functor)
+	#include nik_typedef(symbolic, calculus, pair, structure)
 
-	#include nik_typedef(symbolic, calculus, product, structure)
-	#include nik_typedef(symbolic, calculus, product, functor)
+	#include nik_typedef(symbolic, calculus, copair, structure)
 
 /*
 	builtin_inject_left:
@@ -71,7 +71,7 @@ struct functor
 		using result = typename Continuation::template result<Type, Value>;
 	};
 
-	template<typename Copair, typename Continuation = cp_echo>
+	template<typename Copair, typename Continuation = ch_echo>
 	using builtin_copair_value = typename pattern_match_builtin_copair<Copair>::template pop
 	<
 		cp_builtin_copair_value<Continuation>

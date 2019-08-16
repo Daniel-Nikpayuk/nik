@@ -29,23 +29,12 @@
 
 //
 
-	using nik_safe(PREFIX, echo_if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
-								  echo_if_then_else;
-
 								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, ping_if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
-								  template ping_if_then_else<Pred, Ante, Conse>;
-
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, call_if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
-								  template call_if_then_else<Pred, Ante, Conse>;
-
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
 								  template head_if_then_else<Pred, Ante, Conse>;
 
 								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
+	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
 								  template tail_if_then_else<Pred, Ante, Conse>;
 
 //

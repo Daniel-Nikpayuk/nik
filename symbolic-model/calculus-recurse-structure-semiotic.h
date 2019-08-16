@@ -18,8 +18,8 @@
 #include"define-size_type.h"
 
 						  template<bool Value>
-	using recurse				= typename nik_module(recurse, calculus, symbolic, semiotic)::structure::template
-						  boolean<Value>;
+	using pattern_match_recurse		= typename nik_module(recurse, calculus, symbolic, semiotic)::structure::template
+						  pattern_match_recurse<Value>;
 
 #include"undef-size_type.h"
 
