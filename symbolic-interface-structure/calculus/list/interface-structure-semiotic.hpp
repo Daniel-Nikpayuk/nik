@@ -21,17 +21,8 @@ struct structure
 
 	using rtn						= structure;
 
-/*
 	template<typename...> struct act			{ };
 	template<typename...> struct pass			{ };
-
-	struct skip
-	{
-		using kind					= module;
-
-		using rtn					= skip;
-	};
-*/
 
 /*
 	pattern_match_builtin_list:
@@ -78,7 +69,6 @@ struct structure
 
 		> using push_front = typename Continuation::template result<Type, ListType, Args..., Values...>;
 
-/*
 		template
 		<
 			typename Continuation, Type... Args
@@ -115,7 +105,10 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename Kind, template<Kind...> class ListKind, typename Op
+				// For whatever reason if I put Kind after Continuation
+				// in the following it produces an internal compiler error.
+
+			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op
 
 			//    signature: map.
 
@@ -128,12 +121,14 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename Kind, template<Kind...> class ListKind, typename Op, typename List
+				// For whatever reason if I put Kind after Continuation
+				// in the following it produces an internal compiler error.
+
+			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op, typename List
 
 			//    signature: zip.
 
 		> using zip = typename Continuation::template result<Kind, ListKind, Type, Op, List, Values...>;
-*/
 
 		// shrink:
 
@@ -145,7 +140,6 @@ struct structure
 
 		> using pop = typename Continuation::template result<Type, ListType, count, Values...>;
 
-/*
 		template
 		<
 			typename Continuation, typename Op, Type Arg, size_type count
@@ -153,7 +147,6 @@ struct structure
 			//     signature: fold.
 
 		> using fold = typename Continuation::template result<Type, Op, Arg, count, Values...>;
-*/
 	};
 
 /*

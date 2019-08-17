@@ -15,6 +15,17 @@
 **
 ************************************************************************************************************************/
 
+/*
+	Within a completely formal implementation, a "dual" function or grammar point would be declared and defined here.
+
+		dual : ( A | (B-->C)xB )	:=	transit		for function object input,
+							reflex		otherwise.
+
+	This function would not only be useful in defining "eval", it is also needed here for tail recursion.
+
+		tail_if = dual . if
+*/
+
 struct functor
 {
 	using kind		= module;

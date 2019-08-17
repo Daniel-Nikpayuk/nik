@@ -162,5 +162,68 @@ struct functor
 
 		index
 	>;
+
+	// null:
+
+	struct ch_builtin_list_null
+	{
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = ListType<>;
+	};
+
+	template<typename List>
+	using builtin_list_null = typename pattern_match_builtin_list<List>::template push_front
+	<
+		ch_builtin_list_null
+	>;
+
+	// length:
+
+	template<typename Continuation>
+	struct cp_builtin_list_length
+	{
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = typename Continuation::template result<size_type, sizeof...(Values)>;
+	};
+
+	template<typename List, typename Continuation = ch_echo>
+	using builtin_list_length = typename pattern_match_builtin_list<List>::template push_front
+	<
+		cp_builtin_list_length<Continuation>
+	>;
+
+	// catenate:
+
+	template<typename Continuation>
+	struct cp_builtin_list_catenate
+	{
+		template<typename Type, typename List, Type... Values>
+		using result = typename pattern_match_builtin_list<List>::template push_front
+		<
+			cp_builtin_list_cons<Continuation>, Values...
+		>;
+	};
+
+	template<typename List1, typename List2, typename Continuation = ch_builtin_list_cons>
+	using builtin_list_catenate = typename pattern_match_builtin_list<List1>::template join_front
+	<
+		cp_builtin_list_catenate<Continuation>, List2
+	>;
+
+	// push:
+
+	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list_cons>
+	using builtin_list_push = typename pattern_match_builtin_list<List>::template push_back
+	<
+		Continuation, Value
+	>;
+
+	// precompose:
+
+
+	// passive:
+
+
+	// active:
 };
 

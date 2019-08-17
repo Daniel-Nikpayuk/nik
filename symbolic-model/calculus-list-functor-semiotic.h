@@ -66,6 +66,45 @@
 
 //
 
+							  template<typename List>
+	using nik_safe(PREFIX, builtin_list_null)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_list_null<List>;
+
+							  template
+							  <
+								typename List,
+
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								functor::ch_echo
+							  >
+	using nik_safe(PREFIX, builtin_list_length)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_list_length<List, Continuation>;
+
+							  template
+							  <
+								typename List1, typename List2,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_builtin_list_cons
+							  >
+	using nik_safe(PREFIX, builtin_list_catenate)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_list_catenate<List1, List2, Continuation>;
+
+							  template
+							  <
+								typename Type, Type Value, typename List,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_builtin_list_cons
+							  >
+	using nik_safe(PREFIX, builtin_list_push)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_list_push<Type, Value, List, Continuation>;
+
+//
+
 #undef PREFIX
 
 #include"undef-size_type.h"
