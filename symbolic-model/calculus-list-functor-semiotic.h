@@ -94,6 +94,17 @@
 
 							  template
 							  <
+								typename List1, typename Type, Type Value, typename List2,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_builtin_list_cons
+							  >
+	using nik_safe(PREFIX, builtin_list_unite)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_list_unite<List1, Type, Value, List2, Continuation>;
+
+							  template
+							  <
 								typename Type, Type Value, typename List,
 
 								typename Continuation =

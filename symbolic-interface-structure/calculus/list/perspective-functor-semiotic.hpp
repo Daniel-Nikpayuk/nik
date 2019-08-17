@@ -210,6 +210,14 @@ struct functor
 		cp_builtin_list_catenate<Continuation>, List2
 	>;
 
+	// unite:
+
+	template<typename List1, typename Type, Type Value, typename List2, typename Continuation = ch_builtin_list_cons>
+	using builtin_list_unite = typename pattern_match_builtin_list<List1>::template join_back
+	<
+		cp_builtin_list_catenate<Continuation>, List2, Value
+	>;
+
 	// push:
 
 	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list_cons>
@@ -217,13 +225,16 @@ struct functor
 	<
 		Continuation, Value
 	>;
+};
 
-	// precompose:
+/*
+	precompose:
 
+		The precompose grammar can only be implemented if you can pattern match a function object type,
+		but this standard currently doesn't address that in full.
 
 	// passive:
 
-
 	// active:
-};
+*/
 
