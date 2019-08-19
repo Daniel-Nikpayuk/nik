@@ -25,31 +25,9 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(calculus, perspective, dispatched, identity)
+	#include nik_typedef(symbolic, core, kernel, identity)
 
-	#include nik_typedef(calculus, untyped, neutral, structure)
-
-/*
-	is_False:
-*/
-
-	template<typename Exp>
-	using is_False = is_equal
-	<
-		Exp,
-		False
-	>;
-
-/*
-	is_True:
-*/
-
-	template<typename Exp>
-	using is_True = is_equal
-	<
-		Exp,
-		True
-	>;
+	#include nik_typedef(symbolic, calculus, colist, structure)
 
 /*
 	is_skip:
@@ -57,117 +35,5 @@ struct identity
 
 	template<typename Exp>
 	using is_skip = is_equal<Exp, skip>;
-
-/*
-	at_most:
-*/
-
-#define EIGHT 8
-
-	template<size_type N, typename RegType>
-	struct at_most
-	{
-		static constexpr bool value = (N <= size_type(EIGHT) * sizeof(RegType));
-	};
-
-#undef EIGHT
-
-/*
-	identify:
-*/
-
-	template<typename Type>
-	using identify = evaluate
-	<
-		if_then
-		<
-			is_list_type<bool, Type>,
-			typed_list<bool>
-
-		>, else_then
-		<
-			is_list_type<char, Type>,
-			typed_list<char>
-
-		>, else_then
-		<
-			is_list_type<wchar_t, Type>,
-			typed_list<wchar_t>
-
-		>, else_then
-		<
-			is_list_type<char16_t, Type>,
-			typed_list<char16_t>
-
-		>, else_then
-		<
-			is_list_type<char32_t, Type>,
-			typed_list<char32_t>
-
-		>, else_then
-		<
-			is_list_type<unsigned char, Type>,
-			typed_list<unsigned char>
-
-		>, else_then
-		<
-			is_list_type<unsigned short, Type>,
-			typed_list<unsigned short>
-
-		>, else_then
-		<
-			is_list_type<unsigned int, Type>,
-			typed_list<unsigned int>
-
-		>, else_then
-		<
-			is_list_type<unsigned long, Type>,
-			typed_list<unsigned long>
-
-		>, else_then
-		<
-			is_list_type<unsigned long long, Type>,
-			typed_list<unsigned long long>
-
-		>, else_then
-		<
-			is_list_type<signed char, Type>,
-			typed_list<signed char>
-
-		>, else_then
-		<
-			is_list_type<signed short, Type>,
-			typed_list<signed short>
-
-		>, else_then
-		<
-			is_list_type<signed int, Type>,
-			typed_list<signed int>
-
-		>, else_then
-		<
-			is_list_type<signed long, Type>,
-			typed_list<signed long>
-
-		>, else_then
-		<
-			is_list_type<signed long long, Type>,
-			typed_list<signed long long>
-
-		>, then
-		<
-			other_type
-		>
-	>;
-
-/*
-	identify:
-*/
-
-	template<typename Exp>
-	using identify = typnei_identify
-	<
-		call<Exp>
-	>;
 };
 

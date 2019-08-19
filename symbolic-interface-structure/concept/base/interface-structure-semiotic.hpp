@@ -21,11 +21,58 @@ struct structure
 
 	using rtn						= structure;
 
+	struct False
+	{
+		using kind					= module;
+
+		using rtn					= False;
+
+		static constexpr bool value			= false;
+	};
+
+	struct True
+	{
+		using kind					= module;
+
+		using rtn					= True;
+
+		static constexpr bool value			= true;
+	};
+
 	struct skip
 	{
 		using kind					= module;
 
 		using rtn					= skip;
+	};
+
+	template<typename Type, Type...>
+	struct typed_list
+	{
+		using kind					= module;
+
+		using rtn					= typed_list;
+
+		using value_type				= Type;
+	};
+
+	template<typename Type, Type Value>
+	struct typed_list<Type, Value>
+	{
+		using kind					= module;
+
+		using rtn					= typed_list;
+
+		using value_type				= Type;
+
+		static constexpr value_type value		= Value;
+	};
+
+	struct other_type
+	{
+		using kind					= module;
+
+		using rtn					= other_type;
 	};
 };
 

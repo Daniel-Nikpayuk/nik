@@ -17,11 +17,8 @@
 
 #include"define-size_type.h"
 
-	using False		= typename nik_module(dispatched, calculus, symbolic, semiotic)::structure::
-				  False;
-
-	using True		= typename nik_module(dispatched, calculus, symbolic, semiotic)::structure::
-				  True;
+	using skip				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::
+						  skip;
 
 #include"undef-size_type.h"
 

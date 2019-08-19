@@ -39,5 +39,24 @@ struct functor
 	<
 		Ante, Conse
 	>;
+
+/*
+	display:
+
+	As there is no (direct/builtin) compile time screen in C++,
+	there is no loss implementing as run time here.
+*/
+
+/*
+	inline static void display(const False &)
+	{
+		Kernel::functor::display("False");
+	}
+
+	inline static void display(const True &)
+	{
+		Kernel::functor::display("True");
+	}
+*/
 };
 

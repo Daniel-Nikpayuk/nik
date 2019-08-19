@@ -37,6 +37,18 @@ struct functor
 	#include nik_typedef(symbolic, calculus, recurse, structure)
 
 /*
+	tail_conditional:
+*/
+
+	template<bool Pred, typename Ante, template<typename...> class force, typename... Conses>
+	using tail_conditional = typename pattern_match_recurse<Pred>::template reflex_transit_conditional
+	<
+		Ante,
+
+		force, Conses...
+	>;
+
+/*
 	head_if_then_else:
 */
 

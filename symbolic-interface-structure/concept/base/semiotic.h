@@ -15,17 +15,23 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+namespace nik
 {
-	using kind						= module;
-
-	using rtn						= structure;
-
-	struct skip
+	template<typename SizeType>
+	struct module<Module::colist, Branch::calculus, Lens::symbolic, Permission::semiotic, SizeType>
 	{
-		using kind					= module;
+		using rtn	= module;
 
-		using rtn					= skip;
+		using size_type	= SizeType;
+
+		//
+
+		#include"interface-structure-semiotic.hpp"
+
+		//
+
+		#include"perspective-identity-semiotic.hpp"
+		#include"perspective-functor-semiotic.hpp"
 	};
-};
+}
 

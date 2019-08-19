@@ -29,21 +29,23 @@
 
 //
 
+							  template<typename Pred, typename Exp>
+	using nik_safe(PREFIX, if_then)			= typename nik_module(colist, calculus, symbolic, semiotic)::functor::template
+							  if_then<Pred, Exp>;
+
+							  template<typename Pred, typename Exp>
+	using nik_safe(PREFIX, else_then)		= typename nik_module(colist, calculus, symbolic, semiotic)::functor::template
+							  else_then<Pred, Exp>;
+
 							  template<typename Exp>
-	using nik_safe(PREFIX, call)			= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
-							  call<Exp>;
+	using nik_safe(PREFIX, then)			= nik_module(colist, calculus, symbolic, semiotic)::functor::template
+							  then<Exp>;
 
 //
 
-							  template<typename Type>
-	using nik_safe(PREFIX, dereference)		= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
-							  dereference<Type>;
-
-//
-
-							  template<bool Value, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)		= typename nik_module(passive, dispatched, calculus, semiotic)::functor::template
-							  if_then_else<Value, Ante, Conse>;
+							  template<typename Exp, typename... Exps>
+	using nik_safe(PREFIX, cases)			= nik_module(colist, calculus, symbolic, semiotic)::functor::template
+							  cases<Exp, Exps...>;
 
 //
 

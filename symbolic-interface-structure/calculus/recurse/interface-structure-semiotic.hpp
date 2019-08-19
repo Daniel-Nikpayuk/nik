@@ -42,7 +42,7 @@ struct structure
 		<
 			typename Ante,
 
-			template<typename> class signature, typename... Conses
+			template<typename...> class signature, typename... Conses
 
 		> using reflex_transit_conditional = Ante;
 	};
@@ -64,7 +64,7 @@ struct structure
 		<
 			typename Ante,
 
-			template<typename> class signature, typename... Conses
+			template<typename...> class signature, typename... Conses
 
 		> using reflex_transit_conditional = signature<Conses...>;
 	};

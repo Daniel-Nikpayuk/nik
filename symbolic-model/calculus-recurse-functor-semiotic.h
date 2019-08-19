@@ -29,6 +29,16 @@
 
 //
 
+								  template
+								  <
+									bool Pred, typename Ante,
+									template<typename...> class Force, typename... Conses
+								  >
+	using nik_safe(PREFIX, tail_conditional)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template tail_conditional<Pred, Ante, Force, Conses...>;
+
+//
+
 								  template<bool Pred, typename Ante, typename Conse>
 	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
 								  template head_if_then_else<Pred, Ante, Conse>;

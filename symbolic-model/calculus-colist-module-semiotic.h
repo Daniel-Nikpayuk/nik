@@ -19,7 +19,7 @@
 
 //
 
-	using Passive = nik_module(passive, dispatched, calculus, semiotic);
+	using Colist = nik_module(colist, calculus, symbolic, semiotic);
 
 //
 
