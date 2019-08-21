@@ -61,6 +61,14 @@ struct functor
 			>;
 		};
 
+		template<typename Type, typename Op, Type Result, size_type count, Type Value, Type... Values>
+		using builtin_list_fold = typename dispatch<(count > 1)>::template builtin_list_fold
+		<
+			Type, Op,
+			Op::value(Result, Value),
+			count-1, Values...
+		>;
+
 		// typename:
 
 		struct ch_typename_car
@@ -81,6 +89,14 @@ struct functor
 				ListType, count-1, Values...
 			>;
 		};
+
+		template<typename Op, typename Result, size_type count, typename Value, typename... Values>
+		using typename_list_fold = typename dispatch<(count > 1)>::template typename_list_fold
+		<
+			Op,
+			typename Op::template instance<Result, Value>,
+			count-1, Values...
+		>;
 	};
 
 	template<typename Filler>
@@ -102,6 +118,9 @@ struct functor
 			using result = typename Continuation::template result<Type, ListType, Values...>;
 		};
 
+		template<typename Type, typename Op, Type Result, size_type count, Type... Values>
+		using builtin_list_fold = memoized_value<Type, Result>;
+
 		// typename:
 
 		struct ch_typename_car
@@ -116,6 +135,9 @@ struct functor
 			template<template<typename...> class ListType, size_type count, typename Value, typename... Values>
 			using result = typename Continuation::template result<ListType, Values...>;
 		};
+
+		template<typename Op, typename Result, size_type count, typename... Values>
+		using typename_list_fold = Result;
 	};
 
 /*
@@ -225,6 +247,150 @@ struct functor
 	<
 		Continuation, Value
 	>;
+
+	template<typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values>
+	using builtin_list_rename = ListType0<Values...>;
+
+	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, Type... Values>
+	using builtin_list_map = ListKind<Op::value(Values)...>;
+
+	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List, Type... Values>
+	using builtin_list_zip = typename structure::template builtin_list<Type, List>::template bimap<Kind, ListKind, Op, Values...>;
+
+	template<typename Type, typename List1, typename List2, Type... Values>
+	using reflex_list_multiunite = typename pattern_match_builtin_list<Type, List1>::template join_back
+	<
+		list_catenate,
+
+		List2, Values...
+	>;
+
+	// relabel:
+
+	template<typename Type, typename List, template<Type...> class name>
+	using reflex_list_rename = typename pattern_match_builtin_list<Type, List>::template wrap
+	<
+		list_rename, Type, name
+	>;
+
+	// map:
+
+/*
+	template<typename Type, typename Op, typename List>
+	using map = typename structure::template pattern_match_builtin_list<Type, List>::template map<Op>;
+
+	template
+	<
+		typename Kind, template<Kind...> class ListKind,
+		typename Type, template<Type...> class ListType,
+
+		typename Op, List, size_type length
+	>
+	using let_map = typename structure::template pattern_match_builtin_list<Type, List>::template recursive_binary_fapply
+	<
+		structure::template dispatch<bool(length)>::template map,
+
+		Kind, ListKind, Op, length
+	>;
+
+	template
+	<
+		typename Kind, template<Kind...> class ListKind,
+		typename Type, template<Type...> class ListType,
+		typename Op, typename List1, typename List2
+	>
+	using map = let_map
+	<
+		Kind, ListKind, Type, ListType,
+
+		typename structure::template pattern_match_operator<Op>::apply,
+
+		ListKind<>, List1, List2,
+
+		length<Type, List1>::value
+	>;
+*/
+
+	// zip:
+
+/*
+	template<size_type length, typename Type, typename Op, typename List1, typename List2, typename... Lists>
+	using let_apply = typename structure::template dispatch<Type, bool(length)>::template apply<length, Op, List1, List2, Lists...>;
+
+	template<typename Type, typename Op, typename List1, typename List2, typename... Lists>
+	using apply = let_apply<sizeof...(Lists), Type, Op, List1, List2, Lists...>;
+*/
+
+/*
+	template<typename Kind, typename Type, typename Op, typename List0, typename List1, typename List2, size_type length>
+	using let_apply = typename structure::template pattern_match_builtin_list<Type, List1>::template recursive_binary_packwise
+	<
+		structure::template dispatch<bool(length)>::template apply,
+
+		Kind, Op, List0, List2, length
+	>;
+
+	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List1, typename List2>
+	using apply = let_apply
+	<
+		Kind, Type,
+
+		typename structure::template pattern_match_operator<Op>::apply,
+
+		ListKind<>, List1, List2,
+
+		length<Type, List1>::value
+	>;
+*/
+
+	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List1, typename List2>
+	using reflex_list_zip = typename pattern_match_builtin_list<Type, List1>::template zip
+	<
+		list_zip,
+
+		Kind, ListKind, Op,
+
+		List2
+	>;
+
+	// fold:
+
+	template<typename Type, typename Op, typename List, Type seed, size_type length>
+	using let_list_fold = typename pattern_match_builtin_list<Type, List>::template fold
+	<
+		dispatch<bool(length)>::template list_fold,
+
+		Op,
+
+		seed, length
+	>;
+
+	template<typename Type, typename Op, typename List, Type seed>
+	using reflex_list_fold = let_list_fold<Type, Op, List, seed, length<Type, List>::value>;
+
+
+
+/*
+	template<typename Type, size_type count, typename List1, typename List2, typename... Lists>
+	using let_multicatenate = typename structure::template dispatch<bool(count)>::template multicatenate
+	<
+		Type, count, List1, List2, Lists...
+	>;
+
+	template<typename Type, typename List1, typename List2, typename... Lists>
+	using multicatenate = let_multicatenate<Type, sizeof...(Lists), List1, List2, Lists...>;
+*/
+
+
+/*
+	template<typename Exp>
+	using recall = typename pattern_match_typename_list<Exp>::template wrap
+	<
+		chain_rename, call
+	>;
+*/
+
+
 };
 
 /*

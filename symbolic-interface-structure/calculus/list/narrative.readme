@@ -1,0 +1,143 @@
+/************************************************************************************************************************
+**
+** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+**
+** This file is part of nik.
+**
+** nik is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+**
+** nik is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+** of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along with nik. If not, see
+** <http://www.gnu.org/licenses/>.
+**
+************************************************************************************************************************/
+
+/*
+	Here I present two narratives. The first is a theoretically clean dependency narrative for lists operators
+	assuming lisp style nested pairs. The second is a variant of that better optimized for C++ variadic implementation
+	grammar. Due to C++ overhead performance constraints, implementation will jump directly to the second
+	narrative---the first being presented for a baseline design reference.
+*/
+
+/*
+	pure narrative:
+
+		Assumes pairs are witness to products, and nested pairs are witness to powers.
+
+	core recursive paradigm:
+
+			tail_if, is_null, cons, car, cdr
+
+		round 0:
+
+			property:		is_null
+
+			grow:
+
+				internal:	cons
+
+			mutate:			id
+
+			shrink:			car
+						cdr
+
+		round 1:
+
+			grow:
+
+			mutate:
+				internal:	map		(core)
+						reverse		(core)
+
+				external:	zip		(core)
+
+			shrink:			multicdr	(tail_if, cdr)
+						fold		(tail_if, is_null, car, cdr)
+
+		round 2:
+
+			property:		length		(fold)		// for a pure narrative this technically
+										// can't build until we have natural numbers
+			grow: 
+				internal:	push		(reverse, cons)
+						list		(fold, cons)
+
+				external:	catenate	(tail_if, is_null, cons, reverse)
+
+			mutate:
+
+				internal:	rename		(map)
+
+			shrink:			multicar	(multicdr, car)
+
+						multicatenate	(fold, catenate)
+						multicons	(fold, cons)
+						multipush	(list, catenate)
+
+		round 3:
+
+			grow: 
+				internal:	unite		(cons, catenate)
+*/
+
+/*
+	C++ narrative:
+
+		Assumes variadic grammar (Exp...), along with the ability to pattern match (Exp, Exp...).
+		As there is no known ability to pattern match (Exp..., Exp) it is more natural to interpret
+		lists as lisp style nested pairs, or singly linked lists. The narrative here is derived
+		from the pure narrative as a starting point, but is otherwise refactored appropriately.
+
+	core recursive paradigm:
+
+			tail_if, is_null, cons, car, cdr
+
+		round 0:
+
+			property:		is_null
+						length
+
+			grow:
+
+				internal:	cons
+						multicons
+						push
+						multipush
+						list
+
+				external:	catenate
+
+			mutate:			id
+
+				internal:	map
+						rename
+
+				external:	zip
+
+			shrink:			car
+						cdr
+
+		round 1:
+
+			grow:
+
+				internal:	unite		(cons, catenate)
+
+			mutate:
+						reverse		(core)
+
+			shrink:			multicdr	(tail_if, cdr)
+						fold		(tail_if, is_null, car, cdr)
+
+		round 2:
+			grow: 
+
+			mutate:
+
+			shrink:			multicar	(multicdr, car)
+						multicatenate	(fold, catenate)
+*/
+

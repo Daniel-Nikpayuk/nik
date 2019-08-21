@@ -15,11 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_LIFT__SEMIOTIC_H
-#define SYMBOLIC_LIFT__SEMIOTIC_H
+#ifndef SYMBOLIC_LIFT_OPERATE_SEMIOTIC_H
+#define SYMBOLIC_LIFT_OPERATE_SEMIOTIC_H
 
-	#include"perspective-dispatched-semiotic.h"
-	#include"perspective-typed-semiotic.h"
+	#include"calculus-colist-semiotic.h"
 
 #define local_scope
 
