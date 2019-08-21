@@ -55,12 +55,12 @@
 									typename nik_module(kernel, core, symbolic, semiotic)::
 									functor::ch_echo
 								  >
-	using nik_safe(PREFIX, builtin_copair_value)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
-								  template builtin_copair_value<Copair, Continuation>;
+	using nik_safe(PREFIX, builtin_value)			= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
+								  template builtin_value<Copair, Continuation>;
 
 								  template<typename Copair>
-	using nik_safe(PREFIX, typename_copair_value)		= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
-								  template typename_copair_value<Copair>;
+	using nik_safe(PREFIX, typename_value)			= typename nik_module(copair, calculus, symbolic, semiotic)::functor::
+								  template typename_value<Copair>;
 
 //
 

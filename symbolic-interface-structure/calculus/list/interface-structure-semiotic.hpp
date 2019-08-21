@@ -21,6 +21,8 @@ struct structure
 
 	using rtn						= structure;
 
+	struct not_found					{ };
+
 	template<typename...> struct act			{ };
 	template<typename...> struct pass			{ };
 
@@ -99,7 +101,7 @@ struct structure
 		<
 			typename Continuation, template<Type...> class ListType0
 
-			//     signature: name, rename.
+			//     signature: relist.
 
 		> using wrap = typename Continuation::template result<Type, ListType0, ListType, Values...>;
 
@@ -114,11 +116,6 @@ struct structure
 
 		> using map = typename Continuation::template result<Kind, ListKind, Type, Op, Values...>;
 
-			//  no signature, but required for zip (signature).
-
-		template<typename Kind, template<Kind...> class ListKind, typename Op, Type... Args>
-		using bimap = ListKind<Op::value(Args, Values)...>;
-
 		template
 		<
 				// For whatever reason if I put Kind after Continuation
@@ -128,7 +125,15 @@ struct structure
 
 			//    signature: zip.
 
-		> using zip = typename Continuation::template result<Kind, ListKind, Type, Op, List, Values...>;
+		> using bimap = typename Continuation::template result<Kind, ListKind, Type, Op, List, Values...>;
+
+		template
+		<
+			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op, Type... Args
+
+			//  no signature, but required for bimap (signature).
+		>
+		using zip = typename Continuation::template result<Kind, ListKind, Op::value(Args, Values)...>;
 
 		// shrink:
 
@@ -142,11 +147,11 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename Op, Type Arg, size_type count
+			typename Continuation, typename Op, Type Arg
 
 			//     signature: fold.
 
-		> using fold = typename Continuation::template result<Type, Op, Arg, count, Values...>;
+		> using fold = typename Continuation::template result<Type, Op, Arg, Values...>;
 	};
 
 /*
@@ -224,7 +229,7 @@ struct structure
 		<
 			typename Continuation, template<typename...> class ListType0
 
-			//     signature: name, rename.
+			//     signature: relist.
 
 		> using wrap = typename Continuation::template result<ListType0, ListType, Values...>;
 
@@ -236,18 +241,23 @@ struct structure
 
 		> using map = typename Continuation::template result<ListKind, Op, Values...>;
 
-			//  no signature, but required for zip (signature).
-
-		template<template<typename...> class ListKind, typename Op, typename... Args>
-		using bimap = ListKind<typename Op::template instance<Args, Values>...>;
-
 		template
 		<
-			typename Continuation, template<typename...> class ListKind, typename Op, typename List
+			typename Continuation, template<typename...> class ListKind,
+				template<typename, typename> class Op, typename List
 
 			//    signature: zip.
 
-		> using zip = typename Continuation::template result<ListKind, Op, List, Values...>;
+		> using bimap = typename Continuation::template result<ListKind, Op, List, Values...>;
+
+		template
+		<
+			typename Continuation, template<typename...> class ListKind,
+				template<typename, typename> class Op, typename... Args
+
+			//  no signature, but required for bimap (signature).
+
+		> using zip = typename Continuation::template result<ListKind, Op<Args, Values>...>;
 
 		// shrink:
 
@@ -261,11 +271,11 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename Op, typename Arg, size_type count
+			typename Continuation, typename Op, typename Arg
 
 			//     signature: fold.
 
-		> using fold = typename Continuation::template result<Op, Arg, count, Values...>;
+		> using fold = typename Continuation::template result<Op, Arg, Values...>;
 	};
 };
 

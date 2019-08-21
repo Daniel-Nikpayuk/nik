@@ -31,55 +31,40 @@
 
 							  template
 							  <
+								typename List,
+
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								functor::ch_echo
+							  >
+	using nik_safe(PREFIX, builtin_length)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_length<List, Continuation>;
+
+//
+
+							  template
+							  <
 								typename Type, Type Value, typename List,
 
 								typename Continuation =
 								typename nik_module(list, calculus, symbolic, semiotic)::
-								functor::ch_builtin_list_cons
+								functor::ch_builtin_list
 							  >
-	using nik_safe(PREFIX, builtin_list_cons)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_cons<Type, Value, List, Continuation>;
+	using nik_safe(PREFIX, builtin_cons)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_cons<Type, Value, List, Continuation>;
 
 							  template
 							  <
-								typename List,
-								SIZE_TYPE Index = 0,
-
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								functor::ch_echo
-							  >
-	using nik_safe(PREFIX, builtin_list_car)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_car<List, Index, Continuation>;
-
-							  template
-							  <
-								typename List,
-								SIZE_TYPE Index = 0,
+								typename Type, Type Value, typename List,
 
 								typename Continuation =
 								typename nik_module(list, calculus, symbolic, semiotic)::
-								functor::ch_builtin_list_cons
+								functor::ch_builtin_list
 							  >
-	using nik_safe(PREFIX, builtin_list_cdr)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_cdr<List, Index, Continuation>;
+	using nik_safe(PREFIX, builtin_push)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_push<Type, Value, List, Continuation>;
 
 //
-
-							  template<typename List>
-	using nik_safe(PREFIX, builtin_list_null)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_null<List>;
-
-							  template
-							  <
-								typename List,
-
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								functor::ch_echo
-							  >
-	using nik_safe(PREFIX, builtin_list_length)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_length<List, Continuation>;
 
 							  template
 							  <
@@ -87,10 +72,44 @@
 
 								typename Continuation =
 								typename nik_module(list, calculus, symbolic, semiotic)::
-								functor::ch_builtin_list_cons
+								functor::ch_builtin_list
 							  >
-	using nik_safe(PREFIX, builtin_list_catenate)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_catenate<List1, List2, Continuation>;
+	using nik_safe(PREFIX, builtin_catenate)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_catenate<List1, List2, Continuation>;
+
+//
+
+							  template
+							  <
+								typename List,
+								SIZE_TYPE Index = 0,
+
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								functor::ch_echo
+							  >
+	using nik_safe(PREFIX, builtin_car)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_car<List, Index, Continuation>;
+
+							  template
+							  <
+								typename List,
+								SIZE_TYPE Index = 0,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_builtin_list
+							  >
+	using nik_safe(PREFIX, builtin_cdr)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_cdr<List, Index, Continuation>;
+
+//
+
+							  template<typename List>
+	using nik_safe(PREFIX, builtin_null)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_null<List>;
+
+//
 
 							  template
 							  <
@@ -98,21 +117,10 @@
 
 								typename Continuation =
 								typename nik_module(list, calculus, symbolic, semiotic)::
-								functor::ch_builtin_list_cons
+								functor::ch_builtin_list
 							  >
-	using nik_safe(PREFIX, builtin_list_unite)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_unite<List1, Type, Value, List2, Continuation>;
-
-							  template
-							  <
-								typename Type, Type Value, typename List,
-
-								typename Continuation =
-								typename nik_module(list, calculus, symbolic, semiotic)::
-								functor::ch_builtin_list_cons
-							  >
-	using nik_safe(PREFIX, builtin_list_push)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  builtin_list_push<Type, Value, List, Continuation>;
+	using nik_safe(PREFIX, builtin_unite)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_unite<List1, Type, Value, List2, Continuation>;
 
 //
 

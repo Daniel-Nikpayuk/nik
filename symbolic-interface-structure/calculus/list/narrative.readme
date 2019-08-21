@@ -55,6 +55,7 @@
 				external:	zip		(core)
 
 			shrink:			multicdr	(tail_if, cdr)
+						find		(tail_if, is_null, cdr)
 						fold		(tail_if, is_null, car, cdr)
 
 		round 2:
@@ -81,6 +82,7 @@
 
 			grow: 
 				internal:	unite		(cons, catenate)
+				internal:	multiunite	(multicons, catenate)
 */
 
 /*
@@ -102,11 +104,11 @@
 
 			grow:
 
-				internal:	cons
+				internal:	list
+						cons
 						multicons
 						push
 						multipush
-						list
 
 				external:	catenate
 
@@ -119,17 +121,20 @@
 
 			shrink:			car
 						cdr
+						null
 
 		round 1:
 
 			grow:
 
 				internal:	unite		(cons, catenate)
+						multiunite	(multicons, catenate)
 
 			mutate:
 						reverse		(core)
 
 			shrink:			multicdr	(tail_if, cdr)
+						find		(tail_if, is_null, cdr)
 						fold		(tail_if, is_null, car, cdr)
 
 		round 2:

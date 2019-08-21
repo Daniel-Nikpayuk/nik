@@ -78,6 +78,8 @@ struct functor
 
 	This current implementation memoizes more than I'd like, but I yet figured out how to get faster
 	versions accepted by the compiler.
+
+	Reimplement using list find ?
 */
 
 	template<typename, typename...> struct colist;

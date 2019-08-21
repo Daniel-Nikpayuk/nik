@@ -65,32 +65,32 @@ struct functor
 */
 
 	template<typename Continuation>
-	struct cp_builtin_copair_value
+	struct cp_builtin_value
 	{
 		template<bool Tag, typename Type, Type Value>
 		using result = typename Continuation::template result<Type, Value>;
 	};
 
 	template<typename Copair, typename Continuation = ch_echo>
-	using builtin_copair_value = typename pattern_match_builtin_copair<Copair>::template pop
+	using builtin_value = typename pattern_match_builtin_copair<Copair>::template pop
 	<
-		cp_builtin_copair_value<Continuation>
+		cp_builtin_value<Continuation>
 	>;
 
 /*
 	typename_copair_value:
 */
 
-	struct ch_typename_copair_value
+	struct ch_typename_value
 	{
 		template<bool Tag, typename Value>
 		using result = Value;
 	};
 
 	template<typename Copair>
-	using typename_copair_value = typename pattern_match_typename_copair<Copair>::template pop
+	using typename_value = typename pattern_match_typename_copair<Copair>::template pop
 	<
-		ch_typename_copair_value
+		ch_typename_value
 	>;
 
 /*

@@ -61,13 +61,16 @@ struct functor
 			>;
 		};
 
-		template<typename Type, typename Op, Type Result, size_type count, Type Value, Type... Values>
-		using builtin_list_fold = typename dispatch<(count > 1)>::template builtin_list_fold
-		<
-			Type, Op,
-			Op::value(Result, Value),
-			count-1, Values...
-		>;
+		template<typename Continuation>
+		struct cp_builtin_fold 
+		{
+			template<typename Type, typename Op, size_type count, Type Result, Type Value, Type... Values>
+			using result = typename dispatch<(count > 1)>::template cp_builtin_fold<Continuation>::template result
+			<
+				Type, Op, count-1,
+				Op::value(Result, Value), Values...
+			>;
+		};
 
 		// typename:
 
@@ -90,13 +93,16 @@ struct functor
 			>;
 		};
 
-		template<typename Op, typename Result, size_type count, typename Value, typename... Values>
-		using typename_list_fold = typename dispatch<(count > 1)>::template typename_list_fold
-		<
-			Op,
-			typename Op::template instance<Result, Value>,
-			count-1, Values...
-		>;
+		struct ch_typename_fold 
+		{
+			template<template<typename, typename> class Op, size_type count,
+					typename Result, typename Value, typename... Values>
+			using result = typename dispatch<(count > 1)>::ch_typename_fold::template result
+			<
+				Op, count-1,
+				Op<Result, Value>, Values...
+			>;
+		};
 	};
 
 	template<typename Filler>
@@ -118,8 +124,12 @@ struct functor
 			using result = typename Continuation::template result<Type, ListType, Values...>;
 		};
 
-		template<typename Type, typename Op, Type Result, size_type count, Type... Values>
-		using builtin_list_fold = memoized_value<Type, Result>;
+		template<typename Continuation>
+		struct cp_builtin_fold
+		{
+			template<typename Type, typename Op, size_type count, Type Result, Type... Values>
+			using result = typename Continuation::template result<Type, Result>;
+		};
 
 		// typename:
 
@@ -136,49 +146,159 @@ struct functor
 			using result = typename Continuation::template result<ListType, Values...>;
 		};
 
-		template<typename Op, typename Result, size_type count, typename... Values>
-		using typename_list_fold = Result;
+		struct ch_typename_fold
+		{
+			template<template<typename, typename> class Op, size_type count, typename Result, typename... Values>
+			using result = Result;
+		};
 	};
 
 /*
 	builtin:
 */
 
-	// cons:
+	// length:
 
-	struct ch_builtin_list_cons
+	template<typename Continuation>
+	struct cp_builtin_length
+	{
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = typename Continuation::template result<size_type, sizeof...(Values)>;
+	};
+
+	template<typename List, typename Continuation = ch_echo>
+	using builtin_length = typename pattern_match_builtin_list<List>::template push_front
+	<
+		cp_builtin_length<Continuation>
+	>;
+
+	// list:
+
+	struct ch_builtin_list
 	{
 		template<typename Type, template<Type...> class ListType, Type... Values>
 		using result = ListType<Values...>;
 	};
 
+	// cons, multicons:
+
 	template<typename Continuation>
-	struct cp_builtin_list_cons
+	struct cp_builtin_multicons
 	{
-		template<typename Type, template<Type...> class ListType, Type... Values>
-		using result = typename Continuation::template result<Type, ListType, Values...>;
+		template<typename Type, typename List, Type... Values>
+		using result = typename pattern_match_builtin_list<List>::template push_front
+		<
+			Continuation, Values...
+		>;
 	};
 
-	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list_cons>
-	using builtin_list_cons = typename pattern_match_builtin_list<List>::template push_front
+	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list>
+	using builtin_cons = typename pattern_match_builtin_list<List>::template push_front
 	<
 		Continuation, Value
 	>;
 
-	// car:
+	template<typename Type, typename List, typename Continuation = ch_builtin_list, Type... Values>
+	using builtin_multicons = typename cp_builtin_multicons<Continuation>::template result
+	<
+		Type, List, Values...
+	>;
+
+	// push, multipush:
+
+	template<typename Continuation>
+	struct cp_builtin_multipush
+	{
+		template<typename Type, typename List, Type... Values>
+		using result = typename pattern_match_builtin_list<List>::template push_back
+		<
+			Continuation, Values...
+		>;
+	};
+
+	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list>
+	using builtin_push = typename pattern_match_builtin_list<List>::template push_back
+	<
+		Continuation, Value
+	>;
+
+	template<typename Type, typename List, typename Continuation = ch_builtin_list, Type... Values>
+	using builtin_multipush = typename cp_builtin_multipush<Continuation>::template result
+	<
+		Type, List, Values...
+	>;
+
+	// catenate:
+
+	template<typename List1, typename List2, typename Continuation = ch_builtin_list>
+	using builtin_catenate = typename pattern_match_builtin_list<List1>::template join_front
+	<
+		cp_builtin_multicons<Continuation>, List2
+	>;
+
+	// map:
+
+	template<typename Continuation>
+	struct cp_builtin_map
+	{
+		template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, Type... Values>
+		using result = typename Continuation::template result<Kind, ListKind, Op::value(Values)...>;
+	};
+
+	template<typename Kind, template<Kind...> class ListKind, typename Op, typename List, typename Continuation = ch_builtin_list>
+	using builtin_map = typename pattern_match_builtin_list<List>::template map
+	<
+		Kind, cp_builtin_map<Continuation>, ListKind, Op
+	>;
+
+	// rename:
+
+	template<typename Continuation>
+	struct cp_builtin_relist 
+	{
+		template<typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values>
+		using result = typename Continuation::template result<Type, ListType0, Values...>;
+	};
+
+	template<typename Type, template<Type...> class ListType, typename List, typename Continuation = ch_builtin_list>
+	using builtin_relist = typename pattern_match_builtin_list<List>::template wrap
+	<
+		cp_builtin_relist<Continuation>, ListType
+	>;
+
+	// zip:
+
+	template<typename Continuation>
+	struct cp_builtin_zip 
+	{
+		template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List, Type... Values>
+		using result = typename pattern_match_builtin_list<List>::template zip
+		<
+			Kind, Continuation, ListKind, Op, Values...
+		>;
+	};
+
+	template<typename Kind, template<Kind...> class ListKind,
+			typename Op, typename List1, typename List2, typename Continuation = ch_builtin_list>
+	using builtin_zip = typename pattern_match_builtin_list<List1>::template bimap
+	<
+		Kind, cp_builtin_zip<Continuation>, ListKind, Op, List2
+	>;
+
+	// car, multicar:
 
 	template<typename List, size_type index = 0, typename Continuation = ch_echo>
-	using builtin_list_car = typename pattern_match_builtin_list<List>::template pop
+	using builtin_car = typename pattern_match_builtin_list<List>::template pop
 	<
 		typename dispatch<bool(index)>::template cp_builtin_car<Continuation>,
 
 		index
 	>;
 
-	// cdr:
+	// cdr, multicdr:
 
-	template<typename List, size_type index = 0, typename Continuation = ch_builtin_list_cons>
-	using builtin_list_cdr = typename pattern_match_builtin_list<List>::template pop
+	template<typename List, size_type index = 0, typename Continuation = ch_builtin_list>
+	using builtin_cdr = typename pattern_match_builtin_list<List>::template pop
 	<
 		typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>,
 
@@ -187,210 +307,56 @@ struct functor
 
 	// null:
 
-	struct ch_builtin_list_null
+	struct ch_builtin_null
 	{
 		template<typename Type, template<Type...> class ListType, Type... Values>
 		using result = ListType<>;
 	};
 
 	template<typename List>
-	using builtin_list_null = typename pattern_match_builtin_list<List>::template push_front
+	using builtin_null = typename pattern_match_builtin_list<List>::template push_front
 	<
-		ch_builtin_list_null
-	>;
-
-	// length:
-
-	template<typename Continuation>
-	struct cp_builtin_list_length
-	{
-		template<typename Type, template<Type...> class ListType, Type... Values>
-		using result = typename Continuation::template result<size_type, sizeof...(Values)>;
-	};
-
-	template<typename List, typename Continuation = ch_echo>
-	using builtin_list_length = typename pattern_match_builtin_list<List>::template push_front
-	<
-		cp_builtin_list_length<Continuation>
-	>;
-
-	// catenate:
-
-	template<typename Continuation>
-	struct cp_builtin_list_catenate
-	{
-		template<typename Type, typename List, Type... Values>
-		using result = typename pattern_match_builtin_list<List>::template push_front
-		<
-			cp_builtin_list_cons<Continuation>, Values...
-		>;
-	};
-
-	template<typename List1, typename List2, typename Continuation = ch_builtin_list_cons>
-	using builtin_list_catenate = typename pattern_match_builtin_list<List1>::template join_front
-	<
-		cp_builtin_list_catenate<Continuation>, List2
+		ch_builtin_null
 	>;
 
 	// unite:
 
-	template<typename List1, typename Type, Type Value, typename List2, typename Continuation = ch_builtin_list_cons>
-	using builtin_list_unite = typename pattern_match_builtin_list<List1>::template join_back
+	template<typename Type, typename List1, Type Value, typename List2, typename Continuation = ch_builtin_list>
+	using builtin_unite = typename pattern_match_builtin_list<List1>::template join_back
 	<
-		cp_builtin_list_catenate<Continuation>, List2, Value
+		cp_builtin_multicons<Continuation>, List2, Value
 	>;
 
-	// push:
-
-	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list_cons>
-	using builtin_list_push = typename pattern_match_builtin_list<List>::template push_back
+	template<typename Type, typename List1, typename List2, typename Continuation = ch_builtin_list, Type... Values>
+	using builtin_multiunite = typename pattern_match_builtin_list<List1>::template join_back
 	<
-		Continuation, Value
+		cp_builtin_multicons<Continuation>, List2, Values...
 	>;
 
-	template<typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values>
-	using builtin_list_rename = ListType0<Values...>;
+	// reverse:
 
-	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, Type... Values>
-	using builtin_list_map = ListKind<Op::value(Values)...>;
-
-	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List, Type... Values>
-	using builtin_list_zip = typename structure::template builtin_list<Type, List>::template bimap<Kind, ListKind, Op, Values...>;
-
-	template<typename Type, typename List1, typename List2, Type... Values>
-	using reflex_list_multiunite = typename pattern_match_builtin_list<Type, List1>::template join_back
-	<
-		list_catenate,
-
-		List2, Values...
-	>;
-
-	// relabel:
-
-	template<typename Type, typename List, template<Type...> class name>
-	using reflex_list_rename = typename pattern_match_builtin_list<Type, List>::template wrap
-	<
-		list_rename, Type, name
-	>;
-
-	// map:
-
-/*
-	template<typename Type, typename Op, typename List>
-	using map = typename structure::template pattern_match_builtin_list<Type, List>::template map<Op>;
-
-	template
-	<
-		typename Kind, template<Kind...> class ListKind,
-		typename Type, template<Type...> class ListType,
-
-		typename Op, List, size_type length
-	>
-	using let_map = typename structure::template pattern_match_builtin_list<Type, List>::template recursive_binary_fapply
-	<
-		structure::template dispatch<bool(length)>::template map,
-
-		Kind, ListKind, Op, length
-	>;
-
-	template
-	<
-		typename Kind, template<Kind...> class ListKind,
-		typename Type, template<Type...> class ListType,
-		typename Op, typename List1, typename List2
-	>
-	using map = let_map
-	<
-		Kind, ListKind, Type, ListType,
-
-		typename structure::template pattern_match_operator<Op>::apply,
-
-		ListKind<>, List1, List2,
-
-		length<Type, List1>::value
-	>;
-*/
-
-	// zip:
-
-/*
-	template<size_type length, typename Type, typename Op, typename List1, typename List2, typename... Lists>
-	using let_apply = typename structure::template dispatch<Type, bool(length)>::template apply<length, Op, List1, List2, Lists...>;
-
-	template<typename Type, typename Op, typename List1, typename List2, typename... Lists>
-	using apply = let_apply<sizeof...(Lists), Type, Op, List1, List2, Lists...>;
-*/
-
-/*
-	template<typename Kind, typename Type, typename Op, typename List0, typename List1, typename List2, size_type length>
-	using let_apply = typename structure::template pattern_match_builtin_list<Type, List1>::template recursive_binary_packwise
-	<
-		structure::template dispatch<bool(length)>::template apply,
-
-		Kind, Op, List0, List2, length
-	>;
-
-	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List1, typename List2>
-	using apply = let_apply
-	<
-		Kind, Type,
-
-		typename structure::template pattern_match_operator<Op>::apply,
-
-		ListKind<>, List1, List2,
-
-		length<Type, List1>::value
-	>;
-*/
-
-	template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List1, typename List2>
-	using reflex_list_zip = typename pattern_match_builtin_list<Type, List1>::template zip
-	<
-		list_zip,
-
-		Kind, ListKind, Op,
-
-		List2
-	>;
+	// find:
 
 	// fold:
 
-	template<typename Type, typename Op, typename List, Type seed, size_type length>
-	using let_list_fold = typename pattern_match_builtin_list<Type, List>::template fold
+	template<typename Continuation>
+	struct cp_builtin_fold 
+	{
+		template<typename Type, typename Op, size_type length, Type Value, Type... Values>
+		using let_result = typename dispatch<bool(length)>::template cp_builtin_fold<Continuation>::template result
+		<
+			Type, Op, length, Value, Values...
+		>;
+
+		template<typename Type, typename Op, Type Value, Type... Values>
+		using result = let_result<Type, Op, sizeof...(Values), Value, Values...>;
+	};
+
+	template<typename Type, Type Value, typename Op, typename List, typename Continuation = ch_echo>
+	using builtin_fold = typename pattern_match_builtin_list<List>::template fold
 	<
-		dispatch<bool(length)>::template list_fold,
-
-		Op,
-
-		seed, length
+		cp_builtin_fold<Continuation>, Op, Value
 	>;
-
-	template<typename Type, typename Op, typename List, Type seed>
-	using reflex_list_fold = let_list_fold<Type, Op, List, seed, length<Type, List>::value>;
-
-
-
-/*
-	template<typename Type, size_type count, typename List1, typename List2, typename... Lists>
-	using let_multicatenate = typename structure::template dispatch<bool(count)>::template multicatenate
-	<
-		Type, count, List1, List2, Lists...
-	>;
-
-	template<typename Type, typename List1, typename List2, typename... Lists>
-	using multicatenate = let_multicatenate<Type, sizeof...(Lists), List1, List2, Lists...>;
-*/
-
-
-/*
-	template<typename Exp>
-	using recall = typename pattern_match_typename_list<Exp>::template wrap
-	<
-		chain_rename, call
-	>;
-*/
-
-
 };
 
 /*
