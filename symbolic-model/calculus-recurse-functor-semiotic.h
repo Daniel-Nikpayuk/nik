@@ -29,16 +29,6 @@
 
 //
 
-								  template
-								  <
-									bool Pred, typename Ante,
-									template<typename...> class Force, typename... Conses
-								  >
-	using nik_safe(PREFIX, tail_conditional)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template tail_conditional<Pred, Ante, Force, Conses...>;
-
-//
-
 								  template<bool Pred, typename Ante, typename Conse>
 	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
 								  template head_if_then_else<Pred, Ante, Conse>;
@@ -46,6 +36,50 @@
 								  template<bool Pred, typename Ante, typename Conse>
 	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
 								  template tail_if_then_else<Pred, Ante, Conse>;
+
+//
+
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
+
+									bool Pred,
+
+									typename Ante_Cont, Type Value,
+
+									typename Conse_Cont, typename Cond, SIZE_TYPE Index,
+
+									Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_find_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_find_if_then_else
+								  <
+									Type, ListType, Pred,
+									Ante_Cont, Value,
+									Conse_Cont, Cond, Index,
+									Values...
+								  >;
+
+								  template
+								  <
+									template<typename...> class ListType,
+
+									bool Pred,
+
+									typename Ante_Cont, typename Value,
+
+									typename Conse_Cont, template<typename> class Cond, SIZE_TYPE Index,
+
+									typename... Values
+								  >
+	using nik_safe(PREFIX, typename_find_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_find_if_then_else
+								  <
+									ListType, Pred,
+									Ante_Cont, Value,
+									Conse_Cont, Cond, Index,
+									Values...
+								  >;
 
 //
 

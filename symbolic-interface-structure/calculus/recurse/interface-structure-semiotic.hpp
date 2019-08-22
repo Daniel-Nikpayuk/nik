@@ -45,6 +45,30 @@ struct structure
 			template<typename...> class signature, typename... Conses
 
 		> using reflex_transit_conditional = Ante;
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Ante_Continuation, Type Value,
+
+			typename Conse_Continuation, typename Cond, size_type count,
+
+			Type... Values
+
+		> using builtin_find_conditional = typename Ante_Continuation::template result<Type, ListType, Value, Values...>;
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Ante_Continuation, typename Value,
+
+			typename Conse_Continuation, template<typename> class Cond, size_type count,
+
+			typename... Values
+
+		> using typename_find_conditional = typename Ante_Continuation::template result<ListType, Value, Values...>;
 	};
 
 	template<typename Filler>
@@ -67,6 +91,30 @@ struct structure
 			template<typename...> class signature, typename... Conses
 
 		> using reflex_transit_conditional = signature<Conses...>;
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Ante_Continuation, Type Value,
+
+			typename Conse_Continuation, typename Cond, size_type count,
+
+			Type... Values
+
+		> using builtin_find_conditional = typename Conse_Continuation::template result<Type, ListType, Cond, count, Values...>;
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Ante_Continuation, typename Value,
+
+			typename Conse_Continuation, template<typename> class Cond, size_type count,
+
+			typename... Values
+
+		> using typename_find_conditional = typename Conse_Continuation::template result<ListType, Cond, count, Values...>;
 	};
 };
 

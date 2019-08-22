@@ -26,11 +26,16 @@ struct structure
 	template<typename...> struct act			{ };
 	template<typename...> struct pass			{ };
 
+/***********************************************************************************************************************/
+
 /*
 	pattern_match_builtin_list:
+
+	Specifying the Type at the front is necessary for variadic grammar during the
+	special case when (Values...) is empty, otherwise the compiler cannot deduce Type.
 */
 
-	template<typename>
+	template<typename, typename>
 	struct pattern_match_builtin_list
 	{
 		using rtn = pattern_match_builtin_list;
@@ -47,7 +52,7 @@ struct structure
 	};
 
 	template<typename Type, template<Type...> class ListType, Type... Values>
-	struct pattern_match_builtin_list<ListType<Values...>>
+	struct pattern_match_builtin_list<Type, ListType<Values...>>
 	{
 		using rtn = pattern_match_builtin_list;
 
@@ -110,7 +115,7 @@ struct structure
 				// For whatever reason if I put Kind after Continuation
 				// in the following it produces an internal compiler error.
 
-			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op
+			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op
 
 			//    signature: map.
 
@@ -121,7 +126,7 @@ struct structure
 				// For whatever reason if I put Kind after Continuation
 				// in the following it produces an internal compiler error.
 
-			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op, typename List
+			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op, typename List
 
 			//    signature: zip.
 
@@ -129,7 +134,7 @@ struct structure
 
 		template
 		<
-			typename Kind, typename Continuation, template<Kind...> class ListKind, typename Op, Type... Args
+			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op, Type... Args
 
 			//  no signature, but required for bimap (signature).
 		>
@@ -152,7 +157,17 @@ struct structure
 			//     signature: fold.
 
 		> using fold = typename Continuation::template result<Type, Op, Arg, Values...>;
+
+		template
+		<
+			typename Continuation, typename Pred
+
+			//     signature: find.
+
+		> using find = typename Continuation::template result<Type, ListType, Pred, Values...>;
 	};
+
+/***********************************************************************************************************************/
 
 /*
 	pattern_match_typename_list:
@@ -243,7 +258,7 @@ struct structure
 
 		template
 		<
-			typename Continuation, template<typename...> class ListKind,
+			template<typename...> class ListKind, typename Continuation,
 				template<typename, typename> class Op, typename List
 
 			//    signature: zip.
@@ -252,7 +267,7 @@ struct structure
 
 		template
 		<
-			typename Continuation, template<typename...> class ListKind,
+			template<typename...> class ListKind, typename Continuation,
 				template<typename, typename> class Op, typename... Args
 
 			//  no signature, but required for bimap (signature).
@@ -276,6 +291,14 @@ struct structure
 			//     signature: fold.
 
 		> using fold = typename Continuation::template result<Op, Arg, Values...>;
+
+		template
+		<
+			typename Continuation, template<typename> class Pred
+
+			//     signature: find.
+
+		> using find = typename Continuation::template result<ListType, Pred, Values...>;
 	};
 };
 

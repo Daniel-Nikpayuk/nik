@@ -31,10 +31,15 @@ struct functor
 	using rtn		= functor;
 
 	#include nik_typedef(symbolic, core, kernel, functor)
+	#include nik_typedef(symbolic, calculus, recurse, functor)
 
 	#include nik_typedef(symbolic, calculus, list, structure)
 
-	// dispatch:
+/***********************************************************************************************************************/
+
+/*
+	dispatch:
+*/
 
 	template<bool True, typename Filler = void>
 	struct dispatch
@@ -61,6 +66,17 @@ struct functor
 			>;
 		};
 
+		struct ch_builtin_fold
+		{
+			template<typename Type, template<typename Kind, Kind, typename> class Op,
+					size_type count, typename Result, Type Value, Type... Values>
+			using result = typename dispatch<(count > 1)>::ch_builtin_fold::template result
+			<
+				Type, Op, count-1,
+				Op<Type, Value, Result>, Values...
+			>;
+		};
+
 		template<typename Continuation>
 		struct cp_builtin_fold 
 		{
@@ -69,6 +85,25 @@ struct functor
 			<
 				Type, Op, count-1,
 				Op::value(Result, Value), Values...
+			>;
+		};
+
+		template<typename Continuation>
+		struct cp_builtin_find 
+		{
+			template<typename Type, template<Type...> class ListType,
+				typename Pred, size_type count, Type Value, Type... Values>
+			using result = builtin_find_if_then_else
+			<
+				Type, ListType,
+
+				Pred::value(Value),
+
+				Continuation, Value,
+
+				typename dispatch<(count > 1)>::template cp_builtin_find<Continuation>, Pred, count-1,
+
+				Values...
 			>;
 		};
 
@@ -103,6 +138,25 @@ struct functor
 				Op<Result, Value>, Values...
 			>;
 		};
+
+		template<typename Continuation>
+		struct cp_typename_find 
+		{
+			template<template<typename...> class ListType,
+				template<typename> class Pred, size_type count, typename Value, typename... Values>
+			using result = typename_find_if_then_else
+			<
+				ListType,
+
+				Pred<Value>::value,
+
+				Continuation, Value,
+
+				typename dispatch<(count > 1)>::template cp_typename_find<Continuation>, Pred, count-1,
+
+				Values...
+			>;
+		};
 	};
 
 	template<typename Filler>
@@ -124,11 +178,25 @@ struct functor
 			using result = typename Continuation::template result<Type, ListType, Values...>;
 		};
 
+		struct ch_builtin_fold
+		{
+			template<typename Type, template<typename Kind, Kind, typename> class Op,
+					size_type count, typename Result, Type... Values>
+			using result = Result;
+		};
+
 		template<typename Continuation>
 		struct cp_builtin_fold
 		{
 			template<typename Type, typename Op, size_type count, Type Result, Type... Values>
 			using result = typename Continuation::template result<Type, Result>;
+		};
+
+		template<typename Continuation>
+		struct cp_builtin_find 
+		{
+			template<typename Type, template<Type...> class ListType, typename Pred, size_type count, Type... Values>
+			using result = ListType<>;
 		};
 
 		// typename:
@@ -151,7 +219,16 @@ struct functor
 			template<template<typename, typename> class Op, size_type count, typename Result, typename... Values>
 			using result = Result;
 		};
+
+		template<typename Continuation>
+		struct cp_typename_find 
+		{
+			template<template<typename...> class ListType, template<typename> class Pred, size_type count, typename... Values>
+			using result = ListType<>;
+		};
 	};
+
+/***********************************************************************************************************************/
 
 /*
 	builtin:
@@ -166,8 +243,8 @@ struct functor
 		using result = typename Continuation::template result<size_type, sizeof...(Values)>;
 	};
 
-	template<typename List, typename Continuation = ch_echo>
-	using builtin_length = typename pattern_match_builtin_list<List>::template push_front
+	template<typename Type, typename List, typename Continuation = ch_echo>
+	using builtin_length = typename pattern_match_builtin_list<Type, List>::template push_front
 	<
 		cp_builtin_length<Continuation>
 	>;
@@ -186,14 +263,14 @@ struct functor
 	struct cp_builtin_multicons
 	{
 		template<typename Type, typename List, Type... Values>
-		using result = typename pattern_match_builtin_list<List>::template push_front
+		using result = typename pattern_match_builtin_list<Type, List>::template push_front
 		<
 			Continuation, Values...
 		>;
 	};
 
 	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list>
-	using builtin_cons = typename pattern_match_builtin_list<List>::template push_front
+	using builtin_cons = typename pattern_match_builtin_list<Type, List>::template push_front
 	<
 		Continuation, Value
 	>;
@@ -210,14 +287,14 @@ struct functor
 	struct cp_builtin_multipush
 	{
 		template<typename Type, typename List, Type... Values>
-		using result = typename pattern_match_builtin_list<List>::template push_back
+		using result = typename pattern_match_builtin_list<Type, List>::template push_back
 		<
 			Continuation, Values...
 		>;
 	};
 
 	template<typename Type, Type Value, typename List, typename Continuation = ch_builtin_list>
-	using builtin_push = typename pattern_match_builtin_list<List>::template push_back
+	using builtin_push = typename pattern_match_builtin_list<Type, List>::template push_back
 	<
 		Continuation, Value
 	>;
@@ -230,13 +307,16 @@ struct functor
 
 	// catenate:
 
-	template<typename List1, typename List2, typename Continuation = ch_builtin_list>
-	using builtin_catenate = typename pattern_match_builtin_list<List1>::template join_front
+	template<typename Type, typename List1, typename List2, typename Continuation = ch_builtin_list>
+	using builtin_catenate = typename pattern_match_builtin_list<Type, List1>::template join_front
 	<
 		cp_builtin_multicons<Continuation>, List2
 	>;
 
 	// map:
+
+	//	For whatever reason if I put Kind after Continuation
+	//	in the following it produces an internal compiler error.
 
 	template<typename Continuation>
 	struct cp_builtin_map
@@ -245,10 +325,11 @@ struct functor
 		using result = typename Continuation::template result<Kind, ListKind, Op::value(Values)...>;
 	};
 
-	template<typename Kind, template<Kind...> class ListKind, typename Op, typename List, typename Continuation = ch_builtin_list>
-	using builtin_map = typename pattern_match_builtin_list<List>::template map
+	template<typename Kind, template<Kind...> class ListKind, typename Type,
+			typename Op, typename List, typename Continuation = ch_builtin_list>
+	using builtin_map = typename pattern_match_builtin_list<Type, List>::template map
 	<
-		Kind, cp_builtin_map<Continuation>, ListKind, Op
+		Kind, ListKind, cp_builtin_map<Continuation>, Op
 	>;
 
 	// rename:
@@ -261,34 +342,37 @@ struct functor
 	};
 
 	template<typename Type, template<Type...> class ListType, typename List, typename Continuation = ch_builtin_list>
-	using builtin_relist = typename pattern_match_builtin_list<List>::template wrap
+	using builtin_relist = typename pattern_match_builtin_list<Type, List>::template wrap
 	<
 		cp_builtin_relist<Continuation>, ListType
 	>;
 
 	// zip:
 
+	//	For whatever reason if I put Kind after Continuation
+	//	in the following it produces an internal compiler error.
+
 	template<typename Continuation>
 	struct cp_builtin_zip 
 	{
 		template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List, Type... Values>
-		using result = typename pattern_match_builtin_list<List>::template zip
+		using result = typename pattern_match_builtin_list<Type, List>::template zip
 		<
-			Kind, Continuation, ListKind, Op, Values...
+			Kind, ListKind, Continuation, Op, Values...
 		>;
 	};
 
-	template<typename Kind, template<Kind...> class ListKind,
+	template<typename Kind, template<Kind...> class ListKind, typename Type,
 			typename Op, typename List1, typename List2, typename Continuation = ch_builtin_list>
-	using builtin_zip = typename pattern_match_builtin_list<List1>::template bimap
+	using builtin_zip = typename pattern_match_builtin_list<Type, List1>::template bimap
 	<
-		Kind, cp_builtin_zip<Continuation>, ListKind, Op, List2
+		Kind, ListKind, cp_builtin_zip<Continuation>, Op, List2
 	>;
 
 	// car, multicar:
 
-	template<typename List, size_type index = 0, typename Continuation = ch_echo>
-	using builtin_car = typename pattern_match_builtin_list<List>::template pop
+	template<typename Type, typename List, size_type index = 0, typename Continuation = ch_echo>
+	using builtin_car = typename pattern_match_builtin_list<Type, List>::template pop
 	<
 		typename dispatch<bool(index)>::template cp_builtin_car<Continuation>,
 
@@ -297,8 +381,8 @@ struct functor
 
 	// cdr, multicdr:
 
-	template<typename List, size_type index = 0, typename Continuation = ch_builtin_list>
-	using builtin_cdr = typename pattern_match_builtin_list<List>::template pop
+	template<typename Type, typename List, size_type index = 0, typename Continuation = ch_builtin_list>
+	using builtin_cdr = typename pattern_match_builtin_list<Type, List>::template pop
 	<
 		typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>,
 
@@ -313,8 +397,8 @@ struct functor
 		using result = ListType<>;
 	};
 
-	template<typename List>
-	using builtin_null = typename pattern_match_builtin_list<List>::template push_front
+	template<typename Type, typename List>
+	using builtin_null = typename pattern_match_builtin_list<Type, List>::template push_front
 	<
 		ch_builtin_null
 	>;
@@ -322,20 +406,36 @@ struct functor
 	// unite:
 
 	template<typename Type, typename List1, Type Value, typename List2, typename Continuation = ch_builtin_list>
-	using builtin_unite = typename pattern_match_builtin_list<List1>::template join_back
+	using builtin_unite = typename pattern_match_builtin_list<Type, List1>::template join_back
 	<
 		cp_builtin_multicons<Continuation>, List2, Value
 	>;
 
 	template<typename Type, typename List1, typename List2, typename Continuation = ch_builtin_list, Type... Values>
-	using builtin_multiunite = typename pattern_match_builtin_list<List1>::template join_back
+	using builtin_multiunite = typename pattern_match_builtin_list<Type, List1>::template join_back
 	<
 		cp_builtin_multicons<Continuation>, List2, Values...
 	>;
 
 	// reverse:
 
-	// find:
+	struct ch_builtin_reverse 
+	{
+		template<typename Type, size_type length, typename Result, Type... Values>
+		using let_result = typename dispatch<bool(length)>::ch_builtin_fold::template result
+		<
+			Type, builtin_cons, length, Result, Values...
+		>;
+
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = let_result<Type, sizeof...(Values), ListType<>, Values...>;
+	};
+
+	template<typename Type, typename List>
+	using builtin_reverse = typename pattern_match_builtin_list<Type, List>::template push_front
+	<
+		ch_builtin_reverse
+	>;
 
 	// fold:
 
@@ -353,11 +453,31 @@ struct functor
 	};
 
 	template<typename Type, Type Value, typename Op, typename List, typename Continuation = ch_echo>
-	using builtin_fold = typename pattern_match_builtin_list<List>::template fold
+	using builtin_fold = typename pattern_match_builtin_list<Type, List>::template fold
 	<
 		cp_builtin_fold<Continuation>, Op, Value
 	>;
-};
+
+	// find:
+
+	template<typename Continuation>
+	struct cp_builtin_find 
+	{
+		template<typename Type, template<Type...> class ListType, typename Pred, size_type length, Type... Values>
+		using let_result = typename dispatch<bool(length)>::template cp_builtin_find<Continuation>::template result
+		<
+			Type, ListType, Pred, length, Values...
+		>;
+
+		template<typename Type, template<Type...> class ListType, typename Pred, Type... Values>
+		using result = let_result<Type, ListType, Pred, sizeof...(Values), Values...>;
+	};
+
+	template<typename Type, typename Pred, typename List, typename Continuation = ch_builtin_list>
+	using builtin_find = typename pattern_match_builtin_list<Type, List>::template find
+	<
+		cp_builtin_find<Continuation>, Pred
+	>;
 
 /*
 	precompose:
@@ -369,4 +489,256 @@ struct functor
 
 	// active:
 */
+
+/***********************************************************************************************************************/
+
+/*
+	typename:
+*/
+
+/*
+	// length:
+
+	template<typename Continuation>
+	struct cp_typename_length
+	{
+		template<template<typename...> class ListType, typename... Values>
+		using result = typename Continuation::template result<size_type, sizeof...(Values)>;
+	};
+
+	template<typename List, typename Continuation = ch_echo>
+	using typename_length = typename pattern_match_typename_list<List>::template push_front
+	<
+		cp_typename_length<Continuation>
+	>;
+
+	// list:
+
+	struct ch_typename_list
+	{
+		template<template<typename...> class ListType, typename... Values>
+		using result = ListType<Values...>;
+	};
+
+	// cons, multicons:
+
+	template<typename Continuation>
+	struct cp_typename_multicons
+	{
+		template<typename List, typename... Values>
+		using result = typename pattern_match_typename_list<List>::template push_front
+		<
+			Continuation, Values...
+		>;
+	};
+
+	template<typename Value, typename List, typename Continuation = ch_typename_list>
+	using typename_cons = typename pattern_match_typename_list<List>::template push_front
+	<
+		Continuation, Value
+	>;
+
+	template<typename List, typename Continuation = ch_typename_list, typename... Values>
+	using typename_multicons = typename cp_typename_multicons<Continuation>::template result
+	<
+		List, Values...
+	>;
+
+	// push, multipush:
+
+	template<typename Continuation>
+	struct cp_typename_multipush
+	{
+		template<typename List, typename... Values>
+		using result = typename pattern_match_typename_list<List>::template push_back
+		<
+			Continuation, Values...
+		>;
+	};
+
+	template<typename Value, typename List, typename Continuation = ch_typename_list>
+	using typename_push = typename pattern_match_typename_list<List>::template push_back
+	<
+		Continuation, Value
+	>;
+
+	template<typename List, typename Continuation = ch_typename_list, typename... Values>
+	using typename_multipush = typename cp_typename_multipush<Continuation>::template result
+	<
+		List, Values...
+	>;
+
+	// catenate:
+
+	template<typename List1, typename List2, typename Continuation = ch_typename_list>
+	using typename_catenate = typename pattern_match_typename_list<List1>::template join_front
+	<
+		cp_typename_multicons<Continuation>, List2
+	>;
+
+	// map:
+
+	//	For whatever reason if I put Kind after Continuation
+	//	in the following it produces an internal compiler error.
+
+	template<typename Continuation>
+	struct cp_typename_map
+	{
+		template<template<typename...> class ListKind, template<typename> class Op, typename... Values>
+		using result = typename Continuation::template result<ListKind, Op<Values>...>;
+	};
+
+	template<template<typename...> class ListKind, template<typename> class Op, typename List, typename Continuation = ch_typename_list>
+	using typename_map = typename pattern_match_typename_list<List>::template map
+	<
+		ListKind, cp_typename_map<Continuation>, Op
+	>;
+
+	// rename:
+
+	template<typename Continuation>
+	struct cp_typename_relist 
+	{
+		template<template<typename...> class ListType0, template<typename...> class ListType1, typename... Values>
+		using result = typename Continuation::template result<ListType0, Values...>;
+	};
+
+	template<template<typename...> class ListType, typename List, typename Continuation = ch_typename_list>
+	using typename_relist = typename pattern_match_typename_list<List>::template wrap
+	<
+		cp_typename_relist<Continuation>, ListType
+	>;
+
+	// zip:
+
+	//	For whatever reason if I put Kind after Continuation
+	//	in the following it produces an internal compiler error.
+
+	template<typename Continuation>
+	struct cp_typename_zip 
+	{
+		template<template<typename...> class ListKind, template<typename, typename> class Op, typename List, typename... Values>
+		using result = typename pattern_match_typename_list<List>::template zip
+		<
+			ListKind, Continuation, Op, Values...
+		>;
+	};
+
+	template<template<typename...> class ListKind, template<typename, typename> class Op,
+			typename List1, typename List2, typename Continuation = ch_typename_list>
+	using typename_zip = typename pattern_match_typename_list<List1>::template bimap
+	<
+		ListKind, cp_typename_zip<Continuation>, Op, List2
+	>;
+
+	// car, multicar:
+
+	template<typename List, size_type index = 0>
+	using typename_car = typename pattern_match_typename_list<List>::template pop
+	<
+		typename dispatch<bool(index)>::template cp_typename_car<Continuation>,
+
+		index
+	>;
+
+	// cdr, multicdr:
+
+	template<typename List, size_type index = 0, typename Continuation = ch_typename_list>
+	using typename_cdr = typename pattern_match_typename_list<List>::template pop
+	<
+		typename dispatch<bool(index)>::template cp_typename_cdr<Continuation>,
+
+		index
+	>;
+
+	// null:
+
+	struct ch_typename_null
+	{
+		template<template<typename...> class ListType, typename... Values>
+		using result = ListType<>;
+	};
+
+	template<typename List>
+	using typename_null = typename pattern_match_typename_list<List>::template push_front
+	<
+		ch_typename_null
+	>;
+
+	// unite:
+
+	template<typename List1, typename Value, typename List2, typename Continuation = ch_typename_list>
+	using typename_unite = typename pattern_match_typename_list<List1>::template join_back
+	<
+		cp_typename_multicons<Continuation>, List2, Value
+	>;
+
+	template<typename List1, typename List2, typename Continuation = ch_typename_list, typename... Values>
+	using typename_multiunite = typename pattern_match_typename_list<List1>::template join_back
+	<
+		cp_typename_multicons<Continuation>, List2, Values...
+	>;
+
+	// reverse:
+
+	struct ch_typename_reverse 
+	{
+		template<size_type length, typename Result, typename... Values>
+		using let_result = typename dispatch<bool(length)>::ch_typename_fold::template result
+		<
+			typename_cons, length, Result, Values...
+		>;
+
+		template<template<typename...> class ListType, typename... Values>
+		using result = let_result<sizeof...(Values), ListType<>, Values...>;
+	};
+
+	template<typename List>
+	using typename_reverse = typename pattern_match_typename_list<List>::template push_front
+	<
+		ch_typename_reverse
+	>;
+
+	// fold:
+
+	struct cp_typename_fold 
+	{
+		template<template<typename, typename> class Op, size_type length, typename Value, typename... Values>
+		using let_result = typename dispatch<bool(length)>::cp_typename_fold::template result
+		<
+			Op, length, Value, Values...
+		>;
+
+		template<template<typename, typename> class Op, typename Value, typename... Values>
+		using result = let_result<Op, sizeof...(Values), Value, Values...>;
+	};
+
+	template<typename Value, template<typename, typename> class Op, typename List>
+	using typename_fold = typename pattern_match_typename_list<List>::template fold
+	<
+		cp_typename_fold, Op, Value
+	>;
+
+	// find:
+
+	template<typename Continuation>
+	struct cp_typename_find 
+	{
+		template<template<typename...> class ListType, template<typename> class Pred, size_type length, typename... Values>
+		using let_result = typename dispatch<bool(length)>::template cp_typename_find<Continuation>::template result
+		<
+			ListType, Pred, length, Values...
+		>;
+
+		template<template<typename...> class ListType, typename Pred, typename... Values>
+		using result = let_result<Type, ListType, Pred, sizeof...(Values), Values...>;
+	};
+
+	template<template<typename> class Pred, typename List, typename Continuation = ch_typename_list>
+	using typename_find = typename pattern_match_typename_list<List>::template find
+	<
+		cp_typename_find<Continuation>, Pred
+	>;
+*/
+};
 

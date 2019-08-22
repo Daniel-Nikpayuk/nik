@@ -27,9 +27,9 @@
 				  pass<Exp>;
 */
 
-							  template<typename Exp>
+							  template<typename Type, typename Exp>
 	using pattern_match_builtin_list		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
-							  pattern_match_builtin_list<Exp>;
+							  pattern_match_builtin_list<Type, Exp>;
 
 							  template<typename Exp>
 	using pattern_match_typename_list		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template

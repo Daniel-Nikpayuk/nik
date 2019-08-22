@@ -37,18 +37,6 @@ struct functor
 	#include nik_typedef(symbolic, calculus, recurse, structure)
 
 /*
-	tail_conditional:
-*/
-
-	template<bool Pred, typename Ante, template<typename...> class force, typename... Conses>
-	using tail_conditional = typename pattern_match_recurse<Pred>::template reflex_transit_conditional
-	<
-		Ante,
-
-		force, Conses...
-	>;
-
-/*
 	head_if_then_else:
 */
 
@@ -70,6 +58,60 @@ struct functor
 		Ante,
 
 		call, Conse
+	>;
+
+/*
+	builtin_find_if_then_else:
+*/
+
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Ante_Continuation, Type Value,
+
+		typename Conse_Continuation, typename Cond, size_type count,
+
+		Type... Values
+	>
+	using builtin_find_if_then_else = typename pattern_match_recurse<Pred>::template builtin_find_conditional
+	<
+		Type, ListType,
+
+		Ante_Continuation, Value,
+
+		Conse_Continuation, Cond, count,
+
+		Values...
+	>;
+
+/*
+	typename_find_if_then_else:
+*/
+
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Ante_Continuation, typename Value,
+
+		typename Conse_Continuation, template<typename> class Cond, size_type count,
+
+		typename... Values
+	>
+	using typename_find_if_then_else = typename pattern_match_recurse<Pred>::template typename_find_conditional
+	<
+		ListType,
+
+		Ante_Continuation, Value,
+
+		Conse_Continuation, Cond, count,
+
+		Values...
 	>;
 };
 
