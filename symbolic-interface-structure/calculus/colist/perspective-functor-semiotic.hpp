@@ -28,10 +28,13 @@ struct functor
 
 	#include nik_typedef(symbolic, core, kernel, identity)
 
-	#include nik_typedef(symbolic, calculus, handle, functor)
 	#include nik_typedef(symbolic, calculus, boolean, functor)
 	#include nik_typedef(symbolic, calculus, recurse, functor)
 
+	#include nik_typedef(symbolic, calculus, list, module)
+	#include nik_typedef(symbolic, calculus, list, functor)
+
+	#include nik_typedef(symbolic, calculus, colist, identity)
 	#include nik_typedef(symbolic, calculus, colist, structure)
 
 /*
@@ -75,36 +78,15 @@ struct functor
 	"skip" is a reserved keyword.
 
 	Not grammatically safe.
-
-	This current implementation memoizes more than I'd like, but I yet figured out how to get faster
-	versions accepted by the compiler.
-
-	Reimplement using list find ?
 */
 
-	template<typename, typename...> struct colist;
-
-	template<typename Exp1, typename Exp2, typename... Exps>
-	struct colist<Exp1, Exp2, Exps...>
-	{
-		using rtn = head_if_then_else
-		<
-			is_equal<Exp1, skip>::value,
-
-			colist<Exp2, Exps...>,
-
-			Exp1
-		>;
-	};
-
-	template<typename Exp>
-	struct colist<Exp>
-	{
-		using rtn = Exp;
-	};
-
-	template<typename Exp, typename... Exps>
-	using cases = call<colist<Exp, Exps...>>;
+	template<typename Exp0, typename Exp1, typename... Exps>
+	using cases = typename_find
+	<
+		is_not_skip,
+		colist<Exp0, Exp1, Exps...>,
+		typename List::functor::ch_typename_car
+	>;
 
 /***********************************************************************************************************************/
 

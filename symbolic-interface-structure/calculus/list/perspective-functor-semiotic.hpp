@@ -78,7 +78,7 @@ struct functor
 		};
 
 		template<typename Continuation>
-		struct cp_builtin_fold 
+		struct cp_builtin_fold
 		{
 			template<typename Type, typename Op, size_type count, Type Result, Type Value, Type... Values>
 			using result = typename dispatch<(count > 1)>::template cp_builtin_fold<Continuation>::template result
@@ -89,7 +89,7 @@ struct functor
 		};
 
 		template<typename Continuation>
-		struct cp_builtin_find 
+		struct cp_builtin_find
 		{
 			template<typename Type, template<Type...> class ListType,
 				typename Pred, size_type count, Type Value, Type... Values>
@@ -128,7 +128,7 @@ struct functor
 			>;
 		};
 
-		struct ch_typename_fold 
+		struct ch_typename_fold
 		{
 			template<template<typename, typename> class Op, size_type count,
 					typename Result, typename Value, typename... Values>
@@ -140,7 +140,7 @@ struct functor
 		};
 
 		template<typename Continuation>
-		struct cp_typename_find 
+		struct cp_typename_find
 		{
 			template<template<typename...> class ListType,
 				template<typename> class Pred, size_type count, typename Value, typename... Values>
@@ -193,7 +193,7 @@ struct functor
 		};
 
 		template<typename Continuation>
-		struct cp_builtin_find 
+		struct cp_builtin_find
 		{
 			template<typename Type, template<Type...> class ListType, typename Pred, size_type count, Type... Values>
 			using result = ListType<>;
@@ -221,7 +221,7 @@ struct functor
 		};
 
 		template<typename Continuation>
-		struct cp_typename_find 
+		struct cp_typename_find
 		{
 			template<template<typename...> class ListType, template<typename> class Pred, size_type count, typename... Values>
 			using result = ListType<>;
@@ -259,6 +259,8 @@ struct functor
 
 	// cons, multicons:
 
+		// the unusual form of cp_multicons is meant for composition.
+
 	template<typename Continuation>
 	struct cp_builtin_multicons
 	{
@@ -282,6 +284,8 @@ struct functor
 	>;
 
 	// push, multipush:
+
+		// the unusual form of cp_multipush is meant for composition.
 
 	template<typename Continuation>
 	struct cp_builtin_multipush
@@ -335,7 +339,7 @@ struct functor
 	// rename:
 
 	template<typename Continuation>
-	struct cp_builtin_relist 
+	struct cp_builtin_relist
 	{
 		template<typename Type, template<Type...> class ListType0, template<Type...> class ListType1, Type... Values>
 		using result = typename Continuation::template result<Type, ListType0, Values...>;
@@ -353,7 +357,7 @@ struct functor
 	//	in the following it produces an internal compiler error.
 
 	template<typename Continuation>
-	struct cp_builtin_zip 
+	struct cp_builtin_zip
 	{
 		template<typename Kind, template<Kind...> class ListKind, typename Type, typename Op, typename List, Type... Values>
 		using result = typename pattern_match_builtin_list<Type, List>::template zip
@@ -371,22 +375,62 @@ struct functor
 
 	// car, multicar:
 
+	template<typename Continuation>
+	struct cp_builtin_car
+	{
+		static constexpr size_type index = 0;
+
+		template<typename Type, template<Type...> class ListType, Type Value, Type... Values>
+		using result = typename dispatch<bool(index)>::template cp_builtin_car<Continuation>::template result
+		<
+			Type, ListType, index, Value, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_builtin_multicar
+	{
+		template<typename Type, template<Type...> class ListType, size_type index, Type Value, Type... Values>
+		using result = typename dispatch<bool(index)>::template cp_builtin_car<Continuation>::template result
+		<
+			Type, ListType, index, Value, Values...
+		>;
+	};
+
 	template<typename Type, typename List, size_type index = 0, typename Continuation = ch_echo>
 	using builtin_car = typename pattern_match_builtin_list<Type, List>::template pop
 	<
-		typename dispatch<bool(index)>::template cp_builtin_car<Continuation>,
-
-		index
+		cp_builtin_multicar<Continuation>, index
 	>;
 
 	// cdr, multicdr:
 
+	template<typename Continuation>
+	struct cp_builtin_cdr
+	{
+		static constexpr size_type index = 0;
+
+		template<typename Type, template<Type...> class ListType, Type Value, Type... Values>
+		using result = typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>::template result
+		<
+			Type, ListType, index, Value, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_builtin_multicdr
+	{
+		template<typename Type, template<Type...> class ListType, size_type index, Type Value, Type... Values>
+		using result = typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>::template result
+		<
+			Type, ListType, index, Value, Values...
+		>;
+	};
+
 	template<typename Type, typename List, size_type index = 0, typename Continuation = ch_builtin_list>
 	using builtin_cdr = typename pattern_match_builtin_list<Type, List>::template pop
 	<
-		typename dispatch<bool(index)>::template cp_builtin_cdr<Continuation>,
-
-		index
+		cp_builtin_multicdr<Continuation>, index
 	>;
 
 	// null:
@@ -419,7 +463,7 @@ struct functor
 
 	// reverse:
 
-	struct ch_builtin_reverse 
+	struct ch_builtin_reverse
 	{
 		template<typename Type, size_type length, typename Result, Type... Values>
 		using let_result = typename dispatch<bool(length)>::ch_builtin_fold::template result
@@ -440,7 +484,7 @@ struct functor
 	// fold:
 
 	template<typename Continuation>
-	struct cp_builtin_fold 
+	struct cp_builtin_fold
 	{
 		template<typename Type, typename Op, size_type length, Type Value, Type... Values>
 		using let_result = typename dispatch<bool(length)>::template cp_builtin_fold<Continuation>::template result
@@ -461,7 +505,7 @@ struct functor
 	// find:
 
 	template<typename Continuation>
-	struct cp_builtin_find 
+	struct cp_builtin_find
 	{
 		template<typename Type, template<Type...> class ListType, typename Pred, size_type length, Type... Values>
 		using let_result = typename dispatch<bool(length)>::template cp_builtin_find<Continuation>::template result
@@ -496,7 +540,6 @@ struct functor
 	typename:
 */
 
-/*
 	// length:
 
 	template<typename Continuation>
@@ -522,6 +565,8 @@ struct functor
 
 	// cons, multicons:
 
+		// the unusual form of cp_multicons is meant for composition.
+
 	template<typename Continuation>
 	struct cp_typename_multicons
 	{
@@ -545,6 +590,8 @@ struct functor
 	>;
 
 	// push, multipush:
+
+		// the unusual form of cp_multipush is meant for composition.
 
 	template<typename Continuation>
 	struct cp_typename_multipush
@@ -597,7 +644,7 @@ struct functor
 	// rename:
 
 	template<typename Continuation>
-	struct cp_typename_relist 
+	struct cp_typename_relist
 	{
 		template<template<typename...> class ListType0, template<typename...> class ListType1, typename... Values>
 		using result = typename Continuation::template result<ListType0, Values...>;
@@ -615,7 +662,7 @@ struct functor
 	//	in the following it produces an internal compiler error.
 
 	template<typename Continuation>
-	struct cp_typename_zip 
+	struct cp_typename_zip
 	{
 		template<template<typename...> class ListKind, template<typename, typename> class Op, typename List, typename... Values>
 		using result = typename pattern_match_typename_list<List>::template zip
@@ -633,22 +680,60 @@ struct functor
 
 	// car, multicar:
 
+	struct ch_typename_car
+	{
+		static constexpr size_type index = 0;
+
+		template<template<typename...> class ListType, typename Value, typename... Values>
+		using result = typename dispatch<bool(index)>::ch_typename_car::template result
+		<
+			ListType, index, Value, Values...
+		>;
+	};
+
+	struct ch_typename_multicar
+	{
+		template<template<typename...> class ListType, size_type index, typename Value, typename... Values>
+		using result = typename dispatch<bool(index)>::ch_typename_car::template result
+		<
+			ListType, index, Value, Values...
+		>;
+	};
+
 	template<typename List, size_type index = 0>
 	using typename_car = typename pattern_match_typename_list<List>::template pop
 	<
-		typename dispatch<bool(index)>::template cp_typename_car<Continuation>,
-
-		index
+		ch_typename_multicar, index
 	>;
 
 	// cdr, multicdr:
 
+	template<typename Continuation>
+	struct cp_typename_cdr
+	{
+		static constexpr size_type index = 0;
+
+		template<template<typename...> class ListType, typename Value, typename... Values>
+		using result = typename dispatch<bool(index)>::template cp_typename_cdr<Continuation>::template result
+		<
+			ListType, index, Value, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_typename_multicdr
+	{
+		template<template<typename...> class ListType, size_type index, typename Value, typename... Values>
+		using result = typename dispatch<bool(index)>::template cp_typename_cdr<Continuation>::template result
+		<
+			ListType, index, Value, Values...
+		>;
+	};
+
 	template<typename List, size_type index = 0, typename Continuation = ch_typename_list>
 	using typename_cdr = typename pattern_match_typename_list<List>::template pop
 	<
-		typename dispatch<bool(index)>::template cp_typename_cdr<Continuation>,
-
-		index
+		cp_typename_multicdr<Continuation>, index
 	>;
 
 	// null:
@@ -681,7 +766,7 @@ struct functor
 
 	// reverse:
 
-	struct ch_typename_reverse 
+	struct ch_typename_reverse
 	{
 		template<size_type length, typename Result, typename... Values>
 		using let_result = typename dispatch<bool(length)>::ch_typename_fold::template result
@@ -701,7 +786,7 @@ struct functor
 
 	// fold:
 
-	struct cp_typename_fold 
+	struct cp_typename_fold
 	{
 		template<template<typename, typename> class Op, size_type length, typename Value, typename... Values>
 		using let_result = typename dispatch<bool(length)>::cp_typename_fold::template result
@@ -722,7 +807,7 @@ struct functor
 	// find:
 
 	template<typename Continuation>
-	struct cp_typename_find 
+	struct cp_typename_find
 	{
 		template<template<typename...> class ListType, template<typename> class Pred, size_type length, typename... Values>
 		using let_result = typename dispatch<bool(length)>::template cp_typename_find<Continuation>::template result
@@ -730,8 +815,8 @@ struct functor
 			ListType, Pred, length, Values...
 		>;
 
-		template<template<typename...> class ListType, typename Pred, typename... Values>
-		using result = let_result<Type, ListType, Pred, sizeof...(Values), Values...>;
+		template<template<typename...> class ListType, template<typename> class Pred, typename... Values>
+		using result = let_result<ListType, Pred, sizeof...(Values), Values...>;
 	};
 
 	template<template<typename> class Pred, typename List, typename Continuation = ch_typename_list>
@@ -739,6 +824,5 @@ struct functor
 	<
 		cp_typename_find<Continuation>, Pred
 	>;
-*/
 };
 

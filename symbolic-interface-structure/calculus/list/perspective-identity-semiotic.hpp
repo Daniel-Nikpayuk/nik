@@ -64,13 +64,6 @@ struct identity
 	>;
 
 /*
-	is_skip:
-*/
-
-	template<typename Exp>
-	using is_skip = is_equal<Exp, skip>;
-
-/*
 	is_list_type:
 */
 
@@ -102,6 +95,7 @@ struct identity
 
 	// act:
 
+/*
 	template<typename Exp>
 	using act_id = typename memoized_chain<Exp>::template wrap
 	<
@@ -115,6 +109,7 @@ struct identity
 	<
 		chain_name, pass
 	>;
+*/
 
 /*
 	is_name:
@@ -136,15 +131,19 @@ struct identity
 	is_act:
 */
 
+/*
 	template<typename Exp>
 	using is_act = is_name<Exp, act_id>;
+*/
 
 /*
 	is_pass:
 */
 
+/*
 	template<typename Exp>
 	using is_pass = is_name<Exp, pass_id>;
+*/
 
 /*
 	Passive/active comparisons would only be provided

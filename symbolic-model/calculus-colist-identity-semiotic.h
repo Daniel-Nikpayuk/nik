@@ -29,13 +29,27 @@
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_False)		= typename nik_module(dispatched, calculus, symbolic, semiotic)::identity::template
-							  is_False<Exp>;
+							  template
+							  <
+								typename Exp,
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, is_True)			= typename nik_module(dispatched, calculus, symbolic, semiotic)::identity::template
-							  is_True<Exp>;
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								identity::ch_bool_echo
+							  >
+	using nik_safe(PREFIX, is_skip)			= typename nik_module(colist, calculus, symbolic, semiotic)::identity::template
+							  is_skip<Exp, Continuation>;
+
+							  template
+							  <
+								typename Exp,
+
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								identity::ch_bool_echo
+							  >
+	using nik_safe(PREFIX, is_not_skip)		= typename nik_module(colist, calculus, symbolic, semiotic)::identity::template
+							  is_not_skip<Exp>;
 
 //
 

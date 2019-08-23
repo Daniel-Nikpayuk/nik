@@ -33,7 +33,14 @@ struct identity
 	is_skip:
 */
 
-	template<typename Exp>
-	using is_skip = is_equal<Exp, skip>;
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_skip = is_equal<Exp, skip, Continuation>;
+
+/*
+	is_not_skip:
+*/
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_not_skip = is_skip<Exp, cp_negate<Continuation>>;
 };
 

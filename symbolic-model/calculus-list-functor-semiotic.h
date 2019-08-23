@@ -139,13 +139,18 @@
 	using nik_safe(PREFIX, builtin_find)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
 							  builtin_find<Type, Pred, List, Continuation>;
 
-//
+/***********************************************************************************************************************/
 
-/*
-							  template<template<typename> class Pred, typename Maybe, typename List>
+							  template
+							  <
+								template<typename> class Pred, typename List,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_typename_list
+							  >
 	using nik_safe(PREFIX, typename_find)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
-							  typename_find<Pred, Maybe, List>;
-*/
+							  typename_find<Pred, List, Continuation>;
 
 #undef PREFIX
 

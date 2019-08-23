@@ -43,9 +43,9 @@
 
 //
 
-							  template<typename Exp, typename... Exps>
+							  template<typename Exp0, typename Exp1, typename... Exps>
 	using nik_safe(PREFIX, cases)			= nik_module(colist, calculus, symbolic, semiotic)::functor::template
-							  cases<Exp, Exps...>;
+							  cases<Exp0, Exp1, Exps...>;
 
 //
 

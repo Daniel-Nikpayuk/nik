@@ -27,5 +27,13 @@ struct structure
 
 		using rtn					= skip;
 	};
+
+	template<typename...>
+	struct colist
+	{
+		using kind					= module;
+
+		using rtn					= colist;
+	};
 };
 
