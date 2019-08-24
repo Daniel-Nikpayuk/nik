@@ -18,20 +18,11 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::boolean, Branch::constant, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::boolean, Branch::lift, Lens::symbolic, Permission::semiotic, SizeType>
 	{
 		using rtn		= module;
 
 		using size_type		= SizeType;
-
-		//
-
-		#include nik_typedef(calculus, perspective, dispatched, module)
-		#include nik_typedef(calculus, typed, passive, module)
-
-		#include nik_typedef(calculus, constant, operate, structure)
-
-		//
 
 		using register_type	= bool;
 
@@ -41,7 +32,7 @@ namespace nik
 
 		//
 
-		#include"perspective-identity-semiotic.hpp"
+//		#include"perspective-identity-semiotic.hpp"
 		#include"perspective-functor-semiotic.hpp"
 	};
 }

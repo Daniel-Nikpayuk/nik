@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		conopf_
+	#define PREFIX		lifopf_
 
 #else
 
@@ -29,17 +29,43 @@
 
 //
 
-							  template<typename Type, typename... Exps>
-	using nik_safe(PREFIX, apply)			= typename nik_module(operate, constant, calculus, semiotic)::functor::template
-							  apply<Type, Exps...>;
+							  template<typename List>
+	using nik_safe(PREFIX, length)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  length<List>;
 
-							  template<typename Type, typename Exp>
-	using nik_safe(PREFIX, increment)		= typename nik_module(operate, constant, calculus, semiotic)::functor::template
-							  increment<Type, Exp>;
+							  template
+							  <
+								typename nik_module(operate, lift, symbolic, semiotic)::register_type
+								Value, typename List
+							  >
+	using nik_safe(PREFIX, cons)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  cons<Value, List>;
 
-							  template<typename Type, typename Exp>
-	using nik_safe(PREFIX, decrement)		= typename nik_module(operate, constant, calculus, semiotic)::functor::template
-							  decrement<Type, Exp>;
+							  template
+							  <
+								typename nik_module(operate, lift, symbolic, semiotic)::register_type
+								Value, typename List
+							  >
+	using nik_safe(PREFIX, push)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  push<Value, List>;
+
+							  template<typename List, SIZE_TYPE Index = 0>
+	using nik_safe(PREFIX, car)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  car<List, Index>;
+
+							  template<typename List, SIZE_TYPE Index = 0>
+	using nik_safe(PREFIX, cdr)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  cdr<List, Index>;
+
+//
+
+							  template<typename Operator>
+	using nik_safe(PREFIX, unary)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  unary<Operator>;
+
+							  template<typename Operator>
+	using nik_safe(PREFIX, binary)			= typename nik_module(operate, lift, symbolic, semiotic)::functor::template
+							  binary<Operator>;
 
 //
 

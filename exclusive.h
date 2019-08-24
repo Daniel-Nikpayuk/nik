@@ -211,8 +211,8 @@ namespace nik
 
 		// scheme:
 
+			module_enum == Module::applicative		||
 			module_enum == Module::normal			||
-			module_enum == Module::lazy			||
 
 		// kin:
 

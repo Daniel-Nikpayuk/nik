@@ -25,15 +25,54 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(calculus, perspective, dispatched, identity)
+	#include nik_typedef(symbolic, core, kernel, identity)
 
-	#include nik_typedef(calculus, untyped, neutral, structure)
+	#include nik_typedef(symbolic, calculus, list, structure)
 
-	// list:
+/***********************************************************************************************************************/
 
-	template<typename Type, template<Type...> class ListType, Type... Values, typename Continuation = ch_bool_echo>
-	using builtin_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
+/*
+	list:
+*/
 
+	// is_null:
+
+	template<typename Continuation>
+	struct cp_builtin_is_null
+	{
+		template<typename Type, template<Type...> class ListType, Type... Values>
+		using result = typename Continuation::template result<!bool(sizeof...(Values))>;
+	};
+
+	template<typename Type, typename List, typename Continuation = ch_bool_echo>
+	using builtin_is_null = typename pattern_match_builtin_list<Type, List>::template push_back
+	<
+		cp_builtin_is_null<Continuation>
+	>;
+
+/***********************************************************************************************************************/
+
+/*
+	chain:
+*/
+
+	// is_null:
+
+	template<typename Continuation>
+	struct cp_typename_is_null
+	{
+		template<template<typename...> class ListType, typename... Values>
+		using result = typename Continuation::template result<!bool(sizeof...(Values))>;
+	};
+
+	template<typename List, typename Continuation = ch_bool_echo>
+	using typename_is_null = typename pattern_match_typename_list<List>::template push_back
+	<
+		cp_typename_is_null<Continuation>
+	>;
+};
+
+/*
 		// implements with empty lists.
 
 	template
@@ -45,11 +84,6 @@ struct identity
 	<
 		Continuation
 	>;
-
-	// chain:
-
-	template<template<typename...> class ListType, typename... Values, typename Continuation = ch_bool_echo>
-	using typename_list_null = typename Continuation::template result<bool(sizeof...(Values))>;
 
 		// implements with empty lists.
 
@@ -63,9 +97,7 @@ struct identity
 		Continuation
 	>;
 
-/*
-	is_list_type:
-*/
+	// is_list_type:
 
 	template<typename Type, typename Exp, typename Continuation = ch_bool_echo>
 	using is_list_type = typename memoized_list<Type, Exp>::template match
@@ -73,9 +105,7 @@ struct identity
 		Continuation
 	>;
 
-/*
-	is_null_type:
-*/
+	// is_null_type:
 
 	template<typename Type, typename Exp, typename Continuation = ch_bool_echo>
 	using is_null_type = typename memoized_list<Type, Exp>::template match
@@ -83,9 +113,7 @@ struct identity
 		is_null<Continuation>
 	>;
 
-/*
-	is_struct_type:
-*/
+	// is_struct_type:
 
 	template<typename Type, typename Exp, template<Type...> class label, typename Continuation = ch_bool_echo>
 	using is_struct_type = typename memoized_list<Type, Exp>::template match
@@ -95,7 +123,6 @@ struct identity
 
 	// act:
 
-/*
 	template<typename Exp>
 	using act_id = typename memoized_chain<Exp>::template wrap
 	<
@@ -109,11 +136,8 @@ struct identity
 	<
 		chain_name, pass
 	>;
-*/
 
-/*
-	is_name:
-*/
+	// is_name:
 
 	template<typename Exp, template<typename> class name_id>
 	using is_name = typename memoized_conditional
@@ -127,20 +151,13 @@ struct identity
 		memoized_value<bool, false>
 	>;
 
-/*
-	is_act:
-*/
+	// is_act:
 
-/*
 	template<typename Exp>
 	using is_act = is_name<Exp, act_id>;
-*/
 
-/*
-	is_pass:
-*/
+	// is_pass:
 
-/*
 	template<typename Exp>
 	using is_pass = is_name<Exp, pass_id>;
 */
@@ -149,6 +166,4 @@ struct identity
 	Passive/active comparisons would only be provided
 	for convenience if they were used often enough.
 */
-
-};
 

@@ -15,11 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_LIFT__SEMIOTIC_H
-#define SYMBOLIC_LIFT__SEMIOTIC_H
+#ifndef SYMBOLIC_LIFT_NUMBER_SEMIOTIC_H
+#define SYMBOLIC_LIFT_NUMBER_SEMIOTIC_H
 
-	#include"typed-passive-semiotic.h"
-	#include"constant-operate-semiotic.h"
+	#include"lift-operate-semiotic.h"
 
 #define local_scope
 

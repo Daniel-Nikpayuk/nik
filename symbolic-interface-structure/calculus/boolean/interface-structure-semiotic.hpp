@@ -26,7 +26,6 @@ struct structure
 
 	using rtn		= structure;
 
-/*
 	struct False
 	{
 		using kind					= module;
@@ -44,10 +43,12 @@ struct structure
 
 		static constexpr bool value			= true;
 	};
-*/
 
 /*
 	pattern_match_boolean:
+
+	From a narrative perspective, the structs False, True would be pattern matched,
+	but it is optimized here to use bool.
 */
 
 	template<bool True, typename Filler = void>

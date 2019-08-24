@@ -20,28 +20,28 @@
 //
 
 				  template<typename Exp>
-	using type		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+	using type		= typename nik_module(recursed, lift, symbolic, semiotic)::structure::template
 				  type<Exp>;
 
 				  template<typename... Exps>
-	using list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+	using list		= typename nik_module(recursed, lift, symbolic, semiotic)::structure::template
 				  list<Exps...>;
 
-	using null_list		= typename nik_module(recursed, constant, calculus, semiotic)::structure::template
+	using null_list		= typename nik_module(recursed, lift, symbolic, semiotic)::structure::template
 				  list<>;
 
 //
 
 				  template<typename Pred, typename Exp>
-	using if_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+	using if_then		= typename nik_module(conditional, lift, symbolic, semiotic)::structure::template
 				  if_then<Pred, Exp>;
 
 				  template<typename Pred, typename Exp>
-	using else_then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+	using else_then		= typename nik_module(conditional, lift, symbolic, semiotic)::structure::template
 				  else_then<Pred, Exp>;
 
 				  template<typename Exp>
-	using then		= typename nik_module(conditional, untyped, calculus, semiotic)::structure::template
+	using then		= typename nik_module(conditional, lift, symbolic, semiotic)::structure::template
 				  then<Exp>;
 
 //

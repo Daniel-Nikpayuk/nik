@@ -23,11 +23,11 @@ struct identity
 
 	#define safe_name
 
-		#include nik_typedef(calculus, perspective, typed, identity)
+		#include nik_typedef(symbolic, perspective, typed, identity)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, constant, operate, structure)
+	#include nik_typedef(symbolic, lift, operate, structure)
 
 /*
 	is_operate:

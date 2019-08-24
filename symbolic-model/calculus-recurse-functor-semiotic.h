@@ -29,13 +29,78 @@
 
 //
 
-								  template<bool Pred, typename Ante, typename Conse>
+								  template
+								  <
+									bool Pred,
+									template<typename> class Ante, typename Value,
+									typename Conse
+								  >
 	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template head_if_then_else<Pred, Ante, Conse>;
+								  template head_if_then_else<Pred, Ante, Value, Conse>;
 
-								  template<bool Pred, typename Ante, typename Conse>
+								  template
+								  <
+									bool Pred,
+									typename Ante,
+									template<typename, typename...> class Conse,
+										typename Value, typename... Values
+								  >
 	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template tail_if_then_else<Pred, Ante, Conse>;
+								  template tail_if_then_else<Pred, Ante, Conse, Value, Values...>;
+
+								  template
+								  <
+									bool Pred,
+									template<typename> class Ante, typename Ante_Value,
+									template<typename, typename...> class Conse,
+										typename Value, typename... Values
+								  >
+	using nik_safe(PREFIX, handle_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template handle_if_then_else<Pred, Ante, Ante_Value,
+												Conse, Value, Values...>;
+
+//
+
+								  template
+								  <
+									typename Type,
+
+									bool Pred,
+
+									typename Ante_Cont, Type Value,
+
+									typename Conse_Cont, typename Cond, typename Op, SIZE_TYPE Index,
+
+									Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_break_fold_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_break_fold_if_then_else
+								  <
+									Type, Pred,
+									Ante_Cont, Value,
+									Conse_Cont, Cond, Op, Index,
+									Values...
+								  >;
+
+								  template
+								  <
+									bool Pred,
+
+									typename Value,
+
+									typename Conse_Cont, template<typename> class Cond,
+										template<typename, typename> class Op, SIZE_TYPE Index,
+
+									typename... Values
+								  >
+	using nik_safe(PREFIX, typename_break_fold_if_then_else)= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_break_fold_if_then_else
+								  <
+									Pred,
+									Value,
+									Conse_Cont, Cond, Op, Index,
+									Values...
+								  >;
 
 //
 

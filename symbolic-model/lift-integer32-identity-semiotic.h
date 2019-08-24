@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		conin32i_
+	#define PREFIX		lifin32i_
 
 #else
 
@@ -28,11 +28,11 @@
 #endif
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_integer32)		= typename nik_module(integer32, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_integer32)		= typename nik_module(integer32, lift, symbolic, semiotic)::identity::template
 							  is_integer32<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_null)			= typename nik_module(integer32, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_null)			= typename nik_module(integer32, lift, symbolic, semiotic)::identity::template
 							  is_null<Exp>;
 
 #undef PREFIX

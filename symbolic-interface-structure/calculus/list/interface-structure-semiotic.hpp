@@ -160,6 +160,14 @@ struct structure
 
 		template
 		<
+			typename Continuation, typename Pred, typename Op, Type Arg
+
+			//     signature: break_fold.
+
+		> using break_fold = typename Continuation::template result<Type, Pred, Op, Arg, Values...>;
+
+		template
+		<
 			typename Continuation, typename Pred
 
 			//     signature: find.
@@ -286,11 +294,19 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename Op, typename Arg
+			typename Continuation, template<typename, typename> class Op, typename Arg
 
 			//     signature: fold.
 
 		> using fold = typename Continuation::template result<Op, Arg, Values...>;
+
+		template
+		<
+			typename Continuation, template<typename> class Pred, template<typename, typename> class Op, typename Arg
+
+			//     signature: break_fold.
+
+		> using break_fold = typename Continuation::template result<Pred, Op, Arg, Values...>;
 
 		template
 		<

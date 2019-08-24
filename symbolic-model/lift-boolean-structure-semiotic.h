@@ -20,14 +20,14 @@
 //
 
 				  template<bool... Values>
-	using boolean		= typename nik_module(boolean, constant, calculus, semiotic)::structure::template
+	using boolean		= typename nik_module(boolean, lift, symbolic, semiotic)::structure::template
 				  boolean<Values...>;
 
 				  template<bool... Values>
-	using b			= typename nik_module(boolean, constant, calculus, semiotic)::structure::template
+	using b			= typename nik_module(boolean, lift, symbolic, semiotic)::structure::template
 				  boolean<Values...>;
 
-	using null_boolean	= typename nik_module(boolean, constant, calculus, semiotic)::structure::template
+	using null_boolean	= typename nik_module(boolean, lift, symbolic, semiotic)::structure::template
 				  boolean<>;
 
 //

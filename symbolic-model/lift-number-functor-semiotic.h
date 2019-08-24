@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		connuf_
+	#define PREFIX		lifnuf_
 
 #else
 
@@ -29,51 +29,55 @@
 
 //
 
+							  template<typename List>
+	using nik_safe(PREFIX, length)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
+							  length<List>;
+
 							  template
 							  <
-								typename nik_module(number, constant, calculus, semiotic)::register_type
+								typename nik_module(number, lift, symbolic, semiotic)::register_type
 								Value, typename List
 							  >
-	using nik_safe(PREFIX, cons)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cons)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  cons<Value, List>;
 
+							  template
+							  <
+								typename nik_module(number, lift, symbolic, semiotic)::register_type
+								Value, typename List
+							  >
+	using nik_safe(PREFIX, push)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
+							  push<Value, List>;
+
+/*
+							  template<typename List1, typename List2, typename... Lists>
+	using nik_safe(PREFIX, catenate)		= typename nik_module(number, lift, symbolic, semiotic)::functor::template
+							  catenate<List1, List2, Lists...>;
+*/
+
 							  template<typename List, SIZE_TYPE Index = 0>
-	using nik_safe(PREFIX, car)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, car)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  car<List, Index>;
 
 							  template<typename List, SIZE_TYPE Index = 0>
-	using nik_safe(PREFIX, cdr)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cdr)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  cdr<List, Index>;
-
-							  template<typename List1, typename List2, typename... Lists>
-	using nik_safe(PREFIX, catenate)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  catenate<List1, List2, Lists...>;
-
-							  template
-							  <
-								typename nik_module(number, constant, calculus, semiotic)::register_type
-								Value, typename List
-							  >
-	using nik_safe(PREFIX, push)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  push<Value, List>;
-
-							  template<typename List>
-	using nik_safe(PREFIX, length)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  length<List>;
 
 //
 
-							  template<typename... Exps>
-	using nik_safe(PREFIX, apply)			= typename nik_module(number, constant, calculus, semiotic)::functor::template
-							  apply<Exps...>;
+							  template<typename Op, typename Value, typename List>
+	using nik_safe(PREFIX, apply)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
+							  apply<Op, Value, List>;
 
+/*
 							  template<typename Exp>
-	using nik_safe(PREFIX, increment)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, increment)		= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  increment<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, decrement)		= typename nik_module(number, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, decrement)		= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  decrement<Exp>;
+*/
 
 //
 

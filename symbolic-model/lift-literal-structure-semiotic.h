@@ -18,14 +18,14 @@
 #include"define-size_type.h"
 
 				  template<char... Chars>
-	using literal		= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+	using literal		= typename nik_module(literal, lift, symbolic, semiotic)::structure::template
 				  literal<Chars...>;
 
 				  template<char... Chars>
-	using l			= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+	using l			= typename nik_module(literal, lift, symbolic, semiotic)::structure::template
 				  literal<Chars...>;
 
-	using null_literal	= typename nik_module(literal, constant, calculus, semiotic)::structure::template
+	using null_literal	= typename nik_module(literal, lift, symbolic, semiotic)::structure::template
 				  literal<>;
 
 #include"undef-size_type.h"

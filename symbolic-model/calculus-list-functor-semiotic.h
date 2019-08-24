@@ -81,6 +81,20 @@
 
 							  template
 							  <
+								typename Kind, template<Kind...> class ListKind, typename Type,
+								typename Op, typename List1, typename List2,
+
+								typename Continuation =
+								typename nik_module(list, calculus, symbolic, semiotic)::
+								functor::ch_builtin_list
+							  >
+	using nik_safe(PREFIX, builtin_zip)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_zip<Kind, ListKind, Type, Op, List1, List2, Continuation>;
+
+//
+
+							  template
+							  <
 								typename Type, typename List, SIZE_TYPE Index = 0,
 
 								typename Continuation =
@@ -143,6 +157,23 @@
 
 							  template
 							  <
+								template<typename, typename> class Op, typename Value, typename List
+							  >
+	using nik_safe(PREFIX, typename_fold)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  typename_fold<Op, Value, List>;
+
+							  template
+							  <
+								template<typename> class Pred,
+								template<typename, typename> class Op, typename Value, typename List
+							  >
+	using nik_safe(PREFIX, typename_break_fold)	= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  typename_break_fold<Pred, Op, Value, List>;
+
+//
+
+							  template
+							  <
 								template<typename> class Pred, typename List,
 
 								typename Continuation =
@@ -151,6 +182,8 @@
 							  >
 	using nik_safe(PREFIX, typename_find)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
 							  typename_find<Pred, List, Continuation>;
+
+//
 
 #undef PREFIX
 

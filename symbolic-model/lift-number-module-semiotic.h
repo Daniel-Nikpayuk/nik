@@ -19,7 +19,7 @@
 
 //
 
-	using Number = nik_module(number, constant, calculus, semiotic);
+	using Number = nik_module(number, lift, symbolic, semiotic);
 
 //
 

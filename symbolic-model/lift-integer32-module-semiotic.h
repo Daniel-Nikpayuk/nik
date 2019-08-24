@@ -19,7 +19,7 @@
 
 //
 
-	using Integer32 = nik_module(integer32, constant, calculus, semiotic);
+	using Integer32 = nik_module(integer32, lift, symbolic, semiotic);
 
 //
 

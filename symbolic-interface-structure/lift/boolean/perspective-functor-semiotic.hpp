@@ -21,126 +21,91 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(symbolic, core, kernel, identity)
+
+	#include nik_typedef(symbolic, calculus, list, functor)
+
 	#define safe_name
 
-		#include nik_typedef(calculus, dispatched, active, functor)
-		#include nik_typedef(calculus, typed, passive, functor)
-		#include nik_typedef(calculus, constant, operate, functor)
+		#include nik_typedef(symbolic, lift, operate, functor)
 
 	#undef safe_name
 
-	#include nik_typedef(calculus, constant, boolean, structure)
-	#include nik_typedef(calculus, constant, boolean, identity)
-
-/*
-	cons:
-*/
-
-				  template<register_type Value, typename List>
-	using cons		= typnef_cons<register_type, Value, List>;
-
-/*
-	car:
-*/
-
-				  template<typename List, size_type index = 0>
-	using car		= typnef_car<register_type, List, index>;
-
-/*
-	cdr:
-*/
-
-				  template<typename List, size_type index = 0>
-	using cdr		= typnef_cdr<register_type, List, index>;
-
-/*
-	push:
-*/
-
-				  template<register_type Value, typename List>
-	using push		= typnef_push<register_type, Value, List>;
+	#include nik_typedef(symbolic, lift, boolean, structure)
 
 /*
 	length:
 */
 
 				  template<typename List>
-	using length		= typnef_length<register_type, List>;
+	using length		= builtin_length<register_type, List>;
 
 /*
-	catenate:
+	cons:
 */
 
-				  template<typename List1, typename List2, typename... Lists>
-	using catenate		= typnef_catenate<register_type, List1, List2, Lists...>;
+				  template<register_type Value, typename List>
+	using cons		= builtin_cons<register_type, Value, List>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= builtin_push<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List, size_type index = 0>
+	using car		= builtin_car<register_type, List, index>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List, size_type index = 0>
+	using cdr		= builtin_cdr<register_type, List, index>;
+
+/*
+	short_circuit:
+*/
+
+	template<typename Boolean, typename Op>
+	using short_circuit = typename ch_bool_echo::template result
+	<
+		(lifopf_car<Op>::value == '&' && !car<Boolean>::value)	||
+		(lifopf_car<Op>::value == '|' && car<Boolean>::value)
+	>;
 
 /*
 	apply:
 
-	Redefined for short-circuit optimization.
+		given this typename monoid is intended to be used repeatedly within fold,
+		it actually makes sense to memoize a bit here.
 */
 
-	template<typename Op, typename... Lists>
-	struct apply
+	template<typename Op>
+	struct dispatch
 	{
-		using rtn = typename typnef_apply<register_type, Op, Lists...>::rtn;
+		using binary = lifopf_binary<Op>;
+
+		template<typename Boolean>
+		using circuit = short_circuit<Boolean, Op>;
+
+		template<typename List1, typename List2>
+		using zip = builtin_zip<register_type, boolean, register_type, binary, List1, List2>;
+
+		template<typename Value, typename List>
+		using apply = typename_break_fold<circuit, zip, Value, List>;
 	};
 
-	template<bool Value>
-	struct apply<operate<'|', '|'>, boolean<Value>>
-	{
-		using rtn = boolean<Value>;
-	};
-
-	template<bool Value, typename Boolean, typename... Booleans>
-	struct apply
+	template<typename Op, typename Value, typename List>
+	using apply = typename dispatch<Op>::template apply
 	<
-		operate<'|', '|'>,
-		boolean<Value>, Boolean, Booleans...
-	>
-	{
-		using rtn = typename disacf_if_then_else
-		<
-			Value,
-
-			boolean<true>,
-
-			apply
-			<
-				operate<'|', '|'>,
-				Boolean, Booleans...
-			>
-
-		>::rtn;
-	};
-
-	template<bool Value>
-	struct apply<operate<'&', '&'>, boolean<Value>>
-	{
-		using rtn = boolean<Value>;
-	};
-
-	template<bool Value, typename Boolean, typename... Booleans>
-	struct apply
-	<
-		operate<'&', '&'>,
-		boolean<Value>, Boolean, Booleans...
-	>
-	{
-		using rtn = typename disacf_if_then_else
-		<
-			Value,
-
-			apply
-			<
-				operate<'&', '&'>,
-				Boolean, Booleans...
-			>,
-
-			boolean<false>
-
-		>::rtn;
-	};
+		Value, List
+	>;
 
 /*
 	display:
@@ -149,24 +114,5 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	struct markup
-	{
-		static constexpr const char *label	= "boolean";
-		static constexpr const char *before	= ": ";
-		static constexpr const char *front	= "";
-		static constexpr const char *back	= "";
-		static constexpr const char *after	= "";
-	};
-
-	template<register_type... Values>
-	inline static void display(const boolean<Values...> & b)
-	{
-		static constexpr bool is_empty = is_null<boolean<Values...>>::value;
-
-		Dispatched::functor::display("boolean:");
-
-		if (is_empty)	Dispatched::functor::display(" null");
-		else		Passive::functor::display(register_type(), b);
-	}
 };
 

@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		conrei_
+	#define PREFIX		lifrei_
 
 #else
 
@@ -30,65 +30,65 @@
 //
 
 							  template<typename Exp, template<typename...> class Label>
-	using nik_safe(PREFIX, is_)			= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_)			= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_<Exp, Label>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_type)			= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_type)			= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_type<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_list)			= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_list)			= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_list<Exp>;
 
 //
 
 							  template<typename Exp1, typename Exp2>
-	using nik_safe(PREFIX, is_equal)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_equal)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_equal<Exp1, Exp2>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_list_type)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_list_type)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_list_type<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_null)			= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_null)			= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_null<Exp>;
 
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_operate)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_operate)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_operate<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_boolean)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_boolean)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_boolean<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_literal)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_literal)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_literal<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_number)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_number)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_number<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_integer32)		= typename nik_module(recursed, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_integer32)		= typename nik_module(recursed, lift, symbolic, semiotic)::identity::template
 							  is_integer32<Exp>;
 
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_if_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_if_then)		= typename nik_module(conditional, lift, symbolic, semiotic)::identity::template
 							  is_if_then<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_else_then)		= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_else_then)		= typename nik_module(conditional, lift, symbolic, semiotic)::identity::template
 							  is_else_then<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_then)			= typename nik_module(conditional, untyped, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_then)			= typename nik_module(conditional, lift, symbolic, semiotic)::identity::template
 							  is_then<Exp>;
 
 //

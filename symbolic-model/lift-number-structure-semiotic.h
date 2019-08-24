@@ -18,39 +18,39 @@
 #include"define-size_type.h"
 
 				  template<SIZE_TYPE... Values>
-	using number		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using number		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<Values...>;
 
 				  template<SIZE_TYPE... Values>
-	using n			= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using n			= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<Values...>;
 
-	using null_number	= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using null_number	= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<>;
 
 //
 
-	using zero		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using zero		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<0>;
 
-	using one		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using one		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<1>;
 
-	using two		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using two		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<2>;
 
-	using three		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using three		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<3>;
 
-	using four		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using four		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<4>;
 
 //
 
-	using nibble		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using nibble		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<4>;
 
-	using byte		= typename nik_module(number, constant, calculus, semiotic)::structure::template
+	using byte		= typename nik_module(number, lift, symbolic, semiotic)::structure::template
 				  number<8>;
 
 //

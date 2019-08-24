@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 				  template<char... Chars>
-	using operate		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
+	using operate		= typename nik_module(operate, lift, symbolic, semiotic)::structure::template
 				  operate<Chars...>;
 
 				  template<char... Chars>
-	using op		= typename nik_module(operate, constant, calculus, semiotic)::structure::template
+	using op		= typename nik_module(operate, lift, symbolic, semiotic)::structure::template
 				  operate<Chars...>;
 
 #include"undef-size_type.h"

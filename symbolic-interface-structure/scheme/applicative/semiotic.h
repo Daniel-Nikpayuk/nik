@@ -18,7 +18,7 @@
 namespace nik
 {
 	template<typename SizeType>
-	struct module<Module::normal, Branch::interpreted, Lens::calculus, Permission::semiotic, SizeType>
+	struct module<Module::applicative, Branch::scheme, Lens::symbolic, Permission::semiotic, SizeType>
 	{
 		using rtn	= module;
 
@@ -30,15 +30,15 @@ namespace nik
 
 		//
 
-		#include nik_typedef(calculus, perspective, dispatched, module)
-		#include nik_typedef(calculus, typed, passive, module)
-		#include nik_typedef(calculus, constant, literal, module)
-		#include nik_typedef(calculus, constant, recursed, module)
+		#include nik_typedef(symbolic, perspective, dispatched, module)
+		#include nik_typedef(symbolic, typed, passive, module)
+		#include nik_typedef(symbolic, lift, literal, module)
+		#include nik_typedef(symbolic, lift, recursed, module)
 
-		#include nik_typedef(calculus, constant, boolean, structure)
-		#include nik_typedef(calculus, constant, literal, structure)
-		#include nik_typedef(calculus, constant, number, structure)
-		#include nik_typedef(calculus, constant, recursed, structure)
+		#include nik_typedef(symbolic, lift, boolean, structure)
+		#include nik_typedef(symbolic, lift, literal, structure)
+		#include nik_typedef(symbolic, lift, number, structure)
+		#include nik_typedef(symbolic, lift, recursed, structure)
 
 		//
 

@@ -19,7 +19,7 @@
 
 //
 
-	using Boolean = nik_module(boolean, constant, calculus, semiotic);
+	using Boolean = nik_module(boolean, lift, symbolic, semiotic);
 
 //
 

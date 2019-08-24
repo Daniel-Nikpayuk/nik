@@ -19,7 +19,7 @@
 
 //
 
-	using Operate = nik_module(operate, constant, calculus, semiotic);
+	using Operate = nik_module(operate, lift, symbolic, semiotic);
 
 //
 

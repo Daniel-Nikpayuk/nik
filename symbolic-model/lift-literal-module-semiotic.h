@@ -19,7 +19,7 @@
 
 //
 
-	using Literal = nik_module(literal, constant, calculus, semiotic);
+	using Literal = nik_module(literal, lift, symbolic, semiotic);
 
 //
 

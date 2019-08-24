@@ -27,11 +27,49 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(calculus, perspective, dispatched, functor)
-	#include nik_typedef(calculus, perspective, typed, functor)
+	#include nik_typedef(symbolic, calculus, recurse, functor)
 
-	#include nik_typedef(calculus, constant, operate, structure)
-	#include nik_typedef(calculus, constant, operate, identity)
+	#include nik_typedef(symbolic, calculus, list, identity)
+	#include nik_typedef(symbolic, calculus, list, functor)
+
+	#include nik_typedef(symbolic, lift, operate, structure)
+
+/***********************************************************************************************************************/
+
+/*
+	length:
+*/
+
+				  template<typename List>
+	using length		= builtin_length<register_type, List>;
+
+/*
+	cons:
+*/
+
+				  template<register_type Value, typename List>
+	using cons		= builtin_cons<register_type, Value, List>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= builtin_push<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List, size_type index = 0>
+	using car		= builtin_car<register_type, List, index>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List, size_type index = 0>
+	using cdr		= builtin_cdr<register_type, List, index>;
 
 /***********************************************************************************************************************/
 
@@ -165,23 +203,54 @@ struct functor
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
-	// memoized_operator:
+/*
+	unary:
+*/
 
-	template<typename> struct memoized_operator;
+	template<typename Operator>
+	using unary = single_char_unary
+	<
+		car<Operator>::value
+	>;
 
-	template<char op_char, template<char...> class op_list>
-	struct memoized_operator<op_list<op_char>>
-	{
-		using unary = single_char_unary<op_char>;
+/***********************************************************************************************************************/
 
-		using binary = single_char_binary<op_char>;
-	};
+/*
+	binary:
+*/
 
-	template<char op_char1, char op_char2, template<char...> class op_list>
-	struct memoized_operator<op_list<op_char1, op_char2>>
-	{
-		using binary = double_char_binary<op_char1, op_char2>;
-	};
+	template<typename Char>
+	using safe_single_char_binary = single_char_binary
+	<
+		Char::value
+	>;
+
+	template<typename Char1, typename Char2>
+	using safe_double_char_binary = double_char_binary
+	<
+		Char1::value,
+
+		car<Char2>::value
+	>;
+
+	template<typename Char1, typename Char2>
+	using let_binary = handle_if_then_else
+	<
+		builtin_is_null<register_type, Char2>::value,
+
+		safe_single_char_binary, Char1,
+
+		safe_double_char_binary, Char1, Char2
+	>;
+
+	template<typename Operator>
+	using binary = let_binary
+	<
+		car<Operator>,
+		cdr<Operator>
+	>;
+
+/***********************************************************************************************************************/
 
 /*
 	display:
@@ -190,15 +259,5 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<register_type... Values>
-	inline static void display(const operate<Values...> & o)
-	{
-		static constexpr bool is_empty = is_null<operate<Values...>>::value;
-
-		Dispatched::functor::display("operate: ");
-
-		if (is_empty)	Dispatched::functor::display(" null");
-		else		Passive::functor::display(register_type(), o, "");
-	}
 };
 

@@ -28,27 +28,5 @@ struct structure
 
 		using rtn					= operate;
 	};
-
-	template<register_type Value>
-	struct operate<Value>
-	{
-		using kind					= module;
-
-		using rtn					= operate;
-
-		static constexpr register_type value		= Value;
-	};
-
-	template<register_type Value1, register_type Value2>
-	struct operate<Value1, Value2>
-	{
-		using kind					= module;
-
-		using rtn					= operate;
-
-		static constexpr register_type first_value	= Value1;
-
-		static constexpr register_type second_value	= Value2;
-	};
 };
 

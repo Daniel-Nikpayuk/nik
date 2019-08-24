@@ -32,18 +32,16 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, calculus, handle, functor)
-
 	#include nik_typedef(symbolic, calculus, recurse, structure)
 
 /*
 	head_if_then_else:
 */
 
-	template<bool Pred, typename Ante, typename Conse>
+	template<bool Pred, template<typename> class Ante, typename Value, typename Conse>
 	using head_if_then_else = typename pattern_match_recurse<Pred>::template transit_reflex_conditional
 	<
-		call, Ante,
+		Ante, Value,
 
 		Conse
 	>;
@@ -52,12 +50,75 @@ struct functor
 	tail_if_then_else:
 */
 
-	template<bool Pred, typename Ante, typename Conse>
+	template<bool Pred, typename Ante, template<typename, typename...> class Conse, typename Value, typename... Values>
 	using tail_if_then_else = typename pattern_match_recurse<Pred>::template reflex_transit_conditional
 	<
 		Ante,
 
-		call, Conse
+		Conse, Value, Values...
+	>;
+
+/*
+	handle_if_then_else:
+*/
+
+	template<bool Pred, template<typename> class Ante, typename Ante_Value,
+		template<typename, typename...> class Conse, typename Value, typename... Values>
+	using handle_if_then_else = typename pattern_match_recurse<Pred>::template transit_transit_conditional
+	<
+		Ante, Ante_Value,
+
+		Conse, Value, Values...
+	>;
+
+/*
+	builtin_break_fold_if_then_else:
+*/
+
+	template
+	<
+		typename Type,
+
+		bool Pred,
+
+		typename Ante_Continuation, Type Value,
+
+		typename Conse_Continuation, typename Cond, typename Op, size_type count,
+
+		Type... Values
+	>
+	using builtin_break_fold_if_then_else = typename pattern_match_recurse<Pred>::template builtin_break_fold_conditional
+	<
+		Type,
+
+		Ante_Continuation, Value,
+
+		Conse_Continuation, Cond, Op, count,
+
+		Values...
+	>;
+
+/*
+	typename_break_fold_if_then_else:
+*/
+
+	template
+	<
+		bool Pred,
+
+		typename Value,
+
+		typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
+
+		typename... Values
+	>
+	using typename_break_fold_if_then_else = typename pattern_match_recurse<Pred>::template typename_break_fold_conditional
+	<
+		Value,
+
+		Conse_Continuation, Cond, Op, count,
+
+		Values...
 	>;
 
 /*

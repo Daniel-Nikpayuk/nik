@@ -32,19 +32,49 @@ struct structure
 
 		template
 		<
-			template<typename> class signature, typename Ante,
+			template<typename> class Ante, typename Value,
 
 			typename Conse
 
-		> using transit_reflex_conditional = signature<Ante>;
+		> using transit_reflex_conditional = Ante<Value>;
 
 		template
 		<
 			typename Ante,
 
-			template<typename...> class signature, typename... Conses
+			template<typename, typename...> class Conse, typename Value, typename... Values
 
 		> using reflex_transit_conditional = Ante;
+
+		template
+		<
+			template<typename> class Ante, typename Ante_Value,
+
+			template<typename, typename...> class Conse, typename Value, typename... Values
+
+		> using transit_transit_conditional = Ante<Ante_Value>;
+
+		template
+		<
+			typename Type,
+
+			typename Ante_Continuation, Type Value,
+
+			typename Conse_Continuation, typename Cond, typename Op, size_type count,
+
+			Type... Values
+
+		> using builtin_break_fold_conditional = typename Ante_Continuation::template result<Type, Value>;
+
+		template
+		<
+			typename Value,
+
+			typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
+
+			typename... Values
+
+		> using typename_break_fold_conditional = Value;
 
 		template
 		<
@@ -78,7 +108,7 @@ struct structure
 
 		template
 		<
-			template<typename> class signature, typename Ante,
+			template<typename> class Ante, typename Value,
 
 			typename Conse
 
@@ -88,9 +118,40 @@ struct structure
 		<
 			typename Ante,
 
-			template<typename...> class signature, typename... Conses
+			template<typename, typename...> class Conse, typename Value, typename... Values
 
-		> using reflex_transit_conditional = signature<Conses...>;
+		> using reflex_transit_conditional = Conse<Value, Values...>;
+
+		template
+		<
+			template<typename> class Ante, typename Ante_Value,
+
+			template<typename, typename...> class Conse, typename Value, typename... Values
+
+		> using transit_transit_conditional = Conse<Value, Values...>;
+
+		template
+		<
+			typename Type,
+
+			typename Ante_Continuation, Type Value,
+
+			typename Conse_Continuation, typename Cond, typename Op, size_type count,
+
+			Type... Values
+
+		> using builtin_break_fold_conditional = typename Conse_Continuation::template
+								result<Type, Cond, Op, count, Value, Values...>;
+
+		template
+		<
+			typename Value,
+
+			typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
+
+			typename... Values
+
+		> using typename_break_fold_conditional = typename Conse_Continuation::template result<Cond, Op, count, Value, Values...>;
 
 		template
 		<

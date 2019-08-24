@@ -21,14 +21,6 @@ struct identity
 
 	using rtn		= identity;
 
-	#define safe_name
-
-		#include nik_typedef(calculus, perspective, typed, identity)
-
-	#undef safe_name
-
-	#include nik_typedef(calculus, constant, number, structure)
-
 /*
 	is_number:
 */

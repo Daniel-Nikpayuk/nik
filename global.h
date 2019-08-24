@@ -65,8 +65,8 @@ namespace nik
 
 	// scheme:
 
+		applicative,
 		normal,
-		lazy,
 
 	// kin:
 

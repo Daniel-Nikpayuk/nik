@@ -21,85 +21,77 @@ struct functor
 
 	using rtn		= functor;
 
-	#define safe_name
+	#include nik_typedef(symbolic, calculus, list, functor)
 
-		#include nik_typedef(calculus, typed, neutral, functor)
-		#include nik_typedef(calculus, constant, operate, functor)
+	#include nik_typedef(symbolic, lift, operate, module)
 
-	#undef safe_name
-
-	#include nik_typedef(calculus, constant, number, structure)
-	#include nik_typedef(calculus, constant, number, identity)
-
-/*
-	cons:
-*/
-
-				  template<register_type Value, typename List>
-	using cons		= typnef_cons<register_type, Value, List>;
-
-/*
-	car:
-*/
-
-				  template<typename List, size_type index = 0>
-	using car		= typnef_car<register_type, List, index>;
-
-/*
-	cdr:
-*/
-
-				  template<typename List, size_type index = 0>
-	using cdr		= typnef_cdr<register_type, List, index>;
-
-/*
-	push:
-*/
-
-				  template<register_type Value, typename List>
-	using push		= typnef_push<register_type, Value, List>;
+	#include nik_typedef(symbolic, lift, number, structure)
 
 /*
 	length:
 */
 
 				  template<typename List>
-	using length		= typnef_length<register_type, List>;
+	using length		= builtin_length<register_type, List>;
 
 /*
-	catenate:
+	cons:
 */
 
-				  template<typename List1, typename List2, typename... Lists>
-	using catenate		= typnef_catenate<register_type, List1, List2, Lists...>;
+				  template<register_type Value, typename List>
+	using cons		= builtin_cons<register_type, Value, List>;
+
+/*
+	push:
+*/
+
+				  template<register_type Value, typename List>
+	using push		= builtin_push<register_type, Value, List>;
+
+/*
+	car:
+*/
+
+				  template<typename List, size_type index = 0>
+	using car		= builtin_car<register_type, List, index>;
+
+/*
+	cdr:
+*/
+
+				  template<typename List, size_type index = 0>
+	using cdr		= builtin_cdr<register_type, List, index>;
 
 /*
 	apply:
+
+		given this typename monoid is intended to be used repeatedly within fold,
+		it actually makes sense to memoize a bit here.
 */
 
-				  template<typename Op, typename... Lists>
-	using apply		= typnef_apply<register_type, Op, Lists...>;
+	template<typename Op>
+	struct dispatch
+	{
+		using binary = typename Operate::functor::template binary<Op>;
 
-/*
-	increment:
-*/
+		template<typename List1, typename List2>
+		using zip = builtin_zip<register_type, number, register_type, binary, List1, List2>;
 
-				  template<typename List>
-	using increment		= typnef_increment<register_type, List>;
+		template<typename Value, typename List>
+		using apply = typename_fold<zip, Value, List>;
+	};
 
-/*
-	decrement:
-*/
-
-				  template<typename List>
-	using decrement		= typnef_decrement<register_type, List>;
+	template<typename Op, typename Value, typename List>
+	using apply = typename dispatch<Op>::template apply
+	<
+		Value, List
+	>;
 
 /*
 	increment:
 
 	Technically this is a specialization of apply, but given its frequency
 	of use as an iterator I've reimplemented it to optimize.
-*/
 
 	#define ONE 1
 
@@ -121,13 +113,13 @@ struct functor
 			Value + Type(ONE)
 		>;
 	};
+*/
 
 /*
 	decrement:
 
 	Technically this is a specialization of apply, but given its frequency
 	of use as an iterator I've reimplemented it to optimize.
-*/
 
 	template<typename Type, typename> struct decrement;
 
@@ -149,6 +141,7 @@ struct functor
 	};
 
 	#undef ONE
+*/
 
 /*
 	display:
@@ -157,15 +150,5 @@ struct functor
 	there is no loss implementing as run time here.
 */
 
-	template<register_type... Values>
-	inline static void display(const number<Values...> & n)
-	{
-		static constexpr bool is_empty = is_null<number<Values...>>::value;
-
-		Dispatched::functor::display("number:");
-
-		if (is_empty)	Dispatched::functor::display(" null");
-		else		Passive::functor::display(register_type(), n);
-	}
 };
 

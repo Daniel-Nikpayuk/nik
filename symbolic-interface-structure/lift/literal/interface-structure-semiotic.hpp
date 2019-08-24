@@ -28,15 +28,5 @@ struct structure
 
 		using rtn					= literal;
 	};
-
-	template<register_type Value>
-	struct literal<Value>
-	{
-		using kind					= module;
-
-		using rtn					= literal;
-
-		static constexpr register_type value		= Value;
-	};
 };
 

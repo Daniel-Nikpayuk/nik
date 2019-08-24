@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		calrei_
+	#define PREFIX		callii_
 
 #else
 
@@ -29,13 +29,27 @@
 
 //
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, passive_is_equal)	= typename nik_module(recursed, calculus, symbolic, semiotic)::identity::template
-							  passive_is_equal<Type1, Type2>;
+							  template
+							  <
+								typename Type, typename List,
 
-							  template<typename Type1, typename Type2>
-	using nik_safe(PREFIX, active_is_equal)		= typename nik_module(recursed, calculus, symbolic, semiotic)::identity::template
-							  active_is_equal<Type1, Type2>;
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								identity::ch_bool_echo
+							  >
+	using nik_safe(PREFIX, builtin_is_null)		= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
+							  builtin_is_null<Type, List, Continuation>;
+
+							  template
+							  <
+								typename List,
+
+								typename Continuation =
+								typename nik_module(kernel, core, symbolic, semiotic)::
+								identity::ch_bool_echo
+							  >
+	using nik_safe(PREFIX, typename_is_null)	= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
+							  typename_is_null<List, Continuation>;
 
 //
 

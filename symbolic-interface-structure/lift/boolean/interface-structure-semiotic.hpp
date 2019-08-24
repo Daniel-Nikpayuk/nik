@@ -28,15 +28,5 @@ struct structure
 
 		using rtn					= boolean;
 	};
-
-	template<register_type Value>
-	struct boolean<Value>
-	{
-		using kind					= module;
-
-		using rtn					= boolean;
-
-		static constexpr register_type value		= Value;
-	};
 };
 

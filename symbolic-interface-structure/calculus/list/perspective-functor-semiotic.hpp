@@ -89,6 +89,27 @@ struct functor
 		};
 
 		template<typename Continuation>
+		struct cp_builtin_break_fold
+		{
+			template<typename Type, typename Pred, typename Op, size_type count, Type Result, Type... Values>
+			using let_result = builtin_break_fold_if_then_else
+			<
+				Type,
+
+				Pred::value(Result),
+
+				Continuation, Result,
+
+				typename dispatch<(count > 1)>::template cp_builtin_break_fold<Continuation>, Pred, Op, count-1,
+
+				Values...
+			>;
+
+			template<typename Type, typename Pred, typename Op, size_type count, Type Result, Type Value, Type... Values>
+			using result = let_result<Type, Pred, Op, count, Op::value(Result, Value), Values...>;
+		};
+
+		template<typename Continuation>
 		struct cp_builtin_find
 		{
 			template<typename Type, template<Type...> class ListType,
@@ -137,6 +158,26 @@ struct functor
 				Op, count-1,
 				Op<Result, Value>, Values...
 			>;
+		};
+
+		struct ch_typename_break_fold
+		{
+			template<template<typename> class Pred, template<typename, typename> class Op,
+					size_type count, typename Result, typename... Values>
+			using let_result = typename_break_fold_if_then_else
+			<
+				Pred<Result>::value,
+
+				Result,
+
+				typename dispatch<(count > 1)>::ch_typename_break_fold, Pred, Op, count-1,
+
+				Values...
+			>;
+
+			template<template<typename> class Pred, template<typename, typename> class Op,
+					size_type count, typename Result, typename Value, typename... Values>
+			using result = let_result<Pred, Op, count, Op<Result, Value>, Values...>;
 		};
 
 		template<typename Continuation>
@@ -193,6 +234,13 @@ struct functor
 		};
 
 		template<typename Continuation>
+		struct cp_builtin_break_fold
+		{
+			template<typename Type, typename Pred, typename Op, size_type count, Type Result, Type... Values>
+			using result = typename Continuation::template result<Type, Result>;
+		};
+
+		template<typename Continuation>
 		struct cp_builtin_find
 		{
 			template<typename Type, template<Type...> class ListType, typename Pred, size_type count, Type... Values>
@@ -217,6 +265,13 @@ struct functor
 		struct ch_typename_fold
 		{
 			template<template<typename, typename> class Op, size_type count, typename Result, typename... Values>
+			using result = Result;
+		};
+
+		struct ch_typename_break_fold
+		{
+			template<template<typename> class Pred, template<typename, typename> class Op,
+					size_type count, typename Result, typename... Values>
 			using result = Result;
 		};
 
@@ -496,10 +551,31 @@ struct functor
 		using result = let_result<Type, Op, sizeof...(Values), Value, Values...>;
 	};
 
-	template<typename Type, Type Value, typename Op, typename List, typename Continuation = ch_echo>
+	template<typename Type, typename Op, Type Value, typename List, typename Continuation = ch_echo>
 	using builtin_fold = typename pattern_match_builtin_list<Type, List>::template fold
 	<
 		cp_builtin_fold<Continuation>, Op, Value
+	>;
+
+	// break_fold:
+
+	template<typename Continuation>
+	struct cp_builtin_break_fold
+	{
+		template<typename Type, typename Pred, typename Op, size_type length, Type Value, Type... Values>
+		using let_result = typename dispatch<bool(length)>::template cp_builtin_break_fold<Continuation>::template result
+		<
+			Type, Pred, Op, length, Value, Values...
+		>;
+
+		template<typename Type, typename Pred, typename Op, Type Value, Type... Values>
+		using result = let_result<Type, Pred, Op, sizeof...(Values), Value, Values...>;
+	};
+
+	template<typename Type, typename Pred, typename Op, Type Value, typename List, typename Continuation = ch_echo>
+	using builtin_break_fold = typename pattern_match_builtin_list<Type, List>::template break_fold
+	<
+		cp_builtin_break_fold<Continuation>, Pred, Op, Value
 	>;
 
 	// find:
@@ -786,10 +862,10 @@ struct functor
 
 	// fold:
 
-	struct cp_typename_fold
+	struct ch_typename_fold
 	{
 		template<template<typename, typename> class Op, size_type length, typename Value, typename... Values>
-		using let_result = typename dispatch<bool(length)>::cp_typename_fold::template result
+		using let_result = typename dispatch<bool(length)>::ch_typename_fold::template result
 		<
 			Op, length, Value, Values...
 		>;
@@ -798,10 +874,31 @@ struct functor
 		using result = let_result<Op, sizeof...(Values), Value, Values...>;
 	};
 
-	template<typename Value, template<typename, typename> class Op, typename List>
+	template<template<typename, typename> class Op, typename Value, typename List>
 	using typename_fold = typename pattern_match_typename_list<List>::template fold
 	<
-		cp_typename_fold, Op, Value
+		ch_typename_fold, Op, Value
+	>;
+
+	// break_fold:
+
+	struct ch_typename_break_fold
+	{
+		template<template<typename> class Pred, template<typename, typename> class Op,
+				size_type length, typename Value, typename... Values>
+		using let_result = typename dispatch<bool(length)>::ch_typename_break_fold::template result
+		<
+			Pred, Op, length, Value, Values...
+		>;
+
+		template<template<typename> class Pred, template<typename, typename> class Op, typename Value, typename... Values>
+		using result = let_result<Pred, Op, sizeof...(Values), Value, Values...>;
+	};
+
+	template<template<typename> class Pred, template<typename, typename> class Op, typename Value, typename List>
+	using typename_break_fold = typename pattern_match_typename_list<List>::template break_fold
+	<
+		ch_typename_break_fold, Pred, Op, Value
 	>;
 
 	// find:

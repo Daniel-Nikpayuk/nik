@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		connui_
+	#define PREFIX		lifnui_
 
 #else
 
@@ -28,11 +28,11 @@
 #endif
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_number)		= typename nik_module(number, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_number)		= typename nik_module(number, lift, symbolic, semiotic)::identity::template
 							  is_number<Exp>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, is_null)			= typename nik_module(number, constant, calculus, semiotic)::identity::template
+	using nik_safe(PREFIX, is_null)			= typename nik_module(number, lift, symbolic, semiotic)::identity::template
 							  is_null<Exp>;
 
 #undef PREFIX

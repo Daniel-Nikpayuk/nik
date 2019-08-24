@@ -19,41 +19,41 @@
 
 				  template
 				  <
-					typename nik_module(integer32, constant, calculus, semiotic)::register_type... Values
+					typename nik_module(integer32, lift, symbolic, semiotic)::register_type... Values
 				  >
-	using integer32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using integer32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<Values...>;
 
 				  template
 				  <
-					typename nik_module(integer32, constant, calculus, semiotic)::register_type... Values
+					typename nik_module(integer32, lift, symbolic, semiotic)::register_type... Values
 				  >
-	using i32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using i32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<Values...>;
 
-	using null_integer32	= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using null_integer32	= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<>;
 
 //
 
-	using zero32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using zero32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<0>;
 
-	using one32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using one32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<1>;
 
-	using two32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using two32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<2>;
 
-	using three32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using three32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<3>;
 
 //
 
-	using nibble32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using nibble32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<4>;
 
-	using byte32		= typename nik_module(integer32, constant, calculus, semiotic)::structure::template
+	using byte32		= typename nik_module(integer32, lift, symbolic, semiotic)::structure::template
 				  integer32<8>;
 
 //

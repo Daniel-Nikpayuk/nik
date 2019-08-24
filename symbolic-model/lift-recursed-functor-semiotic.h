@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		conref_
+	#define PREFIX		lifref_
 
 #else
 
@@ -30,77 +30,77 @@
 //
 
 							  template<typename Exp, template<typename...> class Label>
-	using nik_safe(PREFIX, relabel)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, relabel)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  relabel<Exp, Label>;
 
 //
 
 							  template<typename Type>
-	using nik_safe(PREFIX, size_of)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, size_of)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  size_of<Type>;
 
 //
 
 							  template<typename Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, if_then_else)		= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  if_then_else<Pred, Ante, Conse>;
 
 //
 
 							  template<typename Exp1, typename Exp2>
-	using nik_safe(PREFIX, cons)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cons)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  cons<Exp1, Exp2>;
 
 							  template
 							  <
 								typename Exp, typename Index = typename
-								nik_module(number, constant, calculus, semiotic)::structure::template
+								nik_module(number, lift, symbolic, semiotic)::structure::template
 								number<0>
 							  >
-	using nik_safe(PREFIX, car)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, car)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  car<Exp, Index>;
 
 							  template
 							  <
 								typename Exp, typename Index = typename
-								nik_module(number, constant, calculus, semiotic)::structure::template
+								nik_module(number, lift, symbolic, semiotic)::structure::template
 								number<0>
 							  >
-	using nik_safe(PREFIX, cdr)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, cdr)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  cdr<Exp, Index>;
 
 							  template<typename Exp1, typename Exp2, typename... Exps>
-	using nik_safe(PREFIX, catenate)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, catenate)		= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  catenate<Exp1, Exp2, Exps...>;
 
 							  template<typename Exp1, typename Exp2>
-	using nik_safe(PREFIX, push)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, push)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  push<Exp1, Exp2>;
 
 							  template<typename List1, typename Value, typename List2>
-	using nik_safe(PREFIX, unite)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, unite)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  unite<List1, Value, List2>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, length)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, length)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  length<Exp>;
 
 //
 
 							  template<typename... Exps>
-	using nik_safe(PREFIX, evaluate)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, evaluate)		= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  evaluate<Exps...>;
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, not_the_case)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, not_the_case)		= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  not_the_case<Exp>;
 
 							  template<typename... Exps>
-	using nik_safe(PREFIX, or_else)			= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, or_else)			= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  or_else<Exps...>;
 
 							  template<typename... Exps>
-	using nik_safe(PREFIX, and_then)		= typename nik_module(recursed, constant, calculus, semiotic)::functor::template
+	using nik_safe(PREFIX, and_then)		= typename nik_module(recursed, lift, symbolic, semiotic)::functor::template
 							  and_then<Exps...>;
 
 //
