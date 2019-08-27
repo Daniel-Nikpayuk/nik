@@ -55,6 +55,20 @@ struct identity
 	>;
 
 /*
+	is_filler:
+*/
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_filler = is_equal<Exp, filler, Continuation>;
+
+/*
+	is_not_filler:
+*/
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_not_filler = is_equal<Exp, filler, cp_negate<Continuation>>;
+
+/*
 	is_pointer:
 */
 

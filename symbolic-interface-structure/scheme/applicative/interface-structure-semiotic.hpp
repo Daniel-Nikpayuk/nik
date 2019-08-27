@@ -31,7 +31,6 @@ struct structure
 		using kind					= module;
 
 		using rtn					= error;
-pass
 	};
 
 /*

@@ -32,7 +32,7 @@ struct identity
 /***********************************************************************************************************************/
 
 /*
-	list:
+	builtin:
 */
 
 	// is_null:
@@ -40,36 +40,38 @@ struct identity
 	template<typename Continuation>
 	struct cp_builtin_is_null
 	{
-		template<typename Type, template<Type...> class ListType, Type... Values>
+		template<typename Type, template<Type...> class ListType, typename List, Type... Values>
 		using result = typename Continuation::template result<!bool(sizeof...(Values))>;
 	};
 
 	template<typename Type, typename List, typename Continuation = ch_bool_echo>
 	using builtin_is_null = typename pattern_match_builtin_list<Type, List>::template push_back
 	<
-		cp_builtin_is_null<Continuation>
+		cp_builtin_is_null<Continuation>, filler
 	>;
 
 /***********************************************************************************************************************/
 
 /*
-	chain:
+	typename:
 */
 
 	// is_null:
 
+/*
 	template<typename Continuation>
 	struct cp_typename_is_null
 	{
-		template<template<typename...> class ListType, typename... Values>
+		template<template<typename...> class ListType, typename List, typename... Values>
 		using result = typename Continuation::template result<!bool(sizeof...(Values))>;
 	};
 
 	template<typename List, typename Continuation = ch_bool_echo>
 	using typename_is_null = typename pattern_match_typename_list<List>::template push_back
 	<
-		cp_typename_is_null<Continuation>
+		cp_typename_is_null<Continuation>, filler
 	>;
+*/
 };
 
 /*

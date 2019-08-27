@@ -18,7 +18,7 @@
 template
 <
 	typename RegType,
-	typename Filler = void
+	typename Filler = filler
 
 > struct bit;
 

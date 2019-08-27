@@ -23,159 +23,281 @@ struct structure
 
 /*
 	pattern_match_recurse:
+
+	For whatever reason, if the pattern
+
+		template<...> class
+
+	follows other template parameters it creates an internal compiler error.
+	As such I have made the habit of refactoring it to the beginning.
+	Unfortunately this makes the grammar more awkward than is preferred.
 */
 
-	template<bool True, typename Filler = void>
+	template<bool True, typename Filler = filler>
 	struct pattern_match_recurse
 	{
 		using rtn = pattern_match_recurse;
 
-		template
-		<
-			template<typename> class Ante, typename Value,
+/*
+	builtin:
+*/
 
-			typename Conse
-
-		> using transit_reflex_conditional = Ante<Value>;
-
-		template
-		<
-			typename Ante,
-
-			template<typename, typename...> class Conse, typename Value, typename... Values
-
-		> using reflex_transit_conditional = Ante;
-
-		template
-		<
-			template<typename> class Ante, typename Ante_Value,
-
-			template<typename, typename...> class Conse, typename Value, typename... Values
-
-		> using transit_transit_conditional = Ante<Ante_Value>;
+		// echo:
 
 		template
 		<
 			typename Type,
 
-			typename Ante_Continuation, Type Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, typename Cond, typename Op, size_type count,
+			typename Consequent, Type Value
 
-			Type... Values
+		> using echo = Antecedent;
 
-		> using builtin_break_fold_conditional = typename Ante_Continuation::template result<Type, Value>;
-
-		template
-		<
-			typename Value,
-
-			typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
-
-			typename... Values
-
-		> using typename_break_fold_conditional = Value;
+		// list:
 
 		template
 		<
 			typename Type, template<Type...> class ListType,
 
-			typename Ante_Continuation, Type Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, typename Cond, size_type count,
+			typename Consequent, Type... Values
 
-			Type... Values
+		> using builtin_list = Antecedent;
 
-		> using builtin_find_conditional = typename Ante_Continuation::template result<Type, ListType, Value, Values...>;
+		// grow:
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename List, size_type count, Type... Values
+
+		> using builtin_push = Antecedent;
+
+		// mutate:
+
+		template
+		<
+			typename Kind, template<Kind...> class ListKind,
+
+			typename Antecedent,
+
+			typename Consequent, typename Type, typename Op, typename List, size_type count, Type... Values
+
+		> using builtin_map = Antecedent;
+
+		// shrink:
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename Cond, size_type count, Type... Values
+
+		> using builtin_fold = Antecedent;
+
+/***********************************************************************************************************************/
+
+/*
+	typename:
+*/
+
+		// ping:
+
+		template
+		<
+			typename Antecedent,
+
+			typename Consequent, typename Value
+
+		> using ping = Antecedent;
+
+		// list:
 
 		template
 		<
 			template<typename...> class ListType,
 
-			typename Ante_Continuation, typename Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, template<typename> class Cond, size_type count,
+			typename Consequent, typename... Values
 
-			typename... Values
+		> using typename_list = Antecedent;
 
-		> using typename_find_conditional = typename Ante_Continuation::template result<ListType, Value, Values...>;
+		// grow:
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename List, size_type count, typename... Values
+
+		> using typename_push = Antecedent;
+
+		// mutate:
+
+		template
+		<
+			template<typename...> class ListKind,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename List, size_type count, typename... Values
+
+		> using typename_map = Antecedent;
+
+		// shrink:
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename Cond, size_type count, typename... Values
+
+		> using typename_fold = Antecedent;
 	};
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 	template<typename Filler>
 	struct pattern_match_recurse<false, Filler>
 	{
 		using rtn = pattern_match_recurse;
 
-		template
-		<
-			template<typename> class Ante, typename Value,
-
-			typename Conse
-
-		> using transit_reflex_conditional = Conse;
-
-		template
-		<
-			typename Ante,
-
-			template<typename, typename...> class Conse, typename Value, typename... Values
-
-		> using reflex_transit_conditional = Conse<Value, Values...>;
-
-		template
-		<
-			template<typename> class Ante, typename Ante_Value,
-
-			template<typename, typename...> class Conse, typename Value, typename... Values
-
-		> using transit_transit_conditional = Conse<Value, Values...>;
+		// echo:
 
 		template
 		<
 			typename Type,
 
-			typename Ante_Continuation, Type Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, typename Cond, typename Op, size_type count,
+			typename Consequent, Type Value
 
-			Type... Values
+		> using echo = typename Consequent::template result<Type, Value>;
 
-		> using builtin_break_fold_conditional = typename Conse_Continuation::template
-								result<Type, Cond, Op, count, Value, Values...>;
-
-		template
-		<
-			typename Value,
-
-			typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
-
-			typename... Values
-
-		> using typename_break_fold_conditional = typename Conse_Continuation::template result<Cond, Op, count, Value, Values...>;
+		// list:
 
 		template
 		<
 			typename Type, template<Type...> class ListType,
 
-			typename Ante_Continuation, Type Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, typename Cond, size_type count,
+			typename Consequent, Type... Values
 
-			Type... Values
+		> using builtin_list = typename Consequent::template result<Type, ListType, Values...>;
 
-		> using builtin_find_conditional = typename Conse_Continuation::template result<Type, ListType, Cond, count, Values...>;
+		// grow:
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename List, size_type count, Type... Values
+
+		> using builtin_push = typename Consequent::template result<Type, ListType, List, count, Values...>;
+
+		// mutate:
+
+		template
+		<
+			typename Kind, template<Kind...> class ListKind,
+
+			typename Antecedent,
+
+			typename Consequent, typename Type, typename Op, typename List, size_type count, Type... Values
+
+		> using builtin_map = typename Consequent::template result<Kind, ListKind, Type, Op, List, count, Values...>;
+
+		// shrink:
+
+		template
+		<
+			typename Type, template<Type...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename Cond, size_type count, Type... Values
+
+		> using builtin_fold = typename Consequent::template result<Type, ListType, Op, Cond, count, Values...>;
+
+/***********************************************************************************************************************/
+
+/*
+	typename:
+*/
+
+		// ping:
+
+		template
+		<
+			typename Antecedent,
+
+			typename Consequent, typename Value
+
+		> using ping = typename Consequent::template result<Value>;
+
+		// list:
 
 		template
 		<
 			template<typename...> class ListType,
 
-			typename Ante_Continuation, typename Value,
+			typename Antecedent,
 
-			typename Conse_Continuation, template<typename> class Cond, size_type count,
+			typename Consequent, typename... Values
 
-			typename... Values
+		> using typename_list = typename Consequent::template result<ListType, Values...>;
 
-		> using typename_find_conditional = typename Conse_Continuation::template result<ListType, Cond, count, Values...>;
+		// grow:
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename List, size_type count, typename... Values
+
+		> using typename_push = typename Consequent::template result<ListType, List, count, Values...>;
+
+		// mutate:
+
+		template
+		<
+			template<typename...> class ListKind,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename List, size_type count, typename... Values
+
+		> using typename_map = typename Consequent::template result<ListKind, Op, List, count, Values...>;
+
+		// shrink:
+
+		template
+		<
+			template<typename...> class ListType,
+
+			typename Antecedent,
+
+			typename Consequent, typename Op, typename Cond, size_type count, typename... Values
+
+		> using typename_fold = typename Consequent::template result<ListType, Op, Cond, count, Values...>;
 	};
 };
 

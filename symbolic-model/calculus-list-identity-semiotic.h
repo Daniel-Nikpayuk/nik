@@ -40,6 +40,7 @@
 	using nik_safe(PREFIX, builtin_is_null)		= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
 							  builtin_is_null<Type, List, Continuation>;
 
+/*
 							  template
 							  <
 								typename List,
@@ -50,6 +51,7 @@
 							  >
 	using nik_safe(PREFIX, typename_is_null)	= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
 							  typename_is_null<List, Continuation>;
+*/
 
 //
 

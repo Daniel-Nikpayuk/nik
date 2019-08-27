@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-template<typename Word, typename Filler = void>
+template<typename Word, typename Filler = filler>
 struct identity
 {
 	using type		= identity;

@@ -31,75 +31,34 @@
 
 								  template
 								  <
-									bool Pred,
-									template<typename> class Ante, typename Value,
-									typename Conse
-								  >
-	using nik_safe(PREFIX, head_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template head_if_then_else<Pred, Ante, Value, Conse>;
+									typename Type,
 
-								  template
-								  <
 									bool Pred,
 									typename Ante,
-									template<typename, typename...> class Conse,
-										typename Value, typename... Values
+									typename Conse, Type Value
 								  >
-	using nik_safe(PREFIX, tail_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template tail_if_then_else<Pred, Ante, Conse, Value, Values...>;
-
-								  template
+	using nik_safe(PREFIX, echo_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template echo_if_then_else
 								  <
-									bool Pred,
-									template<typename> class Ante, typename Ante_Value,
-									template<typename, typename...> class Conse,
-										typename Value, typename... Values
-								  >
-	using nik_safe(PREFIX, handle_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template handle_if_then_else<Pred, Ante, Ante_Value,
-												Conse, Value, Values...>;
-
-//
+									Type,
+									Pred,
+									Ante,
+									Conse, Value
+								  >;
 
 								  template
 								  <
 									typename Type,
 
 									bool Pred,
-
-									typename Ante_Cont, Type Value,
-
-									typename Conse_Cont, typename Cond, typename Op, SIZE_TYPE Index,
-
-									Type... Values
+									typename Conse, Type Value
 								  >
-	using nik_safe(PREFIX, builtin_break_fold_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template builtin_break_fold_if_then_else
+	using nik_safe(PREFIX, echo_if_then)			= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template echo_if_then
 								  <
-									Type, Pred,
-									Ante_Cont, Value,
-									Conse_Cont, Cond, Op, Index,
-									Values...
-								  >;
-
-								  template
-								  <
-									bool Pred,
-
-									typename Value,
-
-									typename Conse_Cont, template<typename> class Cond,
-										template<typename, typename> class Op, SIZE_TYPE Index,
-
-									typename... Values
-								  >
-	using nik_safe(PREFIX, typename_break_fold_if_then_else)= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template typename_break_fold_if_then_else
-								  <
+									Type,
 									Pred,
-									Value,
-									Conse_Cont, Cond, Op, Index,
-									Values...
+									Conse, Value
 								  >;
 
 //
@@ -109,20 +68,184 @@
 									typename Type, template<Type...> class ListType,
 
 									bool Pred,
+									typename Ante,
+									typename Conse, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_list_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_list_if_then_else
+								  <
+									Type, ListType,
+									Pred,
+									Ante,
+									Conse, Values...
+								  >;
 
-									typename Ante_Cont, Type Value,
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
 
-									typename Conse_Cont, typename Cond, SIZE_TYPE Index,
+									bool Pred,
+									typename Conse, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_list_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_list_if_then
+								  <
+									Type, ListType,
+									Pred,
+									Conse, Values...
+								  >;
 
+//
+
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename List, SIZE_TYPE Count, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_push_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_push_if_then_else
+								  <
+									Type, ListType,
+									Pred,
+									Ante,
+									Conse, List, Count, Values...
+								  >;
+
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
+
+									bool Pred,
+									typename Conse, typename List, SIZE_TYPE Count, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_push_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_push_if_then
+								  <
+									Type, ListType,
+									Pred,
+									Conse, List, Count, Values...
+								  >;
+
+//
+
+								  template
+								  <
+									typename Kind, template<Kind...> class ListKind,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename Type, typename Op,
+									typename List, SIZE_TYPE Count, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_map_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_map_if_then_else
+								  <
+									Kind, ListKind,
+									Pred,
+									Ante,
+									Conse, Type, Op, List, Count, Values...
+								  >;
+
+								  template
+								  <
+									typename Kind, template<Kind...> class ListKind,
+
+									bool Pred,
+									typename Conse, typename Type, typename Op,
+									typename List, SIZE_TYPE Count, Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_map_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_map_if_then
+								  <
+									Kind, ListKind,
+									Pred,
+									Conse, Type, Op, List, Count, Values...
+								  >;
+
+//
+
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename Op, typename Cond, SIZE_TYPE Count,
 									Type... Values
 								  >
-	using nik_safe(PREFIX, builtin_find_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template builtin_find_if_then_else
+	using nik_safe(PREFIX, builtin_fold_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_fold_if_then_else
 								  <
-									Type, ListType, Pred,
-									Ante_Cont, Value,
-									Conse_Cont, Cond, Index,
-									Values...
+									Type, ListType,
+									Pred,
+									Ante,
+									Conse, Op, Cond, Count, Values...
+								  >;
+
+								  template
+								  <
+									typename Type, template<Type...> class ListType,
+
+									bool Pred,
+									typename Conse, typename Op, typename Cond, SIZE_TYPE Count,
+									Type... Values
+								  >
+	using nik_safe(PREFIX, builtin_fold_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template builtin_fold_if_then
+								  <
+									Type, ListType,
+									Pred,
+									Conse, Op, Cond, Count, Values...
+								  >;
+
+/***********************************************************************************************************************/
+
+								  template
+								  <
+									bool Pred,
+									typename Ante,
+									typename Conse, typename Value
+								  >
+	using nik_safe(PREFIX, ping_if_then_else)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template ping_if_then_else
+								  <
+									Pred,
+									Ante,
+									Conse, Value
+								  >;
+
+								  template
+								  <
+									bool Pred,
+									typename Conse, typename Value
+								  >
+	using nik_safe(PREFIX, ping_if_then)			= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template ping_if_then
+								  <
+									Pred,
+									Conse, Value
+								  >;
+
+//
+
+								  template
+								  <
+									template<typename...> class ListType,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_list_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_list_if_then_else
+								  <
+									ListType,
+									Pred,
+									Ante,
+									Conse, Values...
 								  >;
 
 								  template
@@ -130,20 +253,120 @@
 									template<typename...> class ListType,
 
 									bool Pred,
+									typename Conse, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_list_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_list_if_then
+								  <
+									ListType,
+									Pred,
+									Conse, Values...
+								  >;
 
-									typename Ante_Cont, typename Value,
+//
 
-									typename Conse_Cont, template<typename> class Cond, SIZE_TYPE Index,
+								  template
+								  <
+									template<typename...> class ListType,
 
+									bool Pred,
+									typename Ante,
+									typename Conse, typename List, SIZE_TYPE Count, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_push_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_push_if_then_else
+								  <
+									ListType,
+									Pred,
+									Ante,
+									Conse, List, Count, Values...
+								  >;
+
+								  template
+								  <
+									template<typename...> class ListType,
+
+									bool Pred,
+									typename Conse, typename List, SIZE_TYPE Count, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_push_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_push_if_then
+								  <
+									ListType,
+									Pred,
+									Conse, List, Count, Values...
+								  >;
+
+//
+
+								  template
+								  <
+									template<typename...> class ListKind,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename Op,
+									typename List, SIZE_TYPE Count, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_map_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_map_if_then_else
+								  <
+									ListKind,
+									Pred,
+									Ante,
+									Conse, Op, List, Count, Values...
+								  >;
+
+								  template
+								  <
+									template<typename...> class ListKind,
+
+									bool Pred,
+									typename Conse, typename Op,
+									typename List, SIZE_TYPE Count, typename... Values
+								  >
+	using nik_safe(PREFIX, typename_map_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_map_if_then
+								  <
+									ListKind,
+									Pred,
+									Conse, Op, List, Count, Values...
+								  >;
+
+//
+
+								  template
+								  <
+									template<typename...> class ListType,
+
+									bool Pred,
+									typename Ante,
+									typename Conse, typename Op, typename Cond, SIZE_TYPE Count,
 									typename... Values
 								  >
-	using nik_safe(PREFIX, typename_find_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
-								  template typename_find_if_then_else
+	using nik_safe(PREFIX, typename_fold_if_then_else)	= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_fold_if_then_else
 								  <
-									ListType, Pred,
-									Ante_Cont, Value,
-									Conse_Cont, Cond, Index,
-									Values...
+									ListType,
+									Pred,
+									Ante,
+									Conse, Op, Cond, Count, Values...
+								  >;
+
+								  template
+								  <
+									template<typename...> class ListType,
+
+									bool Pred,
+									typename Conse, typename Op, typename Cond, SIZE_TYPE Count,
+									typename... Values
+								  >
+	using nik_safe(PREFIX, typename_fold_if_then)		= typename nik_module(recurse, calculus, symbolic, semiotic)::functor::
+								  template typename_fold_if_then
+								  <
+									ListType,
+									Pred,
+									Conse, Op, Cond, Count, Values...
 								  >;
 
 //

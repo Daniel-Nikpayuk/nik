@@ -15,14 +15,14 @@
 **
 ************************************************************************************************************************/
 
-#ifndef SYMBOLIC_SCHEME_NORMAL_SEMIOTIC_H
-#define SYMBOLIC_SCHEME_NORMAL_SEMIOTIC_H
+#ifndef SYMBOLIC_SCHEME_APPLICATIVE_SEMIOTIC_H
+#define SYMBOLIC_SCHEME_APPLICATIVE_SEMIOTIC_H
 
 	#include"constant-recursed-semiotic.h"
 
 #define local_scope
 
-	#include"../symbolic-interface-structure/scheme/normal/semiotic.h"
+	#include"../symbolic-interface-structure/scheme/applicative/semiotic.h"
 
 #undef local_scope
 

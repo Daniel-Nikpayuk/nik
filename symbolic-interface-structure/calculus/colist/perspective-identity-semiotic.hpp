@@ -25,22 +25,41 @@ struct identity
 
 	using rtn		= identity;
 
-	#include nik_typedef(symbolic, core, kernel, identity)
+//	#include nik_typedef(symbolic, calculus, list, identity)
 
 	#include nik_typedef(symbolic, calculus, colist, structure)
 
 /*
-	is_skip:
+	is_False:
 */
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_skip = is_equal<Exp, skip, Continuation>;
 
 /*
-	is_not_skip:
+	template<typename Exp>
+	using is_False = is_equal
+	<
+		Exp,
+		False
+	>;
 */
 
+/*
+	is_True:
+*/
+
+/*
+	template<typename Exp>
+	using is_True = is_equal
+	<
+		Exp,
+		True
+	>;
+*/
+
+/*
+	is_colist:
+
 	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_not_skip = is_skip<Exp, cp_negate<Continuation>>;
+	using is_colist = is_equal<Exp, skip, Continuation>;
+*/
 };
 

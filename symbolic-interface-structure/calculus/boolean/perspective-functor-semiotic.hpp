@@ -41,6 +41,20 @@ struct functor
 	>;
 
 /*
+	if_then:
+*/
+
+	template<bool Pred, typename Value>
+	using if_then = if_then_else
+	<
+		Pred,
+
+		Value,
+
+		filler
+	>;
+
+/*
 	display:
 
 	As there is no (direct/builtin) compile time screen in C++,

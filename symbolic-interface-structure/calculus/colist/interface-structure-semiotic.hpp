@@ -21,11 +21,22 @@ struct structure
 
 	using rtn						= structure;
 
-	struct skip
+	struct False
 	{
 		using kind					= module;
 
-		using rtn					= skip;
+		using rtn					= False;
+
+		static constexpr bool value			= false;
+	};
+
+	struct True
+	{
+		using kind					= module;
+
+		using rtn					= True;
+
+		static constexpr bool value			= true;
 	};
 
 	template<typename...>

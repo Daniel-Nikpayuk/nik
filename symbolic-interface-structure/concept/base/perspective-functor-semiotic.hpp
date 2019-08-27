@@ -477,7 +477,7 @@ struct functor
 	recurse:
 */
 
-	template<bool, typename = void> struct recurse;
+	template<bool, typename = filler> struct recurse;
 
 	template<typename Filler>
 	struct recurse<true, Filler>
@@ -654,7 +654,7 @@ struct functor
 	recurse:
 */
 
-	template<bool, typename = void> struct recurse;
+	template<bool, typename = filler> struct recurse;
 
 	template<typename Filler>
 	struct recurse<true, Filler>

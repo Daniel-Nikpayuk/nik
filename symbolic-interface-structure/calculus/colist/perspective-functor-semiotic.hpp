@@ -26,15 +26,17 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, core, kernel, identity)
+	#define safe_name
 
-	#include nik_typedef(symbolic, calculus, boolean, functor)
-	#include nik_typedef(symbolic, calculus, recurse, functor)
+		#include nik_typedef(symbolic, core, kernel, identity)
+
+		#include nik_typedef(symbolic, calculus, boolean, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(symbolic, calculus, list, module)
 	#include nik_typedef(symbolic, calculus, list, functor)
 
-	#include nik_typedef(symbolic, calculus, colist, identity)
 	#include nik_typedef(symbolic, calculus, colist, structure)
 
 /*
@@ -42,11 +44,11 @@ struct functor
 */
 
 	template<typename Predicate, typename Expression>
-	using if_then = if_then_else
+	using if_then = calbof_if_then_else
 	<
 		Predicate::value,
 		Expression,
-		skip
+		filler
 	>;
 
 /*
@@ -54,11 +56,11 @@ struct functor
 */
 
 	template<typename Predicate, typename Expression>
-	using else_then = if_then_else
+	using else_then = calbof_if_then_else
 	<
 		Predicate::value,
 		Expression,
-		skip
+		filler
 	>;
 
 /*
@@ -68,27 +70,25 @@ struct functor
 	template<typename Expression>
 	using then = Expression;
 
-/***********************************************************************************************************************/
-
 /*
 	cases: (typename_colist)
-
-	Assumes non-empty, in order: if_then, else_then, then.
-
-	"skip" is a reserved keyword.
 
 	Not grammatically safe.
 */
 
+	struct is_not_filler
+	{
+		template<typename Exp>
+		using result = corkei_is_not_filler<Exp>;
+	};
+
 	template<typename Exp0, typename Exp1, typename... Exps>
 	using cases = typename_find
 	<
-		is_not_skip,
+		is_not_filler,
 		colist<Exp0, Exp1, Exps...>,
-		typename List::functor::ch_typename_car
+		typename List::functor::ch_typename_list_to_ping
 	>;
-
-/***********************************************************************************************************************/
 
 /*
 	display:
@@ -98,3 +98,4 @@ struct functor
 */
 
 };
+

@@ -21,8 +21,6 @@ struct structure
 
 	using rtn						= structure;
 
-	struct not_found					{ };
-
 	template<typename...> struct act			{ };
 	template<typename...> struct pass			{ };
 
@@ -31,8 +29,16 @@ struct structure
 /*
 	pattern_match_builtin_list:
 
-	Specifying the Type at the front is necessary for variadic grammar during the
-	special case when (Values...) is empty, otherwise the compiler cannot deduce Type.
+	Specifying the Type at the front of builtin is necessary for variadic grammar during
+	the special case when (Values...) is empty, otherwise the compiler cannot deduce Type.
+
+	For whatever reason, if the pattern
+
+		template<...> class
+
+	follows other template parameters it creates an internal compiler error.
+	As such I have made the habit of refactoring it to the beginning.
+	Unfortunately this makes the grammar more awkward than is preferred.
 */
 
 	template<typename, typename>
@@ -70,109 +76,54 @@ struct structure
 
 		template
 		<
-			typename Continuation, Type... Args
+			typename Continuation, typename List, size_type count, Type... Args
 
-				//   signature: cons, multicons, car, cdr, null, length.
+				//   signature: length, cons, multicons, catenate, null.
 
-		> using push_front = typename Continuation::template result<Type, ListType, Args..., Values...>;
-
-		template
-		<
-			typename Continuation, Type... Args
-
-				//  signature: push, multipush.
-
-		> using push_back = typename Continuation::template result<Type, ListType, Values..., Args...>;
+		> using push_front = typename Continuation::template result<Type, ListType, List, count, Args..., Values...>;
 
 		template
 		<
-			typename Continuation, typename List, Type... Args
+			typename Continuation, typename List, size_type count, Type... Args
 
-				//   signature: catenate.
+				//  signature: push, multipush, unite, multiunite.
 
-		> using join_front = typename Continuation::template result<Type, List, Args..., Values...>;
-
-		template
-		<
-			typename Continuation, typename List, Type... Args
-
-				//  signature: unite, multiunite.
-
-		> using join_back = typename Continuation::template result<Type, List, Values..., Args...>;
+		> using push_back = typename Continuation::template result<Type, ListType, List, count, Values..., Args...>;
 
 		// mutate:
 
 		template
 		<
-			typename Continuation, template<Type...> class ListType0
+			typename Kind, template<Kind...> class ListKind,
 
-			//     signature: relist.
+			typename Continuation, typename Op, Type... Args
 
-		> using wrap = typename Continuation::template result<Type, ListType0, ListType, Values...>;
-
-		template
-		<
-				// For whatever reason if I put Kind after Continuation
-				// in the following it produces an internal compiler error.
-
-			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op
-
-			//    signature: map.
-
-		> using map = typename Continuation::template result<Kind, ListKind, Type, Op, Values...>;
-
-		template
-		<
-				// For whatever reason if I put Kind after Continuation
-				// in the following it produces an internal compiler error.
-
-			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op, typename List
-
-			//    signature: zip.
-
-		> using bimap = typename Continuation::template result<Kind, ListKind, Type, Op, List, Values...>;
-
-		template
-		<
-			typename Kind, template<Kind...> class ListKind, typename Continuation, typename Op, Type... Args
-
-			//  no signature, but required for bimap (signature).
+			//  no signature, but required to implement zip (signature).
 		>
 		using zip = typename Continuation::template result<Kind, ListKind, Op::value(Args, Values)...>;
+
+		template
+		<
+				// For whatever reason if I put ListKind after Continuation
+				// in the following it produces an internal compiler error.
+
+			typename Kind, template<Kind...> class ListKind,
+
+			typename Continuation, typename Op, typename List, size_type count
+
+			//    signature: map, relist, zip.
+
+		> using map = typename Continuation::template result<Kind, ListKind, Type, Op, List, count, Values...>;
 
 		// shrink:
 
 		template
 		<
-			typename Continuation, size_type count
+			typename Continuation, typename Op, typename Cond, size_type count, Type Arg
 
-			//    signature: multicar, multicdr.
+			//     signature: fold, break_fold, find, car, multicar, cdr, multicdr.
 
-		> using pop = typename Continuation::template result<Type, ListType, count, Values...>;
-
-		template
-		<
-			typename Continuation, typename Op, Type Arg
-
-			//     signature: fold.
-
-		> using fold = typename Continuation::template result<Type, Op, Arg, Values...>;
-
-		template
-		<
-			typename Continuation, typename Pred, typename Op, Type Arg
-
-			//     signature: break_fold.
-
-		> using break_fold = typename Continuation::template result<Type, Pred, Op, Arg, Values...>;
-
-		template
-		<
-			typename Continuation, typename Pred
-
-			//     signature: find.
-
-		> using find = typename Continuation::template result<Type, ListType, Pred, Values...>;
+		> using fold = typename Continuation::template result<Type, ListType, Op, Cond, count, Arg, Values...>;
 	};
 
 /***********************************************************************************************************************/
@@ -216,105 +167,54 @@ struct structure
 
 		template
 		<
-			typename Continuation, typename... Args
+			typename Continuation, typename List, size_type count, typename... Args
 
-				//   signature: cons, multicons, car, cdr, null, length.
+				//   signature: length, cons, multicons, catenate, null.
 
-		> using push_front = typename Continuation::template result<ListType, Args..., Values...>;
-
-		template
-		<
-			typename Continuation, typename... Args
-
-				//  signature: push, multipush.
-
-		> using push_back = typename Continuation::template result<ListType, Values..., Args...>;
+		> using push_front = typename Continuation::template result<ListType, List, count, Args..., Values...>;
 
 		template
 		<
-			typename Continuation, typename List, typename... Args
+			typename Continuation, typename List, size_type count, typename... Args
 
-				//   signature: catenate.
+				//  signature: push, multipush, unite, multiunite.
 
-		> using join_front = typename Continuation::template result<List, Args..., Values...>;
-
-		template
-		<
-			typename Continuation, typename List, typename... Args
-
-				//  signature: unite, multiunite.
-
-		> using join_back = typename Continuation::template result<List, Values..., Args...>;
+		> using push_back = typename Continuation::template result<ListType, List, count, Values..., Args...>;
 
 		// mutate:
 
 		template
 		<
-			typename Continuation, template<typename...> class ListType0
+			template<typename...> class ListKind,
 
-			//     signature: relist.
+			typename Continuation, typename Op, typename... Args
 
-		> using wrap = typename Continuation::template result<ListType0, ListType, Values...>;
-
-		template
-		<
-			typename Continuation, template<typename...> class ListKind, typename Op
-
-			//    signature: map.
-
-		> using map = typename Continuation::template result<ListKind, Op, Values...>;
+			//  no signature, but required to implement zip (signature).
+		>
+		using zip = typename Continuation::template result<ListKind, typename Op::template result<Args, Values>...>;
 
 		template
 		<
-			template<typename...> class ListKind, typename Continuation,
-				template<typename, typename> class Op, typename List
+				// For whatever reason if I put ListKind after Continuation
+				// in the following it produces an internal compiler error.
 
-			//    signature: zip.
+			template<typename...> class ListKind,
 
-		> using bimap = typename Continuation::template result<ListKind, Op, List, Values...>;
+			typename Continuation, typename Op, typename List, size_type count
 
-		template
-		<
-			template<typename...> class ListKind, typename Continuation,
-				template<typename, typename> class Op, typename... Args
+			//    signature: map, relist, zip.
 
-			//  no signature, but required for bimap (signature).
-
-		> using zip = typename Continuation::template result<ListKind, Op<Args, Values>...>;
+		> using map = typename Continuation::template result<ListKind, Op, List, count, Values...>;
 
 		// shrink:
 
 		template
 		<
-			typename Continuation, size_type count
+			typename Continuation, typename Op, typename Cond, size_type count, typename Arg
 
-			//    signature: multicar, multicdr.
+			//     signature: fold, break_fold, find, car, multicar, cdr, multicdr.
 
-		> using pop = typename Continuation::template result<ListType, count, Values...>;
-
-		template
-		<
-			typename Continuation, template<typename, typename> class Op, typename Arg
-
-			//     signature: fold.
-
-		> using fold = typename Continuation::template result<Op, Arg, Values...>;
-
-		template
-		<
-			typename Continuation, template<typename> class Pred, template<typename, typename> class Op, typename Arg
-
-			//     signature: break_fold.
-
-		> using break_fold = typename Continuation::template result<Pred, Op, Arg, Values...>;
-
-		template
-		<
-			typename Continuation, template<typename> class Pred
-
-			//     signature: find.
-
-		> using find = typename Continuation::template result<ListType, Pred, Values...>;
+		> using fold = typename Continuation::template result<ListType, Op, Cond, count, Arg, Values...>;
 	};
 };
 

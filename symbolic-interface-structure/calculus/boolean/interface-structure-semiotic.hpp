@@ -26,24 +26,6 @@ struct structure
 
 	using rtn		= structure;
 
-	struct False
-	{
-		using kind					= module;
-
-		using rtn					= False;
-
-		static constexpr bool value			= false;
-	};
-
-	struct True
-	{
-		using kind					= module;
-
-		using rtn					= True;
-
-		static constexpr bool value			= true;
-	};
-
 /*
 	pattern_match_boolean:
 
@@ -51,7 +33,7 @@ struct structure
 	but it is optimized here to use bool.
 */
 
-	template<bool True, typename Filler = void>
+	template<bool True, typename Filler = filler>
 	struct pattern_match_boolean
 	{
 		using rtn = pattern_match_boolean;

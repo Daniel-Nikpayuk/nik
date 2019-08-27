@@ -159,7 +159,7 @@ struct identity
 	template<typename Exp>
 	struct is_true
 	{
-		template<typename Type, typename Filler = void>
+		template<typename Type, typename Filler = filler>
 		struct strict
 		{
 			using rtn = boolean<true>;

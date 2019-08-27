@@ -29,6 +29,11 @@
 
 //
 
+	using local_corkei_ch_bool_echo			= typename nik_module(kernel, core, symbolic, semiotic)::identity::
+							  ch_bool_echo;
+
+//
+
 	using nik_safe(PREFIX, ch_bool_echo)		= typename nik_module(kernel, core, symbolic, semiotic)::identity::
 							  ch_bool_echo;
 
@@ -41,21 +46,33 @@
 							  template
 							  <
 								typename Type1, typename Type2,
-
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								identity::ch_bool_echo
+								typename Continuation = local_corkei_ch_bool_echo
 							  >
 	using nik_safe(PREFIX, is_equal)		= typename nik_module(kernel, core, symbolic, semiotic)::identity::template
 							  is_equal<Type1, Type2, Continuation>;
 
 							  template
 							  <
-								typename Type,
+								typename Exp,
+								typename Continuation = local_corkei_ch_bool_echo
+							  >
+	using nik_safe(PREFIX, is_filler)		= typename nik_module(kernel, core, symbolic, semiotic)::identity::template
+							  is_filler<Exp, Continuation>;
 
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								identity::ch_bool_echo
+							  template
+							  <
+								typename Exp,
+								typename Continuation = local_corkei_ch_bool_echo
+							  >
+	using nik_safe(PREFIX, is_not_filler)		= typename nik_module(kernel, core, symbolic, semiotic)::identity::template
+							  is_not_filler<Exp, Continuation>;
+
+//
+
+							  template
+							  <
+								typename Type,
+								typename Continuation = local_corkei_ch_bool_echo
 							  >
 	using nik_safe(PREFIX, is_pointer)		= typename nik_module(kernel, core, symbolic, semiotic)::identity::template
 							  is_pointer<Type, Continuation>;

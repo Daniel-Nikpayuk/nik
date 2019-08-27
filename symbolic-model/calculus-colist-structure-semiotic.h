@@ -17,8 +17,15 @@
 
 #include"define-size_type.h"
 
-	using skip				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::
-						  skip;
+//
+
+	using False				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::
+						  False;
+
+	using True				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::
+						  True;
+
+//
 
 						  template<typename... Exps>
 	using colist				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::template

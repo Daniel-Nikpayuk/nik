@@ -26,32 +26,6 @@ struct identity
 	#include nik_typedef(symbolic, calculus, boolean, structure)
 
 /*
-	is_False:
-*/
-
-/*
-	template<typename Exp>
-	using is_False = is_equal
-	<
-		Exp,
-		False
-	>;
-*/
-
-/*
-	is_True:
-*/
-
-/*
-	template<typename Exp>
-	using is_True = is_equal
-	<
-		Exp,
-		True
-	>;
-*/
-
-/*
 	is_boolean:
 */
 

@@ -19,7 +19,7 @@ template
 <
 	typename WordType,
 	size_type length,
-	typename Filler = void
+	typename Filler = filler
 
 > struct address;
 

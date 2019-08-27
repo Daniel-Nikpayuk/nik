@@ -35,45 +35,10 @@ struct functor
 	#include nik_typedef(symbolic, calculus, recurse, structure)
 
 /*
-	head_if_then_else:
+	builtin:
 */
 
-	template<bool Pred, template<typename> class Ante, typename Value, typename Conse>
-	using head_if_then_else = typename pattern_match_recurse<Pred>::template transit_reflex_conditional
-	<
-		Ante, Value,
-
-		Conse
-	>;
-
-/*
-	tail_if_then_else:
-*/
-
-	template<bool Pred, typename Ante, template<typename, typename...> class Conse, typename Value, typename... Values>
-	using tail_if_then_else = typename pattern_match_recurse<Pred>::template reflex_transit_conditional
-	<
-		Ante,
-
-		Conse, Value, Values...
-	>;
-
-/*
-	handle_if_then_else:
-*/
-
-	template<bool Pred, template<typename> class Ante, typename Ante_Value,
-		template<typename, typename...> class Conse, typename Value, typename... Values>
-	using handle_if_then_else = typename pattern_match_recurse<Pred>::template transit_transit_conditional
-	<
-		Ante, Ante_Value,
-
-		Conse, Value, Values...
-	>;
-
-/*
-	builtin_break_fold_if_then_else:
-*/
+	// echo:
 
 	template
 	<
@@ -81,49 +46,37 @@ struct functor
 
 		bool Pred,
 
-		typename Ante_Continuation, Type Value,
+		typename Antecedent,
 
-		typename Conse_Continuation, typename Cond, typename Op, size_type count,
+		typename Consequent, Type Value
 
-		Type... Values
-	>
-	using builtin_break_fold_if_then_else = typename pattern_match_recurse<Pred>::template builtin_break_fold_conditional
+	> using echo_if_then_else = typename pattern_match_recurse<Pred>::template echo
 	<
 		Type,
 
-		Ante_Continuation, Value,
+		Antecedent,
 
-		Conse_Continuation, Cond, Op, count,
-
-		Values...
+		Consequent, Value
 	>;
-
-/*
-	typename_break_fold_if_then_else:
-*/
 
 	template
 	<
+		typename Type,
+
 		bool Pred,
 
-		typename Value,
+		typename Consequent, Type Value
 
-		typename Conse_Continuation, template<typename> class Cond, template<typename, typename> class Op, size_type count,
-
-		typename... Values
-	>
-	using typename_break_fold_if_then_else = typename pattern_match_recurse<Pred>::template typename_break_fold_conditional
+	> using echo_if_then = typename pattern_match_recurse<!Pred>::template echo
 	<
-		Value,
+		Type,
 
-		Conse_Continuation, Cond, Op, count,
+		filler,
 
-		Values...
+		Consequent, Value
 	>;
 
-/*
-	builtin_find_if_then_else:
-*/
+	// list:
 
 	template
 	<
@@ -131,26 +84,185 @@ struct functor
 
 		bool Pred,
 
-		typename Ante_Continuation, Type Value,
+		typename Antecedent,
 
-		typename Conse_Continuation, typename Cond, size_type count,
+		typename Consequent, Type... Values
 
-		Type... Values
-	>
-	using builtin_find_if_then_else = typename pattern_match_recurse<Pred>::template builtin_find_conditional
+	> using builtin_list_if_then_else = typename pattern_match_recurse<Pred>::template builtin_list
 	<
 		Type, ListType,
 
-		Ante_Continuation, Value,
+		Antecedent,
 
-		Conse_Continuation, Cond, count,
+		Consequent, Values...
+	>;
 
-		Values...
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, Type... Values
+
+	> using builtin_list_if_then = typename pattern_match_recurse<!Pred>::template builtin_list
+	<
+		Type, ListType,
+
+		filler,
+
+		Consequent, Values...
+	>;
+
+	// grow:
+
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename List, size_type count, Type... Values
+
+	> using builtin_push_if_then_else = typename pattern_match_recurse<Pred>::template builtin_push
+	<
+		Type, ListType,
+
+		Antecedent,
+
+		Consequent, List, count, Values...
+	>;
+
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, typename List, size_type count, Type... Values
+
+	> using builtin_push_if_then = typename pattern_match_recurse<!Pred>::template builtin_push
+	<
+		Type, ListType,
+
+		filler,
+
+		Consequent, List, count, Values...
+	>;
+
+	// mutate:
+
+	template
+	<
+		typename Kind, template<Kind...> class ListKind,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename Type, typename Op, typename List, size_type count, Type... Values
+
+	> using builtin_map_if_then_else = typename pattern_match_recurse<Pred>::template builtin_map
+	<
+		Kind, ListKind,
+
+		Antecedent,
+
+		Consequent, Type, Op, List, count, Values...
+	>;
+
+	template
+	<
+		typename Kind, template<Kind...> class ListKind,
+
+		bool Pred,
+
+		typename Consequent, typename Type, typename Op, typename List, size_type count, Type... Values
+
+	> using builtin_map_if_then = typename pattern_match_recurse<!Pred>::template builtin_map
+	<
+		Kind, ListKind,
+
+		filler,
+
+		Consequent, Type, Op, List, count, Values...
+	>;
+
+	// shrink:
+
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename Op, typename Cond, size_type count, Type... Values
+
+	> using builtin_fold_if_then_else = typename pattern_match_recurse<Pred>::template builtin_fold
+	<
+		Type, ListType,
+
+		Antecedent,
+
+		Consequent, Op, Cond, count, Values...
+	>;
+
+	template
+	<
+		typename Type, template<Type...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, typename Op, typename Cond, size_type count, Type... Values
+
+	> using builtin_fold_if_then = typename pattern_match_recurse<!Pred>::template builtin_fold
+	<
+		Type, ListType,
+
+		filler,
+
+		Consequent, Op, Cond, count, Values...
 	>;
 
 /*
-	typename_find_if_then_else:
+	typename:
 */
+
+	// ping:
+
+	template
+	<
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename Value
+
+	> using ping_if_then_else = typename pattern_match_recurse<Pred>::template ping
+	<
+		Antecedent,
+
+		Consequent, Value
+	>;
+
+	template
+	<
+		bool Pred,
+
+		typename Consequent, typename Value
+
+	> using ping_if_then = typename pattern_match_recurse<!Pred>::template ping
+	<
+		filler,
+
+		Consequent, Value
+	>;
+
+	// list:
 
 	template
 	<
@@ -158,37 +270,152 @@ struct functor
 
 		bool Pred,
 
-		typename Ante_Continuation, typename Value,
+		typename Antecedent,
 
-		typename Conse_Continuation, template<typename> class Cond, size_type count,
+		typename Consequent, typename... Values
 
-		typename... Values
-	>
-	using typename_find_if_then_else = typename pattern_match_recurse<Pred>::template typename_find_conditional
+	> using typename_list_if_then_else = typename pattern_match_recurse<Pred>::template typename_list
 	<
 		ListType,
 
-		Ante_Continuation, Value,
+		Antecedent,
 
-		Conse_Continuation, Cond, count,
+		Consequent, Values...
+	>;
 
-		Values...
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, typename... Values
+
+	> using typename_list_if_then = typename pattern_match_recurse<!Pred>::template typename_list
+	<
+		ListType,
+
+		filler,
+
+		Consequent, Values...
+	>;
+
+	// grow:
+
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename List, size_type count, typename... Values
+
+	> using typename_push_if_then_else = typename pattern_match_recurse<Pred>::template typename_push
+	<
+		ListType,
+
+		Antecedent,
+
+		Consequent, List, count, Values...
+	>;
+
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, typename List, size_type count, typename... Values
+
+	> using typename_push_if_then = typename pattern_match_recurse<!Pred>::template typename_push
+	<
+		ListType,
+
+		filler,
+
+		Consequent, List, count, Values...
+	>;
+
+	// mutate:
+
+	template
+	<
+		template<typename...> class ListKind,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename Op, typename List, size_type count, typename... Values
+
+	> using typename_map_if_then_else = typename pattern_match_recurse<Pred>::template typename_map
+	<
+		ListKind,
+
+		Antecedent,
+
+		Consequent, Op, List, count, Values...
+	>;
+
+	template
+	<
+		template<typename...> class ListKind,
+
+		bool Pred,
+
+		typename Consequent, typename Op, typename List, size_type count, typename... Values
+
+	> using typename_map_if_then = typename pattern_match_recurse<!Pred>::template typename_map
+	<
+		ListKind,
+
+		filler,
+
+		Consequent, Op, List, count, Values...
+	>;
+
+	// shrink:
+
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Antecedent,
+
+		typename Consequent, typename Op, typename Cond, size_type count, typename... Values
+
+	> using typename_fold_if_then_else = typename pattern_match_recurse<Pred>::template typename_fold
+	<
+		ListType,
+
+		Antecedent,
+
+		Consequent, Op, Cond, count, Values...
+	>;
+
+	template
+	<
+		template<typename...> class ListType,
+
+		bool Pred,
+
+		typename Consequent, typename Op, typename Cond, size_type count, typename... Values
+
+	> using typename_fold_if_then = typename pattern_match_recurse<!Pred>::template typename_fold
+	<
+		ListType,
+
+		filler,
+
+		Consequent, Op, Cond, count, Values...
 	>;
 };
 
 /*
 	Combinatorial acknowledgement:
-
-	echo_echo_if_then_else		echo_ping_if_then_else		ping_echo_if_then_else		ping_ping_if_then_else
-	echo_pose_if_then_else		echo_moiz_if_then_else		ping_pose_if_then_else		ping_moiz_if_then_else
-	echo_turn_if_then_else		echo_call_if_then_else		ping_turn_if_then_else		ping_call_if_then_else
-
-	pose_echo_if_then_else		pose_ping_if_then_else		moiz_echo_if_then_else		moiz_ping_if_then_else
-	pose_pose_if_then_else		pose_moiz_if_then_else		moiz_pose_if_then_else		moiz_moiz_if_then_else
-	pose_turn_if_then_else		pose_call_if_then_else		moiz_turn_if_then_else		moiz_call_if_then_else
-
-	turn_echo_if_then_else		turn_ping_if_then_else		call_echo_if_then_else		call_ping_if_then_else
-	turn_pose_if_then_else		turn_moiz_if_then_else		call_pose_if_then_else		call_moiz_if_then_else
-	turn_turn_if_then_else		turn_call_if_then_else		call_turn_if_then_else		call_call_if_then_else
 */
 

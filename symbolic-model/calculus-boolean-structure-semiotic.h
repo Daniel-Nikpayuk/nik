@@ -17,14 +17,6 @@
 
 #include"define-size_type.h"
 
-/*
-	using False				= typename nik_module(dispatched, calculus, symbolic, semiotic)::structure::
-						  False;
-
-	using True				= typename nik_module(dispatched, calculus, symbolic, semiotic)::structure::
-						  True;
-*/
-
 						  template<bool Value>
 	using pattern_match_boolean		= typename nik_module(boolean, calculus, symbolic, semiotic)::structure::template
 						  pattern_match_boolean<Value>;

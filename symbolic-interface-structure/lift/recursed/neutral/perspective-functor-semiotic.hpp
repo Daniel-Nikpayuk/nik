@@ -84,7 +84,7 @@ struct functor
 	memoize_if_then_else:
 */
 
-	template<typename, typename Filler = void> struct memoize_if_then_else;
+	template<typename, typename Filler = filler> struct memoize_if_then_else;
 
 	template<typename Filler>
 	struct memoize_if_then_else<boolean<true>, Filler>
@@ -406,7 +406,7 @@ struct functor
 /*
 //	memoize_evaluate:
 
-	template<size_type, typename Filler = void> struct memoize_evaluate;
+	template<size_type, typename Filler = filler> struct memoize_evaluate;
 
 	template<typename Filler>
 	struct memoize_evaluate<1, Filler> // else_then<Pred, Exp>

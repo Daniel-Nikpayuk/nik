@@ -29,9 +29,15 @@
 
 //
 
-								  template<bool Pred, typename Ante, typename Conse>
-	using nik_safe(PREFIX, if_then_else)			= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::
-								  template if_then_else<Pred, Ante, Conse>;
+							  template<bool Pred, typename Ante, typename Conse>
+	using nik_safe(PREFIX, if_then_else)		= typename nik_module(boolean, calculus, symbolic, semiotic)::functor:: template
+							  if_then_else<Pred, Ante, Conse>;
+
+//
+
+							  template<bool Pred, typename Value>
+	using nik_safe(PREFIX, if_then)			= typename nik_module(boolean, calculus, symbolic, semiotic)::functor::template
+							  if_then<Pred, Value>;
 
 //
 

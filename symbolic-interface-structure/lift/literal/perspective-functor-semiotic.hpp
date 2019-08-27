@@ -23,7 +23,11 @@ struct functor
 
 	#include nik_typedef(symbolic, calculus, list, functor)
 
-	#include nik_typedef(symbolic, lift, operate, module)
+	#define safe_name
+
+		#include nik_typedef(symbolic, lift, operate, functor)
+
+	#undef safe_name
 
 	#include nik_typedef(symbolic, lift, literal, structure)
 
@@ -53,35 +57,32 @@ struct functor
 */
 
 				  template<typename List, size_type index = 0>
-	using car		= builtin_car<register_type, List, index>;
+	using car		= builtin_multicar<register_type, List, index>;
 
 /*
 	cdr:
 */
 
 				  template<typename List, size_type index = 0>
-	using cdr		= builtin_cdr<register_type, List, index>;
+	using cdr		= builtin_multicdr<register_type, List, index>;
 
 /*
 	apply:
 */
 
 	template<typename Op>
-	struct dispatch
+	struct zip
 	{
-		using binary = typename Operate::functor::template binary<Op>;
+		using binary = lifopf_binary<Op>;
 
 		template<typename List1, typename List2>
-		using zip = builtin_zip<register_type, literal, register_type, binary, List1, List2>;
-
-		template<typename Value, typename List>
-		using apply = typename_fold<zip, Value, List>;
+		using result = builtin_zip<register_type, literal, register_type, binary, List1, List2>;
 	};
 
-	template<typename Op, typename Value, typename List>
-	using apply = typename dispatch<Op>::template apply
+	template<typename Op, typename Result, typename List>
+	using apply = typename_fold
 	<
-		Value, List
+		zip<Op>, Result, List
 	>;
 
 /*

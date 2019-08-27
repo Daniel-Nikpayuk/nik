@@ -17,15 +17,7 @@
 
 #include"define-size_type.h"
 
-/*
-				  template<typename Exp>
-	using act		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
-				  act<Exp>;
-
-				  template<typename Exp>
-	using pass		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
-				  pass<Exp>;
-*/
+//
 
 							  template<typename Type, typename Exp>
 	using pattern_match_builtin_list		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
@@ -35,5 +27,17 @@
 	using pattern_match_typename_list		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
 							  pattern_match_typename_list<Exp>;
 
+//
+
 #include"undef-size_type.h"
+
+/*
+				  template<typename Exp>
+	using act		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
+				  act<Exp>;
+
+				  template<typename Exp>
+	using pass		= typename nik_module(list, calculus, symbolic, semiotic)::structure::template
+				  pass<Exp>;
+*/
 

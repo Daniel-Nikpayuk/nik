@@ -43,12 +43,12 @@
 //#include nik_source(., symbolic, calculus, colist, semiotic)
 
 //#include nik_source(., symbolic, lift, operate, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, lift, boolean, semiotic)
-//#include nik_source(., symbolic, lift, literal, semiotic)
-//#include nik_source(., symbolic, lift, number, semiotic)
+#include nik_source(., symbolic, lift, boolean, semiotic)
+#include nik_source(., symbolic, lift, literal, semiotic)
+#include nik_source(., symbolic, lift, number, semiotic)
 //#include nik_source(., symbolic, lift, integer32, semiotic)
 
-#include nik_source(., symbolic, scheme, applicative, semiotic)
+//#include nik_source(., symbolic, scheme, applicative, semiotic)
 
 //
 

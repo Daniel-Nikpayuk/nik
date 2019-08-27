@@ -27,9 +27,7 @@ struct functor
 
 	using rtn		= functor;
 
-	#include nik_typedef(symbolic, calculus, recurse, functor)
-
-	#include nik_typedef(symbolic, calculus, list, identity)
+	#include nik_typedef(symbolic, calculus, list, structure)
 	#include nik_typedef(symbolic, calculus, list, functor)
 
 	#include nik_typedef(symbolic, lift, operate, structure)
@@ -62,14 +60,14 @@ struct functor
 */
 
 				  template<typename List, size_type index = 0>
-	using car		= builtin_car<register_type, List, index>;
+	using car		= builtin_multicar<register_type, List, index>;
 
 /*
 	cdr:
 */
 
 				  template<typename List, size_type index = 0>
-	using cdr		= builtin_cdr<register_type, List, index>;
+	using cdr		= builtin_multicdr<register_type, List, index>;
 
 /***********************************************************************************************************************/
 
@@ -79,14 +77,13 @@ struct functor
 	Relational operators require returing a bool value instead of their given Type.
 */
 
-	template<char, typename = void>			struct single_char_unary;
-	template<char, typename = void>			struct single_char_binary;
-	template<char, char, typename = void>		struct double_char_binary;
+	template<typename, char>						struct char_unary;
+	template<typename, char...>						struct char_binary;
 
 	#define declare_single_char_unary(op_char, op_name)							\
 														\
-	template<typename Filler>										\
-	struct single_char_unary<op_char, Filler>								\
+	template<typename Char>											\
+	struct char_unary<Char, op_char>									\
 	{													\
 		template<typename Type>										\
 		static constexpr Type value(const Type Value)							\
@@ -97,8 +94,8 @@ struct functor
 
 	#define declare_single_char_binary(return_type, op_char, op_name)					\
 														\
-	template<typename Filler>										\
-	struct single_char_binary<op_char, Filler>								\
+	template<typename Char>											\
+	struct char_binary<Char, op_char>									\
 	{													\
 		template<typename Type>										\
 		static constexpr return_type value(const Type Value1, const Type Value2)			\
@@ -109,8 +106,8 @@ struct functor
 
 	#define declare_double_char_binary(return_type, op_char1, op_char2, op_name)				\
 														\
-	template<typename Filler>										\
-	struct double_char_binary<op_char1, op_char2, Filler>							\
+	template<typename Char>											\
+	struct char_binary<Char, op_char1, op_char2>								\
 	{													\
 		template<typename Type>										\
 		static constexpr return_type value(const Type Value1, const Type Value2)			\
@@ -208,9 +205,9 @@ struct functor
 */
 
 	template<typename Operator>
-	using unary = single_char_unary
+	using unary = char_unary
 	<
-		car<Operator>::value
+		char, car<Operator>::value
 	>;
 
 /***********************************************************************************************************************/
@@ -219,35 +216,16 @@ struct functor
 	binary:
 */
 
-	template<typename Char>
-	using safe_single_char_binary = single_char_binary
-	<
-		Char::value
-	>;
-
-	template<typename Char1, typename Char2>
-	using safe_double_char_binary = double_char_binary
-	<
-		Char1::value,
-
-		car<Char2>::value
-	>;
-
-	template<typename Char1, typename Char2>
-	using let_binary = handle_if_then_else
-	<
-		builtin_is_null<register_type, Char2>::value,
-
-		safe_single_char_binary, Char1,
-
-		safe_double_char_binary, Char1, Char2
-	>;
+	struct ch_binary
+	{
+		template<typename Char, template<Char...> class ListType, typename List, size_type index, Char... Values>
+		using result = char_binary<Char, Values...>;
+	};
 
 	template<typename Operator>
-	using binary = let_binary
+	using binary = typename pattern_match_builtin_list<char, Operator>::template push_front
 	<
-		car<Operator>,
-		cdr<Operator>
+		ch_binary, filler, 0
 	>;
 
 /***********************************************************************************************************************/
