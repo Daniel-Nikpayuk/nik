@@ -29,29 +29,26 @@
 
 //
 
+	using local_callif_ch_bool_echo			= typename nik_module(kernel, core, symbolic, semiotic)::identity::
+							  ch_bool_echo;
+
+//
+
 							  template
 							  <
 								typename Type, typename List,
-
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								identity::ch_bool_echo
+								typename Continuation = local_callif_ch_bool_echo
 							  >
 	using nik_safe(PREFIX, builtin_is_null)		= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
 							  builtin_is_null<Type, List, Continuation>;
 
-/*
 							  template
 							  <
 								typename List,
-
-								typename Continuation =
-								typename nik_module(kernel, core, symbolic, semiotic)::
-								identity::ch_bool_echo
+								typename Continuation = local_callif_ch_bool_echo
 							  >
 	using nik_safe(PREFIX, typename_is_null)	= typename nik_module(list, calculus, symbolic, semiotic)::identity::template
 							  typename_is_null<List, Continuation>;
-*/
 
 //
 

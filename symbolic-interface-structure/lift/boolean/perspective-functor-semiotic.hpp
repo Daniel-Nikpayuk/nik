@@ -23,6 +23,7 @@ struct functor
 
 	#include nik_typedef(symbolic, core, kernel, identity)
 
+	#include nik_typedef(symbolic, calculus, list, module)
 	#include nik_typedef(symbolic, calculus, list, functor)
 
 	#define safe_name
@@ -102,10 +103,10 @@ struct functor
 		using result = short_circuit<Op, Boolean>;
 	};
 
-	template<typename Op, typename Result, typename List>
-	using apply = typename_break_fold
+	template<typename Op, typename Boolean0, typename Boolean1, typename... Booleans>
+	using apply = typename List::functor::ch_typename_break_fold::template result
 	<
-		zip<Op>, circuit<Op>, Result, List
+		typename_filler, zip<Op>, circuit<Op>, sizeof...(Booleans), Boolean0, Boolean1, Booleans...
 	>;
 
 /*

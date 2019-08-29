@@ -217,6 +217,12 @@
 	using nik_safe(PREFIX, builtin_find)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
 							  builtin_find<Type, Cond, List, Continuation>;
 
+//
+
+							  template<typename Type, typename Cond, typename List, typename Continuation>
+	using nik_safe(PREFIX, builtin_split)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  builtin_split<Type, Cond, List, Continuation>;
+
 
 /***********************************************************************************************************************/
 
@@ -401,6 +407,12 @@
 							  >
 	using nik_safe(PREFIX, typename_find)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
 							  typename_find<Cond, List, Continuation>;
+
+//
+
+							  template<typename Cond, typename List, typename Continuation>
+	using nik_safe(PREFIX, typename_split)		= typename nik_module(list, calculus, symbolic, semiotic)::functor::template
+							  typename_split<Cond, List, Continuation>;
 
 //
 

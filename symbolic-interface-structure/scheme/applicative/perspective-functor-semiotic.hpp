@@ -38,7 +38,7 @@ struct functor
 	#include"perspective-functor-application.hpp"
 
 /*
-	normal order eval:
+	applicative order eval:
 */
 
 	template<typename Expression, typename Environment = null_environment>
@@ -47,7 +47,7 @@ struct functor
 		using Exp	= typename Expression::rtn;
 		using Env	= typename Environment::rtn;
 
-		using rtn = typename evaluate
+		using rtn = cases
 		<
 			if_then
 			<

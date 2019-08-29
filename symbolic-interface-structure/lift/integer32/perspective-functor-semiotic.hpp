@@ -21,6 +21,7 @@ struct functor
 
 	using rtn		= functor;
 
+	#include nik_typedef(symbolic, calculus, list, module)
 	#include nik_typedef(symbolic, calculus, list, functor)
 
 	#define safe_name
@@ -82,10 +83,10 @@ struct functor
 		using result = builtin_zip<register_type, integer32, register_type, binary, List1, List2>;
 	};
 
-	template<typename Op, typename Result, typename List>
-	using apply = typename_fold
+	template<typename Op, typename Number0, typename Number1, typename... Numbers>
+	using apply = typename List::functor::ch_typename_fold::template result
 	<
-		zip<Op>, Result, List
+		typename_filler, zip<Op>, filler, sizeof...(Numbers), Number0, Number1, Numbers...
 	>;
 
 /*

@@ -30,14 +30,12 @@ struct functor
 
 		#include nik_typedef(symbolic, core, kernel, identity)
 
-		#include nik_typedef(symbolic, calculus, boolean, functor)
+		#include nik_typedef(symbolic, calculus, boolean, functor)		// prevents if_then collision.
 
 	#undef safe_name
 
 	#include nik_typedef(symbolic, calculus, list, module)
 	#include nik_typedef(symbolic, calculus, list, functor)
-
-	#include nik_typedef(symbolic, calculus, colist, structure)
 
 /*
 	if_then:
@@ -83,11 +81,13 @@ struct functor
 	};
 
 	template<typename Exp0, typename Exp1, typename... Exps>
-	using cases = typename_find
+	using cases = typename List::functor::template cp_typename_find
 	<
-		is_not_filler,
-		colist<Exp0, Exp1, Exps...>,
 		typename List::functor::ch_typename_list_to_ping
+
+	>::template result
+	<
+		typename_filler, filler, is_not_filler, 0, filler, Exp0, Exp1, Exps...
 	>;
 
 /*

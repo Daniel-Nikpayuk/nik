@@ -43,10 +43,6 @@ struct structure
 		using kind					= module;
 
 		using rtn					= binding;
-
-		using variable					= Variable;
-
-		using value					= Value;
 	};
 
 	template<typename... Bindings>

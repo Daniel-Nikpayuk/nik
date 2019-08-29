@@ -113,7 +113,7 @@ struct structure
 
 			//    signature: map, relist, zip.
 
-		> using map = typename Continuation::template result<Kind, ListKind, Type, Op, List, count, Values...>;
+		> using map = typename Continuation::template result<Kind, ListKind, Type, ListType, Op, List, count, Values...>;
 
 		// shrink:
 
@@ -204,7 +204,7 @@ struct structure
 
 			//    signature: map, relist, zip.
 
-		> using map = typename Continuation::template result<ListKind, Op, List, count, Values...>;
+		> using map = typename Continuation::template result<ListKind, ListType, Op, List, count, Values...>;
 
 		// shrink:
 

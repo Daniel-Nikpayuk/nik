@@ -49,12 +49,6 @@
 	using nik_safe(PREFIX, push)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  push<Value, List>;
 
-/*
-							  template<typename List1, typename List2, typename... Lists>
-	using nik_safe(PREFIX, catenate)		= typename nik_module(number, lift, symbolic, semiotic)::functor::template
-							  catenate<List1, List2, Lists...>;
-*/
-
 							  template<typename List, SIZE_TYPE Index = 0>
 	using nik_safe(PREFIX, car)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
 							  car<List, Index>;
@@ -65,9 +59,9 @@
 
 //
 
-							  template<typename Op, typename Result, typename List>
+							  template<typename Op, typename Num0, typename Num1, typename... Nums>
 	using nik_safe(PREFIX, apply)			= typename nik_module(number, lift, symbolic, semiotic)::functor::template
-							  apply<Op, Result, List>;
+							  apply<Op, Num0, Num1, Nums...>;
 
 /*
 							  template<typename Exp>

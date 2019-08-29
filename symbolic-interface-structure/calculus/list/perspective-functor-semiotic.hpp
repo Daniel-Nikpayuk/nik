@@ -142,7 +142,8 @@ struct functor
 	struct cp_builtin_map
 	{
 		template<typename Kind, template<Kind...> class ListKind,
-			typename Type, typename Op, typename List, size_type index, Type... Values>
+				typename Type, template<Type...> class ListType,
+					typename Op, typename List, size_type index, Type... Values>
 		using result = typename Continuation::template result<Kind, ListKind, Op::value(Values)...>;
 	};
 
@@ -159,7 +160,8 @@ struct functor
 	struct cp_builtin_relist
 	{
 		template<typename Kind, template<Kind...> class ListKind,
-			typename Type, typename Op, typename List, size_type index, Type... Values>
+				typename Type, template<Type...> class ListType,
+					typename Op, typename List, size_type index, Type... Values>
 		using result = typename Continuation::template result<Kind, ListKind, Values...>;
 	};
 
@@ -178,7 +180,8 @@ struct functor
 	struct cp_builtin_zip
 	{
 		template<typename Kind, template<Kind...> class ListKind,
-			typename Type, typename Op, typename List, size_type index, Type... Values>
+				typename Type, template<Type...> class ListType,
+					typename Op, typename List, size_type index, Type... Values>
 		using result = typename pattern_match_builtin_list<Type, List>::template zip
 		<
 			Kind, ListKind, Continuation, Op, Values...
@@ -541,6 +544,67 @@ struct functor
 		cp_builtin_find<Continuation>, filler, Cond, 0, Type(0)
 	>;
 
+	// split:
+
+	template<typename Continuation> struct cp_let_match_builtin_split;
+
+	template<typename Continuation>
+	struct cp_let_end_builtin_split
+	{
+		template<typename Kind, template<Kind...> class ListKind, typename Type, template<Type...> class ListType,
+			typename Cond, typename Result, size_type index, Type Value, Type... Values>
+		using result = typename if_then_else
+		<
+			bool(index),
+
+			cp_let_match_builtin_split<Continuation>,
+
+			Continuation
+
+		>::template result
+		<
+			Kind, ListKind, Type, ListType, Cond, builtin_push<Type, Value, Result>, index-1, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_let_match_builtin_split
+	{
+		template<typename Kind, template<Kind...> class ListKind, typename Type, template<Type...> class ListType,
+			typename Cond, typename Result, size_type index, Type Value, Type... Values>
+		using result = typename if_then_else
+		<
+			Cond::value(Value),
+
+			Continuation,
+
+			cp_let_end_builtin_split<Continuation>
+
+		>::template result
+		<
+			Kind, ListKind, Type, ListType, Cond, Result, index, Value, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_builtin_split
+	{
+			// sizeof...(Values) is an optimization.
+
+		template<typename Kind, template<Kind...> class ListKind, typename Type, template<Type...> class ListType,
+			typename Cond, typename Result, size_type index, Type Value, Type... Values>
+		using result = typename cp_let_match_builtin_split<Continuation>::template result
+		<
+			Kind, ListKind, Type, ListType, Cond, ListType<>, sizeof...(Values), Value, Values...
+		>;
+	};
+
+	template<typename Type, typename Cond, typename List, typename Continuation>
+	using builtin_split = typename pattern_match_builtin_list<Type, List>::template map
+	<
+		filler, builtin_filler, cp_builtin_split<Continuation>, Cond, filler, 0
+	>;
+
 /***********************************************************************************************************************/
 
 /*
@@ -643,7 +707,7 @@ struct functor
 	template<typename Continuation>
 	struct cp_typename_map
 	{
-		template<template<typename...> class ListKind,
+		template<template<typename...> class ListKind, template<typename...> class ListType,
 			typename Op, typename List, size_type index, typename... Values>
 		using result = typename Continuation::template result<ListKind, typename Op::template result<Values>...>;
 	};
@@ -660,7 +724,7 @@ struct functor
 	template<typename Continuation>
 	struct cp_typename_relist
 	{
-		template<template<typename...> class ListKind,
+		template<template<typename...> class ListKind, template<typename...> class ListType,
 			typename Op, typename List, size_type index, typename... Values>
 		using result = typename Continuation::template result<ListKind, Values...>;
 	};
@@ -679,7 +743,7 @@ struct functor
 	template<typename Continuation>
 	struct cp_typename_zip
 	{
-		template<template<typename...> class ListKind,
+		template<template<typename...> class ListKind, template<typename...> class ListType,
 			typename Op, typename List, size_type index, typename... Values>
 		using result = typename pattern_match_typename_list<List>::template zip
 		<
@@ -1024,6 +1088,67 @@ struct functor
 	using typename_find = typename pattern_match_typename_list<List>::template fold
 	<
 		cp_typename_find<Continuation>, filler, Cond, 0, filler
+	>;
+
+	// split:
+
+	template<typename Continuation> struct cp_let_match_typename_split;
+
+	template<typename Continuation>
+	struct cp_let_end_typename_split
+	{
+		template<template<typename...> class ListKind, template<typename...> class ListType,
+			typename Cond, typename Result, size_type index, typename Value, typename... Values>
+		using result = typename if_then_else
+		<
+			bool(index),
+
+			cp_let_match_typename_split<Continuation>,
+
+			Continuation
+
+		>::template result
+		<
+			ListKind, ListType, Cond, typename_push<Value, Result>, index-1, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_let_match_typename_split
+	{
+		template<template<typename...> class ListKind, template<typename...> class ListType,
+			typename Cond, typename Result, size_type index, typename Value, typename... Values>
+		using result = typename if_then_else
+		<
+			Cond::template result<Value>::value,
+
+			Continuation,
+
+			cp_let_end_typename_split<Continuation>
+
+		>::template result
+		<
+			ListKind, ListType, Cond, Result, index, Value, Values...
+		>;
+	};
+
+	template<typename Continuation>
+	struct cp_typename_split
+	{
+			// sizeof...(Values) is an optimization.
+
+		template<template<typename...> class ListKind, template<typename...> class ListType,
+			typename Cond, typename Result, size_type index, typename Value, typename... Values>
+		using result = typename cp_let_match_typename_split<Continuation>::template result
+		<
+			ListKind, ListType, Cond, ListType<>, sizeof...(Values), Value, Values...
+		>;
+	};
+
+	template<typename Cond, typename List, typename Continuation>
+	using typename_split = typename pattern_match_typename_list<List>::template map
+	<
+		typename_filler, cp_typename_split<Continuation>, Cond, filler, 0
 	>;
 };
 

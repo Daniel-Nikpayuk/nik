@@ -27,9 +27,5 @@
 
 //
 
-						  template<typename... Exps>
-	using colist				= typename nik_module(colist, calculus, symbolic, semiotic)::structure::template
-						  colist<Exps...>;
-
 #include"undef-size_type.h"
 

@@ -19,11 +19,17 @@
 
 namespace nik
 {
-	using global_size_type		= signed long long; //size_t;
+	using global_size_type							= signed long long; //size_t;
 
-	constexpr void *null_ptr	= 0; // use builtin "nullptr" instead ?
+	constexpr void *null_ptr						= 0; // use builtin "nullptr" instead ?
 
-	struct filler			{ }; // keyword.
+	struct global_filler							{ }; // keyword.
+
+	using filler								= global_filler *;
+
+	template<filler...> struct builtin_filler				{ }; // keyword.
+
+	template<typename...> struct typename_filler				{ }; // keyword.
 
 	// endl was here, but will instead be a unicode static const object.
 

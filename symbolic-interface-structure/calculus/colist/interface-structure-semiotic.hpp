@@ -38,13 +38,5 @@ struct structure
 
 		static constexpr bool value			= true;
 	};
-
-	template<typename...>
-	struct colist
-	{
-		using kind					= module;
-
-		using rtn					= colist;
-	};
 };
 

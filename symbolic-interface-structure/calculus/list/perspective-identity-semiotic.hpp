@@ -47,7 +47,7 @@ struct identity
 	template<typename Type, typename List, typename Continuation = ch_bool_echo>
 	using builtin_is_null = typename pattern_match_builtin_list<Type, List>::template push_back
 	<
-		cp_builtin_is_null<Continuation>, filler
+		cp_builtin_is_null<Continuation>, filler, 0
 	>;
 
 /***********************************************************************************************************************/
@@ -58,7 +58,6 @@ struct identity
 
 	// is_null:
 
-/*
 	template<typename Continuation>
 	struct cp_typename_is_null
 	{
@@ -69,9 +68,8 @@ struct identity
 	template<typename List, typename Continuation = ch_bool_echo>
 	using typename_is_null = typename pattern_match_typename_list<List>::template push_back
 	<
-		cp_typename_is_null<Continuation>, filler
+		cp_typename_is_null<Continuation>, filler, 0
 	>;
-*/
 };
 
 /*

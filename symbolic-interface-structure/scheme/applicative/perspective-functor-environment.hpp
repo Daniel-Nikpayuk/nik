@@ -17,144 +17,86 @@
 
 /*
 	Notes:
-
-	Parameters are evaluated in the methods to which they are passed.
 */
 
 /*
 	binding:
 */
 
-	template<typename Exp1, typename Exp2>
-	struct binding_make
-	{
-		using rtn = binding
-		<
-			typename Exp1::rtn,
-			typename Exp2::rtn
-		>;
-	};
+	template<typename Var, typename Val>
+	using binding_make = binding<Var, Val>;
+
+	template<typename Binding>
+	using binding_variable = typename_typename_car<Binding>;
 
 	template<typename Exp>
-	struct binding_variable
-	{
-		using rtn = typename Exp::rtn::variable;
-	};
-
-	template<typename Exp>
-	struct binding_value
-	{
-		using rtn = typename Exp::rtn::value;
-	};
+	using binding_value = typename_typename_cdr<Binding>;
 
 /*
 	frame:
 */
 
-//	Takes a list of variables as well as a list of values and creates
-//	a frame of bindings. This implementation assumes the variable
-//	and value lists are the same size.
+	// make:
 
-	template<typename Exp1, typename Exp2>
-	struct frame_make
+		//	Takes a list of variables as well as a list of values and creates
+		//	a frame of bindings. This implementation assumes the variable
+		//	and value lists are the same size.
+
+	template<typename VarList, typename ValList>
+	using frame_make = typename_zip<frame, binding_make, VarList, ValList>;
+
+	// split:
+
+		// necessary to simulate mutable lists.
+
+	template<typename Var>
+	struct frame_split_cond
 	{
-		using VariableList	= typename Exp1::rtn;
-		using ValueList		= typename Exp2::rtn;
-
-		using rtn = typename if_then_else
+		template<typename Binding>
+		using result = is_equal
 		<
-			is_null<VariableList>,
-			null_frame,
-			cons
-			<
-				binding_make
-				<
-					car<VariableList>,
-					car<ValueList>
-				>,
-
-				frame_make
-				<
-					cdr<VariableList>,
-					cdr<ValueList>
-				>
-			>
-
-		>::rtn;
+			binding_variable<Binding>, Var
+		>;
 	};
 
-	template<typename Exp1, typename Exp2, typename Exp3>
-	struct frame_split
+	template<Continuation>
+	struct cp_typename_map_to_split
 	{
-		using Variable	= typename Exp1::rtn;
-		using Frame1	= typename Exp2::rtn;
-		using Frame2	= typename Exp3::rtn;
-
-		template<typename SubExp1, typename SubExp2>
-		struct recurse
-		{
-			using first	= typename SubExp1::rtn;
-			using rest	= typename SubExp2::rtn;
-
-			using rtn = typename if_then_else
-			<
-				is_equal
-				<
-					Variable,
-					binding_variable<first>
-				>,
-
-				list<first, Frame1, rest>,
-
-				frame_split
-				<
-					Variable,
-					push<first, Frame1>,
-					rest
-				>
-
-			>::rtn;
-		};
-
-		using rtn = typename if_then_else
+		template<template<typename...> class ListKind,
+			typename Op, typename List, size_type index, typename... Values>
+		using result = typename Continuation::template result
 		<
-			is_null<Frame2>,
+			ListKind, Result,
 
-			list
+			typename_multicons
 			<
-				error_unbound_variable,
-				Frame1,
-				null_frame
-			>,
-
-			recurse
-			<
-				car<Frame2>,
-				cdr<Frame2>
+				typename_null<List>,
+				ch_typename_list,
+				Values...
 			>
-
-		>::rtn;
+		>;
 	};
+
+	template<typename Var, typename Frame, typename Continuation = ch_typename_list>
+	using frame_split = typename_split<frame_split_cond, >;
 
 /*
 	environment:
 */
 
 	template<typename VariableList, typename ValueList, typename Env = null_environment>
-	struct environment_make
-	{
-		using rtn = typename cons
+	using environment_make = typename_cons
+	<
+		frame_make
 		<
-			frame_make
-			<
-				VariableList,
-				ValueList
-			>,
+			VariableList,
+			ValueList
+		>,
 
-			Env
+		Env
+	>;
 
-		>::rtn;
-	};
+		// necessary to simulate mutable lists.
 
 	template<typename Exp1, typename Exp2, typename Exp3>
 	struct environment_split

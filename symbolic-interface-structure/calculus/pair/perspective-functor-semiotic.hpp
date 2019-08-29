@@ -54,6 +54,14 @@ struct functor
 	};
 
 /*
+	template<template<typename, typename> class PairType, >
+	using builtin_builtin_car = typename pattern_match_builtin_builtin_pair<Pair>::template pop
+	<
+		cp_builtin_builtin_car<Continuation>
+	>;
+*/
+
+/*
 	car:
 */
 

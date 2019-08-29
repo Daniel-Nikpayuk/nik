@@ -59,9 +59,9 @@
 
 //
 
-							  template<typename Op, typename Result, typename List>
+							  template<typename Op, typename Char0, typename Char1, typename... Chars>
 	using nik_safe(PREFIX, apply)			= typename nik_module(literal, lift, symbolic, semiotic)::functor::template
-							  apply<Op, Result, List>;
+							  apply<Op, Char0, Char1, Chars...>;
 
 //
 
