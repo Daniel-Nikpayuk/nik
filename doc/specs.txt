@@ -1,0 +1,5 @@
+
+1. The components that make up a module are what allow us to model.
+2. The primary nik module is intended to allow us to model two branch submodules: symbolic, assemblic.
+3. Both branches are intended to model grammatical modules of C++.
+

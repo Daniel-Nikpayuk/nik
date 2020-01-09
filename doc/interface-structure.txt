@@ -1,0 +1,1 @@
+A division is a branch, but a branch is more general as a model may have contextually specific divisions.

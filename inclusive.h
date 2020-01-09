@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2019 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2020 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef INCLUSIVE_H
-#define INCLUSIVE_H
+#ifndef NIK_INCLUSIVE_H
+#define NIK_INCLUSIVE_H
 
 
 /***********************************************************************************************************************/
@@ -26,34 +26,37 @@
 #include"exclusive.h"
 
 
+#include nik_library_source(., perspective, identity, semiotic)
+
+
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., symbolic, perspective, core, semiotic)			// redundant inclusion
-
-//#include nik_source(., symbolic, core, kernel, semiotic)			// redundant inclusion
-
-//#include nik_source(., symbolic, calculus, pair, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, handle, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, copair, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, boolean, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, recurse, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, list, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, calculus, colist, semiotic)
-
-//#include nik_source(., symbolic, lift, operate, semiotic)			// redundant inclusion
-//#include nik_source(., symbolic, lift, boolean, semiotic)
-//#include nik_source(., symbolic, lift, literal, semiotic)
-#include nik_source(., symbolic, lift, number, semiotic)
-//#include nik_source(., symbolic, lift, integer32, semiotic)
-
-//#include nik_source(., symbolic, scheme, applicative, semiotic)
-
-//
+#include nik_lens_source(., symbolic, interface, structure, semiotic)
 
 
-#include nik_source(., assemblic, graphic, printer, media)
+//#include nik_module_source(., symbolic, calculus, function, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, pair, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, lambda, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, copair, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, boolean, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, list, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, colist, semiotic)
+//#include nik_module_source(., symbolic, calculus, operate, semiotic)			// redundant inclusion
+//#include nik_module_source(., symbolic, calculus, literal, semiotic)
+//#include nik_module_source(., symbolic, calculus, number, semiotic)
+//#include nik_module_source(., symbolic, calculus, integer32, semiotic)
+
+//#include nik_module_source(., symbolic, scheme, applicative, semiotic)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#include nik_lens_source(., literic, interface, structure, semiotic)
+#include nik_lens_source(., literic, perspective, functor, semiotic)
 
 
 /***********************************************************************************************************************/
