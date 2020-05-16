@@ -26,37 +26,31 @@
 #include"exclusive.h"
 
 
-#include nik_library_source(., perspective, identity, semiotic)
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+//#include nik_language_source(., patronum, kernel, builtin, symbolic, semiotic)		// redundant inclusion
+
+//#include nik_language_source(., patronum, kernel, lambda, symbolic, semiotic)			// redundant inclusion
+//#include nik_language_source(., patronum, kernel, copair, symbolic, semiotic)			// redundant inclusion
+//#include nik_language_source(., patronum, kernel, boolean, symbolic, semiotic)		// redundant inclusion
+//#include nik_language_source(., patronum, kernel, list, symbolic, semiotic)			// redundant inclusion
+//#include nik_language_source(., patronum, kernel, colist, symbolic, semiotic)
+//#include nik_language_source(., patronum, kernel, operate, symbolic, semiotic)		// redundant inclusion
+//#include nik_language_source(., patronum, kernel, literal, symbolic, semiotic)
+//#include nik_language_source(., patronum, kernel, number, symbolic, semiotic)
+//#include nik_language_source(., patronum, kernel, integer32, symbolic, semiotic)
+//#include nik_language_source(., patronum, kernel, function, symbolic, semiotic)		// redundant inclusion
+
+//#include nik_language_source(., patronum, kernel, scheme, symbolic, semiotic)
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include nik_lens_source(., symbolic, interface, structure, semiotic)
-
-
-//#include nik_module_source(., symbolic, calculus, function, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, pair, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, lambda, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, copair, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, boolean, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, list, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, colist, semiotic)
-//#include nik_module_source(., symbolic, calculus, operate, semiotic)			// redundant inclusion
-//#include nik_module_source(., symbolic, calculus, literal, semiotic)
-//#include nik_module_source(., symbolic, calculus, number, semiotic)
-//#include nik_module_source(., symbolic, calculus, integer32, semiotic)
-
-//#include nik_module_source(., symbolic, scheme, applicative, semiotic)
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#include nik_lens_source(., literic, interface, structure, semiotic)
-#include nik_lens_source(., literic, perspective, functor, semiotic)
+#include nik_language_source(., straticum, kernel, builtin, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/

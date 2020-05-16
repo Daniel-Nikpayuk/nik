@@ -15,25 +15,13 @@
 **
 ************************************************************************************************************************/
 
+#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
 
-namespace nik
-{
-	nik_begin_division(identity, perspective, nik, semiotic)
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-		//
+	#include"../perspective-identity/semiotic.h"
 
-		#include"interface-structure-semiotic.hpp"
+#undef local_scope
 
-		//
-
-		#include"perspective-functor-semiotic.hpp"
-
-		//
-
-		#include"model-semiotic.hpp"
-
-		//
-
-	nik_end_division(identity, perspective, nik, semiotic)
-}
-
+#endif
