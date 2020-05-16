@@ -15,8 +15,10 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+struct inductor
 {
+};
+
 //	memoized_builtin:
 
 /*
@@ -194,5 +196,4 @@ struct structure
 		> using pop = typename Continuation::template result<PairType, TypenameX, TypenameY>;
 	};
 */
-};
 

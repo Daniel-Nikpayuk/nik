@@ -15,5 +15,37 @@
 **
 ************************************************************************************************************************/
 
-#undef SIZE_TYPE
+	// the namespace is required here as these grammars are manually sourced.
+
+namespace nik
+{
+	struct ch_universe_display
+	{
+		struct lambda
+		{
+			static constexpr void result()
+			{
+				printf("%s", "Sorry: This function is not currently implemented.\n");
+			}
+		};
+
+		template
+		<
+			Library		library_enum,
+			Universe	universe_enum,
+
+			Reading		reading_enum,
+			Permission	permission_enum,
+
+			typename	size_type
+
+		> using result = lambda;
+	};
+
+	template<typename Exp, typename Continuation = ch_universe_display>
+	using universe_display = typename memoized_universe<Exp>::template induct
+	<
+		Continuation
+	>;
+}
 

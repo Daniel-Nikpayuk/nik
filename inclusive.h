@@ -30,27 +30,43 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_language_source(., patronum, kernel, builtin, symbolic, semiotic)		// redundant inclusion
+#include nik_library_source(., identity, symbolic, semiotic)
+#include nik_library_source(., embedding, assemblic, semiotic)
 
-//#include nik_language_source(., patronum, kernel, lambda, symbolic, semiotic)			// redundant inclusion
-//#include nik_language_source(., patronum, kernel, copair, symbolic, semiotic)			// redundant inclusion
-//#include nik_language_source(., patronum, kernel, boolean, symbolic, semiotic)		// redundant inclusion
-//#include nik_language_source(., patronum, kernel, list, symbolic, semiotic)			// redundant inclusion
-//#include nik_language_source(., patronum, kernel, colist, symbolic, semiotic)
-//#include nik_language_source(., patronum, kernel, operate, symbolic, semiotic)		// redundant inclusion
-//#include nik_language_source(., patronum, kernel, literal, symbolic, semiotic)
-//#include nik_language_source(., patronum, kernel, number, symbolic, semiotic)
-//#include nik_language_source(., patronum, kernel, integer32, symbolic, semiotic)
-//#include nik_language_source(., patronum, kernel, function, symbolic, semiotic)		// redundant inclusion
 
-//#include nik_language_source(., patronum, kernel, scheme, symbolic, semiotic)
+#include nik_universe_source(., identity, symbolic, semiotic)
+#include nik_universe_source(., embedding, assemblic, semiotic)
+
+
+#include nik_language_source(., identity, symbolic, semiotic)
+#include nik_language_source(., embedding, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include nik_language_source(., straticum, kernel, builtin, assemblic, semiotic)
+//#include nik_source(., patronum, kernel, builtin, symbolic, semiotic)				// redundant inclusion
+
+//#include nik_source(., patronum, kernel, lambda, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, copair, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, boolean, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, list, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, colist, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, operate, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, literal, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, number, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, integer32, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, function, symbolic, semiotic)			// redundant inclusion
+
+//#include nik_source(., patronum, kernel, scheme, symbolic, semiotic)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#include nik_source(., straticum, kernel, builtin, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/

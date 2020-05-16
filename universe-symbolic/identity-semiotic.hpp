@@ -15,5 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#undef SIZE_TYPE
+	// the namespace is required here as these grammars are manually sourced.
+
+namespace nik
+{
+	//	is_universe:
+
+	template<typename Exp, typename Continuation>
+	using is_universe = typename memoized_universe<Exp>::template match
+	<
+		Continuation
+	>;
+}
 

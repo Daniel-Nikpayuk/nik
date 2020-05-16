@@ -15,13 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
-#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+	// the namespace is required here as these grammars are manually sourced.
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+namespace nik
+{
+	//	is_library:
 
-	#include"../perspective-identity/semiotic.h"
+	template<typename Exp, typename Continuation>
+	using is_library = typename memoized_library<Exp>::template match
+	<
+		Continuation
+	>;
+}
 
-#undef local_scope
-
-#endif

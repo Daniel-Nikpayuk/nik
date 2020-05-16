@@ -15,5 +15,16 @@
 **
 ************************************************************************************************************************/
 
-#undef SIZE_TYPE
+	// the namespace is required here as these grammars are manually sourced.
+
+namespace nik
+{
+	//	is_language:
+
+	template<typename Exp, typename Continuation>
+	using is_language = typename memoized_language<Exp>::template match
+	<
+		Continuation
+	>;
+}
 

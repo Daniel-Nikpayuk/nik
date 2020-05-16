@@ -15,13 +15,17 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
-#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+namespace nik
+{
+	nik_begin_language(straticum, kernel, builtin, assemblic, semiotic)
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+		#include"inductor-semiotic.hpp"
 
-	#include"../perspective-identity/semiotic.h"
+		//
 
-#undef local_scope
+		#include"identity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
 
-#endif
+	nik_end_language(straticum, kernel, builtin, assemblic, semiotic)
+}
+

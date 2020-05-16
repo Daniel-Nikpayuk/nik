@@ -17,6 +17,8 @@
 
 struct identity
 {
+};
+
 /*
 	#include nik_typedef(symbolic, core, kernel, identity)
 
@@ -54,5 +56,4 @@ struct identity
 		Continuation
 	>;
 */
-};
 

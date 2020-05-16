@@ -17,15 +17,6 @@
 
 namespace nik
 {
-	nik_begin_module(straticum, kernel, builtin, assemblic, semiotic)
-
-		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
-
-	nik_end_module(straticum, kernel, builtin, assemblic, semiotic)
+	// default policy is to exclude sourcing other modules.
 }
 

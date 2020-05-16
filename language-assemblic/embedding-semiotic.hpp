@@ -15,13 +15,38 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
-#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+	// the namespace is required here as these grammars are manually sourced.
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+namespace nik
+{
+	struct ch_language_display
+	{
+		struct lambda
+		{
+			static constexpr void result()
+			{
+				printf("%s", "Sorry: This function is not currently implemented.\n");
+			}
+		};
 
-	#include"../perspective-identity/semiotic.h"
+		template
+		<
+			Library		library_enum,
+			Universe	universe_enum,
+			Language	language_enum,
 
-#undef local_scope
+			Reading		reading_enum,
+			Permission	permission_enum,
 
-#endif
+			typename	size_type
+
+		> using result = lambda;
+	};
+
+	template<typename Exp, typename Continuation = ch_language_display>
+	using language_display = typename memoized_language<Exp>::template induct
+	<
+		Continuation
+	>;
+}
+
