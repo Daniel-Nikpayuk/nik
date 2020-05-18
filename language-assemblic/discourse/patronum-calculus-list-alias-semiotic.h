@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+//
 
-		//
+	using PC_List_AS = nik_language(patronum, calculus, list, assemblic, semiotic);
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+//
 
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
+#include"undef-size_type.h"
 

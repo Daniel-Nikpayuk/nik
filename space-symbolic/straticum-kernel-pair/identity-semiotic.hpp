@@ -15,17 +15,14 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
+	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
 
-		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
-
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
+	template<typename Exp, typename Continuation = ch_bool>
+	using is_builtin = typename inductor::template memoized_builtin<Exp>::template match
+	<
+		Continuation
+	>;
+};
 

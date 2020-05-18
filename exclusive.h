@@ -53,7 +53,7 @@ namespace nik
 {
 	using global_size_type		= signed long long;	// size_t;
 
-	using voidptr			= void *;		// compliment to nullptr ( = 0 )
+	using void_ptr			= void *;		// compliment to nullptr ( = 0 )
 
 	struct global_filler		{ };			// keyword.
 
@@ -83,7 +83,7 @@ namespace nik
 //#include"universe-assemblic/semiotic.h"
 
 #include"language-symbolic/semiotic.h"
-//#include"language-assemblic/semiotic.h"
+#include"language-assemblic/semiotic.h"
 
 
 /***********************************************************************************************************************/

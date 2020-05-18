@@ -15,27 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef NIK_PATRONUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
+#define NIK_PATRONUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
 
-#ifdef safe_name
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	#define PREFIX		nik_pi_s_
+	#include"../../space-assemblic/patronum-kernel-pair/semiotic.h"
 
-#else
-
-	#define PREFIX
+#undef local_scope
 
 #endif
-
-//
-
-						  template<typename Continuation>
-	using nik_safe(PREFIX, cp_negate)	= typename nik_division(identity, perspective, nik, semiotic)::structure::template
-						  cp_negate<Continuation>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
-

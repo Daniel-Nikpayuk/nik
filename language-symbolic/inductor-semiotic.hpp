@@ -32,7 +32,7 @@ template
 	// Checks to see if a given language has been partially specialized.
 
 	template<typename Continuation>
-	using match = typename Continuation::template result<false>;
+	using match = typename Continuation::template result<bool, false>;
 };
 
 
@@ -44,7 +44,7 @@ template<typename>
 struct memoized_language
 {
 	template<typename Continuation>
-	using match = typename Continuation::template result<false>;
+	using match = typename Continuation::template result<bool, false>;
 };
 
 template
@@ -61,7 +61,7 @@ template
 > struct memoized_language<language<library_enum, universe_enum, language_enum, reading_enum, permission_enum, size_type>>
 {
 	template<typename Continuation>
-	using match = typename Continuation::template result<true>;
+	using match = typename Continuation::template result<bool, true>;
 
 	template<typename Continuation>
 	using induct = typename Continuation::template result
@@ -91,7 +91,7 @@ template
 	>														\
 	{														\
 		template<typename Continuation>										\
-		using match = typename Continuation::template result<true>;
+		using match = typename Continuation::template result<bool, true>;
 
 
 #define nik_end_language(_library_, _universe_, _language_, _reading_, _permission_)					\

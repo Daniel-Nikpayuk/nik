@@ -15,17 +15,7 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct inductor
 {
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
-
-		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
-
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
+};
 

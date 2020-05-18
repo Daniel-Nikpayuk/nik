@@ -15,9 +15,34 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_INTERFACE_STRUCTURE_SEMIOTIC_H
-#define NIK_INTERFACE_STRUCTURE_SEMIOTIC_H
+#include"define-size_type.h"
 
-// do nothing.
+#ifdef safe_name
+
+	#define PREFIX		pk_builtin_ss_
+
+#else
+
+	#define PREFIX
 
 #endif
+
+//
+
+							  template
+							  <
+								typename Exp1, typename Exp2,
+
+								typename Continuation =
+								typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+								inductor::ch_bool
+							  >
+	using nik_safe(PREFIX, is_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  identity::template is_twin<Exp1, Exp2, Continuation>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
+

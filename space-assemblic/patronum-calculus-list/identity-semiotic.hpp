@@ -17,13 +17,43 @@
 
 struct identity
 {
-	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
-
-	// builtin types:
-
-	template<typename Exp>
-	static constexpr auto is_builtin = memoized_builtin<Exp>::match;
-
-	// void_ptr values:
 };
+
+/*
+	#include nik_typedef(symbolic, core, kernel, identity)
+
+	#include nik_typedef(symbolic, calculus, pair, structure)
+
+//	is_builtin_builtin_pair:
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_builtin_pair = typename pattern_match_builtin_builtin_pair<Exp>::template match
+	<
+		Continuation
+	>;
+
+//	is_builtin_typename_pair:
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_builtin_typename_pair = typename pattern_match_builtin_typename_pair<Exp>::template match
+	<
+		Continuation
+	>;
+
+//	is_typename_builtin_pair:
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_typename_builtin_pair = typename pattern_match_typename_builtin_pair<Exp>::template match
+	<
+		Continuation
+	>;
+
+//	is_typename_typename_pair:
+
+	template<typename Exp, typename Continuation = ch_bool_echo>
+	using is_typename_typename_pair = typename pattern_match_typename_typename_pair<Exp>::template match
+	<
+		Continuation
+	>;
+*/
 

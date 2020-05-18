@@ -16,38 +16,32 @@
 ************************************************************************************************************************/
 
 
-enum struct Library : global_size_type
-{
-	straticum,
-	patronum,
-
-	dimension // filler
-};
+#define nik_assemblic_unpack(_path_, _library_, _universe_, _language_, _module_)					\
+															\
+	nik_stringify(_path_/language-assemblic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
 
 
 /***********************************************************************************************************************/
+
+
+#define nik_assemblic_typedef(_library_, _universe_, _language_, _module_)						\
+															\
+	nik_stringify(../../language-assemblic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
+
+
 /***********************************************************************************************************************/
 
 
-#define nik_library(_library_, _reading_, _permission_)									\
+#define nik_assemblic_import(_path_, _library_, _universe_, _language_, _module_)					\
 															\
-	nik::library													\
-	<														\
-		nik::Library::_library_,										\
-															\
-		nik::Reading::_reading_,										\
-		nik::Permission::_permission_,										\
-															\
-		SIZE_TYPE												\
-	>
+	nik_stringify(_path_/language-assemblic/discourse/_library_-_universe_-_language_-_module_-media.h)
 
 
 /***********************************************************************************************************************/
-/***********************************************************************************************************************/
 
 
-#define nik_library_source(_path_, _module_, _reading_, _permission_)							\
+#define nik_assemblic_using(_library_, _universe_, _language_, _module_)						\
 															\
-	nik_stringify(_path_/library-_reading_/_module_-_permission_.hpp)
+	nik_stringify(../../language-assemblic/discourse/_library_-_universe_-_language_-_module_-media.h)
 
 

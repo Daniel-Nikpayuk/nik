@@ -30,7 +30,7 @@ template
 	// Checks to see if a given library has been partially specialized.
 
 	template<typename Continuation>
-	using match = typename Continuation::template result<false>;
+	using match = typename Continuation::template result<bool, false>;
 };
 
 
@@ -42,7 +42,7 @@ template<typename>
 struct memoized_library
 {
 	template<typename Continuation>
-	using match = typename Continuation::template result<false>;
+	using match = typename Continuation::template result<bool, false>;
 };
 
 template
@@ -57,7 +57,7 @@ template
 > struct memoized_library<library<library_enum, reading_enum, permission_enum, size_type>>
 {
 	template<typename Continuation>
-	using match = typename Continuation::template result<true>;
+	using match = typename Continuation::template result<bool, true>;
 
 	template<typename Continuation>
 	using induct = typename Continuation::template result

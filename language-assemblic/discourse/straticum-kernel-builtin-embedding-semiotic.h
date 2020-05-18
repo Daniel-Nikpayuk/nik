@@ -15,17 +15,31 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		sk_builtin_as_
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+									  template<typename Exp>
+	static constexpr auto nik_safe(PREFIX, builtin_display)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template builtin_display<Exp>;
+
+									  template<typename Exp>
+	static constexpr auto nik_safe(PREFIX, void_ptr_display)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template void_ptr_display<Exp>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

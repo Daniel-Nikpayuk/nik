@@ -20,6 +20,21 @@ enum struct Universe : global_size_type
 {
 	kernel,
 
+// symbolic:
+
+	calculus,
+	scheme,
+	hott,
+
+// assemblic:
+
+	numeric,
+	literic,
+	graphic,
+	kinetic,
+	phonetic,
+	interic,
+
 	dimension // filler
 };
 

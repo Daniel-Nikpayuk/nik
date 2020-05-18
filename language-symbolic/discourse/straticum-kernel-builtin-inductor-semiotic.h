@@ -15,13 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
-#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+#include"define-size_type.h"
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+#ifdef safe_name
 
-	#include"../perspective-identity/semiotic.h"
+	#define PREFIX		sk_builtin_ss_
 
-#undef local_scope
+#else
+
+	#define PREFIX
 
 #endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, memoized_builtin)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
+							  inductor::template memoized_builtin<Exp>;
+
+							  template<auto Value>
+	using nik_safe(PREFIX, memoized_void_ptr)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
+							  inductor::template memoized_void_ptr<Value>;
+
+#include"undef-size_type.h"
+

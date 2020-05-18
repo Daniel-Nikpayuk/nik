@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
-#define NIK_PERSPECTIVE_IDENTITY_SEMIOTIC_H
+#ifndef NIK_STRATICUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
+#define NIK_STRATICUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
 
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	#include"../perspective-identity/semiotic.h"
+	#include"../../space-symbolic/straticum-kernel-builtin/semiotic.h"
 
 #undef local_scope
 

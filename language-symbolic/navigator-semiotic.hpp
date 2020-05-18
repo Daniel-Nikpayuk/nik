@@ -105,7 +105,7 @@ enum struct Language : global_size_type
 
 #define nik_source(_path_, _library_, _universe_, _language_, _reading_, _permission_)					\
 															\
-	nik_stringify(_path_/space-_reading_/_library_-_universe_-_language_/_permission_.h)
+	nik_stringify(_path_/language-_reading_/narrative/_library_-_universe_-_language_-_permission_.h)
 
 
 /***********************************************************************************************************************/
@@ -114,12 +114,7 @@ enum struct Language : global_size_type
 
 #define nik_symbolic_unpack(_path_, _library_, _universe_, _language_, _module_)					\
 															\
-	nik_stringify(path/language-symbolic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
-
-
-#define nik_assemblic_unpack(_path_, _library_, _universe_, _language_, _module_)					\
-															\
-	nik_stringify(path/language-assemblic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
+	nik_stringify(_path_/language-symbolic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
 
 
 /***********************************************************************************************************************/
@@ -130,22 +125,12 @@ enum struct Language : global_size_type
 	nik_stringify(../../language-symbolic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
 
 
-#define nik_assemblic_typedef(_library_, _universe_, _language_, _module_)						\
-															\
-	nik_stringify(../../language-assemblic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
-
-
 /***********************************************************************************************************************/
 
 
 #define nik_symbolic_import(_path_, _library_, _universe_, _language_, _module_)					\
 															\
-	nik_stringify(path/language-symbolic/discourse/_library_-_universe_-_language_-_module_-media.h)
-
-
-#define nik_assemblic_import(_path_, _library_, _universe_, _language_, _module_)					\
-															\
-	nik_stringify(path/language-assemblic/discourse/_library_-_universe_-_language_-_module_-media.h)
+	nik_stringify(_path_/language-symbolic/discourse/_library_-_universe_-_language_-_module_-media.h)
 
 
 /***********************************************************************************************************************/
@@ -154,10 +139,5 @@ enum struct Language : global_size_type
 #define nik_symbolic_using(_library_, _universe_, _language_, _module_)							\
 															\
 	nik_stringify(../../language-symbolic/discourse/_library_-_universe_-_language_-_module_-media.h)
-
-
-#define nik_assemblic_using(_library_, _universe_, _language_, _module_)						\
-															\
-	nik_stringify(../../language-assemblic/discourse/_library_-_universe_-_language_-_module_-media.h)
 
 

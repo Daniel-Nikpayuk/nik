@@ -15,30 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
-
-#ifdef safe_name
-
-	#define PREFIX		nik_pi_f_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-						  template<typename Kind1, typename Kind2>
-	using nik_safe(PREFIX, cs_equal)	= typename nik_division(identity, perspective, nik, semiotic)::functor::template
-						  cs_equal<Kind1, Kind2>;
-
-	using nik_safe(PREFIX, ch_bool)		= typename nik_division(identity, perspective, nik, semiotic)::functor::
-						  ch_bool;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+struct embedding
+{
+	inline static constexpr void display(const char *v)			{ printf("%s", v);			}
+};
 

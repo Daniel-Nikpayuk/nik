@@ -15,17 +15,27 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		sk_builtin_as_
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, memoized_builtin)	= typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+							  inductor::template memoized_builtin<Exp>;
+
+							  template<auto Value>
+	using nik_safe(PREFIX, memoized_void_ptr)	= typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+							  inductor::template memoized_void_ptr<Value>;
+
+#include"undef-size_type.h"
 

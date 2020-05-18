@@ -17,26 +17,16 @@
 
 struct embedding
 {
-	// display:
+	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
 
-	inline static void display(bool v)			{ printf("%s", v ? "true" : "false");	}
-	inline static void display(char v)			{ printf("%c", v);			}
-	inline static void display(unsigned char v)		{ printf("%u", v);			}
-	inline static void display(signed char v)		{ printf("%c", v);			}
-	inline static void display(wchar_t v)			{ printf("%c", v);			}
-	inline static void display(char16_t v)			{ printf("%u", v);			}
-	inline static void display(char32_t v)			{ printf("%u", v);			}
-	inline static void display(unsigned short v)		{ printf("%u", v);			}
-	inline static void display(signed short v)		{ printf("%d", v);			}
-	inline static void display(unsigned int v)		{ printf("%u", v);			}
-	inline static void display(signed int v)		{ printf("%d", v);			}
-	inline static void display(unsigned long v)		{ printf("%lu", v);			}
-	inline static void display(signed long v)		{ printf("%ld", v);			}
-	inline static void display(unsigned long long v)	{ printf("%llu", v);			}
-	inline static void display(signed long long v)		{ printf("%lld", v);			}
-	inline static void display(float v)			{ printf("%f", v);			}
-	inline static void display(double v)			{ printf("%f", v);			}
-	inline static void display(long double v)		{ printf("%Lf", v);			}
-	inline static void display(const char *v)		{ printf("%s", v);			}
+	// builtin_types:
+
+	template<typename Exp>
+	static constexpr void builtin_display()			{ printf("%s", memoized_builtin<Exp>::induct()); }
+
+	// void_ptr values:
+
+	template<auto Value>
+	static constexpr void void_ptr_display()		{ printf("%p", memoized_void_ptr<Value>::induct()); }
 };
 

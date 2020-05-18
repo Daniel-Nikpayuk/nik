@@ -15,184 +15,239 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+struct inductor
 {
-//	memoized_builtin:
+	// builtin types:
 
-/*
-	template<typename>
+	template<typename, typename = filler>
 	struct memoized_builtin
 	{
-		using rtn = pattern_match_builtin_builtin_pair;
-
-		// identify:
-
-		template
-		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, false>;
 	};
 
-	template<typename TypeX, typename TypeY, template<TypeX, TypeY> class PairType, TypeX ValueX, TypeY ValueY>
-	struct pattern_match_builtin_builtin_pair<PairType<ValueX, ValueY>>
+	template<typename Filler>
+	struct memoized_builtin<bool, Filler>
 	{
-		using rtn = pattern_match_builtin_builtin_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-
-		// shrink:
-
-		template
-		<
-			typename Continuation
-
-				//   signature: car, cdr, left, right.
-
-		> using pop = typename Continuation::template result<TypeX, TypeY, PairType, ValueX, ValueY>;
+			bool
+		>;
 	};
 
-//	pattern_match_builtin_typename_pair:
-
-	template<typename>
-	struct pattern_match_builtin_typename_pair
+	template<typename Filler>
+	struct memoized_builtin<char, Filler>
 	{
-		using rtn = pattern_match_builtin_typename_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
+			char
+		>;
 	};
 
-	template<typename TypeX, template<TypeX, typename> class PairType, TypeX ValueX, typename TypenameY>
-	struct pattern_match_builtin_typename_pair<PairType<ValueX, TypenameY>>
+	template<typename Filler>
+	struct memoized_builtin<unsigned char, Filler>
 	{
-		using rtn = pattern_match_builtin_typename_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-
-		// shrink:
-
-		template
-		<
-			typename Continuation
-
-				//   signature: car, cdr, left.
-
-		> using pop = typename Continuation::template result<TypeX, PairType, ValueX, TypenameY>;
+			unsigned char
+		>;
 	};
 
-//	pattern_match_typename_builtin_pair:
-
-	template<typename>
-	struct pattern_match_typename_builtin_pair
+	template<typename Filler>
+	struct memoized_builtin<signed char, Filler>
 	{
-		using rtn = pattern_match_typename_builtin_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
+			signed char
+		>;
 	};
 
-	template<typename TypeY, template<typename, TypeY> class PairType, typename TypenameX, TypeY ValueY>
-	struct pattern_match_typename_builtin_pair<PairType<TypenameX, ValueY>>
+	template<typename Filler>
+	struct memoized_builtin<wchar_t, Filler>
 	{
-		using rtn = pattern_match_typename_builtin_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-
-		// shrink:
-
-		template
-		<
-			typename Continuation
-
-				//   signature: car, cdr, right.
-
-		> using pop = typename Continuation::template result<TypeY, PairType, TypenameX, ValueY>;
+			wchar_t
+		>;
 	};
 
-//	pattern_match_typename_typename_pair:
-
-	template<typename>
-	struct pattern_match_typename_typename_pair
+	template<typename Filler>
+	struct memoized_builtin<char16_t, Filler>
 	{
-		using rtn = pattern_match_typename_typename_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<false>;
+			char16_t
+		>;
 	};
 
-	template<template<typename, typename> class PairType, typename TypenameX, typename TypenameY>
-	struct pattern_match_typename_typename_pair<PairType<TypenameX, TypenameY>>
+	template<typename Filler>
+	struct memoized_builtin<char32_t, Filler>
 	{
-		using rtn = pattern_match_typename_typename_pair;
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
 
-		// identify:
-
-		template
+		template<typename Continuation>
+		using induct = typename Continuation::template result
 		<
-			typename Continuation
-
-			//      signature: id.
-
-		> using match = typename Continuation::template result<true>;
-
-		// shrink:
-
-		template
-		<
-			typename Continuation
-
-				//   signature: car, cdr.
-
-		> using pop = typename Continuation::template result<PairType, TypenameX, TypenameY>;
+			char32_t
+		>;
 	};
+
+	template<typename Filler>
+	struct memoized_builtin<unsigned short, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			unsigned short
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<signed short, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			signed short
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<unsigned int, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			unsigned int
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<signed int, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			signed int
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<unsigned long, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			unsigned long
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<signed long, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			signed long
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<unsigned long long, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			unsigned long long
+		>;
+	};
+
+	template<typename Filler>
+	struct memoized_builtin<signed long long, Filler>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			signed long long
+		>;
+	};
+
+/***********************************************************************************************************************/
+
+	// void_ptr values:
+
+/*
+	void_ptr values aren't generally considered meaningful as template parameters,
+	this inductor is only here to maintain the narrative design of this library.
 */
+
+	template<auto>
+	struct memoized_void_ptr
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, false>;
+	};
+
+	template<void_ptr Value>
+	struct memoized_void_ptr<Value>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+
+		template<typename Continuation>
+		using induct = typename Continuation::template result
+		<
+			Value
+		>;
+	};
 };
 

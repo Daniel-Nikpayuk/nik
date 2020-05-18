@@ -15,9 +15,20 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_INTERFACE_STRUCTURE_SEMIOTIC_H
-#define NIK_INTERFACE_STRUCTURE_SEMIOTIC_H
+struct inductor
+{
+	template<typename, typename>
+	struct memoized_twin
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, false>;
+	};
 
-// do nothing.
+	template<typename Twin>
+	struct memoized_twin<Twin, Twin>
+	{
+		template<typename Continuation>
+		using match = typename Continuation::template result<bool, true>;
+	};
+};
 
-#endif

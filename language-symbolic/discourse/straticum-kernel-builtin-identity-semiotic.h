@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		nik_pi_f_
+	#define PREFIX		sk_builtin_ss_
 
 #else
 
@@ -29,12 +29,9 @@
 
 //
 
-						  template<typename Kind1, typename Kind2>
-	using nik_safe(PREFIX, cs_equal)	= typename nik_division(identity, perspective, nik, semiotic)::functor::template
-						  cs_equal<Kind1, Kind2>;
-
-	using nik_safe(PREFIX, ch_bool)		= typename nik_division(identity, perspective, nik, semiotic)::functor::
-						  ch_bool;
+							  template<typename Exp, typename Continuation>
+	using nik_safe(PREFIX, is_builtin)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
+							  identity::template is_builtin<Exp, Continuation>;
 
 //
 

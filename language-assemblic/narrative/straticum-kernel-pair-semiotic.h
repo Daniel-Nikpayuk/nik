@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(straticum, kernel, builtin, symbolic, semiotic)
+#ifndef NIK_STRATICUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
+#define NIK_STRATICUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
 
-		#include"inductor-semiotic.hpp"
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-		//
+	#include"../../space-assemblic/straticum-kernel-pair/semiotic.h"
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#undef local_scope
 
-	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
-}
-
+#endif
