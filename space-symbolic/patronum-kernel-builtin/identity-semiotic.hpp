@@ -17,10 +17,10 @@
 
 struct identity
 {
-	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp1, typename Exp2, typename Continuation = ch_bool>
-	using is_twin = typename inductor::template memoized_twin<Exp1, Exp2>::template match
+	template<typename Exp1, typename Exp2, typename Continuation>
+	using is_equal = typename ch_inductor<Exp1>::template memoized_type<Exp2>::template match
 	<
 		Continuation
 	>;

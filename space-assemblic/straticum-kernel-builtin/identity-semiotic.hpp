@@ -17,13 +17,107 @@
 
 struct identity
 {
+	#include nik_assemblic_typedef(patronum, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
 
 	// builtin types:
 
-	template<typename Exp>
-	static constexpr auto is_builtin = memoized_builtin<Exp>::match;
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_bool)() = ch_inductor<bool>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_char)() = ch_inductor<char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_unsigned_char)() = ch_inductor<unsigned char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_signed_char)() = ch_inductor<signed char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_wchar_t)() = ch_inductor<wchar_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_char16_t)() = ch_inductor<char16_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_char32_t)() = ch_inductor<char32_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_unsigned_short)() = ch_inductor<unsigned short>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_signed_short)() = ch_inductor<signed short>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_unsigned_int)() = ch_inductor<unsigned int>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_signed_int)() = ch_inductor<signed int>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_unsigned_long)() = ch_inductor<unsigned long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_signed_long)() = ch_inductor<signed long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_unsigned_long_long)() = ch_inductor<unsigned long long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	static constexpr bool (*is_signed_long_long)() = ch_inductor<signed long long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
 
 	// void_ptr values:
+
+	template<auto Exp, typename Continuation>
+	static constexpr bool (*is_void_ptr)() = memoized_void_ptr<Exp>::template match
+	<
+		Continuation
+	>;
 };
 

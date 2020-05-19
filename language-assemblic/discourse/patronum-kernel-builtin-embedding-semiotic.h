@@ -15,17 +15,27 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		pk_builtin_as_
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+									  template<const char* (*type_literal)()>
+	static constexpr auto nik_safe(PREFIX, display_type_literal)	= nik_language(patronum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template display_type_literal<type_literal>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

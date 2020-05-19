@@ -15,7 +15,13 @@
 **
 ************************************************************************************************************************/
 
-struct inductor
-{
-};
+#ifndef NIK_PATRONUM_KERNEL_BUILTIN_ASSEMBLIC_SEMIOTIC_H
+#define NIK_PATRONUM_KERNEL_BUILTIN_ASSEMBLIC_SEMIOTIC_H
 
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+
+	#include"../../space-assemblic/patronum-kernel-builtin/semiotic.h"
+
+#undef local_scope
+
+#endif

@@ -17,5 +17,16 @@
 
 struct identity
 {
+	#include nik_assemblic_typedef(patronum, kernel, builtin, inductor)
+
+	// builtin types:
+
+	template<typename Exp1, typename Exp2, typename Continuation>
+	static constexpr bool (*is_equal)() = ch_inductor<Exp1>::template memoized_type<Exp2>::template match
+	<
+		Continuation
+	>;
+
+	// void_ptr values:
 };
 

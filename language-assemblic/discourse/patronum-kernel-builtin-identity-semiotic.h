@@ -15,17 +15,27 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		pk_builtin_as_
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+									  template<typename Exp1, typename Exp2, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_equal))()		= nik_language(patronum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_equal<Exp1, Exp2, Continuation>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

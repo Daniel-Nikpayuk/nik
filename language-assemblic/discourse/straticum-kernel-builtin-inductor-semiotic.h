@@ -29,10 +29,6 @@
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, memoized_builtin)	= typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-							  inductor::template memoized_builtin<Exp>;
-
 							  template<auto Value>
 	using nik_safe(PREFIX, memoized_void_ptr)	= typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
 							  inductor::template memoized_void_ptr<Value>;

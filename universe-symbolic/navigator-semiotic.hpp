@@ -18,6 +18,7 @@
 
 enum struct Universe : global_size_type
 {
+	peano,
 	kernel,
 
 // symbolic:

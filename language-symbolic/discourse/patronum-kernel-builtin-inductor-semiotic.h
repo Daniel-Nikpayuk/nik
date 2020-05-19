@@ -15,17 +15,23 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		pk_builtin_ss_
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, ch_inductor)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  inductor::template ch_inductor<Exp>;
+
+#include"undef-size_type.h"
 

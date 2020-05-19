@@ -15,17 +15,24 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct embedding
 {
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+	template<typename Exp, typename Continuation = ch_judgement>
+	using judgement = typename memoized_judgement<Exp>::template induct
+	<
+		Continuation
+	>;
 
-		#include"inductor-semiotic.hpp"
+	template<typename Exp, typename Continuation = ch_judgement_type>
+	using judgement_type = typename memoized_judgement<Exp>::template induct
+	<
+		Continuation
+	>;
 
-		//
-
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
-
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+	template<typename Exp, typename Continuation = ch_judgement_value>
+	static constexpr judgement_type<Exp> judgement_value = memoized_judgement<Exp>::template induct
+	<
+		Continuation
+	>;
+};
 

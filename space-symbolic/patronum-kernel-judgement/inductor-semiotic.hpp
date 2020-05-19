@@ -17,33 +17,44 @@
 
 struct inductor
 {
-	// builtin types:
-
-	// void_ptr values:
-
-/*
-	void_ptr values aren't generally considered meaningful as template parameters,
-	this inductor is only here to maintain the narrative design of this library.
-*/
-
-	template<auto>
-	struct memoized_void_ptr
+	template<typename>
+	struct memoized_judgement
 	{
 		template<typename Continuation>
-		static constexpr bool (*match)() = Continuation::template result<bool, false>;
+		using match = typename Continuation::template result<bool, false>;
 	};
 
-	template<void_ptr Value>
-	struct memoized_void_ptr<Value>
+	template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
+	struct memoized_judgement<Judgement<Type, Value>>
 	{
 		template<typename Continuation>
-		static constexpr bool (*match)() = Continuation::template result<bool, true>;
+		using match = typename Continuation::template result<bool, true>;
 
 		template<typename Continuation>
-		static constexpr void_ptr (*induct)() = Continuation::template result
+		using induct = typename Continuation::template result
 		<
-			void_ptr, Value
+			Type, Judgement, Value
 		>;
+	};
+
+	//
+
+	struct ch_judgement
+	{
+		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
+		using result = Judgement<Type, Value>;
+	};
+
+	struct ch_judgement_type
+	{
+		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
+		using result = Type;
+	};
+
+	struct ch_judgement_value
+	{
+		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
+		static constexpr Type result = Value;
 	};
 };
 

@@ -18,6 +18,7 @@
 
 enum struct Language : global_size_type
 {
+	path,
 	builtin,
 
 // calculus:

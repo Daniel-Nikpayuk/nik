@@ -29,9 +29,65 @@
 
 //
 
-									  template<typename Exp>
-	static constexpr auto nik_safe(PREFIX, is_builtin)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-									  identity::template is_builtin<Exp>;
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_bool))()		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_bool<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_char))()		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_char<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_unsigned_char))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_unsigned_char<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_signed_char))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_signed_char<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_wchar_t))()		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_wchar_t<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_char16_t))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_char16_t<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_char32_t))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_char32_t<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_unsigned_short))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_unsigned_short<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_signed_short))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_signed_short<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_unsigned_int))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_unsigned_int<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_signed_int))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_signed_int<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_unsigned_long))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_unsigned_long<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_signed_long))()	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_signed_long<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_unsigned_long_long))()= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_unsigned_long_long<Exp, Continuation>;
+
+									  template<typename Exp, typename Continuation>
+	static constexpr bool (*nik_safe(PREFIX, is_signed_long_long))()= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  identity::template is_signed_long_long<Exp, Continuation>;
 
 //
 

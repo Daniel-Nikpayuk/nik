@@ -29,13 +29,71 @@
 
 //
 
-									  template<typename Exp>
-	static constexpr auto nik_safe(PREFIX, builtin_display)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-									  embedding::template builtin_display<Exp>;
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_bool)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_bool<Continuation>;
 
-									  template<typename Exp>
-	static constexpr auto nik_safe(PREFIX, void_ptr_display)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-									  embedding::template void_ptr_display<Exp>;
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_char)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_char<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_unsigned_char)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_unsigned_char<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_signed_char)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_signed_char<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_wchar_t)		= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_wchar_t<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_char16_t)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_char16_t<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_char32_t)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_char32_t<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_unsigned_short)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_unsigned_short<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_signed_short)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_signed_short<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_unsigned_int)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_unsigned_int<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_signed_int)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_signed_int<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_unsigned_long)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_unsigned_long<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_signed_long)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_signed_long<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_unsigned_long_long)= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_unsigned_long_long<Continuation>;
+
+									  template<typename Continuation>
+	static constexpr auto nik_safe(PREFIX, literal_signed_long_long)= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template literal_signed_long_long<Continuation>;
+
+//
+
+									  template<auto Exp, typename Continuation>
+	static constexpr auto nik_safe(PREFIX, display_void_ptr)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
+									  embedding::template display_void_ptr<Exp, Continuation>;
 
 //
 

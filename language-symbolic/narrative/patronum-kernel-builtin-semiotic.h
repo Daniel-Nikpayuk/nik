@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+#ifndef NIK_PATRONUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
+#define NIK_PATRONUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
 
-		#include"inductor-semiotic.hpp"
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-		//
+	#include"../../space-symbolic/patronum-kernel-builtin/semiotic.h"
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+#undef local_scope
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
-
+#endif

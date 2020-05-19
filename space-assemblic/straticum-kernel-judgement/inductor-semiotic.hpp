@@ -15,17 +15,12 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct inductor
 {
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
-
-		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
-
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+	struct ch_judgement
+	{
+		template<typename Type, Type Value>
+		static constexpr Type result() { return Value; }
+	};
+};
 

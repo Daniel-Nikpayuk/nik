@@ -17,22 +17,9 @@
 
 struct embedding
 {
-	template<typename Exp, typename Continuation = ch_judgement>
-	using judgement = typename memoized_judgement<Exp>::template induct
-	<
-		Continuation
-	>;
+	// builtin types display:
 
-	template<typename Exp, typename Continuation = ch_judgement_type>
-	using judgement_type = typename memoized_judgement<Exp>::template induct
-	<
-		Continuation
-	>;
-
-	template<typename Exp, typename Continuation = ch_judgement_value>
-	static constexpr judgement_type<Exp> judgement_value = memoized_judgement<Exp>::template induct
-	<
-		Continuation
-	>;
+	template<const char* (*type_literal)()>
+	static void display_type_literal() { printf("%s", type_literal()); }
 };
 

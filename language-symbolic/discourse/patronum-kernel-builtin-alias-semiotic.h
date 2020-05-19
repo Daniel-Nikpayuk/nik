@@ -15,17 +15,13 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+//
 
-		//
+	using PK_Builtin_SS = nik_language(patronum, kernel, builtin, symbolic, semiotic);
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+//
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
-}
+#include"undef-size_type.h"
 

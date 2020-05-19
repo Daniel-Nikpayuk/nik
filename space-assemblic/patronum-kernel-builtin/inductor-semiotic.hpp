@@ -17,44 +17,28 @@
 
 struct inductor
 {
-	template<typename>
-	struct memoized_judgement
+	template<typename Type>
+	struct ch_inductor
 	{
-		template<typename Continuation>
-		using match = typename Continuation::template result<bool, false>;
-	};
+		template<typename, typename = filler>
+		struct memoized_type
+		{
+			template<typename Continuation>
+			static constexpr bool (*match)() = Continuation::template result<bool, false>;
+		};
 
-	template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
-	struct memoized_judgement<Judgement<Type, Value>>
-	{
-		template<typename Continuation>
-		using match = typename Continuation::template result<bool, true>;
+		template<typename Filler>
+		struct memoized_type<Type, Filler>
+		{
+			template<typename Continuation>
+			static constexpr bool (*match)() = Continuation::template result<bool, true>;
 
-		template<typename Continuation>
-		using induct = typename Continuation::template result
-		<
-			Type, Judgement, Value
-		>;
-	};
-
-	//
-
-	struct ch_judgement
-	{
-		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
-		using result = Judgement<Type, Value>;
-	};
-
-	struct ch_judgement_type
-	{
-		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
-		using result = Type;
-	};
-
-	struct ch_judgement_value
-	{
-		template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
-		static constexpr Type result = Value;
+			template<typename Continuation, const char* string_literal>
+			static constexpr const char* (*induct)() = Continuation::template result
+			<
+				const char*, string_literal
+			>;
+		};
 	};
 };
 

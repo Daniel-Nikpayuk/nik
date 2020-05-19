@@ -17,10 +17,105 @@
 
 struct identity
 {
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 	#include nik_symbolic_typedef(straticum, kernel, builtin, inductor)
 
+	// builtin types:
+
 	template<typename Exp, typename Continuation>
-	using is_builtin = typename memoized_builtin<Exp>::template match
+	using is_bool = typename ch_inductor<bool>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_char = typename ch_inductor<char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_unsigned_char = typename ch_inductor<unsigned char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_signed_char = typename ch_inductor<signed char>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_wchar_t = typename ch_inductor<wchar_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_char16_t = typename ch_inductor<char16_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_char32_t = typename ch_inductor<char32_t>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_unsigned_short = typename ch_inductor<unsigned short>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_signed_short = typename ch_inductor<signed short>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_unsigned_int = typename ch_inductor<unsigned int>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_signed_int = typename ch_inductor<signed int>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_unsigned_long = typename ch_inductor<unsigned long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_signed_long = typename ch_inductor<signed long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_unsigned_long_long = typename ch_inductor<unsigned long long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	template<typename Exp, typename Continuation>
+	using is_signed_long_long = typename ch_inductor<signed long long>::template memoized_type<Exp>::template match
+	<
+		Continuation
+	>;
+
+	// void_ptr values:
+
+	template<auto Exp, typename Continuation>
+	using is_void_ptr = typename memoized_void_ptr<Exp>::template match
 	<
 		Continuation
 	>;
