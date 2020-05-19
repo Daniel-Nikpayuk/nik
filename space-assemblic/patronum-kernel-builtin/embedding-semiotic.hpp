@@ -17,9 +17,5 @@
 
 struct embedding
 {
-	// builtin types display:
-
-	template<const char* (*type_literal)()>
-	static void display_type_literal() { printf("%s", type_literal()); }
 };
 

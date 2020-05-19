@@ -15,13 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct embedding
+{
+	#include nik_symbolic_typedef(patronum, kernel, judgement, embedding)
+	#include nik_symbolic_typedef(straticum, kernel, judgement, inductor)
 
-//
-
-	using PC_List_AS = nik_language(patronum, calculus, list, assemblic, semiotic);
-
-//
-
-#include"undef-size_type.h"
+	template<typename Type, Type Value>
+	using make_judgement = judgement_make
+	<
+		judgement, Type, Value
+	>;
+};
 

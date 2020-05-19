@@ -15,8 +15,27 @@
 **
 ************************************************************************************************************************/
 
-struct embedding
-{
-	inline static constexpr void display(const char *v)			{ printf("%s", v);			}
-};
+#include"define-size_type.h"
+
+#ifdef safe_name
+
+	#define PREFIX		sk_judgement_ss_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Type, Type Value>
+	using nik_safe(PREFIX, judgement)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
+							  inductor::template judgement<Type, Value>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

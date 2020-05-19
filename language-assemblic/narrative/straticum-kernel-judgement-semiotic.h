@@ -15,23 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#ifndef NIK_STRATICUM_KERNEL_JUDGEMENT_ASSEMBLIC_SEMIOTIC_H
+#define NIK_STRATICUM_KERNEL_JUDGEMENT_ASSEMBLIC_SEMIOTIC_H
 
-#ifdef safe_name
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	#define PREFIX		pk_builtin_ss_
+	#include"../../space-assemblic/straticum-kernel-judgement/semiotic.h"
 
-#else
-
-	#define PREFIX
+#undef local_scope
 
 #endif
-
-//
-
-							  template<typename Exp1, typename Exp2>
-	using nik_safe(PREFIX, memoized_twin)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  inductor::template memoized_twin<Exp1, Exp2>;
-
-#include"undef-size_type.h"
-

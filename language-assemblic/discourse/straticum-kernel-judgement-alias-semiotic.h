@@ -19,7 +19,7 @@
 
 //
 
-	using PK_Builtin_SS = nik_language(patronum, kernel, builtin, symbolic, semiotic);
+	using SK_Builtin_AS = nik_language(straticum, kernel, builtin, assemblic, semiotic);
 
 //
 

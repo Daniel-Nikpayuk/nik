@@ -24,7 +24,7 @@ namespace nik
 		//
 
 		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
+//		#include"embedding-semiotic.hpp"
 
 	nik_end_language(patronum, kernel, builtin, assemblic, semiotic)
 }

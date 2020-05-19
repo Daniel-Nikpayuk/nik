@@ -34,8 +34,16 @@
 #include nik_library_source(., embedding, assemblic, semiotic)
 
 
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
 #include nik_universe_source(., identity, symbolic, semiotic)
 #include nik_universe_source(., embedding, assemblic, semiotic)
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 
 #include nik_language_source(., identity, symbolic, semiotic)
@@ -46,24 +54,28 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., patronum, kernel, builtin, symbolic, semiotic)				// redundant inclusion
-#include nik_source(., patronum, kernel, builtin, assemblic, semiotic)
+//#include nik_source(., patronum, kernel, builtin, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., patronum, kernel, judgement, symbolic, semiotic)			// redundant inclusion
 
-//#include nik_source(., patronum, calculus, pair, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, copair, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, boolean, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, pair, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, copair, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, boolean, symbolic, semiotic)
 
-//#include nik_source(., patronum, calculus, list, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, list, assemblic, semiotic)
+//#include nik_source(., patronum, kernel, list, symbolic, semiotic)
 
-//#include nik_source(., patronum, calculus, colist, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, operate, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, literal, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, number, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, integer32, symbolic, semiotic)
-//#include nik_source(., patronum, calculus, function, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, colist, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, operate, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, literal, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, number, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, integer32, symbolic, semiotic)
+//#include nik_source(., patronum, kernel, function, symbolic, semiotic)
 
-//#include nik_source(., patronum, kernel, scheme, symbolic, semiotic)
+
+/***********************************************************************************************************************/
+
+
+//#include nik_source(., patronum, kernel, builtin, assemblic, semiotic)
+#include nik_source(., patronum, kernel, list, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/
@@ -71,9 +83,13 @@
 
 
 #include nik_source(., straticum, kernel, builtin, symbolic, semiotic)
-#include nik_source(., straticum, kernel, builtin, assemblic, semiotic)
+#include nik_source(., straticum, kernel, judgement, symbolic, semiotic)
 
-//#include nik_source(., straticum, kernel, pair, symbolic, semiotic)
+
+/***********************************************************************************************************************/
+
+
+//#include nik_source(., straticum, kernel, builtin, assemblic, semiotic)
 //#include nik_source(., straticum, kernel, pair, assemblic, semiotic)
 
 

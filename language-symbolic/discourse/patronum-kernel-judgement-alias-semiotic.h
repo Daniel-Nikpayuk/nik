@@ -15,13 +15,13 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_KERNEL_PAIR_ASSEMBLIC_SEMIOTIC_H
+#include"define-size_type.h"
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+//
 
-	#include"../../space-assemblic/patronum-kernel-pair/semiotic.h"
+	using PK_Judgement_SS = nik_language(patronum, kernel, judgement, symbolic, semiotic);
 
-#undef local_scope
+//
 
-#endif
+#include"undef-size_type.h"
+

@@ -29,9 +29,14 @@
 
 //
 
-							  template<typename Exp1, typename Exp2, typename Continuation>
+							  template
+							  <
+								typename Exp1, typename Exp2,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_equal<Exp1, Exp2, Continuation>;
+							  identity::template is_equal<Exp1, Exp2, Judgement, Continuation>;
 
 //
 

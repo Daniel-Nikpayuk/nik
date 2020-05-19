@@ -15,7 +15,36 @@
 **
 ************************************************************************************************************************/
 
-struct embedding
-{
-};
+#include"define-size_type.h"
+
+#ifdef safe_name
+
+	#define PREFIX		pk_judgement_ss_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Exp>
+	using nik_safe(PREFIX, memoized_judgement)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  inductor::template memoized_judgement<Exp>;
+
+	using nik_safe(PREFIX, ch_judgement)		= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  inductor::ch_judgement;
+
+	using nik_safe(PREFIX, ch_judgement_type)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  inductor::ch_judgement_type;
+
+	using nik_safe(PREFIX, ch_judgement_value)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  inductor::ch_judgement_value;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

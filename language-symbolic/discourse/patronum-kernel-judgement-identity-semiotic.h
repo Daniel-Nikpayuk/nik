@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		pk_builtin_as_
+	#define PREFIX		pk_judgement_ss_
 
 #else
 
@@ -29,9 +29,16 @@
 
 //
 
-									  template<const char* (*type_literal)()>
-	static constexpr auto nik_safe(PREFIX, display_type_literal)	= nik_language(patronum, kernel, builtin, assemblic, semiotic)::
-									  embedding::template display_type_literal<type_literal>;
+							  template
+							  <
+								typename Exp, template<typename Kind, Kind> class Judgement,
+
+								typename Continuation =
+								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+								inductor::ch_judgement
+							  >
+	using nik_safe(PREFIX, is_judgement)		= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  identity::template is_judgement<Exp, Judgement, Continuation>;
 
 //
 

@@ -17,43 +17,28 @@
 
 struct identity
 {
+	#define safe_name
+
+		#include nik_symbolic_typedef(patronum, kernel, builtin, identity)
+		#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+		#include nik_symbolic_typedef(patronum, kernel, judgement, identity)
+
+	#undef safe_name
+
+	#include nik_symbolic_typedef(straticum, kernel, judgement, inductor)
+
+	template<typename Exp, typename Continuation = pk_judgement_ss_ch_judgement>
+	using is_judgement = pk_judgement_ss_is_judgement
+	<
+		Exp, judgement, Continuation
+	>;
+
+	//
+
+	template<typename Exp1, typename Exp2, typename Continuation = pk_judgement_ss_ch_judgement>
+	using is_equal = pk_builtin_ss_is_equal
+	<
+		Exp1, Exp2, judgement, Continuation
+	>;
 };
-
-/*
-	#include nik_typedef(symbolic, core, kernel, identity)
-
-	#include nik_typedef(symbolic, calculus, pair, structure)
-
-//	is_builtin_builtin_pair:
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_builtin_pair = typename pattern_match_builtin_builtin_pair<Exp>::template match
-	<
-		Continuation
-	>;
-
-//	is_builtin_typename_pair:
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_builtin_typename_pair = typename pattern_match_builtin_typename_pair<Exp>::template match
-	<
-		Continuation
-	>;
-
-//	is_typename_builtin_pair:
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_typename_builtin_pair = typename pattern_match_typename_builtin_pair<Exp>::template match
-	<
-		Continuation
-	>;
-
-//	is_typename_typename_pair:
-
-	template<typename Exp, typename Continuation = ch_bool_echo>
-	using is_typename_typename_pair = typename pattern_match_typename_typename_pair<Exp>::template match
-	<
-		Continuation
-	>;
-*/
 

@@ -19,10 +19,12 @@ struct identity
 {
 	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp1, typename Exp2, typename Continuation>
+	// is_equal exists in principle, but it can't actually be used without a memoized boolean judgment.
+
+	template<typename Exp1, typename Exp2, template<typename Kind, Kind> class Judgement, typename Continuation>
 	using is_equal = typename ch_inductor<Exp1>::template memoized_type<Exp2>::template match
 	<
-		Continuation
+		Continuation, Judgement
 	>;
 };
 

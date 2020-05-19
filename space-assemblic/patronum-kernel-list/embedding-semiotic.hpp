@@ -15,13 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_CALCULUS_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_CALCULUS_LIST_ASSEMBLIC_SEMIOTIC_H
+struct embedding
+{
+	static constexpr void list_display(const char *string_literal) { printf("%s", string_literal); }
+};
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
-
-	#include"../../space-assemblic/patronum-calculus-list/semiotic.h"
-
-#undef local_scope
-
-#endif

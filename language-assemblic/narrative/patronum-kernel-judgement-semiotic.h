@@ -15,12 +15,12 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
-#define NIK_PATRONUM_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
+#ifndef NIK_PATRONUM_KERNEL_JUDGEMENT_ASSEMBLIC_SEMIOTIC_H
+#define NIK_PATRONUM_KERNEL_JUDGEMENT_ASSEMBLIC_SEMIOTIC_H
 
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	#include"../../space-symbolic/patronum-kernel-pair/semiotic.h"
+	#include"../../space-assemblic/patronum-kernel-judgement/semiotic.h"
 
 #undef local_scope
 

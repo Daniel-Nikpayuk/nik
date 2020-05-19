@@ -23,15 +23,21 @@ struct inductor
 		template<typename, typename = filler>
 		struct memoized_type
 		{
-			template<typename Continuation>
-			using match = typename Continuation::template result<bool, false>;
+			template<typename Continuation, template<typename Kind, Kind> class Judgement>
+			using match = typename Continuation::template result<Judgement, bool, false>;
 		};
 
 		template<typename Filler>
 		struct memoized_type<Type, Filler>
 		{
-			template<typename Continuation>
-			using match = typename Continuation::template result<bool, true>;
+			template<typename Continuation, template<typename Kind, Kind> class Judgement>
+			using match = typename Continuation::template result<Judgement, bool, true>;
+
+			template<typename Continuation, template<typename Kind, Kind> class Judgement, const char* string_literal>
+			using induct = typename Continuation::template result
+			<
+				Judgement, const char*, string_literal
+			>;
 		};
 	};
 };

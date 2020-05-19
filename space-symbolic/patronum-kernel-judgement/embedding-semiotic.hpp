@@ -17,20 +17,22 @@
 
 struct embedding
 {
-	template<typename Exp, typename Continuation = ch_judgement>
-	using judgement = typename memoized_judgement<Exp>::template induct
+	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+
+	template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
+	using judgement_make = typename ch_judgement::template result
+	<
+		Judgement, Type, Value
+	>;
+
+	template<typename Judgement, typename Continuation = ch_judgement_type>
+	using judgement_type = typename memoized_judgement<Judgement>::template type_induct
 	<
 		Continuation
 	>;
 
-	template<typename Exp, typename Continuation = ch_judgement_type>
-	using judgement_type = typename memoized_judgement<Exp>::template induct
-	<
-		Continuation
-	>;
-
-	template<typename Exp, typename Continuation = ch_judgement_value>
-	static constexpr judgement_type<Exp> judgement_value = memoized_judgement<Exp>::template induct
+	template<typename Judgement, typename Continuation = ch_judgement_value>
+	static constexpr judgement_type<Judgement> judgement_value = memoized_judgement<Judgement>::template value_induct
 	<
 		Continuation
 	>;

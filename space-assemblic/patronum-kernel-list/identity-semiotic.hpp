@@ -15,17 +15,7 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	nik_begin_language(patronum, kernel, judgement, symbolic, semiotic)
-
-		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
-
-	nik_end_language(patronum, kernel, judgement, symbolic, semiotic)
-}
+};
 

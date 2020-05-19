@@ -29,65 +29,140 @@
 
 //
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_bool)			= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_bool<Exp, Continuation>;
+							  identity::template is_bool<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_char)			= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char<Exp, Continuation>;
+							  identity::template is_char<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_unsigned_char)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_char<Exp, Continuation>;
+							  identity::template is_unsigned_char<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_signed_char)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_char<Exp, Continuation>;
+							  identity::template is_signed_char<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_wchar_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_wchar_t<Exp, Continuation>;
+							  identity::template is_wchar_t<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_char16_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char16_t<Exp, Continuation>;
+							  identity::template is_char16_t<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_char32_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char32_t<Exp, Continuation>;
+							  identity::template is_char32_t<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_unsigned_short)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_short<Exp, Continuation>;
+							  identity::template is_unsigned_short<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_signed_short)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_short<Exp, Continuation>;
+							  identity::template is_signed_short<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_unsigned_int)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_int<Exp, Continuation>;
+							  identity::template is_unsigned_int<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_signed_int)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_int<Exp, Continuation>;
+							  identity::template is_signed_int<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_unsigned_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_long<Exp, Continuation>;
+							  identity::template is_unsigned_long<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_signed_long)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_long<Exp, Continuation>;
+							  identity::template is_signed_long<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_unsigned_long_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_long_long<Exp, Continuation>;
+							  identity::template is_unsigned_long_long<Exp, Judgement, Continuation>;
 
-							  template<typename Exp, typename Continuation>
+							  template
+							  <
+								typename Exp,
+								template<typename Kind, Kind> class Judgement,
+								typename Continuation
+							  >
 	using nik_safe(PREFIX, is_signed_long_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_long_long<Exp, Continuation>;
+							  identity::template is_signed_long_long<Exp, Judgement, Continuation>;
 
 //
 

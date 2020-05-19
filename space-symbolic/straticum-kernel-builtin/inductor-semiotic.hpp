@@ -29,20 +29,20 @@ struct inductor
 	template<auto>
 	struct memoized_void_ptr
 	{
-		template<typename Continuation>
-		using match = typename Continuation::template result<bool, false>;
+		template<typename Continuation, template<typename Kind, Kind> class Judgement>
+		using match = typename Continuation::template result<Judgement, bool, false>;
 	};
 
 	template<void_ptr Value>
 	struct memoized_void_ptr<Value>
 	{
-		template<typename Continuation>
-		using match = typename Continuation::template result<bool, true>;
+		template<typename Continuation, template<typename Kind, Kind> class Judgement>
+		using match = typename Continuation::template result<Judgement, bool, true>;
 
-		template<typename Continuation>
+		template<typename Continuation, template<typename Kind, Kind> class Judgement>
 		using induct = typename Continuation::template result
 		<
-			Value
+			Judgement, void_ptr, Value
 		>;
 	};
 };

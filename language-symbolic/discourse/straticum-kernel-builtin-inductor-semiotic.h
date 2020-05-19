@@ -33,5 +33,9 @@
 	using nik_safe(PREFIX, memoized_void_ptr)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
 							  inductor::template memoized_void_ptr<Value>;
 
+//
+
+#undef PREFIX
+
 #include"undef-size_type.h"
 

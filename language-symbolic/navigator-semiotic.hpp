@@ -18,18 +18,21 @@
 
 enum struct Language : global_size_type
 {
+// peano:
+
 	path,
+
+// kernel:
+
 	builtin,
-
-// calculus:
-
+	judgement,
 	pair,
-	lambda,
 	copair,
 	boolean,
 	list,
 	colist,
 	function,
+	lambda,
 
 	operate,
 	literal,
@@ -47,10 +50,6 @@ enum struct Language : global_size_type
 
 	applicative,
 	normal,
-
-// hott:
-
-	judgement,
 
 // numeric:
 

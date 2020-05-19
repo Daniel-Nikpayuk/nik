@@ -15,14 +15,47 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
+#include"define-size_type.h"
 
-	template<typename Exp, typename Continuation = ch_bool>
-	using is_builtin = typename inductor::template memoized_builtin<Exp>::template match
-	<
-		Continuation
-	>;
-};
+#ifdef safe_name
+
+	#define PREFIX		sk_builtin_ss_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+							  template
+							  <
+								typename Exp,
+
+								typename Continuation =
+								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+								inductor::ch_judgement
+							  >
+	using nik_safe(PREFIX, is_judgement)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
+							  identity::template is_judgement<Exp, Continuation>;
+
+//
+
+							  template
+							  <
+								typename Exp1, typename Exp2,
+
+								typename Continuation =
+								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+								inductor::ch_judgement
+							  >
+	using nik_safe(PREFIX, is_equal)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
+							  identity::template is_equal<Exp1, Exp2, Continuation>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

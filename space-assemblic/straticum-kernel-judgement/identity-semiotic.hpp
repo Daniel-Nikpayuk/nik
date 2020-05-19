@@ -20,7 +20,7 @@ struct identity
 	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
 
 	template<typename Exp, Exp Value, typename Continuation = ch_bool>
-	using is_builtin = typename memoized_builtin<Exp, Value>::template match
+	using is_judgement = typename memoized_builtin<Exp, Value>::template match
 	<
 		Continuation
 	>;

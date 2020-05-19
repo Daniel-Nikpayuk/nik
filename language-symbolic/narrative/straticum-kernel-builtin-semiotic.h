@@ -18,6 +18,8 @@
 #ifndef NIK_STRATICUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
 #define NIK_STRATICUM_KERNEL_BUILTIN_SYMBOLIC_SEMIOTIC_H
 
+	#include"patronum-kernel-builtin-semiotic.h"
+
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
 	#include"../../space-symbolic/straticum-kernel-builtin/semiotic.h"

@@ -17,5 +17,15 @@
 
 struct identity
 {
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+
+	//
+
+	template<typename Exp, template<typename Kind, Kind> class Judgement, typename Continuation = ch_judgement>
+	using is_judgement = typename memoized_judgement<Exp>::template match
+	<
+		Continuation, Judgement
+	>;
 };
 

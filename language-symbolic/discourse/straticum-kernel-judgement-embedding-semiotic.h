@@ -15,13 +15,27 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_STRATICUM_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
-#define NIK_STRATICUM_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
+#include"define-size_type.h"
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+#ifdef safe_name
 
-	#include"../../space-symbolic/straticum-kernel-pair/semiotic.h"
+	#define PREFIX		sk_judgement_ss_
 
-#undef local_scope
+#else
+
+	#define PREFIX
 
 #endif
+
+//
+
+							  template<typename Type, Type Value>
+	using nik_safe(PREFIX, make_judgement)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
+							  embedding::template make_judgement<Type, Value>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
+

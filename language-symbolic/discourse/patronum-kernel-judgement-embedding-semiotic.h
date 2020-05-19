@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		pk_builtin_ss_
+	#define PREFIX		pk_judgement_ss_
 
 #else
 
@@ -31,14 +31,34 @@
 
 							  template
 							  <
-								typename Exp1, typename Exp2,
+								template<typename Kind, Kind> class Judgement,
+								typename Type, Type Value
+							  >
+	using nik_safe(PREFIX, judgement_make)		= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  embedding::template judgement_make<Judgement, Type, Value>;
+
+							  template
+							  <
+								typename Judgement,
 
 								typename Continuation =
-								typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-								inductor::ch_bool
+								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+								inductor::ch_judgement_type
 							  >
-	using nik_safe(PREFIX, is_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_twin<Exp1, Exp2, Continuation>;
+	using nik_safe(PREFIX, judgement_type)		= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  embedding::template judgement_type<Judgement, Continuation>;
+
+							  template
+							  <
+								typename Judgement,
+
+								typename Continuation =
+								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+								inductor::ch_judgement_value
+							  >
+	static constexpr nik_safe(PREFIX, judgement_type)
+	<Judgement> nik_safe(PREFIX, judgement_value)	= nik_language(patronum, kernel, judgement, symbolic, semiotic)::
+							  embedding::template judgement_value<Judgement, Continuation>;
 
 //
 
