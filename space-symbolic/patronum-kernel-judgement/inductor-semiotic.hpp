@@ -50,17 +50,5 @@ struct inductor
 		template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
 		using result = Judgement<Type, Value>;
 	};
-
-	struct ch_judgement_type
-	{
-		template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
-		using result = Type;
-	};
-
-	struct ch_judgement_value
-	{
-		template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
-		static constexpr Type result = Value;
-	};
 };
 

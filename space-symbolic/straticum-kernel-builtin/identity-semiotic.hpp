@@ -17,7 +17,6 @@
 
 struct identity
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 	#include nik_symbolic_typedef(straticum, kernel, builtin, inductor)
 
 	// builtin types:

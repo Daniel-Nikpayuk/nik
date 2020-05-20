@@ -17,5 +17,6 @@
 
 struct embedding
 {
+	// there are no abstract embedding functions here as of yet.
 };
 

@@ -17,7 +17,25 @@
 
 struct inductor
 {
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+
 	// builtin types:
+
+	template<typename Exp> using memoized_bool			= type_inductor<bool>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_char			= type_inductor<char>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_unsigned_char		= type_inductor<unsigned char>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_signed_char		= type_inductor<signed char>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_wchar_t			= type_inductor<wchar_t>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_char16_t			= type_inductor<char16_t>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_char32_t			= type_inductor<char32_t>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_unsigned_short		= type_inductor<unsigned short>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_signed_short		= type_inductor<signed short>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_unsigned_int		= type_inductor<unsigned int>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_signed_int		= type_inductor<signed int>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_unsigned_long		= type_inductor<unsigned long>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_signed_long		= type_inductor<signed long>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_unsigned_long_long	= type_inductor<unsigned long long>::template memoized_type<Exp>;
+	template<typename Exp> using memoized_signed_long_long		= type_inductor<signed long long>::template memoized_type<Exp>;
 
 	// void_ptr values:
 
@@ -26,24 +44,6 @@ struct inductor
 	this inductor is only here to maintain the narrative design of this library.
 */
 
-	template<auto>
-	struct memoized_void_ptr
-	{
-		template<typename Continuation, template<typename Kind, Kind> class Judgement>
-		using match = typename Continuation::template result<Judgement, bool, false>;
-	};
-
-	template<void_ptr Value>
-	struct memoized_void_ptr<Value>
-	{
-		template<typename Continuation, template<typename Kind, Kind> class Judgement>
-		using match = typename Continuation::template result<Judgement, bool, true>;
-
-		template<typename Continuation, template<typename Kind, Kind> class Judgement>
-		using induct = typename Continuation::template result
-		<
-			Judgement, void_ptr, Value
-		>;
-	};
+	template<auto Exp> using memoized_void_ptr			= value_inductor<void_ptr(0)>::template memoized_value<Exp>;
 };
 

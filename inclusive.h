@@ -54,7 +54,13 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., patronum, kernel, builtin, symbolic, semiotic)				// redundant inclusion
+#include nik_source(., patronum, kernel, builtin, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., straticum, kernel, builtin, symbolic, semiotic)
+
+
+/***********************************************************************************************************************/
+
+
 //#include nik_source(., patronum, kernel, judgement, symbolic, semiotic)			// redundant inclusion
 
 //#include nik_source(., patronum, kernel, pair, symbolic, semiotic)
@@ -75,15 +81,16 @@
 
 
 //#include nik_source(., patronum, kernel, builtin, assemblic, semiotic)
-#include nik_source(., patronum, kernel, list, assemblic, semiotic)
+//#include nik_source(., patronum, kernel, judgement, assemblic, semiotic)
+
+#include nik_source(., patronum, kernel, list, assemblic, semiotic)			// list_display (string literals)
 
 
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 
-#include nik_source(., straticum, kernel, builtin, symbolic, semiotic)
-#include nik_source(., straticum, kernel, judgement, symbolic, semiotic)
+//#include nik_source(., straticum, kernel, judgement, symbolic, semiotic)
 
 
 /***********************************************************************************************************************/

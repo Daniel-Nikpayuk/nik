@@ -15,17 +15,15 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct identity
 {
-	nik_begin_language(straticum, kernel, judgement, symbolic, semiotic)
+	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, pair, inductor)
 
-//		#include"inductor-semiotic.hpp"
-
-		//
-
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
-
-	nik_end_language(straticum, kernel, judgement, symbolic, semiotic)
-}
+	template<typename Exp, typename Continuation = ch_judgement>
+	using is_pair = typename memoized_pair<Exp>::template match
+	<
+		Continuation
+	>;
+};
 

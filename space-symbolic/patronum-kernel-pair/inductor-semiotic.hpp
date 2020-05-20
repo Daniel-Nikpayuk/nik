@@ -15,17 +15,25 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct inductor
 {
-	nik_begin_language(straticum, kernel, judgement, symbolic, semiotic)
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-//		#include"inductor-semiotic.hpp"
+	template<template<typename, typename> class>
+	using sfinae_pair_induct = filler;
 
-		//
+	template<typename, typename = filler>
+	struct memoized_pair
+	{
+		template<typename Continuation, typename Judgement = builtin_inductor<bool>>
+		using match = typename Continuation::template result<Judgement, bool, false>;
+	};
 
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
-
-	nik_end_language(straticum, kernel, judgement, symbolic, semiotic)
-}
+	template<typename Memoized_Type>
+	struct memoized_pair<Memoized_Type, sfinae_pair_induct<Memoized_Type::template pair_induct>>
+	{
+		template<typename Continuation, typename Judgement = builtin_inductor<bool>>
+		suing match = typename Continuation::template result<Judgement, bool, true>;
+	};
+};
 

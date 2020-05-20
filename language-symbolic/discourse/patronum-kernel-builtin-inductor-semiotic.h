@@ -30,8 +30,8 @@
 //
 
 							  template<typename Exp>
-	using nik_safe(PREFIX, ch_inductor)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  inductor::template ch_inductor<Exp>;
+	using nik_safe(PREFIX, builtin_inductor)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  inductor::template builtin_inductor<Exp>;
 
 //
 

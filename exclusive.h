@@ -51,13 +51,15 @@
 
 namespace nik
 {
-	using global_size_type		= signed long long;	// size_t;
+	using global_size_type					= signed long long;	// size_t;
 
-	using void_ptr			= void *;		// compliment to nullptr ( = 0 )
+	using void_ptr						= void *;		// compliment to nullptr ( = 0 )
 
-	struct global_filler		{ };			// keyword.
+	struct global_filler					{ };			// keyword.
 
-	using filler			= global_filler *;
+	using filler						= global_filler *;
+
+	static constexpr const char null_string_literal[]	= "";
 
 
 /***********************************************************************************************************************/

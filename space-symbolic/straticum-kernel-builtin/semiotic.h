@@ -26,6 +26,10 @@ namespace nik
 		#include"identity-semiotic.hpp"
 		#include"embedding-semiotic.hpp"
 
+		//
+
+		#include"structure-semiotic.hpp"
+
 	nik_end_language(straticum, kernel, builtin, symbolic, semiotic)
 }
 

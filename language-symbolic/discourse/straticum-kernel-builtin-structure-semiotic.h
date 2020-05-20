@@ -15,17 +15,27 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_language(straticum, kernel, judgement, symbolic, semiotic)
+#include"define-size_type.h"
 
-//		#include"inductor-semiotic.hpp"
+#ifdef safe_name
 
-		//
+	#define PREFIX		sk_builtin_ss_
 
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
+#else
 
-	nik_end_language(straticum, kernel, judgement, symbolic, semiotic)
-}
+	#define PREFIX
+
+#endif
+
+//
+
+							  template<typename Type, Type Value>
+	using nik_safe(PREFIX, judgement)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
+							  structure::template judgement<Type, Value>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 

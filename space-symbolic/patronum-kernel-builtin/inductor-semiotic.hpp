@@ -18,27 +18,71 @@
 struct inductor
 {
 	template<typename Type>
-	struct ch_inductor
+	struct builtin_inductor
 	{
-		template<typename, typename = filler>
+		// type:
+
+		template<typename Kind, typename = filler>
 		struct memoized_type
 		{
-			template<typename Continuation, template<typename Kind, Kind> class Judgement>
-			using match = typename Continuation::template result<Judgement, bool, false>;
+			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
+			using match = typename Continuation::template result<Inductor, bool, false>;
+
+			template<typename Continuation, typename Pair = inductor>
+			using pair_induct = typename Continuation::template result<Pair, Type, Kind>;
 		};
 
 		template<typename Filler>
 		struct memoized_type<Type, Filler>
 		{
-			template<typename Continuation, template<typename Kind, Kind> class Judgement>
-			using match = typename Continuation::template result<Judgement, bool, true>;
+			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
+			using match = typename Continuation::template result<Inductor, bool, true>;
 
-			template<typename Continuation, template<typename Kind, Kind> class Judgement, const char* string_literal>
-			using induct = typename Continuation::template result
-			<
-				Judgement, const char*, string_literal
-			>;
+			template<typename Continuation, const char* string_literal, typename Inductor = builtin_inductor<const char*>>
+			using type_induct = typename Continuation::template result<Inductor, const char*, string_literal>;
+
+			template<typename Continuation, typename Pair = inductor>
+			using pair_induct = typename Continuation::template result<Pair, Type, Type>;
+
+			template<typename Continuation, typename Kind, const char* string_literal = null_string_literal>
+			static constexpr Kind (*value_induct)() = Continuation::template result<const char*, string_literal>;
 		};
+
+			// value:
+
+		template<auto>
+		struct memoized_value
+		{
+			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
+			using match = typename Continuation::template result<Inductor, bool, false>;
+		};
+
+		template<Type Value>
+		struct memoized_value<Value>
+		{
+			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
+			using match = typename Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = builtin_inductor<Type>>
+			using type_induct = typename Continuation::template result<Inductor, Type, Value>;
+
+			template<typename Continuation, typename Kind>
+			static constexpr Kind (*value_induct)() = Continuation::template result<Type, Value>;
+		};
+	};
+
+	//
+
+	struct ch_type
+	{
+		template<typename Inductor, typename Type, Type Value>
+		using result = Type;
+	};
+
+	struct ch_value
+	{
+		template<typename Inductor, typename Type, Type Value>
+		static constexpr Type result = Value;
 	};
 };
 
