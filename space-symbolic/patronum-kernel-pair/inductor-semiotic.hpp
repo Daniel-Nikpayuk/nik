@@ -17,23 +17,40 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, builtin, alias)
 
-	template<template<typename, typename> class>
-	using sfinae_pair_induct = filler;
+	template<typename, typename = filler>
+	struct memoized_curried_pair
+	{
+		template<typename Continuation, typename Inductor = typename PK_Builtin_SS::inductor>
+		using match = typename Continuation::template result<Inductor, bool, false>;
+	};
+
+	template<typename Memoized_Type>
+	struct memoized_curried_pair<Memoized_Type, sfinae_try<Memoized_Type::template dependent_induct>>
+	{
+		template<typename Continuation, typename Judgement = builtin_inductor<bool>>
+		using match = typename Continuation::template result<Judgement, bool, true>;
+
+		template<typename Continuation, typename Inductor = typename PK_Builtin_SS::inductor>
+		using induct = typename Memoized_Type::template dependent_induct<Continuation, Inductor>;
+	};
 
 	template<typename, typename = filler>
 	struct memoized_pair
 	{
-		template<typename Continuation, typename Judgement = builtin_inductor<bool>>
-		using match = typename Continuation::template result<Judgement, bool, false>;
+		template<typename Continuation, typename Inductor = typename PK_Builtin_SS::inductor>
+		using match = typename Continuation::template result<Inductor, bool, false>;
 	};
 
-	template<typename Memoized_Type>
-	struct memoized_pair<Memoized_Type, sfinae_pair_induct<Memoized_Type::template pair_induct>>
+	template<template<typename, typename> class Pair, typename Type_A, typename Type_B>
+	struct memoized_pair<Pair<Type_A, Type_B>>
 	{
-		template<typename Continuation, typename Judgement = builtin_inductor<bool>>
-		suing match = typename Continuation::template result<Judgement, bool, true>;
+		template<typename Continuation, typename Inductor = typename PK_Builtin_SS::inductor>
+		using match = typename Continuation::template result<Inductor, bool, true>;
+
+		template<typename Continuation, typename Inductor = typename PK_Builtin_SS::inductor>
+		using induct = typename Continuation::template result<Inductor, Type_A, Type_B>;
 	};
 };
 

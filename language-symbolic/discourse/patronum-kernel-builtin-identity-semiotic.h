@@ -31,12 +31,14 @@
 
 							  template
 							  <
-								typename Exp1, typename Exp2,
-								template<typename Kind, Kind> class Judgement,
-								typename Continuation
+								typename Type1, typename Type2,
+
+								typename Continuation =
+							  	typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+								inductor::ch_value
 							  >
-	using nik_safe(PREFIX, type_is_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  identity::template type_is_equal<Exp1, Exp2, Judgement, Continuation>;
+	using nik_safe(PREFIX, is_type_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  identity::template is_type_equal<Type1, Type2, Continuation>;
 
 //
 

@@ -15,17 +15,16 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct structure
 {
-	nik_begin_language(patronum, kernel, judgement, symbolic, semiotic)
+	// pair:
 
-		#include"inductor-semiotic.hpp"
+	template<typename Type_A, typename Type_B>
+	using make_pair_type = typename dependent_memoization<Type_A>::template memoized_type<Type_B>;
 
-		//
+	// function:
 
-		#include"identity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
-
-	nik_end_language(patronum, kernel, judgement, symbolic, semiotic)
-}
+	template<typename Domain, typename Codomain>
+	using make_function_type = typename dependent_memoization<Domain>::template memoized_type<Codomain>;
+};
 

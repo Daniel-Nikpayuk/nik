@@ -15,40 +15,7 @@
 **
 ************************************************************************************************************************/
 
-struct inductor
+struct embedding
 {
-	template<typename>
-	struct memoized_judgement
-	{
-		template<typename Continuation, template<typename Kind, Kind> class Judgement>
-		using match = typename Continuation::template result<Judgement, bool, false>;
-	};
-
-	template<typename Type, template<typename Kind, Kind> class Judgement, Type Value>
-	struct memoized_judgement<Judgement<Type, Value>>
-	{
-		template<typename Continuation, template<typename Kind, Kind> class Saying>
-		using match = typename Continuation::template result<Saying, bool, true>;
-
-		template<typename Continuation>
-		using type_induct = typename Continuation::template result
-		<
-			Judgement, Type, Value
-		>;
-
-		template<typename Continuation>
-		static constexpr Type value_induct = Continuation::template result
-		<
-			Judgement, Type, Value
-		>;
-	};
-
-	//
-
-	struct ch_judgement
-	{
-		template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
-		using result = Judgement<Type, Value>;
-	};
 };
 

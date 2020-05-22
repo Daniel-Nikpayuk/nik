@@ -29,9 +29,17 @@
 
 //
 
-							  template<typename Exp>
-	using nik_safe(PREFIX, builtin_inductor)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  inductor::template builtin_inductor<Exp>;
+							  template<typename Type>
+	using nik_safe(PREFIX, dependent_memoization)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  inductor::template dependent_memoization<Type>;
+
+//
+
+	using nik_safe(PREFIX, ch_type)			= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_type;
+
+	using nik_safe(PREFIX, ch_value)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_value;
 
 //
 

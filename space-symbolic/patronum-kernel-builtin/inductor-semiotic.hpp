@@ -17,72 +17,228 @@
 
 struct inductor
 {
-	template<typename Type>
-	struct builtin_inductor
+	template<typename Type, Induction = Induction::cofactored>
+	struct dependent_memoization
 	{
 		// type:
+
+			// The following assemblic aliases are only here as an optimization to minimize memoizations.
+			// Otherwise, they narratively belong with their respective assemblic languages.
+
+			// The expense of the extra dependent alias is justified in contexts where Type, Kind bindings
+			// overlap as it allows for reduced memoizations when implementating equality, pairs, functions.
 
 		template<typename Kind, typename = filler>
 		struct memoized_type
 		{
-			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
-			using match = typename Continuation::template result<Inductor, bool, false>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 
-			template<typename Continuation, typename Pair = inductor>
-			using pair_induct = typename Continuation::template result<Pair, Type, Kind>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Kind>;
+
+			//
+
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Kind>;
 		};
 
 		template<typename Filler>
 		struct memoized_type<Type, Filler>
 		{
-			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
-			using match = typename Continuation::template result<Inductor, bool, true>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-			template<typename Continuation, const char* string_literal, typename Inductor = builtin_inductor<const char*>>
-			using type_induct = typename Continuation::template result<Inductor, const char*, string_literal>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic = typename Continuation::template result<Inductor, Type>;
 
-			template<typename Continuation, typename Pair = inductor>
-			using pair_induct = typename Continuation::template result<Pair, Type, Type>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Type>;
 
-			template<typename Continuation, typename Kind, const char* string_literal = null_string_literal>
-			static constexpr Kind (*value_induct)() = Continuation::template result<const char*, string_literal>;
+			//
+
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic = Continuation::template result<Inductor, Type>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Type>;
 		};
 
-			// value:
+			// The following template memoization is only here as an optimization to minimize memoizations.
+			// Otherwise, it narratively belongs with its respective list languages.
 
-		template<auto>
-		struct memoized_value
+		template<auto...>
+		struct memoized_values
 		{
-			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
-			using match = typename Continuation::template result<Inductor, bool, false>;
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
+
+			//
+
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
 		};
+
+		template<Type... Values>
+		struct memoized_values<Values...>
+		{
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic = typename Continuation::template result<Inductor, Type, Values...>;
+
+			//
+
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic = Continuation::template result<Inductor, Type, Values...>;
+		};
+
+		// value (judgement):
 
 		template<Type Value>
-		struct memoized_value<Value>
-		{
-			template<typename Continuation, typename Inductor = builtin_inductor<bool>>
-			using match = typename Continuation::template result<Inductor, bool, true>;
-
-			template<typename Continuation, typename Inductor = builtin_inductor<Type>>
-			using type_induct = typename Continuation::template result<Inductor, Type, Value>;
-
-			template<typename Continuation, typename Kind>
-			static constexpr Kind (*value_induct)() = Continuation::template result<Type, Value>;
-		};
+		using memoized_value = memoized_values<Value>;
 	};
 
 	//
 
-	struct ch_type
+	template<typename Type>
+	struct dependent_memoization<Type, Induction::symbolic>
 	{
-		template<typename Inductor, typename Type, Type Value>
-		using result = Type;
+		// type:
+
+			// The expense of the extra dependent alias is justified in contexts where Type, Kind bindings
+			// overlap as it allows for reduced memoizations when implementating equality, pairs, functions.
+
+		template<typename Kind, typename = filler>
+		struct memoized_type
+		{
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
+
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Kind>;
+		};
+
+		template<typename Filler>
+		struct memoized_type<Type, Filler>
+		{
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic = typename Continuation::template result<Inductor, Type>;
+
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Type>;
+		};
+
+			// The following template memoization is only here as an optimization to minimize memoizations.
+			// Otherwise, it narratively belongs with its respective list languages.
+
+		template<auto...>
+		struct memoized_values
+		{
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
+		};
+
+		template<Type... Values>
+		struct memoized_values<Values...>
+		{
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = inductor>
+			using symbolic = typename Continuation::template result<Inductor, Type, Values...>;
+		};
+
+		// value (judgement):
+
+		template<Type Value>
+		using memoized_value = memoized_values<Value>;
 	};
 
-	struct ch_value
+	//
+
+	template<typename Type>
+	struct dependent_memoization<Type, Induction::assemblic>
+	{
+		// type:
+
+			// The expense of the extra dependent alias is justified in contexts where Type, Kind bindings
+			// overlap as it allows for reduced memoizations when implementating equality, pairs, functions.
+
+		template<typename Kind, typename = filler>
+		struct memoized_type
+		{
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Kind>;
+		};
+
+		template<typename Filler>
+		struct memoized_type<Type, Filler>
+		{
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic = Continuation::template result<Inductor, Type>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Type>;
+		};
+
+			// The following template memoization is only here as an optimization to minimize memoizations.
+			// Otherwise, it narratively belongs with its respective list languages.
+
+		template<auto...>
+		struct memoized_values
+		{
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+		};
+
+		template<Type... Values>
+		struct memoized_values<Values...>
+		{
+			template<typename Continuation, typename Inductor = bool>
+			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = Type>
+			static constexpr Inductor assemblic = Continuation::template result<Inductor, Type, Values...>;
+		};
+
+		// value (judgement):
+
+		template<Type Value>
+		using memoized_value = memoized_values<Value>;
+	};
+
+	//
+
+	struct ch_symbolic_type
+	{
+		template<typename Inductor, typename Type>
+		using result = typename Inductor::template dependent_memoization<Type>::template memoized_type<Type>;
+	};
+
+	struct ch_symbolic_value
 	{
 		template<typename Inductor, typename Type, Type Value>
-		static constexpr Type result = Value;
+		using result = typename Inductor::template dependent_memoization<Type>::template memoized_value<Value>;
 	};
 };
 

@@ -17,5 +17,24 @@
 
 struct embedding
 {
+	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+
+	template<template<typename Kind, Kind> class Judgement, typename Type, Type Value>
+	using judgement_make = typename ch_judgement::template result
+	<
+		Judgement, Type, Value
+	>;
+
+	template<typename Judgement, typename Continuation = ch_judgement_type>
+	using judgement_type = typename memoized_judgement<Judgement>::template type_induct
+	<
+		Continuation
+	>;
+
+	template<typename Memoized_Value, typename Continuation = ch_value>
+	static constexpr type<Memoized_Value> value = Memoized_Value::template induct
+	<
+		Continuation
+	>;
 };
 

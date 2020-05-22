@@ -17,5 +17,25 @@
 
 struct embedding
 {
+	// display:
+
+	static constexpr void display(bool v)				{ printf("%s", v ? "true" : "false");	}
+	static constexpr void display(char v)				{ printf("%c", v);			}
+	static constexpr void display(unsigned char v)			{ printf("%u", v);			}
+	static constexpr void display(signed char v)			{ printf("%c", v);			}
+	static constexpr void display(wchar_t v)			{ printf("%c", v);			}
+	static constexpr void display(char16_t v)			{ printf("%u", v);			}
+	static constexpr void display(char32_t v)			{ printf("%u", v);			}
+	static constexpr void display(unsigned short v)			{ printf("%u", v);			}
+	static constexpr void display(signed short v)			{ printf("%d", v);			}
+	static constexpr void display(unsigned int v)			{ printf("%u", v);			}
+	static constexpr void display(signed int v)			{ printf("%d", v);			}
+	static constexpr void display(unsigned long v)			{ printf("%lu", v);			}
+	static constexpr void display(signed long v)			{ printf("%ld", v);			}
+	static constexpr void display(unsigned long long v)		{ printf("%llu", v);			}
+	static constexpr void display(signed long long v)		{ printf("%lld", v);			}
+	static constexpr void display(float v)				{ printf("%f", v);			}
+	static constexpr void display(double v)				{ printf("%f", v);			}
+	static constexpr void display(long double v)			{ printf("%Lf", v);			}
 };
 

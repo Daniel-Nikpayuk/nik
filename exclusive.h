@@ -59,6 +59,9 @@ namespace nik
 
 	using filler						= global_filler *;
 
+	template<template<typename...> class...>
+	using sfinae_try					= filler;
+
 	static constexpr const char null_string_literal[]	= "";
 
 

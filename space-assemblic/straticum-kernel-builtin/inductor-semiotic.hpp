@@ -30,20 +30,17 @@ struct inductor
 	struct memoized_void_ptr
 	{
 		template<typename Continuation>
-		static constexpr bool (*match)() = Continuation::template result<bool, false>;
+		static constexpr bool match = Continuation::template result<bool, false>;
 	};
 
 	template<void_ptr Value>
 	struct memoized_void_ptr<Value>
 	{
 		template<typename Continuation>
-		static constexpr bool (*match)() = Continuation::template result<bool, true>;
+		static constexpr bool match = Continuation::template result<bool, true>;
 
 		template<typename Continuation>
-		static constexpr void_ptr (*induct)() = Continuation::template result
-		<
-			void_ptr, Value
-		>;
+		static constexpr void_ptr induct = Continuation::template result<void_ptr, Value>;
 	};
 };
 

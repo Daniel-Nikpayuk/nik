@@ -17,28 +17,21 @@
 
 struct inductor
 {
-	template<typename Type>
-	struct ch_inductor
+	template<typename Type, Induction = Induction::cofactored>
+	using dependent_memoization = typename PK_Builtin_SS::template dependent_memoization<Type, Induction>;
+
+	//
+
+	struct ch_assemblic_type
 	{
-		template<typename, typename = filler>
-		struct memoized_type
-		{
-			template<typename Continuation>
-			static constexpr bool (*match)() = Continuation::template result<bool, false>;
-		};
+		template<typename Inductor, typename Type, Type Value>
+		static constexpr Inductor result = Value;
+	};
 
-		template<typename Filler>
-		struct memoized_type<Type, Filler>
-		{
-			template<typename Continuation>
-			static constexpr bool (*match)() = Continuation::template result<bool, true>;
-
-			template<typename Continuation, const char* string_literal>
-			static constexpr const char* (*induct)() = Continuation::template result
-			<
-				const char*, string_literal
-			>;
-		};
+	struct ch_assemblic_value
+	{
+		template<typename Inductor, typename Type, Type Value>
+		static constexpr Inductor result = Value;
 	};
 };
 

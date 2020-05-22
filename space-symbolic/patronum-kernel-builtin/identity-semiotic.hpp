@@ -19,14 +19,24 @@ struct identity
 {
 	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	// type_is_equal exists in principle, but it can't actually be used without a memoized boolean judgment.
-
-	template<typename Exp1, typename Exp2, template<typename Kind, Kind> class Judgement, typename Continuation>
-	using type_is_equal = typename type_inductor<Exp1>::template memoized_type<Exp2>::template match
+	template<typename Type1, typename Type2, typename Continuation = ch_value>
+	using is_type_equal = typename dependent_memoization<Type1>::template memoized_type<Type2>::template match
 	<
-		Continuation, Judgement
+		Continuation
 	>;
 
-	// value_is_equal is intentionally not implemented, as it's better to use constexpr functions instead.
+	// is_value_equal is not yet implemented.
+
+/*
+	template<typename Continuation>
+	struct cp_binary
+	{
+		template<typename Memoized_Value, typename Type, Type Value>
+		using result = typename Memoized_Value::template value_induct
+		<
+			Continuation, Inductor
+		>;
+	};
+*/
 };
 

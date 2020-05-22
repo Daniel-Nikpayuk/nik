@@ -1,0 +1,171 @@
+/************************************************************************************************************************
+**
+** Copyright 2015-2020 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+**
+** This file is part of nik.
+**
+** nik is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+**
+** nik is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+** of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along with nik. If not, see
+** <http://www.gnu.org/licenses/>.
+**
+************************************************************************************************************************/
+
+struct inductor
+{
+/*
+	Initially we would pattern match against specific builtin types such as unsigned int:
+*/
+
+	template<typename Type, typename = filler>
+	struct memoized_unsigned_int
+	{
+		template<typename Continuation, typename Judgement>
+		using match = typename Continuation::template result<Judgement, bool, false>;
+	};
+
+	template<typename Filler>
+	struct memoized_unsigned_int<unsigned int, Filler>
+	{
+		template<typename Continuation, typename Judgement>
+		using match = typename Continuation::template result<Judgement, bool, true>;
+	};
+
+/*
+	The templated struct in the above used to achieve this could be called "pattern_match_" but I prefer
+	the use of the "memoized_" terminology instead---it reminds me to maintain good meta-programming habits
+	as specializations of templated structs are effectively being memoized by the compiler.
+
+	This is relevant in C++ meta-programming for performance: The compiler believes if we bother to
+	specialize a template in the first place, there's a good chance we'll instantiate an object during
+	run-time. Because of this, the compiler does preparation work, allocating, preprocessing, that sort
+	of stuff, which from a meta-programming perspective is wasteful (as such preparations aren't needed)
+	and decreases performance for compile-time interpretation.
+
+	Finally here, these performance considerations are also why we use aliasing ("using" keyword) as much
+	as possible, and why we take a continuation passing (typename Continuation) approach in the above.
+*/
+
+
+/*
+	The previous pattern matching is for a specific object (unsigned int) in the modelling space, and so its
+	grammar will be located in the straticum (concrete modelling objects). If we continue this way we would
+	observe the same pattern of grammar for other builtin types such as signed int, char, short, etc.
+	As such we can instead abstract this pattern into a more generic inductor applicable to all types:
+*/
+
+	template<typename Type>
+	struct dependent_memoization
+	{
+		template<typename Kind, typename = filler>
+		struct memoized_type
+		{
+			template<typename Continuation, typename Judgement = dependent_memoization<bool>>
+			using match = typename Continuation::template result<Judgement, bool, false>;
+
+			template<typename Continuation, typename Function = inductor>
+			using function_induct = typename Continuation::template result<Function, Type, Kind>;	// Type = Domain
+														// Kind = Codomain
+			template<typename Continuation, typename Pair = inductor>
+			using pair_induct = typename Continuation::template result<Pair, Type, Kind>;		// Type x Kind
+		};
+
+		template<typename Filler>
+		struct memoized_type<Type, Filler>
+		{
+			template<typename Continuation, typename Judgement = dependent_memoization<bool>>
+			using match = typename Continuation::template result<Judgement, bool, true>;
+
+			template<typename Continuation, typename Function = inductor>
+			using function_induct = typename Continuation::template result<Function, Type, Kind>;
+
+			template<typename Continuation, typename Pair = inductor>
+			using pair_induct = typename Continuation::template result<Pair, Type, Type>;
+		};
+
+
+/*
+	In Homotopy Type Theory (HoTT), we define the "recursion" operator for a pair as:
+
+	Let g : A -> (B -> C) be a function, then there exists a function (acting on pairs) defined as
+
+		rec(C, g, (a,b)) := g(a)(b)
+
+	There's a few technicalities I'm skipping here because I don't want to scare away those who aren't familiar
+	with Type Theory. Anyway, beyond this recursion principle, there's a parallel "induction" principle
+
+		ind(C, g, (a,b)) := g(a)(b)
+
+	which also lets us grammatically (we think of ourselves as linguists now) define all possible functions
+	which can act on pairs. The only difference between "rec" and "ind" is "rec" has local output type "C"
+	while "ind" can span across families of output types, but again that's technicalities.
+
+	****** The interesting thing here, the way to apply HoTT to C++, or implement HoTT within C++ is
+	the "induct" aliasing operators in the previous two pages (images). Presented as they are, they're
+	actually incomplete, and there are also different ways to implement, for example if we're more
+	interested in creating run-time functions rather than compile-time meta-programming we would instead
+	use "static constexpr auto":
+*/
+
+		template<typename C, template<typename, typename> class g, >
+		static constexpr C pair_induct(A a, B b) { return g(a)(b); }
+
+/*
+	Keep in mind all of this is low level grammar, so it's not always the most aesthetically pleasing to work
+	with, but once the lower level stuff is made, using it is much easier:
+*/
+
+
+
+
+
+
+			template<typename Continuation, const char* string_literal, typename Inductor = dependent_memoization<const char*>>
+			using type_induct = typename Continuation::template result<Inductor, const char*, string_literal>;
+
+			template<typename Continuation, typename Kind, const char* string_literal = null_string_literal>
+			static constexpr Kind (*value_induct)() = Continuation::template result<const char*, string_literal>;
+		};
+
+			// value:
+
+		template<auto>
+		struct memoized_value
+		{
+			template<typename Continuation, typename Inductor = dependent_memoization<bool>>
+			using match = typename Continuation::template result<Inductor, bool, false>;
+		};
+
+		template<Type Value>
+		struct memoized_value<Value>
+		{
+			template<typename Continuation, typename Inductor = dependent_memoization<bool>>
+			using match = typename Continuation::template result<Inductor, bool, true>;
+
+			template<typename Continuation, typename Inductor = dependent_memoization<Type>>
+			using type_induct = typename Continuation::template result<Inductor, Type, Value>;
+
+			template<typename Continuation, typename Kind>
+			static constexpr Kind (*value_induct)() = Continuation::template result<Type, Value>;
+		};
+	};
+
+	//
+
+	struct ch_type
+	{
+		template<typename Inductor, typename Type, Type Value>
+		using result = Type;
+	};
+
+	struct ch_value
+	{
+		template<typename Inductor, typename Type, Type Value>
+		static constexpr Type result = Value;
+	};
+};
+
