@@ -15,16 +15,27 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct identity
 {
-	// is_library:
+	#include nik_assemblic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
+	template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
+	static constexpr bool is_type_equal = dependent_memoization<Type1>::template memoized_type<Type2>::template assemblic_match
 	<
 		Continuation
 	>;
-}
+
+	// is_value_equal is not yet implemented.
+
+/*
+	template<typename Continuation>
+	struct cp_is_value_equal
+	{
+		template<typename Memoized_Value, typename Type, Type Value>
+		static constexpr bool result(Type value1, Type value2) { return value1 == value2; }
+	};
+*/
+
+	// is_value_equal is intentionally not implemented, as it's better to use constexpr functions instead.
+};
 

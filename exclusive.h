@@ -71,6 +71,7 @@ namespace nik
 	enum struct Library	: global_size_type;
 	enum struct Universe	: global_size_type;
 	enum struct Language	: global_size_type;
+	enum struct Module	: global_size_type;
 
 	enum struct Reading	: global_size_type;
 	enum struct Permission	: global_size_type;
@@ -88,7 +89,10 @@ namespace nik
 //#include"universe-assemblic/semiotic.h"
 
 #include"language-symbolic/semiotic.h"
-#include"language-assemblic/semiotic.h"
+//#include"language-assemblic/semiotic.h"
+
+#include"module-symbolic/semiotic.h"
+#include"module-assemblic/semiotic.h"
 
 
 /***********************************************************************************************************************/

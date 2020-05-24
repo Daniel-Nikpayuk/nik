@@ -18,16 +18,19 @@
 
 enum struct Universe : global_size_type
 {
-	peano,
-	kernel,
+// straticum, patronum:
 
-// symbolic:
+	natural,
+	real,
+	analytic,
+
+// textual:
 
 	calculus,
 	scheme,
 	hott,
 
-// assemblic:
+// hardware:
 
 	numeric,
 	literic,
@@ -62,8 +65,8 @@ enum struct Universe : global_size_type
 /***********************************************************************************************************************/
 
 
-#define nik_universe_source(_path_, _module_, _reading_, _permission_)							\
+#define nik_universe_source(_path_, _division_, _reading_, _permission_)						\
 															\
-	nik_stringify(_path_/universe-_reading_/_module_-_permission_.hpp)
+	nik_stringify(_path_/universe-_reading_/_division_-_permission_.hpp)
 
 

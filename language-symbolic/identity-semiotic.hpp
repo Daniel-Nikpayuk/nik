@@ -19,10 +19,10 @@
 
 namespace nik
 {
-	//	is_language:
+	// is_language:
 
 	template<typename Exp, typename Continuation>
-	using is_language = typename memoized_language<Exp>::template match
+	using is_language = typename pattern_match_language<Exp>::template symbolic_match
 	<
 		Continuation
 	>;

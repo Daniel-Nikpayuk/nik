@@ -18,58 +18,10 @@
 
 enum struct Language : global_size_type
 {
-// peano:
+// natural:
 
-	path,
-
-// kernel:
-
-	builtin,
-	judgement,
-	pair,
-	copair,
-	boolean,
-	list,
-	colist,
-	function,
-	lambda,
-
-	operate,
-	literal,
-	number,
-	natural8,
-	natural16,
-	natural32,
-	natural64,
-	integer8,
-	integer16,
-	integer32,
-	integer64,
-
-// scheme:
-
-	applicative,
-	normal,
-
-// numeric:
-
-	pointer,
-	power,
-	bit,
-	word,
-	address,
-
-// literic:
-
-// graphic:
-
-	printer,
-
-// kinetic:
-
-// phonetic:
-
-// interic:
+	peano,
+	kernel,
 
 	dimension // filler
 };
@@ -98,46 +50,8 @@ enum struct Language : global_size_type
 /***********************************************************************************************************************/
 
 
-#define nik_language_source(_path_, _module_, _reading_, _permission_)							\
+#define nik_language_source(_path_, _division_, _reading_, _permission_)						\
 															\
-	nik_stringify(_path_/language-_reading_/_module_-_permission_.hpp)
-
-
-#define nik_source(_path_, _library_, _universe_, _language_, _reading_, _permission_)					\
-															\
-	nik_stringify(_path_/language-_reading_/narrative/_library_-_universe_-_language_-_permission_.h)
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-#define nik_symbolic_unpack(_path_, _library_, _universe_, _language_, _module_)					\
-															\
-	nik_stringify(_path_/language-symbolic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
-
-
-/***********************************************************************************************************************/
-
-
-#define nik_symbolic_typedef(_library_, _universe_, _language_, _module_)						\
-															\
-	nik_stringify(../../language-symbolic/discourse/_library_-_universe_-_language_-_module_-semiotic.h)
-
-
-/***********************************************************************************************************************/
-
-
-#define nik_symbolic_import(_path_, _library_, _universe_, _language_, _module_)					\
-															\
-	nik_stringify(_path_/language-symbolic/discourse/_library_-_universe_-_language_-_module_-media.h)
-
-
-/***********************************************************************************************************************/
-
-
-#define nik_symbolic_using(_library_, _universe_, _language_, _module_)							\
-															\
-	nik_stringify(../../language-symbolic/discourse/_library_-_universe_-_language_-_module_-media.h)
+	nik_stringify(_path_/language-_reading_/_division_-_permission_.hpp)
 
 

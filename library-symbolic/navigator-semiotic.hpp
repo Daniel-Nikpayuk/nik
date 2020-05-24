@@ -18,6 +18,9 @@
 
 enum struct Library : global_size_type
 {
+	peano_straticum,
+	peano_patronum,
+
 	straticum,
 	patronum,
 
@@ -46,8 +49,8 @@ enum struct Library : global_size_type
 /***********************************************************************************************************************/
 
 
-#define nik_library_source(_path_, _module_, _reading_, _permission_)							\
+#define nik_library_source(_path_, _division_, _reading_, _permission_)							\
 															\
-	nik_stringify(_path_/library-_reading_/_module_-_permission_.hpp)
+	nik_stringify(_path_/library-_reading_/_division_-_permission_.hpp)
 
 

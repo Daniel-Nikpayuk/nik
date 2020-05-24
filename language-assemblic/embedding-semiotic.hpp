@@ -19,34 +19,9 @@
 
 namespace nik
 {
-	struct ch_language_display
-	{
-		struct lambda
-		{
-			static constexpr void result()
-			{
-				printf("%s", "Sorry: This function is not currently implemented.\n");
-			}
-		};
+	static constexpr const char string_literal_language[] = "language";
 
-		template
-		<
-			Library		library_enum,
-			Universe	universe_enum,
-			Language	language_enum,
-
-			Reading		reading_enum,
-			Permission	permission_enum,
-
-			typename	size_type
-
-		> using result = lambda;
-	};
-
-	template<typename Exp, typename Continuation = ch_language_display>
-	using language_display = typename memoized_language<Exp>::template induct
-	<
-		Continuation
-	>;
+	template<template<const char*, typename> class Meta_Literal, typename Continuation>
+	using language_literal = Meta_Literal<string_literal_language, Continuation>;
 }
 

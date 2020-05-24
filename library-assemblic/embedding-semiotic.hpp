@@ -19,32 +19,9 @@
 
 namespace nik
 {
-	struct ch_library_display
-	{
-		struct lambda
-		{
-			static constexpr void result()
-			{
-				printf("%s", "Sorry: This function is not currently implemented.\n");
-			}
-		};
+	static constexpr const char string_literal_library[] = "library";
 
-		template
-		<
-			Library		library_enum,
-
-			Reading		reading_enum,
-			Permission	permission_enum,
-
-			typename	size_type
-
-		> using result = lambda;
-	};
-
-	template<typename Exp, typename Continuation = ch_library_display>
-	using library_display = typename memoized_library<Exp>::template induct
-	<
-		Continuation
-	>;
+	template<template<const char*, typename> class Meta_Literal, typename Continuation>
+	using library_literal = Meta_Literal<string_literal_library, Continuation>;
 }
 

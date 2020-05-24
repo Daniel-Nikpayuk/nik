@@ -15,16 +15,19 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct inductor
 {
-	// is_library:
+	#include nik_symbolic_typedef(patronum, kernel, builtin, alias)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	template<typename Type>
+	using dependent_memoization = typename PK_Builtin_SS::template dependent_memoization<Type>;
+
+	//
+
+	struct ch_assemblic_value
+	{
+		template<typename Inductor, typename Type, Type Value>
+		static constexpr Inductor result = Value;
+	};
+};
 

@@ -17,8 +17,6 @@
 
 namespace nik
 {
-	#include"navigator-semiotic.hpp"
-
 	// default policy is to exclude sourcing other modules.
 }
 

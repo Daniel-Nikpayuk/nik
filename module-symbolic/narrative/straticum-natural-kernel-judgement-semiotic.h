@@ -15,16 +15,16 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
+#ifndef NIK_STRATICUM_NATURAL_KERNEL_JUDGEMENT_SYMBOLIC_SEMIOTIC_H
+#define NIK_STRATICUM_NATURAL_KERNEL_JUDGEMENT_SYMBOLIC_SEMIOTIC_H
 
-namespace nik
-{
-	// is_library:
+	#include"patronum-natural-kernel-builtin-semiotic.h"
+	#include"patronum-natural-kernel-judgement-semiotic.h"
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
+	#include"../../space-symbolic/straticum-natural-kernel-judgement/semiotic.h"
+
+#undef local_scope
+
+#endif

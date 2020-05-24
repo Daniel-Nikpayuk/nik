@@ -19,10 +19,10 @@
 
 namespace nik
 {
-	//	is_universe:
+	// is_universe:
 
 	template<typename Exp, typename Continuation>
-	using is_universe = typename memoized_universe<Exp>::template match
+	using is_universe = typename pattern_match_universe<Exp>::template symbolic_match
 	<
 		Continuation
 	>;

@@ -15,16 +15,11 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
 namespace nik
 {
-	// is_library:
+	#include"inductor-semiotic.hpp"
+	#include"navigator-semiotic.hpp"
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
+	// default policy is to exclude sourcing other modules.
 }
 

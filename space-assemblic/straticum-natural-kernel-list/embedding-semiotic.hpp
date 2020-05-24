@@ -15,16 +15,8 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct embedding
 {
-	// is_library:
-
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	static constexpr void string_literal_display(const char *string_literal) { printf("%s", string_literal); }
+};
 

@@ -15,16 +15,21 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
 namespace nik
 {
-	// is_library:
+	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
+		#include"inductor-semiotic.hpp"
+
+		//
+
+		#include"identity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
+
+		//
+
+		#include"structure-semiotic.hpp"
+
+	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
 }
 

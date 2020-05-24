@@ -16,56 +16,32 @@
 ************************************************************************************************************************/
 
 
-template
-<
-	Library		library_enum,
-	Universe	universe_enum,
-
-	Reading		reading_enum,
-	Permission	permission_enum,
-
-	typename	size_type = global_size_type
-
-> struct universe
-{
-	// Checks to see if a given universe has been partially specialized.
-
-	template<typename Continuation, typename Inductor>
-	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
-};
+#define nik_assemblic_unpack(_path_, _library_, _universe_, _language_, _module_, _division_)				\
+															\
+	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
 
 
 /***********************************************************************************************************************/
+
+
+#define nik_assemblic_typedef(_library_, _universe_, _language_, _module_, _division_)					\
+															\
+	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
+
+
 /***********************************************************************************************************************/
 
 
-template<typename>
-struct pattern_match_universe
-{
-	template<typename Continuation, typename Inductor>
-	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
-};
+#define nik_assemblic_import(_path_, _library_, _universe_, _language_, _module_, _division_)				\
+															\
+	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
 
-template
-<
-	Library		library_enum,
-	Universe	universe_enum,
 
-	Reading		reading_enum,
-	Permission	permission_enum,
+/***********************************************************************************************************************/
 
-	typename	size_type
 
-> struct pattern_match_universe<universe<library_enum, universe_enum, reading_enum, permission_enum, size_type>>
-{
-	template<typename Continuation, typename Inductor>
-	using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
-
-	template<typename Continuation, typename Inductor>
-	using symbolic_induct = typename Continuation::template result
-	<
-		Inductor, library_enum, universe_enum, reading_enum, permission_enum, size_type
-	>;
-};
+#define nik_assemblic_using(_library_, _universe_, _language_, _module_, _division_)					\
+															\
+	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
 
 

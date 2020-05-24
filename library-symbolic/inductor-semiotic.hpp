@@ -29,8 +29,8 @@ template
 {
 	// Checks to see if a given library has been partially specialized.
 
-	template<typename Continuation>
-	using match = typename Continuation::template result<bool, false>;
+	template<typename Continuation, typename Inductor>
+	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 };
 
 
@@ -39,10 +39,10 @@ template
 
 
 template<typename>
-struct memoized_library
+struct pattern_match_library
 {
-	template<typename Continuation>
-	using match = typename Continuation::template result<bool, false>;
+	template<typename Continuation, typename Inductor>
+	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 };
 
 template
@@ -54,15 +54,15 @@ template
 
 	typename	size_type
 
-> struct memoized_library<library<library_enum, reading_enum, permission_enum, size_type>>
+> struct pattern_match_library<library<library_enum, reading_enum, permission_enum, size_type>>
 {
-	template<typename Continuation>
-	using match = typename Continuation::template result<bool, true>;
+	template<typename Continuation, typename Inductor>
+	using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-	template<typename Continuation>
-	using induct = typename Continuation::template result
+	template<typename Continuation, typename Inductor>
+	using symbolic_induct = typename Continuation::template result
 	<
-		library_enum, reading_enum, permission_enum, size_type
+		Inductor, library_enum, reading_enum, permission_enum, size_type
 	>;
 };
 

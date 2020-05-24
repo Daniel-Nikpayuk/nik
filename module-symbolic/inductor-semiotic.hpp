@@ -20,15 +20,17 @@ template
 <
 	Library		library_enum,
 	Universe	universe_enum,
+	Language	language_enum,
+	Module		module_enum,
 
 	Reading		reading_enum,
 	Permission	permission_enum,
 
 	typename	size_type = global_size_type
 
-> struct universe
+> struct module
 {
-	// Checks to see if a given universe has been partially specialized.
+	// Checks to see if a given language has been partially specialized.
 
 	template<typename Continuation, typename Inductor>
 	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
@@ -40,7 +42,7 @@ template
 
 
 template<typename>
-struct pattern_match_universe
+struct pattern_match_module
 {
 	template<typename Continuation, typename Inductor>
 	using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
@@ -50,13 +52,15 @@ template
 <
 	Library		library_enum,
 	Universe	universe_enum,
+	Language	language_enum,
+	Module		module_enum,
 
 	Reading		reading_enum,
 	Permission	permission_enum,
 
 	typename	size_type
 
-> struct pattern_match_universe<universe<library_enum, universe_enum, reading_enum, permission_enum, size_type>>
+> struct pattern_match_module<module<library_enum, universe_enum, language_enum, module_enum, reading_enum, permission_enum, size_type>>
 {
 	template<typename Continuation, typename Inductor>
 	using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
@@ -64,8 +68,37 @@ template
 	template<typename Continuation, typename Inductor>
 	using symbolic_induct = typename Continuation::template result
 	<
-		Inductor, library_enum, universe_enum, reading_enum, permission_enum, size_type
+		Inductor, library_enum, universe_enum, language_enum, module_enum, reading_enum, permission_enum, size_type
 	>;
 };
+
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+
+#define nik_begin_module(_library_, _universe_, _language_, _module_, _reading_, _permission_)				\
+															\
+	template<typename size_type>											\
+	struct module													\
+	<														\
+		nik::Library::_library_,										\
+		nik::Universe::_universe_,										\
+		nik::Language::_language_,										\
+		nik::Module::_module_,											\
+															\
+		nik::Reading::_reading_,										\
+		nik::Permission::_permission_,										\
+															\
+		size_type												\
+	>														\
+	{														\
+		template<typename Continuation, typename Inductor>							\
+		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
+
+
+#define nik_end_module(_library_, _universe_, _language_, _module_, _reading_, _permission_)				\
+															\
+	};
 
 

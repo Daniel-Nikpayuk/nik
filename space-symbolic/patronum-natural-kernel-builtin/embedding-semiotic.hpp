@@ -15,16 +15,24 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct embedding
 {
-	// is_library:
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
+	template<typename Continuation, const char* string_literal>
+	struct cp_type_to_string_literal
+	{
+		template<typename Inductor, typename Type>
+		using result = typename Continuation::template result
+		<
+			Inductor, const char*, string_literal
+		>;
+	};
+
+	template<typename Type, const char* string_literal, typename Continuation = ch_coinduct_value>
+	using type_literal = typename dependent_memoization<Type>::template coinduct_type<Type>::template symbolic_induct
 	<
-		Continuation
+		cp_type_to_string_literal<Continuation, string_literal>
 	>;
-}
+};
 

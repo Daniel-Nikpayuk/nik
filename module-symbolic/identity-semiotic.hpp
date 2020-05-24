@@ -19,10 +19,10 @@
 
 namespace nik
 {
-	// is_library:
+	// is_module:
 
 	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
+	using is_module = typename pattern_match_language<Exp>::template symbolic_match
 	<
 		Continuation
 	>;

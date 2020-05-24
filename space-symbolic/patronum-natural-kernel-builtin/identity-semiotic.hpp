@@ -15,16 +15,28 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct identity
 {
-	// is_library:
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
+	template<typename Type1, typename Type2, typename Continuation = ch_coinduct_value>
+	using is_type_equal = typename dependent_memoization<Type1>::template coinduct_type<Type2>::template symbolic_match
 	<
 		Continuation
 	>;
-}
+
+	// is_value_equal is not yet implemented.
+
+/*
+	template<typename Continuation>
+	struct cp_binary
+	{
+		template<typename Memoized_Value, typename Type, Type Value>
+		using result = typename Memoized_Value::template value_induct
+		<
+			Continuation, Inductor
+		>;
+	};
+*/
+};
 

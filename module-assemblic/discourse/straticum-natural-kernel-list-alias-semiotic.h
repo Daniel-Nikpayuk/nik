@@ -15,16 +15,13 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
+#include"define-size_type.h"
 
-namespace nik
-{
-	// is_library:
+//
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	using SK_List_AS = nik_module(straticum, natural, kernel, list, assemblic, semiotic);
+
+//
+
+#include"undef-size_type.h"
 

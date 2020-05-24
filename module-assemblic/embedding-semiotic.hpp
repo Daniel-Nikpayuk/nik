@@ -19,12 +19,9 @@
 
 namespace nik
 {
-	// is_library:
+	static constexpr const char string_literal_module[] = "module";
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
+	template<template<const char*, typename> class Meta_Literal, typename Continuation>
+	using module_literal = Meta_Literal<string_literal_module, Continuation>;
 }
 

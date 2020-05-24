@@ -15,16 +15,13 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
+#ifndef NIK_PATRONUM_NATURAL_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
+#define NIK_PATRONUM_NATURAL_KERNEL_PAIR_SYMBOLIC_SEMIOTIC_H
 
-namespace nik
-{
-	// is_library:
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	#include"../../space-symbolic/patronum-natural-kernel-pair/semiotic.h"
 
+#undef local_scope
+
+#endif

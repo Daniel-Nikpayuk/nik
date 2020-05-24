@@ -15,16 +15,23 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
-
-namespace nik
+struct structure
 {
-	// is_library:
+	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	// judgement:
+
+	template<typename Type, Type Value>
+	using make_judgement = typename dependent_memoization<Type>::template coinduct_values<Value>;
+
+	// pair:
+
+	template<typename Type_A, typename Type_B>
+	using make_pair = typename dependent_memoization<Type_A>::template coinduct_type<Type_B>;
+
+	// function:
+
+	template<typename Domain, typename Codomain>
+	using make_function = typename dependent_memoization<Domain>::template coinduct_type<Codomain>;
+};
 

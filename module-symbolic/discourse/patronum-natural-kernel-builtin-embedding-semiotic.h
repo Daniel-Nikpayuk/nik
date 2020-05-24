@@ -15,16 +15,38 @@
 **
 ************************************************************************************************************************/
 
-	// the namespace is required here as these grammars are manually sourced.
+#include"define-size_type.h"
 
-namespace nik
-{
-	// is_library:
+#ifdef safe_name
 
-	template<typename Exp, typename Continuation>
-	using is_library = typename pattern_match_library<Exp>::template symbolic_match
-	<
-		Continuation
-	>;
-}
+	#define PREFIX		pk_builtin_ss_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+								  template<typename Continuation, const char* string_literal>
+	using nik_safe(PREFIX, cp_type_to_string_literal)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+								  embedding::template cp_type_to_string_literal<Continuation, string_literal>;
+
+							  template
+							  <
+								typename Type, const char* string_literal,
+
+								typename Continuation =
+								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+								inductor::ch_coinduct_value
+							  >
+	using nik_safe(PREFIX, type_literal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+							  embedding::template type_literal<Type, string_literal, Continuation>;
+
+//
+
+#undef PREFIX
+
+#include"undef-size_type.h"
 
