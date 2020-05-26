@@ -19,7 +19,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		pk_builtin_ss_
+	#define PREFIX		pnk_builtin_ss_
 
 #else
 
@@ -30,16 +30,22 @@
 //
 
 							  template<typename Type>
-	using nik_safe(PREFIX, dependent_memoization)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
+	using nik_safe(PREFIX, dependent_memoization)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
 							  inductor::template dependent_memoization<Type>;
 
 //
 
-	using nik_safe(PREFIX, ch_coinduct_type)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_coinduct_type;
+	using nik_safe(PREFIX, ch_dependent_type)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_dependent_type;
 
-	using nik_safe(PREFIX, ch_coinduct_value)	= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_coinduct_value;
+	using nik_safe(PREFIX, ch_symbolic_type)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_symbolic_type;
+
+	using nik_safe(PREFIX, ch_symbolic_value)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_symbolic_value;
+
+	using nik_safe(PREFIX, ch_assemblic_value)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
+							  inductor::ch_assemblic_value;
 
 //
 

@@ -24,10 +24,8 @@ struct inductor
 
 	//
 
-	struct ch_assemblic_value
-	{
-		template<typename Inductor, typename Type, Type Value>
-		static constexpr Inductor result = Value;
-	};
+	using ch_symbolic_type = typename PNK_Builtin_SS::ch_symbolic_type;
+	using ch_symbolic_value = typename PNK_Builtin_SS::ch_symbolic_value;
+	using ch_assemblic_value = typename PNK_Builtin_SS::ch_assemblic_value;
 };
 

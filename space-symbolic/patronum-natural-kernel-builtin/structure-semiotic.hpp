@@ -17,21 +17,30 @@
 
 struct structure
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// judgement:
+	struct symbolic
+	{
+		// judgement:
 
-	template<typename Type, Type Value>
-	using make_judgement = typename dependent_memoization<Type>::template coinduct_values<Value>;
+		template<typename Type, Type Value, typename Continuation = ch_symbolic_value>
+		using make_judgement = typename dependent_memoization<Type>::template pattern_match_values<Value>::template
+		symbolic_induct
+		<
+			Continuation
+		>;
+	};
 
-	// pair:
+	struct assemblic
+	{
+		// judgement:
 
-	template<typename Type_A, typename Type_B>
-	using make_pair = typename dependent_memoization<Type_A>::template coinduct_type<Type_B>;
-
-	// function:
-
-	template<typename Domain, typename Codomain>
-	using make_function = typename dependent_memoization<Domain>::template coinduct_type<Codomain>;
+		template<typename Kind, typename Type, Type Value, typename Continuation = ch_assemblic_value>
+		static constexpr Kind make_judgement = dependent_memoization<Type>::template pattern_match_values<Value>::template
+		assemblic_induct
+		<
+			Continuation
+		>;
+	};
 };
 

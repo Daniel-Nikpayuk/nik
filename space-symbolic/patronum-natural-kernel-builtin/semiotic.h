@@ -17,7 +17,7 @@
 
 namespace nik
 {
-	nik_begin_language(patronum, kernel, builtin, symbolic, semiotic)
+	nik_begin_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 
 		#include"inductor-semiotic.hpp"
 
@@ -30,6 +30,6 @@ namespace nik
 
 		#include"structure-semiotic.hpp"
 
-	nik_end_language(patronum, kernel, builtin, symbolic, semiotic)
+	nik_end_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 }
 

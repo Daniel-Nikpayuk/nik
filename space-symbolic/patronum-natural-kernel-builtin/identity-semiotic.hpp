@@ -17,26 +17,26 @@
 
 struct identity
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	template<typename Type1, typename Type2, typename Continuation = ch_coinduct_value>
-	using is_type_equal = typename dependent_memoization<Type1>::template coinduct_type<Type2>::template symbolic_match
-	<
-		Continuation
-	>;
-
-	// is_value_equal is not yet implemented.
-
-/*
-	template<typename Continuation>
-	struct cp_binary
+	struct symbolic
 	{
-		template<typename Memoized_Value, typename Type, Type Value>
-		using result = typename Memoized_Value::template value_induct
+		template<typename Type1, typename Type2, typename Continuation = ch_symbolic_value>
+		using is_equal = typename dependent_memoization<Type1>::template pattern_match_type<Type2>::template
+		symbolic_match
 		<
-			Continuation, Inductor
+			Continuation
 		>;
 	};
-*/
+
+	struct assemblic
+	{
+		template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
+		static constexpr bool is_equal = dependent_memoization<Type1>::template pattern_match_type<Type2>::template
+		assemblic_match
+		<
+			Continuation
+		>;
+	};
 };
 

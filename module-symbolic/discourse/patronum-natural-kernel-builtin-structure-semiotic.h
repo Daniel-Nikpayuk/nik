@@ -15,11 +15,13 @@
 **
 ************************************************************************************************************************/
 
+	#include"patronum-natural-kernel-builtin-alias-semiotic.h"
+
 #include"define-size_type.h"
 
 #ifdef safe_name
 
-	#define PREFIX		pk_builtin_ss_
+	#define PREFIX		pnkb_structure_ss_
 
 #else
 
@@ -29,17 +31,27 @@
 
 //
 
-							  template<typename Type, Type Value>
-	using nik_safe(PREFIX, make_judgement)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_judgement<Type, Value>;
+									  template
+									  <
+										typename Type, Type Value,
 
-							  template<typename Type_A, typename Type_B>
-	using nik_safe(PREFIX, make_pair)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_pair<Type_A, Type_B>;
+										typename Continuation = typename pnk_builtin_ss::
+										inductor::ch_symbolic_value
+									  >
+	using nik_safe(PREFIX, s_make_judgement)			= typename pnk_builtin_ss::structure::symbolic::template
+									  make_judgement<Type, Value, Continuation>;
 
-							  template<typename Domain, typename Codomain>
-	using nik_safe(PREFIX, make_function)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_function<Domain, Codomain>;
+//
+
+									  template
+									  <
+										typename Kind, typename Type, Type Value,
+
+										typename Continuation = typename pnk_builtin_ss::
+										inductor::ch_assemblic_value
+									  >
+	static constexpr Kind nik_safe(PREFIX, a_make_judgement)	= pnk_builtin_ss::structure::assemblic::template
+									  make_judgement<Kind, Type, Value, Continuation>;
 
 //
 

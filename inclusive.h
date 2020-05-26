@@ -62,16 +62,23 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
-//#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)
+#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
 
-//#include nik_source(., patronum, natural, kernel, builtin, assemblic, semiotic)
+//#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)
 
 
 /***********************************************************************************************************************/
 
 
 //#include nik_source(., patronum, natural, kernel, judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., patronum, natural, kernel, judgement, assemblic, semiotic)
+
+//#include nik_source(., straticum, natural, kernel, judgement, symbolic, semiotic)
+//#include nik_source(., straticum, natural, kernel, judgement, assemblic, semiotic)
+
+
+/***********************************************************************************************************************/
+
 
 //#include nik_source(., patronum, natural, kernel, pair, symbolic, semiotic)
 //#include nik_source(., patronum, natural, kernel, copair, symbolic, semiotic)
@@ -90,23 +97,7 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., patronum, natural, kernel, judgement, assemblic, semiotic)
-
 #include nik_source(., straticum, natural, kernel, list, assemblic, semiotic)		// list_display (string literals)
-
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-
-
-//#include nik_source(., straticum, natural, kernel, judgement, symbolic, semiotic)
-
-
-/***********************************************************************************************************************/
-
-
-//#include nik_source(., straticum, natural, kernel, builtin, assemblic, semiotic)
-//#include nik_source(., straticum, natural, kernel, pair, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/

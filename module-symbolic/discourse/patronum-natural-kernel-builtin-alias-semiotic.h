@@ -15,13 +15,13 @@
 **
 ************************************************************************************************************************/
 
+#ifndef NIK_PATRONUM_NATURAL_KERNEL_BUILTIN_ALIAS_SYMBOLIC_SEMIOTIC_H
+#define NIK_PATRONUM_NATURAL_KERNEL_BUILTIN_ALIAS_SYMBOLIC_SEMIOTIC_H
+
 #include"define-size_type.h"
 
-//
-
-	using PK_Builtin_SS = nik_language(patronum, kernel, builtin, symbolic, semiotic);
-
-//
+	using pnk_builtin_ss = nik_module(patronum, natural, kernel, builtin, symbolic, semiotic);
 
 #include"undef-size_type.h"
 
+#endif

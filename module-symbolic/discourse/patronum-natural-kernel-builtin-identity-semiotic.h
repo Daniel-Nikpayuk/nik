@@ -15,11 +15,13 @@
 **
 ************************************************************************************************************************/
 
+	#include"patronum-natural-kernel-builtin-alias-semiotic.h"
+
 #include"define-size_type.h"
 
 #ifdef safe_name
 
-	#define PREFIX		pk_builtin_ss_
+	#define PREFIX		pnkb_identity_ss_
 
 #else
 
@@ -29,16 +31,27 @@
 
 //
 
-							  template
-							  <
-								typename Type1, typename Type2,
+								  template
+								  <
+									typename Type1, typename Type2,
 
-								typename Continuation =
-							  	typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_type_equal)		= typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_type_equal<Type1, Type2, Continuation>;
+									typename Continuation = typename pnk_builtin_ss::inductor::
+									ch_symbolic_value
+								  >
+	using nik_safe(PREFIX, s_is_equal)			= typename pnk_builtin_ss::identity::symbolic::template
+								  is_equal<Type1, Type2, Continuation>;
+
+//
+
+								  template
+								  <
+									typename Type1, typename Type2,
+
+									typename Continuation = typename pnk_builtin_ss::inductor::
+									ch_assemblic_value
+								  >
+	static constexpr bool nik_safe(PREFIX, a_is_equal)	= pnk_builtin_ss::identity::assemblic::template
+								  is_equal<Type1, Type2, Continuation>;
 
 //
 
