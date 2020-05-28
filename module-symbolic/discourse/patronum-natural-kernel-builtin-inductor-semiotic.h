@@ -17,9 +17,11 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		pnk_builtin_ss_
+	#define PREFIX		pnkb_inductor_ss_
 
 #else
 
@@ -29,27 +31,29 @@
 
 //
 
-							  template<typename Type>
-	using nik_safe(PREFIX, dependent_memoization)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
-							  inductor::template dependent_memoization<Type>;
+										  template<typename Type>
+	using nik_safe(PREFIX, dependent_memoization)				= typename pnk_builtin_ss::inductor::template
+										  dependent_memoization<Type>;
 
 //
 
-	using nik_safe(PREFIX, ch_dependent_type)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_dependent_type;
+	using nik_safe(PREFIX, ch_symbolic_type)				= typename pnk_builtin_ss::inductor::
+										  ch_symbolic_type;
 
-	using nik_safe(PREFIX, ch_symbolic_type)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_symbolic_type;
+	using nik_safe(PREFIX, ch_symbolic_types)				= typename pnk_builtin_ss::inductor::
+										  ch_symbolic_types;
 
-	using nik_safe(PREFIX, ch_symbolic_value)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_symbolic_value;
+	using nik_safe(PREFIX, ch_symbolic_values)				= typename pnk_builtin_ss::inductor::
+										  ch_symbolic_values;
 
-	using nik_safe(PREFIX, ch_assemblic_value)	= typename nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)::
-							  inductor::ch_assemblic_value;
+	using nik_safe(PREFIX, ch_assemblic_value)				= typename pnk_builtin_ss::inductor::
+										  ch_assemblic_value;
 
 //
 
 #undef PREFIX
+
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

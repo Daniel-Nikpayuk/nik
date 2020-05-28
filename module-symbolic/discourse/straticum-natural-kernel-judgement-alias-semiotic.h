@@ -17,24 +17,7 @@
 
 #include"define-size_type.h"
 
-#ifdef safe_name
-
-	#define PREFIX		pk_list_as_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-static constexpr void (*nik_safe(PREFIX, list_display))(const char*)	= nik_language(patronum, kernel, list, assemblic, semiotic)::
-									  embedding::list_display;
-
-//
-
-#undef PREFIX
+	using snk__ss = nik_module(straticum, natural, kernel, , symbolic, semiotic);
 
 #include"undef-size_type.h"
 

@@ -15,13 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
-
-//
-
-	using SK_Judgement_SS = nik_language(straticum, kernel, judgement, symbolic, semiotic);
-
-//
-
-#include"undef-size_type.h"
+struct embedding
+{
+	// there are no abstract embedding functions here as of yet.
+};
 

@@ -18,10 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk__ss nik_module(straticum, natural, kernel, , symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		pnkb_structure_ss_
+	#define PREFIX		snk_inductor_ss_
 
 #else
 
@@ -33,32 +34,33 @@
 
 										  template
 										  <
-											typename Type, Type Value,
+											typename Type,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_to_judgement)					= typename pnk_builtin_ss::structure::template
-										  s_to_judgement<Type, Value, Continuation>;
+	using nik_safe(PREFIX, s_)						= typename snk__ss::inductor::template
+										  s_<Type, Continuation>;
 
 //
 
 										  template
 										  <
-											typename Kind, typename Type, Type Value,
+											typename Type,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr Kind nik_safe(PREFIX, a_to_judgement)			= pnk_builtin_ss::structure::template
-										  a_to_judgement<Kind, Type, Value, Continuation>;
+	static constexpr nik_safe(PREFIX, a_)					= snk__ss::inductor::template
+										  a_<Type, Continuation>;
 
 //
 
 #undef PREFIX
 
+#undef snk__ss
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"

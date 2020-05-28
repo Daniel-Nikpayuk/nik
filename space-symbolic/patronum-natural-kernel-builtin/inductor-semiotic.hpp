@@ -17,6 +17,38 @@
 
 struct inductor
 {
+	// continuation halters:
+
+		// symbolic:
+
+		struct ch_symbolic_type
+		{
+			template<typename Type>
+			using result = Type;
+		};
+
+		struct ch_symbolic_types
+		{
+			template<typename Inductor, typename Type1, typename Type2>
+			using result = typename Inductor::template dependent_memoization<Type1>::template pattern_match_type<Type2>;
+		};
+
+		struct ch_symbolic_values
+		{
+			template<typename Inductor, typename Type, Type... Values>
+			using result = typename Inductor::template dependent_memoization<Type>::template pattern_match_values<Values...>;
+		};
+
+		// assemblic:
+
+		struct ch_assemblic_value
+		{
+			template<typename OutType, typename Type, Type Value>
+			static constexpr OutType result = Value;
+		};
+
+	// dependent memoization:
+
 	template<typename Type>
 	struct dependent_memoization
 	{
@@ -28,46 +60,55 @@ struct inductor
 			// The expense of the extra dependent alias is justified in contexts where Type, Kind bindings
 			// overlap as it allows for reduced memoizations when implementing equality, pairs, functions.
 
+			// Policy is to pass predefined info such as OutType beforehand, which otherwise could be
+			// determined by use of *auto*. Assumption is it's faster not having to figure out the type info.
+
 		template<typename Kind, typename = filler>
 		struct pattern_match_type
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_types, typename Inductor = inductor>
 			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Kind>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
 
-			template<typename Continuation, typename Inductor = Type>
-			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Kind>;
+				// no matching continuation halting default:
+
+			template<typename Continuation, typename OutType>
+			static constexpr OutType assemblic_dependent = Continuation::template result<OutType, Type, Kind>;
 		};
 
 		template<typename Filler>
 		struct pattern_match_type<Type, Filler>
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-			template<typename Continuation, typename Inductor = inductor>
-			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Type>;
+			template<typename Continuation = ch_symbolic_type>
+			using symbolic_induct = typename Continuation::template result<Type>;
 
-			template<typename Continuation, typename Inductor = inductor>
-			using symbolic_induct = typename Continuation::template result<Inductor, Type>;
+			template<typename Continuation = ch_symbolic_types, typename Inductor = inductor>
+			using symbolic_dependent = typename Continuation::template result<Inductor, Type, Type>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, true>;
 
-			template<typename Continuation, typename Inductor = Type>
-			static constexpr Inductor assemblic_dependent = Continuation::template result<Inductor, Type, Type>;
+				// no matching continuation halting default at this level:
 
-			template<typename Continuation, typename Inductor = Type>
-			static constexpr Inductor assemblic_induct = Continuation::template result<Inductor, Type>;
+			template<typename Continuation, typename OutType>
+			static constexpr OutType assemblic_induct = Continuation::template result<OutType, Type>;
+
+				// no matching continuation halting default at this level:
+
+			template<typename Continuation, typename OutType>
+			static constexpr OutType assemblic_dependent = Continuation::template result<OutType, Type, Type>;
 		};
 
 		// values:
@@ -78,31 +119,33 @@ struct inductor
 		template<auto...>
 		struct pattern_match_values
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
 		};
 
 		template<Type... Values>
 		struct pattern_match_values<Values...>
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_induct = typename Continuation::template result<Inductor, Type, Values...>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, true>;
 
-			template<typename Continuation, typename Inductor = Type>
-			static constexpr Inductor assemblic_induct = Continuation::template result<Inductor, Type, Values...>;
+				// no matching continuation halting default at this level:
+
+			template<typename Continuation, typename OutType = Type>
+			static constexpr OutType assemblic_induct = Continuation::template result<OutType, Type, Values...>;
 		};
 
 		// list:
@@ -113,62 +156,36 @@ struct inductor
 		template<typename>
 		struct pattern_match_list
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, false>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
 		};
 
 		template<template<Type...> class ListType, Type... Values>
 		struct pattern_match_list<ListType<Values...>>
 		{
-			template<typename Continuation, typename Inductor = inductor>
+			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-			template<typename Continuation, typename Inductor = inductor>
-			using symbolic_induct = typename Continuation::template result<Inductor, ListType, Type, Values...>;
+				// no matching continuation halting default at this level:
+
+			template<typename Continuation>
+			using symbolic_induct = typename Continuation::template result<Type, ListType, Values...>;
 
 			//
 
-			template<typename Continuation, typename Inductor = bool>
-			static constexpr Inductor assemblic_match = Continuation::template result<Inductor, bool, true>;
+			template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+			static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, true>;
 
-			template<typename Continuation, typename Inductor = Type>
-			static constexpr Inductor assemblic_induct = Continuation::template result<Inductor, ListType, Type, Values...>;
+				// no matching continuation halting default at this level:
+
+			template<typename Continuation, typename OutType = Type>
+			static constexpr OutType assemblic_induct = Continuation::template result<OutType, Type, ListType, Values...>;
 		};
-	};
-
-	// continuation halters:
-
-		// symbolic:
-
-	struct ch_dependent_type
-	{
-		template<typename Inductor, typename Type, typename Kind>
-		using result = typename Inductor::template dependent_memoization<Type>::template pattern_match_type<Kind>;
-	};
-
-	struct ch_symbolic_type
-	{
-		template<typename Inductor, typename Type>
-		using result = Type;
-	};
-
-	struct ch_symbolic_value
-	{
-		template<typename Inductor, typename Type, Type Value>
-		using result = typename Inductor::template dependent_memoization<Type>::template pattern_match_values<Value>;
-	};
-
-		// assemblic:
-
-	struct ch_assemblic_value
-	{
-		template<typename Inductor, typename Type, Type Value>
-		static constexpr Inductor result = Value;
 	};
 };
 

@@ -17,9 +17,12 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_builtin_ss nik_module(straticum, natural, kernel, builtin, symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_builtin_ss_
+	#define PREFIX		snkb_embedding_ss_
 
 #else
 
@@ -29,144 +32,284 @@
 
 //
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, bool_literal)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template bool_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_bool_literal)						= typename snk_builtin_ss::embedding::template
+											  s_bool_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, char_literal)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template char_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char_literal)						= typename snk_builtin_ss::embedding::template
+											  s_char_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, unsigned_char_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template unsigned_char_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_char_literal)					= typename snk_builtin_ss::embedding::template
+											  s_unsigned_char_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, signed_char_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template signed_char_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_char_literal)					= typename snk_builtin_ss::embedding::template
+											  s_signed_char_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, wchar_t_literal)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template wchar_t_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_wchar_t_literal)					= typename snk_builtin_ss::embedding::template
+											  s_wchar_t_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, char16_t_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template char16_t_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char16_t_literal)					= typename snk_builtin_ss::embedding::template
+											  s_char16_t_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, char32_t_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template char32_t_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char32_t_literal)					= typename snk_builtin_ss::embedding::template
+											  s_char32_t_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, unsigned_short_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template unsigned_short_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_short_literal)				= typename snk_builtin_ss::embedding::template
+											  s_unsigned_short_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, signed_short_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template signed_short_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_short_literal)					= typename snk_builtin_ss::embedding::template
+											  s_signed_short_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, unsigned_int_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template unsigned_int_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_int_literal)					= typename snk_builtin_ss::embedding::template
+											  s_unsigned_int_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, signed_int_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template signed_int_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_int_literal)					= typename snk_builtin_ss::embedding::template
+											  s_signed_int_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, unsigned_long_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template unsigned_long_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_long_literal)					= typename snk_builtin_ss::embedding::template
+											  s_unsigned_long_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, signed_long_literal)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template signed_long_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_long_literal)					= typename snk_builtin_ss::embedding::template
+											  s_signed_long_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, unsigned_long_long_literal)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template unsigned_long_long_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_long_long_literal)				= typename snk_builtin_ss::embedding::template
+											  s_unsigned_long_long_literal<Continuation>;
 
-							  template
-							  <
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, signed_long_long_literal)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  embedding::template signed_long_long_literal<Continuation>;
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_long_long_literal)				= typename snk_builtin_ss::embedding::template
+											  s_signed_long_long_literal<Continuation>;
+
+//
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_bool_literal)			= snk_builtin_ss::embedding::template
+											  a_bool_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_char_literal)			= snk_builtin_ss::embedding::template
+											  a_char_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_unsigned_char_literal)		= snk_builtin_ss::embedding::template
+											  a_unsigned_char_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_signed_char_literal)		= snk_builtin_ss::embedding::template
+											  a_signed_char_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_wchar_t_literal)		= snk_builtin_ss::embedding::template
+											  a_wchar_t_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_char16_t_literal)		= snk_builtin_ss::embedding::template
+											  a_char16_t_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_char32_t_literal)		= snk_builtin_ss::embedding::template
+											  a_char32_t_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_unsigned_short_literal)		= snk_builtin_ss::embedding::template
+											  a_unsigned_short_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_signed_short_literal)		= snk_builtin_ss::embedding::template
+											  a_signed_short_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_unsigned_int_literal)		= snk_builtin_ss::embedding::template
+											  a_unsigned_int_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_signed_int_literal)		= snk_builtin_ss::embedding::template
+											  a_signed_int_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_unsigned_long_literal)		= snk_builtin_ss::embedding::template
+											  a_unsigned_long_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_signed_long_literal)		= snk_builtin_ss::embedding::template
+											  a_signed_long_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_unsigned_long_long_literal)	= snk_builtin_ss::embedding::template
+											  a_unsigned_long_long_literal<Continuation>;
+
+											  template
+											  <
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr const char* nik_safe(PREFIX, a_signed_long_long_literal)	= snk_builtin_ss::embedding::template
+											  a_signed_long_long_literal<Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef snk_builtin_ss
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

@@ -62,9 +62,9 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
 
-//#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)
+#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)
 
 
 /***********************************************************************************************************************/

@@ -17,98 +17,53 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
 	// builtin types:
 
-	template<typename Exp> using bool_coinduct_type			= typename dependent_memoization<bool>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_bool				= typename dependent_memoization<bool>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using bool_coinduct_value			= typename dependent_memoization<bool>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_char				= typename dependent_memoization<char>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using char_coinduct_type			= typename dependent_memoization<char>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_unsigned_char		= typename dependent_memoization<unsigned char>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using char_coinduct_value			= typename dependent_memoization<char>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_signed_char			= typename dependent_memoization<signed char>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using unsigned_char_coinduct_type	= typename dependent_memoization<unsigned char>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_wchar_t			= typename dependent_memoization<wchar_t>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using unsigned_char_coinduct_value		= typename dependent_memoization<unsigned char>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_char16_t			= typename dependent_memoization<char16_t>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using signed_char_coinduct_type		= typename dependent_memoization<signed char>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_char32_t			= typename dependent_memoization<char32_t>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using signed_char_coinduct_value		= typename dependent_memoization<signed char>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_unsigned_short		= typename dependent_memoization<unsigned short>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using wchar_t_coinduct_type		= typename dependent_memoization<wchar_t>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_signed_short			= typename dependent_memoization<signed short>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using wchar_t_coinduct_value		= typename dependent_memoization<wchar_t>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_unsigned_int			= typename dependent_memoization<unsigned int>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using char16_t_coinduct_type		= typename dependent_memoization<char16_t>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_signed_int			= typename dependent_memoization<signed int>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using char16_t_coinduct_value		= typename dependent_memoization<char16_t>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_unsigned_long		= typename dependent_memoization<unsigned long>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using char32_t_coinduct_type		= typename dependent_memoization<char32_t>::template
-									  coinduct_type<Exp>;
+	template<typename Exp> using pattern_match_signed_long			= typename dependent_memoization<signed long>::template
+										  pattern_match_type<Exp>;
 
-	template<auto Value> using char32_t_coinduct_value		= typename dependent_memoization<char32_t>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_unsigned_long_long		= typename dependent_memoization<unsigned long long>::template
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using unsigned_short_coinduct_type	= typename dependent_memoization<unsigned short>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using unsigned_short_coinduct_value	= typename dependent_memoization<unsigned short>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using signed_short_coinduct_type		= typename dependent_memoization<signed short>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using signed_short_coinduct_value		= typename dependent_memoization<signed short>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using unsigned_int_coinduct_type		= typename dependent_memoization<unsigned int>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using unsigned_int_coinduct_value		= typename dependent_memoization<unsigned int>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using signed_int_coinduct_type		= typename dependent_memoization<signed int>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using signed_int_coinduct_value		= typename dependent_memoization<signed int>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using unsigned_long_coinduct_type	= typename dependent_memoization<unsigned long>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using unsigned_long_coinduct_value		= typename dependent_memoization<unsigned long>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using signed_long_coinduct_type		= typename dependent_memoization<signed long>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using signed_long_coinduct_value		= typename dependent_memoization<signed long>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using unsigned_long_long_coinduct_type	= typename dependent_memoization<unsigned long long>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using unsigned_long_long_coinduct_value	= typename dependent_memoization<unsigned long long>::template
-									  coinduct_values<Value>;
-
-	template<typename Exp> using signed_long_long_coinduct_type	= typename dependent_memoization<signed long long>::template
-									  coinduct_type<Exp>;
-
-	template<auto Value> using signed_long_long_coinduct_value	= typename dependent_memoization<signed long long>::template
-									  coinduct_values<Value>;
+	template<typename Exp> using pattern_match_signed_long_long		= typename dependent_memoization<signed long long>::template
+										  pattern_match_type<Exp>;
 };
 

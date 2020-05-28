@@ -15,13 +15,17 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	nik_begin_language(straticum, kernel, judgement, symbolic, semiotic)
 
-//
+//		#include"inductor-semiotic.hpp"
 
-	using PK_Judgement_SS = nik_language(patronum, kernel, judgement, symbolic, semiotic);
+		//
 
-//
+		#include"identity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
 
-#include"undef-size_type.h"
+	nik_end_language(straticum, kernel, judgement, symbolic, semiotic)
+}
 

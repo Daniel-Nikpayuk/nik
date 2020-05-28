@@ -17,21 +17,7 @@
 
 #include"define-size_type.h"
 
-#ifdef safe_name
-
-	#define PREFIX		sk_builtin_as_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-							  template<auto Value>
-	using nik_safe(PREFIX, memoized_void_ptr)	= typename nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-							  inductor::template memoized_void_ptr<Value>;
+	using pnk__as = nik_module(patronum, natural, kernel, , assemblic, semiotic);
 
 #include"undef-size_type.h"
 

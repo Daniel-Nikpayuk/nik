@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-	#include"patronum-natural-kernel-builtin-alias-semiotic.h"
-
 #include"define-size_type.h"
+
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 
 #ifdef safe_name
 
@@ -31,39 +31,51 @@
 
 //
 
-									  template<typename Continuation, const char* string_literal>
-	using nik_safe(PREFIX, cp_s_type_to_string_literal)		= typename pnk_builtin_ss::embedding::symbolic::template
-									  cp_type_to_string_literal<Continuation, string_literal>;
+										  template
+										  <
+											typename Continuation,
+											const char* string_literal
+										  >
+	using nik_safe(PREFIX, cp_s_type_to_string_literal)			= typename pnk_builtin_ss::embedding::template
+										  cp_s_type_to_string_literal<Continuation, string_literal>;
 
-									  template
-									  <
-										typename Type, const char* string_literal,
+										  template
+										  <
+											typename Type, const char* string_literal,
 
-										typename Continuation = typename pnk_builtin_ss::
-										inductor::ch_symbolic_value
-									  >
-	using nik_safe(PREFIX, s_type_literal)				= typename pnk_builtin_ss::embedding::symbolic::template
-									  type_literal<Type, string_literal, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_type_literal)					= typename pnk_builtin_ss::embedding::template
+										  s_type_literal<Type, string_literal, Continuation>;
 
 //
 
-									  template<typename Continuation, const char* string_literal>
-	using nik_safe(PREFIX, cp_a_type_to_string_literal)		= typename pnk_builtin_ss::embedding::assemblic::template
-									  cp_type_to_string_literal<Continuation, string_literal>;
+										  template
+										  <
+											typename Continuation,
+											const char* string_literal
+										  >
+	using nik_safe(PREFIX, cp_a_type_to_string_literal)			= typename pnk_builtin_ss::embedding::template
+										  cp_a_type_to_string_literal<Continuation, string_literal>;
 
-									  template
-									  <
-										typename Type, const char* string_literal,
+										  template
+										  <
+											typename Type, const char* string_literal,
 
-										typename Continuation = typename pnk_builtin_ss::
-										inductor::ch_assemblic_value
-									  >
-	static constexpr const char* nik_safe(PREFIX, a_type_literal)	= pnk_builtin_ss::embedding::assemblic::template
-									  type_literal<Type, string_literal, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr const char* nik_safe(PREFIX, a_type_literal)		= pnk_builtin_ss::embedding::template
+										  a_type_literal<Type, string_literal, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

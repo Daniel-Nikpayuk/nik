@@ -17,11 +17,7 @@
 
 #include"define-size_type.h"
 
-//
-
-	using SK_List_AS = nik_module(straticum, natural, kernel, list, assemblic, semiotic);
-
-//
+	using snk_list_as = nik_module(straticum, natural, kernel, list, assemblic, semiotic);
 
 #include"undef-size_type.h"
 

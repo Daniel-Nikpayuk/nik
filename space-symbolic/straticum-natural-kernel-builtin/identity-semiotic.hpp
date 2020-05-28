@@ -17,54 +17,103 @@
 
 struct identity
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
-	#include nik_symbolic_typedef(patronum, kernel, builtin, identity)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, identity)
 
 	// builtin types:
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_bool = is_type_equal<bool, Exp, Continuation>;
+		// symbolic:
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_char = is_type_equal<char, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_bool = s_is_equal<bool, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_unsigned_char = is_type_equal<unsigned char, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char = s_is_equal<char, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_signed_char = is_type_equal<signed char, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_char = s_is_equal<unsigned char, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_wchar_t = is_type_equal<wchar_t, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_char = s_is_equal<signed char, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_char16_t = is_type_equal<char16_t, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_wchar_t = s_is_equal<wchar_t, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_char32_t = is_type_equal<char32_t, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char16_t = s_is_equal<char16_t, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_unsigned_short = is_type_equal<unsigned short, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char32_t = s_is_equal<char32_t, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_signed_short = is_type_equal<signed short, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_short = s_is_equal<unsigned short, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_unsigned_int = is_type_equal<unsigned int, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_short = s_is_equal<signed short, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_signed_int = is_type_equal<signed int, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_int = s_is_equal<unsigned int, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_unsigned_long = is_type_equal<unsigned long, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_int = s_is_equal<signed int, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_signed_long = is_type_equal<signed long, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long = s_is_equal<unsigned long, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_unsigned_long_long = is_type_equal<unsigned long long, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long = s_is_equal<signed long, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = ch_coinduct_value>
-	using is_signed_long_long = is_type_equal<signed long long, Exp, Continuation>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long_long = s_is_equal<unsigned long long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long_long = s_is_equal<signed long long, Exp, Continuation>;
+
+		// assemblic:
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_bool = a_is_equal<bool, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char = a_is_equal<char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_char = a_is_equal<unsigned char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_char = a_is_equal<signed char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_wchar_t = a_is_equal<wchar_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char16_t = a_is_equal<char16_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char32_t = a_is_equal<char32_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_short = a_is_equal<unsigned short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_short = a_is_equal<signed short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_int = a_is_equal<unsigned int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_int = a_is_equal<signed int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_long = a_is_equal<unsigned long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_long = a_is_equal<signed long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_long_long = a_is_equal<unsigned long long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_long_long = a_is_equal<signed long long, Exp, Continuation>;
 };
 

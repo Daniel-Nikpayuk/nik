@@ -19,10 +19,12 @@ struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	struct symbolic
-	{
+	// type literal:
+
+		// symbolic:
+
 		template<typename Continuation, const char* string_literal>
-		struct cp_type_to_string_literal
+		struct cp_s_type_to_string_literal
 		{
 			template<typename Inductor, typename Type>
 			using result = typename Continuation::template result
@@ -31,18 +33,17 @@ struct embedding
 			>;
 		};
 
-		template<typename Type, const char* string_literal, typename Continuation = ch_symbolic_value>
-		using type_literal = typename dependent_memoization<Type>::template pattern_match_type<Type>::template
+		template<typename Type, const char* string_literal, typename Continuation = ch_symbolic_values>
+		using s_type_literal = typename dependent_memoization<Type>::template pattern_match_type<Type>::template
 		symbolic_induct
 		<
-			cp_type_to_string_literal<Continuation, string_literal>
+			cp_s_type_to_string_literal<Continuation, string_literal>
 		>;
-	};
 
-	struct assemblic
-	{
+		// assemblic:
+
 		template<typename Continuation, const char* string_literal>
-		struct cp_type_to_string_literal
+		struct cp_a_type_to_string_literal
 		{
 			template<typename Inductor, typename Type>
 			static constexpr Inductor result = Continuation::template result
@@ -52,11 +53,10 @@ struct embedding
 		};
 
 		template<typename Type, const char* string_literal, typename Continuation = ch_assemblic_value>
-		static constexpr const char* type_literal = dependent_memoization<Type>::template pattern_match_type<Type>::template
+		static constexpr const char* a_type_literal = dependent_memoization<Type>::template pattern_match_type<Type>::template
 		assemblic_induct
 		<
-			cp_type_to_string_literal<Continuation, string_literal>
+			cp_a_type_to_string_literal<Continuation, string_literal>
 		>;
-	};
 };
 

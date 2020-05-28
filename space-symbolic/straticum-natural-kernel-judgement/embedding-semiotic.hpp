@@ -15,27 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+struct embedding
+{
+	#include nik_symbolic_typedef(patronum, kernel, judgement, embedding)
+	#include nik_symbolic_typedef(straticum, kernel, judgement, inductor)
 
-#ifdef safe_name
-
-	#define PREFIX		pk_builtin_as_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-									  template<typename Exp1, typename Exp2, typename Continuation>
-	static constexpr bool (*nik_safe(PREFIX, is_equal))()		= nik_language(patronum, kernel, builtin, assemblic, semiotic)::
-									  identity::template is_equal<Exp1, Exp2, Continuation>;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+	template<typename Type, Type Value>
+	using make_judgement = judgement_make
+	<
+		judgement, Type, Value
+	>;
+};
 

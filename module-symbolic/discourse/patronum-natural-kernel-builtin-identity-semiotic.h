@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-	#include"patronum-natural-kernel-builtin-alias-semiotic.h"
-
 #include"define-size_type.h"
+
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 
 #ifdef safe_name
 
@@ -31,31 +31,35 @@
 
 //
 
-								  template
-								  <
-									typename Type1, typename Type2,
+										  template
+										  <
+											typename Type1, typename Type2,
 
-									typename Continuation = typename pnk_builtin_ss::inductor::
-									ch_symbolic_value
-								  >
-	using nik_safe(PREFIX, s_is_equal)			= typename pnk_builtin_ss::identity::symbolic::template
-								  is_equal<Type1, Type2, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_equal)					= typename pnk_builtin_ss::identity::template
+										  s_is_equal<Type1, Type2, Continuation>;
 
 //
 
-								  template
-								  <
-									typename Type1, typename Type2,
+										  template
+										  <
+											typename Type1, typename Type2,
 
-									typename Continuation = typename pnk_builtin_ss::inductor::
-									ch_assemblic_value
-								  >
-	static constexpr bool nik_safe(PREFIX, a_is_equal)	= pnk_builtin_ss::identity::assemblic::template
-								  is_equal<Type1, Type2, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_equal)			= pnk_builtin_ss::identity::template
+										  a_is_equal<Type1, Type2, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

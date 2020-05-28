@@ -17,9 +17,11 @@
 
 #include"define-size_type.h"
 
+#define snk_list_as nik_module(straticum, natural, kernel, list, assemblic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		snk_list_as_
+	#define PREFIX		snkl_embedding_as_
 
 #else
 
@@ -29,12 +31,14 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, string_literal_display))(const char*) =
-		nik_module(straticum, natural, kernel, list, assemblic, semiotic)::embedding::string_literal_display;
+	static constexpr void (*nik_safe(PREFIX, string_literal_display))(const char*)	= snk_list_as::embedding::
+											  string_literal_display;
 
 //
 
 #undef PREFIX
+
+#undef snk_list_as
 
 #include"undef-size_type.h"
 

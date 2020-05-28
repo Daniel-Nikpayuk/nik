@@ -17,9 +17,12 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_builtin_ss nik_module(straticum, natural, kernel, builtin, symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_builtin_ss_
+	#define PREFIX		snkb_identity_ss_
 
 #else
 
@@ -29,174 +32,344 @@
 
 //
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_bool)			= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_bool<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_bool)					= typename snk_builtin_ss::identity::template
+										  s_is_bool<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_char)			= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_char)					= typename snk_builtin_ss::identity::template
+										  s_is_char<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_unsigned_char)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_char<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_unsigned_char)				= typename snk_builtin_ss::identity::template
+										  s_is_unsigned_char<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_signed_char)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_char<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_signed_char)				= typename snk_builtin_ss::identity::template
+										  s_is_signed_char<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_wchar_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_wchar_t<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_wchar_t)					= typename snk_builtin_ss::identity::template
+										  s_is_wchar_t<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_char16_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char16_t<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_char16_t)					= typename snk_builtin_ss::identity::template
+										  s_is_char16_t<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_char32_t)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_char32_t<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_char32_t)					= typename snk_builtin_ss::identity::template
+										  s_is_char32_t<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_unsigned_short)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_short<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_unsigned_short)				= typename snk_builtin_ss::identity::template
+										  s_is_unsigned_short<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_signed_short)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_short<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_signed_short)				= typename snk_builtin_ss::identity::template
+										  s_is_signed_short<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_unsigned_int)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_int<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_unsigned_int)				= typename snk_builtin_ss::identity::template
+										  s_is_unsigned_int<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_signed_int)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_int<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_signed_int)					= typename snk_builtin_ss::identity::template
+										  s_is_signed_int<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_unsigned_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_long<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_unsigned_long)				= typename snk_builtin_ss::identity::template
+										  s_is_unsigned_long<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_signed_long)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_long<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_signed_long)				= typename snk_builtin_ss::identity::template
+										  s_is_signed_long<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_unsigned_long_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_unsigned_long_long<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_unsigned_long_long)				= typename snk_builtin_ss::identity::template
+										  s_is_unsigned_long_long<Exp, Continuation>;
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Exp,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, builtin, symbolic, semiotic)::
-								inductor::ch_coinduct_value
-							  >
-	using nik_safe(PREFIX, is_signed_long_long)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  identity::template is_signed_long_long<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_signed_long_long)				= typename snk_builtin_ss::identity::template
+										  s_is_signed_long_long<Exp, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_bool)			= snk_builtin_ss::identity::template
+										  a_is_bool<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_char)			= snk_builtin_ss::identity::template
+										  a_is_char<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_unsigned_char)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_char<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_signed_char)		= snk_builtin_ss::identity::template
+										  a_is_signed_char<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_wchar_t)			= snk_builtin_ss::identity::template
+										  a_is_wchar_t<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_char16_t)			= snk_builtin_ss::identity::template
+										  a_is_char16_t<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_char32_t)			= snk_builtin_ss::identity::template
+										  a_is_char32_t<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_unsigned_short)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_short<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_signed_short)		= snk_builtin_ss::identity::template
+										  a_is_signed_short<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_unsigned_int)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_int<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_signed_int)			= snk_builtin_ss::identity::template
+										  a_is_signed_int<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_unsigned_long)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_long<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_signed_long)		= snk_builtin_ss::identity::template
+										  a_is_signed_long<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_unsigned_long_long)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_long_long<Exp, Continuation>;
+
+										  template
+										  <
+											typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_signed_long_long)		= snk_builtin_ss::identity::template
+										  a_is_signed_long_long<Exp, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef snk_builtin_ss
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

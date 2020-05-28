@@ -17,9 +17,12 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_as nik_module(patronum, natural, kernel, builtin, assemblic, semiotic)
+#define snk__as nik_module(straticum, natural, kernel, , assemblic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_builtin_ss_
+	#define PREFIX		snk_identity_as_
 
 #else
 
@@ -29,33 +32,36 @@
 
 //
 
-							  template
-							  <
-								typename Exp,
+										  template
+										  <
+											typename Type,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-								inductor::ch_judgement
-							  >
-	using nik_safe(PREFIX, is_judgement)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
-							  identity::template is_judgement<Exp, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_as::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_)						= typename snk__as::identity::template
+										  s_<Type, Continuation>;
 
 //
 
-							  template
-							  <
-								typename Exp1, typename Exp2,
+										  template
+										  <
+											typename Type,
 
-								typename Continuation =
-								typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-								inductor::ch_judgement
-							  >
-	using nik_safe(PREFIX, is_equal)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
-							  identity::template is_equal<Exp1, Exp2, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_as::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr nik_safe(PREFIX, a_)					= snk__as::identity::template
+										  a_<Type, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef snk__as
+#undef pnk_builtin_as
 
 #include"undef-size_type.h"
 

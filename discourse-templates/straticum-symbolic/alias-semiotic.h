@@ -17,25 +17,7 @@
 
 #include"define-size_type.h"
 
-#ifdef safe_name
-
-	#define PREFIX		sk_builtin_as_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-									  template<auto Exp, typename Continuation>
-	static constexpr void nik_safe(PREFIX, void_ptr_display)	= nik_language(straticum, kernel, builtin, assemblic, semiotic)::
-									  embedding::template void_ptr_display<Exp, Continuation>;
-
-//
-
-#undef PREFIX
+	using snk__ss = nik_module(straticum, natural, kernel, , symbolic, semiotic);
 
 #include"undef-size_type.h"
 

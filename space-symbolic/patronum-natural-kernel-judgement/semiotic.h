@@ -15,36 +15,17 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+namespace nik
+{
+	nik_begin_module(patronum, natural, kernel, pair, symbolic, semiotic)
 
-#ifdef safe_name
+		#include"inductor-semiotic.hpp"
 
-	#define PREFIX		pk_judgement_ss_
+		//
 
-#else
+//		#include"identity-semiotic.hpp"
+//		#include"embedding-semiotic.hpp"
 
-	#define PREFIX
-
-#endif
-
-//
-
-							  template<typename Exp>
-	using nik_safe(PREFIX, memoized_judgement)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-							  inductor::template memoized_judgement<Exp>;
-
-	using nik_safe(PREFIX, ch_judgement)		= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-							  inductor::ch_judgement;
-
-	using nik_safe(PREFIX, ch_judgement_type)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-							  inductor::ch_judgement_type;
-
-	using nik_safe(PREFIX, ch_judgement_value)	= typename nik_language(patronum, kernel, judgement, symbolic, semiotic)::
-							  inductor::ch_judgement_value;
-
-//
-
-#undef PREFIX
-
-#include"undef-size_type.h"
+	nik_end_module(patronum, natural, kernel, pair, symbolic, semiotic)
+}
 

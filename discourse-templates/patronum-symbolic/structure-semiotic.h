@@ -17,9 +17,12 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define pnk__ss nik_module(patronum, natural, kernel, , symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_judgement_ss_
+	#define PREFIX		pnk_structure_ss_
 
 #else
 
@@ -29,13 +32,36 @@
 
 //
 
-							  template<typename Type, Type Value>
-	using nik_safe(PREFIX, make_judgement)		= typename nik_language(straticum, kernel, judgement, symbolic, semiotic)::
-							  embedding::template make_judgement<Type, Value>;
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_)						= typename pnk__ss::structure::template
+										  s_<Type, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr nik_safe(PREFIX, a_)					= pnk__ss::structure::template
+										  a_<Type, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef pnk__ss
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

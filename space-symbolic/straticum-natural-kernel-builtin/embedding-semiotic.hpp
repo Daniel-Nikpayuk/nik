@@ -17,8 +17,8 @@
 
 struct embedding
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, inductor)
-	#include nik_symbolic_typedef(patronum, kernel, builtin, embedding)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, embedding)
 
 	// builtin types to literal:
 
@@ -26,107 +26,129 @@ struct embedding
 		// each type_to_string_literal directly (it would fit this library narrative design better), but only
 		// C++20 and greater allow for it.
 
-	static constexpr const char string_literal_bool[] = "bool";
+		static constexpr const char string_literal_bool[]			= "bool";
+		static constexpr const char string_literal_char[]			= "char";
+		static constexpr const char string_literal_unsigned_char[]		= "unsigned char";
+		static constexpr const char string_literal_signed_char[]		= "signed char";
+		static constexpr const char string_literal_wchar_t[]			= "wchar_t";
+		static constexpr const char string_literal_char16_t[]			= "char16_t";
+		static constexpr const char string_literal_char32_t[]			= "char32_t";
+		static constexpr const char string_literal_unsigned_short[]		= "unsigned short";
+		static constexpr const char string_literal_signed_short[]		= "signed short";
+		static constexpr const char string_literal_unsigned_int[]		= "unsigned int";
+		static constexpr const char string_literal_signed_int[]			= "signed int";
+		static constexpr const char string_literal_unsigned_long[]		= "unsigned long";
+		static constexpr const char string_literal_signed_long[]		= "signed long";
+		static constexpr const char string_literal_unsigned_long_long[]		= "unsigned long long";
+		static constexpr const char string_literal_signed_long_long[]		= "signed long long";
 
-	template<typename Continuation = ch_coinduct_value>
-	using bool_literal = type_literal<bool, string_literal_bool, Continuation>;
+	// symbolic:
 
-	//
+		template<typename Continuation = ch_symbolic_values>
+		using s_bool_literal = s_type_literal<bool, string_literal_bool, Continuation>;
 
-	static constexpr const char string_literal_char[] = "char";
+		template<typename Continuation = ch_symbolic_values>
+		using s_char_literal = s_type_literal<char, string_literal_char, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using char_literal = type_literal<char, string_literal_char, Continuation>;
+		template<typename Continuation = ch_symbolic_values>
+		using s_unsigned_char_literal = s_type_literal<unsigned char, string_literal_unsigned_char, Continuation>;
 
-	//
+		template<typename Continuation = ch_symbolic_values>
+		using s_signed_char_literal = s_type_literal<signed char, string_literal_signed_char, Continuation>;
 
-	static constexpr const char string_literal_unsigned_char[] = "unsigned char";
+		template<typename Continuation = ch_symbolic_values>
+		using s_wchar_t_literal = s_type_literal<wchar_t, string_literal_wchar_t, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using unsigned_char_literal = type_literal<unsigned char, string_literal_unsigned_char, Continuation>;
+		template<typename Continuation = ch_symbolic_values>
+		using s_char16_t_literal = s_type_literal<char16_t, string_literal_char16_t, Continuation>;
 
-	//
+		template<typename Continuation = ch_symbolic_values>
+		using s_char32_t_literal = s_type_literal<char32_t, string_literal_char32_t, Continuation>;
 
-	static constexpr const char string_literal_signed_char[] = "signed char";
+		template<typename Continuation = ch_symbolic_values>
+		using s_unsigned_short_literal = s_type_literal<unsigned short, string_literal_unsigned_short, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using signed_char_literal = type_literal<signed char, string_literal_signed_char, Continuation>;
+		template<typename Continuation = ch_symbolic_values>
+		using s_signed_short_literal = s_type_literal<signed short, string_literal_signed_short, Continuation>;
 
-	//
+		template<typename Continuation = ch_symbolic_values>
+		using s_unsigned_int_literal = s_type_literal<unsigned int, string_literal_unsigned_int, Continuation>;
 
-	static constexpr const char string_literal_wchar_t[] = "wchar_t";
+		template<typename Continuation = ch_symbolic_values>
+		using s_signed_int_literal = s_type_literal<signed int, string_literal_signed_int, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using wchar_t_literal = type_literal<wchar_t, string_literal_wchar_t, Continuation>;
+		template<typename Continuation = ch_symbolic_values>
+		using s_unsigned_long_literal = s_type_literal<unsigned long, string_literal_unsigned_long, Continuation>;
 
-	//
+		template<typename Continuation = ch_symbolic_values>
+		using s_signed_long_literal = s_type_literal<signed long, string_literal_signed_long, Continuation>;
 
-	static constexpr const char string_literal_char16_t[] = "char16_t";
+		template<typename Continuation = ch_symbolic_values>
+		using s_unsigned_long_long_literal = s_type_literal<unsigned long long, string_literal_unsigned_long_long, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using char16_t_literal = type_literal<char16_t, string_literal_char16_t, Continuation>;
+		template<typename Continuation = ch_symbolic_values>
+		using s_signed_long_long_literal = s_type_literal<signed long long, string_literal_signed_long_long, Continuation>;
 
-	//
+	// assemblic:
 
-	static constexpr const char string_literal_char32_t[] = "char32_t";
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_bool_literal =
+			a_type_literal<bool, string_literal_bool, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using char32_t_literal = type_literal<char32_t, string_literal_char32_t, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_char_literal =
+			a_type_literal<char, string_literal_char, Continuation>;
 
-	//
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_unsigned_char_literal =
+			a_type_literal<unsigned char, string_literal_unsigned_char, Continuation>;
 
-	static constexpr const char string_literal_unsigned_short[] = "unsigned short";
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_signed_char_literal =
+			a_type_literal<signed char, string_literal_signed_char, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using unsigned_short_literal = type_literal<unsigned short, string_literal_unsigned_short, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_wchar_t_literal =
+			a_type_literal<wchar_t, string_literal_wchar_t, Continuation>;
 
-	//
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_char16_t_literal =
+			a_type_literal<char16_t, string_literal_char16_t, Continuation>;
 
-	static constexpr const char string_literal_signed_short[] = "signed short";
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_char32_t_literal =
+			a_type_literal<char32_t, string_literal_char32_t, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using signed_short_literal = type_literal<signed short, string_literal_signed_short, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_unsigned_short_literal =
+			a_type_literal<unsigned short, string_literal_unsigned_short, Continuation>;
 
-	//
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_signed_short_literal =
+			a_type_literal<signed short, string_literal_signed_short, Continuation>;
 
-	static constexpr const char string_literal_unsigned_int[] = "unsigned int";
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_unsigned_int_literal =
+			a_type_literal<unsigned int, string_literal_unsigned_int, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using unsigned_int_literal = type_literal<unsigned int, string_literal_unsigned_int, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_signed_int_literal =
+			a_type_literal<signed int, string_literal_signed_int, Continuation>;
 
-	//
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_unsigned_long_literal =
+			a_type_literal<unsigned long, string_literal_unsigned_long, Continuation>;
 
-	static constexpr const char string_literal_signed_int[] = "signed int";
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_signed_long_literal =
+			a_type_literal<signed long, string_literal_signed_long, Continuation>;
 
-	template<typename Continuation = ch_coinduct_value>
-	using signed_int_literal = type_literal<signed int, string_literal_signed_int, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_unsigned_long_long_literal =
+			a_type_literal<unsigned long long, string_literal_unsigned_long_long, Continuation>;
 
-	//
-
-	static constexpr const char string_literal_unsigned_long[] = "unsigned long";
-
-	template<typename Continuation = ch_coinduct_value>
-	using unsigned_long_literal = type_literal<unsigned long, string_literal_unsigned_long, Continuation>;
-
-	//
-
-	static constexpr const char string_literal_signed_long[] = "signed long";
-
-	template<typename Continuation = ch_coinduct_value>
-	using signed_long_literal = type_literal<signed long, string_literal_signed_long, Continuation>;
-
-	//
-
-	static constexpr const char string_literal_unsigned_long_long[] = "unsigned long long";
-
-	template<typename Continuation = ch_coinduct_value>
-	using unsigned_long_long_literal = type_literal<unsigned long long, string_literal_unsigned_long_long, Continuation>;
-
-	//
-
-	static constexpr const char string_literal_signed_long_long[] = "signed long long";
-
-	template<typename Continuation = ch_coinduct_value>
-	using signed_long_long_literal = type_literal<signed long long, string_literal_signed_long_long, Continuation>;
+		template<typename Continuation = ch_assemblic_value>
+		static constexpr const char* a_signed_long_long_literal =
+			a_type_literal<signed long long, string_literal_signed_long_long, Continuation>;
 };
 

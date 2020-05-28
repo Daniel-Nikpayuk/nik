@@ -17,26 +17,13 @@
 
 struct identity
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, pair, inductor)
 
-	// is_equal:
-
-		// symbolic:
-
-		template<typename Type1, typename Type2, typename Continuation = ch_symbolic_values>
-		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_type<Type2>::template
-		symbolic_match
-		<
-			Continuation
-		>;
-
-		// assemblic:
-
-		template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_equal = dependent_memoization<Type1>::template pattern_match_type<Type2>::template
-		assemblic_match
-		<
-			Continuation
-		>;
+	template<typename Exp, typename Continuation = ch_judgement>
+	using is_pair = typename memoized_pair<Exp>::template match
+	<
+		Continuation
+	>;
 };
 

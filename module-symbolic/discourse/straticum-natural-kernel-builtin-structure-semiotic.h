@@ -17,9 +17,12 @@
 
 #include"define-size_type.h"
 
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_builtin_ss nik_module(straticum, natural, kernel, builtin, symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_builtin_ss_
+	#define PREFIX		snkb_structure_ss_
 
 #else
 
@@ -29,69 +32,356 @@
 
 //
 
-							  template<bool Value>
-	using nik_safe(PREFIX, make_bool_judgement)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_bool_judgement<Value>;
+											  template
+											  <
+												bool Value,
 
-							  template<char Value>
-	using nik_safe(PREFIX, make_char_judgement)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_char_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_bool_to_judgement)					= typename snk_builtin_ss::structure::template
+											  s_bool_to_judgement<Value, Continuation>;
 
-							  template<unsigned char Value>
-	using nik_safe(PREFIX, make_unsigned_char_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_unsigned_char_judgement<Value>;
+											  template
+											  <
+												char Value,
 
-							  template<signed char Value>
-	using nik_safe(PREFIX, make_signed_char_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_signed_char_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char_to_judgement)					= typename snk_builtin_ss::structure::template
+											  s_char_to_judgement<Value, Continuation>;
 
-							  template<wchar_t Value>
-	using nik_safe(PREFIX, make_wchar_t_judgement)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_wchar_t_judgement<Value>;
+											  template
+											  <
+												unsigned char Value,
 
-							  template<char16_t Value>
-	using nik_safe(PREFIX, make_char16_t_judgement)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_char16_t_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_char_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_unsigned_char_to_judgement<Value, Continuation>;
 
-							  template<char32_t Value>
-	using nik_safe(PREFIX, make_char32_t_judgement)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_char32_t_judgement<Value>;
+											  template
+											  <
+												signed char Value,
 
-							  template<unsigned short Value>
-	using nik_safe(PREFIX, make_unsigned_short_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_unsigned_short_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_char_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_signed_char_to_judgement<Value, Continuation>;
 
-							  template<signed short Value>
-	using nik_safe(PREFIX, make_signed_short_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_signed_short_judgement<Value>;
+											  template
+											  <
+												wchar_t Value,
 
-							  template<unsigned int Value>
-	using nik_safe(PREFIX, make_unsigned_int_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_unsigned_int_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_wchar_t_to_judgement)					= typename snk_builtin_ss::structure::template
+											  s_wchar_t_to_judgement<Value, Continuation>;
 
-							  template<signed int Value>
-	using nik_safe(PREFIX, make_signed_int_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_signed_int_judgement<Value>;
+											  template
+											  <
+												char16_t Value,
 
-							  template<unsigned long Value>
-	using nik_safe(PREFIX, make_unsigned_long_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_unsigned_long_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char16_t_to_judgement)					= typename snk_builtin_ss::structure::template
+											  s_char16_t_to_judgement<Value, Continuation>;
 
-							  template<signed long Value>
-	using nik_safe(PREFIX, make_signed_long_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_signed_long_judgement<Value>;
+											  template
+											  <
+												char32_t Value,
 
-							  template<unsigned long long Value>
-	using nik_safe(PREFIX, make_unsigned_long_long_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_unsigned_long_long_judgement<Value>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_char32_t_to_judgement)					= typename snk_builtin_ss::structure::template
+											  s_char32_t_to_judgement<Value, Continuation>;
 
-							  template<signed long long Value>
-	using nik_safe(PREFIX, make_signed_long_long_judgement)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-							  structure::template make_signed_long_long_judgement<Value>;
+											  template
+											  <
+												unsigned short Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_short_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_unsigned_short_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												signed short Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_short_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_signed_short_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												unsigned int Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_int_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_unsigned_int_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												signed int Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_int_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_signed_int_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												unsigned long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_long_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_unsigned_long_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												signed long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_long_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_signed_long_to_judgement<Value, Continuation>;
+
+											  template
+											  <
+												unsigned long long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_unsigned_long_long_to_judgement)			= typename snk_builtin_ss::structure::template
+											  s_unsigned_long_long_to_judgement
+												<Value, Continuation>;
+
+											  template
+											  <
+												signed long long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_signed_long_long_to_judgement)				= typename snk_builtin_ss::structure::template
+											  s_signed_long_long_to_judgement
+												<Value, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Kind, bool Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_bool_to_judgement)			= snk_builtin_ss::structure::template
+											  a_bool_to_judgement<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, char Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_char_to_judgement)			= snk_builtin_ss::structure::template
+											  a_char_to_judgement<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, unsigned char Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_unsigned_char_to_judgement)		= snk_builtin_ss::structure::template
+											  a_unsigned_char_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, signed char Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_signed_char_to_judgement)		= snk_builtin_ss::structure::template
+											  a_signed_char_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, wchar_t Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_wchar_t_to_judgement)			= snk_builtin_ss::structure::template
+											  a_wchar_t_to_judgement<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, char16_t Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_char16_t_to_judgement)			= snk_builtin_ss::structure::template
+											  a_char16_t_to_judgement<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, char32_t Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_char32_t_to_judgement)			= snk_builtin_ss::structure::template
+											  a_char32_t_to_judgement<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, unsigned short Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_unsigned_short_to_judgement)		= snk_builtin_ss::structure::template
+											  a_unsigned_short_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, signed short Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_signed_short_to_judgement)		= snk_builtin_ss::structure::template
+											  a_signed_short_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, unsigned int Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_unsigned_int_to_judgement)		= snk_builtin_ss::structure::template
+											  a_unsigned_int_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, signed int Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_signed_int_to_judgement)		= snk_builtin_ss::structure::template
+											  a_signed_int_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, unsigned long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_unsigned_long_to_judgement)		= snk_builtin_ss::structure::template
+											  a_unsigned_long_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, signed long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_signed_long_to_judgement)		= snk_builtin_ss::structure::template
+											  a_signed_long_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, unsigned long long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_unsigned_long_long_to_judgement)	= snk_builtin_ss::structure::template
+											  a_unsigned_long_long_to_judgement
+												<Kind, Value, Continuation>;
+
+											  template
+											  <
+												typename Kind, signed long long Value,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Kind nik_safe(PREFIX, a_signed_long_long_to_judgement)		= snk_builtin_ss::structure::template
+											  a_signed_long_long_to_judgement
+												<Kind, Value, Continuation>;
 
 //
 
 #undef PREFIX
+
+#undef snk_builtin_ss
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

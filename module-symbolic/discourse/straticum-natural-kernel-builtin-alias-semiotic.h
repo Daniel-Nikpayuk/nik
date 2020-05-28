@@ -17,11 +17,7 @@
 
 #include"define-size_type.h"
 
-//
-
-	using SK_Builtin_SS = nik_language(straticum, kernel, builtin, symbolic, semiotic);
-
-//
+	using snk_builtin_ss = nik_module(straticum, natural, kernel, builtin, symbolic, semiotic);
 
 #include"undef-size_type.h"
 

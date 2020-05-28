@@ -17,9 +17,11 @@
 
 #include"define-size_type.h"
 
+#define snk_builtin_ss nik_module(straticum, natural, kernel, builtin, symbolic, semiotic)
+
 #ifdef safe_name
 
-	#define PREFIX		sk_builtin_ss_
+	#define PREFIX		snkb_inductor_ss_
 
 #else
 
@@ -29,129 +31,71 @@
 
 //
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, bool_coinduct_type)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template bool_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_bool)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_bool<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, bool_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template bool_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, char_coinduct_type)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_char)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_unsigned_char<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_char)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_signed_char<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, unsigned_char_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_char_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_wchar_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_wchar_t<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_char_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char16_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char16_t<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, signed_char_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_char_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char32_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char32_t<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_char_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_short)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_unsigned_short<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, wchar_t_coinduct_type)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template wchar_t_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_short)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_signed_short<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, wchar_t_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template wchar_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_int)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_unsigned_int<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, char16_t_coinduct_type)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char16_t_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_int)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_signed_int<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char16_t_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char16_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_unsigned_long<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, char32_t_coinduct_type)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char32_t_coinduct_type<Exp>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_signed_long<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char32_t_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char32_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long_long)			= typename snk_builtin_ss::inductor::template
+											  pattern_match_unsigned_long_long<Exp>;
 
-								  template<typename Exp>
-	using nik_safe(PREFIX, unsigned_short_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_short_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_short_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_short_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, signed_short_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_short_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_short_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_short_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, unsigned_int_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_int_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_int_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_int_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, signed_int_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_int_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_int_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_int_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, unsigned_long_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, signed_long_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_long_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_long_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, unsigned_long_long_coinduct_type)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_long_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_long_long_coinduct_value)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_long_coinduct_value<Value>;
-
-								  template<typename Exp>
-	using nik_safe(PREFIX, signed_long_long_coinduct_type)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_long_long_coinduct_type<Exp>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_long_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-								  inductor::template signed_long_long_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long_long)				= typename snk_builtin_ss::inductor::template
+											  pattern_match_signed_long_long<Exp>;
 
 //
 
 #undef PREFIX
+
+#undef snk_builtin_ss
 
 #include"undef-size_type.h"
 

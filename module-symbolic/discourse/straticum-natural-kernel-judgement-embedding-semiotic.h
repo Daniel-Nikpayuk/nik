@@ -15,13 +15,53 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_STRATICUM_NATURAL_KERNEL_BUILTIN_ASSEMBLIC_SEMIOTIC_H
-#define NIK_STRATICUM_NATURAL_KERNEL_BUILTIN_ASSEMBLIC_SEMIOTIC_H
+#include"define-size_type.h"
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk__ss nik_module(straticum, natural, kernel, , symbolic, semiotic)
 
-	#include"../../space-assemblic/straticum-natural-kernel-builtin/semiotic.h"
+#ifdef safe_name
 
-#undef local_scope
+	#define PREFIX		snk_embedding_ss_
+
+#else
+
+	#define PREFIX
 
 #endif
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_value
+										  >
+	using nik_safe(PREFIX, s_)						= typename snk__ss::embedding::template
+										  s_<Type, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr nik_safe(PREFIX, a_)					= snk__ss::embedding::template
+										  a_<Type, Continuation>;
+
+//
+
+#undef PREFIX
+
+#undef snk__ss
+#undef pnk_builtin_ss
+
+#include"undef-size_type.h"
+
