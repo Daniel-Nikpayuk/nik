@@ -204,6 +204,49 @@ struct inductor
 			template<typename Continuation, typename OutType>
 			static constexpr OutType assemblic_induct = Continuation::template result<OutType, Type, ListType, Values...>;
 		};
+
+		// length:
+
+			// The following values list functions are only here due to the above values list pattern
+			// matcher, otherwise they narratively belong with their respective list languages.
+
+			// symbolic:
+
+			template<typename Continuation>
+			struct cp_s_values_list_length
+			{
+				template<typename Kind, template<Kind...> class ListType, Kind... Values>
+				using result = typename Continuation::template result
+				<
+					inductor, size_type, sizeof...(Values)
+				>;
+			};
+
+			template<typename List, typename Continuation = ch_symbolic_values>
+			using s_values_list_length = typename pattern_match_values_list<List>::template
+			symbolic_induct
+			<
+				cp_s_values_list_length<Continuation>
+			>;
+
+			// assemblic:
+
+			template<typename Continuation>
+			struct cp_a_values_list_length
+			{
+				template<typename OutType, typename Kind, template<Kind...> class ListType, Kind... Values>
+				static constexpr OutType result = Continuation::template result
+				<
+					size_type, size_type, sizeof...(Values)
+				>;
+			};
+
+			template<typename List, typename Continuation = ch_assemblic_value>
+			static constexpr size_type a_values_list_length = pattern_match_values_list<List>::template
+			assemblic_induct
+			<
+				cp_a_values_list_length<Continuation>, size_type
+			>;
 	};
 
 	// dependent_induct

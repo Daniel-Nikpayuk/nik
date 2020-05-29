@@ -27,19 +27,21 @@ struct identity
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, embedding)
 
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgement, inductor)
+
 	// is judgement:
 
 		// assemblic:
 
 		// The expectation is && short circuits so if Exp is not even a values list there's no issue.
 
-		template<typename Exp, typename Type, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_judgement = dependent_memoization<Type>::template pattern_match_values_list<Exp>::template
+		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_judgement = pattern_match_judgement<Type, Exp>::template
 		assemblic_match
 		<
 			Continuation
 
-		> && a_length<Type, Exp, Continuation> == NIK_ONE;
+		> && dependent_memoization<Type>::template a_length<Type, Exp, Continuation> == NIK_ONE;
 
 		// symbolic:
 

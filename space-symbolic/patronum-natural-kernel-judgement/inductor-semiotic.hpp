@@ -17,6 +17,9 @@
 
 struct inductor
 {
-	// there are no abstract inductor functions here as of yet.
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+
+	template<typename Type, typename Exp>
+	using pattern_match_judgement = typename dependent_memoization<Type>::template pattern_match_values_list<Exp>;
 };
 

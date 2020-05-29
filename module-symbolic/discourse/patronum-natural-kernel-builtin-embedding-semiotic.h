@@ -73,40 +73,6 @@
 
 //
 
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_s_length)					= typename pnk_builtin_ss::embedding::template
-										  cp_s_length<Continuation>;
-
-										  template
-										  <
-											typename Type, typename List,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_length)					= typename pnk_builtin_ss::embedding::template
-										  s_length<Type, List, Continuation>;
-
-//
-
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_a_length)					= typename pnk_builtin_ss::embedding::template
-										  cp_a_length<Continuation>;
-
-										  template
-										  <
-											typename Type, typename List,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr SIZE_TYPE nik_safe(PREFIX, a_length)			= pnk_builtin_ss::embedding::template
-										  a_length<Type, List, Continuation>;
-
-//
-
 #undef PREFIX
 
 #undef pnk_builtin_ss

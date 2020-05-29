@@ -17,25 +17,66 @@
 
 struct embedding
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, builtin, inductor)
+
+	// if then else:
+
+		// symbolic:
+
+		template<bool Value, typename Antecedent, typename Consequent, typename Continuation = ch_symbolic_type>
+		using if_then_else = typename pattern_match_bool_value<Value>::template
+		symbolic_induct
+		<
+			Continuation, Antecedent, Consequent
+		>;
+
+	// fast if then else:
+
+		// symbolic:
+
+		template<bool True, typename = filler>
+		struct fast_match_bool_value
+		{
+			template<typename Antecedent, typename Consequent>
+			using symbolic_induct = Antecedent;
+		};
+
+		template<typename Filler>
+		struct fast_match_bool_value<false, Filler>
+		{
+			template<typename Antecedent, typename Consequent>
+			using symbolic_induct = Consequent;
+		};
+
+		template<bool Value, typename Antecedent, typename Consequent>
+		using fast_if_then_else = typename fast_match_bool_value<Value>::template
+		symbolic_induct
+		<
+			Antecedent, Consequent
+		>;
+
 	// display:
 
-	static constexpr void display(bool v)				{ printf("%s", v ? "true" : "false");	}
-	static constexpr void display(char v)				{ printf("%c", v);			}
-	static constexpr void display(unsigned char v)			{ printf("%u", v);			}
-	static constexpr void display(signed char v)			{ printf("%c", v);			}
-	static constexpr void display(wchar_t v)			{ printf("%c", v);			}
-	static constexpr void display(char16_t v)			{ printf("%u", v);			}
-	static constexpr void display(char32_t v)			{ printf("%u", v);			}
-	static constexpr void display(unsigned short v)			{ printf("%u", v);			}
-	static constexpr void display(signed short v)			{ printf("%d", v);			}
-	static constexpr void display(unsigned int v)			{ printf("%u", v);			}
-	static constexpr void display(signed int v)			{ printf("%d", v);			}
-	static constexpr void display(unsigned long v)			{ printf("%lu", v);			}
-	static constexpr void display(signed long v)			{ printf("%ld", v);			}
-	static constexpr void display(unsigned long long v)		{ printf("%llu", v);			}
-	static constexpr void display(signed long long v)		{ printf("%lld", v);			}
-	static constexpr void display(float v)				{ printf("%f", v);			}
-	static constexpr void display(double v)				{ printf("%f", v);			}
-	static constexpr void display(long double v)			{ printf("%Lf", v);			}
+		// procedural:
+
+		static constexpr void bool_display(bool v)				{ printf("%s", v ? "true" : "false");	}
+		static constexpr void char_display(char v)				{ printf("%c", v);			}
+		static constexpr void unsigned_char_display(unsigned char v)		{ printf("%u", v);			}
+		static constexpr void signed_char_display(signed char v)		{ printf("%c", v);			}
+		static constexpr void wchar_t_display(wchar_t v)			{ printf("%c", v);			}
+		static constexpr void char16_t_display(char16_t v)			{ printf("%u", v);			}
+		static constexpr void char32_t_display(char32_t v)			{ printf("%u", v);			}
+		static constexpr void unsigned_short_display(unsigned short v)		{ printf("%u", v);			}
+		static constexpr void signed_short_display(signed short v)		{ printf("%d", v);			}
+		static constexpr void unsigned_int_display(unsigned int v)		{ printf("%u", v);			}
+		static constexpr void signed_int_display(signed int v)			{ printf("%d", v);			}
+		static constexpr void unsigned_long_display(unsigned long v)		{ printf("%lu", v);			}
+		static constexpr void signed_long_display(signed long v)		{ printf("%ld", v);			}
+		static constexpr void unsigned_long_long_display(unsigned long long v)	{ printf("%llu", v);			}
+		static constexpr void signed_long_long_display(signed long long v)	{ printf("%lld", v);			}
+		static constexpr void float_display(float v)				{ printf("%f", v);			}
+		static constexpr void double_display(double v)				{ printf("%f", v);			}
+		static constexpr void long_double_display(long double v)		{ printf("%Lf", v);			}
 };
 

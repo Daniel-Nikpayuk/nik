@@ -58,45 +58,5 @@ struct embedding
 		<
 			cp_a_type_to_string_literal<Continuation, string_literal>
 		>;
-
-	// length:
-
-		// symbolic:
-
-		template<typename Continuation>
-		struct cp_s_length
-		{
-			template<typename Type, template<Type...> class ListType, Type... Values>
-			using result = typename Continuation::template result
-			<
-				inductor, size_type, sizeof...(Values)
-			>;
-		};
-
-		template<typename Type, typename List, typename Continuation = ch_symbolic_values>
-		using s_length = typename dependent_memoization<Type>::template pattern_match_values_list<List>::template
-		symbolic_induct
-		<
-			cp_s_length<Continuation>
-		>;
-
-		// assemblic:
-
-		template<typename Continuation>
-		struct cp_a_length
-		{
-			template<typename OutType, typename Type, template<Type...> class ListType, Type... Values>
-			static constexpr OutType result = Continuation::template result
-			<
-				size_type, size_type, sizeof...(Values)
-			>;
-		};
-
-		template<typename Type, typename List, typename Continuation = ch_assemblic_value>
-		static constexpr size_type a_length = dependent_memoization<Type>::template pattern_match_values_list<List>::template
-		assemblic_induct
-		<
-			cp_a_length<Continuation>, size_type
-		>;
 };
 

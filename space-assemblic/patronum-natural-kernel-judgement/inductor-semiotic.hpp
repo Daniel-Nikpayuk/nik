@@ -17,15 +17,9 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, kernel, builtin, alias)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	template<typename Type>
-	using dependent_memoization = typename PK_Builtin_SS::template dependent_memoization<Type>;
-
-	//
-
-	using ch_symbolic_type = typename PNK_Builtin_SS::ch_symbolic_type;
-	using ch_symbolic_value = typename PNK_Builtin_SS::ch_symbolic_value;
-	using ch_assemblic_value = typename PNK_Builtin_SS::ch_assemblic_value;
+	template<typename Type, Type Value>
+	using pattern_match_type_value = typename dependent_memoization<Type>::template pattern_match_values<Value>;
 };
 

@@ -17,30 +17,104 @@
 
 struct inductor
 {
-	// builtin types:
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// void_ptr values:
+		// The following bool value pattern matcher is here as its induction operator requires its own specialization.
 
-/*
-	void_ptr values aren't generally considered meaningful as template parameters,
-	this inductor is only here to maintain the narrative design of this library.
-*/
-
-	template<auto>
-	struct memoized_void_ptr
+	template<auto, typename = filler>
+	struct pattern_match_bool_value
 	{
-		template<typename Continuation>
-		static constexpr bool match = Continuation::template result<bool, false>;
+		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
+		using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
+
+		//
+
+		template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+		static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
 	};
 
-	template<void_ptr Value>
-	struct memoized_void_ptr<Value>
+	template<typename Filler>
+	struct pattern_match_bool_value<true, Filler>
 	{
-		template<typename Continuation>
-		static constexpr bool match = Continuation::template result<bool, true>;
+		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
+		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-		template<typename Continuation>
-		static constexpr void_ptr induct = Continuation::template result<void_ptr, Value>;
+		template<typename Continuation = ch_symbolic_type, typename Antecedent, typename Consequent>
+		using symbolic_induct = typename Continuation::template result
+		<
+			Antecedent
+		>;
+
+		//
+
+		template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+		static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
+
+			// assemblic_induct is not implemented as it's better to use the native C++ ( ? : ) grammar.
 	};
+
+	template<typename Filler>
+	struct pattern_match_bool_value<false, Filler>
+	{
+		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
+		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
+
+		template<typename Continuation = ch_symbolic_type, typename Antecedent, typename Consequent>
+		using symbolic_induct = typename Continuation::template result
+		<
+			Consequent
+		>;
+
+		//
+
+		template<typename Continuation = ch_assemblic_value, typename OutType = bool>
+		static constexpr OutType assemblic_match = Continuation::template result<OutType, bool, false>;
+
+			// assemblic_induct is not implemented as it's better to use the native C++ ( ? : ) grammar.
+	};
+
+	// implemented at a lower level for performance:
+
+	template<auto Value> using pattern_match_char_value			= typename dependent_memoization<char>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_unsigned_char_value		= typename dependent_memoization<unsigned char>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_signed_char_value		= typename dependent_memoization<signed char>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_wchar_t_value			= typename dependent_memoization<wchar_t>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_char16_t_value			= typename dependent_memoization<char16_t>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_char32_t_value			= typename dependent_memoization<char32_t>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_unsigned_short_value		= typename dependent_memoization<unsigned short>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_signed_short_value		= typename dependent_memoization<signed short>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_unsigned_int_value		= typename dependent_memoization<unsigned int>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_signed_int_value		= typename dependent_memoization<signed int>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_unsigned_long_value		= typename dependent_memoization<unsigned long>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_signed_long_value		= typename dependent_memoization<signed long>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_unsigned_long_long_value	= typename dependent_memoization<unsigned long long>::template
+										  pattern_match_values<Value>;
+
+	template<auto Value> using pattern_match_signed_long_long_value		= typename dependent_memoization<signed long long>::template
+										  pattern_match_values<Value>;
 };
 

@@ -17,52 +17,51 @@
 
 struct inductor
 {
-	template<auto Value> using bool_pattern_match_value			= typename dependent_memoization<bool>::template
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+
+	template<auto Value> using pattern_match_bool_value			= typename dependent_memoization<bool>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using bool_pattern_match_value			= typename dependent_memoization<bool>::template
+	template<auto Value> using pattern_match_char_value			= typename dependent_memoization<char>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using char_pattern_match_value			= typename dependent_memoization<char>::template
+	template<auto Value> using pattern_match_unsigned_char_value		= typename dependent_memoization<unsigned char>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using unsigned_pattern_match_coinduct_value	= typename dependent_memoization<unsigned char>::template
+	template<auto Value> using pattern_match_signed_char_value		= typename dependent_memoization<signed char>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using signed_pattern_match_coinduct_value		= typename dependent_memoization<signed char>::template
+	template<auto Value> using pattern_match_wchar_t_value			= typename dependent_memoization<wchar_t>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using wchar_pattern_match_coinduct_value		= typename dependent_memoization<wchar_t>::template
+	template<auto Value> using pattern_match_char16_t_value			= typename dependent_memoization<char16_t>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using char16_pattern_match_coinduct_value		= typename dependent_memoization<char16_t>::template
+	template<auto Value> using pattern_match_char32_t_value			= typename dependent_memoization<char32_t>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using char32_pattern_match_coinduct_value		= typename dependent_memoization<char32_t>::template
+	template<auto Value> using pattern_match_unsigned_short_value		= typename dependent_memoization<unsigned short>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using unsigned_pattern_match_coinduct_value	= typename dependent_memoization<unsigned short>::template
+	template<auto Value> using pattern_match_signed_short_value		= typename dependent_memoization<signed short>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using signed_pattern_match_coinduct_value		= typename dependent_memoization<signed short>::template
+	template<auto Value> using pattern_match_unsigned_int_value		= typename dependent_memoization<unsigned int>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using unsigned_pattern_match_coinduct_value	= typename dependent_memoization<unsigned int>::template
+	template<auto Value> using pattern_match_signed_int_value		= typename dependent_memoization<signed int>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using signed_pattern_match_coinduct_value		= typename dependent_memoization<signed int>::template
+	template<auto Value> using pattern_match_unsigned_long_value		= typename dependent_memoization<unsigned long>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using unsigned_pattern_match_coinduct_value	= typename dependent_memoization<unsigned long>::template
+	template<auto Value> using pattern_match_signed_long_value		= typename dependent_memoization<signed long>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using signed_pattern_match_coinduct_value		= typename dependent_memoization<signed long>::template
+	template<auto Value> using pattern_match_unsigned_long_long_value	= typename dependent_memoization<unsigned long long>::template
 										  pattern_match_values<Value>;
 
-	template<auto Value> using unsigned_pattern_match_long_coinduct_value	= typename dependent_memoization<unsigned long long>::template
-										  pattern_match_values<Value>;
-
-	template<auto Value> using signed_pattern_match_long_coinduct_value	= typename dependent_memoization<signed long long>::template
+	template<auto Value> using pattern_match_signed_long_long_value		= typename dependent_memoization<signed long long>::template
 										  pattern_match_values<Value>;
 };
 
