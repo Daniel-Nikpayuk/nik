@@ -17,15 +17,15 @@
 
 namespace nik
 {
-	nik_begin_module(patronum, natural, kernel, pair, symbolic, semiotic)
+	nik_begin_module(patronum, natural, kernel, judgement, symbolic, semiotic)
 
-		#include"inductor-semiotic.hpp"
+//		#include"inductor-semiotic.hpp"
 
 		//
 
-//		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+		#include"identity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
 
-	nik_end_module(patronum, natural, kernel, pair, symbolic, semiotic)
+	nik_end_module(patronum, natural, kernel, judgement, symbolic, semiotic)
 }
 

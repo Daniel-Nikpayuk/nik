@@ -31,9 +31,7 @@
 
 //
 
-										  template<typename Type>
-	using nik_safe(PREFIX, dependent_memoization)				= typename pnk_builtin_ss::inductor::template
-										  dependent_memoization<Type>;
+	using pnkb_inductor_ss							= typename pnk_builtin_ss::inductor;
 
 //
 
@@ -48,6 +46,16 @@
 
 	using nik_safe(PREFIX, ch_assemblic_value)				= typename pnk_builtin_ss::inductor::
 										  ch_assemblic_value;
+
+//
+
+										  template<typename Type>
+	using nik_safe(PREFIX, dependent_memoization)				= typename pnk_builtin_ss::inductor::template
+										  dependent_memoization<Type>;
+
+										  template<typename Type>
+	using nik_safe(PREFIX, pattern_match_dependent_induct)			= typename pnk_builtin_ss::inductor::template
+										  pattern_match_dependent_induct<Type>;
 
 //
 

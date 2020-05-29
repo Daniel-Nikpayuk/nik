@@ -17,6 +17,26 @@
 
 struct embedding
 {
-	// there are no abstract embedding functions here as of yet.
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+
+	// dependent judgement value:
+
+		// symbolic:
+
+		template<typename Type, typename Judgement, typename Continuation = ch_symbolic_values>
+		using s_dependent_judgement_value = typename dependent_memoization<Type>::template
+		pattern_match_values<Judgement>::template symbolic_induct
+		<
+			Continuation
+		>;
+
+		// assemblic:
+
+		template<typename Type, typename Judgement, typename Continuation = ch_assemblic_value>
+		static constexpr Type a_dependent_judgement_value = dependent_memoization<Type>::template
+		pattern_match_values<Judgement>::template assemblic_induct
+		<
+			Continuation, Type
+		>;
 };
 

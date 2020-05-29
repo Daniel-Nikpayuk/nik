@@ -18,6 +18,8 @@
 #ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGEMENT_SYMBOLIC_SEMIOTIC_H
 #define NIK_PATRONUM_NATURAL_KERNEL_JUDGEMENT_SYMBOLIC_SEMIOTIC_H
 
+	#include"patronum-natural-kernel-builtin-semiotic.h"
+
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
 	#include"../../space-symbolic/patronum-natural-kernel-judgement/semiotic.h"

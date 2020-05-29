@@ -17,40 +17,6 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, alias)
-
-	template<typename, typename = filler>
-	struct pattern_match_curried_pair
-	{
-		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
-		using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
-	};
-
-	template<typename Memoized_Type>
-	struct pattern_match_curried_pair<Memoized_Type, sfinae_try<Memoized_Type::template dependent_induct>>
-	{
-		template<typename Continuation, typename Judgement = dependent_memoization<bool>>
-		using symbolic_match = typename Continuation::template result<Judgement, bool, true>;
-
-		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
-		using symbolic_induct = typename Memoized_Type::template dependent_induct<Continuation, Inductor>;
-	};
-
-	template<typename, typename = filler>
-	struct pattern_match_pair
-	{
-		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
-		using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
-	};
-
-	template<template<typename, typename> class PairType, typename Type_A, typename Type_B>
-	struct pattern_match_pair<PairType<Type_A, Type_B>>
-	{
-		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
-		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
-
-		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
-		using symbolic_induct = typename Continuation::template result<Inductor, PairType, Type_A, Type_B>;
-	};
+	// there are no abstract inductor functions here as of yet.
 };
 

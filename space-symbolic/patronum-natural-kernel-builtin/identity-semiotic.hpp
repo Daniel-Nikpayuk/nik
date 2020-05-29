@@ -24,7 +24,7 @@ struct identity
 		// symbolic:
 
 		template<typename Type1, typename Type2, typename Continuation = ch_symbolic_values>
-		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_type<Type2>::template
+		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_types<Type2>::template
 		symbolic_match
 		<
 			Continuation
@@ -33,7 +33,7 @@ struct identity
 		// assemblic:
 
 		template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_equal = dependent_memoization<Type1>::template pattern_match_type<Type2>::template
+		static constexpr bool a_is_equal = dependent_memoization<Type1>::template pattern_match_types<Type2>::template
 		assemblic_match
 		<
 			Continuation
