@@ -17,7 +17,7 @@
 
 #include"define-size_type.h"
 
-#define pnk_builtin_as nik_module(patronum, natural, kernel, builtin, assemblic, semiotic)
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define pnk__as nik_module(patronum, natural, kernel, , assemblic, semiotic)
 
 #ifdef safe_name
@@ -37,7 +37,7 @@
 											typename Type,
 
 											typename Continuation =
-											typename pnk_builtin_as::inductor::
+											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
 	using nik_safe(PREFIX, s_)						= typename pnk__as::identity::template
@@ -50,7 +50,7 @@
 											typename Type,
 
 											typename Continuation =
-											typename pnk_builtin_as::inductor::
+											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
 	static constexpr nik_safe(PREFIX, a_)					= pnk__as::identity::template
@@ -61,7 +61,7 @@
 #undef PREFIX
 
 #undef pnk__as
-#undef pnk_builtin_as
+#undef pnk_builtin_ss
 
 #include"undef-size_type.h"
 

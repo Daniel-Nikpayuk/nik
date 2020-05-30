@@ -17,15 +17,15 @@
 
 namespace nik
 {
-	nik_begin_language(straticum, kernel, builtin, assemblic, semiotic)
+	nik_begin_module(straticum, natural, kernel, judgement, assemblic, semiotic)
 
 		#include"inductor-semiotic.hpp"
 
 		//
 
-		#include"identity-semiotic.hpp"
+//		#include"identity-semiotic.hpp"
 //		#include"embedding-semiotic.hpp"
 
-	nik_end_language(straticum, kernel, builtin, assemblic, semiotic)
+	nik_end_module(straticum, natural, kernel, judgement, assemblic, semiotic)
 }
 

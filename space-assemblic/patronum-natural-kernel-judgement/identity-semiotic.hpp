@@ -17,25 +17,40 @@
 
 struct identity
 {
-	#include nik_assemblic_typedef(patronum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgement, inductor)
 
-	template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
-	static constexpr bool is_type_equal = dependent_memoization<Type1>::template memoized_type<Type2>::template assemblic_match
-	<
-		Continuation
-	>;
+	// is equal:
 
-	// is_value_equal is not yet implemented.
+		// symbolic:
 
-/*
-	template<typename Continuation>
-	struct cp_is_value_equal
-	{
-		template<typename Memoized_Value, typename Type, Type Value>
-		static constexpr bool result(Type value1, Type value2) { return value1 == value2; }
-	};
-*/
+		template<typename Continuation>
+		struct cp_s_is_equal
+		{
+			template<typename Inductor, typename Type, Type Value1, Type Value2>
+			using result = typename Continuation::template result
+			<
+				Inductor, bool, Value1 == Value2
+			>;
+		};
 
-	// is_value_equal is intentionally not implemented, as it's better to use constexpr functions instead.
+		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
+		using s_is_equal = typename pattern_match_type_value<Type, Value1>::template
+		symbolic_append_induct
+		<
+			cp_s_is_equal<Continuation>, pnkb_inductor_ss, Value2
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr bool p_is_equal(Type Value1, Type Value2)
+		{
+			return Value1 == Value2;
+		}
 };
 

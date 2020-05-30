@@ -152,6 +152,12 @@ struct inductor
 			template<typename Continuation = ch_symbolic_values, typename Inductor = inductor>
 			using symbolic_induct = typename Continuation::template result<Inductor, Type, Values...>;
 
+			template<typename Continuation, typename Inductor, Type... oValues>
+			using symbolic_prepend_induct = typename Continuation::template result<Inductor, Type, oValues..., Values...>;
+
+			template<typename Continuation, typename Inductor, Type... oValues>
+			using symbolic_append_induct = typename Continuation::template result<Inductor, Type, Values..., oValues...>;
+
 			//
 
 			template<typename Continuation = ch_assemblic_value, typename OutType = bool>

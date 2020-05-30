@@ -31,8 +31,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, string_literal_display))(const char*)	= snk_list_as::embedding::
-											  string_literal_display;
+	static constexpr void (*nik_safe(PREFIX, string_literal_display))(const char*)		= snk_list_as::embedding::
+												  string_literal_display;
 
 //
 

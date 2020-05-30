@@ -39,7 +39,7 @@ struct inductor
 		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
 		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-		template<typename Continuation = ch_symbolic_type, typename Antecedent, typename Consequent>
+		template<typename Continuation, typename Antecedent, typename Consequent>
 		using symbolic_induct = typename Continuation::template result
 		<
 			Antecedent
@@ -59,7 +59,7 @@ struct inductor
 		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
 		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
 
-		template<typename Continuation = ch_symbolic_type, typename Antecedent, typename Consequent>
+		template<typename Continuation, typename Antecedent, typename Consequent>
 		using symbolic_induct = typename Continuation::template result
 		<
 			Consequent

@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__as nik_module(straticum, natural, kernel, , assemblic, semiotic)
+#define pnk_judgement_as nik_module(patronum, natural, kernel, judgement, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snk_embedding_as_
+	#define PREFIX		pnkj_identity_as_
 
 #else
 
@@ -32,35 +32,32 @@
 
 //
 
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_s_is_equal)					= typename pnk_judgement_as::identity::template
+										  cp_s_is_equal<Continuation>;
+
 										  template
 										  <
-											typename Type,
+											typename Type, Type Value1, Type Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_)						= typename snk__as::embedding::template
-										  s_<Type, Continuation>;
+	using nik_safe(PREFIX, s_is_equal)					= typename pnk_judgement_as::identity::template
+										  s_is_equal<Type, Value1, Value2, Continuation>;
 
 //
 
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr nik_safe(PREFIX, a_)					= snk__as::embedding::template
-										  a_<Type, Continuation>;
+										  template<typename Type>
+	static constexpr bool (*nik_safe(PREFIX, p_is_equal))(Type, Type)	= pnk_judgement_as::identity::template
+										  p_is_equal;
 
 //
 
 #undef PREFIX
 
-#undef snk__as
+#undef pnk_judgement_as
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"
