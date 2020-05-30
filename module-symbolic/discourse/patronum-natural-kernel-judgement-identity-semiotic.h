@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__as nik_module(straticum, natural, kernel, , assemblic, semiotic)
+#define pnk_judgement_ss nik_module(patronum, natural, kernel, judgement, symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snk_structure_as_
+	#define PREFIX		pnkj_identity_ss_
 
 #else
 
@@ -32,99 +32,57 @@
 
 //
 
-	bool
-	char
-	unsigned char
-	signed char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned short
-	signed short
-	unsigned int
-	signed int
-	unsigned long
-	signed long
-	unsigned long long
-	signed long long
-
-	bool
-	char
-	unsigned_char
-	signed_char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned_short
-	signed_short
-	unsigned_int
-	signed_int
-	unsigned_long
-	signed_long
-	unsigned_long_long
-	signed_long_long
-
 										  template
 										  <
-											typename Type,
+											typename Type, typename Exp,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_)						= typename snk__as::structure::template
-										  s_<Type, Continuation>;
-
-//
-
-	bool
-	char
-	unsigned char
-	signed char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned short
-	signed short
-	unsigned int
-	signed int
-	unsigned long
-	signed long
-	unsigned long long
-	signed long long
-
-	bool
-	char
-	unsigned_char
-	signed_char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned_short
-	signed_short
-	unsigned_int
-	signed_int
-	unsigned_long
-	signed_long
-	unsigned_long_long
-	signed_long_long
+	using nik_safe(PREFIX, s_is_judgement)					= typename pnk_judgement_ss::identity::template
+										  s_is_judgement<Type, Exp, Continuation>;
 
 										  template
 										  <
-											typename Type,
+											typename Type, typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_is_dependent_judgement)			= typename pnk_judgement_ss::identity::template
+										  s_is_dependent_judgement<Type, Exp, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Type, typename Exp,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr nik_safe(PREFIX, a_)					= snk__as::structure::template
-										  a_<Type, Continuation>;
+	static constexpr bool nik_safe(PREFIX, a_is_judgement)			= pnk_judgement_ss::identity::template
+										  a_is_judgement<Type, Exp, Continuation>;
+
+										  template
+										  <
+											typename Type, typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr bool nik_safe(PREFIX, a_is_dependent_judgement)	= pnk_judgement_ss::identity::template
+										  a_is_dependent_judgement<Type, Exp, Continuation>;
 
 //
 
 #undef PREFIX
 
-#undef snk__as
+#undef pnk_judgement_ss
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"

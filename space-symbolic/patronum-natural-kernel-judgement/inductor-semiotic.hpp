@@ -15,11 +15,39 @@
 **
 ************************************************************************************************************************/
 
+#define NIK_ONE 1
+
 struct inductor
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, judgement, embedding)
+
+		// The general nik algorithmic paradigm is ignored here as it is intended for the nik narrative design.
+		// Notably, the issue here is we have implemented judgements as specialized lists in order to privilege
+		// meta C++ minimal memoization best practices, but we otherwise don't yet have the necessary boolean
+		// operators.
 
 	template<typename Type, typename Exp>
-	using pattern_match_judgement = typename dependent_memoization<Type>::template pattern_match_values_list<Exp>;
+	using pattern_match_judgement = fast_if_then_else
+	<
+		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template assemblic_match<>	&&
+		dependent_memoization<Type>::template a_values_list_length<Exp> == NIK_ONE				,
+
+		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>				,
+		typename dependent_memoization<Type>::template pattern_match_values_list<filler>
+	>;
+
+	template<typename Type, typename Exp>
+	using pattern_match_dependent_judgement = fast_if_then_else
+	<
+		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template assemblic_match<>	&&
+		dependent_memoization<Type>::template a_values_list_length<Exp> == NIK_ONE				&&
+		dependent_memoization<void>::template pattern_match_dependent_induct<Exp>::template assemblic_match<>	,
+
+		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>,
+		typename dependent_memoization<Type>::template pattern_match_values_list<filler>
+	>;
 };
+
+#undef NIK_ONE
 

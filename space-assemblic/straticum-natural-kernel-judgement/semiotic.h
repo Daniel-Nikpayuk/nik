@@ -23,8 +23,8 @@ namespace nik
 
 		//
 
-//		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+		#include"identity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
 
 	nik_end_module(straticum, natural, kernel, judgement, assemblic, semiotic)
 }

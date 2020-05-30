@@ -18,9 +18,11 @@
 struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(straticum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, judgement, inductor)
 
 	// if then else:
+
+			// this is the one and only grammatical construct that breaks the standard nomenclature.
 
 		// symbolic:
 
@@ -60,23 +62,23 @@ struct embedding
 
 		// procedural:
 
-		static constexpr void bool_display(bool v)				{ printf("%s", v ? "true" : "false");	}
-		static constexpr void char_display(char v)				{ printf("%c", v);			}
-		static constexpr void unsigned_char_display(unsigned char v)		{ printf("%u", v);			}
-		static constexpr void signed_char_display(signed char v)		{ printf("%c", v);			}
-		static constexpr void wchar_t_display(wchar_t v)			{ printf("%c", v);			}
-		static constexpr void char16_t_display(char16_t v)			{ printf("%u", v);			}
-		static constexpr void char32_t_display(char32_t v)			{ printf("%u", v);			}
-		static constexpr void unsigned_short_display(unsigned short v)		{ printf("%u", v);			}
-		static constexpr void signed_short_display(signed short v)		{ printf("%d", v);			}
-		static constexpr void unsigned_int_display(unsigned int v)		{ printf("%u", v);			}
-		static constexpr void signed_int_display(signed int v)			{ printf("%d", v);			}
-		static constexpr void unsigned_long_display(unsigned long v)		{ printf("%lu", v);			}
-		static constexpr void signed_long_display(signed long v)		{ printf("%ld", v);			}
-		static constexpr void unsigned_long_long_display(unsigned long long v)	{ printf("%llu", v);			}
-		static constexpr void signed_long_long_display(signed long long v)	{ printf("%lld", v);			}
-		static constexpr void float_display(float v)				{ printf("%f", v);			}
-		static constexpr void double_display(double v)				{ printf("%f", v);			}
-		static constexpr void long_double_display(long double v)		{ printf("%Lf", v);			}
+		static constexpr void bool_display(bool v)					{ printf("%s", v ? "true" : "false");	}
+		static constexpr void char_display(char v)					{ printf("%c", v);			}
+		static constexpr void unsigned_char_display(unsigned char v)			{ printf("%u", v);			}
+		static constexpr void signed_char_display(signed char v)			{ printf("%c", v);			}
+		static constexpr void wchar_t_display(wchar_t v)				{ printf("%c", v);			}
+		static constexpr void char16_t_display(char16_t v)				{ printf("%u", v);			}
+		static constexpr void char32_t_display(char32_t v)				{ printf("%u", v);			}
+		static constexpr void unsigned_short_display(unsigned short v)			{ printf("%u", v);			}
+		static constexpr void signed_short_display(signed short v)			{ printf("%d", v);			}
+		static constexpr void unsigned_int_display(unsigned int v)			{ printf("%u", v);			}
+		static constexpr void signed_int_display(signed int v)				{ printf("%d", v);			}
+		static constexpr void unsigned_long_display(unsigned long v)			{ printf("%lu", v);			}
+		static constexpr void signed_long_display(signed long v)			{ printf("%ld", v);			}
+		static constexpr void unsigned_long_long_display(unsigned long long v)		{ printf("%llu", v);			}
+		static constexpr void signed_long_long_display(signed long long v)		{ printf("%lld", v);			}
+		static constexpr void float_display(float v)					{ printf("%f", v);			}
+		static constexpr void double_display(double v)					{ printf("%f", v);			}
+		static constexpr void long_double_display(long double v)			{ printf("%Lf", v);			}
 };
 

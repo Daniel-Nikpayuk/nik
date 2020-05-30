@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__as nik_module(straticum, natural, kernel, , assemblic, semiotic)
+#define snk_judgement_as nik_module(straticum, natural, kernel, judgement, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snk_embedding_as_
+	#define PREFIX		snkj_embedding_as_
 
 #else
 
@@ -32,35 +32,73 @@
 
 //
 
-										  template
-										  <
-											typename Type,
+									  template
+									  <
+										bool Value, typename Antecedent, typename Consequent,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_)						= typename snk__as::embedding::template
-										  s_<Type, Continuation>;
+										typename Continuation =
+										typename pnk_builtin_ss::inductor::
+										ch_symbolic_values
+									  >
+	using nik_safe(PREFIX, if_then_else)				= typename snk_judgement_as::embedding::template
+									  if_then_else<Value, Antecedent, Consequent, Continuation>;
+
+									  template<bool Value, typename Antecedent, typename Consequent>
+	using nik_safe(PREFIX, fast_if_then_else)			= typename snk_judgement_as::embedding::template
+									  fast_if_then_else<Value, Antecedent, Consequent>;
 
 //
 
-										  template
-										  <
-											typename Type,
+	static constexpr void (*nik_safe(PREFIX, bool_display))(bool)					= snk_judgement_as::embedding::
+													  bool_display;
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr nik_safe(PREFIX, a_)					= snk__as::embedding::template
-										  a_<Type, Continuation>;
+	static constexpr void (*nik_safe(PREFIX, char_display))(char)					= snk_judgement_as::embedding::
+													  char_display;
+
+	static constexpr void (*nik_safe(PREFIX, unsigned_char_display))(unsigned char)			= snk_judgement_as::embedding::
+													  unsigned_char_display;
+
+	static constexpr void (*nik_safe(PREFIX, signed_char_display))(signed char)			= snk_judgement_as::embedding::
+													  signed_char_display;
+
+	static constexpr void (*nik_safe(PREFIX, wchar_t_display))(wchar_t)				= snk_judgement_as::embedding::
+													  wchar_t_display;
+
+	static constexpr void (*nik_safe(PREFIX, char16_t_display))(char16_t)				= snk_judgement_as::embedding::
+													  char16_t_display;
+
+	static constexpr void (*nik_safe(PREFIX, char32_t_display))(char32_t)				= snk_judgement_as::embedding::
+													  char32_t_display;
+
+	static constexpr void (*nik_safe(PREFIX, unsigned_short_display))(unsigned short)		= snk_judgement_as::embedding::
+													  unsigned_short_display;
+
+	static constexpr void (*nik_safe(PREFIX, signed_short_display))(signed short)			= snk_judgement_as::embedding::
+													  signed_short_display;
+
+	static constexpr void (*nik_safe(PREFIX, unsigned_int_display))(unsigned int)			= snk_judgement_as::embedding::
+													  unsigned_int_display;
+
+	static constexpr void (*nik_safe(PREFIX, signed_int_display))(signed int)			= snk_judgement_as::embedding::
+													  signed_int_display;
+
+	static constexpr void (*nik_safe(PREFIX, unsigned_long_display))(unsigned long)			= snk_judgement_as::embedding::
+													  unsigned_long_display;
+
+	static constexpr void (*nik_safe(PREFIX, signed_long_display))(signed long)			= snk_judgement_as::embedding::
+													  signed_long_display;
+
+	static constexpr void (*nik_safe(PREFIX, unsigned_long_long_display))(unsigned long long)	= snk_judgement_as::embedding::
+													  unsigned_long_long_display;
+
+	static constexpr void (*nik_safe(PREFIX, signed_long_long_display))(signed long long)		= snk_judgement_as::embedding::
+													  signed_long_long_display;
 
 //
 
 #undef PREFIX
 
-#undef snk__as
+#undef snk_judgement_as
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"

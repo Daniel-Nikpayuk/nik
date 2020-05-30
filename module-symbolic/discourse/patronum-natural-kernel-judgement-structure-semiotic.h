@@ -15,17 +15,53 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_module(straticum, natural, kernel, judgement, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define pnk__ss nik_module(patronum, natural, kernel, , symbolic, semiotic)
 
-		//
+#ifdef safe_name
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+	#define PREFIX		pnk_structure_ss_
 
-	nik_end_module(straticum, natural, kernel, judgement, symbolic, semiotic)
-}
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_)						= typename pnk__ss::structure::template
+										  s_<Type, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr nik_safe(PREFIX, a_)					= pnk__ss::structure::template
+										  a_<Type, Continuation>;
+
+//
+
+#undef PREFIX
+
+#undef pnk__ss
+#undef pnk_builtin_ss
+
+#include"undef-size_type.h"
 

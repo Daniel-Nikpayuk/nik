@@ -17,12 +17,11 @@
 
 #include"define-size_type.h"
 
-#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__ss nik_module(straticum, natural, kernel, , symbolic, semiotic)
+#define snk_judgement_ss nik_module(straticum, natural, kernel, judgement, symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snk_inductor_ss_
+	#define PREFIX		snkj_inductor_ss_
 
 #else
 
@@ -32,96 +31,133 @@
 
 //
 
-										  template
-										  <
-											typename Type,
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_bool_judgement)				= typename snk_judgement_ss::inductor::template
+											  pattern_match_bool_judgement<Exp>;
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_value
-										  >
-	using nik_safe(PREFIX, s_)						= typename snk__ss::inductor::template
-										  s_<Type, Continuation>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char_judgement)				= typename snk_judgement_ss::inductor::template
+											  pattern_match_char_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, bool_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template bool_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_char_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_char_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_char_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_char_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_char_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_wchar_t_judgement)				= typename snk_judgement_ss::inductor::template
+											  pattern_match_wchar_t_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_char_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_char_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char16_t_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_char16_t_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, wchar_t_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template wchar_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char32_t_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_char32_t_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char16_t_coinduct_value)		= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char16_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_short_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_short_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, char32_t_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template char32_t_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_short_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_short_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_short_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_short_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_int_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_int_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_short_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_short_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_int_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_int_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_int_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_int_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_long_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_int_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_int_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_long_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long_long_judgement)		= snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_long_long_judgement<Exp>;
 
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template signed_long_coinduct_value<Value>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, unsigned_long_long_coinduct_value)= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-			 					  inductor::template unsigned_long_long_coinduct_value<Value>;
-
-								  template<auto Value>
-	using nik_safe(PREFIX, signed_long_long_coinduct_value)	= typename nik_language(straticum, kernel, builtin, symbolic, semiotic)::
-								  inductor::template signed_long_long_coinduct_value<Value>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long_long_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_long_long_judgement<Exp>;
 
 //
 
-										  template
-										  <
-											typename Type,
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_bool_dependent_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_bool_dependent_judgement<Exp>;
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr nik_safe(PREFIX, a_)					= snk__ss::inductor::template
-										  a_<Type, Continuation>;
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char_dependent_judgement)			= typename snk_judgement_ss::inductor::template
+											  pattern_match_char_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_char_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_char_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_char_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_char_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_wchar_t_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_wchar_t_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char16_t_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_char16_t_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char32_t_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_char32_t_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_short_dependent_judgement)	= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_short_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_short_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_short_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_int_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_int_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_int_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_int_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_long_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long_dependent_judgement)		= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_long_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_unsigned_long_long_dependent_judgement)	= snk_judgement_ss::inductor::template
+											  pattern_match_unsigned_long_long_dependent_judgement<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_signed_long_long_dependent_judgement)	= typename snk_judgement_ss::inductor::template
+											  pattern_match_signed_long_long_dependent_judgement<Exp>;
 
 //
 
 #undef PREFIX
 
-#undef snk__ss
-#undef pnk_builtin_ss
+#undef snk_judgement_ss
 
 #include"undef-size_type.h"
 

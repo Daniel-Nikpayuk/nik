@@ -15,61 +15,49 @@
 **
 ************************************************************************************************************************/
 
-	// The general nik algorithmic paradigm is ignored here as it is intended for the nik narrative design.
-	// Notably, the issue here is we have implemented judgements as specialized lists in order to privilege
-	// meta C++ minimal memoization best practices, but we otherwise don't yet have the necessary boolean
-	// operators.
-
-#define NIK_ONE 1
-
 struct identity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, embedding)
-
 	#include nik_symbolic_typedef(patronum, natural, kernel, judgement, inductor)
 
 	// is judgement:
 
-		// assemblic:
+		// symbolic:
 
-		// The expectation is && short circuits so if Exp is not even a values list there's no issue.
+		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_judgement = typename pattern_match_judgement<Type, Exp>::template
+		symbolic_match
+		<
+			Continuation
+		>;
+
+		// assemblic:
 
 		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
 		static constexpr bool a_is_judgement = pattern_match_judgement<Type, Exp>::template
 		assemblic_match
 		<
 			Continuation
-
-		> && dependent_memoization<Type>::template a_length<Type, Exp, Continuation> == NIK_ONE;
-
-		// symbolic:
-
-		template<typename Exp, typename Type, typename Continuation = ch_symbolic_values>
-		using s_is_judgement = typename Continuation::template result
-		<
-			pnkb_inductor_ss, bool, a_is_judgement<Exp, Type>
 		>;
 
 	// is dependent judgement:
 
-		// assemblic:
+		// symbolic:
 
-		template<typename Exp, typename Type, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_dependent_judgement = a_is_judgement<Exp, Type, Continuation> &&
-		pattern_match_dependent_induct<Exp>::template assemblic_match
+		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_dependent_judgement = typename pattern_match_dependent_judgement<Type, Exp>::template
+		symbolic_match
 		<
 			Continuation
 		>;
 
-		// symbolic:
+		// assemblic:
 
-		template<typename Exp, typename Type, typename Continuation = ch_symbolic_values>
-		using s_is_dependent_judgement = typename Continuation::template result
+		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_dependent_judgement = pattern_match_dependent_judgement<Type, Exp>::template
+		assemblic_match
 		<
-			pnkb_inductor_ss, bool, a_is_dependent_judgement<Exp, Type>
+			Continuation
 		>;
 };
-
-#undef NIK_ONE
 

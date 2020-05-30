@@ -53,10 +53,6 @@
 	using nik_safe(PREFIX, dependent_memoization)				= typename pnk_builtin_ss::inductor::template
 										  dependent_memoization<Type>;
 
-										  template<typename Type>
-	using nik_safe(PREFIX, pattern_match_dependent_induct)			= typename pnk_builtin_ss::inductor::template
-										  pattern_match_dependent_induct<Type>;
-
 //
 
 #undef PREFIX

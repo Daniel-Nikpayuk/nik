@@ -17,28 +17,103 @@
 
 struct identity
 {
-	#define safe_name
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgement, identity)
 
-		#include nik_symbolic_typedef(patronum, kernel, builtin, identity)
-		#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
-		#include nik_symbolic_typedef(patronum, kernel, judgement, identity)
+	// is judgement:
 
-	#undef safe_name
+		// symbolic:
 
-	#include nik_symbolic_typedef(straticum, kernel, judgement, inductor)
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_bool_judgement = s_is_judgement<bool, Exp, Continuation>;
 
-	template<typename Exp, typename Continuation = pk_judgement_ss_ch_judgement>
-	using is_judgement = pk_judgement_ss_is_judgement
-	<
-		Exp, judgement, Continuation
-	>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char_judgement = s_is_judgement<char, Exp, Continuation>;
 
-	//
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_char_judgement = s_is_judgement<unsigned char, Exp, Continuation>;
 
-	template<typename Exp1, typename Exp2, typename Continuation = pk_judgement_ss_ch_judgement>
-	using is_equal = pk_builtin_ss_is_equal
-	<
-		Exp1, Exp2, judgement, Continuation
-	>;
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_char_judgement = s_is_judgement<signed char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_wchar_t_judgement = s_is_judgement<wchar_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char16_t_judgement = s_is_judgement<char16_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_char32_t_judgement = s_is_judgement<char32_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_short_judgement = s_is_judgement<unsigned short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_short_judgement = s_is_judgement<signed short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_int_judgement = s_is_judgement<unsigned int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_int_judgement = s_is_judgement<signed int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long_judgement = s_is_judgement<unsigned long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long_judgement = s_is_judgement<signed long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long_long_judgement = s_is_judgement<unsigned long long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long_long_judgement = s_is_judgement<signed long long, Exp, Continuation>;
+
+		// assemblic:
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_bool_judgement = a_is_judgement<bool, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char_judgement = a_is_judgement<char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_char_judgement = a_is_judgement<unsigned char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_char_judgement = a_is_judgement<signed char, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_wchar_t_judgement = a_is_judgement<wchar_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char16_t_judgement = a_is_judgement<char16_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_char32_t_judgement = a_is_judgement<char32_t, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_short_judgement = a_is_judgement<unsigned short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_short_judgement = a_is_judgement<signed short, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_int_judgement = a_is_judgement<unsigned int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_int_judgement = a_is_judgement<signed int, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_long_judgement = a_is_judgement<unsigned long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_long_judgement = a_is_judgement<signed long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_unsigned_long_long_judgement = a_is_judgement<unsigned long long, Exp, Continuation>;
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr bool a_is_signed_long_long_judgement = a_is_judgement<signed long long, Exp, Continuation>;
 };
 

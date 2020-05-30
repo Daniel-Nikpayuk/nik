@@ -15,17 +15,35 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_module(straticum, natural, kernel, judgement, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+#define pnk_judgement_ss nik_module(patronum, natural, kernel, judgement, symbolic, semiotic)
 
-		//
+#ifdef safe_name
 
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+	#define PREFIX		pnkj_inductor_ss_
 
-	nik_end_module(straticum, natural, kernel, judgement, symbolic, semiotic)
-}
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template<typename Type, typename Exp>
+	using nik_safe(PREFIX, pattern_match_judgement)				= typename pnk_judgement_ss::inductor::template
+										  pattern_match_judgement<Type, Exp>;
+
+										  template<typename Type, typename Exp>
+	using nik_safe(PREFIX, pattern_match_dependent_judgement)		= typename pnk_judgement_ss::inductor::template
+										  pattern_match_dependent_judgement<Type, Exp>;
+
+//
+
+#undef PREFIX
+
+#undef pnk_judgement_ss
+
+#include"undef-size_type.h"
 

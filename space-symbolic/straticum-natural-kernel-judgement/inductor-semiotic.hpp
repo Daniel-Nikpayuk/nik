@@ -17,51 +17,98 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgement, inductor)
 
-	template<auto Value> using pattern_match_bool_value			= typename dependent_memoization<bool>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_bool_judgement					= pattern_match_judgement<bool, Exp>;
 
-	template<auto Value> using pattern_match_char_value			= typename dependent_memoization<char>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_char_judgement					= pattern_match_judgement<char, Exp>;
 
-	template<auto Value> using pattern_match_unsigned_char_value		= typename dependent_memoization<unsigned char>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_unsigned_char_judgement				= pattern_match_judgement<unsigned char, Exp>;
 
-	template<auto Value> using pattern_match_signed_char_value		= typename dependent_memoization<signed char>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_signed_char_judgement				= pattern_match_judgement<signed char, Exp>;
 
-	template<auto Value> using pattern_match_wchar_t_value			= typename dependent_memoization<wchar_t>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_wchar_t_judgement					= pattern_match_judgement<wchar_t, Exp>;
 
-	template<auto Value> using pattern_match_char16_t_value			= typename dependent_memoization<char16_t>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_char16_t_judgement					= pattern_match_judgement<char16_t, Exp>;
 
-	template<auto Value> using pattern_match_char32_t_value			= typename dependent_memoization<char32_t>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_char32_t_judgement					= pattern_match_judgement<char32_t, Exp>;
 
-	template<auto Value> using pattern_match_unsigned_short_value		= typename dependent_memoization<unsigned short>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_unsigned_short_judgement				= pattern_match_judgement<unsigned short, Exp>;
 
-	template<auto Value> using pattern_match_signed_short_value		= typename dependent_memoization<signed short>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_signed_short_judgement				= pattern_match_judgement<signed short, Exp>;
 
-	template<auto Value> using pattern_match_unsigned_int_value		= typename dependent_memoization<unsigned int>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_unsigned_int_judgement				= pattern_match_judgement<unsigned int, Exp>;
 
-	template<auto Value> using pattern_match_signed_int_value		= typename dependent_memoization<signed int>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_signed_int_judgement				= pattern_match_judgement<signed int, Exp>;
 
-	template<auto Value> using pattern_match_unsigned_long_value		= typename dependent_memoization<unsigned long>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_unsigned_long_judgement				= pattern_match_judgement<unsigned long, Exp>;
 
-	template<auto Value> using pattern_match_signed_long_value		= typename dependent_memoization<signed long>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_signed_long_judgement				= pattern_match_judgement<signed long, Exp>;
 
-	template<auto Value> using pattern_match_unsigned_long_long_value	= typename dependent_memoization<unsigned long long>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_unsigned_long_long_judgement			= pattern_match_judgement<unsigned long long, Exp>;
 
-	template<auto Value> using pattern_match_signed_long_long_value		= typename dependent_memoization<signed long long>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_signed_long_long_judgement				= pattern_match_judgement<signed long long, Exp>;
+
+	// dependent judgement:
+
+	template<typename Exp>
+	using pattern_match_bool_dependent_judgement				= pattern_match_dependent_judgement<bool, Exp>;
+
+	template<typename Exp>
+	using pattern_match_char_dependent_judgement				= pattern_match_dependent_judgement<char, Exp>;
+
+	template<typename Exp>
+	using pattern_match_unsigned_char_dependent_judgement			= pattern_match_dependent_judgement<unsigned char, Exp>;
+
+	template<typename Exp>
+	using pattern_match_signed_char_dependent_judgement			= pattern_match_dependent_judgement<signed char, Exp>;
+
+	template<typename Exp>
+	using pattern_match_wchar_t_dependent_judgement				= pattern_match_dependent_judgement<wchar_t, Exp>;
+
+	template<typename Exp>
+	using pattern_match_char16_t_dependent_judgement			= pattern_match_dependent_judgement<char16_t, Exp>;
+
+	template<typename Exp>
+	using pattern_match_char32_t_dependent_judgement			= pattern_match_dependent_judgement<char32_t, Exp>;
+
+	template<typename Exp>
+	using pattern_match_unsigned_short_dependent_judgement			= pattern_match_dependent_judgement<unsigned short, Exp>;
+
+	template<typename Exp>
+	using pattern_match_signed_short_dependent_judgement			= pattern_match_dependent_judgement<signed short, Exp>;
+
+	template<typename Exp>
+	using pattern_match_unsigned_int_dependent_judgement			= pattern_match_dependent_judgement<unsigned int, Exp>;
+
+	template<typename Exp>
+	using pattern_match_signed_int_dependent_judgement			= pattern_match_dependent_judgement<signed int, Exp>;
+
+	template<typename Exp>
+	using pattern_match_unsigned_long_dependent_judgement			= pattern_match_dependent_judgement<unsigned long, Exp>;
+
+	template<typename Exp>
+	using pattern_match_signed_long_dependent_judgement			= pattern_match_dependent_judgement<signed long, Exp>;
+
+	template<typename Exp>
+	using pattern_match_unsigned_long_long_dependent_judgement		= pattern_match_dependent_judgement<unsigned long long, Exp>;
+
+	template<typename Exp>
+	using pattern_match_signed_long_long_dependent_judgement		= pattern_match_dependent_judgement<signed long long, Exp>;
 };
 

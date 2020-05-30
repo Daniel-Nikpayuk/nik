@@ -17,107 +17,107 @@
 
 struct identity
 {
-	#include nik_assemblic_typedef(patronum, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(straticum, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgement, identity)
 
-	// builtin types:
+	// is equal:
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_bool)() = ch_inductor<bool>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		// symbolic:
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_char)() = ch_inductor<char>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<bool Value1, bool Value2, typename Continuation = ch_symbolic_values>
+		using s_is_bool_equal = s_is_equal<bool, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_unsigned_char)() = ch_inductor<unsigned char>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<char Value1, char Value2, typename Continuation = ch_symbolic_values>
+		using s_is_char_equal = s_is_equal<char, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_signed_char)() = ch_inductor<signed char>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<unsigned char Value1, unsigned char Value2, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_char_equal = s_is_equal<unsigned char, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_wchar_t)() = ch_inductor<wchar_t>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<signed char Value1, signed char Value2, typename Continuation = ch_symbolic_values>
+		using s_is_signed_char_equal = s_is_equal<signed char, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_char16_t)() = ch_inductor<char16_t>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<wchar_t Value1, wchar_t Value2, typename Continuation = ch_symbolic_values>
+		using s_is_wchar_t_equal = s_is_equal<wchar_t, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_char32_t)() = ch_inductor<char32_t>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<char16_t Value1, char16_t Value2, typename Continuation = ch_symbolic_values>
+		using s_is_char16_t_equal = s_is_equal<char16_t, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_unsigned_short)() = ch_inductor<unsigned short>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<char32_t Value1, char32_t Value2, typename Continuation = ch_symbolic_values>
+		using s_is_char32_t_equal = s_is_equal<char32_t, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_signed_short)() = ch_inductor<signed short>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<unsigned short Value1, unsigned short Value2, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_short_equal = s_is_equal<unsigned short, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_unsigned_int)() = ch_inductor<unsigned int>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<signed short Value1, signed short Value2, typename Continuation = ch_symbolic_values>
+		using s_is_signed_short_equal = s_is_equal<signed short, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_signed_int)() = ch_inductor<signed int>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<unsigned int Value1, unsigned int Value2, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_int_equal = s_is_equal<unsigned int, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_unsigned_long)() = ch_inductor<unsigned long>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<signed int Value1, signed int Value2, typename Continuation = ch_symbolic_values>
+		using s_is_signed_int_equal = s_is_equal<signed int, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_signed_long)() = ch_inductor<signed long>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<unsigned long Value1, unsigned long Value2, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long_equal = s_is_equal<unsigned long, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_unsigned_long_long)() = ch_inductor<unsigned long long>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<signed long Value1, signed long Value2, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long_equal = s_is_equal<signed long, Value1, Value2, Continuation>;
 
-	template<typename Exp, typename Continuation>
-	static constexpr bool (*is_signed_long_long)() = ch_inductor<signed long long>::template memoized_type<Exp>::template match
-	<
-		Continuation
-	>;
+		template<unsigned long long Value1, unsigned long long Value2, typename Continuation = ch_symbolic_values>
+		using s_is_unsigned_long_long_equal = s_is_equal<unsigned long long, Value1, Value2, Continuation>;
 
-	// void_ptr values:
+		template<signed long long Value1, signed long long Value2, typename Continuation = ch_symbolic_values>
+		using s_is_signed_long_long_equal = s_is_equal<signed long long, Value1, Value2, Continuation>;
 
-	template<auto Exp, typename Continuation>
-	static constexpr bool (*is_void_ptr)() = memoized_void_ptr<Exp>::template match
-	<
-		Continuation
-	>;
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr bool (*p_is_bool_equal)(bool, bool) =
+		p_is_equal<bool>;
+
+		static constexpr bool (*p_is_char_equal)(char, char) =
+		p_is_equal<char>;
+
+		static constexpr bool (*p_is_unsigned_char_equal)(unsigned char, unsigned char) =
+		p_is_equal<unsigned char>;
+
+		static constexpr bool (*p_is_signed_char_equal)(signed char, signed char) =
+		p_is_equal<signed char>;
+
+		static constexpr bool (*p_is_wchar_t_equal)(wchar_t, wchar_t) =
+		p_is_equal<wchar_t>;
+
+		static constexpr bool (*p_is_char16_t_equal)(char16_t, char16_t) =
+		p_is_equal<char16_t>;
+
+		static constexpr bool (*p_is_char32_t_equal)(char32_t, char32_t) =
+		p_is_equal<char32_t>;
+
+		static constexpr bool (*p_is_unsigned_short_equal)(unsigned short, unsigned short) =
+		p_is_equal<unsigned short>;
+
+		static constexpr bool (*p_is_signed_short_equal)(signed short, signed short) =
+		p_is_equal<signed short>;
+
+		static constexpr bool (*p_is_unsigned_int_equal)(unsigned int, unsigned int) =
+		p_is_equal<unsigned int>;
+
+		static constexpr bool (*p_is_signed_int_equal)(signed int, signed int) =
+		p_is_equal<signed int>;
+
+		static constexpr bool (*p_is_unsigned_long_equal)(unsigned long, unsigned long) =
+		p_is_equal<unsigned long>;
+
+		static constexpr bool (*p_is_signed_long_equal)(signed long, signed long) =
+		p_is_equal<signed long>;
+
+		static constexpr bool (*p_is_unsigned_long_long_equal)(unsigned long long, unsigned long long) =
+		p_is_equal<unsigned long long>;
+
+		static constexpr bool (*p_is_signed_long_long_equal)(signed long long, signed long long) =
+		p_is_equal<signed long long>;
 };
 

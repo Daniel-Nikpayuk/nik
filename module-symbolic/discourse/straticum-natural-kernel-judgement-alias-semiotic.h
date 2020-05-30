@@ -17,7 +17,7 @@
 
 #include"define-size_type.h"
 
-	using snk__ss = nik_module(straticum, natural, kernel, , symbolic, semiotic);
+	using snk_judgement_ss = nik_module(straticum, natural, kernel, judgement, symbolic, semiotic);
 
 #include"undef-size_type.h"
 

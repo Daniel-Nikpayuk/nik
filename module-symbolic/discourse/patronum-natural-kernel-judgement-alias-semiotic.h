@@ -15,17 +15,9 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
-{
-	nik_begin_module(straticum, natural, kernel, judgement, symbolic, semiotic)
+#include"define-size_type.h"
 
-		#include"inductor-semiotic.hpp"
+	using pnk_judgement_ss = nik_module(patronum, natural, kernel, judgement, symbolic, semiotic);
 
-		//
-
-		#include"identity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
-
-	nik_end_module(straticum, natural, kernel, judgement, symbolic, semiotic)
-}
+#include"undef-size_type.h"
 
