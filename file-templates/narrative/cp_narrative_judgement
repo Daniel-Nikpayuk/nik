@@ -1,0 +1,25 @@
+#!/bin/bash
+
+make-text ()
+{
+	local TYPE="$1"
+	local UPPER_TYPE="$(echo "$TYPE" | mawk '{ print toupper($0); }')"
+
+	local mawk_prog='
+	{
+		gsub("<<<TYPE>>>", "'"$TYPE"'");
+		gsub("<<<UPPER_TYPE>>>", "'"$UPPER_TYPE"'");
+
+		print $0;
+	}'
+
+	cat "text_files/discourse.txt" |
+	mawk "$mawk_prog"
+}
+
+cat "text_files/builtin_types.txt" |
+while read type
+do
+	echo "$(make-text "$type")" > "straticum-natural-kernel-"$type"_judgement-semiotic.h"
+done
+

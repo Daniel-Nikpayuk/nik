@@ -17,52 +17,10 @@
 
 struct embedding
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(straticum, natural, kernel, judgement, inductor)
-
-	// if then else:
-
-			// this is the one and only grammatical construct that breaks the standard nomenclature.
-
-		// symbolic:
-
-		template<bool Value, typename Antecedent, typename Consequent, typename Continuation = ch_symbolic_type>
-		using if_then_else = typename pattern_match_bool_value<Value>::template
-		symbolic_induct
-		<
-			Continuation, Antecedent, Consequent
-		>;
-
-	// fast if then else:
-
-		// symbolic:
-
-		template<bool True, typename = filler>
-		struct fast_match_bool_value
-		{
-			template<typename Antecedent, typename Consequent>
-			using symbolic_induct = Antecedent;
-		};
-
-		template<typename Filler>
-		struct fast_match_bool_value<false, Filler>
-		{
-			template<typename Antecedent, typename Consequent>
-			using symbolic_induct = Consequent;
-		};
-
-		template<bool Value, typename Antecedent, typename Consequent>
-		using fast_if_then_else = typename fast_match_bool_value<Value>::template
-		symbolic_induct
-		<
-			Antecedent, Consequent
-		>;
-
 	// display:
 
 		// procedural:
 
-		static constexpr void bool_display(bool v)					{ printf("%s", v ? "true" : "false");	}
 		static constexpr void char_display(char v)					{ printf("%c", v);			}
 		static constexpr void unsigned_char_display(unsigned char v)			{ printf("%u", v);			}
 		static constexpr void signed_char_display(signed char v)			{ printf("%c", v);			}

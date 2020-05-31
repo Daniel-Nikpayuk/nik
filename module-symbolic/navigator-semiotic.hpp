@@ -21,28 +21,67 @@ enum struct Module : global_size_type
 // kernel:
 
 	builtin,
+
 	judgement,
+	bool_judgement,
+	char_judgement,
+	unsigned_char_judgement,
+	signed_char_judgement,
+	wchar_t_judgement,
+	char16_t_judgement,
+	char32_t_judgement,
+	unsigned_short_judgement,
+	signed_short_judgement,
+	unsigned_int_judgement,
+	signed_int_judgement,
+	unsigned_long_judgement,
+	signed_long_judgement,
+	unsigned_long_long_judgement,
+	signed_long_long_judgement,
 
 	pair,
 	copair,
-	boolean,
-	stem,
-	list,
-	colist,
-	function,
-	lambda,
 
-	operate,
+	hold,
+	pend,
+	stem,
+
+	judgement_list,
+	bool_list,
+	char_list,
+	unsigned_char_list,
+	signed_char_list,
+	wchar_t_list,
+	char16_t_list,
+	char32_t_list,
+	unsigned_short_list,
+	signed_short_list,
+	unsigned_int_list,
+	signed_int_list,
+	unsigned_long_list,
+	signed_long_list,
+	unsigned_long_long_list,
+	signed_long_long_list,
+
+	typename_list,
+
+	colist,
+
+	regular_text,
+
 	literal,
-	number,
+
 	natural8,
 	natural16,
 	natural32,
 	natural64,
+
 	integer8,
 	integer16,
 	integer32,
 	integer64,
+
+	number,
 
 // real:
 

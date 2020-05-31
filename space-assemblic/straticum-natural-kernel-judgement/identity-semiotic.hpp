@@ -24,9 +24,6 @@ struct identity
 
 		// symbolic:
 
-		template<bool Value1, bool Value2, typename Continuation = ch_symbolic_values>
-		using s_is_bool_equal = s_is_equal<bool, Value1, Value2, Continuation>;
-
 		template<char Value1, char Value2, typename Continuation = ch_symbolic_values>
 		using s_is_char_equal = s_is_equal<char, Value1, Value2, Continuation>;
 
@@ -74,9 +71,6 @@ struct identity
 			// is not implemented as it's better to use constexpr functions.
 
 		// procedural:
-
-		static constexpr bool (*p_is_bool_equal)(bool, bool) =
-		p_is_equal<bool>;
 
 		static constexpr bool (*p_is_char_equal)(char, char) =
 		p_is_equal<char>;

@@ -62,20 +62,48 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
-//#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., patronum, natural, kernel, builtin, symbolic, semiotic)				// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, builtin, symbolic, semiotic)				// redundant inclusion
 
 
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., patronum, natural, kernel, judgement, assemblic, semiotic)		// redundant inclusion
-//#include nik_source(., straticum, natural, kernel, judgement, assemblic, semiotic)		// judgement_display
-												// (builtin types)
-												// redundant inclusion
+//#include nik_source(., patronum, natural, kernel, judgement, assemblic, semiotic)				// redundant inclusion
 
-//#include nik_source(., patronum, natural, kernel, judgement, symbolic, semiotic)		// redundant inclusion
-#include nik_source(., straticum, natural, kernel, judgement, symbolic, semiotic)
+#include nik_source(., straticum, natural, kernel, bool_judgement, assemblic, semiotic)				// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char_judgement, assemblic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_char_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_char_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, wchar_t_judgement, assemblic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char16_t_judgement, assemblic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char32_t_judgement, assemblic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_short_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_short_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_int_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_int_judgement, assemblic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_long_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_long_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_long_long_judgement, assemblic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_long_long_judgement, assemblic, semiotic)		// redundant inclusion
+
+//#include nik_source(., patronum, natural, kernel, judgement, symbolic, semiotic)				// redundant inclusion
+
+//#include nik_source(., straticum, natural, kernel, bool_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_char_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_char_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, wchar_t_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char16_t_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, char32_t_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_short_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_short_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_int_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_int_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_long_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_long_judgement, symbolic, semiotic)			// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, unsigned_long_long_judgement, symbolic, semiotic)		// redundant inclusion
+//#include nik_source(., straticum, natural, kernel, signed_long_long_judgement, symbolic, semiotic)		// redundant inclusion
 
 
 /***********************************************************************************************************************/
@@ -98,8 +126,9 @@
 /***********************************************************************************************************************/
 
 
-#include nik_source(., straticum, natural, kernel, list, assemblic, semiotic)			// list_display
-												// (string literals)
+#include nik_source(., straticum, natural, kernel, char_list, assemblic, semiotic)				// 
+														// string literal
+														// display
 
 
 /***********************************************************************************************************************/

@@ -1,0 +1,15 @@
+bool
+char
+unsigned_char
+signed_char
+wchar_t
+char16_t
+char32_t
+unsigned_short
+signed_short
+unsigned_int
+signed_int
+unsigned_long
+signed_long
+unsigned_long_long
+signed_long_long

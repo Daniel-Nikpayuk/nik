@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__ss nik_module(straticum, natural, kernel, , symbolic, semiotic)
+#define snk_bool_judgement_as nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snk_embedding_ss_
+	#define PREFIX		snkbj_structure_as_
 
 #else
 
@@ -32,39 +32,6 @@
 
 //
 
-	bool
-	char
-	unsigned char
-	signed char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned short
-	signed short
-	unsigned int
-	signed int
-	unsigned long
-	signed long
-	unsigned long long
-	signed long long
-
-	bool
-	char
-	unsigned_char
-	signed_char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned_short
-	signed_short
-	unsigned_int
-	signed_int
-	unsigned_long
-	signed_long
-	unsigned_long_long
-	signed_long_long
-
-
 										  template
 										  <
 											typename Type,
@@ -73,43 +40,10 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_)						= typename snk__ss::embedding::template
-										  s_<Type, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_)				= typename snk_bool_judgement_as::structure::template
+										  s_bool_judgement_<Type, Continuation>;
 
 //
-
-	bool
-	char
-	unsigned char
-	signed char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned short
-	signed short
-	unsigned int
-	signed int
-	unsigned long
-	signed long
-	unsigned long long
-	signed long long
-
-	bool
-	char
-	unsigned_char
-	signed_char
-	wchar_t
-	char16_t
-	char32_t
-	unsigned_short
-	signed_short
-	unsigned_int
-	signed_int
-	unsigned_long
-	signed_long
-	unsigned_long_long
-	signed_long_long
-
 
 										  template
 										  <
@@ -119,14 +53,14 @@
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr nik_safe(PREFIX, a_)					= snk__ss::embedding::template
-										  a_<Type, Continuation>;
+	static constexpr nik_safe(PREFIX, a_bool_judgement_)			= snk_bool_judgement_as::structure::template
+										  a_bool_judgement_<Type, Continuation>;
 
 //
 
 #undef PREFIX
 
-#undef snk__ss
+#undef snk_bool_judgement_as
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"
