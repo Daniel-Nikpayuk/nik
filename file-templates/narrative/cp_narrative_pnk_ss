@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cp_narrative "patronum" "natural" "kernel" "$1" "symbolic" "semiotic"
-

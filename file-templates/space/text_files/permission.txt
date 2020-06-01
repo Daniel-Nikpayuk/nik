@@ -15,11 +15,24 @@
 **
 ************************************************************************************************************************/
 
-struct inductor
+namespace nik
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	nik_begin_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>)
 
-	template<>
-	using pattern_match_ = typename dependent_memoization<>::template pattern_match_<>;
-};
+		#include"inductor-<<<PERMISSION>>>.hpp"
+		#include"navigator-<<<PERMISSION>>>.hpp"
+
+		//
+
+		#include"identity-<<<PERMISSION>>>.hpp"
+		#include"proximity-<<<PERMISSION>>>.hpp"
+		#include"embedding-<<<PERMISSION>>>.hpp"
+
+		//
+
+		#include"structure-<<<PERMISSION>>>.hpp"
+		#include"filter-<<<PERMISSION>>>.hpp"
+
+	nik_end_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>)
+}
 

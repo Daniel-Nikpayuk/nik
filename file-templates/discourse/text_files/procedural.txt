@@ -1,0 +1,7 @@
+
+//
+
+										  template<typename Type>
+	static constexpr void nik_safe(PREFIX, p_<<<MODULE>>>_)			= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  p_<<<MODULE>>>_;
+

@@ -55,7 +55,7 @@
 										  >
 	static constexpr void nik_safe(PREFIX, a_<<<MODULE>>>_)			= <<<SIGNATURE>>>::<<<DIVISION>>>::template
 										  a_<<<MODULE>>>_<Type, Continuation>;
-
+<<<PROCEDURAL>>>
 //
 
 #undef PREFIX

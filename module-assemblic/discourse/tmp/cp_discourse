@@ -1,5 +1,0 @@
-#!/bin/bash
-
-TYPE="$1"
-
-ls files | while read file; do cp "files/$file" "../straticum-natural-kernel-$TYPE""_$file"; done

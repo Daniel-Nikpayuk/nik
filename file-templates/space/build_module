@@ -1,0 +1,57 @@
+#!/bin/bash
+
+build-module-division ()
+{
+	local LIBRARY="$1"
+	local UNIVERSE="$2"
+	local LANGUAGE="$3"
+	local MODULE="$4"
+	local DIVISION="$5"
+	local READING="$6"
+	local PERMISSION="$7"
+
+	local PROCEDURAL="$(if [ "$READING" = "assemblic" ]; then echo "$(cat "text_files/procedural.txt")\n"; else echo ""; fi)"
+
+	local mawk_prog='BEGIN {
+		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);
+		E_PREFIX=PREFIX substr(MODULE,1,1);
+		SUFFIX=substr(READING,1,1) substr(PERMISSION,1,1);
+
+		SIGNATURE=PREFIX "_" MODULE "_" SUFFIX;
+		E_SIGNATURE=E_PREFIX "_" DIVISION "_" SUFFIX;
+	}
+	{
+		gsub("<<<PROCEDURAL>>>", PROCEDURAL);
+
+		gsub("<<<LIBRARY>>>", LIBRARY);
+		gsub("<<<UNIVERSE>>>", UNIVERSE);
+		gsub("<<<LANGUAGE>>>", LANGUAGE);
+		gsub("<<<MODULE>>>", MODULE);
+		gsub("<<<DIVISION>>>", DIVISION);
+		gsub("<<<READING>>>", READING);
+		gsub("<<<PERMISSION>>>", PERMISSION);
+
+		gsub("<<<SIGNATURE>>>", SIGNATURE);
+		gsub("<<<E_SIGNATURE>>>", E_SIGNATURE);
+
+		print $0;
+	}'
+
+	local FILE="$(if [ "$DIVISION" = "alias" -o "$DIVISION" = "inductor" ]; then echo "$DIVISION"; else echo "discourse"; fi)"
+
+	cat "text_files/$FILE.txt"												|
+	mawk															\
+		-v PROCEDURAL="$PROCEDURAL"											\
+		-v LIBRARY="$LIBRARY"												\
+		-v UNIVERSE="$UNIVERSE"												\
+		-v LANGUAGE="$LANGUAGE"												\
+		-v MODULE="$MODULE"												\
+		-v DIVISION="$DIVISION"												\
+		-v READING="$READING"												\
+		-v PERMISSION="$PERMISSION"											\
+																\
+	"$mawk_prog" > "$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE/$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$DIVISION-$PERMISSION.h"
+}
+
+build-module-division "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+

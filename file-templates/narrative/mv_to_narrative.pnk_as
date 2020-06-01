@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MODULE="$1"
+
+mv_to_narrative "patronum" "natural" "kernel" "$MODULE" "assemblic" "semiotic"
+

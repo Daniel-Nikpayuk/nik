@@ -18,7 +18,7 @@
 #ifndef NIK_<<<U_LIBRARY>>>_<<<U_UNIVERSE>>>_<<<U_LANGUAGE>>>_<<<U_MODULE>>>_<<<U_READING>>>_<<<U_PERMISSION>>>_H
 #define NIK_<<<U_LIBRARY>>>_<<<U_UNIVERSE>>>_<<<U_LANGUAGE>>>_<<<U_MODULE>>>_<<<U_READING>>>_<<<U_PERMISSION>>>_H
 
-	#include"<<<N_PATH>>>patronum-natural-kernel-builtin-semiotic.h"
+<<<DEPENDENCIES>>>
 
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 

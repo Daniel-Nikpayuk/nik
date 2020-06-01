@@ -1,0 +1,51 @@
+#!/bin/bash
+
+build-narrative ()
+{
+	local LIBRARY="$1"
+	local UNIVERSE="$2"
+	local LANGUAGE="$3"
+	local MODULE="$4"
+	local READING="$5"
+	local PERMISSION="$6"
+	local OPTIONAL="$7"
+
+	local DEPENDENCIES="$(if [ -n "$OPTIONAL" ]; then cat "dependency_files/$READING-$OPTIONAL.txt"; else echo ""; fi)"
+
+	local mawk_prog='
+	{
+		gsub("<<<LIBRARY>>>", LIBRARY);
+		gsub("<<<UNIVERSE>>>", UNIVERSE);
+		gsub("<<<LANGUAGE>>>", LANGUAGE);
+		gsub("<<<MODULE>>>", MODULE);
+		gsub("<<<READING>>>", READING);
+		gsub("<<<PERMISSION>>>", PERMISSION);
+
+		gsub("<<<U_LIBRARY>>>", toupper(LIBRARY));
+		gsub("<<<U_UNIVERSE>>>", toupper(UNIVERSE));
+		gsub("<<<U_LANGUAGE>>>", toupper(LANGUAGE));
+		gsub("<<<U_MODULE>>>", toupper(MODULE));
+		gsub("<<<U_READING>>>", toupper(READING));
+		gsub("<<<U_PERMISSION>>>", toupper(PERMISSION));
+
+		gsub("<<<DEPENDENCIES>>>", DEPENDENCIES);
+
+		print $0;
+	}'
+
+	cat "text_files/narrative.txt"						|
+	mawk									\
+		-v LIBRARY="$LIBRARY"						\
+		-v UNIVERSE="$UNIVERSE"						\
+		-v LANGUAGE="$LANGUAGE"						\
+		-v MODULE="$MODULE"						\
+		-v READING="$READING"						\
+		-v PERMISSION="$PERMISSION"					\
+		-v OPTIONAL="$OPTIONAL"						\
+		-v DEPENDENCIES="$DEPENDENCIES"					\
+										\
+	"$mawk_prog" > "$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$PERMISSION.h"
+}
+
+build-narrative "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cp_discourse "patronum" "natural" "kernel" "$1" "assemblic" "semiotic"
-

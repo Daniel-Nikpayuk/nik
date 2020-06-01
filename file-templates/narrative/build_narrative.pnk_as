@@ -1,0 +1,4 @@
+#!/bin/bash
+
+build_narrative "patronum" "natural" "kernel" "$1" "assemblic" "semiotic" "builtin"
+

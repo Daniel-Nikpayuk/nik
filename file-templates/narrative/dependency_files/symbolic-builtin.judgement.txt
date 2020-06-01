@@ -1,0 +1,2 @@
+	#include"straticum-natural-kernel-builtin-semiotic.h"
+	#include"patronum-natural-kernel-judgement-semiotic.h"

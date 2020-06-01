@@ -15,11 +15,23 @@
 **
 ************************************************************************************************************************/
 
-struct inductor
+struct <<<DIVISION>>>
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+<<<DEPENDENCIES>>>
 
-	template<>
-	using pattern_match_ = typename dependent_memoization<>::template pattern_match_<>;
+	// :
+
+		// symbolic:
+
+		template<char Value1, char Value2, typename Continuation = ch_symbolic_values>
+		using s_is_char_equal = s_is_equal<char, Value1, Value2, Continuation>;
+
+		// assemblic:
+
+		// procedural:
+
+		static constexpr bool (*p_is_char_equal)(char, char) =
+		p_is_equal<char>;
 };
 
