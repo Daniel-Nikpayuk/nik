@@ -10,7 +10,8 @@ build-module-division ()
 	local READING="$6"
 	local PERMISSION="$7"
 
-	local PROCEDURAL="$(if [ "$READING" = "assemblic" ]; then echo "$(cat "text_files/procedural.txt")\n"; else echo ""; fi)"
+	local DEPENDENCIES=""
+#	local PROCEDURAL="$(if [ "$READING" = "assemblic" ]; then echo "$(cat "text_files/procedural.txt")\n"; else echo ""; fi)"
 
 	local mawk_prog='BEGIN {
 		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);

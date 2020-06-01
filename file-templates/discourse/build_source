@@ -1,0 +1,75 @@
+#!/bin/bash
+
+build-source ()
+{
+	local LIBRARY="$1"
+	local UNIVERSE="$2"
+	local LANGUAGE="$3"
+	local MODULE="$4"
+	local DIVISION="$5"
+	local READING="$6"
+	local PERMISSION="$7"
+
+	local SOURCE_DIR="$(if [ -z $8 ]; then echo "files.source"; else echo "$8"; fi)"
+#
+	local SIZE_TYPE_TEXT="$(cat "files.source/size_type.txt")"
+	local DISCOURSE_TEXT=""
+	local BODY_TEXT=""
+	local SYMBOLIC_TEXT=""
+	local ASSEMBLIC_TEXT=""
+	local PROCEDURAL_TEXT=""
+#
+	local DISCOURSE_NAME=""
+	local BODY_NAME=""
+
+	if [ "$DIVISION" = "alias" ]
+	then
+		DISCOURSE_NAME="alias"
+	else
+		DISCOURSE_NAME="signature"
+
+		if [ "$DIVISION" = "inductor" ]
+		then
+			BODY_NAME="inductor"
+		else
+			BODY_NAME="sap"
+
+			SYMBOLIC_TEXT="$(cat "$SOURCE_DIR/symbolic.txt")"
+			ASSEMBLIC_TEXT="$(cat "$SOURCE_DIR/assemblic.txt")"
+
+			if [ "$READING" = "assemblic" ]
+			then
+				PROCEDURAL_TEXT="$(cat "$SOURCE_DIR/procedural.txt")"
+			fi
+		fi
+
+		BODY_TEXT="$(cat "files.source/body-$BODY_NAME.txt")"
+	fi
+
+	DISCOURSE_TEXT="$(cat "files.source/discourse-$DISCOURSE_NAME.txt")"
+#
+	local mawk_prog='
+	{
+		gsub("<<<DISCOURSE_TEXT>>>", DISCOURSE_TEXT);
+		gsub("<<<BODY_TEXT>>>", BODY_TEXT);
+
+		gsub("<<<SYMBOLIC_TEXT>>>", SYMBOLIC_TEXT);
+		gsub("<<<ASSEMBLIC_TEXT>>>", ASSEMBLIC_TEXT);
+		gsub("<<<PROCEDURAL_TEXT>>>", PROCEDURAL_TEXT);
+
+		print $0;
+	}'
+
+	cat "files.source/size_type.txt"			|
+	mawk							\
+		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"		\
+		-v BODY_TEXT="$BODY_TEXT"			\
+		-v SYMBOLIC_TEXT="$SYMBOLIC_TEXT"		\
+		-v ASSEMBLIC_TEXT="$ASSEMBLIC_TEXT"		\
+		-v PROCEDURAL_TEXT="$PROCEDURAL_TEXT"		\
+								\
+	"$mawk_prog"
+}
+
+build-source "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+

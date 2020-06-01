@@ -1,0 +1,7 @@
+#!/bin/bash
+
+build_source "patronum" "natural" "kernel" "judgement" "alias" "symbolic" "semiotic" > "alias.txt"
+build_source "patronum" "natural" "kernel" "judgement" "inductor" "symbolic" "semiotic" > "inductor.txt"
+build_source "patronum" "natural" "kernel" "judgement" "embedding" "symbolic" "semiotic" > "embedding.txt"
+#build_discourse "patronum" "natural" "kernel" "$1" "symbolic" "semiotic"
+

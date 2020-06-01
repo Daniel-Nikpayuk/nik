@@ -1,0 +1,6 @@
+		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr void a_<<<MODULE>>>_ = pattern_match_<<<MODULE>>>_<Type, Exp>::template
+		assemblic_induct
+		<
+			Continuation
+		>;

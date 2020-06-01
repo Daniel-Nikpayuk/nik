@@ -1,0 +1,10 @@
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_<<<MODULE>>>_)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  s_<<<MODULE>>>_<Type, Continuation>;

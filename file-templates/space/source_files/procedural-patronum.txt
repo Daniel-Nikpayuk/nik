@@ -1,0 +1,1 @@
+		static constexpr void p_<<<MODULE>>>_() { return ; }

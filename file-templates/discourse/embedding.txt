@@ -17,12 +17,12 @@
 
 #include"define-size_type.h"
 
-#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+<<<DEF_DEPENDENCIES>>>
 #define <<<SIGNATURE>>> nik_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>)
 
 #ifdef safe_name
 
-	#define PREFIX		<<<E_SIGNATURE>>>_
+	#define PREFIX		<<<DIV_SIGNATURE>>>_
 
 #else
 
@@ -55,13 +55,13 @@
 										  >
 	static constexpr void nik_safe(PREFIX, a_<<<MODULE>>>_)			= <<<SIGNATURE>>>::<<<DIVISION>>>::template
 										  a_<<<MODULE>>>_<Type, Continuation>;
-<<<PROCEDURAL>>>
+
 //
 
 #undef PREFIX
 
 #undef <<<SIGNATURE>>>
-#undef pnk_builtin_ss
+<<<UNDEF_DEPENDENCIES>>>
 
 #include"undef-size_type.h"
 

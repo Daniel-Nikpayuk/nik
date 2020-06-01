@@ -1,0 +1,1 @@
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)

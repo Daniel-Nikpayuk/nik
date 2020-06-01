@@ -1,7 +1,9 @@
 #!/bin/bash
 
-build-module-division ()
+build-division ()
 {
+	local SOURCE_TEXT="$1"
+
 	local LIBRARY="$1"
 	local UNIVERSE="$2"
 	local LANGUAGE="$3"
@@ -9,8 +11,6 @@ build-module-division ()
 	local DIVISION="$5"
 	local READING="$6"
 	local PERMISSION="$7"
-
-	local PROCEDURAL="$(if [ "$READING" = "assemblic" ]; then echo "$(cat "text_files/procedural.txt")\n"; else echo ""; fi)"
 
 	local mawk_prog='BEGIN {
 		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);
@@ -39,9 +39,14 @@ build-module-division ()
 
 	local FILE="$(if [ "$DIVISION" = "alias" -o "$DIVISION" = "inductor" ]; then echo "$DIVISION"; else echo "discourse"; fi)"
 
-	cat "text_files/$FILE.txt"												|
+	cat "files.source/size_type.txt"											|
 	mawk															\
-		-v PROCEDURAL="$PROCEDURAL"											\
+		-v SIZE_TYPE_TEXT="$SIZE_TYPE_TEXT"										\
+		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"										\
+		-v SYMBOLIC_TEXT="$DISCOURSE_TEXT"										\
+		-v ASSEMBLIC_TEXT="$DISCOURSE_TEXT"										\
+		-v PROCEDURAL_TEXT="$DISCOURSE_TEXT"										\
+																\
 		-v LIBRARY="$LIBRARY"												\
 		-v UNIVERSE="$UNIVERSE"												\
 		-v LANGUAGE="$LANGUAGE"												\
@@ -53,5 +58,5 @@ build-module-division ()
 	"$mawk_prog" > "$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE/$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$DIVISION-$PERMISSION.h"
 }
 
-build-module-division "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+build-module-division "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "$11" "$12"
 

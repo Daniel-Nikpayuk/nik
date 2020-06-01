@@ -1,0 +1,23 @@
+<<<DEF_DEPENDENCIES>>>
+#define <<<SIGNATURE>>> nik_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>)
+
+#ifdef safe_name
+
+	#define PREFIX		<<<DIV_SIGNATURE>>>_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+<<<BODY_TEXT>>>
+
+//
+
+#undef PREFIX
+
+#undef <<<SIGNATURE>>>
+<<<UNDEF_DEPENDENCIES>>>

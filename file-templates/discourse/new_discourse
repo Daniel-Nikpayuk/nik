@@ -1,0 +1,45 @@
+#!/bin/bash
+
+S_T_TXT="$(cat "files.source/size_type.txt")"
+ALIAS="$(if [ "$DIVISION" = "alias"]; then echo "$DIVISION"; else echo "discourse"; fi)"
+D_TXT="$(cat "files.source/$ALIAS.txt")"
+
+S_TXT=""
+A_TXT=""
+P_TXT=""
+
+if [ "$DIVISION" != "alias" ]
+then
+	S_TXT="$(cat "files.source.module/symbolic-$LIBRARY.txt")"
+	A_TXT="$(cat "files.source.module/assemblic-$LIBRARY.txt")"
+	P_TXT="$(if [ "$READING" = "assemblic" ];then echo "$(cat "files.source.module/procedural-$LIBRARY.txt")"; else echo ""; fi)"
+fi
+
+# $1 = LIBRARY
+# $2 = UNIVERSE
+# $3 = LANGUAGE
+# $4 = MODULE
+# $5 = READING
+# $6 = PERMISSION
+
+DIR="$1-$2-$3-$4-$5"
+
+if [ ! -d "$DIR" ]; then mkdir "$DIR"; fi
+
+source "build_module_divsion"
+
+DIVISION_TEXT="$(build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT")"
+build_division "$1" "$2" "$3" "$4" "alias"     "$5" "$6"
+
+DIVISION_TEXT="$(build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT")"
+build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT" "$1" "$2" "$3" "$4" "inductor"  "$5" "$6"
+
+DIVISION_TEXT="$(build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT")"
+build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT" "$1" "$2" "$3" "$4" "identity"  "$5" "$6"
+
+DIVISION_TEXT="$(build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT")"
+build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT" "$1" "$2" "$3" "$4" "embedding" "$5" "$6"
+
+DIVISION_TEXT="$(build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT")"
+build_division "$S_T_TXT" "$D_TXT" "$S_TXT" "$A_TXT" "$P_TXT" "$1" "$2" "$3" "$4" "structure" "$5" "$6"
+
