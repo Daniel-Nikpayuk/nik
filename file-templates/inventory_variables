@@ -1,0 +1,34 @@
+#!/bin/bash
+
+inventory-variables ()
+{
+	local SOURCE_FILE="$1"
+	local OUT_FILE="$2"
+
+	local mawk_prog='
+	{
+		for (str = $0; str != "" && match(str, "<<<[_A-Z]+>>>"); str = substr(str, RSTART + RLENGTH))
+			print substr(str, RSTART, RLENGTH);
+	}'
+
+	cat "$SOURCE_FILE" |
+	mawk															\
+																\
+	"$mawk_prog" >> "$OUT_FILE"
+}
+
+SOURCE_FOLDER="$1"
+TERMINAL_FILE="$2"
+TMP_FILE="$(if [ -n "$3" ]; then echo "$3"; else echo "tmp"; fi)"
+
+if [ -f "$TMP_FILE" ]; then rm "$TMP_FILE"; fi
+
+ls "$SOURCE_FOLDER" |
+while read file
+do
+	inventory-variables "$SOURCE_FOLDER/$file" "$TMP_FILE"
+done
+
+sort -u "$TMP_FILE" > "$TERMINAL_FILE"
+rm "$TMP_FILE"
+

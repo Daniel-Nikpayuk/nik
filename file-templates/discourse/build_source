@@ -10,14 +10,17 @@ build-source ()
 	local READING="$6"
 	local PERMISSION="$7"
 
-	local SOURCE_DIR="$(if [ -z $8 ]; then echo "files.source"; else echo "$8"; fi)"
+	local SOURCE_DIR="$8"
 #
 	local SIZE_TYPE_TEXT="$(cat "files.source/size_type.txt")"
 	local DISCOURSE_TEXT=""
 	local BODY_TEXT=""
+
+	local DEFINE_DEPENDENCIES_TEXT=""
 	local SYMBOLIC_TEXT=""
 	local ASSEMBLIC_TEXT=""
 	local PROCEDURAL_TEXT=""
+	local UNDEF_DEPENDENCIES_TEXT=""
 #
 	local DISCOURSE_NAME=""
 	local BODY_NAME=""
@@ -34,13 +37,16 @@ build-source ()
 		else
 			BODY_NAME="sap"
 
+			DEFINE_DEPENDENCIES_TEXT="$(cat "$SOURCE_DIR/define-dependencies.txt")\n"
 			SYMBOLIC_TEXT="$(cat "$SOURCE_DIR/symbolic.txt")"
 			ASSEMBLIC_TEXT="$(cat "$SOURCE_DIR/assemblic.txt")"
 
 			if [ "$READING" = "assemblic" ]
 			then
-				PROCEDURAL_TEXT="$(cat "$SOURCE_DIR/procedural.txt")"
+				PROCEDURAL_TEXT="\n\n//\n\n$(cat "$SOURCE_DIR/procedural.txt")"
 			fi
+
+			UNDEF_DEPENDENCIES_TEXT="\n$(cat "$SOURCE_DIR/undef-dependencies.txt")"
 		fi
 
 		BODY_TEXT="$(cat "files.source/body-$BODY_NAME.txt")"
@@ -53,23 +59,28 @@ build-source ()
 		gsub("<<<DISCOURSE_TEXT>>>", DISCOURSE_TEXT);
 		gsub("<<<BODY_TEXT>>>", BODY_TEXT);
 
+		gsub("<<<DEFINE_DEPENDENCIES_TEXT>>>", DEFINE_DEPENDENCIES_TEXT);
 		gsub("<<<SYMBOLIC_TEXT>>>", SYMBOLIC_TEXT);
 		gsub("<<<ASSEMBLIC_TEXT>>>", ASSEMBLIC_TEXT);
 		gsub("<<<PROCEDURAL_TEXT>>>", PROCEDURAL_TEXT);
+		gsub("<<<UNDEF_DEPENDENCIES_TEXT>>>", UNDEF_DEPENDENCIES_TEXT);
 
 		print $0;
 	}'
 
-	cat "files.source/size_type.txt"			|
-	mawk							\
-		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"		\
-		-v BODY_TEXT="$BODY_TEXT"			\
-		-v SYMBOLIC_TEXT="$SYMBOLIC_TEXT"		\
-		-v ASSEMBLIC_TEXT="$ASSEMBLIC_TEXT"		\
-		-v PROCEDURAL_TEXT="$PROCEDURAL_TEXT"		\
-								\
+	cat "files.source/size_type.txt"					|
+	mawk									\
+		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"				\
+		-v BODY_TEXT="$BODY_TEXT"					\
+		-v SYMBOLIC_TEXT="$SYMBOLIC_TEXT"				\
+		-v ASSEMBLIC_TEXT="$ASSEMBLIC_TEXT"				\
+		-v PROCEDURAL_TEXT="$PROCEDURAL_TEXT"				\
+										\
+		-v DEFINE_DEPENDENCIES_TEXT="$DEFINE_DEPENDENCIES_TEXT"		\
+		-v UNDEF_DEPENDENCIES_TEXT="$UNDEF_DEPENDENCIES_TEXT"		\
+										\
 	"$mawk_prog"
 }
 
-build-source "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+build-source "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
 

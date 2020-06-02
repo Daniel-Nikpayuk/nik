@@ -4,25 +4,23 @@ build-division ()
 {
 	local SOURCE_TEXT="$1"
 
-	local LIBRARY="$1"
-	local UNIVERSE="$2"
-	local LANGUAGE="$3"
-	local MODULE="$4"
-	local DIVISION="$5"
-	local READING="$6"
-	local PERMISSION="$7"
+	local LIBRARY="$2"
+	local UNIVERSE="$3"
+	local LANGUAGE="$4"
+	local MODULE="$5"
+	local DIVISION="$6"
+	local READING="$7"
+	local PERMISSION="$8"
 
 	local mawk_prog='BEGIN {
 		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);
-		E_PREFIX=PREFIX substr(MODULE,1,1);
+		DIV_PREFIX=PREFIX substr(MODULE,1,1);
 		SUFFIX=substr(READING,1,1) substr(PERMISSION,1,1);
 
 		SIGNATURE=PREFIX "_" MODULE "_" SUFFIX;
-		E_SIGNATURE=E_PREFIX "_" DIVISION "_" SUFFIX;
+		DIV_SIGNATURE=DIV_PREFIX "_" DIVISION "_" SUFFIX;
 	}
 	{
-		gsub("<<<PROCEDURAL>>>", PROCEDURAL);
-
 		gsub("<<<LIBRARY>>>", LIBRARY);
 		gsub("<<<UNIVERSE>>>", UNIVERSE);
 		gsub("<<<LANGUAGE>>>", LANGUAGE);
@@ -32,31 +30,28 @@ build-division ()
 		gsub("<<<PERMISSION>>>", PERMISSION);
 
 		gsub("<<<SIGNATURE>>>", SIGNATURE);
-		gsub("<<<E_SIGNATURE>>>", E_SIGNATURE);
+		gsub("<<<DIV_SIGNATURE>>>", DIV_SIGNATURE);
 
 		print $0;
 	}'
 
-	local FILE="$(if [ "$DIVISION" = "alias" -o "$DIVISION" = "inductor" ]; then echo "$DIVISION"; else echo "discourse"; fi)"
+# is required to match the OUT_DIR in the new_discourse script:
 
-	cat "files.source/size_type.txt"											|
-	mawk															\
-		-v SIZE_TYPE_TEXT="$SIZE_TYPE_TEXT"										\
-		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"										\
-		-v SYMBOLIC_TEXT="$DISCOURSE_TEXT"										\
-		-v ASSEMBLIC_TEXT="$DISCOURSE_TEXT"										\
-		-v PROCEDURAL_TEXT="$DISCOURSE_TEXT"										\
-																\
-		-v LIBRARY="$LIBRARY"												\
-		-v UNIVERSE="$UNIVERSE"												\
-		-v LANGUAGE="$LANGUAGE"												\
-		-v MODULE="$MODULE"												\
-		-v DIVISION="$DIVISION"												\
-		-v READING="$READING"												\
-		-v PERMISSION="$PERMISSION"											\
-																\
-	"$mawk_prog" > "$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE/$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$DIVISION-$PERMISSION.h"
+	local OUT_DIR="$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE"
+	local OUT_FILE="$DIVISION-$PERMISSION.h"
+
+	echo "$SOURCE_TEXT"						|
+	mawk								\
+		-v LIBRARY="$LIBRARY"					\
+		-v UNIVERSE="$UNIVERSE"					\
+		-v LANGUAGE="$LANGUAGE"					\
+		-v MODULE="$MODULE"					\
+		-v DIVISION="$DIVISION"					\
+		-v READING="$READING"					\
+		-v PERMISSION="$PERMISSION"				\
+									\
+	"$mawk_prog" > "$OUT_DIR/$OUT_FILE"
 }
 
-build-module-division "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" "$10" "$11" "$12"
+build-division "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
 
