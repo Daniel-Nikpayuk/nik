@@ -34,14 +34,15 @@
 
 										  template
 										  <
-											typename Type,
+											wchar_t Value1,
+											wchar_t Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_wchar_t_judgement_)					= typename snk_wchar_t_judgement_as::identity::template
-										  s_wchar_t_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_is_wchar_t_equal)				= typename snk_wchar_t_judgement_as::identity::template
+										  s_is_wchar_t_equal<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +59,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_wchar_t_judgement_))()		= snk_wchar_t_judgement_as::identity::
-												  p_wchar_t_judgement_;
+	static constexpr bool (*nik_safe(PREFIX, p_is_wchar_t_equal))(wchar_t, wchar_t) =
+		snk_wchar_t_judgement_as::identity::p_is_wchar_t_equal;
 
 //
 

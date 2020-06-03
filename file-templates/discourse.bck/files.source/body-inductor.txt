@@ -1,3 +1,0 @@
-										  template<typename Type>
-	using nik_safe(PREFIX, pattern_match_<<<MODULE>>>)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  pattern_match_<<<MODULE>>><Type>;

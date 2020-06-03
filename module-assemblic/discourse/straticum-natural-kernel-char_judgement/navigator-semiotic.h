@@ -34,14 +34,63 @@
 
 										  template
 										  <
-											typename Type,
+											char Value1,
+											char Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_char_judgement_)					= typename snk_char_judgement_as::navigator::template
-										  s_char_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_char_add)				= typename snk_char_judgement_as::navigator::template
+										  s_char_add<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											char Value1,
+											char Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_char_multiply)				= typename snk_char_judgement_as::navigator::template
+										  s_char_multiply<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											char Value1,
+											char Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_char_subtract)				= typename snk_char_judgement_as::navigator::template
+										  s_char_subtract<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											char Value1,
+											char Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_char_divide)				= typename snk_char_judgement_as::navigator::template
+										  s_char_divide<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											char Value1,
+											char Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_char_modulo)				= typename snk_char_judgement_as::navigator::template
+										  s_char_modulo<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +107,25 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_char_judgement_))()		= snk_char_judgement_as::navigator::
-												  p_char_judgement_;
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_char_add))(Type, Type)		= snk_char_judgement_as::navigator::
+												  p_char_judgement_add<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_char_multiply))(Type, Type)		= snk_char_judgement_as::navigator::
+												  p_char_judgement_multiply<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_char_subtract))(Type, Type)		= snk_char_judgement_as::navigator::
+												  p_char_judgement_subtract<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_char_divide))(Type, Type)		= snk_char_judgement_as::navigator::
+												  p_char_judgement_divide<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_char_modulo))(Type, Type)		= snk_char_judgement_as::navigator::
+												  p_char_judgement_modulo<TYPE>;
 
 //
 

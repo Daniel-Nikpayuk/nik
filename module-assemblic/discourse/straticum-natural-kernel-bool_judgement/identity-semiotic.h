@@ -34,14 +34,15 @@
 
 										  template
 										  <
-											typename Type,
+											bool Value1,
+											bool Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_judgement_)					= typename snk_bool_judgement_as::identity::template
-										  s_bool_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_is_bool_equal)				= typename snk_bool_judgement_as::identity::template
+										  s_is_bool_equal<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +59,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_bool_judgement_))()		= snk_bool_judgement_as::identity::
-												  p_bool_judgement_;
+	static constexpr bool (*nik_safe(PREFIX, p_is_bool_equal))(bool, bool) =
+		snk_bool_judgement_as::identity::p_is_bool_equal;
 
 //
 

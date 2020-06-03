@@ -58,8 +58,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_signed_long_long_judgement_))()		= snk_signed_long_long_judgement_as::embedding::
-												  p_signed_long_long_judgement_;
+	static constexpr void (*nik_safe(PREFIX, p_signed_long_long_display))() =
+		snk_signed_long_long_judgement_as::embedding::p_signed_long_long_display;
 
 //
 

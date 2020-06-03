@@ -34,14 +34,15 @@
 
 										  template
 										  <
-											typename Type,
+											unsigned int Value1,
+											unsigned int Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_unsigned_int_judgement_)					= typename snk_unsigned_int_judgement_as::identity::template
-										  s_unsigned_int_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_is_unsigned_int_equal)				= typename snk_unsigned_int_judgement_as::identity::template
+										  s_is_unsigned_int_equal<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +59,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_unsigned_int_judgement_))()		= snk_unsigned_int_judgement_as::identity::
-												  p_unsigned_int_judgement_;
+	static constexpr bool (*nik_safe(PREFIX, p_is_unsigned_int_equal))(unsigned int, unsigned int) =
+		snk_unsigned_int_judgement_as::identity::p_is_unsigned_int_equal;
 
 //
 

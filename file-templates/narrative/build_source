@@ -1,0 +1,51 @@
+#!/bin/bash
+
+get-text()
+{
+	local FILE_NAME="$1"
+	local MODULE_DIR="$2"
+	local SOURCE_DIR="$3"
+
+	local TEXT_FILE=""
+
+	if [ -f "$MODULE_DIR/$FILE_NAME" ]
+	then
+		TEXT_FILE="$MODULE_DIR/$FILE_NAME"
+	else
+		TEXT_FILE="$SOURCE_DIR/$FILE_NAME"
+	fi
+
+	cat "$TEXT_FILE"
+}
+
+build-source ()
+{
+	local LIBRARY="$1"
+	local UNIVERSE="$2"
+	local LANGUAGE="$3"
+	local MODULE="$4"
+	local READING="$5"
+	local PERMISSION="$6"
+#
+	local SOURCE_DIR="files.source"
+	local MODULE_DIR="$SOURCE_DIR$(if [ -n "$7" ]; then echo ".$7"; else echo ""; fi)"
+#
+	local NARRATIVE_TEXT="$(get-text "narrative.txt" "$MODULE_DIR" "$SOURCE_DIR")"
+	local DEPENDENCIES_TEXT="$(get-text "$READING.txt" "$MODULE_DIR" "$SOURCE_DIR")"
+
+	local mawk_prog='BEGIN { if (length(DEPENDENCIES_TEXT)) DEPENDENCIES_TEXT="\n" DEPENDENCIES_TEXT "\n"; }
+	{
+		gsub("<<<DEPENDENCIES_TEXT>>>", DEPENDENCIES_TEXT);
+
+		print $0;
+	}'
+
+	echo "$NARRATIVE_TEXT"						|
+	mawk								\
+		-v DEPENDENCIES_TEXT="$DEPENDENCIES_TEXT"		\
+									\
+	"$mawk_prog"
+}
+
+build-source "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+

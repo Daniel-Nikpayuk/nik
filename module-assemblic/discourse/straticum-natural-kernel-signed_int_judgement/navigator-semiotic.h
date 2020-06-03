@@ -34,14 +34,63 @@
 
 										  template
 										  <
-											typename Type,
+											signed int Value1,
+											signed int Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_signed_int_judgement_)					= typename snk_signed_int_judgement_as::navigator::template
-										  s_signed_int_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_signed_int_add)				= typename snk_signed_int_judgement_as::navigator::template
+										  s_signed_int_add<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											signed int Value1,
+											signed int Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_int_multiply)				= typename snk_signed_int_judgement_as::navigator::template
+										  s_signed_int_multiply<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											signed int Value1,
+											signed int Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_int_subtract)				= typename snk_signed_int_judgement_as::navigator::template
+										  s_signed_int_subtract<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											signed int Value1,
+											signed int Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_int_divide)				= typename snk_signed_int_judgement_as::navigator::template
+										  s_signed_int_divide<Value1, Value2, Continuation>;
+
+										  template
+										  <
+											signed int Value1,
+											signed int Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_int_modulo)				= typename snk_signed_int_judgement_as::navigator::template
+										  s_signed_int_modulo<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +107,25 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_signed_int_judgement_))()		= snk_signed_int_judgement_as::navigator::
-												  p_signed_int_judgement_;
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_signed_int_add))(Type, Type)		= snk_signed_int_judgement_as::navigator::
+												  p_signed_int_judgement_add<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_signed_int_multiply))(Type, Type)		= snk_signed_int_judgement_as::navigator::
+												  p_signed_int_judgement_multiply<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_signed_int_subtract))(Type, Type)		= snk_signed_int_judgement_as::navigator::
+												  p_signed_int_judgement_subtract<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_signed_int_divide))(Type, Type)		= snk_signed_int_judgement_as::navigator::
+												  p_signed_int_judgement_divide<TYPE>;
+
+												  template<typename Type>
+	static constexpr Type (*nik_safe(PREFIX, p_signed_int_modulo))(Type, Type)		= snk_signed_int_judgement_as::navigator::
+												  p_signed_int_judgement_modulo<TYPE>;
 
 //
 

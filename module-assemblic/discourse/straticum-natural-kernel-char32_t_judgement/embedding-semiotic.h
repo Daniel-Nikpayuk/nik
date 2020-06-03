@@ -58,8 +58,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_char32_t_judgement_))()		= snk_char32_t_judgement_as::embedding::
-												  p_char32_t_judgement_;
+	static constexpr void (*nik_safe(PREFIX, p_char32_t_display))() =
+		snk_char32_t_judgement_as::embedding::p_char32_t_display;
 
 //
 

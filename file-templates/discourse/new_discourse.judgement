@@ -21,9 +21,10 @@ do
 	cat "divisions.txt"	|
 	while read division
 	do
-		SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$u_type""_judgement" "$division" "$READING" "$PERMISSION")"
-		DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$u_type""_judgement" "$division"	\
-				 "$READING" "$PERMISSION")"
+		SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE"							\
+				"$u_type""_judgement" "$division" "$READING" "$PERMISSION" "judgement.$READING")"
+		DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE"						\
+				"$LANGUAGE" "$u_type""_judgement" "$division" "$READING" "$PERMISSION")"
 		JUDGEMENT_TEXT="$(build_division.judgement "$DIVISION_TEXT" "$u_type" "$type")"
 
 		echo "$JUDGEMENT_TEXT" > "$OUT_DIR/$division-$PERMISSION.h"

@@ -58,8 +58,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_bool_judgement_))()		= snk_bool_judgement_as::embedding::
-												  p_bool_judgement_;
+	static constexpr void (*nik_safe(PREFIX, p_bool_display))() =
+		snk_bool_judgement_as::embedding::p_bool_display;
 
 //
 

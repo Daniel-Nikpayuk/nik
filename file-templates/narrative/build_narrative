@@ -2,15 +2,14 @@
 
 build-narrative ()
 {
-	local LIBRARY="$1"
-	local UNIVERSE="$2"
-	local LANGUAGE="$3"
-	local MODULE="$4"
-	local READING="$5"
-	local PERMISSION="$6"
-	local OPTIONAL="$7"
+	local SOURCE_TEXT="$1"
 
-	local DEPENDENCIES="$(if [ -n "$OPTIONAL" ]; then cat "dependency_files/$READING-$OPTIONAL.txt"; else echo ""; fi)"
+	local LIBRARY="$2"
+	local UNIVERSE="$3"
+	local LANGUAGE="$4"
+	local MODULE="$5"
+	local READING="$6"
+	local PERMISSION="$7"
 
 	local mawk_prog='
 	{
@@ -28,12 +27,10 @@ build-narrative ()
 		gsub("<<<U_READING>>>", toupper(READING));
 		gsub("<<<U_PERMISSION>>>", toupper(PERMISSION));
 
-		gsub("<<<DEPENDENCIES>>>", DEPENDENCIES);
-
 		print $0;
 	}'
 
-	cat "text_files/narrative.txt"						|
+	echo "$SOURCE_TEXT"							|
 	mawk									\
 		-v LIBRARY="$LIBRARY"						\
 		-v UNIVERSE="$UNIVERSE"						\
@@ -41,10 +38,8 @@ build-narrative ()
 		-v MODULE="$MODULE"						\
 		-v READING="$READING"						\
 		-v PERMISSION="$PERMISSION"					\
-		-v OPTIONAL="$OPTIONAL"						\
-		-v DEPENDENCIES="$DEPENDENCIES"					\
 										\
-	"$mawk_prog" > "$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$PERMISSION.h"
+	"$mawk_prog"
 }
 
 build-narrative "$1" "$2" "$3" "$4" "$5" "$6" "$7"

@@ -34,14 +34,15 @@
 
 										  template
 										  <
-											typename Type,
+											unsigned long long Value1,
+											unsigned long long Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_unsigned_long_long_judgement_)					= typename snk_unsigned_long_long_judgement_as::identity::template
-										  s_unsigned_long_long_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, s_is_unsigned_long_long_equal)				= typename snk_unsigned_long_long_judgement_as::identity::template
+										  s_is_unsigned_long_long_equal<Value1, Value2, Continuation>;
 
 //
 
@@ -58,8 +59,8 @@
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_unsigned_long_long_judgement_))()		= snk_unsigned_long_long_judgement_as::identity::
-												  p_unsigned_long_long_judgement_;
+	static constexpr bool (*nik_safe(PREFIX, p_is_unsigned_long_long_equal))(unsigned long long, unsigned long long) =
+		snk_unsigned_long_long_judgement_as::identity::p_is_unsigned_long_long_equal;
 
 //
 

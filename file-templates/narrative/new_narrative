@@ -1,0 +1,19 @@
+#!/bin/bash
+
+LIBRARY="$1"
+UNIVERSE="$2"
+LANGUAGE="$3"
+MODULE="$4"
+READING="$5"
+PERMISSION="$6"
+OPTION="$7"
+
+OUT_FILE="$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$PERMISSION.h"
+
+# doesn't reuse source texts because it can't assume they're identical for custom builds.
+
+SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$READING" "$PERMISSION" "$OPTION")"
+NARRATIVE_TEXT="$(build_narrative "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$READING" "$PERMISSION")"
+
+echo "$NARRATIVE_TEXT" > "$OUT_FILE.h"
+

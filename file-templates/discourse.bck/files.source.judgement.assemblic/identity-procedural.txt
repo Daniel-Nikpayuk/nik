@@ -1,2 +1,0 @@
-	static constexpr bool (*nik_safe(PREFIX, p_is_<<<U_TYPE>>>_equal))(<<<TYPE>>>, <<<TYPE>>>) =
-		<<<SIGNATURE>>>::<<<DIVISION>>>::p_is_<<<U_TYPE>>>_equal;

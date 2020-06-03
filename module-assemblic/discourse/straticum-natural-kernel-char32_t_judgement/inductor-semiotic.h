@@ -31,9 +31,9 @@
 
 //
 
-										  template<typename Type>
+										  template<auto Value>
 	using nik_safe(PREFIX, pattern_match_char32_t_judgement)			= typename snk_char32_t_judgement_as::inductor::template
-										  pattern_match_char32_t_judgement<Type>;
+										  pattern_match_char32_t_judgement<Value>;
 
 //
 

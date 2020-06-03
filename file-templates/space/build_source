@@ -34,7 +34,7 @@ build-source ()
 	local PERMISSION="$7"
 #
 	local SOURCE_DIR="files.source"
-	local MODULE_DIR="$SOURCE_DIR.$MODULE.$READING"
+	local MODULE_DIR="$SOURCE_DIR$(if [ -n "$8" ]; then echo ".$8"; else echo ""; fi)"
 #
 	local SIZE_TYPE_TEXT=""
 	local DISCOURSE_TEXT=""

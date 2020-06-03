@@ -31,9 +31,9 @@
 
 //
 
-										  template<typename Type>
+										  template<auto Value>
 	using nik_safe(PREFIX, pattern_match_signed_short_judgement)			= typename snk_signed_short_judgement_as::inductor::template
-										  pattern_match_signed_short_judgement<Type>;
+										  pattern_match_signed_short_judgement<Value>;
 
 //
 
