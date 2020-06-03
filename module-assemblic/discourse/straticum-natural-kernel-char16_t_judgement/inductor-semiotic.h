@@ -17,7 +17,28 @@
 
 #include"define-size_type.h"
 
-	using snk_judgement_as = nik_module(straticum, natural, kernel, judgement, assemblic, semiotic);
+#define snk_char16_t_judgement_as nik_module(straticum, natural, kernel, char16_t_judgement, assemblic, semiotic)
+
+#ifdef safe_name
+
+	#define PREFIX		snkc_inductor_as_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template<typename Type>
+	using nik_safe(PREFIX, pattern_match_char16_t_judgement)			= typename snk_char16_t_judgement_as::inductor::template
+										  pattern_match_char16_t_judgement<Type>;
+
+//
+
+#undef PREFIX
+
+#undef snk_char16_t_judgement_as
 
 #include"undef-size_type.h"
-

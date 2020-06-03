@@ -1,0 +1,1 @@
+	using <<<SIGNATURE>>> = nik_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>);

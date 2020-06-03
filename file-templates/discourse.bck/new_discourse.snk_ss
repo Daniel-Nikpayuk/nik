@@ -1,0 +1,4 @@
+#!/bin/bash
+
+new_discourse "straticum" "natural" "kernel" "$1" "symbolic" "semiotic"
+

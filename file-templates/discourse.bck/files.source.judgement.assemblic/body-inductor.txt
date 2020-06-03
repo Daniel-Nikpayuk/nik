@@ -1,0 +1,3 @@
+										  template<auto Value>
+	using nik_safe(PREFIX, pattern_match_<<<MODULE>>>)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  pattern_match_<<<MODULE>>><Value>;

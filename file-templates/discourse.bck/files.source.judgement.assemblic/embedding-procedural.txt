@@ -1,0 +1,2 @@
+	static constexpr void (*nik_safe(PREFIX, p_<<<U_TYPE>>>_display))() =
+		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<U_TYPE>>>_display;

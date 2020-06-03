@@ -1,0 +1,10 @@
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value
+										  >
+	static constexpr void nik_safe(PREFIX, a_<<<MODULE>>>_)			= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  a_<<<MODULE>>>_<Type, Continuation>;

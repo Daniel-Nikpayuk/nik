@@ -18,11 +18,11 @@
 #include"define-size_type.h"
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define snk__judgement_as nik_module(straticum, natural, kernel, _judgement, assemblic, semiotic)
+#define snk_unsigned_long_judgement_as nik_module(straticum, natural, kernel, unsigned_long_judgement, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snkj_structure_as_
+	#define PREFIX		snku_filter_as_
 
 #else
 
@@ -40,8 +40,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s__judgement)					= typename snk__judgement_as::structure::template
-										  s__judgement<Type, Continuation>;
+	using nik_safe(PREFIX, s_unsigned_long_judgement_)					= typename snk_unsigned_long_judgement_as::filter::template
+										  s_unsigned_long_judgement_<Type, Continuation>;
 
 //
 
@@ -53,15 +53,19 @@
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr nik_safe(PREFIX, a__judgement)				= snk__judgement_as::structure::template
-										  a__judgement<Type, Continuation>;
+	static constexpr void nik_safe(PREFIX, a_unsigned_long_judgement_)			= snk_unsigned_long_judgement_as::filter::template
+										  a_unsigned_long_judgement_<Type, Continuation>;
+
+//
+
+	static constexpr void (*nik_safe(PREFIX, p_unsigned_long_judgement_))()		= snk_unsigned_long_judgement_as::filter::
+												  p_unsigned_long_judgement_;
 
 //
 
 #undef PREFIX
 
-#undef snk__judgement_as
+#undef snk_unsigned_long_judgement_as
 #undef pnk_builtin_ss
 
 #include"undef-size_type.h"
-
