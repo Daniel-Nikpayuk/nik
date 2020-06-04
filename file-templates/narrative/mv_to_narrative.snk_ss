@@ -1,6 +1,0 @@
-#!/bin/bash
-
-MODULE="$1"
-
-mv_to_narrative "straticum" "natural" "kernel" "$MODULE" "symbolic" "semiotic"
-

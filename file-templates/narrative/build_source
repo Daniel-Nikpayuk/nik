@@ -8,11 +8,11 @@ get-text()
 
 	local TEXT_FILE=""
 
-	if [ -f "$MODULE_DIR/$FILE_NAME" ]
+	if [ -f "$MODULE_DIR/$FILE_NAME.txt" ]
 	then
-		TEXT_FILE="$MODULE_DIR/$FILE_NAME"
+		TEXT_FILE="$MODULE_DIR/$FILE_NAME.txt"
 	else
-		TEXT_FILE="$SOURCE_DIR/$FILE_NAME"
+		TEXT_FILE="$SOURCE_DIR/$FILE_NAME.txt"
 	fi
 
 	cat "$TEXT_FILE"
@@ -30,8 +30,8 @@ build-source ()
 	local SOURCE_DIR="files.source"
 	local MODULE_DIR="$SOURCE_DIR$(if [ -n "$7" ]; then echo ".$7"; else echo ""; fi)"
 #
-	local NARRATIVE_TEXT="$(get-text "narrative.txt" "$MODULE_DIR" "$SOURCE_DIR")"
-	local DEPENDENCIES_TEXT="$(get-text "$READING.txt" "$MODULE_DIR" "$SOURCE_DIR")"
+	local NARRATIVE_TEXT="$(get-text "narrative" "$MODULE_DIR" "$SOURCE_DIR")"
+	local DEPENDENCIES_TEXT="$(get-text "$READING" "$MODULE_DIR" "$SOURCE_DIR")"
 
 	local mawk_prog='BEGIN { if (length(DEPENDENCIES_TEXT)) DEPENDENCIES_TEXT="\n" DEPENDENCIES_TEXT "\n"; }
 	{

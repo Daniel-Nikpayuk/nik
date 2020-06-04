@@ -9,15 +9,15 @@ get-text()
 
 	local TEXT_FILE=""
 
-	if [ -f "$MODULE_DIR/$DIVISION-$FILE_NAME" ]
+	if [ -f "$MODULE_DIR/$FILE_NAME-$DIVISION.txt" ]
 	then
-		TEXT_FILE="$MODULE_DIR/$DIVISION-$FILE_NAME"
+		TEXT_FILE="$MODULE_DIR/$FILE_NAME-$DIVISION.txt"
 
-	elif [ -f "$MODULE_DIR/$FILE_NAME" ]
+	elif [ -f "$MODULE_DIR/$FILE_NAME.txt" ]
 	then
-		TEXT_FILE="$MODULE_DIR/$FILE_NAME"
+		TEXT_FILE="$MODULE_DIR/$FILE_NAME.txt"
 	else
-		TEXT_FILE="$SOURCE_DIR/$FILE_NAME"
+		TEXT_FILE="$SOURCE_DIR/$FILE_NAME.txt"
 	fi
 
 	cat "$TEXT_FILE"
@@ -46,7 +46,7 @@ build-source ()
 	local PROCEDURAL_TEXT=""
 	local UNDEF_DEPENDENCIES_TEXT=""
 #
-	SIZE_TYPE_TEXT="$(get-text "size_type.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+	SIZE_TYPE_TEXT="$(get-text "size_type" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
 	local DISCOURSE_NAME=""
 	local BODY_NAME=""
@@ -63,22 +63,22 @@ build-source ()
 		else
 			BODY_NAME="sap"
 
-			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
-			SYMBOLIC_TEXT="$(get-text "symbolic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
-			ASSEMBLIC_TEXT="$(get-text "assemblic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			SYMBOLIC_TEXT="$(get-text "symbolic" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			ASSEMBLIC_TEXT="$(get-text "assemblic" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
 			if [ "$READING" = "assemblic" ]
 			then
-				PROCEDURAL_TEXT="\n\n//\n\n$(get-text "procedural.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+				PROCEDURAL_TEXT="\n\n//\n\n$(get-text "procedural" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			fi
 
-			UNDEF_DEPENDENCIES_TEXT="$(get-text "undef-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			UNDEF_DEPENDENCIES_TEXT="$(get-text "undef-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 		fi
 
-		BODY_TEXT="$(get-text "body-$BODY_NAME.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+		BODY_TEXT="$(get-text "body-$BODY_NAME" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 	fi
 
-	DISCOURSE_TEXT="$(get-text "discourse-$DISCOURSE_NAME.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+	DISCOURSE_TEXT="$(get-text "discourse-$DISCOURSE_NAME" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 #
 	local mawk_prog='
 	{

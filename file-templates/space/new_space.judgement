@@ -22,7 +22,7 @@ do
 	while read division
 	do
 		SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE"							\
-				"$u_type""_judgement" "$division" "$READING" "$PERMISSION" "judgement.$READING")"
+				"$u_type""_judgement" "$division" "$READING" "$PERMISSION" "straticum.judgement.$READING")"
 		DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE"						\
 				"$LANGUAGE" "$u_type""_judgement" "$division" "$READING" "$PERMISSION")"
 		JUDGEMENT_TEXT="$(build_division.judgement "$DIVISION_TEXT" "$u_type" "$printf_format" "$type")"

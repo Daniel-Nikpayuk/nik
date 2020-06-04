@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cat "../builtin_types.txt"	|
+while read u_type printf_format type
+do
+	new_narrative "straticum" "natural" "kernel" "$u_type""_judgement" "symbolic" "semiotic" "straticum.judgement.symbolic"
+done
+
