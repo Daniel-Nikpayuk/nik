@@ -16,7 +16,7 @@ fi
 
 # doesn't reuse source texts because it can't assume they're identical for custom builds.
 
-cat "divisions.txt" |
+cat "divisions.txt"	|
 while read division
 do
 	SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$division" "$READING" "$PERMISSION")"

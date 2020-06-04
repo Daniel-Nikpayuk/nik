@@ -1,15 +1,15 @@
-bool				bool
-char				char
-unsigned_char			unsigned char
-signed_char			signed char
-wchar_t				wchar_t
-char16_t			char16_t
-char32_t			char32_t
-unsigned_short			unsigned short
-signed_short			signed short
-unsigned_int			unsigned int
-signed_int			signed int
-unsigned_long			unsigned long
-signed_long			signed long
-unsigned_long_long		unsigned long long
-signed_long_long		signed long long
+bool				s  		bool
+char				c  		char
+unsigned_char			u  		unsigned char
+signed_char			c  		signed char
+wchar_t				c  		wchar_t
+char16_t			u  		char16_t
+char32_t			u  		char32_t
+unsigned_short			u  		unsigned short
+signed_short			d  		signed short
+unsigned_int			u  		unsigned int
+signed_int			d  		signed int
+unsigned_long			lu 		unsigned long
+signed_long			ld 		signed long
+unsigned_long_long		llu		unsigned long long
+signed_long_long		lld		signed long long

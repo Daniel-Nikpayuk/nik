@@ -63,7 +63,7 @@ build-source ()
 		else
 			BODY_NAME="sap"
 
-			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")\n"
+			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			SYMBOLIC_TEXT="$(get-text "symbolic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			ASSEMBLIC_TEXT="$(get-text "assemblic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
@@ -72,7 +72,7 @@ build-source ()
 				PROCEDURAL_TEXT="\n\n//\n\n$(get-text "procedural.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			fi
 
-			UNDEF_DEPENDENCIES_TEXT="\n$(get-text "undef-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			UNDEF_DEPENDENCIES_TEXT="$(get-text "undef-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 		fi
 
 		BODY_TEXT="$(get-text "body-$BODY_NAME.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
@@ -98,11 +98,10 @@ build-source ()
 	mawk									\
 		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"				\
 		-v BODY_TEXT="$BODY_TEXT"					\
+		-v DEFINE_DEPENDENCIES_TEXT="$DEFINE_DEPENDENCIES_TEXT"		\
 		-v SYMBOLIC_TEXT="$SYMBOLIC_TEXT"				\
 		-v ASSEMBLIC_TEXT="$ASSEMBLIC_TEXT"				\
 		-v PROCEDURAL_TEXT="$PROCEDURAL_TEXT"				\
-										\
-		-v DEFINE_DEPENDENCIES_TEXT="$DEFINE_DEPENDENCIES_TEXT"		\
 		-v UNDEF_DEPENDENCIES_TEXT="$UNDEF_DEPENDENCIES_TEXT"		\
 										\
 	"$mawk_prog"

@@ -1,0 +1,6 @@
+	// :
+
+		// symbolic:
+<<<SYMBOLIC_TEXT>>>
+		// assemblic:
+<<<ASSEMBLIC_TEXT>>><<<PROCEDURAL_TEXT>>>

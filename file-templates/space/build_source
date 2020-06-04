@@ -36,26 +36,27 @@ build-source ()
 	local SOURCE_DIR="files.source"
 	local MODULE_DIR="$SOURCE_DIR$(if [ -n "$8" ]; then echo ".$8"; else echo ""; fi)"
 #
-	local SIZE_TYPE_TEXT=""
+	local COPYRIGHT_TEXT=""
 	local DISCOURSE_TEXT=""
 	local BODY_TEXT=""
 
-	local DEFINE_DEPENDENCIES_TEXT=""
+	local DEPENDENCIES_TEXT=""
 	local SYMBOLIC_TEXT=""
 	local ASSEMBLIC_TEXT=""
 	local PROCEDURAL_TEXT=""
-	local UNDEF_DEPENDENCIES_TEXT=""
 #
-	SIZE_TYPE_TEXT="$(get-text "size_type.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+	COPYRIGHT_TEXT="$(get-text "copyright.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
 	local DISCOURSE_NAME=""
 	local BODY_NAME=""
 
-	if [ "$DIVISION" = "alias" ]
+	if [ "$DIVISION" = "permission" ]
 	then
-		DISCOURSE_NAME="alias"
+		DISCOURSE_NAME="permission"
 	else
-		DISCOURSE_NAME="signature"
+		DISCOURSE_NAME="division"
+
+		DEPENDENCIES_TEXT="$(get-text "dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")\n\n"
 
 		if [ "$DIVISION" = "inductor" ]
 		then
@@ -63,16 +64,13 @@ build-source ()
 		else
 			BODY_NAME="sap"
 
-			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")\n"
-			SYMBOLIC_TEXT="$(get-text "symbolic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
-			ASSEMBLIC_TEXT="$(get-text "assemblic.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+			SYMBOLIC_TEXT="\n$(get-text "symbolic-$LIBRARY.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")\n"
+			ASSEMBLIC_TEXT="\n$(get-text "assemblic-$LIBRARY.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
 			if [ "$READING" = "assemblic" ]
 			then
-				PROCEDURAL_TEXT="\n\n//\n\n$(get-text "procedural.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
+				PROCEDURAL_TEXT="\n\n$(get-text "procedural-$LIBRARY.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			fi
-
-			UNDEF_DEPENDENCIES_TEXT="\n$(get-text "undef-dependencies.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 		fi
 
 		BODY_TEXT="$(get-text "body-$BODY_NAME.txt" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
@@ -85,25 +83,22 @@ build-source ()
 		gsub("<<<DISCOURSE_TEXT>>>", DISCOURSE_TEXT);
 		gsub("<<<BODY_TEXT>>>", BODY_TEXT);
 
-		gsub("<<<DEFINE_DEPENDENCIES_TEXT>>>", DEFINE_DEPENDENCIES_TEXT);
+		gsub("<<<DEPENDENCIES_TEXT>>>", DEPENDENCIES_TEXT);
 		gsub("<<<SYMBOLIC_TEXT>>>", SYMBOLIC_TEXT);
 		gsub("<<<ASSEMBLIC_TEXT>>>", ASSEMBLIC_TEXT);
 		gsub("<<<PROCEDURAL_TEXT>>>", PROCEDURAL_TEXT);
-		gsub("<<<UNDEF_DEPENDENCIES_TEXT>>>", UNDEF_DEPENDENCIES_TEXT);
 
 		print $0;
 	}'
 
-	echo "$SIZE_TYPE_TEXT"							|
+	echo "$COPYRIGHT_TEXT"							|
 	mawk									\
 		-v DISCOURSE_TEXT="$DISCOURSE_TEXT"				\
 		-v BODY_TEXT="$BODY_TEXT"					\
+		-v DEPENDENCIES_TEXT="$DEPENDENCIES_TEXT"			\
 		-v SYMBOLIC_TEXT="$SYMBOLIC_TEXT"				\
 		-v ASSEMBLIC_TEXT="$ASSEMBLIC_TEXT"				\
 		-v PROCEDURAL_TEXT="$PROCEDURAL_TEXT"				\
-										\
-		-v DEFINE_DEPENDENCIES_TEXT="$DEFINE_DEPENDENCIES_TEXT"		\
-		-v UNDEF_DEPENDENCIES_TEXT="$UNDEF_DEPENDENCIES_TEXT"		\
 										\
 	"$mawk_prog"
 }

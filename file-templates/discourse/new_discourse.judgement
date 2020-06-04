@@ -9,7 +9,7 @@ PERMISSION="$5"
 # doesn't reuse source texts because it can't assume they're identical for custom builds.
 
 cat ../"builtin_types.txt"	|
-while read u_type type
+while read u_type printf_format type
 do
 	OUT_DIR="$LIBRARY-$UNIVERSE-$LANGUAGE-$u_type""_judgement"
 

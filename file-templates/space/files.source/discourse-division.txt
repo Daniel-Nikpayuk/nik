@@ -1,0 +1,4 @@
+struct <<<DIVISION>>>
+{
+<<<DEPENDENCIES_TEXT>>><<<BODY_TEXT>>>
+};

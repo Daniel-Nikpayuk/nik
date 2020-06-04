@@ -1,4 +1,4 @@
-<<<DEFINE_DEPENDENCIES_TEXT>>>#define <<<SIGNATURE>>> nik_module(<<<LIBRARY>>>, <<<UNIVERSE>>>, <<<LANGUAGE>>>, <<<MODULE>>>, <<<READING>>>, <<<PERMISSION>>>)
+<<<DEFINE_DEPENDENCIES_TEXT>>>
 
 #ifdef safe_name
 
@@ -18,4 +18,4 @@
 
 #undef PREFIX
 
-#undef <<<SIGNATURE>>><<<UNDEF_DEPENDENCIES_TEXT>>>
+<<<UNDEF_DEPENDENCIES_TEXT>>>

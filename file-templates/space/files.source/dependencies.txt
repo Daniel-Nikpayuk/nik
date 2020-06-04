@@ -1,0 +1,1 @@
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)

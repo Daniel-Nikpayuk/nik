@@ -12,14 +12,7 @@ build-division ()
 	local READING="$7"
 	local PERMISSION="$8"
 
-	local mawk_prog='BEGIN {
-		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);
-		DIV_PREFIX=PREFIX substr(MODULE,1,1);
-		SUFFIX=substr(READING,1,1) substr(PERMISSION,1,1);
-
-		SIGNATURE=PREFIX "_" MODULE "_" SUFFIX;
-		DIV_SIGNATURE=DIV_PREFIX "_" DIVISION "_" SUFFIX;
-	}
+	local mawk_prog='
 	{
 		gsub("<<<LIBRARY>>>", LIBRARY);
 		gsub("<<<UNIVERSE>>>", UNIVERSE);
@@ -28,9 +21,6 @@ build-division ()
 		gsub("<<<DIVISION>>>", DIVISION);
 		gsub("<<<READING>>>", READING);
 		gsub("<<<PERMISSION>>>", PERMISSION);
-
-		gsub("<<<SIGNATURE>>>", SIGNATURE);
-		gsub("<<<DIV_SIGNATURE>>>", DIV_SIGNATURE);
 
 		print $0;
 	}'

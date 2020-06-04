@@ -9,7 +9,7 @@ PERMISSION="$5"
 # doesn't reuse source texts because it can't assume they're identical for custom builds.
 
 cat ../"builtin_types.txt"	|
-while read u_type type
+while read u_type printf_format type
 do
 	OUT_DIR="$LIBRARY-$UNIVERSE-$LANGUAGE-$u_type""_judgement"
 
@@ -25,9 +25,10 @@ do
 				"$u_type""_judgement" "$division" "$READING" "$PERMISSION" "judgement.$READING")"
 		DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE"						\
 				"$LANGUAGE" "$u_type""_judgement" "$division" "$READING" "$PERMISSION")"
-		JUDGEMENT_TEXT="$(build_division.judgement "$DIVISION_TEXT" "$u_type" "$type")"
+		JUDGEMENT_TEXT="$(build_division.judgement "$DIVISION_TEXT" "$u_type" "$printf_format" "$type")"
+		OUT_FILE="$(if [ "$division" = "permission" ]; then echo "$PERMISSION.h"; else echo "$division-$PERMISSION.hpp"; fi)"
 
-		echo "$JUDGEMENT_TEXT" > "$OUT_DIR/$division-$PERMISSION.h"
+		echo "$JUDGEMENT_TEXT" > "$OUT_DIR/$OUT_FILE"
 	done
 done
 

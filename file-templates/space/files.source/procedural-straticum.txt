@@ -1,1 +1,3 @@
-		static constexpr void (*p_<<<MODULE>>>_)() = p_<<<MODULE>>>_;
+		// procedural:
+
+		static constexpr void (*p_<<<MODULE>>>_)() = p_<<<MODULE>>>_<>;

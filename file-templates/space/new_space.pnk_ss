@@ -1,4 +1,4 @@
 #!/bin/bash
 
-new_discourse "patronum" "natural" "kernel" "$1" "symbolic" "semiotic"
+new_space "patronum" "natural" "kernel" "$1" "symbolic" "semiotic"
 

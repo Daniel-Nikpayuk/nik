@@ -1,1 +1,4 @@
+		// procedural:
+
+		template<typename Type>
 		static constexpr void p_<<<MODULE>>>_() { return ; }
