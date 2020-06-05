@@ -20,16 +20,18 @@ namespace nik
 	nik_begin_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 
 		#include"inductor-semiotic.hpp"
+//		#include"navigator-semiotic.hpp"
 
 		//
 
 		#include"identity-semiotic.hpp"
+//		#include"proximity-semiotic.hpp"
 		#include"embedding-semiotic.hpp"
 
 		//
 
 		#include"structure-semiotic.hpp"
+//		#include"filter-semiotic.hpp"
 
 	nik_end_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 }
-

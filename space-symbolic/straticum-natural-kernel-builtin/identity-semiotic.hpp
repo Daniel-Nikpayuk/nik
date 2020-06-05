@@ -116,4 +116,3 @@ struct identity
 		template<typename Exp, typename Continuation = ch_assemblic_value>
 		static constexpr bool a_is_signed_long_long = a_is_equal<signed long long, Exp, Continuation>;
 };
-

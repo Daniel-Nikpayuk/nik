@@ -59,4 +59,3 @@ struct embedding
 			cp_a_type_to_string_literal<Continuation, string_literal>
 		>;
 };
-

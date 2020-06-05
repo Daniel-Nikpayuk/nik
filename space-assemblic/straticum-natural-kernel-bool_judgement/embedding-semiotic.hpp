@@ -28,7 +28,7 @@ struct embedding
 		// symbolic:
 
 		template<bool Value, typename Antecedent, typename Consequent, typename Continuation = ch_symbolic_type>
-		using if_then_else = typename pattern_match_bool_value<Value>::template
+		using if_then_else = typename pattern_match_bool_judgement<Value>::template
 		symbolic_induct
 		<
 			Continuation, Antecedent, Consequent
@@ -39,21 +39,21 @@ struct embedding
 		// symbolic:
 
 		template<bool True, typename = filler>
-		struct fast_match_bool_value
+		struct fast_match_bool_judgement
 		{
 			template<typename Antecedent, typename Consequent>
 			using symbolic_induct = Antecedent;
 		};
 
 		template<typename Filler>
-		struct fast_match_bool_value<false, Filler>
+		struct fast_match_bool_judgement<false, Filler>
 		{
 			template<typename Antecedent, typename Consequent>
 			using symbolic_induct = Consequent;
 		};
 
 		template<bool Value, typename Antecedent, typename Consequent>
-		using fast_if_then_else = typename fast_match_bool_value<Value>::template
+		using fast_if_then_else = typename fast_match_bool_judgement<Value>::template
 		symbolic_induct
 		<
 			Antecedent, Consequent
@@ -63,6 +63,5 @@ struct embedding
 
 		// procedural:
 
-		static constexpr void bool_display(bool v) { printf("%s", v ? "true" : "false"); }
+		static constexpr void p_bool_judgement_display(bool v) { printf("%s", v ? "true" : "false"); }
 };
-

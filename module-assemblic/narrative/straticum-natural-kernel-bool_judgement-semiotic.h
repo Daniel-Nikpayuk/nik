@@ -19,7 +19,6 @@
 #define NIK_STRATICUM_NATURAL_KERNEL_BOOL_JUDGEMENT_ASSEMBLIC_SEMIOTIC_H
 
 	#include"../../module-symbolic/narrative/patronum-natural-kernel-builtin-semiotic.h"
-	#include"patronum-natural-kernel-judgement-semiotic.h"
 
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 

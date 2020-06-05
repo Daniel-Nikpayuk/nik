@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define snk_bool_judgement_as nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic)
@@ -34,32 +34,30 @@
 
 										  template
 										  <
-											typename Type,
+											bool Value,
+											typename Antecedent,
+											typename Consequent,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_judgement_)					= typename snk_bool_judgement_as::embedding::template
-										  s_bool_judgement_<Type, Continuation>;
-
-//
+	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgement_as::embedding::template
+										  if_then_else<Value, Antecedent, Consequent, Continuation>;
 
 										  template
 										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											bool Value,
+											typename Antecedent,
+											typename Consequent
 										  >
-	static constexpr void nik_safe(PREFIX, a_bool_judgement_)			= snk_bool_judgement_as::embedding::template
-										  a_bool_judgement_<Type, Continuation>;
+	using nik_safe(PREFIX, fast_if_then_else)				= typename snk_bool_judgement_as::embedding::template
+										  fast_if_then_else<Value, Antecedent, Consequent>;
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_bool_display))() =
-		snk_bool_judgement_as::embedding::p_bool_display;
+	static constexpr void (*nik_safe(PREFIX, p_bool_judgement_display))(bool)		= snk_bool_judgement_as::embedding::
+												  p_bool_judgement_display;
 
 //
 
@@ -68,4 +66,4 @@
 #undef snk_bool_judgement_as
 #undef pnk_builtin_ss
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)

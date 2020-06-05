@@ -17,5 +17,21 @@
 
 struct identity
 {
-};
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
+	// :
+
+		// symbolic:
+
+		template<typename Exp, typename Continuation = ch_symbolic_values>
+		using s_char_list_ = s_char_list_<Exp, Continuation>;
+
+		// assemblic:
+
+		template<typename Exp, typename Continuation = ch_assemblic_value>
+		static constexpr void a_char_list_ = a_char_list_<Exp, Continuation>;
+
+		// procedural:
+
+		static constexpr void (*p_char_list_)() = p_char_list_<>;
+};

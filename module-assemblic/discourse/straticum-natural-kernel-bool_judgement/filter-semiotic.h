@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define snk_bool_judgement_as nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic)
@@ -68,4 +68,4 @@
 #undef snk_bool_judgement_as
 #undef pnk_builtin_ss
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)

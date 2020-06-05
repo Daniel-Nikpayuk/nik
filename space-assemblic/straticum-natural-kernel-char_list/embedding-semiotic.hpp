@@ -21,6 +21,5 @@ struct embedding
 
 		// procedural:
 
-		static constexpr void char_list_display(const char *string_literal) { printf("%s", string_literal); }
+		static constexpr void p_char_list_display(const char *string_literal) { printf("%s", string_literal); }
 };
-

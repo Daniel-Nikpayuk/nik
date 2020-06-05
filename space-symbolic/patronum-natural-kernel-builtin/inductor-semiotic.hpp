@@ -323,4 +323,3 @@ struct inductor
 		};
 	};
 };
-

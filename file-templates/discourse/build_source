@@ -16,6 +16,10 @@ get-text()
 	elif [ -f "$MODULE_DIR/$FILE_NAME.txt" ]
 	then
 		TEXT_FILE="$MODULE_DIR/$FILE_NAME.txt"
+
+	elif [ -f "$SOURCE_DIR/$FILE_NAME-$DIVISION.txt" ]
+	then
+		TEXT_FILE="$SOURCE_DIR/$FILE_NAME-$DIVISION.txt"
 	else
 		TEXT_FILE="$SOURCE_DIR/$FILE_NAME.txt"
 	fi
@@ -57,13 +61,14 @@ build-source ()
 	else
 		DISCOURSE_NAME="signature"
 
+		DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")\n\n"
+
 		if [ "$DIVISION" = "inductor" ]
 		then
 			BODY_NAME="inductor"
 		else
 			BODY_NAME="sap"
 
-			DEFINE_DEPENDENCIES_TEXT="$(get-text "define-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			SYMBOLIC_TEXT="$(get-text "symbolic" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			ASSEMBLIC_TEXT="$(get-text "assemblic" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
@@ -71,9 +76,9 @@ build-source ()
 			then
 				PROCEDURAL_TEXT="\n\n//\n\n$(get-text "procedural" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 			fi
-
-			UNDEF_DEPENDENCIES_TEXT="$(get-text "undef-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 		fi
+
+		UNDEF_DEPENDENCIES_TEXT="\n\n$(get-text "undef-dependencies" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 
 		BODY_TEXT="$(get-text "body-$BODY_NAME" "$DIVISION" "$MODULE_DIR" "$SOURCE_DIR")"
 	fi

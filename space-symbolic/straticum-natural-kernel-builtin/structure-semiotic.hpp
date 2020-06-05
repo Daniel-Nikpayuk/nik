@@ -116,4 +116,3 @@ struct structure
 		template<typename Type, signed long long Value, typename Continuation = ch_assemblic_value>
 		static constexpr Type a_signed_long_long_to_judgement = a_to_judgement<Type, signed long long, Value, Continuation>;
 };
-

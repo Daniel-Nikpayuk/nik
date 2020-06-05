@@ -18,14 +18,14 @@
 struct identity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(patronum, natural, kernel, judgement, identity)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgement, navigator)
 
 	// is equal:
 
 		// symbolic:
 
 		template<bool Value1, bool Value2, typename Continuation = ch_symbolic_values>
-		using s_is_bool_equal = s_is_equal<bool, Value1, Value2, Continuation>;
+		using s_is_bool_judgement_equal = s_bool_judgement_equivalent<Value1, Value2, Continuation>;
 
 		// assemblic:
 
@@ -33,7 +33,5 @@ struct identity
 
 		// procedural:
 
-		static constexpr bool (*p_is_bool_equal)(bool, bool) =
-		p_is_equal<bool>;
+		static constexpr bool (*p_is_bool_judgement_equal)(bool, bool) = p_bool_judgement_equivalent;
 };
-

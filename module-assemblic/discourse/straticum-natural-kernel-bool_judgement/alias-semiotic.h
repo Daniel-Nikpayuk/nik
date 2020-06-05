@@ -15,8 +15,8 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 	using snk_bool_judgement_as = nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic);
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)

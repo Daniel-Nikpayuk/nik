@@ -15,9 +15,9 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 <<<DISCOURSE_TEXT>>>
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)
 

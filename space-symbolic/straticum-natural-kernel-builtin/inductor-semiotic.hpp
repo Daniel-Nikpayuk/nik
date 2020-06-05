@@ -66,4 +66,3 @@ struct inductor
 	template<typename Exp> using pattern_match_signed_long_long		= typename dependent_memoization<signed long long>::template
 										  pattern_match_types<Exp>;
 };
-

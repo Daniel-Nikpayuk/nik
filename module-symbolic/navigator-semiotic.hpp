@@ -154,7 +154,7 @@ enum struct Module : global_size_type
 
 #define nik_symbolic_unpack(_path_, _library_, _universe_, _language_, _module_, _division_)				\
 															\
-	nik_stringify(_path_/module-symbolic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
+	nik_stringify(_path_/module-symbolic/discourse/_library_-_universe_-_language_-_module_/_division_-semiotic.h)
 
 
 /***********************************************************************************************************************/
@@ -162,7 +162,7 @@ enum struct Module : global_size_type
 
 #define nik_symbolic_typedef(_library_, _universe_, _language_, _module_, _division_)					\
 															\
-	nik_stringify(../../module-symbolic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
+	nik_stringify(../../module-symbolic/discourse/_library_-_universe_-_language_-_module_/_division_-semiotic.h)
 
 
 /***********************************************************************************************************************/
@@ -170,7 +170,7 @@ enum struct Module : global_size_type
 
 #define nik_symbolic_import(_path_, _library_, _universe_, _language_, _module_, _division_)				\
 															\
-	nik_stringify(_path_/module-symbolic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
+	nik_stringify(_path_/module-symbolic/discourse/_library_-_universe_-_language_-_module_/_division_-media.h)
 
 
 /***********************************************************************************************************************/
@@ -178,6 +178,6 @@ enum struct Module : global_size_type
 
 #define nik_symbolic_using(_library_, _universe_, _language_, _module_, _division_)					\
 															\
-	nik_stringify(../../module-symbolic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
+	nik_stringify(../../module-symbolic/discourse/_library_-_universe_-_language_-_module_/_division_-media.h)
 
 

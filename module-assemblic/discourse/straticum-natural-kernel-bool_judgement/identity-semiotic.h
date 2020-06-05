@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define snk_bool_judgement_as nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic)
@@ -41,26 +41,13 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_is_bool_equal)				= typename snk_bool_judgement_as::identity::template
-										  s_is_bool_equal<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_is_bool_judgement_equal)			= typename snk_bool_judgement_as::identity::template
+										  s_is_bool_judgement_equal<Value1, Value2, Continuation>;
 
 //
 
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr void nik_safe(PREFIX, a_bool_judgement_)			= snk_bool_judgement_as::identity::template
-										  a_bool_judgement_<Type, Continuation>;
-
-//
-
-	static constexpr bool (*nik_safe(PREFIX, p_is_bool_equal))(bool, bool) =
-		snk_bool_judgement_as::identity::p_is_bool_equal;
+	static constexpr bool (*nik_safe(PREFIX, p_is_bool_judgement_equal))(bool, bool)	= snk_bool_judgement_as::identity::
+												  p_is_bool_judgement_equal;
 
 //
 
@@ -69,4 +56,4 @@
 #undef snk_bool_judgement_as
 #undef pnk_builtin_ss
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)

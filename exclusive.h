@@ -28,6 +28,11 @@
 	#_string_
 
 
+#define nik_size_type(_macro_)												\
+															\
+	nik_stringify(../../../_macro_-size_type.h)
+
+
 #define nik_catenate(_label1_, _label2_)										\
 															\
 	_label1_##_label2_

@@ -17,5 +17,8 @@
 
 struct inductor
 {
-};
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
+	template<typename Type, typename Exp>
+	using pattern_match_char_list_ = typename dependent_memoization<Type>::template pattern_match_<Exp>;
+};

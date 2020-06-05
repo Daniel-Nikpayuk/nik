@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-#include"define-size_type.h"
+#include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define snk_bool_judgement_as nik_module(straticum, natural, kernel, bool_judgement, assemblic, semiotic)
@@ -34,15 +34,14 @@
 
 										  template
 										  <
-											bool Value1,
-											bool Value2,
+											bool Value,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_add)				= typename snk_bool_judgement_as::navigator::template
-										  s_bool_add<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_not)				= typename snk_bool_judgement_as::navigator::template
+										  s_bool_judgement_not<Value, Continuation>;
 
 										  template
 										  <
@@ -53,8 +52,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_multiply)				= typename snk_bool_judgement_as::navigator::template
-										  s_bool_multiply<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_and)				= typename snk_bool_judgement_as::navigator::template
+										  s_bool_judgement_and<Value1, Value2, Continuation>;
 
 										  template
 										  <
@@ -65,8 +64,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_subtract)				= typename snk_bool_judgement_as::navigator::template
-										  s_bool_subtract<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_or)				= typename snk_bool_judgement_as::navigator::template
+										  s_bool_judgement_or<Value1, Value2, Continuation>;
 
 										  template
 										  <
@@ -77,8 +76,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_divide)				= typename snk_bool_judgement_as::navigator::template
-										  s_bool_divide<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_implies)			= typename snk_bool_judgement_as::navigator::template
+										  s_bool_judgement_implies<Value1, Value2, Continuation>;
 
 										  template
 										  <
@@ -89,43 +88,25 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_bool_modulo)				= typename snk_bool_judgement_as::navigator::template
-										  s_bool_modulo<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgement_equivalent)			= typename snk_bool_judgement_as::navigator::template
+										  s_bool_judgement_equivalent<Value1, Value2, Continuation>;
 
 //
 
-										  template
-										  <
-											typename Type,
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgement_not))(bool)			= snk_bool_judgement_as::navigator::
+												  p_bool_judgement_not;
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr void nik_safe(PREFIX, a_bool_judgement_)			= snk_bool_judgement_as::navigator::template
-										  a_bool_judgement_<Type, Continuation>;
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgement_and))(bool, bool)		= snk_bool_judgement_as::navigator::
+												  p_bool_judgement_and;
 
-//
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgement_or))(bool, bool)		= snk_bool_judgement_as::navigator::
+												  p_bool_judgement_or;
 
-												  template<typename Type>
-	static constexpr Type (*nik_safe(PREFIX, p_bool_add))(Type, Type)		= snk_bool_judgement_as::navigator::
-												  p_bool_judgement_add<TYPE>;
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgement_implies))(bool, bool)		= snk_bool_judgement_as::navigator::
+												  p_bool_judgement_implies;
 
-												  template<typename Type>
-	static constexpr Type (*nik_safe(PREFIX, p_bool_multiply))(Type, Type)		= snk_bool_judgement_as::navigator::
-												  p_bool_judgement_multiply<TYPE>;
-
-												  template<typename Type>
-	static constexpr Type (*nik_safe(PREFIX, p_bool_subtract))(Type, Type)		= snk_bool_judgement_as::navigator::
-												  p_bool_judgement_subtract<TYPE>;
-
-												  template<typename Type>
-	static constexpr Type (*nik_safe(PREFIX, p_bool_divide))(Type, Type)		= snk_bool_judgement_as::navigator::
-												  p_bool_judgement_divide<TYPE>;
-
-												  template<typename Type>
-	static constexpr Type (*nik_safe(PREFIX, p_bool_modulo))(Type, Type)		= snk_bool_judgement_as::navigator::
-												  p_bool_judgement_modulo<TYPE>;
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgement_equivalent))(bool, bool)	= snk_bool_judgement_as::navigator::
+												  p_bool_judgement_equivalent;
 
 //
 
@@ -134,4 +115,4 @@
 #undef snk_bool_judgement_as
 #undef pnk_builtin_ss
 
-#include"undef-size_type.h"
+#include nik_size_type(undef)

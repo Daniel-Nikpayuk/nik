@@ -22,7 +22,7 @@ struct inductor
 		// The following bool value pattern matcher is here as its induction operator requires its own specialization.
 
 	template<auto, typename = filler>
-	struct pattern_match_bool_value
+	struct pattern_match_bool_judgement
 	{
 		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
 		using symbolic_match = typename Continuation::template result<Inductor, bool, false>;
@@ -34,7 +34,7 @@ struct inductor
 	};
 
 	template<typename Filler>
-	struct pattern_match_bool_value<true, Filler>
+	struct pattern_match_bool_judgement<true, Filler>
 	{
 		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
 		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
@@ -54,7 +54,7 @@ struct inductor
 	};
 
 	template<typename Filler>
-	struct pattern_match_bool_value<false, Filler>
+	struct pattern_match_bool_judgement<false, Filler>
 	{
 		template<typename Continuation = ch_symbolic_values, typename Inductor = pnkb_inductor_ss>
 		using symbolic_match = typename Continuation::template result<Inductor, bool, true>;
@@ -73,4 +73,3 @@ struct inductor
 			// assemblic_induct is not implemented as it's better to use the native C++ ( ? : ) grammar.
 	};
 };
-

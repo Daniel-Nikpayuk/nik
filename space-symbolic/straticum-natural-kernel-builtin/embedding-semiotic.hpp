@@ -151,4 +151,3 @@ struct embedding
 		static constexpr const char* a_signed_long_long_literal =
 			a_type_literal<signed long long, string_literal_signed_long_long, Continuation>;
 };
-

@@ -16,6 +16,10 @@ get-text()
 	elif [ -f "$MODULE_DIR/$FILE_NAME.txt" ]
 	then
 		TEXT_FILE="$MODULE_DIR/$FILE_NAME.txt"
+
+	elif [ -f "$SOURCE_DIR/$FILE_NAME-$DIVISION.txt" ]
+	then
+		TEXT_FILE="$SOURCE_DIR/$FILE_NAME-$DIVISION.txt"
 	else
 		TEXT_FILE="$SOURCE_DIR/$FILE_NAME.txt"
 	fi

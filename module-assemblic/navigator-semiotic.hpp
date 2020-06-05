@@ -18,7 +18,7 @@
 
 #define nik_assemblic_unpack(_path_, _library_, _universe_, _language_, _module_, _division_)				\
 															\
-	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
+	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_/_division_-semiotic.h)
 
 
 /***********************************************************************************************************************/
@@ -26,7 +26,7 @@
 
 #define nik_assemblic_typedef(_library_, _universe_, _language_, _module_, _division_)					\
 															\
-	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-semiotic.h)
+	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_/_division_-semiotic.h)
 
 
 /***********************************************************************************************************************/
@@ -34,7 +34,7 @@
 
 #define nik_assemblic_import(_path_, _library_, _universe_, _language_, _module_, _division_)				\
 															\
-	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
+	nik_stringify(_path_/module-assemblic/discourse/_library_-_universe_-_language_-_module_/_division_-media.h)
 
 
 /***********************************************************************************************************************/
@@ -42,6 +42,6 @@
 
 #define nik_assemblic_using(_library_, _universe_, _language_, _module_, _division_)					\
 															\
-	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_-_division_-media.h)
+	nik_stringify(../../module-assemblic/discourse/_library_-_universe_-_language_-_module_/_division_-media.h)
 
 

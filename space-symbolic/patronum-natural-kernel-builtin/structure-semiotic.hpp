@@ -39,4 +39,3 @@ struct structure
 			Continuation
 		>;
 };
-
