@@ -39,8 +39,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_to_judgement)					= typename pnk_builtin_ss::structure::template
-										  s_to_judgement<Type, Value, Continuation>;
+	using nik_safe(PREFIX, s_to_judgment)					= typename pnk_builtin_ss::structure::template
+										  s_to_judgment<Type, Value, Continuation>;
 
 //
 
@@ -52,8 +52,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr Kind nik_safe(PREFIX, a_to_judgement)			= pnk_builtin_ss::structure::template
-										  a_to_judgement<Kind, Type, Value, Continuation>;
+	static constexpr Kind nik_safe(PREFIX, a_to_judgment)			= pnk_builtin_ss::structure::template
+										  a_to_judgment<Kind, Type, Value, Continuation>;
 
 //
 

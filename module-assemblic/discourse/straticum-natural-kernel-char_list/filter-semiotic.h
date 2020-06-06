@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_filter_as_
+	#define PREFIX		snkcl_filter_as_
 
 #else
 

@@ -1,0 +1,41 @@
+/************************************************************************************************************************
+**
+** Copyright 2015-2020 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+**
+** This file is part of nik.
+**
+** nik is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+**
+** nik is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+** of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License along with nik. If not, see
+** <http://www.gnu.org/licenses/>.
+**
+************************************************************************************************************************/
+
+	This is an example of the paradigmatic implementation:
+
+		template<typename Continuation>
+		struct cp_bool_judgment_and
+		{
+			template<typename Inductor, typename Type, Type Value1, Type Value2>
+			using result = typename Continuation::template result
+			<
+				Inductor, Type, Value1 && Value2
+			>;
+		};
+
+		template<bool Value1, bool Value2, typename Continuation = ch_symbolic_values>
+		using s_bool_judgment_and = typename pattern_match_bool_judgment<Value1>::template
+		symbolic_append_induct
+		<
+			cp_bool_judgment_and<Continuation>, Value2
+		>;
+
+	which can be optimized when we otherwise know the induction rule and we
+	don't need the pattern matcher itself to gain access to hidden information:
+
+		template<bool Value1, bool Value2, typename Continuation = ch_symbolic_values>
+		using s_bool_judgment_and = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 && Value2>;

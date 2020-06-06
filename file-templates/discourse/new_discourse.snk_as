@@ -1,4 +1,4 @@
 #!/bin/bash
 
-new_discourse "straticum" "natural" "kernel" "$1" "assemblic" "semiotic"
+new_discourse "straticum" "natural" "kernel" "$1" "assemblic" "semiotic" "$2"
 

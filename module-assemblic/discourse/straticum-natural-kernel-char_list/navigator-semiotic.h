@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_navigator_as_
+	#define PREFIX		snkcl_navigator_as_
 
 #else
 

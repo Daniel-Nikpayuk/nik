@@ -1,4 +1,4 @@
 #!/bin/bash
 
-new_space "straticum" "natural" "kernel" "$1" "symbolic" "semiotic"
+new_space "straticum" "natural" "kernel" "$1" "symbolic" "semiotic" "$2"
 

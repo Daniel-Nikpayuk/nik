@@ -29,7 +29,7 @@ struct functor
 		// function application:
 
 			template<typename Type, Type(*F)(Type), Type Value>
-			using apply = judgement<F(Value)>;
+			using apply = judgment<F(Value)>;
 
 /*
 	pose: ( builtin  --> builtin  ) x builtin  --> builtin

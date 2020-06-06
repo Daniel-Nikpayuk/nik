@@ -1,8 +1,0 @@
-struct <<<DIVISION>>>
-{
-	// implemented at a lower level for performance:
-
-	template<auto Value>
-	using pattern_match_<<<U_TYPE>>>_judgement		= typename dependent_memoization<<<<TYPE>>>>::template
-										  pattern_match_values<Value>;
-};

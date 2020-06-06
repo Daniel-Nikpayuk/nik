@@ -17,10 +17,10 @@
 
 struct identity
 {
-	#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
+	#include nik_symbolic_typedef(patronum, kernel, judgment, inductor)
 	#include nik_symbolic_typedef(patronum, kernel, pair, inductor)
 
-	template<typename Exp, typename Continuation = ch_judgement>
+	template<typename Exp, typename Continuation = ch_judgment>
 	using is_pair = typename memoized_pair<Exp>::template match
 	<
 		Continuation

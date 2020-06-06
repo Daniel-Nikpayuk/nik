@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_identity_as_
+	#define PREFIX		snkcl_identity_as_
 
 #else
 

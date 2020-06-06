@@ -20,25 +20,25 @@ struct identity
 	#define safe_name
 
 		#include nik_symbolic_typedef(patronum, kernel, builtin, identity)
-		#include nik_symbolic_typedef(patronum, kernel, judgement, inductor)
-		#include nik_symbolic_typedef(patronum, kernel, judgement, identity)
+		#include nik_symbolic_typedef(patronum, kernel, judgment, inductor)
+		#include nik_symbolic_typedef(patronum, kernel, judgment, identity)
 
 	#undef safe_name
 
-	#include nik_symbolic_typedef(straticum, kernel, judgement, inductor)
+	#include nik_symbolic_typedef(straticum, kernel, judgment, inductor)
 
-	template<typename Exp, typename Continuation = pk_judgement_ss_ch_judgement>
-	using is_judgement = pk_judgement_ss_is_judgement
+	template<typename Exp, typename Continuation = pk_judgment_ss_ch_judgment>
+	using is_judgment = pk_judgment_ss_is_judgment
 	<
-		Exp, judgement, Continuation
+		Exp, judgment, Continuation
 	>;
 
 	//
 
-	template<typename Exp1, typename Exp2, typename Continuation = pk_judgement_ss_ch_judgement>
+	template<typename Exp1, typename Exp2, typename Continuation = pk_judgment_ss_ch_judgment>
 	using is_equal = pk_builtin_ss_is_equal
 	<
-		Exp1, Exp2, judgement, Continuation
+		Exp1, Exp2, judgment, Continuation
 	>;
 };
 

@@ -17,7 +17,7 @@
 
 struct inductor
 {
-	struct ch_judgement
+	struct ch_judgment
 	{
 		template<typename Type, Type Value>
 		static constexpr Type result() { return Value; }

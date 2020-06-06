@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_structure_as_
+	#define PREFIX		snkcl_structure_as_
 
 #else
 

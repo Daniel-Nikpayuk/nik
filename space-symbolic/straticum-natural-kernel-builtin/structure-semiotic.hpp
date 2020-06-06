@@ -20,99 +20,99 @@ struct structure
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, structure)
 
-	// builtin judgements:
+	// builtin judgments:
 
 		// symbolic:
 
 		template<bool Value, typename Continuation = ch_symbolic_values>
-		using s_bool_to_judgement = s_to_judgement<bool, Value, Continuation>;
+		using s_bool_to_judgment = s_to_judgment<bool, Value, Continuation>;
 
 		template<char Value, typename Continuation = ch_symbolic_values>
-		using s_char_to_judgement = s_to_judgement<char, Value, Continuation>;
+		using s_char_to_judgment = s_to_judgment<char, Value, Continuation>;
 
 		template<unsigned char Value, typename Continuation = ch_symbolic_values>
-		using s_unsigned_char_to_judgement = s_to_judgement<unsigned char, Value, Continuation>;
+		using s_unsigned_char_to_judgment = s_to_judgment<unsigned char, Value, Continuation>;
 
 		template<signed char Value, typename Continuation = ch_symbolic_values>
-		using s_signed_char_to_judgement = s_to_judgement<signed char, Value, Continuation>;
+		using s_signed_char_to_judgment = s_to_judgment<signed char, Value, Continuation>;
 
 		template<wchar_t Value, typename Continuation = ch_symbolic_values>
-		using s_wchar_t_to_judgement = s_to_judgement<wchar_t, Value, Continuation>;
+		using s_wchar_t_to_judgment = s_to_judgment<wchar_t, Value, Continuation>;
 
 		template<char16_t Value, typename Continuation = ch_symbolic_values>
-		using s_char16_t_to_judgement = s_to_judgement<char16_t, Value, Continuation>;
+		using s_char16_t_to_judgment = s_to_judgment<char16_t, Value, Continuation>;
 
 		template<char32_t Value, typename Continuation = ch_symbolic_values>
-		using s_char32_t_to_judgement = s_to_judgement<char32_t, Value, Continuation>;
+		using s_char32_t_to_judgment = s_to_judgment<char32_t, Value, Continuation>;
 
 		template<unsigned short Value, typename Continuation = ch_symbolic_values>
-		using s_unsigned_short_to_judgement = s_to_judgement<unsigned short, Value, Continuation>;
+		using s_unsigned_short_to_judgment = s_to_judgment<unsigned short, Value, Continuation>;
 
 		template<signed short Value, typename Continuation = ch_symbolic_values>
-		using s_signed_short_to_judgement = s_to_judgement<signed short, Value, Continuation>;
+		using s_signed_short_to_judgment = s_to_judgment<signed short, Value, Continuation>;
 
 		template<unsigned int Value, typename Continuation = ch_symbolic_values>
-		using s_unsigned_int_to_judgement = s_to_judgement<unsigned int, Value, Continuation>;
+		using s_unsigned_int_to_judgment = s_to_judgment<unsigned int, Value, Continuation>;
 
 		template<signed int Value, typename Continuation = ch_symbolic_values>
-		using s_signed_int_to_judgement = s_to_judgement<signed int, Value, Continuation>;
+		using s_signed_int_to_judgment = s_to_judgment<signed int, Value, Continuation>;
 
 		template<unsigned long Value, typename Continuation = ch_symbolic_values>
-		using s_unsigned_long_to_judgement = s_to_judgement<unsigned long, Value, Continuation>;
+		using s_unsigned_long_to_judgment = s_to_judgment<unsigned long, Value, Continuation>;
 
 		template<signed long Value, typename Continuation = ch_symbolic_values>
-		using s_signed_long_to_judgement = s_to_judgement<signed long, Value, Continuation>;
+		using s_signed_long_to_judgment = s_to_judgment<signed long, Value, Continuation>;
 
 		template<unsigned long long Value, typename Continuation = ch_symbolic_values>
-		using s_unsigned_long_long_to_judgement = s_to_judgement<unsigned long long, Value, Continuation>;
+		using s_unsigned_long_long_to_judgment = s_to_judgment<unsigned long long, Value, Continuation>;
 
 		template<signed long long Value, typename Continuation = ch_symbolic_values>
-		using s_signed_long_long_to_judgement = s_to_judgement<signed long long, Value, Continuation>;
+		using s_signed_long_long_to_judgment = s_to_judgment<signed long long, Value, Continuation>;
 
 		// assemblic:
 
 		template<typename Type, bool Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_bool_to_judgement = a_to_judgement<Type, bool, Value, Continuation>;
+		static constexpr Type a_bool_to_judgment = a_to_judgment<Type, bool, Value, Continuation>;
 
 		template<typename Type, char Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_char_to_judgement = a_to_judgement<Type, char, Value, Continuation>;
+		static constexpr Type a_char_to_judgment = a_to_judgment<Type, char, Value, Continuation>;
 
 		template<typename Type, unsigned char Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_unsigned_char_to_judgement = a_to_judgement<Type, unsigned char, Value, Continuation>;
+		static constexpr Type a_unsigned_char_to_judgment = a_to_judgment<Type, unsigned char, Value, Continuation>;
 
 		template<typename Type, signed char Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_signed_char_to_judgement = a_to_judgement<Type, signed char, Value, Continuation>;
+		static constexpr Type a_signed_char_to_judgment = a_to_judgment<Type, signed char, Value, Continuation>;
 
 		template<typename Type, wchar_t Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_wchar_t_to_judgement = a_to_judgement<Type, wchar_t, Value, Continuation>;
+		static constexpr Type a_wchar_t_to_judgment = a_to_judgment<Type, wchar_t, Value, Continuation>;
 
 		template<typename Type, char16_t Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_char16_t_to_judgement = a_to_judgement<Type, char16_t, Value, Continuation>;
+		static constexpr Type a_char16_t_to_judgment = a_to_judgment<Type, char16_t, Value, Continuation>;
 
 		template<typename Type, char32_t Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_char32_t_to_judgement = a_to_judgement<Type, char32_t, Value, Continuation>;
+		static constexpr Type a_char32_t_to_judgment = a_to_judgment<Type, char32_t, Value, Continuation>;
 
 		template<typename Type, unsigned short Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_unsigned_short_to_judgement = a_to_judgement<Type, unsigned short, Value, Continuation>;
+		static constexpr Type a_unsigned_short_to_judgment = a_to_judgment<Type, unsigned short, Value, Continuation>;
 
 		template<typename Type, signed short Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_signed_short_to_judgement = a_to_judgement<Type, signed short, Value, Continuation>;
+		static constexpr Type a_signed_short_to_judgment = a_to_judgment<Type, signed short, Value, Continuation>;
 
 		template<typename Type, unsigned int Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_unsigned_int_to_judgement = a_to_judgement<Type, unsigned int, Value, Continuation>;
+		static constexpr Type a_unsigned_int_to_judgment = a_to_judgment<Type, unsigned int, Value, Continuation>;
 
 		template<typename Type, signed int Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_signed_int_to_judgement = a_to_judgement<Type, signed int, Value, Continuation>;
+		static constexpr Type a_signed_int_to_judgment = a_to_judgment<Type, signed int, Value, Continuation>;
 
 		template<typename Type, unsigned long Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_unsigned_long_to_judgement = a_to_judgement<Type, unsigned long, Value, Continuation>;
+		static constexpr Type a_unsigned_long_to_judgment = a_to_judgment<Type, unsigned long, Value, Continuation>;
 
 		template<typename Type, signed long Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_signed_long_to_judgement = a_to_judgement<Type, signed long, Value, Continuation>;
+		static constexpr Type a_signed_long_to_judgment = a_to_judgment<Type, signed long, Value, Continuation>;
 
 		template<typename Type, unsigned long long Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_unsigned_long_long_to_judgement = a_to_judgement<Type, unsigned long long, Value, Continuation>;
+		static constexpr Type a_unsigned_long_long_to_judgment = a_to_judgment<Type, unsigned long long, Value, Continuation>;
 
 		template<typename Type, signed long long Value, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_signed_long_long_to_judgement = a_to_judgement<Type, signed long long, Value, Continuation>;
+		static constexpr Type a_signed_long_long_to_judgment = a_to_judgment<Type, signed long long, Value, Continuation>;
 };

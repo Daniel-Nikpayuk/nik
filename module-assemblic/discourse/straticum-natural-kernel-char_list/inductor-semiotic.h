@@ -21,7 +21,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_inductor_as_
+	#define PREFIX		snkcl_inductor_as_
 
 #else
 

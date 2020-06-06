@@ -21,7 +21,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_embedding_as_
+	#define PREFIX		snkcl_embedding_as_
 
 #else
 

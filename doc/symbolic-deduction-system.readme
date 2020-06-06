@@ -20,10 +20,10 @@
 	C++ core deduction system:
 
 
-		judgement		:=	( instance           : type               )
+		judgment		:=	( instance           : type               )
 
 
-		register_judgement	:=	( value_instance     : value_type         )
+		register_judgment	:=	( value_instance     : value_type         )
 
 						( boolean            : bool               )
 						( literal            : unsigned char      )
@@ -39,14 +39,14 @@
 						( numeric            : pointer            )
 
 
-		address_judgement	:=	( object_instance    : object_type        )
+		address_judgment	:=	( object_instance    : object_type        )
 
 						( initialization     : array              )
 						( struct             : abstraction        )
 						( specialization     : template           )
 
 
-		symbolic_judgement	:=	( parameter_instance : parameter_type     )
+		symbolic_judgment	:=	( parameter_instance : parameter_type     )
 
 						( value_instance     : value_type         )
 						( value_type         : typename           )
@@ -76,7 +76,7 @@
 
 							reflex_A : A --> A
 
-						b) Reflexes are divided based on their judgement types.
+						b) Reflexes are divided based on their judgment types.
 
 							echo : builtin  --> builtin
 							ping : typename --> typename

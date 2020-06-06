@@ -29,8 +29,8 @@ struct inductor
 	template<typename Memoized_Type>
 	struct pattern_match_curried_pair<Memoized_Type, sfinae_try<Memoized_Type::template dependent_induct>>
 	{
-		template<typename Continuation, typename Judgement = dependent_memoization<bool>>
-		using symbolic_match = typename Continuation::template result<Judgement, bool, true>;
+		template<typename Continuation, typename Judgment = dependent_memoization<bool>>
+		using symbolic_match = typename Continuation::template result<Judgment, bool, true>;
 
 		template<typename Continuation, typename Inductor = typename pnk_builtin_ss::inductor>
 		using symbolic_induct = typename Memoized_Type::template dependent_induct<Continuation, Inductor>;

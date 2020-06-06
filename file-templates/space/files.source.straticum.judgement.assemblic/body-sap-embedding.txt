@@ -1,5 +1,0 @@
-	// display:
-
-		// procedural:
-
-		static constexpr void <<<U_TYPE>>>_judgement_display(<<<TYPE>>> v) { printf("%<<<PRINTF_FORMAT>>>", v); }

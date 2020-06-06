@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		snkc_proximity_as_
+	#define PREFIX		snkcl_proximity_as_
 
 #else
 

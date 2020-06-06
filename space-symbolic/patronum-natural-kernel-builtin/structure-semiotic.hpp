@@ -19,12 +19,12 @@ struct structure
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// to judgement:
+	// to judgment:
 
 		// symbolic:
 
 		template<typename Type, Type Value, typename Continuation = ch_symbolic_values>
-		using s_to_judgement = typename dependent_memoization<Type>::template pattern_match_values<Value>::template
+		using s_to_judgment = typename dependent_memoization<Type>::template pattern_match_values<Value>::template
 		symbolic_induct
 		<
 			Continuation
@@ -33,7 +33,7 @@ struct structure
 		// assemblic:
 
 		template<typename Kind, typename Type, Type Value, typename Continuation = ch_assemblic_value>
-		static constexpr Kind a_to_judgement = dependent_memoization<Type>::template pattern_match_values<Value>::template
+		static constexpr Kind a_to_judgment = dependent_memoization<Type>::template pattern_match_values<Value>::template
 		assemblic_induct
 		<
 			Continuation

@@ -116,7 +116,7 @@ struct inductor
 		// values:
 
 			// The following template pattern matcher is only here as an optimization to minimize
-			// memoizations, otherwise it narratively belongs with its respective judgement module.
+			// memoizations, otherwise it narratively belongs with its respective judgment module.
 
 		template<auto... Values>
 		struct pattern_match_values

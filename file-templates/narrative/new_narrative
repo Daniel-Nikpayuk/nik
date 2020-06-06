@@ -6,13 +6,13 @@ LANGUAGE="$3"
 MODULE="$4"
 READING="$5"
 PERMISSION="$6"
-OPTION="$7"
 
+IN_FILE="$7"
 OUT_FILE="$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE-$PERMISSION.h"
 
 # doesn't reuse source texts because it can't assume they're identical for custom builds.
 
-SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$READING" "$PERMISSION" "$OPTION")"
+SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$READING" "$PERMISSION" "$IN_FILE")"
 NARRATIVE_TEXT="$(build_narrative "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$READING" "$PERMISSION")"
 
 echo "$NARRATIVE_TEXT" > "$OUT_FILE"

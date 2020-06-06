@@ -1,2 +1,0 @@
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(patronum, natural, kernel, judgement, identity)

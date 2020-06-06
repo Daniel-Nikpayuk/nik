@@ -1,5 +1,18 @@
 #!/bin/bash
 
+get-mod-signature ()
+{
+	local MODULE="$1"
+
+	local mawk_prog='BEGIN { RS="_"; str=""; }
+	{
+		str=str substr($0,1,1);
+	}
+	END { print str; }'
+
+	echo "$MODULE" | mawk "$mawk_prog"
+}
+
 build-division ()
 {
 	local SOURCE_TEXT="$1"
@@ -14,7 +27,7 @@ build-division ()
 
 	local mawk_prog='BEGIN {
 		PREFIX=substr(LIBRARY,1,1) substr(UNIVERSE,1,1) substr(LANGUAGE,1,1);
-		DIV_PREFIX=PREFIX substr(MODULE,1,1);
+		DIV_PREFIX=PREFIX MOD_SIGNATURE;
 		SUFFIX=substr(READING,1,1) substr(PERMISSION,1,1);
 
 		SIGNATURE=PREFIX "_" MODULE "_" SUFFIX;
@@ -35,16 +48,17 @@ build-division ()
 		print $0;
 	}'
 
-	echo "$SOURCE_TEXT"						|
-	mawk								\
-		-v LIBRARY="$LIBRARY"					\
-		-v UNIVERSE="$UNIVERSE"					\
-		-v LANGUAGE="$LANGUAGE"					\
-		-v MODULE="$MODULE"					\
-		-v DIVISION="$DIVISION"					\
-		-v READING="$READING"					\
-		-v PERMISSION="$PERMISSION"				\
-									\
+	echo "$SOURCE_TEXT"							|
+	mawk									\
+		-v LIBRARY="$LIBRARY"						\
+		-v UNIVERSE="$UNIVERSE"						\
+		-v LANGUAGE="$LANGUAGE"						\
+		-v MODULE="$MODULE"						\
+		-v DIVISION="$DIVISION"						\
+		-v READING="$READING"						\
+		-v PERMISSION="$PERMISSION"					\
+		-v MOD_SIGNATURE="$(get-mod-signature "$MODULE")"		\
+										\
 	"$mawk_prog"
 }
 

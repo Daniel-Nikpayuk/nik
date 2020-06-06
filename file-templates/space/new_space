@@ -7,6 +7,7 @@ MODULE="$4"
 READING="$5"
 PERMISSION="$6"
 
+IN_DIR="$7"
 OUT_DIR="$LIBRARY-$UNIVERSE-$LANGUAGE-$MODULE"
 
 if [ ! -d "$OUT_DIR" ]
@@ -19,7 +20,7 @@ fi
 cat "divisions.txt"	|
 while read division
 do
-	SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$division" "$READING" "$PERMISSION")"
+	SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$division" "$READING" "$PERMISSION" "$IN_DIR")"
 	DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE" "$LANGUAGE" "$MODULE" "$division" "$READING" "$PERMISSION")"
 	OUT_FILE="$(if [ "$division" = "permission" ]; then echo "$PERMISSION.h"; else echo "$division-$PERMISSION.hpp"; fi)"
 
