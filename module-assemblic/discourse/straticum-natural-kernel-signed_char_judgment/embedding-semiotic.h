@@ -32,6 +32,19 @@
 
 //
 
+										  template
+										  <
+											signed char Value,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_char_judgment_value)				= typename snk_signed_char_judgment_as::embedding::template
+										  s_signed_char_judgment_value<Value, Continuation>;
+
+//
+
 	static constexpr void (*nik_safe(PREFIX, p_signed_char_judgment_display))(signed char) =
 		snk_signed_char_judgment_as::embedding::p_signed_char_judgment_display;
 

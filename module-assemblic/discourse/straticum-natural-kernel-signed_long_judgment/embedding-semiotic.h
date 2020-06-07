@@ -32,6 +32,19 @@
 
 //
 
+										  template
+										  <
+											signed long Value,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, s_signed_long_judgment_value)				= typename snk_signed_long_judgment_as::embedding::template
+										  s_signed_long_judgment_value<Value, Continuation>;
+
+//
+
 	static constexpr void (*nik_safe(PREFIX, p_signed_long_judgment_display))(signed long) =
 		snk_signed_long_judgment_as::embedding::p_signed_long_judgment_display;
 

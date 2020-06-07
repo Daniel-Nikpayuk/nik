@@ -19,28 +19,10 @@ struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+	// judgment value:
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_judgment_ = typename pattern_match_judgment_<Type, Exp>::template
-		symbolic_induct
-		<
-			Continuation
-		>;
-
-		// assemblic:
-
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_judgment_ = pattern_match_judgment_<Type, Exp>::template
-		assemblic_induct
-		<
-			Continuation
-		>;
-
-		// procedural:
-
-		template<typename Type>
-		static constexpr void p_judgment_() { return ; }
+		template<typename Type, Type Value, typename Continuation = ch_symbolic_values>
+		using sf_judgment_value = typename Continuation::template result<pnkb_inductor_ss, Type, Value>;
 };

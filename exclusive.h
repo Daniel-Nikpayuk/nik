@@ -60,9 +60,7 @@ namespace nik
 
 	using void_ptr						= void *;		// compliment to nullptr ( = 0 )
 
-	struct global_filler					{ };			// keyword.
-
-	using filler						= global_filler *;
+	struct filler						{ };			// keyword.
 
 	template<template<typename...> class...>
 	using sfinae_try					= filler;

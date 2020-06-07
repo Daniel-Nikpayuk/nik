@@ -34,32 +34,14 @@
 
 										  template
 										  <
-											typename Type,
+											typename Type, Type Value,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_judgment_)					= typename pnk_judgment_as::embedding::template
-										  s_judgment_<Type, Continuation>;
-
-//
-
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr void nik_safe(PREFIX, a_judgment_)			= pnk_judgment_as::embedding::template
-										  a_judgment_<Type, Continuation>;
-
-//
-
-	static constexpr void (*nik_safe(PREFIX, p_judgment_))()		= pnk_judgment_as::embedding::
-												  p_judgment_;
+	using nik_safe(PREFIX, sf_judgment_value)				= typename pnk_judgment_as::embedding::template
+										  sf_judgment_value<Type, Value, Continuation>;
 
 //
 

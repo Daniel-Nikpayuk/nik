@@ -1,2 +1,0 @@
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
-		using s_is_<<<U_TYPE>>>_judgment_equal = s_is_equal<<<<TYPE>>>, Value1, Value2, Continuation>;

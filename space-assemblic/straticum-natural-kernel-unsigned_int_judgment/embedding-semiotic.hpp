@@ -17,6 +17,19 @@
 
 struct embedding
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, embedding)
+
+	// judgment value:
+
+		// symbolic:
+
+		template<unsigned int Value, typename Continuation = ch_symbolic_values>
+		using s_unsigned_int_judgment_value = sf_judgment_value
+		<
+			unsigned int, Value, Continuation
+		>;
+
 	// display:
 
 		// procedural:

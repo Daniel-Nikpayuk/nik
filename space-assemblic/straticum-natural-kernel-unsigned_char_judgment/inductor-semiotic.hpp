@@ -22,6 +22,6 @@ struct inductor
 	// implemented at a lower level for performance:
 
 	template<auto Value>
-	using pattern_match_unsigned_char_judgment		= typename dependent_memoization<unsigned char>::template
+	using pattern_match_unsigned_char_judgment			= typename dependent_memoization<unsigned char>::template
 										  pattern_match_values<Value>;
 };

@@ -1,4 +1,0 @@
-		// procedural:
-
-		static constexpr bool (*p_is_<<<U_TYPE>>>_judgment_equal)(<<<TYPE>>>, <<<TYPE>>>) =
-		p_is_equal<<<<TYPE>>>>;

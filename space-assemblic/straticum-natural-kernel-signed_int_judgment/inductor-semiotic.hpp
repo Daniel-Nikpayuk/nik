@@ -22,6 +22,6 @@ struct inductor
 	// implemented at a lower level for performance:
 
 	template<auto Value>
-	using pattern_match_signed_int_judgment		= typename dependent_memoization<signed int>::template
+	using pattern_match_signed_int_judgment			= typename dependent_memoization<signed int>::template
 										  pattern_match_values<Value>;
 };
