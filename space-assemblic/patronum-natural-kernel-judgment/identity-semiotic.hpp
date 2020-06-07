@@ -19,7 +19,7 @@ struct identity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+	// is equal:
 
 		// symbolic:
 
@@ -33,5 +33,5 @@ struct identity
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_is_equal(Type Value1, Type Value2) { return Value1 == Value2; }
+		static constexpr bool p_judgment_is_equal(Type Value1, Type Value2) { return Value1 == Value2; }
 };

@@ -19,28 +19,67 @@ struct proximity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+	// less than:
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_judgment_ = typename pattern_match_judgment_<Type, Exp>::template
-		symbolic_induct
-		<
-			Continuation
-		>;
+		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
+		using sf_judgment_less_than = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 < Value2)>;
 
 		// assemblic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_judgment_ = pattern_match_judgment_<Type, Exp>::template
-		assemblic_induct
-		<
-			Continuation
-		>;
+			// is not implemented as it's better to use constexpr functions.
 
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_() { return ; }
+		static constexpr bool p_judgment_less_than(Type Value1, Type Value2) { return (Value1 < Value2); }
+
+	// less than or equal:
+
+		// symbolic:
+
+		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
+		using sf_judgment_less_than_or_equal = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 <= Value2)>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr bool p_judgment_less_than_or_equal(Type Value1, Type Value2) { return (Value1 <= Value2); }
+
+	// greater than:
+
+		// symbolic:
+
+		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
+		using sf_judgment_greater_than = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 > Value2)>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr bool p_judgment_greater_than(Type Value1, Type Value2) { return (Value1 > Value2); }
+
+	// greater than or equal:
+
+		// symbolic:
+
+		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
+		using sf_judgment_greater_than_or_equal = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 >= Value2)>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr bool p_judgment_greater_than_or_equal(Type Value1, Type Value2) { return (Value1 >= Value2); }
 };

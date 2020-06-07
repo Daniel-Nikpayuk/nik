@@ -24,7 +24,7 @@ struct navigator
 		// symbolic:
 
 		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_add = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 + Value2>;
+		using sf_judgment_add = typename Continuation::template result<pnkb_inductor_ss, Type, Value1 + Value2>;
 
 		// assemblic:
 
@@ -33,14 +33,14 @@ struct navigator
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_add(Type Value1, Type Value2) { return Value1 + Value2; }
+		static constexpr Type p_judgment_add(Type Value1, Type Value2) { return Value1 + Value2; }
 
 	// subtract:
 
 		// symbolic:
 
 		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_subtract = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 - Value2>;
+		using sf_judgment_subtract = typename Continuation::template result<pnkb_inductor_ss, Type, Value1 - Value2>;
 
 		// assemblic:
 
@@ -49,14 +49,14 @@ struct navigator
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_subtract(Type Value1, Type Value2) { return Value1 - Value2; }
+		static constexpr Type p_judgment_subtract(Type Value1, Type Value2) { return Value1 - Value2; }
 
 	// multiply:
 
 		// symbolic:
 
 		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_multiply = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 * Value2>;
+		using sf_judgment_multiply = typename Continuation::template result<pnkb_inductor_ss, Type, Value1 * Value2>;
 
 		// assemblic:
 
@@ -65,14 +65,14 @@ struct navigator
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_multiply(Type Value1, Type Value2) { return Value1 * Value2; }
+		static constexpr Type p_judgment_multiply(Type Value1, Type Value2) { return Value1 * Value2; }
 
 	// divide:
 
 		// symbolic:
 
 		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_divide = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 / Value2>;
+		using sf_judgment_divide = typename Continuation::template result<pnkb_inductor_ss, Type, Value1 / Value2>;
 
 		// assemblic:
 
@@ -81,14 +81,14 @@ struct navigator
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_divide(Type Value1, Type Value2) { return Value1 / Value2; }
+		static constexpr Type p_judgment_divide(Type Value1, Type Value2) { return Value1 / Value2; }
 
 	// modulo:
 
 		// symbolic:
 
 		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_modulo = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 % Value2>;
+		using sf_judgment_modulo = typename Continuation::template result<pnkb_inductor_ss, Type, Value1 % Value2>;
 
 		// assemblic:
 
@@ -97,5 +97,5 @@ struct navigator
 		// procedural:
 
 		template<typename Type>
-		static constexpr void p_judgment_modulo(Type Value1, Type Value2) { return Value1 % Value2; }
+		static constexpr Type p_judgment_modulo(Type Value1, Type Value2) { return Value1 % Value2; }
 };

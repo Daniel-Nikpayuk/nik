@@ -1,0 +1,8 @@
+struct <<<DIVISION>>>
+{
+	// display:
+
+		// procedural:
+
+		static constexpr void p_<<<U_TYPE>>>_judgment_display(<<<TYPE>>> v) { printf("%<<<FORMAT>>>", v); }
+};

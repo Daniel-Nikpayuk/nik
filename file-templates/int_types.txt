@@ -1,0 +1,10 @@
+unsigned_char			u  		unsigned char
+signed_char			d  		signed char
+unsigned_short			u  		unsigned short
+signed_short			d  		signed short
+unsigned_int			u  		unsigned int
+signed_int			d  		signed int
+unsigned_long			lu 		unsigned long
+signed_long			ld 		signed long
+unsigned_long_long		llu		unsigned long long
+signed_long_long		lld		signed long long

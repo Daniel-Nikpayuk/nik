@@ -1,0 +1,19 @@
+<<<DEFINE_DEPENDENCIES_TEXT>>>#ifdef safe_name
+
+	#define PREFIX		<<<DIV_SIGNATURE>>>_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template<auto Value>
+	using nik_safe(PREFIX, pattern_match_<<<MODULE>>>)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  pattern_match_<<<MODULE>>><Value>;
+
+//
+
+#undef PREFIX<<<UNDEF_DEPENDENCIES_TEXT>>>

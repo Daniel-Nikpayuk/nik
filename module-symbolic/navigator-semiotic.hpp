@@ -23,13 +23,11 @@ enum struct Module : global_size_type
 	builtin,
 
 	judgment,
+
 	bool_judgment,
-	char_judgment,
+
 	unsigned_char_judgment,
 	signed_char_judgment,
-	wchar_t_judgment,
-	char16_t_judgment,
-	char32_t_judgment,
 	unsigned_short_judgment,
 	signed_short_judgment,
 	unsigned_int_judgment,
@@ -39,6 +37,11 @@ enum struct Module : global_size_type
 	unsigned_long_long_judgment,
 	signed_long_long_judgment,
 
+	char_judgment,
+	wchar_t_judgment,
+	char16_t_judgment,
+	char32_t_judgment,
+
 	pair,
 	copair,
 
@@ -47,13 +50,11 @@ enum struct Module : global_size_type
 	stem,
 
 	judgment_list,
+
 	bool_list,
-	char_list,
+
 	unsigned_char_list,
 	signed_char_list,
-	wchar_t_list,
-	char16_t_list,
-	char32_t_list,
 	unsigned_short_list,
 	signed_short_list,
 	unsigned_int_list,
@@ -63,9 +64,16 @@ enum struct Module : global_size_type
 	unsigned_long_long_list,
 	signed_long_long_list,
 
+	char_list,
+	wchar_t_list,
+	char16_t_list,
+	char32_t_list,
+
 	typename_list,
 
 	colist,
+
+	builtin_judgment, // dispatch by builtin judgment
 
 	regular_text,
 

@@ -25,7 +25,7 @@ namespace nik
 		//
 
 		#include"identity-semiotic.hpp"
-//		#include"proximity-semiotic.hpp"
+		#include"proximity-semiotic.hpp"
 //		#include"embedding-semiotic.hpp"
 
 		//

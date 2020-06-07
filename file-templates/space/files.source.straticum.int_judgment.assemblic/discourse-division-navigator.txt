@@ -1,0 +1,100 @@
+struct <<<DIVISION>>>
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
+
+	// add:
+
+		// symbolic:
+
+		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		using s_<<<U_TYPE>>>_judgment_add = sf_judgment_add
+		<
+			<<<TYPE>>>, Value1, Value2, Continuation
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr <<<TYPE>>> (*p_<<<U_TYPE>>>_judgment_add)(<<<TYPE>>>, <<<TYPE>>>) =
+			p_judgment_add<<<<TYPE>>>>;
+
+	// subtract:
+
+		// symbolic:
+
+		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		using s_<<<U_TYPE>>>_judgment_subtract = sf_judgment_subtract
+		<
+			<<<TYPE>>>, Value1, Value2, Continuation
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr <<<TYPE>>> (*p_<<<U_TYPE>>>_judgment_subtract)(<<<TYPE>>>, <<<TYPE>>>) =
+			p_judgment_subtract<<<<TYPE>>>>;
+
+	// multiply:
+
+		// symbolic:
+
+		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		using s_<<<U_TYPE>>>_judgment_multiply = sf_judgment_multiply
+		<
+			<<<TYPE>>>, Value1, Value2, Continuation
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr <<<TYPE>>> (*p_<<<U_TYPE>>>_judgment_multiply)(<<<TYPE>>>, <<<TYPE>>>) =
+			p_judgment_multiply<<<<TYPE>>>>;
+
+	// divide:
+
+		// symbolic:
+
+		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		using s_<<<U_TYPE>>>_judgment_divide = sf_judgment_divide
+		<
+			<<<TYPE>>>, Value1, Value2, Continuation
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr <<<TYPE>>> (*p_<<<U_TYPE>>>_judgment_divide)(<<<TYPE>>>, <<<TYPE>>>) =
+			p_judgment_divide<<<<TYPE>>>>;
+
+	// modulo:
+
+		// symbolic:
+
+		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		using s_<<<U_TYPE>>>_judgment_modulo = sf_judgment_modulo
+		<
+			<<<TYPE>>>, Value1, Value2, Continuation
+		>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr <<<TYPE>>> (*p_<<<U_TYPE>>>_judgment_modulo)(<<<TYPE>>>, <<<TYPE>>>) =
+			p_judgment_modulo<<<<TYPE>>>>;
+};

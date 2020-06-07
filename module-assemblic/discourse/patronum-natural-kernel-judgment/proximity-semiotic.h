@@ -35,31 +35,75 @@
 										  template
 										  <
 											typename Type,
+											Type Value1,
+											Type Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_judgment_)					= typename pnk_judgment_as::proximity::template
-										  s_judgment_<Type, Continuation>;
-
-//
+	using nik_safe(PREFIX, sf_judgment_less_than)				= typename pnk_judgment_as::proximity::template
+										  sf_judgment_less_than<Type, Value1, Value2, Continuation>;
 
 										  template
 										  <
 											typename Type,
+											Type Value1,
+											Type Value2,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_symbolic_values
 										  >
-	static constexpr void nik_safe(PREFIX, a_judgment_)			= pnk_judgment_as::proximity::template
-										  a_judgment_<Type, Continuation>;
+	using nik_safe(PREFIX, sf_judgment_less_than_or_equal)			= typename pnk_judgment_as::proximity::template
+										  sf_judgment_less_than_or_equal
+											<Type, Value1, Value2, Continuation>;
+
+										  template
+										  <
+											typename Type,
+											Type Value1,
+											Type Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, sf_judgment_greater_than)			= typename pnk_judgment_as::proximity::template
+										  sf_judgment_greater_than
+											<Type, Value1, Value2, Continuation>;
+
+										  template
+										  <
+											typename Type,
+											Type Value1,
+											Type Value2,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values
+										  >
+	using nik_safe(PREFIX, sf_judgment_greater_than_or_equal)		= typename pnk_judgment_as::proximity::template
+										  sf_judgment_greater_than_or_equal
+											<Type, Value1, Value2, Continuation>;
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_judgment_))()		= pnk_judgment_as::proximity::
-												  p_judgment_;
+													  template<typename Type>
+	static constexpr bool (*nik_safe(PREFIX, p_judgment_less_than))(Type, Type)			= pnk_judgment_as::proximity::
+													  p_judgment_less_than;
+
+													  template<typename Type>
+	static constexpr bool (*nik_safe(PREFIX, p_judgment_less_than_or_equal))(Type, Type)		= pnk_judgment_as::proximity::
+													  p_judgment_less_than_or_equal;
+
+													  template<typename Type>
+	static constexpr bool (*nik_safe(PREFIX, p_judgment_greater_than))(Type, Type)			= pnk_judgment_as::proximity::
+													  p_judgment_greater_than;
+
+													  template<typename Type>
+	static constexpr bool (*nik_safe(PREFIX, p_judgment_greater_than_or_equal))(Type, Type)		= pnk_judgment_as::proximity::
+													  p_judgment_greater_than_or_equal;
 
 //
 

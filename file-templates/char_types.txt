@@ -1,0 +1,4 @@
+char				c  		char
+wchar_t				c  		wchar_t
+char16_t			c  		char16_t
+char32_t			c  		char32_t

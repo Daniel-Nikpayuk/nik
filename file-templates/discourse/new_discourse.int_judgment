@@ -1,0 +1,33 @@
+#!/bin/bash
+
+LIBRARY="$1"
+UNIVERSE="$2"
+LANGUAGE="$3"
+READING="$4"
+PERMISSION="$5"
+
+# doesn't reuse source texts because it can't assume they're identical for custom builds.
+
+cat ../"int_types.txt"	|
+while read u_type format type
+do
+	OUT_DIR="$LIBRARY-$UNIVERSE-$LANGUAGE-$u_type""_judgment"
+
+	if [ ! -d "$OUT_DIR" ]
+	then
+		mkdir "$OUT_DIR"
+	fi
+
+	cat "divisions.txt"	|
+	while read division
+	do
+		SOURCE_TEXT="$(build_source "$LIBRARY" "$UNIVERSE" "$LANGUAGE"							\
+				"$u_type""_judgment" "$division" "$READING" "$PERMISSION" "straticum.int_judgment.$READING")"
+		DIVISION_TEXT="$(build_division "$SOURCE_TEXT" "$LIBRARY" "$UNIVERSE"						\
+				"$LANGUAGE" "$u_type""_judgment" "$division" "$READING" "$PERMISSION")"
+		JUDGMENT_TEXT="$(build_division.judgment "$DIVISION_TEXT" "$u_type" "$type")"
+
+		echo "$JUDGMENT_TEXT" > "$OUT_DIR/$division-$PERMISSION.h"
+	done
+done
+

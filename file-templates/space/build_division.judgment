@@ -4,24 +4,24 @@ build-judgment ()
 {
 	local DIVISION_TEXT="$1"
 	local U_TYPE="$2"
-	local PRINTF_FORMAT="$3"
+	local FORMAT="$3"
 	local TYPE="$4"
 
 	local mawk_prog='
 	{
 		gsub("<<<U_TYPE>>>", U_TYPE);
-		gsub("<<<PRINTF_FORMAT>>>", PRINTF_FORMAT);
+		gsub("<<<FORMAT>>>", FORMAT);
 		gsub("<<<TYPE>>>", TYPE);
 
 		print $0;
 	}'
 
-	echo "$DIVISION_TEXT"					|
-	mawk							\
-		-v U_TYPE="$U_TYPE"				\
-		-v PRINTF_FORMAT="$PRINTF_FORMAT"		\
-		-v TYPE="$TYPE"					\
-								\
+	echo "$DIVISION_TEXT"			|
+	mawk					\
+		-v U_TYPE="$U_TYPE"		\
+		-v FORMAT="$FORMAT"		\
+		-v TYPE="$TYPE"			\
+						\
 	"$mawk_prog"
 }
 
