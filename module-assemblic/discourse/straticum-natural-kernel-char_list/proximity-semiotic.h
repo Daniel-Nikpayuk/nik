@@ -38,10 +38,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_char_list_)					= typename snk_char_list_as::proximity::template
-										  s_char_list_<Type, Continuation>;
+										  s_char_list_<Type, Continuation, Memoizer>;
 
 //
 
@@ -51,10 +55,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = Type
 										  >
-	static constexpr void nik_safe(PREFIX, a_char_list_)			= snk_char_list_as::proximity::template
-										  a_char_list_<Type, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_char_list_)		= snk_char_list_as::proximity::template
+										  a_char_list_<Type, Continuation, Image>;
 
 //
 

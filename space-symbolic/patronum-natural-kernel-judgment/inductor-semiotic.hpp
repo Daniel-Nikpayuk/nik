@@ -38,7 +38,7 @@ struct inductor
 	>;
 
 	template<typename Type, typename Exp>
-	using pattern_match_dependent_judgment = if_then_else
+	using pattern_match_curried_judgment = if_then_else
 	<
 		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template assemblic_match<>	&&
 		dependent_memoization<Type>::template a_values_list_length<Exp> == NIK_ONE				&&

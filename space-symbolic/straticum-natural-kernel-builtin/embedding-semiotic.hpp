@@ -44,110 +44,305 @@ struct embedding
 
 	// symbolic:
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_bool_literal = s_type_literal<bool, string_literal_bool, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_bool_literal = s_type_literal
+		<
+			bool, string_literal_bool, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_char_literal = s_type_literal<char, string_literal_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_char_literal = s_type_literal
+		<
+			char, string_literal_char, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_unsigned_char_literal = s_type_literal<unsigned char, string_literal_unsigned_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_unsigned_char_literal = s_type_literal
+		<
+			unsigned char, string_literal_unsigned_char, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_signed_char_literal = s_type_literal<signed char, string_literal_signed_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_signed_char_literal = s_type_literal
+		<
+			signed char, string_literal_signed_char, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_wchar_t_literal = s_type_literal<wchar_t, string_literal_wchar_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_wchar_t_literal = s_type_literal
+		<
+			wchar_t, string_literal_wchar_t, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_char16_t_literal = s_type_literal<char16_t, string_literal_char16_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_char16_t_literal = s_type_literal
+		<
+			char16_t, string_literal_char16_t, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_char32_t_literal = s_type_literal<char32_t, string_literal_char32_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_char32_t_literal = s_type_literal
+		<
+			char32_t, string_literal_char32_t, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_unsigned_short_literal = s_type_literal<unsigned short, string_literal_unsigned_short, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_unsigned_short_literal = s_type_literal
+		<
+			unsigned short, string_literal_unsigned_short, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_signed_short_literal = s_type_literal<signed short, string_literal_signed_short, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_signed_short_literal = s_type_literal
+		<
+			signed short, string_literal_signed_short, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_unsigned_int_literal = s_type_literal<unsigned int, string_literal_unsigned_int, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_unsigned_int_literal = s_type_literal
+		<
+			unsigned int, string_literal_unsigned_int, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_signed_int_literal = s_type_literal<signed int, string_literal_signed_int, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_signed_int_literal = s_type_literal
+		<
+			signed int, string_literal_signed_int, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_unsigned_long_literal = s_type_literal<unsigned long, string_literal_unsigned_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_unsigned_long_literal = s_type_literal
+		<
+			unsigned long, string_literal_unsigned_long, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_signed_long_literal = s_type_literal<signed long, string_literal_signed_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_signed_long_literal = s_type_literal
+		<
+			signed long, string_literal_signed_long, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_unsigned_long_long_literal = s_type_literal<unsigned long long, string_literal_unsigned_long_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_unsigned_long_long_literal = s_type_literal
+		<
+			unsigned long long, string_literal_unsigned_long_long, Continuation, Memoizer
+		>;
 
-		template<typename Continuation = ch_symbolic_values>
-		using s_signed_long_long_literal = s_type_literal<signed long long, string_literal_signed_long_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_signed_long_long_literal = s_type_literal
+		<
+			signed long long, string_literal_signed_long_long, Continuation, Memoizer
+		>;
 
 	// assemblic:
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_bool_literal =
-			a_type_literal<bool, string_literal_bool, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_bool_literal = a_type_literal
+		<
+			bool, string_literal_bool, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_char_literal =
-			a_type_literal<char, string_literal_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_char_literal = a_type_literal
+		<
+			char, string_literal_char, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_unsigned_char_literal =
-			a_type_literal<unsigned char, string_literal_unsigned_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_unsigned_char_literal = a_type_literal
+		<
+			unsigned char, string_literal_unsigned_char, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_signed_char_literal =
-			a_type_literal<signed char, string_literal_signed_char, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_signed_char_literal = a_type_literal
+		<
+			signed char, string_literal_signed_char, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_wchar_t_literal =
-			a_type_literal<wchar_t, string_literal_wchar_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_wchar_t_literal = a_type_literal
+		<
+			wchar_t, string_literal_wchar_t, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_char16_t_literal =
-			a_type_literal<char16_t, string_literal_char16_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_char16_t_literal = a_type_literal
+		<
+			char16_t, string_literal_char16_t, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_char32_t_literal =
-			a_type_literal<char32_t, string_literal_char32_t, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_char32_t_literal = a_type_literal
+		<
+			char32_t, string_literal_char32_t, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_unsigned_short_literal =
-			a_type_literal<unsigned short, string_literal_unsigned_short, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_unsigned_short_literal = a_type_literal
+		<
+			unsigned short, string_literal_unsigned_short, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_signed_short_literal =
-			a_type_literal<signed short, string_literal_signed_short, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_signed_short_literal = a_type_literal
+		<
+			signed short, string_literal_signed_short, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_unsigned_int_literal =
-			a_type_literal<unsigned int, string_literal_unsigned_int, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_unsigned_int_literal = a_type_literal
+		<
+			unsigned int, string_literal_unsigned_int, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_signed_int_literal =
-			a_type_literal<signed int, string_literal_signed_int, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_signed_int_literal = a_type_literal
+		<
+			signed int, string_literal_signed_int, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_unsigned_long_literal =
-			a_type_literal<unsigned long, string_literal_unsigned_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_unsigned_long_literal = a_type_literal
+		<
+			unsigned long, string_literal_unsigned_long, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_signed_long_literal =
-			a_type_literal<signed long, string_literal_signed_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_signed_long_literal = a_type_literal
+		<
+			signed long, string_literal_signed_long, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_unsigned_long_long_literal =
-			a_type_literal<unsigned long long, string_literal_unsigned_long_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_unsigned_long_long_literal = a_type_literal
+		<
+			unsigned long long, string_literal_unsigned_long_long, Continuation, Image
+		>;
 
-		template<typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_signed_long_long_literal =
-			a_type_literal<signed long long, string_literal_signed_long_long, Continuation>;
+		template
+		<
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_signed_long_long_literal = a_type_literal
+		<
+			signed long long, string_literal_signed_long_long, Continuation, Image
+		>;
 };

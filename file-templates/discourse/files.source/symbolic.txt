@@ -4,7 +4,11 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_<Type, Continuation>;
+										  s_<<<MODULE>>>_<Type, Continuation, Memoizer>;

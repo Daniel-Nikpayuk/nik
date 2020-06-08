@@ -31,10 +31,6 @@
 
 //
 
-	using pnkb_inductor_ss								= typename pnk_builtin_ss::inductor;
-
-//
-
 	using nik_safe(PREFIX, ch_symbolic_type)					= typename pnk_builtin_ss::inductor::
 											  ch_symbolic_type;
 

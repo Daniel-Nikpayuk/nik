@@ -38,10 +38,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_bool_to_judgment)					= typename snk_builtin_ss::structure::template
-											  s_bool_to_judgment<Value, Continuation>;
+											  s_bool_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -49,10 +54,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_char_to_judgment)					= typename snk_builtin_ss::structure::template
-											  s_char_to_judgment<Value, Continuation>;
+											  s_char_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -60,10 +70,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_unsigned_char_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_unsigned_char_to_judgment<Value, Continuation>;
+											  s_unsigned_char_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -71,10 +86,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_signed_char_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_signed_char_to_judgment<Value, Continuation>;
+											  s_signed_char_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -82,10 +102,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_wchar_t_to_judgment)					= typename snk_builtin_ss::structure::template
-											  s_wchar_t_to_judgment<Value, Continuation>;
+											  s_wchar_t_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -93,10 +118,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_char16_t_to_judgment)					= typename snk_builtin_ss::structure::template
-											  s_char16_t_to_judgment<Value, Continuation>;
+											  s_char16_t_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -104,10 +134,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_char32_t_to_judgment)					= typename snk_builtin_ss::structure::template
-											  s_char32_t_to_judgment<Value, Continuation>;
+											  s_char32_t_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -115,10 +150,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_unsigned_short_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_unsigned_short_to_judgment<Value, Continuation>;
+											  s_unsigned_short_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -126,10 +166,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_signed_short_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_signed_short_to_judgment<Value, Continuation>;
+											  s_signed_short_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -137,10 +182,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_unsigned_int_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_unsigned_int_to_judgment<Value, Continuation>;
+											  s_unsigned_int_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -148,10 +198,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_signed_int_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_signed_int_to_judgment<Value, Continuation>;
+											  s_signed_int_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -159,10 +214,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_unsigned_long_to_judgment<Value, Continuation>;
+											  s_unsigned_long_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -170,10 +230,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_signed_long_to_judgment)				= typename snk_builtin_ss::structure::template
-											  s_signed_long_to_judgment<Value, Continuation>;
+											  s_signed_long_to_judgment
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -181,11 +246,15 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_to_judgment)			= typename snk_builtin_ss::structure::template
 											  s_unsigned_long_long_to_judgment
-												<Value, Continuation>;
+												<Value, Continuation, Memoizer>;
 
 											  template
 											  <
@@ -193,188 +262,227 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
 											  >
 	using nik_safe(PREFIX, s_signed_long_long_to_judgment)				= typename snk_builtin_ss::structure::template
 											  s_signed_long_long_to_judgment
-												<Value, Continuation>;
+												<Value, Continuation, Memoizer>;
 
 //
 
 											  template
 											  <
-												typename Kind, bool Value,
+												bool Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = bool
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_bool_to_judgment)			= snk_builtin_ss::structure::template
-											  a_bool_to_judgment<Kind, Value, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_bool_to_judgment)			= snk_builtin_ss::structure::template
+											  a_bool_to_judgment
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, char Value,
+												char Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = char
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_char_to_judgment)			= snk_builtin_ss::structure::template
-											  a_char_to_judgment<Kind, Value, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_char_to_judgment)			= snk_builtin_ss::structure::template
+											  a_char_to_judgment
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, unsigned char Value,
+												unsigned char Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = unsigned char
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_unsigned_char_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_unsigned_char_to_judgment)		= snk_builtin_ss::structure::template
 											  a_unsigned_char_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, signed char Value,
+												signed char Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = signed char
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_signed_char_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_signed_char_to_judgment)		= snk_builtin_ss::structure::template
 											  a_signed_char_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, wchar_t Value,
+												wchar_t Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = wchar_t
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_wchar_t_to_judgment)			= snk_builtin_ss::structure::template
-											  a_wchar_t_to_judgment<Kind, Value, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_wchar_t_to_judgment)			= snk_builtin_ss::structure::template
+											  a_wchar_t_to_judgment
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, char16_t Value,
+												char16_t Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = char16_t
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_char16_t_to_judgment)			= snk_builtin_ss::structure::template
-											  a_char16_t_to_judgment<Kind, Value, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_char16_t_to_judgment)			= snk_builtin_ss::structure::template
+											  a_char16_t_to_judgment
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, char32_t Value,
+												char32_t Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = char32_t
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_char32_t_to_judgment)			= snk_builtin_ss::structure::template
-											  a_char32_t_to_judgment<Kind, Value, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_char32_t_to_judgment)			= snk_builtin_ss::structure::template
+											  a_char32_t_to_judgment
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, unsigned short Value,
+												unsigned short Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = unsigned short
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_unsigned_short_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_unsigned_short_to_judgment)		= snk_builtin_ss::structure::template
 											  a_unsigned_short_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, signed short Value,
+												signed short Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = signed short
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_signed_short_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_signed_short_to_judgment)		= snk_builtin_ss::structure::template
 											  a_signed_short_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, unsigned int Value,
+												unsigned int Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = unsigned int
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_unsigned_int_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_unsigned_int_to_judgment)		= snk_builtin_ss::structure::template
 											  a_unsigned_int_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, signed int Value,
+												signed int Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = signed int
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_signed_int_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_signed_int_to_judgment)		= snk_builtin_ss::structure::template
 											  a_signed_int_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, unsigned long Value,
+												unsigned long Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = unsigned long
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_unsigned_long_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_unsigned_long_to_judgment)		= snk_builtin_ss::structure::template
 											  a_unsigned_long_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, signed long Value,
+												signed long Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = signed long
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_signed_long_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_signed_long_to_judgment)		= snk_builtin_ss::structure::template
 											  a_signed_long_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, unsigned long long Value,
+												unsigned long long Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = unsigned long long
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_unsigned_long_long_to_judgment)	= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_unsigned_long_long_to_judgment)	= snk_builtin_ss::structure::template
 											  a_unsigned_long_long_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 											  template
 											  <
-												typename Kind, signed long long Value,
+												signed long long Value,
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
+												ch_assemblic_value,
+
+												typename Image = signed long long
 											  >
-	static constexpr Kind nik_safe(PREFIX, a_signed_long_long_to_judgment)		= snk_builtin_ss::structure::template
+	static constexpr Image nik_safe(PREFIX, a_signed_long_long_to_judgment)		= snk_builtin_ss::structure::template
 											  a_signed_long_long_to_judgment
-												<Kind, Value, Continuation>;
+												<Value, Continuation, Image>;
 
 //
 

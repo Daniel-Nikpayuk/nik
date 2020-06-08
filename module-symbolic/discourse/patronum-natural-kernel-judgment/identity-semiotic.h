@@ -51,8 +51,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_is_dependent_judgment)				= typename pnk_judgment_ss::identity::template
-										  s_is_dependent_judgment<Type, Exp, Continuation>;
+	using nik_safe(PREFIX, s_is_curried_judgment)				= typename pnk_judgment_ss::identity::template
+										  s_is_curried_judgment<Type, Exp, Continuation>;
 
 //
 
@@ -75,8 +75,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_dependent_judgment)		= pnk_judgment_ss::identity::template
-										  a_is_dependent_judgment<Type, Exp, Continuation>;
+	static constexpr bool nik_safe(PREFIX, a_is_curried_judgment)		= pnk_judgment_ss::identity::template
+										  a_is_curried_judgment<Type, Exp, Continuation>;
 
 //
 

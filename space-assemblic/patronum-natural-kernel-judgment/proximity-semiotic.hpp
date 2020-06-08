@@ -23,8 +23,13 @@ struct proximity
 
 		// symbolic:
 
-		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_less_than = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 < Value2)>;
+		template
+		<
+			typename Type, Type Value1, Type Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_less_than = typename Continuation::template result<Memoizer, Type, (Value1 < Value2)>;
 
 		// assemblic:
 
@@ -39,8 +44,13 @@ struct proximity
 
 		// symbolic:
 
-		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_less_than_or_equal = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 <= Value2)>;
+		template
+		<
+			typename Type, Type Value1, Type Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_less_than_or_equal = typename Continuation::template result<Memoizer, Type, (Value1 <= Value2)>;
 
 		// assemblic:
 
@@ -55,8 +65,13 @@ struct proximity
 
 		// symbolic:
 
-		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_greater_than = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 > Value2)>;
+		template
+		<
+			typename Type, Type Value1, Type Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_greater_than = typename Continuation::template result<Memoizer, Type, (Value1 > Value2)>;
 
 		// assemblic:
 
@@ -71,8 +86,13 @@ struct proximity
 
 		// symbolic:
 
-		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_greater_than_or_equal = typename Continuation::template result<pnkb_inductor_ss, Type, (Value1 >= Value2)>;
+		template
+		<
+			typename Type, Type Value1, Type Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_greater_than_or_equal = typename Continuation::template result<Memoizer, Type, (Value1 >= Value2)>;
 
 		// assemblic:
 

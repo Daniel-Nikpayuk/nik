@@ -34,30 +34,38 @@
 
 										  template
 										  <
-											bool Value,
-											typename Antecedent,
-											typename Consequent,
+											typename Type,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_if_then_else)					= typename snk_bool_judgment_as::embedding::template
-										  s_if_then_else<Value, Antecedent, Consequent, Continuation>;
+											ch_symbolic_values,
 
-										  template
-										  <
-											bool Value,
-											typename Antecedent,
-											typename Consequent
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::embedding::template
-										  if_then_else<Value, Antecedent, Consequent>;
+	using nik_safe(PREFIX, s_bool_judgment_)					= typename snk_bool_judgment_as::embedding::template
+										  s_bool_judgment_<Type, Continuation, Memoizer>;
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_bool_judgment_display))(bool)		= snk_bool_judgment_as::embedding::
-												  p_bool_judgment_display;
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value,
+
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_)		= snk_bool_judgment_as::embedding::template
+										  a_bool_judgment_<Type, Continuation, Image>;
+
+//
+
+	static constexpr void (*nik_safe(PREFIX, p_bool_judgment_))()		= snk_bool_judgment_as::embedding::
+												  p_bool_judgment_;
 
 //
 

@@ -67,8 +67,8 @@
 //
 
 										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_s_dependent_judgment_type)			= typename pnk_judgment_ss::embedding::template
-										  cp_s_dependent_judgment_type<Continuation>;
+	using nik_safe(PREFIX, cp_s_curried_judgment_type)			= typename pnk_judgment_ss::embedding::template
+										  cp_s_curried_judgment_type<Continuation>;
 
 										  template
 										  <
@@ -78,8 +78,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_type
 										  >
-	using nik_safe(PREFIX, s_dependent_judgment_type)			= typename pnk_judgment_ss::embedding::template
-										  s_dependent_judgment_type<Type, Judgment, Continuation>;
+	using nik_safe(PREFIX, s_curried_judgment_type)				= typename pnk_judgment_ss::embedding::template
+										  s_curried_judgment_type<Type, Judgment, Continuation>;
 
 //
 
@@ -91,8 +91,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_symbolic_values
 										  >
-	using nik_safe(PREFIX, s_dependent_judgment_value)			= typename pnk_judgment_ss::embedding::template
-										  s_dependent_judgment_value<Type, Judgment, Continuation>;
+	using nik_safe(PREFIX, s_curried_judgment_value)			= typename pnk_judgment_ss::embedding::template
+										  s_curried_judgment_value<Type, Judgment, Continuation>;
 
 //
 
@@ -114,8 +114,8 @@
 //
 
 										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_a_dependent_judgment_value)			= typename pnk_judgment_ss::embedding::template
-										  cp_a_dependent_judgment_value<Continuation>;
+	using nik_safe(PREFIX, cp_a_curried_judgment_value)			= typename pnk_judgment_ss::embedding::template
+										  cp_a_curried_judgment_value<Continuation>;
 
 										  template
 										  <
@@ -125,8 +125,8 @@
 											typename pnk_builtin_ss::inductor::
 											ch_assemblic_value
 										  >
-	static constexpr Type nik_safe(PREFIX, a_dependent_judgment_value)	= pnk_judgment_ss::embedding::template
-										  a_dependent_judgment_value<Type, Judgment, Continuation>;
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_value)	= pnk_judgment_ss::embedding::template
+										  a_curried_judgment_value<Type, Judgment, Continuation>;
 
 //
 

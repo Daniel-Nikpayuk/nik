@@ -23,13 +23,23 @@ struct structure
 
 		// symbolic:
 
-		template<typename Exp, typename Continuation = ch_symbolic_values>
-		using s_bool_judgment_ = s_bool_judgment_<Exp, Continuation>;
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_bool_judgment_ = s_bool_judgment_<Exp, Continuation, Memoizer>;
 
 		// assemblic:
 
-		template<typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_bool_judgment_ = a_bool_judgment_<Exp, Continuation>;
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_assemblic_value,
+			typename Image
+		>
+		static constexpr Image a_bool_judgment_ = a_bool_judgment_<Exp, Continuation, Image>;
 
 		// procedural:
 

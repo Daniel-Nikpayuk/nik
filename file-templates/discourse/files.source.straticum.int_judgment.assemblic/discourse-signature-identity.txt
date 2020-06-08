@@ -10,17 +10,22 @@
 
 //
 
-										  template
-										  <
-											<<<TYPE>>> Value1,
-											<<<TYPE>>> Value2,
+											  template
+											  <
+												<<<TYPE>>> Value1,
+												<<<TYPE>>> Value2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_<<<MODULE>>>_is_equal)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_is_equal<Value1, Value2, Continuation>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values,
+
+												template<typename> class Memoizer =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization
+											  >
+	using nik_safe(PREFIX, s_<<<MODULE>>>_is_equal)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  s_<<<MODULE>>>_is_equal
+												<Value1, Value2, Continuation, Memoizer>;
 
 //
 

@@ -23,19 +23,29 @@ struct proximity
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_builtin_ = typename pattern_match_builtin_<Type, Exp>::template
-		symbolic_induct
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_builtin_ = typename pattern_match_builtin_<Type, Exp>::template
+		s_induct
+		<
+			Continuation, Memoizer
 		>;
 
 		// assemblic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_builtin_ = pattern_match_builtin_<Type, Exp>::template
-		assemblic_induct
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_assemblic_value,
+			typename Image = Type
+		>
+		static constexpr Image a_builtin_ = pattern_match_builtin_<Type, Exp>::template
+		a_induct
+		<
+			Continuation, Image
 		>;
 };

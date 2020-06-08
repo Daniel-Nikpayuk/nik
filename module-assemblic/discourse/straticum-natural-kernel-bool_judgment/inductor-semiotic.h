@@ -31,9 +31,9 @@
 
 //
 
-										  template<auto Value>
+										  template<typename Type>
 	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
+										  pattern_match_bool_judgment<Type>;
 
 //
 

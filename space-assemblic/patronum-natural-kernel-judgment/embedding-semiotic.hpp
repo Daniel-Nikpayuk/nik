@@ -23,6 +23,11 @@ struct embedding
 
 		// symbolic:
 
-		template<typename Type, Type Value, typename Continuation = ch_symbolic_values>
-		using sf_judgment_value = typename Continuation::template result<pnkb_inductor_ss, Type, Value>;
+		template
+		<
+			typename Type, Type Value,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_value = typename Continuation::template result<Memoizer, Type, Value>;
 };

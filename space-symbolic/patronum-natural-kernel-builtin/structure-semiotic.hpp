@@ -23,19 +23,29 @@ struct structure
 
 		// symbolic:
 
-		template<typename Type, Type Value, typename Continuation = ch_symbolic_values>
-		using s_to_judgment = typename dependent_memoization<Type>::template pattern_match_values<Value>::template
-		symbolic_induct
+		template
 		<
-			Continuation
+			typename Type, Type Value,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_to_judgment = typename dependent_memoization<Type>::template pattern_match_values<Value>::template
+		s_front_grow_induct
+		<
+			Continuation, Memoizer, filler
 		>;
 
 		// assemblic:
 
-		template<typename Kind, typename Type, Type Value, typename Continuation = ch_assemblic_value>
-		static constexpr Kind a_to_judgment = dependent_memoization<Type>::template pattern_match_values<Value>::template
-		assemblic_induct
+		template
 		<
-			Continuation
+			typename Type, Type Value,
+			typename Continuation = ch_assemblic_value,
+			typename Image = Type
+		>
+		static constexpr Image a_to_judgment = dependent_memoization<Type>::template pattern_match_values<Value>::template
+		a_front_grow_induct
+		<
+			Continuation, Image, filler
 		>;
 };

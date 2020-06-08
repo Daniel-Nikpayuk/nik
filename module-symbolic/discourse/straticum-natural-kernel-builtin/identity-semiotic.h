@@ -38,10 +38,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_bool)					= typename snk_builtin_ss::identity::template
-										  s_is_bool<Exp, Continuation>;
+										  s_is_bool<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -49,10 +53,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_char)					= typename snk_builtin_ss::identity::template
-										  s_is_char<Exp, Continuation>;
+										  s_is_char<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -60,10 +68,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_unsigned_char)				= typename snk_builtin_ss::identity::template
-										  s_is_unsigned_char<Exp, Continuation>;
+										  s_is_unsigned_char<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -71,10 +83,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_signed_char)				= typename snk_builtin_ss::identity::template
-										  s_is_signed_char<Exp, Continuation>;
+										  s_is_signed_char<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -82,10 +98,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_wchar_t)					= typename snk_builtin_ss::identity::template
-										  s_is_wchar_t<Exp, Continuation>;
+										  s_is_wchar_t<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -93,10 +113,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_char16_t)					= typename snk_builtin_ss::identity::template
-										  s_is_char16_t<Exp, Continuation>;
+										  s_is_char16_t<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -104,10 +128,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_char32_t)					= typename snk_builtin_ss::identity::template
-										  s_is_char32_t<Exp, Continuation>;
+										  s_is_char32_t<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -115,10 +143,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_unsigned_short)				= typename snk_builtin_ss::identity::template
-										  s_is_unsigned_short<Exp, Continuation>;
+										  s_is_unsigned_short<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -126,10 +158,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_signed_short)				= typename snk_builtin_ss::identity::template
-										  s_is_signed_short<Exp, Continuation>;
+										  s_is_signed_short<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -137,10 +173,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_unsigned_int)				= typename snk_builtin_ss::identity::template
-										  s_is_unsigned_int<Exp, Continuation>;
+										  s_is_unsigned_int<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -148,10 +188,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_signed_int)					= typename snk_builtin_ss::identity::template
-										  s_is_signed_int<Exp, Continuation>;
+										  s_is_signed_int<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -159,10 +203,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_unsigned_long)				= typename snk_builtin_ss::identity::template
-										  s_is_unsigned_long<Exp, Continuation>;
+										  s_is_unsigned_long<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -170,10 +218,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_signed_long)				= typename snk_builtin_ss::identity::template
-										  s_is_signed_long<Exp, Continuation>;
+										  s_is_signed_long<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -181,10 +233,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_unsigned_long_long)				= typename snk_builtin_ss::identity::template
-										  s_is_unsigned_long_long<Exp, Continuation>;
+										  s_is_unsigned_long_long<Exp, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -192,10 +248,14 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, s_is_signed_long_long)				= typename snk_builtin_ss::identity::template
-										  s_is_signed_long_long<Exp, Continuation>;
+										  s_is_signed_long_long<Exp, Continuation, Memoizer>;
 
 //
 
@@ -205,10 +265,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_bool)			= snk_builtin_ss::identity::template
-										  a_is_bool<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_bool)			= snk_builtin_ss::identity::template
+										  a_is_bool<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -216,10 +278,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_char)			= snk_builtin_ss::identity::template
-										  a_is_char<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_char)			= snk_builtin_ss::identity::template
+										  a_is_char<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -227,10 +291,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_unsigned_char)		= snk_builtin_ss::identity::template
-										  a_is_unsigned_char<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_unsigned_char)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_char<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -238,10 +304,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_signed_char)		= snk_builtin_ss::identity::template
-										  a_is_signed_char<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_signed_char)		= snk_builtin_ss::identity::template
+										  a_is_signed_char<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -249,10 +317,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_wchar_t)			= snk_builtin_ss::identity::template
-										  a_is_wchar_t<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_wchar_t)			= snk_builtin_ss::identity::template
+										  a_is_wchar_t<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -260,10 +330,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_char16_t)			= snk_builtin_ss::identity::template
-										  a_is_char16_t<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_char16_t)			= snk_builtin_ss::identity::template
+										  a_is_char16_t<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -271,10 +343,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_char32_t)			= snk_builtin_ss::identity::template
-										  a_is_char32_t<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_char32_t)			= snk_builtin_ss::identity::template
+										  a_is_char32_t<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -282,10 +356,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_unsigned_short)		= snk_builtin_ss::identity::template
-										  a_is_unsigned_short<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_unsigned_short)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_short<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -293,10 +369,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_signed_short)		= snk_builtin_ss::identity::template
-										  a_is_signed_short<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_signed_short)		= snk_builtin_ss::identity::template
+										  a_is_signed_short<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -304,10 +382,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_unsigned_int)		= snk_builtin_ss::identity::template
-										  a_is_unsigned_int<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_unsigned_int)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_int<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -315,10 +395,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_signed_int)			= snk_builtin_ss::identity::template
-										  a_is_signed_int<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_signed_int)			= snk_builtin_ss::identity::template
+										  a_is_signed_int<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -326,10 +408,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_unsigned_long)		= snk_builtin_ss::identity::template
-										  a_is_unsigned_long<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_unsigned_long)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_long<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -337,10 +421,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_signed_long)		= snk_builtin_ss::identity::template
-										  a_is_signed_long<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_signed_long)		= snk_builtin_ss::identity::template
+										  a_is_signed_long<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -348,10 +434,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_unsigned_long_long)		= snk_builtin_ss::identity::template
-										  a_is_unsigned_long_long<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_unsigned_long_long)		= snk_builtin_ss::identity::template
+										  a_is_unsigned_long_long<Exp, Continuation, Image>;
 
 										  template
 										  <
@@ -359,10 +447,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_assemblic_value,
+
+											typename Image = bool
 										  >
-	static constexpr bool nik_safe(PREFIX, a_is_signed_long_long)		= snk_builtin_ss::identity::template
-										  a_is_signed_long_long<Exp, Continuation>;
+	static constexpr Image nik_safe(PREFIX, a_is_signed_long_long)		= snk_builtin_ss::identity::template
+										  a_is_signed_long_long<Exp, Continuation, Image>;
 
 //
 

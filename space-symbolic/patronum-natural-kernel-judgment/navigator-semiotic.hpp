@@ -18,16 +18,31 @@
 struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, inductor)
 
-	// :
+	// add:
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_judgment_ = typename pattern_match_judgment_<Type, Exp>::template
+		template<typename Continuation>
+		struct cp_s_judgment_catenate
+		{
+			template<typename Inductor, typename Type, Type Value>
+			using result = typename Judgment2::template
+			symbolic_prepend_induct
+			<
+				
+			>;
+		};
+
+		template<typename Type, typename Judgment1, typename Judgment2, typename Continuation = ch_symbolic_values>
+		using s_judgment_add = typename Judgment1::template
 		symbolic_induct
 		<
-			Continuation
+			dependent_memoization<Type>::template cp_s_values_list_catenate
+			<
+				cp_s_judgment_add<Continuation>
+			>
 		>;
 
 		// assemblic:

@@ -18,50 +18,30 @@
 struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
-	// if then else:
-
-		// symbolic:
-
-		template<bool Value, typename Antecedent, typename Consequent, typename Continuation = ch_symbolic_type>
-		using s_if_then_else = typename pattern_match_bool_judgment<Value>::template
-		symbolic_induct
-		<
-			Continuation, Antecedent, Consequent
-		>;
-
-	// fast if then else:
-
-			// this grammatical construct breaks the standard paradigm and nomenclature
-			// due to its history and importance within programming literature.
+	// :
 
 		// symbolic:
 
-		template<bool True, typename = filler>
-		struct fast_match_bool_judgment
-		{
-			template<typename Antecedent, typename Consequent>
-			using symbolic_induct = Antecedent;
-		};
-
-		template<typename Filler>
-		struct fast_match_bool_judgment<false, Filler>
-		{
-			template<typename Antecedent, typename Consequent>
-			using symbolic_induct = Consequent;
-		};
-
-		template<bool Value, typename Antecedent, typename Consequent>
-		using if_then_else = typename fast_match_bool_judgment<Value>::template
-		symbolic_induct
+		template
 		<
-			Antecedent, Consequent
-		>;
+			typename Exp,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_bool_judgment_ = s_bool_judgment_<Exp, Continuation, Memoizer>;
 
-	// display:
+		// assemblic:
+
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_assemblic_value,
+			typename Image
+		>
+		static constexpr Image a_bool_judgment_ = a_bool_judgment_<Exp, Continuation, Image>;
 
 		// procedural:
 
-		static constexpr void p_bool_judgment_display(bool v) { printf("%s", v ? "true" : "false"); }
+		static constexpr void (*p_bool_judgment_)() = p_bool_judgment_<>;
 };

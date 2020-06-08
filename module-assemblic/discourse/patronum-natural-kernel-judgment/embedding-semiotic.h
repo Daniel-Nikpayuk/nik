@@ -38,10 +38,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_value)				= typename pnk_judgment_as::embedding::template
-										  sf_judgment_value<Type, Value, Continuation>;
+										  sf_judgment_value
+											<Type, Value, Continuation, Memoizer>;
 
 //
 

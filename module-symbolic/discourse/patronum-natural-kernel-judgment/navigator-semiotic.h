@@ -32,29 +32,303 @@
 
 //
 
-										  template
-										  <
-											typename Type,
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_judgment_)					= typename pnk_judgment_ss::navigator::template
-										  s_judgment_<Type, Continuation>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_judgment_add)						= typename pnk_judgment_ss::navigator::template
+											  s_judgment_add
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_curried_judgment_add)					= typename pnk_judgment_ss::navigator::template
+											  s_curried_judgment_add
+												<Type, Judgment1, Judgment2, Continuation>;
 
 //
 
-										  template
-										  <
-											typename Type,
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr void nik_safe(PREFIX, a_judgment_)			= pnk_judgment_ss::navigator::template
-										  a_judgment_<Type, Continuation>;
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_judgment_subtract)					= typename pnk_judgment_ss::navigator::template
+											  s_judgment_subtract
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_curried_judgment_subtract)				= typename pnk_judgment_ss::navigator::template
+											  s_curried_judgment_subtract
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_judgment_multiply)					= typename pnk_judgment_ss::navigator::template
+											  s_judgment_multiply
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_curried_judgment_multiply)				= typename pnk_judgment_ss::navigator::template
+											  s_curried_judgment_multiply
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_judgment_divide)					= typename pnk_judgment_ss::navigator::template
+											  s_judgment_divide
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_curried_judgment_divide)				= typename pnk_judgment_ss::navigator::template
+											  s_curried_judgment_divide
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_judgment_modulo)					= typename pnk_judgment_ss::navigator::template
+											  s_judgment_modulo
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_symbolic_values
+											  >
+	using nik_safe(PREFIX, s_curried_judgment_modulo)				= typename pnk_judgment_ss::navigator::template
+											  s_curried_judgment_modulo
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_judgment_add)				= pnk_judgment_ss::navigator::template
+											  a_judgment_add
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_add)			= pnk_judgment_ss::navigator::template
+											  a_curried_judgment_add
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_judgment_subtract)			= pnk_judgment_ss::navigator::template
+											  a_judgment_subtract
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_subtract)		= pnk_judgment_ss::navigator::template
+											  a_curried_judgment_subtract
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_judgment_multiply)			= pnk_judgment_ss::navigator::template
+											  a_judgment_multiply
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_multiply)		= pnk_judgment_ss::navigator::template
+											  a_curried_judgment_multiply
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_judgment_divide)			= pnk_judgment_ss::navigator::template
+											  a_judgment_divide
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_divide)		= pnk_judgment_ss::navigator::template
+											  a_curried_judgment_divide
+												<Type, Judgment1, Judgment2, Continuation>;
+
+//
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_judgment_modulo)			= pnk_judgment_ss::navigator::template
+											  a_judgment_modulo
+												<Type, Judgment1, Judgment2, Continuation>;
+
+											  template
+											  <
+												typename Type,
+												typename Judgment1,
+												typename Judgment2,
+
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_assemblic_value
+											  >
+	static constexpr Type nik_safe(PREFIX, a_curried_judgment_modulo)		= pnk_judgment_ss::navigator::template
+											  a_curried_judgment_modulo
+												<Type, Judgment1, Judgment2, Continuation>;
 
 //
 

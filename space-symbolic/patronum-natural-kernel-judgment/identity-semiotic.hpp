@@ -40,12 +40,12 @@ struct identity
 			Continuation
 		>;
 
-	// is dependent judgment:
+	// is curried judgment:
 
 		// symbolic:
 
 		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_is_dependent_judgment = typename pattern_match_dependent_judgment<Type, Exp>::template
+		using s_is_curried_judgment = typename pattern_match_curried_judgment<Type, Exp>::template
 		symbolic_match
 		<
 			Continuation
@@ -54,7 +54,7 @@ struct identity
 		// assemblic:
 
 		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_dependent_judgment = pattern_match_dependent_judgment<Type, Exp>::template
+		static constexpr bool a_is_curried_judgment = pattern_match_curried_judgment<Type, Exp>::template
 		assemblic_match
 		<
 			Continuation

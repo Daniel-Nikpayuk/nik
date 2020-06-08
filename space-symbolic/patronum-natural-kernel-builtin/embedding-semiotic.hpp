@@ -26,18 +26,23 @@ struct embedding
 		template<typename Continuation, const char* string_literal>
 		struct cp_s_type_to_string_literal
 		{
-			template<typename Inductor, typename Type>
+			template<typename Memoizer, typename Type>
 			using result = typename Continuation::template result
 			<
-				Inductor, const char*, string_literal
+				Memoizer, const char*, string_literal
 			>;
 		};
 
-		template<typename Type, const char* string_literal, typename Continuation = ch_symbolic_values>
-		using s_type_literal = typename dependent_memoization<Type>::template pattern_match_types<Type>::template
-		symbolic_induct
+		template
 		<
-			cp_s_type_to_string_literal<Continuation, string_literal>
+			typename Type, const char* string_literal,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_type_literal = typename dependent_memoization<Type>::template pattern_match_types<>::template
+		s_induct
+		<
+			cp_s_type_to_string_literal<Continuation, string_literal>, Memoizer
 		>;
 
 		// assemblic:
@@ -45,17 +50,22 @@ struct embedding
 		template<typename Continuation, const char* string_literal>
 		struct cp_a_type_to_string_literal
 		{
-			template<typename Inductor, typename Type>
-			static constexpr Inductor result = Continuation::template result
+			template<typename Image, typename Type>
+			static constexpr Image result = Continuation::template result
 			<
-				Inductor, const char*, string_literal
+				Image, const char*, string_literal
 			>;
 		};
 
-		template<typename Type, const char* string_literal, typename Continuation = ch_assemblic_value>
-		static constexpr const char* a_type_literal = dependent_memoization<Type>::template pattern_match_types<Type>::template
-		assemblic_induct
+		template
 		<
-			cp_a_type_to_string_literal<Continuation, string_literal>
+			typename Type, const char* string_literal,
+			typename Continuation = ch_assemblic_value,
+			typename Image = const char*
+		>
+		static constexpr Image a_type_literal = dependent_memoization<Type>::template pattern_match_types<>::template
+		a_induct
+		<
+			cp_a_type_to_string_literal<Continuation, string_literal>, Image
 		>;
 };

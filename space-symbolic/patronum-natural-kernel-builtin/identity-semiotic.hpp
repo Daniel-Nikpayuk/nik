@@ -23,19 +23,29 @@ struct identity
 
 		// symbolic:
 
-		template<typename Type1, typename Type2, typename Continuation = ch_symbolic_values>
-		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_types<Type2>::template
-		symbolic_match
+		template
 		<
-			Continuation
+			typename Type1, typename Type2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_types<Type2>::template
+		s_match_induct
+		<
+			Continuation, Memoizer
 		>;
 
 		// assemblic:
 
-		template<typename Type1, typename Type2, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_equal = dependent_memoization<Type1>::template pattern_match_types<Type2>::template
-		assemblic_match
+		template
 		<
-			Continuation
+			typename Type1, typename Type2,
+			typename Continuation = ch_assemblic_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_equal = dependent_memoization<Type1>::template pattern_match_types<Type2>::template
+		a_match_induct
+		<
+			Continuation, Image
 		>;
 };

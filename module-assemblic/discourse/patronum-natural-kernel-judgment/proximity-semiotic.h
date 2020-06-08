@@ -40,10 +40,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_less_than)				= typename pnk_judgment_as::proximity::template
-										  sf_judgment_less_than<Type, Value1, Value2, Continuation>;
+										  sf_judgment_less_than
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -53,11 +58,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_less_than_or_equal)			= typename pnk_judgment_as::proximity::template
 										  sf_judgment_less_than_or_equal
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -67,11 +76,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_greater_than)			= typename pnk_judgment_as::proximity::template
 										  sf_judgment_greater_than
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -81,11 +94,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_greater_than_or_equal)		= typename pnk_judgment_as::proximity::template
 										  sf_judgment_greater_than_or_equal
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 //
 

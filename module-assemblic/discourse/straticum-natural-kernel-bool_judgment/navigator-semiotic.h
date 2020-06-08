@@ -34,79 +34,38 @@
 
 										  template
 										  <
-											bool Value,
+											typename Type,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
-	using nik_safe(PREFIX, sf_bool_judgment_not)				= typename snk_bool_judgment_as::navigator::template
-										  sf_bool_judgment_not<Value, Continuation>;
-
-										  template
-										  <
-											bool Value1,
-											bool Value2,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, sf_bool_judgment_and)				= typename snk_bool_judgment_as::navigator::template
-										  sf_bool_judgment_and<Value1, Value2, Continuation>;
-
-										  template
-										  <
-											bool Value1,
-											bool Value2,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, sf_bool_judgment_or)				= typename snk_bool_judgment_as::navigator::template
-										  sf_bool_judgment_or<Value1, Value2, Continuation>;
-
-										  template
-										  <
-											bool Value1,
-											bool Value2,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, sf_bool_judgment_implies)			= typename snk_bool_judgment_as::navigator::template
-										  sf_bool_judgment_implies<Value1, Value2, Continuation>;
-
-										  template
-										  <
-											bool Value1,
-											bool Value2,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, sf_bool_judgment_equivalent)			= typename snk_bool_judgment_as::navigator::template
-										  sf_bool_judgment_equivalent<Value1, Value2, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgment_)					= typename snk_bool_judgment_as::navigator::template
+										  s_bool_judgment_<Type, Continuation, Memoizer>;
 
 //
 
-	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_not))(bool)			= snk_bool_judgment_as::navigator::
-												  p_bool_judgment_not;
+										  template
+										  <
+											typename Type,
 
-	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_and))(bool, bool)		= snk_bool_judgment_as::navigator::
-												  p_bool_judgment_and;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value,
 
-	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_or))(bool, bool)		= snk_bool_judgment_as::navigator::
-												  p_bool_judgment_or;
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_)		= snk_bool_judgment_as::navigator::template
+										  a_bool_judgment_<Type, Continuation, Image>;
 
-	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_implies))(bool, bool)		= snk_bool_judgment_as::navigator::
-												  p_bool_judgment_implies;
+//
 
-	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_equivalent))(bool, bool)	= snk_bool_judgment_as::navigator::
-												  p_bool_judgment_equivalent;
+	static constexpr void (*nik_safe(PREFIX, p_bool_judgment_))()		= snk_bool_judgment_as::navigator::
+												  p_bool_judgment_;
 
 //
 

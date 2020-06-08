@@ -1,2 +1,7 @@
-		template<typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_<<<MODULE>>>_ = a_<<<MODULE>>>_<Exp, Continuation>;
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_assemblic_value,
+			typename Image
+		>
+		static constexpr Image a_<<<MODULE>>>_ = a_<<<MODULE>>>_<Exp, Continuation, Image>;

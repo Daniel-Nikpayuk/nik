@@ -31,45 +31,51 @@
 
 //
 
-										  template
-										  <
-											typename Continuation,
-											const char* string_literal
-										  >
-	using nik_safe(PREFIX, cp_s_type_to_string_literal)			= typename pnk_builtin_ss::embedding::template
-										  cp_s_type_to_string_literal<Continuation, string_literal>;
+									  template
+									  <
+										typename Continuation,
+										const char* string_literal
+									  >
+	using nik_safe(PREFIX, cp_s_type_to_string_literal)		= typename pnk_builtin_ss::embedding::template
+									  cp_s_type_to_string_literal<Continuation, string_literal>;
 
-										  template
-										  <
-											typename Type, const char* string_literal,
+									  template
+									  <
+										typename Type, const char* string_literal,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
-										  >
-	using nik_safe(PREFIX, s_type_literal)					= typename pnk_builtin_ss::embedding::template
-										  s_type_literal<Type, string_literal, Continuation>;
+										typename Continuation =
+										typename pnk_builtin_ss::inductor::
+										ch_symbolic_values,
+
+										template<typename> class Memoizer =
+										pnk_builtin_ss::inductor::template
+										dependent_memoization
+									  >
+	using nik_safe(PREFIX, s_type_literal)				= typename pnk_builtin_ss::embedding::template
+									  s_type_literal<Type, string_literal, Continuation, Memoizer>;
 
 //
 
-										  template
-										  <
-											typename Continuation,
-											const char* string_literal
-										  >
-	using nik_safe(PREFIX, cp_a_type_to_string_literal)			= typename pnk_builtin_ss::embedding::template
-										  cp_a_type_to_string_literal<Continuation, string_literal>;
+									  template
+									  <
+										typename Continuation,
+										const char* string_literal
+									  >
+	using nik_safe(PREFIX, cp_a_type_to_string_literal)		= typename pnk_builtin_ss::embedding::template
+									  cp_a_type_to_string_literal<Continuation, string_literal>;
 
-										  template
-										  <
-											typename Type, const char* string_literal,
+									  template
+									  <
+										typename Type, const char* string_literal,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
-										  >
-	static constexpr const char* nik_safe(PREFIX, a_type_literal)		= pnk_builtin_ss::embedding::template
-										  a_type_literal<Type, string_literal, Continuation>;
+										typename Continuation =
+										typename pnk_builtin_ss::inductor::
+										ch_assemblic_value,
+
+										typename Image = const char*
+									  >
+	static constexpr Image nik_safe(PREFIX, a_type_literal)		= pnk_builtin_ss::embedding::template
+									  a_type_literal<Type, string_literal, Continuation, Image>;
 
 //
 

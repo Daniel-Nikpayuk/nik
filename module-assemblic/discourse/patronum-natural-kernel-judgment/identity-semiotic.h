@@ -40,10 +40,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_is_equal)				= typename pnk_judgment_as::identity::template
-										  sf_judgment_is_equal<Type, Value1, Value2, Continuation>;
+										  sf_judgment_is_equal
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 //
 

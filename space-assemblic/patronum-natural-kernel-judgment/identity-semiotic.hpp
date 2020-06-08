@@ -23,8 +23,13 @@ struct identity
 
 		// symbolic:
 
-		template<typename Type, Type Value1, Type Value2, typename Continuation = ch_symbolic_values>
-		using sf_judgment_is_equal = typename Continuation::template result<pnkb_inductor_ss, bool, Value1 == Value2>;
+		template
+		<
+			typename Type, Type Value1, Type Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_judgment_is_equal = typename Continuation::template result<Memoizer, bool, Value1 == Value2>;
 
 		// assemblic:
 

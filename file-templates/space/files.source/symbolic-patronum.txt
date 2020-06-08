@@ -1,6 +1,11 @@
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_<<<MODULE>>>_ = typename pattern_match_<<<MODULE>>>_<Type, Exp>::template
-		symbolic_induct
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_<<<MODULE>>>_ = typename pattern_match_<<<MODULE>>>_<Type, Exp>::template
+		s_induct
+		<
+			Continuation, Memoizer
 		>;

@@ -19,14 +19,14 @@ namespace nik
 {
 	nik_begin_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
 
-		#include"inductor-semiotic.hpp"
-		#include"navigator-semiotic.hpp"
+//		#include"inductor-semiotic.hpp"
+//		#include"navigator-semiotic.hpp"
 
 		//
 
-		#include"identity-semiotic.hpp"
+//		#include"identity-semiotic.hpp"
 //		#include"proximity-semiotic.hpp"
-		#include"embedding-semiotic.hpp"
+//		#include"embedding-semiotic.hpp"
 
 		//
 

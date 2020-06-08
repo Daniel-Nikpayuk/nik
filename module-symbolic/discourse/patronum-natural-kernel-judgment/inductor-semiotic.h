@@ -36,8 +36,8 @@
 										  pattern_match_judgment<Type, Exp>;
 
 										  template<typename Type, typename Exp>
-	using nik_safe(PREFIX, pattern_match_dependent_judgment)		= typename pnk_judgment_ss::inductor::template
-										  pattern_match_dependent_judgment<Type, Exp>;
+	using nik_safe(PREFIX, pattern_match_curried_judgment)			= typename pnk_judgment_ss::inductor::template
+										  pattern_match_curried_judgment<Type, Exp>;
 
 //
 

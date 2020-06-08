@@ -7,10 +7,15 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		template
+		<
+			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
 		using s_<<<MODULE>>>_less_than = sf_judgment_less_than
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Memoizer
 		>;
 
 		// assemblic:
@@ -26,10 +31,15 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		template
+		<
+			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
 		using s_<<<MODULE>>>_less_than_or_equal = sf_judgment_less_than_or_equal
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Memoizer
 		>;
 
 		// assemblic:
@@ -45,10 +55,15 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		template
+		<
+			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
 		using s_<<<MODULE>>>_greater_than = sf_judgment_greater_than
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Memoizer
 		>;
 
 		// assemblic:
@@ -64,10 +79,15 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
+		template
+		<
+			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
 		using s_<<<MODULE>>>_greater_than_or_equal = sf_judgment_greater_than_or_equal
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Memoizer
 		>;
 
 		// assemblic:

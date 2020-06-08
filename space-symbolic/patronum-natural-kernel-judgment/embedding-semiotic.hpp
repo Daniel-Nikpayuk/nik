@@ -92,14 +92,14 @@ struct embedding
 			cp_a_judgment_value<Continuation>, Type
 		>;
 
-	// dependent judgment type:
+	// curried judgment type:
 
 		// symbolic:
 
 			// optimized to assume Judgment is in fact a judgment.
 
 		template<typename Continuation>
-		struct cp_s_dependent_judgment_type
+		struct cp_s_curried_judgment_type
 		{
 			template<typename Inductor, typename Type, Type Value>
 			using result = typename Continuation::template result
@@ -111,20 +111,20 @@ struct embedding
 			// implemented at a lower level for performance:
 
 		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_type>
-		using s_dependent_judgment_type = typename Judgment::template
+		using s_curried_judgment_type = typename Judgment::template
 		symbolic_induct
 		<
-			cp_s_dependent_judgment_type<Continuation>
+			cp_s_curried_judgment_type<Continuation>
 		>;
 
-	// dependent judgment value:
+	// curried judgment value:
 
 			// optimized to assume Judgment is in fact a judgment.
 
 		// symbolic:
 
 		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_values>
-		using s_dependent_judgment_value = typename Judgment::template
+		using s_curried_judgment_value = typename Judgment::template
 		symbolic_induct
 		<
 			Continuation
@@ -135,7 +135,7 @@ struct embedding
 			// optimized to assume Judgment is in fact a judgment.
 
 		template<typename Continuation>
-		struct cp_a_dependent_judgment_value
+		struct cp_a_curried_judgment_value
 		{
 			template<typename OutType, typename Type, Type Value>
 			static constexpr OutType result = Continuation::template result
@@ -147,9 +147,9 @@ struct embedding
 			// implemented at a lower level for performance:
 
 		template<typename Type, typename Judgment, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_dependent_judgment_value = Judgment::template
+		static constexpr Type a_curried_judgment_value = Judgment::template
 		assemblic_induct
 		<
-			cp_a_dependent_judgment_value<Continuation>, Type
+			cp_a_curried_judgment_value<Continuation>, Type
 		>;
 };

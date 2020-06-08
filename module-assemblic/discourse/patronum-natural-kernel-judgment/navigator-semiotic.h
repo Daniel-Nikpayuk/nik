@@ -40,10 +40,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_add)					= typename pnk_judgment_as::navigator::template
-										  sf_judgment_add<Type, Value1, Value2, Continuation>;
+										  sf_judgment_add
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -53,10 +58,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_subtract)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_subtract<Type, Value1, Value2, Continuation>;
+										  sf_judgment_subtract
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -66,10 +76,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_multiply)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_multiply<Type, Value1, Value2, Continuation>;
+										  sf_judgment_multiply
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -79,10 +94,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_divide)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_divide<Type, Value1, Value2, Continuation>;
+										  sf_judgment_divide
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 										  template
 										  <
@@ -92,10 +112,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_symbolic_values,
+
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
 										  >
 	using nik_safe(PREFIX, sf_judgment_modulo)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_modulo<Type, Value1, Value2, Continuation>;
+										  sf_judgment_modulo
+											<Type, Value1, Value2, Continuation, Memoizer>;
 
 //
 
