@@ -32,243 +32,35 @@
 
 //
 
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
+										  template
+										  <
+											typename Type,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_judgment_less_than)					= typename pnk_judgment_ss::proximity::template
-											  s_judgment_less_than
-												<Type, Judgment1, Judgment2, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_symbolic_values,
 
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_curried_judgment_less_than)				= typename pnk_judgment_ss::proximity::template
-											  s_curried_judgment_less_than
-												<Type, Judgment1, Judgment2, Continuation>;
+											template<typename> class Memoizer =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization
+										  >
+	using nik_safe(PREFIX, s_judgment_)					= typename pnk_judgment_ss::proximity::template
+										  s_judgment_<Type, Continuation, Memoizer>;
 
 //
 
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
+										  template
+										  <
+											typename Type,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_judgment_less_than_or_equal)				= typename pnk_judgment_ss::proximity::template
-											  s_judgment_less_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_assemblic_value,
 
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_curried_judgment_less_than_or_equal)			= typename pnk_judgment_ss::proximity::template
-											  s_curried_judgment_less_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_judgment_greater_than)					= typename pnk_judgment_ss::proximity::template
-											  s_judgment_greater_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_curried_judgment_greater_than)				= typename pnk_judgment_ss::proximity::template
-											  s_curried_judgment_greater_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_judgment_greater_than_or_equal)			= typename pnk_judgment_ss::proximity::template
-											  s_judgment_greater_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values
-											  >
-	using nik_safe(PREFIX, s_curried_judgment_greater_than_or_equal)		= typename pnk_judgment_ss::proximity::template
-											  s_curried_judgment_greater_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_judgment_less_than)			= pnk_judgment_ss::proximity::template
-											  a_judgment_less_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_curried_judgment_less_than)		= pnk_judgment_ss::proximity::template
-											  a_curried_judgment_less_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_judgment_less_than_or_equal)		= pnk_judgment_ss::proximity::template
-											  a_judgment_less_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_curried_judgment_less_than_or_equal)	= pnk_judgment_ss::proximity::template
-											  a_curried_judgment_less_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_judgment_greater_than)			= pnk_judgment_ss::proximity::template
-											  a_judgment_greater_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_curried_judgment_greater_than)		= pnk_judgment_ss::proximity::template
-											  a_curried_judgment_greater_than
-												<Type, Judgment1, Judgment2, Continuation>;
-
-//
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_judgment_greater_than_or_equal)	= pnk_judgment_ss::proximity::template
-											  a_judgment_greater_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
-
-											  template
-											  <
-												typename Type,
-												typename Judgment1,
-												typename Judgment2,
-
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_assemblic_value
-											  >
-	static constexpr bool nik_safe(PREFIX, a_curried_judgment_greater_than_or_equal)= pnk_judgment_ss::proximity::template
-											  a_curried_judgment_greater_than_or_equal
-												<Type, Judgment1, Judgment2, Continuation>;
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_)		= pnk_judgment_ss::proximity::template
+										  a_judgment_<Type, Continuation, Image>;
 
 //
 

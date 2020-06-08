@@ -17,7 +17,6 @@
 
 #include nik_size_type(define)
 
-#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
 #define snk_char_list_as nik_module(straticum, natural, kernel, char_list, assemblic, semiotic)
 
 #ifdef safe_name
@@ -32,46 +31,13 @@
 
 //
 
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
-
-											template<typename> class Memoizer =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization
-										  >
-	using nik_safe(PREFIX, s_char_list_)					= typename snk_char_list_as::embedding::template
-										  s_char_list_<Type, Continuation, Memoizer>;
-
-//
-
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
-
-											typename Image = Type
-										  >
-	static constexpr Image nik_safe(PREFIX, a_char_list_)		= snk_char_list_as::embedding::template
-										  a_char_list_<Type, Continuation, Image>;
-
-//
-
-	static constexpr void (*nik_safe(PREFIX, p_char_list_))()		= snk_char_list_as::embedding::
-												  p_char_list_;
+	static constexpr void (*nik_safe(PREFIX, p_char_list_display))(const char*)		= snk_char_list_as::embedding::
+												  p_char_list_display;
 
 //
 
 #undef PREFIX
 
 #undef snk_char_list_as
-#undef pnk_builtin_ss
 
 #include nik_size_type(undef)

@@ -19,29 +19,103 @@ struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+	// logical not:
 
 		// symbolic:
 
 		template
 		<
-			typename Exp,
+			bool Value,
 			typename Continuation = ch_symbolic_values,
 			template<typename> class Memoizer = dependent_memoization
 		>
-		using s_bool_judgment_ = s_bool_judgment_<Exp, Continuation, Memoizer>;
+		using sf_bool_judgment_not = typename Continuation::template result<Memoizer, bool, !Value>;
 
 		// assemblic:
 
-		template
-		<
-			typename Exp,
-			typename Continuation = ch_assemblic_value,
-			typename Image
-		>
-		static constexpr Image a_bool_judgment_ = a_bool_judgment_<Exp, Continuation, Image>;
+			// is not implemented as it's better to use constexpr functions.
 
 		// procedural:
 
-		static constexpr void (*p_bool_judgment_)() = p_bool_judgment_<>;
+		static constexpr bool p_bool_judgment_not(bool Value) { return !Value; }
+
+	// logical and:
+
+		// symbolic:
+
+		template
+		<
+			bool Value1, bool Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_bool_judgment_and = typename Continuation::template result<Memoizer, bool, Value1 && Value2>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr bool p_bool_judgment_and(bool Value1, bool Value2) { return Value1 && Value2; }
+
+	// logical or:
+
+		// symbolic:
+
+		template
+		<
+			bool Value1, bool Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_bool_judgment_or = typename Continuation::template result<Memoizer, bool, Value1 || Value2>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr bool p_bool_judgment_or(bool Value1, bool Value2) { return Value1 || Value2; }
+
+	// logical implies:
+
+		// symbolic:
+
+		template
+		<
+			bool Value1, bool Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_bool_judgment_implies = typename Continuation::template result<Memoizer, bool, !Value1 || Value2>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr bool p_bool_judgment_implies(bool Value1, bool Value2) { return !Value1 || Value2; }
+
+	// logical equivalent:
+
+		// symbolic:
+
+		template
+		<
+			bool Value1, bool Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using sf_bool_judgment_equivalent = typename Continuation::template result<Memoizer, bool, Value1 == Value2>;
+
+		// assemblic:
+
+			// is not implemented as it's better to use constexpr functions.
+
+		// procedural:
+
+		static constexpr bool p_bool_judgment_equivalent(bool Value1, bool Value2) { return Value1 == Value2; }
 };

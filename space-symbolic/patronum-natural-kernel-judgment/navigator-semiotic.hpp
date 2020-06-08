@@ -18,39 +18,78 @@
 struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, inductor)
 
-	// add:
+#define safe_name
+
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, navigator)
+
+#undef safe_name
+
+	// curried op:
 
 		// symbolic:
 
 		template<typename Continuation>
-		struct cp_s_judgment_catenate
+		struct cp_s_judgment_monoid
 		{
-			template<typename Inductor, typename Type, Type Value>
-			using result = typename Judgment2::template
-			symbolic_prepend_induct
+			template
 			<
-				
+				template<typename> class Memoizer, typename Kind,
+
+				typename Type, Kind (*Op)(Type, Type), typename Value2, Type Value1
+			>
+			using result = typename Value2::template
+			sf_zip_induct
+			<
+				Continuation, Memoizer, Kind, Op, Value1
 			>;
 		};
 
-		template<typename Type, typename Judgment1, typename Judgment2, typename Continuation = ch_symbolic_values>
-		using s_judgment_add = typename Judgment1::template
-		symbolic_induct
+		template
 		<
-			dependent_memoization<Type>::template cp_s_values_list_catenate
-			<
-				cp_s_judgment_add<Continuation>
-			>
+			typename Type, Type (*Op)(Type, Type),
+			typename Value1, typename Value2,
+
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_curried_judgment_monoid = typename Value1::template
+		s_zip_mutate_induct
+		<
+			cp_s_judgment_monoid<Continuation>, Memoizer, Type, Op, Value2
 		>;
 
 		// assemblic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr void a_judgment_ = pattern_match_judgment_<Type, Exp>::template
-		assemblic_induct
+/*
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_assemblic_value,
+			typename Image = Type
+		>
+		static constexpr Image a_judgment_ = pattern_match_judgment_<Type, Exp>::template
+		a_induct
+		<
+			Continuation, Image
 		>;
+*/
+
+	// curried add:
+
+		// symbolic:
+
+		template
+		<
+			typename Type, typename Value1, typename Value2,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_curried_judgment_add = s_curried_judgment_monoid
+		<
+			Type, pnkj_navigator_as_p_judgment_add<Type>, Value1, Value2, Continuation, Memoizer
+		>;
+
+		// assemblic:
+
 };

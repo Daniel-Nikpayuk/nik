@@ -25,6 +25,7 @@ struct embedding
 
 			// optimized to assume Judgment is in fact a judgment.
 
+/*
 		template<typename Continuation>
 		struct cp_s_judgment_type
 		{
@@ -37,12 +38,18 @@ struct embedding
 
 			// implemented at a lower level for performance:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_type>
-		using s_judgment_type = typename dependent_memoization<Type>::template
-		pattern_match_values_list<Judgment>::template symbolic_induct
+		template
 		<
-			cp_s_judgment_type<Continuation>
+			typename Type, typename Judgment,
+			typename Continuation = ch_symbolic_type,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_judgment_type = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Judgment>::template s_front_grow_induct
+		<
+			cp_s_judgment_type<Continuation>, Memoizer, filler
 		>;
+*/
 
 	// judgment value:
 
@@ -50,23 +57,29 @@ struct embedding
 
 			// optimized to assume Judgment is in fact a judgment.
 
-		template<typename Continuation, typename Inductor = pnkb_inductor_ss>
+/*
+		template<typename Continuation>
 		struct cp_s_judgment_value
 		{
-			template<typename Type, template<Type...> class ListType, Type Value>
+			template<template<typename> class Memoizer, typename Type, template<Type...> class ListType, Type Value>
 			using result = typename Continuation::template result
 			<
-				Inductor, Type, Value
+				Memoizer, Type, Value
 			>;
 		};
 
 			// implemented at a lower level for performance:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_values>
-		using s_judgment_value = typename dependent_memoization<Type>::template
-		pattern_match_values_list<Judgment>::template symbolic_induct
+		template
 		<
-			cp_s_judgment_value<Continuation>
+			typename Type, typename Judgment,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_judgment_value = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Judgment>::template s_front_grow_induct
+		<
+			cp_s_judgment_value<Continuation>, Memoizer, filler
 		>;
 
 		// assemblic:
@@ -85,12 +98,18 @@ struct embedding
 
 			// implemented at a lower level for performance:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_judgment_value = dependent_memoization<Type>::template
-		pattern_match_values_list<Judgment>::template assemblic_induct
+		template
 		<
-			cp_a_judgment_value<Continuation>, Type
+			typename Type, typename Judgment,
+			typename Continuation = ch_assemblic_value,
+			typename Image = Type
+		>
+		static constexpr Image a_judgment_value = dependent_memoization<Type>::template
+		pattern_match_values_list<Judgment>::template a_front_grow_induct
+		<
+			cp_a_judgment_value<Continuation>, Image, filler
 		>;
+*/
 
 	// curried judgment type:
 
@@ -98,6 +117,7 @@ struct embedding
 
 			// optimized to assume Judgment is in fact a judgment.
 
+/*
 		template<typename Continuation>
 		struct cp_s_curried_judgment_type
 		{
@@ -110,12 +130,18 @@ struct embedding
 
 			// implemented at a lower level for performance:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_type>
-		using s_curried_judgment_type = typename Judgment::template
-		symbolic_induct
+		template
 		<
-			cp_s_curried_judgment_type<Continuation>
+			typename Type, typename Judgment,
+			typename Continuation = ch_symbolic_type,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_curried_judgment_type = typename Judgment::template
+		s_front_grow_induct
+		<
+			cp_s_curried_judgment_type<Continuation>, Memoizer, filler
 		>;
+*/
 
 	// curried judgment value:
 
@@ -123,12 +149,19 @@ struct embedding
 
 		// symbolic:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_symbolic_values>
-		using s_curried_judgment_value = typename Judgment::template
-		symbolic_induct
+/*
+		template
 		<
-			Continuation
+			typename Type, typename Judgment,
+			typename Continuation = ch_symbolic_values,
+			template<typename> class Memoizer = dependent_memoization
+		>
+		using s_curried_judgment_value = typename Judgment::template
+		s_front_grow_induct
+		<
+			Continuation, Memoizer, filler
 		>;
+*/
 
 		// assemblic:
 
@@ -137,19 +170,24 @@ struct embedding
 		template<typename Continuation>
 		struct cp_a_curried_judgment_value
 		{
-			template<typename OutType, typename Type, Type Value>
-			static constexpr OutType result = Continuation::template result
+			template<typename Image, typename Type, typename List, Type Value>
+			static constexpr Image result = Continuation::template result
 			<
-				OutType, Type, Value
+				Image, Type, Value
 			>;
 		};
 
 			// implemented at a lower level for performance:
 
-		template<typename Type, typename Judgment, typename Continuation = ch_assemblic_value>
-		static constexpr Type a_curried_judgment_value = Judgment::template
-		assemblic_induct
+		template
 		<
-			cp_a_curried_judgment_value<Continuation>, Type
+			typename Type, typename Judgment,
+			typename Continuation = ch_assemblic_value,
+			typename Image = Type
+		>
+		static constexpr Image a_curried_judgment_value = Judgment::template
+		a_front_grow_induct
+		<
+			cp_a_curried_judgment_value<Continuation>, Image, filler
 		>;
 };

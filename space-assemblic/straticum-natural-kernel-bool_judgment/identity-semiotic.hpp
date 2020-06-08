@@ -18,30 +18,25 @@
 struct identity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, navigator)
 
-	// :
+	// is equal:
 
 		// symbolic:
 
 		template
 		<
-			typename Exp,
+			bool Value1, bool Value2,
 			typename Continuation = ch_symbolic_values,
 			template<typename> class Memoizer = dependent_memoization
 		>
-		using s_bool_judgment_ = s_bool_judgment_<Exp, Continuation, Memoizer>;
+		using s_bool_judgment_is_equal = sf_bool_judgment_equivalent<Value1, Value2, Continuation, Memoizer>;
 
 		// assemblic:
 
-		template
-		<
-			typename Exp,
-			typename Continuation = ch_assemblic_value,
-			typename Image
-		>
-		static constexpr Image a_bool_judgment_ = a_bool_judgment_<Exp, Continuation, Image>;
+			// is not implemented as it's better to use constexpr functions.
 
 		// procedural:
 
-		static constexpr void (*p_bool_judgment_)() = p_bool_judgment_<>;
+		static constexpr bool (*p_bool_judgment_is_equal)(bool, bool) = p_bool_judgment_equivalent;
 };

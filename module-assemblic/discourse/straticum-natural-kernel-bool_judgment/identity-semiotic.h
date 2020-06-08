@@ -32,40 +32,26 @@
 
 //
 
-										  template
-										  <
-											typename Type,
+									  template
+									  <
+										bool Value1,
+										bool Value2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
+										typename Continuation =
+										typename pnk_builtin_ss::inductor::
+										ch_symbolic_values,
 
-											template<typename> class Memoizer =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization
-										  >
-	using nik_safe(PREFIX, s_bool_judgment_)					= typename snk_bool_judgment_as::identity::template
-										  s_bool_judgment_<Type, Continuation, Memoizer>;
-
-//
-
-										  template
-										  <
-											typename Type,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
-
-											typename Image = Type
-										  >
-	static constexpr Image nik_safe(PREFIX, a_bool_judgment_)		= snk_bool_judgment_as::identity::template
-										  a_bool_judgment_<Type, Continuation, Image>;
+										template<typename> class Memoizer =
+										pnk_builtin_ss::inductor::template
+										dependent_memoization
+									  >
+	using nik_safe(PREFIX, s_bool_judgment_is_equal)		= typename snk_bool_judgment_as::identity::template
+									  s_bool_judgment_is_equal<Value1, Value2, Continuation, Memoizer>;
 
 //
 
-	static constexpr void (*nik_safe(PREFIX, p_bool_judgment_))()		= snk_bool_judgment_as::identity::
-												  p_bool_judgment_;
+	static constexpr bool (*nik_safe(PREFIX, p_bool_judgment_is_equal))(bool, bool)	= snk_bool_judgment_as::identity::
+												  p_bool_judgment_is_equal;
 
 //
 

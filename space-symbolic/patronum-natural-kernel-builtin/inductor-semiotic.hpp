@@ -760,18 +760,28 @@ struct inductor
 			template<typename Continuation>
 			struct cp_af_values_list_length
 			{
-				template<typename Image, typename Kind, template<Kind...> class ListKind, typename List, Kind... Values>
+					template
+					<
+						typename Image, typename Kind, template<Kind...> class ListKind,
+
+						typename List, Kind... Values
+					>
 				static constexpr Image result = Continuation::template result
-				<
-					Image, size_type, sizeof...(Values)
-				>;
+						<
+							Image, size_type, sizeof...(Values)
+						>;
 			};
 
-			template<typename List, typename Continuation = ch_assemblic_value>
-			static constexpr size_type af_values_list_length = pattern_match_values_list<List>::template
+			template
+			<
+				typename List,
+				typename Continuation = ch_assemblic_value,
+				typename Image = size_type
+			>
+			static constexpr Image af_values_list_length = pattern_match_values_list<List>::template
 			a_front_grow_induct
 			<
-				cp_af_values_list_length<Continuation>, size_type, filler
+				cp_af_values_list_length<Continuation>, Image, filler
 			>;
 	};
 

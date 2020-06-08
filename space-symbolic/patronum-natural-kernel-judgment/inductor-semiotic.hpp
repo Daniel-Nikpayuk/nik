@@ -30,22 +30,26 @@ struct inductor
 	template<typename Type, typename Exp>
 	using pattern_match_judgment = if_then_else
 	<
-		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template assemblic_match<>	&&
-		dependent_memoization<Type>::template a_values_list_length<Exp> == NIK_ONE				,
+		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template a_match_induct<>		&&
+		dependent_memoization<Type>::template af_values_list_length<Exp> == NIK_ONE				,
 
 		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>				,
 		typename dependent_memoization<Type>::template pattern_match_values_list<filler>
+													// assumes filler is
+													// not a values list.
 	>;
 
 	template<typename Type, typename Exp>
 	using pattern_match_curried_judgment = if_then_else
 	<
-		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template assemblic_match<>	&&
+		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template a_match_induct<>		&&
 		dependent_memoization<Type>::template a_values_list_length<Exp> == NIK_ONE				&&
-		dependent_memoization<void>::template pattern_match_induct<Exp>::template assemblic_match<>		,
+		dependent_memoization<void>::template pattern_match_induct<Exp>::template a_match_induct<>		,
 
 		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>,
 		typename dependent_memoization<Type>::template pattern_match_values_list<filler>
+													// assumes filler is
+													// not a values list.
 	>;
 };
 

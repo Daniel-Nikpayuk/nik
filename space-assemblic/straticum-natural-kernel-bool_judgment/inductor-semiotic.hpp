@@ -19,6 +19,127 @@ struct inductor
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	template<typename Type, typename Exp>
-	using pattern_match_bool_judgment_ = typename dependent_memoization<Type>::template pattern_match_<Exp>;
+		// The following bool value pattern matcher is here as its induction operator requires its own specialization.
+
+	template<auto, typename = filler>
+	struct pattern_match_bool_judgment
+	{
+		// match: id.
+
+			// symbolic:
+
+				template
+				<
+					typename Continuation, template<typename> class Memoizer
+				>
+			using s_match_induct = typename Continuation::template result
+					<
+						Memoizer, bool, false
+					>;
+
+			// assemblic:
+
+				template
+				<
+					typename Continuation, typename Image
+				>
+			static constexpr Image a_match_induct = Continuation::template result
+					<
+						Image, bool, false
+					>;
+	};
+
+	template<typename Filler>
+	struct pattern_match_bool_judgment<true, Filler>
+	{
+		// match: id.
+
+			// symbolic:
+
+				template
+				<
+					typename Continuation, template<typename> class Memoizer
+				>
+			using s_match_induct = typename Continuation::template result
+					<
+						Memoizer, bool, true
+					>;
+
+			// assemblic:
+
+				template
+				<
+					typename Continuation, typename Image
+				>
+			static constexpr Image a_match_induct = Continuation::template result
+					<
+						Image, bool, true
+					>;
+
+		// induct:
+
+			// symbolic:
+
+				template
+				<
+					typename Continuation, template<typename> class Memoizer,
+
+					typename Antecedent, typename Consequent
+				>
+			using s_induct = typename Continuation::template result
+					<
+						Memoizer, Antecedent
+					>;
+
+			// assemblic:
+
+				// not implemented as it's better to use the native C++ ( ? : ) grammar.
+	};
+
+	template<typename Filler>
+	struct pattern_match_bool_judgment<false, Filler>
+	{
+		// match: id.
+
+			// symbolic:
+
+				template
+				<
+					typename Continuation, template<typename> class Memoizer
+				>
+			using s_match_induct = typename Continuation::template result
+					<
+						Memoizer, bool, true
+					>;
+
+			// assemblic:
+
+				template
+				<
+					typename Continuation, typename Image
+				>
+			static constexpr Image a_match_induct = Continuation::template result
+					<
+						Image, bool, true
+					>;
+
+		// induct:
+
+			// symbolic:
+
+				template
+				<
+					typename Continuation, template<typename> class Memoizer,
+
+					typename Antecedent, typename Consequent
+				>
+			using s_induct = typename Continuation::template result
+					<
+						Memoizer, Consequent
+					>;
+
+			// assemblic:
+
+				// not implemented as it's better to use the native C++ ( ? : ) grammar.
+	};
 };

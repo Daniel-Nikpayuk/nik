@@ -17,31 +17,9 @@
 
 struct embedding
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-
-	// :
-
-		// symbolic:
-
-		template
-		<
-			typename Exp,
-			typename Continuation = ch_symbolic_values,
-			template<typename> class Memoizer = dependent_memoization
-		>
-		using s_char_list_ = s_char_list_<Exp, Continuation, Memoizer>;
-
-		// assemblic:
-
-		template
-		<
-			typename Exp,
-			typename Continuation = ch_assemblic_value,
-			typename Image
-		>
-		static constexpr Image a_char_list_ = a_char_list_<Exp, Continuation, Image>;
+	// display:
 
 		// procedural:
 
-		static constexpr void (*p_char_list_)() = p_char_list_<>;
+		static constexpr void p_char_list_display(const char *string_literal) { printf("%s", string_literal); }
 };
