@@ -4,9 +4,9 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_a_to_value,
+											ch_a_to_match_value,
 
-											typename Image = Type
+											typename Image = bool
 										  >
 	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_)		= <<<SIGNATURE>>>::<<<DIVISION>>>::template
 										  a_<<<MODULE>>>_<Type, Continuation, Image>;

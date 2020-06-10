@@ -22,7 +22,7 @@
 
 #ifdef safe_name
 
-	#define PREFIX		pnkb_proximity_ss_
+	#define PREFIX		pnkb_filter_ss_
 
 #else
 
@@ -38,14 +38,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
+											ch_s_to_values,
 
-											template<typename> class Memoizer =
+											template<Type...> class ListType =
 											pnk_builtin_ss::inductor::template
-											dependent_memoization
+											dependent_memoization<Type>::template
+											pattern_match_values
 										  >
-	using nik_safe(PREFIX, s_builtin_)					= typename pnk_builtin_ss::proximity::template
-										  s_builtin_<Type, Continuation, Memoizer>;
+	using nik_safe(PREFIX, s_builtin_)					= typename pnk_builtin_ss::filter::template
+										  s_builtin_<Type, Continuation, ListType>;
 
 //
 
@@ -55,11 +56,11 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
+											ch_a_to_value,
 
 											typename Image = Type
 										  >
-	static constexpr Image nik_safe(PREFIX, a_builtin_)		= pnk_builtin_ss::proximity::template
+	static constexpr Image nik_safe(PREFIX, a_builtin_)		= pnk_builtin_ss::filter::template
 										  a_builtin_<Type, Continuation, Image>;
 
 //

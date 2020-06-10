@@ -2,6 +2,6 @@
 		<
 			typename Exp,
 			typename Continuation = ch_a_to_value,
-			typename Image = 
+			typename Image = bool
 		>
 		static constexpr Image a_<<<MODULE>>>_ = a_<<<MODULE>>>_<, Exp, Continuation, Image>;

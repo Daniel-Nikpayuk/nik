@@ -17,15 +17,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_match_value,
 
-												template<typename> class Memoizer =
+												template<bool...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<bool>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_is_equal)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_is_equal
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 //
 

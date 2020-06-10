@@ -17,15 +17,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_values,
 
-												template<typename> class Memoizer =
+												template<<<<TYPE>>>...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<<<<TYPE>>>>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_add)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_add
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 											  template
 											  <
@@ -34,15 +35,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_values,
 
-												template<typename> class Memoizer =
+												template<<<<TYPE>>>...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<<<<TYPE>>>>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_multiply)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_multiply
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 											  template
 											  <
@@ -51,15 +53,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_values,
 
-												template<typename> class Memoizer =
+												template<<<<TYPE>>>...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<<<<TYPE>>>>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_subtract)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_subtract
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 											  template
 											  <
@@ -68,15 +71,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_values,
 
-												template<typename> class Memoizer =
+												template<<<<TYPE>>>...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<<<<TYPE>>>>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_divide)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_divide
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 											  template
 											  <
@@ -85,15 +89,16 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_symbolic_values,
+												ch_s_to_values,
 
-												template<typename> class Memoizer =
+												template<<<<TYPE>>>...> class ListType =
 												pnk_builtin_ss::inductor::template
-												dependent_memoization
+												dependent_memoization<<<<TYPE>>>>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_modulo)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_modulo
-												<Value1, Value2, Continuation, Memoizer>;
+												<Value1, Value2, Continuation, ListType>;
 
 //
 

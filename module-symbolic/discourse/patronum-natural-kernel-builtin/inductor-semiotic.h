@@ -31,23 +31,17 @@
 
 //
 
-	using nik_safe(PREFIX, ch_symbolic_type)					= typename pnk_builtin_ss::inductor::
-											  ch_symbolic_type;
+	using nik_safe(PREFIX, ch_s_to_match_value)					= typename pnk_builtin_ss::inductor::
+											  ch_s_to_match_value;
 
-	using nik_safe(PREFIX, ch_symbolic_types)					= typename pnk_builtin_ss::inductor::
-											  ch_symbolic_types;
+	using nik_safe(PREFIX, ch_s_to_values)						= typename pnk_builtin_ss::inductor::
+											  ch_s_to_values;
 
-	using nik_safe(PREFIX, ch_symbolic_values)					= typename pnk_builtin_ss::inductor::
-											  ch_symbolic_values;
+	using nik_safe(PREFIX, ch_a_to_match_value)					= typename pnk_builtin_ss::inductor::
+											  ch_a_to_match_value;
 
-	using nik_safe(PREFIX, ch_symbolic_values_list)					= typename pnk_builtin_ss::inductor::
-											  ch_symbolic_values_list;
-
-	using nik_safe(PREFIX, ch_assemblic_value)					= typename pnk_builtin_ss::inductor::
-											  ch_assemblic_value;
-
-	using nik_safe(PREFIX, ch_assemblic_value_list)					= typename pnk_builtin_ss::inductor::
-											  ch_assemblic_value_list;
+	using nik_safe(PREFIX, ch_a_to_value)						= typename pnk_builtin_ss::inductor::
+											  ch_a_to_value;
 
 //
 

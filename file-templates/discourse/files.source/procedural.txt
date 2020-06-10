@@ -1,2 +1,2 @@
-	static constexpr void (*nik_safe(PREFIX, p_<<<MODULE>>>_))()		= <<<SIGNATURE>>>::<<<DIVISION>>>::
-												  p_<<<MODULE>>>_;
+	static constexpr void (*nik_safe(PREFIX, p_<<<MODULE>>>_))() =
+		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<MODULE>>>_;

@@ -23,26 +23,18 @@ struct embedding
 
 		// symbolic:
 
-		template<typename Continuation, const char* string_literal>
-		struct cp_s_type_to_string_literal
-		{
-			template<typename Memoizer, typename Type>
-			using result = typename Continuation::template result
-			<
-				Memoizer, const char*, string_literal
-			>;
-		};
-
 		template
 		<
-			typename Type, const char* string_literal,
-			typename Continuation = ch_symbolic_values,
-			template<typename> class Memoizer = dependent_memoization
+			typename Type,
+			template<typename> class Literal,
+			typename Continuation = ch_s_to_values
+			typename Kind = const char*,
+			template<Kind> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_type_literal = typename dependent_memoization<Type>::template pattern_match_types<>::template
-		s_induct
+		s_literal_induct
 		<
-			cp_s_type_to_string_literal<Continuation, string_literal>, Memoizer
+			Continuation, Literal, Kind, ListKind
 		>;
 
 		// assemblic:

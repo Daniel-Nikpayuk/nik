@@ -2,7 +2,7 @@
 		<
 			typename Type, typename Exp,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Image = bool
 		>
 		static constexpr Image a_<<<MODULE>>>_ = pattern_match_<<<MODULE>>>_<Type, Exp>::template
 		a_front_grow_induct

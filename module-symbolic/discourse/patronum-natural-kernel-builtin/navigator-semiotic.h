@@ -38,14 +38,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
+											ch_s_to_values,
 
-											template<typename> class Memoizer =
+											template<Type...> class ListType =
 											pnk_builtin_ss::inductor::template
-											dependent_memoization
+											dependent_memoization<Type>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_builtin_)					= typename pnk_builtin_ss::navigator::template
-										  s_builtin_<Type, Continuation, Memoizer>;
+										  s_builtin_<Type, Continuation, ListType>;
 
 //
 
@@ -55,7 +56,7 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
+											ch_a_to_value,
 
 											typename Image = Type
 										  >

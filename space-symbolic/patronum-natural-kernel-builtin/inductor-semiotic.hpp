@@ -100,14 +100,15 @@ struct inductor
 				template<typename Continuation>
 				struct cp_s_match_to_values
 				{
-					template<typename Type, template<Type...> class ListType, typename Kind, Kind Value>
+					template<typename Kind, template<Kind...> class ListKind, typename Type, Type Value>
 					using result = typename Continuation::template result
 					<
-						Type, ListType, Value
+						Kind, ListKind, (Kind) Value
 					>;
 				};
 
 				using ch_s_match_to_values		= cp_s_match_to_values<ch_s_values>;
+				using ch_s_to_match_value		= cp_s_match_to_values<ch_s_values>;	// library default.
 
 				// grow:
 
@@ -122,6 +123,7 @@ struct inductor
 				};
 
 				using ch_s_grow_to_values		= cp_s_grow_to_values<ch_s_values>;
+				using ch_s_to_values			= cp_s_grow_to_values<ch_s_values>;	// library default.
 
 		// assemblic:
 
@@ -132,16 +134,35 @@ struct inductor
 				template<typename Continuation>
 				struct cp_a_match_to_value
 				{
-					template<typename Kind, typename Type, Type Value>
-					static constexpr Kind result = Continuation::template result
+					template<typename Image, typename Type, Type Value>
+					static constexpr Image result = Continuation::template result
 					<
-						Kind, Value
+						Image, (Image) Value
 					>;
 				};
 
 				using ch_a_match_to_value		= cp_a_match_to_value<ch_a_value>;
+				using ch_a_to_match_value		= cp_a_match_to_value<ch_a_value>;	// library default.
 
 				// grow:
+
+				template<typename Continuation>
+				struct cp_a_grow_to_value
+				{
+					template
+					<
+						typename Image, typename Type,
+							template<Type...> class ListType, typename _Drop_, Type Value, Type... Values
+					>
+					static constexpr Image result = Continuation::template result
+					<
+						Image, (Image) Value
+					>;
+				};
+
+				using ch_a_grow_to_value		= cp_a_grow_to_value<ch_a_value>;
+				using ch_a_to_value			= cp_a_grow_to_value<ch_a_value>;	// library default.
+
 
 	// dependent memoization:
 
@@ -184,37 +205,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, false
-						>;
-
-			// induct:
-
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						template<typename...> class ListKind
-					>
-				using s_induct = typename Continuation::template result			// s_types
-						<
-							ListKind, Type, Types...
-						>;
-
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Kind
-					>
-				static constexpr Kind a_induct = Continuation::template result		// ?
-						<
-							Kind, Type, Types...
+							Image, bool, false
 						>;
 		};
 
@@ -240,37 +235,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, true
-						>;
-
-			// induct:
-
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						template<typename...> class ListKind
-					>
-				using s_induct = typename Continuation::template result			// s_types
-						<
-							ListKind, Type, Type, Types...
-						>;
-
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Kind
-					>
-				static constexpr Kind a_induct = Continuation::template result		// ?
-						<
-							Kind, Type, Type, Types...
+							Image, bool, true
 						>;
 		};
 
@@ -301,11 +270,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, false
+							Image, bool, false
 						>;
 		};
 
@@ -331,11 +300,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, true
+							Image, bool, true
 						>;
 
 			// front grow: null, multicons, cons, car, cdr, length, catenate.
@@ -357,13 +326,13 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
 						typename List, Type... Args
 					>
-				static constexpr Kind a_front_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Kind, Type, pattern_match_values, List, Args..., Values...
+							Image, Type, pattern_match_values, List, Args..., Values...
 						>;
 
 			// back grow: multipush, push, multiunite, unite.
@@ -385,13 +354,13 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
 						typename List, Type... Args
 					>
-				static constexpr Kind a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_back_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Kind, Type, pattern_match_values, List, Values..., Args...
+							Image, Type, pattern_match_values, List, Values..., Args...
 						>;
 
 			// fast map: no signature, but required to implement map (signature).
@@ -402,12 +371,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, Image (*Op)(Type)
+						typename Kind, Kind (*Op)(Type)
 					>
 				using sf_map_induct = typename Continuation::template result		// s_values
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Values)...
 						>;
 
@@ -415,14 +384,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, Image (*Op)(Type)
+						typename Kind, Kind (*Op)(Type)
 					>
-				static constexpr Kind af_map_induct = Continuation::template result	// ?
+				static constexpr Image af_map_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Values)...
 						>;
 
@@ -434,12 +403,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, Image (*Op)(Type)
+						typename Kind, Kind (*Op)(Type)
 					>
 				using s_map_mutate_induct = typename Continuation::template result	// ?
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op, Values...
 						>;
 
@@ -447,14 +416,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, Image (*Op)(Type)
+						typename Kind, Kind (*Op)(Type)
 					>
-				static constexpr Kind a_map_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_map_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op, Values...
 						>;
 
@@ -466,12 +435,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, Image (*Op)(Type, Type), Type... Args
+						typename Kind, Kind (*Op)(Type, Type), Type... Args
 					>
 				using sf_zip_induct = typename Continuation::template result		// s_values
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Args, Values)...
 						>;
 
@@ -479,14 +448,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, Image (*Op)(Type, Type), Type... Args
+						typename Kind, Kind (*Op)(Type, Type), Type... Args
 					>
-				static constexpr Kind af_zip_induct = Continuation::template result	// ?
+				static constexpr Image af_zip_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Args, Values)...
 						>;
 
@@ -498,12 +467,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, Image (*Op)(Type, Type), typename List
+						typename Kind, Kind (*Op)(Type, Type), typename List
 					>
 				using s_zip_mutate_induct = typename Continuation::template result	// ?
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op, List, Values...
 						>;
 
@@ -511,14 +480,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, Image (*Op)(Type, Type), typename List
+						typename Kind, Kind (*Op)(Type, Type), typename List
 					>
-				static constexpr Kind a_zip_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_zip_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op, List, Values...
 						>;
 
@@ -530,12 +499,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, typename Op_Cond, size_type count, Image... Moment
+						typename Kind, typename Op_Cond, size_type count, Kind... Moment
 					>
 				using s_shrink_induct = typename Continuation::template result		// ?
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op_Cond, count, Moment..., Values...
 						>;
 
@@ -543,14 +512,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, typename Op_Cond, size_type count, Image... Moment
+						typename Kind, typename Op_Cond, size_type count, Kind... Moment
 					>
-				static constexpr Kind a_shrink_induct = Continuation::template result	// ?
+				static constexpr Image a_shrink_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op_Cond, count, Moment..., Values...
 						>;
 
@@ -562,12 +531,12 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, typename Op_Cond, size_type count, typename List0, typename List1
+						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
 					>
 				using s_patch_induct = typename Continuation::template result		// ?
 						<
-							Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op_Cond, count, List0, List1, Values...
 						>;
 
@@ -575,14 +544,14 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, typename Op_Cond, size_type count, typename List0, typename List1
+						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
 					>
-				static constexpr Kind a_patch_induct = Continuation::template result	// ?
+				static constexpr Image a_patch_induct = Continuation::template result	// ?
 						<
-							Kind, Image,
-							dependent_memoization<Image>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Type, Op_Cond, count, List0, List1, Values...
 						>;
 		};
@@ -614,11 +583,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, false
+							Image, bool, false
 						>;
 		};
 
@@ -644,11 +613,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, true
+							Image, bool, true
 						>;
 
 			// front grow: null, multicons, cons, car, cdr, length, catenate.
@@ -670,13 +639,13 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind, // template<Type...> class ListType,
+						typename Continuation, typename Image, // template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
-				static constexpr Kind a_front_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Kind, Type, ListType, List, Args..., Values...
+							Image, Type, ListType, List, Args..., Values...
 						>;
 
 			// back grow: multipush, push, multiunite, unite.
@@ -698,13 +667,13 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind, // template<Type...> class ListType,
+						typename Continuation, typename Image, // template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
-				static constexpr Kind a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_back_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Kind, Type, ListType, List, Values..., Args...
+							Image, Type, ListType, List, Values..., Args...
 						>;
 
 			// fast map: no signature, but required to implement map (signature).
@@ -715,28 +684,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type)
+						Kind (*Op)(Type)
 					>
 				using sf_map_induct = typename Continuation::template result		// s_values
 						<
-							Image, ListImage, Op(Values)...
+							Kind, ListKind, Op(Values)...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type)
+						Kind (*Op)(Type)
 					>
-				static constexpr Kind af_map_induct = Continuation::template result	// ?
+				static constexpr Image af_map_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Op(Values)...
+							Image, Kind, ListKind, Op(Values)...
 						>;
 
 			// map mutate: map, rename.
@@ -747,28 +716,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type)
+						Kind (*Op)(Type)
 					>
 				using s_map_mutate_induct = typename Continuation::template result	// ?
 						<
-							Image, ListImage, Type, ListType, Op, Values...
+							Kind, ListKind, Type, ListType, Op, Values...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type)
+						Kind (*Op)(Type)
 					>
-				static constexpr Kind a_map_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_map_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Type, ListType, Op, Values...
+							Image, Kind, ListKind, Type, ListType, Op, Values...
 						>;
 
 			// fast zip: no signature, but required to implement zip (signature).
@@ -779,28 +748,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type, Type), Type... Args
+						Kind (*Op)(Type, Type), Type... Args
 					>
 				using sf_zip_induct = typename Continuation::template result		// s_value
 						<
-							Image, ListImage, Op(Args, Values)...
+							Kind, ListKind, Op(Args, Values)...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type, Type), Type... Args
+						Kind (*Op)(Type, Type), Type... Args
 					>
-				static constexpr Kind af_zip_induct = Continuation::template result	// ?
+				static constexpr Image af_zip_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Op(Args, Values)...
+							Image, Kind, ListKind, Op(Args, Values)...
 						>;
 
 			// zip mutate: zip, map, rename.
@@ -811,28 +780,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type, Type), typename List
+						Kind (*Op)(Type, Type), typename List
 					>
 				using s_zip_mutate_induct = typename Continuation::template result	// ?
 						<
-							Image, ListImage, Type, ListType, Op, List, Values...
+							Kind, ListKind, Type, ListType, Op, List, Values...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image (*Op)(Type, Type), typename List
+						Kind (*Op)(Type, Type), typename List
 					>
-				static constexpr Kind a_zip_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_zip_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Type, ListType, Op, List, Values...
+							Image, Kind, ListKind, Type, ListType, Op, List, Values...
 						>;
 
 			// shrink: split_fold, fold, find, multicdr, multicar, reverse.
@@ -843,28 +812,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Op_Cond, size_type count, Image... Moment
+						typename Op_Cond, size_type count, Kind... Moment
 					>
 				using s_shrink_induct = typename Continuation::template result		// ?
 						<
-							Image, ListImage, Type, ListType, Op_Cond, count, Moment..., Values...
+							Kind, ListKind, Type, ListType, Op_Cond, count, Moment..., Values...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Op_Cond, size_type count, Image... Moment
+						typename Op_Cond, size_type count, Kind... Moment
 					>
-				static constexpr Kind a_shrink_induct = Continuation::template result	// ?
+				static constexpr Image a_shrink_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Type, ListType, Op_Cond, count, Moment..., Values...
+							Image, Kind, ListKind, Type, ListType, Op_Cond, count, Moment..., Values...
 						>;
 
 			// patch: split_zip, split_map.
@@ -875,28 +844,28 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
 						typename Op_Cond, size_type count, typename List0, typename List1
 					>
 				using s_patch_induct = typename Continuation::template result		// ?
 						<
-							Image, ListImage, Type, ListType, Op_Cond, count, List0, List1, Values...
+							Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
 						>;
 
 				// assemblic:
 
 					template
 					<
-						typename Continuation, typename Kind,
+						typename Continuation, typename Image,
 
-						typename Image, template<Image...> class ListImage,
+						typename Kind, template<Kind...> class ListKind,
 
 						typename Op_Cond, size_type count, typename List0, typename List1
 					>
-				static constexpr Kind a_patch_induct = Continuation::template result	// ?
+				static constexpr Image a_patch_induct = Continuation::template result	// ?
 						<
-							Kind, Image, ListImage, Type, ListType, Op_Cond, count, List0, List1, Values...
+							Image, Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
 						>;
 		};
 	};
@@ -905,6 +874,162 @@ struct inductor
 	struct dependent_memoization<void, Filler>
 	{
 		// type:
+
+		template<typename... Types>
+		struct pattern_match_types
+		{
+			// match: id.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, template<Kind...> class ListKind
+					>
+				using s_match_induct = typename Continuation::template result		// s_match_to_values
+						<
+							Kind, ListKind, bool, false
+						>;
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image
+					>
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
+						<
+							Image, bool, false
+						>;
+
+			// fast map: no signature, but required to implement map (signature).
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						template<typename...> class ListKind,
+
+						template<typename> class Op
+					>
+				using sf_map_induct = typename Continuation::template result		// s_values
+						<
+							ListKind, Op<Values>...
+						>;
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Type)
+					>
+				static constexpr Image af_map_induct = Continuation::template result	// ?
+						<
+							Image, Kind, ListKind, Op(Values)...
+						>;
+
+			// map mutate: map, rename.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Type)
+					>
+				using s_map_mutate_induct = typename Continuation::template result	// ?
+						<
+							Kind, ListKind, Type, ListType, Op, Values...
+						>;
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Type)
+					>
+				static constexpr Image a_map_mutate_induct = Continuation::template result	// ?
+						<
+							Image, Kind, ListKind, Type, ListType, Op, Values...
+						>;
+
+			// values mutate:
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						template<typename> class Op,
+
+						typename Kind, template<Kind...> class ListKind
+					>
+				using s_map_mutate_induct = typename Continuation<Type>::template result	// s_values
+						<
+							Kind, ListKind
+						>;
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image
+
+						typename Kind, template<Kind...> class ListKind
+					>
+				static constexpr Image a_literal_induct = Continuation<Type>::template result	// a_value
+						<
+							Image, Kind, ListKind
+						>;
+		};
+
+		template<typename... Types>
+		struct pattern_match_types<void, Types...>
+		{
+			// match: id.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, template<Kind...> class ListKind
+					>
+				using s_match_induct = typename Continuation::template result		// s_match_to_values
+						<
+							Kind, ListKind, bool, true
+						>;
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image
+					>
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
+						<
+							Image, bool, true
+						>;
+		};
+
+		// list:
 
 		template<typename>
 		struct pattern_match_types_list
@@ -928,11 +1053,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, false
+							Image, bool, false
 						>;
 		};
 
@@ -958,11 +1083,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, true
+							Image, bool, true
 						>;
 		};
 
@@ -992,11 +1117,11 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, false
+							Image, bool, false
 						>;
 		};
 
@@ -1022,168 +1147,186 @@ struct inductor
 
 					template
 					<
-						typename Continuation, typename Kind
+						typename Continuation, typename Image
 					>
-				static constexpr Kind a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
 						<
-							Kind, bool, true
+							Image, bool, true
 						>;
 		};
 	};
 
-		// The following values list functions are only here due to the above values list pattern
-		// matcher, otherwise they narratively belong with their respective list languages.
+		// The following values (list) functions are only here due to the above values (list)
+		// pattern matcher, otherwise they narratively belong with their respective list languages.
 
-	// length:
+	// values zip:
+
+		// symbolic:
+
+		template<typename Continuation>
+		struct cp_sf_values_zip_induct
+		{
+			template
+			<
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+				Kind (*Op)(Type, Type), typename Values2, Type... Values1
+			>
+			using result = typename Values2::template
+			sf_zip_induct
+			<
+				Continuation, Kind, ListKind, Op, Values1...
+			>;
+		};
+
+		template
+		<
+			typename Kind, typename Type, Kind (*Op)(Type, Type),
+			typename Values1, typename Values2,
+			typename Continuation = ch_s_values
+		>
+		using sf_values_zip = typename Values1::template
+		s_zip_mutate_induct
+		<
+			cp_sf_values_zip_induct<Continuation>, Kind,
+			dependent_memoization<Kind>::template pattern_match_values,
+			Op, Values2
+		>;
+
+		// assemblic:
+
+		template<typename Continuation>
+		struct cp_af_values_zip_induct
+		{
+			template
+			<
+				typename Image,
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+				Kind (*Op)(Type, Type), typename Values2, Type... Values1
+			>
+			static constexpr Image result = Values2::template
+			af_zip_induct
+			<
+				Continuation, Image, Kind, ListKind, Op, Values1...
+			>;
+		};
+
+		template
+		<
+			typename Image, typename Kind, typename Type, Kind (*Op)(Type, Type),
+			typename Values1, typename Values2,
+			typename Continuation = ch_a_value
+		>
+		static constexpr Image af_values_zip = Values1::template
+		a_zip_mutate_induct
+		<
+			cp_af_values_zip_induct<Continuation>, Image, Kind,
+			dependent_memoization<Kind>::template pattern_match_values,
+			Op, Values2
+		>;
+
+	// values list length:
 
 		// assemblic:
 
 		template<typename Continuation>
 		struct cp_af_grow_to_value_length
 		{
-				template
-				<
-					typename Kind, typename Image, template<Image...> class ListImage,
-
-					typename List, Image... Values
-				>
-			static constexpr Kind result = Continuation::template result
-					<
-						Kind, size_type, sizeof...(Values)
-					>;
+			template
+			<
+				typename Image, typename Type,
+				template<Type...> class ListType, typename List, Type... Values
+			>
+			static constexpr Image result = Continuation::template result
+			<
+				Image, (Image) sizeof...(Values)
+			>;
 		};
 
-		template<typename List, typename Continuation, typename Image>
-		static constexpr Image af_values_list_length = pattern_match_values_list<List>::template
+		template
+		<
+			typename Type, typename List,
+			typename Continuation = ch_a_value,
+			typename Image = size_type
+		>
+		static constexpr Image af_values_list_length = dependent_memoization<Type>::template
+		pattern_match_values_list<List>::template
 		a_front_grow_induct
 		<
-			cp_af_values_list_length<Continuation>, Image, filler
+			cp_af_grow_to_value_length<Continuation>, Image, filler
 		>;
 
 		// The following values function is only here due to the above values pattern
 		// matcher, otherwise it narratively belongs with its respective list languages.
 
-	// zip:
+	// values list zip:
 
 		// symbolic:
 
 		template<typename Continuation>
-		struct cp_sf_values_zip
+		struct cp_sf_values_list_zip_induct
 		{
 			template
 			<
-				typename Image, template<Image...> class ListKind,
-
-				typename Kind, Image (*Op)(Kind, Kind), typename Values2, Kind... Values1
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+				Kind (*Op)(Type, Type), typename List2, Type... Values1
 			>
-			using result = typename Values2::template
+			using result = typename dependent_memoization<Type>::template
+			pattern_match_values_list<List2>::template
 			sf_zip_induct
 			<
-				Continuation, Image, Op, Values1...
+				Continuation, Kind, ListKind, Op, Values1...
 			>;
 		};
 
 		template
 		<
-			typename Image, Image (*Op)(Type, Type), typename Values1, typename Values2,
-				typename Continuation
+			typename Kind, typename Type, Kind (*Op)(Type, Type),
+			typename List1, typename List2,
+			typename Continuation = ch_s_values,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using sf_values_zip = typename Values1::template
+		using sf_values_list_zip = typename dependent_memoization<Type>::template
+		pattern_match_values_list<List1>::template
 		s_zip_mutate_induct
 		<
-			cp_sf_values_zip<Continuation>, Image, Op, Values2
+			cp_sf_values_list_zip_induct<Continuation>, Kind, ListKind, Op, List2
 		>;
 
 		// assemblic:
 
 		template<typename Continuation>
-		struct cp_af_values_zip
+		struct cp_af_values_list_zip_induct
 		{
 			template
 			<
-				typename Image0, typename Image1, template<Image1...> class ListImage1,
-
-				typename Kind, Image1 (*Op)(Kind, Kind), typename Values2, Kind... Values1
+				typename Image,
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+				Kind (*Op)(Type, Type), typename List2, Type... Values1
 			>
-			static constexpr Image0 result = Values2::template
+			static constexpr Image result = dependent_memoization<Type>::template
+			pattern_match_values_list<List2>::template
 			af_zip_induct
 			<
-				Continuation, Image0, Image1, Op, Values1...
+				Image, Continuation, Kind, ListKind, Op, Values1...
 			>;
 		};
 
 		template
 		<
-			typename Image1, Image1 (*Op)(Type, Type), typename Values1, typename Values2,
-				typename Continuation, typename Image0
+			typename Kind, typename Type, Kind (*Op)(Type, Type),
+			typename List1, typename List2,
+			typename Continuation = ch_a_value,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			typename Image = Kind
 		>
-		static constexpr Image0 af_values_zip = Values1::template
+		static constexpr Image af_values_list_zip = dependent_memoization<Type>::template
+		pattern_match_values_list<List1>::template
 		a_zip_mutate_induct
 		<
-			cp_af_values_zip<Continuation>, Image0, Image1, Op, Values2
-		>;
-
-	// zip:
-
-		// symbolic:
-
-		template<typename Continuation>
-		struct cp_sf_values_list_zip
-		{
-			template
-			<
-				typename Image0, template<Image0...> class ListImage0,
-				typename Image1, template<Image1...> class ListImage1,
-
-				Image0 (*Op)(Image1, Image1), typename List2, Image1... Values1
-			>
-			using result = typename pattern_match_values_list<List2>::template
-			sf_zip_induct
-			<
-				Continuation, Image0, ListImage0, Op, Values1...
-			>;
-		};
-
-		template
-		<
-			typename Image, Image (*Op)(Type, Type), typename List1, typename List2,
-				typename Continuation, template<Image...> class ListImage
-		>
-		using sf_values_list_zip = typename pattern_match_values_list<List1>::template
-		s_zip_mutate_induct
-		<
-			cp_sf_values_list_zip<Continuation>, Image, ListImage, Op, List2
-		>;
-
-		// assemblic:
-
-		template<typename Continuation>
-		struct cp_af_values_list_zip
-		{
-			template
-			<
-				typename Kind,
-
-				typename Image0, template<Image0...> class ListImage0,
-				typename Image1, template<Image1...> class ListImage1,
-
-				Image0 (*Op)(Image1, Image1), typename List2, Image1... Values1
-			>
-			static constexpr Kind result = pattern_match_values_list<List2>::template
-			af_zip_induct
-			<
-				Continuation, Kind, Image0, ListImage0, Op, Values1...
-			>;
-		};
-
-		template
-		<
-			typename Image, Image (*Op)(Type, Type), typename List1, typename List2,
-				typename Continuation, template<Image...> class ListImage, typename Kind
-		>
-		static constexpr Kind af_values_list_zip = pattern_match_values_list<List1>::template
-		a_zip_mutate_induct
-		<
-			cp_af_values_list_zip<Continuation>, Kind, Image, ListImage, Op, List2
+			cp_af_values_list_zip_induct<Continuation>, Image, Kind, ListKind, Op, List2
 		>;
 };

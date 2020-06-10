@@ -10,12 +10,12 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_symbolic_values,
-			template<typename> class Memoizer = dependent_memoization
+			typename Continuation = ch_s_to_match_value,
+			template<bool...> class ListType = dependent_memoization<bool>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_is_equal = sf_judgment_is_equal
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation, Memoizer
+			<<<TYPE>>>, Value1, Value2, Continuation, ListType
 		>;
 
 		// assemblic:

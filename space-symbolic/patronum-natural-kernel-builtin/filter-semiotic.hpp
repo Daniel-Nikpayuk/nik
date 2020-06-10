@@ -26,13 +26,12 @@ struct filter
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_symbolic_values,
-			template<typename> class Memoizer = dependent_memoization
+			typename Continuation = ch_s_to_values
 		>
 		using s_builtin_ = typename pattern_match_builtin_<Type, Exp>::template
-		s_induct
+		s_front_grow_induct
 		<
-			Continuation, Memoizer
+			Continuation, filler
 		>;
 
 		// assemblic:
@@ -40,12 +39,12 @@ struct filter
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_assemblic_value,
+			typename Continuation = ch_a_to_value,
 			typename Image = Type
 		>
 		static constexpr Image a_builtin_ = pattern_match_builtin_<Type, Exp>::template
-		a_induct
+		a_front_grow_induct
 		<
-			Continuation, Image
+			Continuation, Image, filler
 		>;
 };
