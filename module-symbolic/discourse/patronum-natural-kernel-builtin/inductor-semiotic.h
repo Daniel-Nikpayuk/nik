@@ -49,6 +49,9 @@
 	using nik_safe(PREFIX, dependent_memoization)					= typename pnk_builtin_ss::inductor::template
 											  dependent_memoization<Type>;
 
+	using nik_safe(PREFIX, independent_memoization)					= typename pnk_builtin_ss::inductor::
+											  independent_memoization;
+
 //
 
 #undef PREFIX

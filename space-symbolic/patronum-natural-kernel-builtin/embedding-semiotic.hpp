@@ -23,6 +23,7 @@ struct embedding
 
 		// symbolic:
 
+/*
 		template
 		<
 			typename Type,
@@ -36,28 +37,19 @@ struct embedding
 		<
 			Continuation, Literal, Kind, ListKind
 		>;
+*/
 
 		// assemblic:
 
-		template<typename Continuation, const char* string_literal>
-		struct cp_a_type_to_string_literal
-		{
-			template<typename Image, typename Type>
-			static constexpr Image result = Continuation::template result
-			<
-				Image, const char*, string_literal
-			>;
-		};
-
 		template
 		<
-			typename Type, const char* string_literal,
-			typename Continuation = ch_assemblic_value,
+			typename Type, template<typename> class Op,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
-		static constexpr Image a_type_literal = dependent_memoization<Type>::template pattern_match_types<>::template
-		a_induct
+		static constexpr Image a_type_literal = independent_memoization::template af_types_map
 		<
-			cp_a_type_to_string_literal<Continuation, string_literal>, Image
+			Image, const char*, Op, ListType<Type>, Continuation
 		>;
 };

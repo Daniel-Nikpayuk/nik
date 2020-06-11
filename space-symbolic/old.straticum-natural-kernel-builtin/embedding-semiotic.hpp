@@ -26,24 +26,56 @@ struct embedding
 		// each type_to_string_literal directly (it would fit this library narrative design better), but only
 		// C++20 and greater allow for it.
 
-		static constexpr const char string_literal_bool[]			= "bool";
-		static constexpr const char string_literal_char[]			= "char";
-		static constexpr const char string_literal_unsigned_char[]		= "unsigned char";
-		static constexpr const char string_literal_signed_char[]		= "signed char";
-		static constexpr const char string_literal_wchar_t[]			= "wchar_t";
-		static constexpr const char string_literal_char16_t[]			= "char16_t";
-		static constexpr const char string_literal_char32_t[]			= "char32_t";
-		static constexpr const char string_literal_unsigned_short[]		= "unsigned short";
-		static constexpr const char string_literal_signed_short[]		= "signed short";
-		static constexpr const char string_literal_unsigned_int[]		= "unsigned int";
-		static constexpr const char string_literal_signed_int[]			= "signed int";
-		static constexpr const char string_literal_unsigned_long[]		= "unsigned long";
-		static constexpr const char string_literal_signed_long[]		= "signed long";
-		static constexpr const char string_literal_unsigned_long_long[]		= "unsigned long long";
-		static constexpr const char string_literal_signed_long_long[]		= "signed long long";
+		template<typename, typename = filler> struct type_to_literal;
+
+		template<typename Filler>
+		struct type_to_literal<bool, Filler>			{ static constexpr const char result[] = "bool"; };
+
+		template<typename Filler>
+		struct type_to_literal<char, Filler>			{ static constexpr const char result[] = "char"; };
+
+		template<typename Filler>
+		struct type_to_literal<unsigned char, Filler>		{ static constexpr const char result[] = "unsigned char"; };
+
+		template<typename Filler>
+		struct type_to_literal<signed char, Filler>		{ static constexpr const char result[] = "signed char"; };
+
+		template<typename Filler>
+		struct type_to_literal<wchar_t, Filler>			{ static constexpr const char result[] = "wchar_t"; };
+
+		template<typename Filler>
+		struct type_to_literal<char16_t, Filler>		{ static constexpr const char result[] = "char16_t"; };
+
+		template<typename Filler>
+		struct type_to_literal<char32_t, Filler>		{ static constexpr const char result[] = "char32_t"; };
+
+		template<typename Filler>
+		struct type_to_literal<unsigned short, Filler>		{ static constexpr const char result[] = "unsigned short"; };
+
+		template<typename Filler>
+		struct type_to_literal<signed short, Filler>		{ static constexpr const char result[] = "signed short"; };
+
+		template<typename Filler>
+		struct type_to_literal<unsigned int, Filler>		{ static constexpr const char result[] = "unsigned int"; };
+
+		template<typename Filler>
+		struct type_to_literal<signed int, Filler>		{ static constexpr const char result[] = "signed int"; };
+
+		template<typename Filler>
+		struct type_to_literal<unsigned long, Filler>		{ static constexpr const char result[] = "unsigned long"; };
+
+		template<typename Filler>
+		struct type_to_literal<signed long, Filler>		{ static constexpr const char result[] = "signed long"; };
+
+		template<typename Filler>
+		struct type_to_literal<unsigned long long, Filler>	{ static constexpr const char result[] = "unsigned long long"; };
+
+		template<typename Filler>
+		struct type_to_literal<signed long long, Filler>	{ static constexpr const char result[] = "signed long long"; };
 
 	// symbolic:
 
+/*
 		template
 		<
 			typename Continuation = ch_symbolic_values,
@@ -193,156 +225,187 @@ struct embedding
 		<
 			signed long long, string_literal_signed_long_long, Continuation, Memoizer
 		>;
+*/
 
 	// assemblic:
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_bool_literal = a_type_literal
 		<
-			bool, string_literal_bool, Continuation, Image
+			bool, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_char_literal = a_type_literal
 		<
-			char, string_literal_char, Continuation, Image
+			char, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_unsigned_char_literal = a_type_literal
 		<
-			unsigned char, string_literal_unsigned_char, Continuation, Image
+			unsigned char, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_signed_char_literal = a_type_literal
 		<
-			signed char, string_literal_signed_char, Continuation, Image
+			signed char, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_wchar_t_literal = a_type_literal
 		<
-			wchar_t, string_literal_wchar_t, Continuation, Image
+			wchar_t, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_char16_t_literal = a_type_literal
 		<
-			char16_t, string_literal_char16_t, Continuation, Image
+			char16_t, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_char32_t_literal = a_type_literal
 		<
-			char32_t, string_literal_char32_t, Continuation, Image
+			char32_t, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_unsigned_short_literal = a_type_literal
 		<
-			unsigned short, string_literal_unsigned_short, Continuation, Image
+			unsigned short, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_signed_short_literal = a_type_literal
 		<
-			signed short, string_literal_signed_short, Continuation, Image
+			signed short, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_unsigned_int_literal = a_type_literal
 		<
-			unsigned int, string_literal_unsigned_int, Continuation, Image
+			unsigned int, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_signed_int_literal = a_type_literal
 		<
-			signed int, string_literal_signed_int, Continuation, Image
+			signed int, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_unsigned_long_literal = a_type_literal
 		<
-			unsigned long, string_literal_unsigned_long, Continuation, Image
+			unsigned long, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_signed_long_literal = a_type_literal
 		<
-			signed long, string_literal_signed_long, Continuation, Image
+			signed long, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_unsigned_long_long_literal = a_type_literal
 		<
-			unsigned long long, string_literal_unsigned_long_long, Continuation, Image
+			unsigned long long, Op, Continuation, ListType, Image
 		>;
 
 		template
 		<
-			typename Continuation = ch_assemblic_value,
+			template<typename> class Op = type_to_literal,
+			typename Continuation = ch_a_to_value,
+			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_signed_long_long_literal = a_type_literal
 		<
-			signed long long, string_literal_signed_long_long, Continuation, Image
+			signed long long, Op, Continuation, ListType, Image
 		>;
 };
