@@ -1,0 +1,7 @@
+<<<MATCH_FALSE_INDUCT_TEXT>>>
+
+			// induct: judgment, pair, function
+
+				// symbolic:
+
+				// assemblic:

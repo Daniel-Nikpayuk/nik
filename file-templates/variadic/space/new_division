@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIVISION_NAME="inductor-semiotic.hpp"
+
+build_induction > "$DIVISION_NAME"
+

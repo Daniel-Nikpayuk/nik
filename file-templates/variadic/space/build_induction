@@ -1,0 +1,72 @@
+#!/bin/bash
+
+build-induction ()
+{
+	local SOURCE_DIR="files.source"
+	local SOURCE_NAME="inductor-semiotic.hpp"
+
+	local SOURCE_TEXT="$(cat "$SOURCE_DIR/$SOURCE_NAME")"
+#
+	local TYPE_DEFAULT_INDUCT_TEXT="$(build_pattern "type" "default")"
+	local TYPE_SPECIALIZED_INDUCT_TEXT="$(build_pattern "type" "specialized")"
+
+	local VALUES_DEFAULT_INDUCT_TEXT="$(build_pattern "values" "default")"
+	local VALUES_SPECIALIZED_INDUCT_TEXT="$(build_pattern "values" "specialized")"
+
+	local VALUES_LIST_DEFAULT_INDUCT_TEXT="$(build_pattern "values-list" "default")"
+	local VALUES_LIST_SPECIALIZED_INDUCT_TEXT="$(build_pattern "values-list" "specialized")"
+
+	local S_FRONT_GROW_DEFAULT_INDUCT_TEXT="$(build_pattern "s-front-grow" "default")"
+	local S_FRONT_GROW_SPECIALIZED_INDUCT_TEXT="$(build_pattern "s-front-grow" "specialized")"
+
+	local TYPES_DEFAULT_INDUCT_TEXT="$(build_pattern "types" "default")"
+
+	local TYPES_LIST_DEFAULT_INDUCT_TEXT="$(build_pattern "types-list" "default")"
+	local TYPES_LIST_SPECIALIZED_INDUCT_TEXT="$(build_pattern "types-list" "specialized")"
+#
+	local mawk_prog='
+	{
+		gsub("<<<TYPE_DEFAULT_INDUCT_TEXT>>>", TYPE_DEFAULT_INDUCT_TEXT);
+		gsub("<<<TYPE_SPECIALIZED_INDUCT_TEXT>>>", TYPE_SPECIALIZED_INDUCT_TEXT);
+
+		gsub("<<<VALUES_DEFAULT_INDUCT_TEXT>>>", VALUES_DEFAULT_INDUCT_TEXT);
+		gsub("<<<VALUES_SPECIALIZED_INDUCT_TEXT>>>", VALUES_SPECIALIZED_INDUCT_TEXT);
+
+		gsub("<<<VALUES_LIST_DEFAULT_INDUCT_TEXT>>>", VALUES_LIST_DEFAULT_INDUCT_TEXT);
+		gsub("<<<VALUES_LIST_SPECIALIZED_INDUCT_TEXT>>>", VALUES_LIST_SPECIALIZED_INDUCT_TEXT);
+
+		gsub("<<<S_FRONT_GROW_DEFAULT_INDUCT_TEXT>>>", S_FRONT_GROW_DEFAULT_INDUCT_TEXT);
+		gsub("<<<S_FRONT_GROW_SPECIALIZED_INDUCT_TEXT>>>", S_FRONT_GROW_SPECIALIZED_INDUCT_TEXT);
+
+		gsub("<<<TYPES_DEFAULT_INDUCT_TEXT>>>", TYPES_DEFAULT_INDUCT_TEXT);
+
+		gsub("<<<TYPES_LIST_DEFAULT_INDUCT_TEXT>>>", TYPES_LIST_DEFAULT_INDUCT_TEXT);
+		gsub("<<<TYPES_LIST_SPECIALIZED_INDUCT_TEXT>>>", TYPES_LIST_SPECIALIZED_INDUCT_TEXT);
+
+		print $0;
+	}'
+
+	echo "$SOURCE_TEXT"											|
+	mawk													\
+		-v TYPE_DEFAULT_INDUCT_TEXT="$TYPE_DEFAULT_INDUCT_TEXT"						\
+		-v TYPE_SPECIALIZED_INDUCT_TEXT="$TYPE_SPECIALIZED_INDUCT_TEXT"					\
+														\
+		-v VALUES_DEFAULT_INDUCT_TEXT="$VALUES_DEFAULT_INDUCT_TEXT"					\
+		-v VALUES_SPECIALIZED_INDUCT_TEXT="$VALUES_SPECIALIZED_INDUCT_TEXT"				\
+														\
+		-v VALUES_LIST_DEFAULT_INDUCT_TEXT="$VALUES_LIST_DEFAULT_INDUCT_TEXT"				\
+		-v VALUES_LIST_SPECIALIZED_INDUCT_TEXT="$VALUES_LIST_SPECIALIZED_INDUCT_TEXT"			\
+														\
+		-v S_FRONT_GROW_DEFAULT_INDUCT_TEXT="$S_FRONT_GROW_DEFAULT_INDUCT_TEXT"				\
+		-v S_FRONT_GROW_SPECIALIZED_INDUCT_TEXT="$S_FRONT_GROW_SPECIALIZED_INDUCT_TEXT"			\
+														\
+		-v TYPES_DEFAULT_INDUCT_TEXT="$TYPES_DEFAULT_INDUCT_TEXT"					\
+														\
+		-v TYPES_LIST_DEFAULT_INDUCT_TEXT="$TYPES_LIST_DEFAULT_INDUCT_TEXT"				\
+		-v TYPES_LIST_SPECIALIZED_INDUCT_TEXT="$TYPES_LIST_SPECIALIZED_INDUCT_TEXT"			\
+														\
+	"$mawk_prog"
+}
+
+build-induction
+

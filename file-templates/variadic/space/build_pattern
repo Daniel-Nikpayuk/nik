@@ -1,0 +1,130 @@
+#!/bin/bash
+
+get-match-text ()
+{
+	local MATCH_VALUE="$1"
+
+	local SOURCE_DIR="files.source"
+	local SOURCE_NAME="match-induct.hpp"
+
+	local SOURCE_TEXT="$(cat "$SOURCE_DIR/$SOURCE_NAME")"
+
+	local mawk_prog='BEGIN { print_line=0; }
+	{
+		if ($0 == "<<<END " toupper(MATCH_VALUE) ">>>") print_line=0;
+
+		if (print_line) print $0;
+
+		if ($0 == "<<<BEGIN " toupper(MATCH_VALUE) ">>>") print_line=1;
+	}'
+
+	echo "$SOURCE_TEXT"				|
+	mawk						\
+		-v MATCH_VALUE="$MATCH_VALUE"		\
+							\
+	"$mawk_prog"
+}
+
+get-variadic-text ()
+{
+	local SOURCE_DIR="files.source"
+	local SOURCE_NAME="$1-induct.hpp"
+	local PATTERN="$2"
+
+	local SOURCE_TEXT="$(cat "$SOURCE_DIR/$SOURCE_NAME")"
+
+	local mawk_prog='BEGIN { PATTERN=toupper(PATTERN); gsub("-", " ", PATTERN); print_line=0; }
+	{
+		if ($0 == "<<<END " PATTERN ">>>") print_line=0;
+
+		if (print_line) print $0;
+
+		if ($0 == "<<<BEGIN " PATTERN ">>>") print_line=1;
+	}'
+
+	echo "$SOURCE_TEXT"				|
+	mawk						\
+		-v PATTERN="$PATTERN"			\
+							\
+	"$mawk_prog"
+}
+
+build-pattern ()
+{
+	local PATTERN="$1"
+	local DISPATCH="$2"
+#
+	local SOURCE_DIR="files.source"
+	local SOURCE_NAME=""
+
+	local SOURCE_TEXT=""
+#
+	local MATCH_FALSE_INDUCT_TEXT=""
+	local MATCH_TRUE_INDUCT_TEXT=""
+
+	local FRONT_GROW_INDUCT_TEXT=""
+	local BACK_GROW_INDUCT_TEXT=""
+	local MAP_MUTATE_INDUCT_TEXT=""
+	local ZIP_MUTATE_INDUCT_TEXT=""
+	local SHRINK_INDUCT_TEXT=""
+	local PATCH_INDUCT_TEXT=""
+#
+	if [ -f "$SOURCE_DIR/$PATTERN-$DISPATCH.txt" ]
+	then
+		SOURCE_NAME="$PATTERN-$DISPATCH.txt"
+
+	elif [ "$DISPATCH" = "specialized" ]
+	then
+		SOURCE_NAME="pattern-specialized.txt"
+	else
+		SOURCE_NAME="pattern-default.txt"
+	fi
+
+	SOURCE_TEXT="$(cat "$SOURCE_DIR/$SOURCE_NAME")"
+#
+	if [ "$DISPATCH" = "specialized" ]
+	then
+		MATCH_TRUE_INDUCT_TEXT="$(get-match-text "true")"
+	else
+		MATCH_FALSE_INDUCT_TEXT="$(get-match-text "false")"
+	fi
+
+	FRONT_GROW_INDUCT_TEXT="$(get-variadic-text "front-grow" "$PATTERN")"
+	BACK_GROW_INDUCT_TEXT="$(get-variadic-text "back-grow" "$PATTERN")"
+	MAP_MUTATE_INDUCT_TEXT="$(get-variadic-text "map-mutate" "$PATTERN")"
+	ZIP_MUTATE_INDUCT_TEXT="$(get-variadic-text "zip-mutate" "$PATTERN")"
+	SHRINK_INDUCT_TEXT="$(get-variadic-text "shrink" "$PATTERN")"
+	PATCH_INDUCT_TEXT="$(get-variadic-text "patch" "$PATTERN")"
+#
+	local mawk_prog='
+	{
+		gsub("<<<MATCH_FALSE_INDUCT_TEXT>>>", MATCH_FALSE_INDUCT_TEXT);
+		gsub("<<<MATCH_TRUE_INDUCT_TEXT>>>", MATCH_TRUE_INDUCT_TEXT);
+
+		gsub("<<<FRONT_GROW_INDUCT_TEXT>>>", FRONT_GROW_INDUCT_TEXT);
+		gsub("<<<BACK_GROW_INDUCT_TEXT>>>", BACK_GROW_INDUCT_TEXT);
+		gsub("<<<MAP_MUTATE_INDUCT_TEXT>>>", MAP_MUTATE_INDUCT_TEXT);
+		gsub("<<<ZIP_MUTATE_INDUCT_TEXT>>>", ZIP_MUTATE_INDUCT_TEXT);
+		gsub("<<<SHRINK_INDUCT_TEXT>>>", SHRINK_INDUCT_TEXT);
+		gsub("<<<PATCH_INDUCT_TEXT>>>", PATCH_INDUCT_TEXT);
+
+		print $0;
+	}'
+
+	echo "$SOURCE_TEXT"							|
+	mawk									\
+		-v MATCH_FALSE_INDUCT_TEXT="$MATCH_FALSE_INDUCT_TEXT"		\
+		-v MATCH_TRUE_INDUCT_TEXT="$MATCH_TRUE_INDUCT_TEXT"		\
+										\
+		-v FRONT_GROW_INDUCT_TEXT="$FRONT_GROW_INDUCT_TEXT"		\
+		-v BACK_GROW_INDUCT_TEXT="$BACK_GROW_INDUCT_TEXT"		\
+		-v MAP_MUTATE_INDUCT_TEXT="$MAP_MUTATE_INDUCT_TEXT"		\
+		-v ZIP_MUTATE_INDUCT_TEXT="$ZIP_MUTATE_INDUCT_TEXT"		\
+		-v SHRINK_INDUCT_TEXT="$SHRINK_INDUCT_TEXT"			\
+		-v PATCH_INDUCT_TEXT="$PATCH_INDUCT_TEXT"			\
+										\
+	"$mawk_prog"
+}
+
+build-pattern "$1" "$2"
+
