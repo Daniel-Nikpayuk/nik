@@ -36,8 +36,8 @@ struct inductor
 
 				struct ch_s_types
 				{
-					template<template<typename...> class ListType, typename... Types>
-					using result = ListType<Types...>;
+					template<template<typename...> class ListName, typename... Types>
+					using result = ListName<Types...>;
 				};
 
 			// value:
@@ -69,7 +69,7 @@ struct inductor
 				template<typename Continuation>
 				struct cp_s_types_to_type
 				{
-					template<template<typename...> class ListType, typename Type, typename... Types>
+					template<template<typename...> class ListName, typename Type, typename... Types>
 					using result = typename Continuation::template result
 					<
 						Type
@@ -83,10 +83,10 @@ struct inductor
 				template<typename Continuation>
 				struct cp_s_grow_to_types
 				{
-					template<typename Type, template<typename...> class ListType, typename _Drop_, typename... Types>
+					template<template<typename...> class ListName, typename _Drop_, typename... Types>
 					using result = typename Continuation::template result
 					<
-						Type, ListType, Types...
+						ListName, Types...
 					>;
 				};
 
@@ -275,8 +275,8 @@ struct inductor
 <<<TYPES_LIST_DEFAULT_INDUCT_TEXT>>>
 		};
 
-		template<template<typename...> class ListType, typename... Types>
-		struct pattern_match_types_list<ListType<Types...>>
+		template<template<typename...> class ListName, typename... Types>
+		struct pattern_match_types_list<ListName<Types...>>
 		{
 <<<TYPES_LIST_SPECIALIZED_INDUCT_TEXT>>>
 		};

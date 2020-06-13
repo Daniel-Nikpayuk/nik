@@ -39,7 +39,7 @@
 
 					template
 					<
-						typename Continuation, // template<typename...> class ListKind,
+						typename Continuation, // template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
@@ -56,13 +56,13 @@
 
 					template
 					<
-						typename Continuation, // template<typename...> class ListKind,
+						typename Continuation, // template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
 				using s_back_grow_induct = typename Continuation::template result	// s_grow_to_types
 						<
-							ListType, List, Types..., Args...
+							ListName, List, Types..., Args...
 						>;
 
 <<<END TYPES LIST>>>
@@ -108,7 +108,7 @@
 					<
 						typename Continuation, typename Image,
 
-						// template<typename...> class ListKind,
+						// template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
@@ -124,12 +124,12 @@
 					<
 						typename Continuation, typename Image,
 
-						// template<typename...> class ListKind,
+						// template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
 				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
 						<
-							Image, ListType, List, Types..., Args...
+							Image, ListName, List, Types..., Args...
 						>;
 <<<END TYPES LIST>>>
