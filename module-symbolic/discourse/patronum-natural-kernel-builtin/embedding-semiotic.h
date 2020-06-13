@@ -77,15 +77,10 @@
 										typename pnk_builtin_ss::inductor::
 										ch_a_to_value,
 
-										template<typename...> class ListType =
-										pnk_builtin_ss::inductor::
-										independent_memoization::template
-										pattern_match_types,
-
 										typename Image = const char*
 									  >
 	static constexpr Image nik_safe(PREFIX, a_type_literal)		= pnk_builtin_ss::embedding::template
-									  a_type_literal<Type, Op, Continuation, ListType, Image>;
+									  a_type_literal<Type, Op, Continuation, Image>;
 
 //
 

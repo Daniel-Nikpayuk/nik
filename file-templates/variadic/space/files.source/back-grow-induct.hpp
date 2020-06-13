@@ -5,7 +5,9 @@
 
 					template
 					<
-						typename Continuation, // typename Kind, template<Kind...> class ListKind,
+						typename Continuation,
+
+						// typename Type, template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
@@ -22,7 +24,9 @@
 
 					template
 					<
-						typename Continuation, // typename Kind, template<Kind...> class ListKind,
+						typename Continuation,
+
+						// typename Type, template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
@@ -39,7 +43,9 @@
 
 					template
 					<
-						typename Continuation, // template<typename...> class ListName,
+						typename Continuation,
+
+						// template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
@@ -56,7 +62,9 @@
 
 					template
 					<
-						typename Continuation, // template<typename...> class ListName,
+						typename Continuation,
+
+						// template<typename...> class ListName,
 
 						typename List, typename... Args
 					>
@@ -68,40 +76,50 @@
 <<<END TYPES LIST>>>
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 <<<BEGIN VALUES>>>
+			// back grow: multipush, push, multiunite, unite.
+
 				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						 // typename Kind, template<Kind...> class ListKind,
+						// typename Type, template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// a_grow_to_value
+				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
 						<
 							Image, Type, pattern_match_values, List, Values..., Args...
 						>;
+
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
+			// back grow: multipush, push, multiunite, unite.
+
 				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						 // typename Kind, template<Kind...> class ListKind,
+						// typename Type, template<Type...> class ListType,
 
 						typename List, Type... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// a_grow_to_value
+				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
 						<
 							Image, Type, ListType, List, Values..., Args...
 						>;
+
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
+			// back grow: multipush, push, multiunite, unite.
+
 				// assemblic:
 
 					template
@@ -116,8 +134,11 @@
 						<
 							Image, pattern_match_types, List, Types..., Args...
 						>;
+
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
+			// back grow: multipush, push, multiunite, unite.
+
 				// assemblic:
 
 					template
@@ -132,4 +153,5 @@
 						<
 							Image, ListName, List, Types..., Args...
 						>;
+
 <<<END TYPES LIST>>>

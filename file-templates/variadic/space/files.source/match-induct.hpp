@@ -46,6 +46,7 @@
 						<
 							Image, bool, false
 						>;
+
 <<<END FALSE>>>
 <<<BEGIN TRUE>>>
 				// assemblic:
@@ -58,4 +59,5 @@
 						<
 							Image, bool, true
 						>;
+
 <<<END TRUE>>>

@@ -7,14 +7,14 @@
 					<
 						typename Continuation,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type1,
 
-						Kind0 (*Op)(Kind1, Type), Kind1... Args
+						Kind (*Op)(Type1, Type), Type1... Args
 					>
 				using sf_vv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Args, Values)...
 						>;
 
@@ -28,13 +28,13 @@
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Kind1, Kind0 (*Op)(Kind1, Type), Kind1... Args
+						typename Type1, Kind (*Op)(Type1, Type), Type1... Args
 					>
 				using sf_vv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
 						<
-							Kind0, ListKind0, Op(Args, Values)...
+							Kind, ListKind, Op(Args, Values)...
 						>;
 
 <<<END VALUES LIST>>>
@@ -47,15 +47,15 @@
 					<
 						typename Continuation,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type1,
 
-						template<Kind1, typename> class Op, Kind1... Args
+						template<Type1, typename> class Op, Type1... Args
 					>
 				using sf_vt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							Kind1, Op<Args, Types>::template result<Kind1>...
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Op<Args, Types>::template result<Kind>...
 						>;
 
 <<<END TYPES>>>
@@ -68,13 +68,13 @@
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Kind1, template<Kind1, typename> class Op, Kind1... Args
+						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
 				using sf_vt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
 						<
-							Kind0, ListKind0, Kind1, Op<Args, Types>::template result<Kind1>...
+							Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -92,7 +92,7 @@
 
 						typename Kind, template<typename, Type> class Op, typename... Args
 					>
-				using sf_vv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_tv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -170,7 +170,7 @@
 					<
 						typename Continuation,
 
-						typename Kind, template<Kind, Type> class Op, Kind... Args
+						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
 				using sf_vv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
@@ -188,13 +188,13 @@
 					<
 						typename Continuation,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						typename Kind, template<Kind, Type> class Op, Kind... Args
+						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
 				using sf_vv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
-							ListName, Op<Args, Values>...
+							ListLabel, Op<Args, Values>...
 						>;
 
 <<<END VALUES LIST>>>
@@ -207,7 +207,7 @@
 					<
 						typename Continuation,
 
-						typename Kind, template<Kind, typename> class Op, Kind... Args
+						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
 				using sf_vt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
@@ -224,13 +224,13 @@
 					<
 						typename Continuation,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						typename Kind, template<Kind, typename> class Op, Kind... Args
+						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
 				using sf_vt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
-							ListName, Op<Args, Types>...
+							ListLabel, Op<Args, Types>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -264,13 +264,13 @@
 					<
 						typename Continuation,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
 						template<typename, Type> class Op, typename... Args
 					>
 				using sf_tv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
-							ListName, Op<Args, Values>...
+							ListLabel, Op<Args, Values>...
 						>;
 
 <<<END VALUES LIST>>>
@@ -300,13 +300,13 @@
 					<
 						typename Continuation,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
 						template<typename, typename> class Op, typename... Args
 					>
 				using sf_tt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
 						<
-							ListName, Op<Args, Types>...
+							ListLabel, Op<Args, Types>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -323,15 +323,17 @@
 					<
 						typename Continuation,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type2,
 
-						typename List, Kind0 (*Op)(Type, Kind1)
+						typename List2, Kind (*Op)(Type, Type2)
 					>
 				using s_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							Type, ListType, Kind1, List, Op, Values...
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
@@ -344,15 +346,15 @@
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Kind1, typename List,
+						typename Type2, typename List2,
 
-						Kind0 (*Op)(Type, Kind1)
+						Kind (*Op)(Type, Type2)
 					>
 				using s_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind0, ListKind0, Type, ListType, Kind1, List, Op, Values...
+							Kind, ListKind, Type, ListType, Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
@@ -365,15 +367,16 @@
 					<
 						typename Continuation,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type2,
 
-						typename List, template<typename, Kind1> class Op
+						typename List2, template<typename, Type2> class Op
 					>
 				using s_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							ListName, Kind1, List, Op, Types...
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							pattern_match_types,
+							Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
@@ -386,15 +389,15 @@
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						typename Kind1, typename List,
+						typename Type2, typename List2,
 
-						template<typename, Kind1> class Op
+						template<typename, Type2> class Op
 					>
 				using s_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind0, ListKind0, ListName, Kind1, List, Op, Types...
+							Kind, ListKind, ListName, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -410,7 +413,7 @@
 					<
 						typename Continuation,
 
-						typename Kind, typename List,
+						typename Kind, typename List2,
 
 						template<Type, typename> class Op
 					>
@@ -418,7 +421,9 @@
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
-							Type, ListType, List, Op, Values...
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
@@ -433,11 +438,11 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						typename List, template<Type, typename> class Op
+						typename List2, template<Type, typename> class Op
 					>
 				using s_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind, ListKind, Type, ListType, List, Op, Values...
+							Kind, ListKind, Type, ListType, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
@@ -450,7 +455,7 @@
 					<
 						typename Continuation,
 
-						typename Kind, typename List,
+						typename Kind, typename List2,
 
 						template<typename, typename> class Op
 					>
@@ -458,7 +463,8 @@
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
-							ListName, List, Op, Types...
+							pattern_match_types,
+							List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
@@ -473,11 +479,11 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						typename List, template<typename, typename> class Op
+						typename List2, template<typename, typename> class Op
 					>
 				using s_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
 						<
-							Kind, ListKind, ListName, List, Op, Types...
+							Kind, ListKind, ListName, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -494,12 +500,14 @@
 					<
 						typename Continuation,
 
-						typename Kind, typename List, template<Type, Kind> class Op
+						typename Type2, typename List2, template<Type, Type2> class Op
 					>
 				using s_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							independent_memoization::template pattern_match_types,
-							Type, ListType, Kind, List, Op, Values...
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
@@ -514,11 +522,11 @@
 
 						template<typename...> class ListLabel,
 
-						typename Kind, typename List, template<Type, Kind> class Op
+						typename Type2, typename List2, template<Type, Type2> class Op
 					>
 				using s_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							ListLabel, Type, ListType, Kind, List, Op, Values...
+							ListLabel, Type, ListType, Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
@@ -531,12 +539,11 @@
 					<
 						typename Continuation,
 
-						typename Kind, typename List, template<typename, Kind> class Op
+						typename Type2, typename List2, template<typename, Type2> class Op
 					>
 				using s_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							pattern_match_types,
-							ListName, Kind, List, Op, Types...
+							pattern_match_types, pattern_match_types, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
@@ -551,11 +558,11 @@
 
 						template<typename...> class ListLabel,
 
-						typename Kind, typename List, template<typename, Kind> class Op
+						typename Type2, typename List2, template<typename, Type2> class Op
 					>
 				using s_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							ListLabel, ListName, Kind, List, Op, Types...
+							ListLabel, ListName, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -571,12 +578,14 @@
 					<
 						typename Continuation,
 
-						typename List, template<Type, typename> class Op
+						typename List2, template<Type, typename> class Op
 					>
 				using s_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							independent_memoization::template pattern_match_types,
-							Type, ListType, List, Op, Values...
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
@@ -591,11 +600,11 @@
 
 						template<typename...> class ListLabel,
 
-						typename List, template<Type, typename> class Op
+						typename List2, template<Type, typename> class Op
 					>
 				using s_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							ListLabel, Type, ListType, List, Op, Values...
+							ListLabel, Type, ListType, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
@@ -608,12 +617,11 @@
 					<
 						typename Continuation,
 
-						typename List, template<typename, typename> class Op
+						typename List2, template<typename, typename> class Op
 					>
 				using s_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							pattern_match_types,
-							ListName, List, Op, Types...
+							pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
@@ -628,35 +636,36 @@
 
 						template<typename...> class ListLabel,
 
-						typename List, template<typename, typename> class Op
+						typename List2, template<typename, typename> class Op
 					>
 				using s_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
 						<
-							ListLabel, ListName, List, Op, Types...
+							ListLabel, ListName, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
 
+/***********************************************************************************************************************/
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
 <<<BEGIN VALUES>>>
 			// fast value x value zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type1,
 
-						Kind0 (*Op)(Kind1, Type), Kind1... Args
+						Kind (*Op)(Type1, Type), Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_vv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Image, Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
 							Op(Args, Values)...
 						>;
 
@@ -664,59 +673,59 @@
 <<<BEGIN VALUES LIST>>>
 			// fast value x value zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename Kind1, Kind0 (*Op)(Kind1, Type), Kind1... Args
+						typename Type1, Kind (*Op)(Type1, Type), Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_vv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind0, ListKind0, Op(Args, Values)...
+							Image, Kind, ListKind, Op(Args, Values)...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// fast value x type zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type1,
 
-						template<Kind1, typename> class Op, Kind1... Args
-					Image, >
-				static constexpr Image af_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+						template<Type1, typename> class Op, Type1... Args
+					>
+				static constexpr Image af_vt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							Kind1, Op<Args, Types>::template result<Kind1>...
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Op<Args, Types>::template result<Kind>...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// fast value x type zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename Kind1, template<Kind1, typename> class Op, Kind1... Args
+						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_vt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind0, ListKind0, Kind1, Op<Args, Types>::template result<Kind1>...
+							Image, Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -726,17 +735,17 @@
 <<<BEGIN VALUES>>>
 			// fast type x value zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
 						typename Kind, template<typename, Type> class Op, typename... Args
-					Image, >
-				static constexpr Image af_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image af_tv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind,
+							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
 							Op<Args, Values>::template result<Kind>...
 						>;
@@ -745,7 +754,7 @@
 <<<BEGIN VALUES LIST>>>
 			// fast type x value zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -753,28 +762,28 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						Image, template<typename, Type> class Op, typename... Args
+						template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_tv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind, ListKind, Op<Args, Values>::template result<Kind>...
+							Image, Kind, ListKind, Op<Args, Values>::template result<Kind>...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// fast type x type zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
 						typename Kind, template<typename, typename> class Op, typename... Args
-					Image, >
-				static constexpr Image af_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image af_tt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind,
+							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
 							Op<Args, Types>::template result<Kind>...
 						>;
@@ -783,7 +792,7 @@
 <<<BEGIN TYPES LIST>>>
 			// fast type x type zip to value mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -791,11 +800,11 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						Image, template<typename, typename> class Op, typename... Args
+						template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_tt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
 						<
-							Kind, ListKind, Op<Args, Types>::template result<Kind>...
+							Image, Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -806,17 +815,17 @@
 <<<BEGIN VALUES>>>
 			// fast value x value zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, template<Kind, Type> class Op, Kind... Args
-					Image, >
-				static constexpr Image af_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename Type1, template<Type1, Type> class Op, Type1... Args
+					>
+				static constexpr Image af_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							independent_memoization::template pattern_match_types,
+							Image, independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
 						>;
 
@@ -824,55 +833,55 @@
 <<<BEGIN VALUES LIST>>>
 			// fast value x value zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						Image, typename Kind, template<Kind, Type> class Op, Kind... Args
+						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListName, Op<Args, Values>...
+							Image, ListLabel, Op<Args, Values>...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// fast zip value x type to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, template<Kind, typename> class Op, Kind... Args
-					Image, >
-				static constexpr Image af_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename Type1, template<Type1, typename> class Op, Type1... Args
+					>
+				static constexpr Image af_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							pattern_match_types, Op<Args, Types>...
+							Image, pattern_match_types, Op<Args, Types>...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// fast value x type zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						Image, typename Kind, template<Kind, typename> class Op, Kind... Args
+						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListName, Op<Args, Types>...
+							Image, ListLabel, Op<Args, Types>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -882,17 +891,17 @@
 <<<BEGIN VALUES>>>
 			// fast type x value zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
 						template<typename, Type> class Op, typename... Args
-					Image, >
-				static constexpr Image af_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image af_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							independent_memoization::template pattern_match_types,
+							Image, independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
 						>;
 
@@ -900,55 +909,55 @@
 <<<BEGIN VALUES LIST>>>
 			// fast type x value zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						Image, template<typename, Type> class Op, typename... Args
+						template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListName, Op<Args, Values>...
+							Image, ListLabel, Op<Args, Values>...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// fast zip type x type to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
 						template<typename, typename> class Op, typename... Args
-					Image, >
-				static constexpr Image af_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image af_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							pattern_match_types, Op<Args, Types>...
+							Image, pattern_match_types, Op<Args, Types>...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// fast type x type zip to type mutate: no signature, but required to implement zip (signature).
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						template<typename...> class ListName,
+						template<typename...> class ListLabel,
 
-						Image, template<typename, typename> class Op, typename... Args
+						template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image af_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListName, Op<Args, Types>...
+							Image, ListLabel, Op<Args, Types>...
 						>;
 
 <<<END TYPES LIST>>>
@@ -959,84 +968,87 @@
 <<<BEGIN VALUES>>>
 			// value x value zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type2,
 
-						typename List, Kind0 (*Op)(Type, Kind1)
+						typename List2, Kind (*Op)(Type, Type2)
 					>
-				static constexpr Image a_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_vv_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Image, Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							Type, ListType, Kind1, List, Op, Values...
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// value x value zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename Kind1, typename List,
+						typename Type2, typename List2,
 
-						Kind0 (*Op)(Type, Kind1)
+						Kind (*Op)(Type, Type2)
 					>
-				static constexpr Image a_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_vv_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind0, ListKind0, Type, ListType, Kind1, List, Op, Values...
+							Image, Kind, ListKind, Type, ListType, Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// type x value zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, typename Kind1,
+						typename Kind, typename Type2,
 
-						typename List, template<typename, Kind1> class Op
-					Image, >
-				static constexpr Image a_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+						typename List2, template<typename, Type2> class Op
+					>
+				static constexpr Image a_tv_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind0,
-							dependent_memoization<Kind0>::template pattern_match_values,
-							ListName, Kind1, List, Op, Types...
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							pattern_match_types,
+							Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// type x value zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind0, template<Kind0...> class ListKind0,
+						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename Kind1, typename List,
+						typename Type2, typename List2,
 
-						template<typename, Kind1> class Op
+						template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_tv_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind0, ListKind0, ListName, Kind1, List, Op, Types...
+							Image, Kind, ListKind, ListName, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -1046,28 +1058,30 @@
 <<<BEGIN VALUES>>>
 			// value x type zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, typename List,
+						typename Kind, typename List2,
 
 						template<Type, typename> class Op
-					Image, >
-				static constexpr Image a_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image a_vt_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind,
+							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
-							Type, ListType, List, Op, Values...
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// value x type zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1075,39 +1089,40 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename List, template<Type, typename> class Op
+						typename List2, template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_vt_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, ListKind, Type, ListType, List, Op, Values...
+							Image, Kind, ListKind, Type, ListType, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// type x type zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, typename List,
+						typename Kind, typename List2,
 
 						template<typename, typename> class Op
-					Image, >
-				static constexpr Image a_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+					>
+				static constexpr Image a_tt_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind,
+							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
-							ListName, List, Op, Types...
+							pattern_match_types,
+							List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// type x type zip to value mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1115,11 +1130,11 @@
 
 						typename Kind, template<Kind...> class ListKind,
 
-						Image, typename List, template<typename, typename> class Op
+						typename List2, template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_tt_zip_to_v_mutate_induct = Continuation::template result	// ?
 						<
-							Kind, ListKind, ListName, List, Op, Types...
+							Image, Kind, ListKind, ListName, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -1130,25 +1145,27 @@
 <<<BEGIN VALUES>>>
 			// value x value zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, typename List, template<Type, Kind> class Op
-					Image, >
-				static constexpr Image a_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename Type2, typename List2, template<Type, Type2> class Op
+					>
+				static constexpr Image a_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							independent_memoization::template pattern_match_types,
-							Type, ListType, Kind, List, Op, Values...
+							Image, independent_memoization::template pattern_match_types,
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// value x value zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1156,36 +1173,35 @@
 
 						template<typename...> class ListLabel,
 
-						Image, typename Kind, typename List, template<Type, Kind> class Op
+						typename Type2, typename List2, template<Type, Type2> class Op
 					>
-				static constexpr Image a_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListLabel, Type, ListType, Kind, List, Op, Values...
+							Image, ListLabel, Type, ListType, Type2, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// type x value zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename Kind, typename List, template<typename, Kind> class Op
-					Image, >
-				static constexpr Image a_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename Type2, typename List2, template<typename, Type2> class Op
+					>
+				static constexpr Image a_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							pattern_match_types,
-							ListName, Kind, List, Op, Types...
+							Image, pattern_match_types, pattern_match_types, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// type x value zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1193,11 +1209,11 @@
 
 						template<typename...> class ListLabel,
 
-						Image, typename Kind, typename List, template<typename, Kind> class Op
+						typename Type2, typename List2, template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListLabel, ListName, Kind, List, Op, Types...
+							Image, ListLabel, ListName, Type2, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -1207,25 +1223,27 @@
 <<<BEGIN VALUES>>>
 			// value x type zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename List, template<Type, typename> class Op
-					Image, >
-				static constexpr Image a_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename List2, template<Type, typename> class Op
+					>
+				static constexpr Image a_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							independent_memoization::template pattern_match_types,
-							Type, ListType, List, Op, Values...
+							Image, independent_memoization::template pattern_match_types,
+							Type,
+							dependent_memoization<Type>::template pattern_match_values,
+							List2, Op, Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// value x type zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1233,36 +1251,35 @@
 
 						template<typename...> class ListLabel,
 
-						Image, typename List, template<Type, typename> class Op
+						typename List2, template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListLabel, Type, ListType, List, Op, Values...
+							Image, ListLabel, Type, ListType, List2, Op, Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
 			// type x type zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
 						typename Continuation, typename Image,
 
-						typename List, template<typename, typename> class Op
-					Image, >
-				static constexpr Image a_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+						typename List2, template<typename, typename> class Op
+					>
+				static constexpr Image a_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							pattern_match_types,
-							ListName, List, Op, Types...
+							Image, pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
 			// type x type zip to type mutate: zip.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1270,11 +1287,16 @@
 
 						template<typename...> class ListLabel,
 
-						Image, typename List, template<typename, typename> class Op
+						typename List2, template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				static constexpr Image a_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
 						<
-							ListLabel, ListName, List, Op, Types...
+							Image, ListLabel, ListName, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+

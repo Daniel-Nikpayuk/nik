@@ -44,40 +44,5 @@
 <<<END TYPES LIST>>>
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
-<<<BEGIN VALUES>>>
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, typename Op_Cond, size_type count, Kind... Moment
-					>
-				static constexpr Image a_shrink_induct = Continuation::template result	// ?
-						<
-							Image, Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op_Cond, count, Moment..., Values...
-						>;
-<<<END VALUES>>>
-<<<BEGIN VALUES LIST>>>
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, template<Kind...> class ListKind,
-
-						typename Op_Cond, size_type count, Kind... Moment
-					>
-				static constexpr Image a_shrink_induct = Continuation::template result	// ?
-						<
-							Image, Kind, ListKind, Type, ListType, Op_Cond, count, Moment..., Values...
-						>;
-<<<END VALUES LIST>>>
-<<<BEGIN TYPES>>>
-<<<END TYPES>>>
-<<<BEGIN TYPES LIST>>>
-<<<END TYPES LIST>>>

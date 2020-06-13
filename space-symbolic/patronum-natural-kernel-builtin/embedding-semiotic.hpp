@@ -45,11 +45,12 @@ struct embedding
 		<
 			typename Type, template<typename> class Op,
 			typename Continuation = ch_a_to_value,
-			template<typename...> class ListType = independent_memoization::template pattern_match_types,
 			typename Image = const char*
 		>
 		static constexpr Image a_type_literal = independent_memoization::template af_types_map
 		<
-			Image, const char*, Op, ListType<Type>, Continuation
+			Image, const char*,
+			typename independent_memoization::template pattern_match_types<Type>,
+			Op, Continuation
 		>;
 };
