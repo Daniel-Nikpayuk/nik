@@ -16,20 +16,6 @@
 							Type, Op_Cond, count, List0, List1, Values...
 						>;
 
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
-					>
-				static constexpr Image a_patch_induct = Continuation::template result	// ?
-						<
-							Image, Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op_Cond, count, List0, List1, Values...
-						>;
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// patch: split_zip, split_map.
@@ -49,6 +35,33 @@
 							Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
 						>;
 
+<<<END VALUES LIST>>>
+<<<BEGIN TYPES>>>
+
+<<<END TYPES>>>
+<<<BEGIN TYPES LIST>>>
+
+<<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES>>>
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
+					>
+				static constexpr Image a_patch_induct = Continuation::template result	// ?
+						<
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type, Op_Cond, count, List0, List1, Values...
+						>;
+<<<END VALUES>>>
+<<<BEGIN VALUES LIST>>>
 				// assemblic:
 
 					template

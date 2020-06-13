@@ -182,7 +182,7 @@ struct inductor
 	{
 		// type:
 
-		template<typename Kind, typename = filler>
+		template<typename Exp, typename = filler>
 		struct pattern_match_type
 		{
 <<<TYPE_DEFAULT_INDUCT_TEXT>>>

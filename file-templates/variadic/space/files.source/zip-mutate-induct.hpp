@@ -16,52 +16,6 @@
 							Op(Args, Values)...
 						>;
 
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, Kind (*Op)(Type, Type), Type... Args
-					>
-				static constexpr Image af_zip_induct = Continuation::template result	// ?
-						<
-							Image, Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Op(Args, Values)...
-						>;
-
-			// zip mutate: zip.
-
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						typename Kind, Kind (*Op)(Type, Type), typename List
-					>
-				using s_zip_mutate_induct = typename Continuation::template result	// ?
-						<
-							Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op, List, Values...
-						>;
-
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, Kind (*Op)(Type, Type), typename List
-					>
-				static constexpr Image a_zip_mutate_induct = Continuation::template result	// ?
-						<
-							Image, Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op, List, Values...
-						>;
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
 			// fast zip: no signature, but required to implement zip (signature).
@@ -81,21 +35,36 @@
 							Kind, ListKind, Op(Args, Values)...
 						>;
 
-				// assemblic:
+<<<END VALUES LIST>>>
+<<<BEGIN TYPES>>>
+
+<<<END TYPES>>>
+<<<BEGIN TYPES LIST>>>
+
+<<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES>>>
+			// zip mutate: zip.
+
+				// symbolic:
 
 					template
 					<
-						typename Continuation, typename Image,
+						typename Continuation,
 
-						typename Kind, template<Kind...> class ListKind,
-
-						Kind (*Op)(Type, Type), Type... Args
+						typename Kind, Kind (*Op)(Type, Type), typename List
 					>
-				static constexpr Image af_zip_induct = Continuation::template result	// ?
+				using s_zip_mutate_induct = typename Continuation::template result	// ?
 						<
-							Image, Kind, ListKind, Op(Args, Values)...
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type, Op, List, Values...
 						>;
 
+<<<END VALUES>>>
+<<<BEGIN VALUES LIST>>>
 			// zip mutate: zip, map, rename.
 
 				// symbolic:
@@ -113,6 +82,76 @@
 							Kind, ListKind, Type, ListType, Op, List, Values...
 						>;
 
+<<<END VALUES LIST>>>
+<<<BEGIN TYPES>>>
+
+<<<END TYPES>>>
+<<<BEGIN TYPES LIST>>>
+
+<<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES>>>
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, Kind (*Op)(Type, Type), Type... Args
+					>
+				static constexpr Image af_zip_induct = Continuation::template result	// ?
+						<
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Op(Args, Values)...
+						>;
+
+<<<END VALUES>>>
+<<<BEGIN VALUES LIST>>>
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Type, Type), Type... Args
+					>
+				static constexpr Image af_zip_induct = Continuation::template result	// ?
+						<
+							Image, Kind, ListKind, Op(Args, Values)...
+						>;
+
+<<<END VALUES LIST>>>
+<<<BEGIN TYPES>>>
+
+<<<END TYPES>>>
+<<<BEGIN TYPES LIST>>>
+
+<<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES>>>
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, Kind (*Op)(Type, Type), typename List
+					>
+				static constexpr Image a_zip_mutate_induct = Continuation::template result	// ?
+						<
+							Image, Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type, Op, List, Values...
+						>;
+<<<END VALUES>>>
+<<<BEGIN VALUES LIST>>>
 				// assemblic:
 
 					template

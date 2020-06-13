@@ -182,7 +182,7 @@ struct inductor
 	{
 		// type:
 
-		template<typename Kind, typename = filler>
+		template<typename Exp, typename = filler>
 		struct pattern_match_type
 		{
 			// match: id.
@@ -193,11 +193,11 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0
+						typename Kind, template<Kind...> class ListKind
 					>
 				using s_match_induct = typename Continuation::template result		// s_match_to_values
 						<
-							Kind0, ListKind0, bool, false
+							Kind, ListKind, bool, false
 						>;
 
 				// assemblic:
@@ -270,11 +270,11 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0
+						typename Kind, template<Kind...> class ListKind
 					>
 				using s_match_induct = typename Continuation::template result		// s_match_to_values
 						<
-							Kind0, ListKind0, bool, false
+							Kind, ListKind, bool, false
 						>;
 
 				// assemblic:
@@ -583,11 +583,11 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0
+						typename Kind, template<Kind...> class ListKind
 					>
 				using s_match_induct = typename Continuation::template result		// s_match_to_values
 						<
-							Kind0, ListKind0, bool, false
+							Kind, ListKind, bool, false
 						>;
 
 				// assemblic:
@@ -910,11 +910,11 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0
+						typename Kind, template<Kind...> class ListKind
 					>
 				using s_match_induct = typename Continuation::template result		// s_match_to_values
 						<
-							Kind0, ListKind0, bool, false
+							Kind, ListKind, bool, false
 						>;
 
 				// assemblic:
@@ -1094,11 +1094,11 @@ struct inductor
 					<
 						typename Continuation,
 
-						typename Kind0, template<Kind0...> class ListKind0
+						typename Kind, template<Kind...> class ListKind
 					>
 				using s_match_induct = typename Continuation::template result		// s_match_to_values
 						<
-							Kind0, ListKind0, bool, false
+							Kind, ListKind, bool, false
 						>;
 
 				// assemblic:
