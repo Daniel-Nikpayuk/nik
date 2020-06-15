@@ -1,7 +1,7 @@
 		template
 		<
 			typename Exp,
-			typename Continuation = ch_a_to_value,
+			typename Continuation = ch_a_grow_to_value,
 			typename Image = 
 		>
 		static constexpr Image a_<<<MODULE>>>_ = a_<<<MODULE>>>_<, Exp, Continuation, Image>;

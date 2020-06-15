@@ -1,2 +1,2 @@
 	template<typename Type, typename Exp>
-	using pattern_match_<<<MODULE>>>_ = typename dependent_memoization<Type>::template pattern_match_<Exp>;
+	using pattern_match_<<<MODULE>>> = typename dependent_memoization<Type>::template pattern_match_<Exp>;

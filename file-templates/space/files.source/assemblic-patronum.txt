@@ -1,7 +1,7 @@
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_a_to_value,
+			typename Continuation = ch_a_grow_to_value,
 			typename Image = Type
 		>
 		static constexpr Image a_<<<MODULE>>>_ = pattern_match_<<<MODULE>>>_<Type, Exp>::template

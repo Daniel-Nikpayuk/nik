@@ -1,7 +1,7 @@
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_s_to_values
+			typename Continuation = ch_s_grow_to_values
 		>
 		using s_<<<MODULE>>>_ = typename pattern_match_<<<MODULE>>>_<Type, Exp>::template
 		s_front_grow_induct

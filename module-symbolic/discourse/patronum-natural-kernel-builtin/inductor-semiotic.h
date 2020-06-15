@@ -31,17 +31,51 @@
 
 //
 
-	using nik_safe(PREFIX, ch_s_to_match_value)					= typename pnk_builtin_ss::inductor::
-											  ch_s_to_match_value;
+	using nik_safe(PREFIX, ch_s_grow_to_type)					= typename pnk_builtin_ss::inductor::
+											  ch_s_grow_to_type;
 
-	using nik_safe(PREFIX, ch_s_to_values)						= typename pnk_builtin_ss::inductor::
-											  ch_s_to_values;
+	using nik_safe(PREFIX, ch_s_grow_to_types)					= typename pnk_builtin_ss::inductor::
+											  ch_s_grow_to_types;
 
-	using nik_safe(PREFIX, ch_a_to_match_value)					= typename pnk_builtin_ss::inductor::
-											  ch_a_to_match_value;
+	using nik_safe(PREFIX, ch_s_t_map_t_mutate_to_type)				= typename pnk_builtin_ss::inductor::
+											  ch_s_t_map_t_mutate_to_type;
 
-	using nik_safe(PREFIX, ch_a_to_value)						= typename pnk_builtin_ss::inductor::
-											  ch_a_to_value;
+	using nik_safe(PREFIX, ch_s_t_map_t_mutate_to_types)				= typename pnk_builtin_ss::inductor::
+											  ch_s_t_map_t_mutate_to_types;
+
+	using nik_safe(PREFIX, ch_s_tt_zip_t_mutate_to_type)				= typename pnk_builtin_ss::inductor::
+											  ch_s_tt_zip_t_mutate_to_type;
+
+	using nik_safe(PREFIX, ch_s_tt_zip_t_mutate_to_types)				= typename pnk_builtin_ss::inductor::
+											  ch_s_tt_zip_t_mutate_to_types;
+
+//
+
+	using nik_safe(PREFIX, ch_s_match_to_value)					= typename pnk_builtin_ss::inductor::
+											  ch_s_match_to_value;
+
+	using nik_safe(PREFIX, ch_s_grow_to_values)					= typename pnk_builtin_ss::inductor::
+											  ch_s_grow_to_values;
+
+	using nik_safe(PREFIX, ch_s_v_map_v_mutate_to_values)				= typename pnk_builtin_ss::inductor::
+											  ch_s_v_map_v_mutate_to_values;
+
+	using nik_safe(PREFIX, ch_s_vv_zip_v_mutate_to_values)				= typename pnk_builtin_ss::inductor::
+											  ch_s_vv_zip_v_mutate_to_values;
+
+//
+
+	using nik_safe(PREFIX, ch_a_match_to_value)					= typename pnk_builtin_ss::inductor::
+											  ch_a_match_to_value;
+
+	using nik_safe(PREFIX, ch_a_grow_to_value)					= typename pnk_builtin_ss::inductor::
+											  ch_a_grow_to_value;
+
+	using nik_safe(PREFIX, ch_a_v_map_v_mutate_to_value)				= typename pnk_builtin_ss::inductor::
+											  ch_a_v_map_v_mutate_to_value;
+
+	using nik_safe(PREFIX, ch_a_vv_zip_v_mutate_to_value)				= typename pnk_builtin_ss::inductor::
+											  ch_a_vv_zip_v_mutate_to_value;
 
 //
 

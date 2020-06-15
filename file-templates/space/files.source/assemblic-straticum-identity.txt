@@ -1,7 +1,7 @@
 		template
 		<
 			typename Exp,
-			typename Continuation = ch_a_to_match_value,
+			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_<<<MODULE>>>_ = a_<<<MODULE>>>_<, Exp, Continuation, Image>;
+		static constexpr Image a_is_<<<MODULE>>> = a_is_<<<MODULE>>><, Exp, Continuation, Image>;

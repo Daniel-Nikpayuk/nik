@@ -1,11 +1,11 @@
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_s_to_match_value,
+			typename Continuation = ch_s_match_to_value,
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_<<<MODULE>>>_ = typename pattern_match_<<<MODULE>>>_<Type, Exp>::template
+		using s_is_<<<MODULE>>> = typename pattern_match_<<<MODULE>>>_<Type, Exp>::template
 		s_match_induct
 		<
 			Continuation, Kind, ListKind

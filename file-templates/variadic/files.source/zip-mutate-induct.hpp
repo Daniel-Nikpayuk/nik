@@ -11,7 +11,7 @@
 
 						Kind (*Op)(Type1, Type), Type1... Args
 					>
-				using sf_vv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_vv_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -32,7 +32,7 @@
 
 						typename Type1, Kind (*Op)(Type1, Type), Type1... Args
 					>
-				using sf_vv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_vv_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind, ListKind, Op(Args, Values)...
 						>;
@@ -51,7 +51,7 @@
 
 						template<Type1, typename> class Op, Type1... Args
 					>
-				using sf_vt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_vt_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -72,7 +72,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				using sf_vt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_vt_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
@@ -92,7 +92,7 @@
 
 						typename Kind, template<typename, Type> class Op, typename... Args
 					>
-				using sf_tv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_tv_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -113,7 +113,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				using sf_tv_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_tv_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind, ListKind, Op<Args, Values>::template result<Kind>...
 						>;
@@ -130,7 +130,7 @@
 
 						typename Kind, template<typename, typename> class Op, typename... Args
 					>
-				using sf_tt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_tt_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -151,7 +151,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				using sf_tt_zip_to_v_mutate_induct = typename Continuation::template result	// s_values
+				using sf_tt_zip_v_mutate_induct = typename Continuation::template result	// s_values
 						<
 							Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
@@ -172,7 +172,7 @@
 
 						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
-				using sf_vv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_vv_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
@@ -192,7 +192,7 @@
 
 						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
-				using sf_vv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_vv_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							ListLabel, Op<Args, Values>...
 						>;
@@ -209,7 +209,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				using sf_vt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_vt_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							pattern_match_types, Op<Args, Types>...
 						>;
@@ -228,7 +228,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				using sf_vt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_vt_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							ListLabel, Op<Args, Types>...
 						>;
@@ -248,7 +248,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				using sf_tv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_tv_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
@@ -268,7 +268,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				using sf_tv_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_tv_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							ListLabel, Op<Args, Values>...
 						>;
@@ -285,7 +285,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				using sf_tt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_tt_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							pattern_match_types, Op<Args, Types>...
 						>;
@@ -304,7 +304,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				using sf_tt_zip_to_t_mutate_induct = typename Continuation::template result	// s_types
+				using sf_tt_zip_t_mutate_induct = typename Continuation::template result	// s_types
 						<
 							ListLabel, Op<Args, Types>...
 						>;
@@ -327,7 +327,7 @@
 
 						typename List2, Kind (*Op)(Type, Type2)
 					>
-				using s_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_vv_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -352,7 +352,7 @@
 
 						Kind (*Op)(Type, Type2)
 					>
-				using s_vv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_vv_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind, ListKind, Type, ListType, Type2, List2, Op, Values...
 						>;
@@ -371,7 +371,7 @@
 
 						typename List2, template<typename, Type2> class Op
 					>
-				using s_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_tv_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -395,7 +395,7 @@
 
 						template<typename, Type2> class Op
 					>
-				using s_tv_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_tv_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind, ListKind, ListName, Type2, List2, Op, Types...
 						>;
@@ -417,7 +417,7 @@
 
 						template<Type, typename> class Op
 					>
-				using s_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_vt_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -440,7 +440,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				using s_vt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_vt_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind, ListKind, Type, ListType, List2, Op, Values...
 						>;
@@ -459,7 +459,7 @@
 
 						template<typename, typename> class Op
 					>
-				using s_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_tt_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -481,7 +481,7 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				using s_tt_zip_to_v_mutate_induct = typename Continuation::template result	// ?
+				using s_tt_zip_v_mutate_induct = typename Continuation::template result	// ?
 						<
 							Kind, ListKind, ListName, List2, Op, Types...
 						>;
@@ -502,7 +502,7 @@
 
 						typename Type2, typename List2, template<Type, Type2> class Op
 					>
-				using s_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_vv_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							independent_memoization::template pattern_match_types,
 							Type,
@@ -524,7 +524,7 @@
 
 						typename Type2, typename List2, template<Type, Type2> class Op
 					>
-				using s_vv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_vv_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							ListLabel, Type, ListType, Type2, List2, Op, Values...
 						>;
@@ -541,7 +541,7 @@
 
 						typename Type2, typename List2, template<typename, Type2> class Op
 					>
-				using s_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_tv_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							pattern_match_types, pattern_match_types, Type2, List2, Op, Types...
 						>;
@@ -560,7 +560,7 @@
 
 						typename Type2, typename List2, template<typename, Type2> class Op
 					>
-				using s_tv_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_tv_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							ListLabel, ListName, Type2, List2, Op, Types...
 						>;
@@ -580,7 +580,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				using s_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_vt_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							independent_memoization::template pattern_match_types,
 							Type,
@@ -602,7 +602,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				using s_vt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_vt_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							ListLabel, Type, ListType, List2, Op, Values...
 						>;
@@ -619,7 +619,7 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				using s_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_tt_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
@@ -638,7 +638,7 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				using s_tt_zip_to_t_mutate_induct = typename Continuation::template result	// ?
+				using s_tt_zip_t_mutate_induct = typename Continuation::template result	// ?
 						<
 							ListLabel, ListName, List2, Op, Types...
 						>;
@@ -662,7 +662,7 @@
 
 						Kind (*Op)(Type1, Type), Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_vv_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -683,7 +683,7 @@
 
 						typename Type1, Kind (*Op)(Type1, Type), Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_vv_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind, ListKind, Op(Args, Values)...
 						>;
@@ -702,7 +702,7 @@
 
 						template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_vt_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -723,7 +723,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_vt_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
@@ -743,7 +743,7 @@
 
 						typename Kind, template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_tv_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -764,7 +764,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_tv_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind, ListKind, Op<Args, Values>::template result<Kind>...
 						>;
@@ -781,7 +781,7 @@
 
 						typename Kind, template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_tt_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -802,7 +802,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_v_mutate_induct = Continuation::template result	// ch_a_to_value
+				static constexpr Image af_tt_zip_v_mutate_induct = Continuation::template result	// a_to_value
 						<
 							Image, Kind, ListKind, Op<Args, Types>::template result<Kind>...
 						>;
@@ -823,7 +823,7 @@
 
 						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_vv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
@@ -843,7 +843,7 @@
 
 						typename Type1, template<Type1, Type> class Op, Type1... Args
 					>
-				static constexpr Image af_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_vv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Op<Args, Values>...
 						>;
@@ -860,7 +860,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_vt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, pattern_match_types, Op<Args, Types>...
 						>;
@@ -879,7 +879,7 @@
 
 						typename Type1, template<Type1, typename> class Op, Type1... Args
 					>
-				static constexpr Image af_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_vt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Op<Args, Types>...
 						>;
@@ -899,7 +899,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_tv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, independent_memoization::template pattern_match_types,
 							Op<Args, Values>...
@@ -919,7 +919,7 @@
 
 						template<typename, Type> class Op, typename... Args
 					>
-				static constexpr Image af_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_tv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Op<Args, Values>...
 						>;
@@ -936,7 +936,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_tt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, pattern_match_types, Op<Args, Types>...
 						>;
@@ -955,7 +955,7 @@
 
 						template<typename, typename> class Op, typename... Args
 					>
-				static constexpr Image af_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image af_tt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Op<Args, Types>...
 						>;
@@ -978,7 +978,7 @@
 
 						typename List2, Kind (*Op)(Type, Type2)
 					>
-				static constexpr Image a_vv_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vv_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -1003,7 +1003,7 @@
 
 						Kind (*Op)(Type, Type2)
 					>
-				static constexpr Image a_vv_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vv_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind, ListKind, Type, ListType, Type2, List2, Op, Values...
 						>;
@@ -1022,7 +1022,7 @@
 
 						typename List2, template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tv_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -1046,7 +1046,7 @@
 
 						template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tv_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind, ListKind, ListName, Type2, List2, Op, Types...
 						>;
@@ -1068,7 +1068,7 @@
 
 						template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vt_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -1091,7 +1091,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vt_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind, ListKind, Type, ListType, List2, Op, Values...
 						>;
@@ -1110,7 +1110,7 @@
 
 						template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tt_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -1132,7 +1132,7 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_v_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tt_zip_v_mutate_induct = Continuation::template result	// ?
 						<
 							Image, Kind, ListKind, ListName, List2, Op, Types...
 						>;
@@ -1153,7 +1153,7 @@
 
 						typename Type2, typename List2, template<Type, Type2> class Op
 					>
-				static constexpr Image a_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, independent_memoization::template pattern_match_types,
 							Type,
@@ -1175,7 +1175,7 @@
 
 						typename Type2, typename List2, template<Type, Type2> class Op
 					>
-				static constexpr Image a_vv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Type, ListType, Type2, List2, Op, Values...
 						>;
@@ -1192,7 +1192,7 @@
 
 						typename Type2, typename List2, template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, pattern_match_types, pattern_match_types, Type2, List2, Op, Types...
 						>;
@@ -1211,7 +1211,7 @@
 
 						typename Type2, typename List2, template<typename, Type2> class Op
 					>
-				static constexpr Image a_tv_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tv_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, ListName, Type2, List2, Op, Types...
 						>;
@@ -1231,7 +1231,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, independent_memoization::template pattern_match_types,
 							Type,
@@ -1253,7 +1253,7 @@
 
 						typename List2, template<Type, typename> class Op
 					>
-				static constexpr Image a_vt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_vt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, Type, ListType, List2, Op, Values...
 						>;
@@ -1270,7 +1270,7 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
@@ -1289,14 +1289,9 @@
 
 						typename List2, template<typename, typename> class Op
 					>
-				static constexpr Image a_tt_zip_to_t_mutate_induct = Continuation::template result	// ?
+				static constexpr Image a_tt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, ListName, List2, Op, Types...
 						>;
 
 <<<END TYPES LIST>>>
-
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-/***********************************************************************************************************************/
-

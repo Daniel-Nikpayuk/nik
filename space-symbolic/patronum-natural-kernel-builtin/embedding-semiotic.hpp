@@ -23,21 +23,19 @@ struct embedding
 
 		// symbolic:
 
-/*
 		template
 		<
-			typename Type,
-			template<typename> class Literal,
-			typename Continuation = ch_s_to_values
-			typename Kind = const char*,
-			template<Kind> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+			typename Type, template<typename> class Op,
+			typename Continuation = ch_s_values,
+			typename Kind = const char*
 		>
-		using s_type_literal = typename dependent_memoization<Type>::template pattern_match_types<>::template
-		s_literal_induct
+		using s_type_literal = typename independent_memoization::template
+		sf_types_map
 		<
-			Continuation, Literal, Kind, ListKind
+			Kind,
+			typename independent_memoization::template pattern_match_types<Type>,
+			Op, Continuation
 		>;
-*/
 
 		// assemblic:
 
@@ -45,11 +43,13 @@ struct embedding
 		<
 			typename Type, template<typename> class Op,
 			typename Continuation = ch_a_to_value,
-			typename Image = const char*
+			typename Kind = const char*,
+			typename Image = Kind
 		>
-		static constexpr Image a_type_literal = independent_memoization::template af_types_map
+		static constexpr Image a_type_literal = independent_memoization::template
+		af_types_map
 		<
-			Image, const char*,
+			Image, Kind,
 			typename independent_memoization::template pattern_match_types<Type>,
 			Op, Continuation
 		>;

@@ -56,18 +56,114 @@
 
 namespace nik
 {
-	using global_size_type					= signed long long;	// size_t;
+	using global_size_type						= signed long long;	// size_t;
 
-	using void_ptr						= void *;		// compliment to nullptr ( = 0 )
+	using void_ptr							= void *;		// compliment to nullptr ( = 0 )
 
-	struct global_filler					{ };			// keyword.
+	struct global_filler						{ };			// keyword.
 
-	using filler						= global_filler *;	// can be passed as template judgment.
+	using filler							= global_filler *;	// can be passed as template judgment.
+
+	static constexpr const char null_string_literal[]		= "";
 
 	template<template<typename...> class...>
-	using sfinae_try					= filler;
+	using sfinae_try						= filler;
 
-	static constexpr const char null_string_literal[]	= "";
+	// continuation halters:
+
+		// symbolic:
+
+			// type:
+
+				struct ch_s_type
+				{
+					template<typename Type>
+					using result = Type;
+				};
+
+				struct ch_s_types
+				{
+					template<template<typename...> class ListName, typename... Types>
+					using result = ListName<Types...>;
+				};
+
+				template<typename Type>
+				using s_identity				= ch_s_type::template result<Type>;
+
+				struct ch_s_values
+				{
+					template<typename Type, template<Type...> class ListType, Type... Values>
+					using result = ListType<Values...>;
+				};
+
+		// assemblic:
+
+			// value:
+
+				struct ch_a_value
+				{
+					template<typename Type, Type Value>
+					static constexpr Type result = Value;
+				};
+
+				template<typename Type, Type Value>
+				static constexpr Type a_identity		= ch_a_value::template result<Type, Value>;
+
+		// procedural:
+
+			// identity:
+
+				struct ch_p_identity
+				{
+					template<typename Type>
+					static constexpr Type result(Type value) { return value; }
+				};
+
+				template<typename Type>
+				static constexpr Type (*p_identity)(Type)	= ch_p_identity::template result<Type>;
+
+	// continuation passers:
+
+		// symbolic:
+
+			// types to type:
+
+				template<typename Continuation>
+				struct cp_s_types_to_type
+				{
+					template<template<typename...> class ListName, typename Type, typename... Types>
+					using result = typename Continuation::template result
+					<
+						Type
+					>;
+				};
+
+				using ch_s_types_to_type			= cp_s_types_to_type<ch_s_type>;
+
+			// value:
+
+		// assemblic:
+
+			// value:
+
+				// values to value:
+
+				template<typename Continuation>
+				struct cp_a_values_to_value
+				{
+					template
+					<
+						typename Image, typename Type,
+							template<Type...> class ListType, Type Value, Type... Values
+					>
+					static constexpr Image result = Continuation::template result
+					<
+						Image, (Image) Value
+					>;
+				};
+
+				using ch_a_values_to_value			= cp_a_values_to_value<ch_a_value>;
+				using ch_a_to_value				= cp_a_values_to_value<ch_a_value>;	// library default.
 
 
 /***********************************************************************************************************************/

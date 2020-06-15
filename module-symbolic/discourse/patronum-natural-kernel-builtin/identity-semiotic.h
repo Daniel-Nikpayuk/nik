@@ -37,25 +37,24 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
+											ch_s_match_to_value,
 
-											template<typename> class Memoizer =
+											typename Kind=bool,
+
+											template<Kind...> class ListKind =
 											pnk_builtin_ss::inductor::template
-											dependent_memoization
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_is_equal)					= typename pnk_builtin_ss::identity::template
-										  s_is_equal<Type1, Type2, Continuation, Memoizer>;
+										  s_is_equal<Type1, Type2, Continuation, Kind, ListKind>;
 
 //
 
 										  template
 										  <
 											typename Type1, typename Type2,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
-
+											typename Continuation = nik::ch_a_value,
 											typename Image = bool
 										  >
 	static constexpr Image nik_safe(PREFIX, a_is_equal)			= pnk_builtin_ss::identity::template

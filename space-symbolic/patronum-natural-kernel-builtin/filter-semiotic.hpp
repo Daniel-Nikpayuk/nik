@@ -26,7 +26,7 @@ struct filter
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_s_to_values
+			typename Continuation = ch_s_grow_to_values
 		>
 		using s_builtin_ = typename pattern_match_builtin_<Type, Exp>::template
 		s_front_grow_induct
@@ -39,7 +39,7 @@ struct filter
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_a_to_value,
+			typename Continuation = ch_a_grow_to_value,
 			typename Image = Type
 		>
 		static constexpr Image a_builtin_ = pattern_match_builtin_<Type, Exp>::template

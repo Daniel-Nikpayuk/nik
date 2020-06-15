@@ -37,14 +37,10 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values,
-
-											template<typename> class Memoizer =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization
+											ch_s_grow_to_values
 										  >
 	using nik_safe(PREFIX, s_to_judgment)					= typename pnk_builtin_ss::structure::template
-										  s_to_judgment<Type, Value, Continuation, Memoizer>;
+										  s_to_judgment<Type, Value, Continuation>;
 
 //
 
@@ -54,7 +50,7 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value,
+											ch_a_grow_to_value,
 
 											typename Image = Type
 										  >

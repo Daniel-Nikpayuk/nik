@@ -26,11 +26,11 @@ struct identity
 		template
 		<
 			typename Type1, typename Type2,
-			typename Continuation = ch_s_to_match_value,
+			typename Continuation = ch_s_match_to_value,
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_types<Type2>::template
+		using s_is_equal = typename dependent_memoization<Type1>::template pattern_match_type<Type2>::template
 		s_match_induct
 		<
 			Continuation, Kind, ListKind
@@ -41,11 +41,11 @@ struct identity
 		template
 		<
 			typename Type1, typename Type2,
-			typename Continuation = ch_a_to_match_value,
+			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_is_equal = dependent_memoization<Type1>::template pattern_match_types<Type2>::template
-		a_match_induct
+		static constexpr Image a_is_equal = dependent_memoization<Type1>::template pattern_match_type<Type2>::template
+		af_match_induct
 		<
 			Continuation, Image
 		>;

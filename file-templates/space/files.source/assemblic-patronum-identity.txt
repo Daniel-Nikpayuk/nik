@@ -1,10 +1,10 @@
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_a_to_match_value,
+			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_<<<MODULE>>>_ = pattern_match_<<<MODULE>>>_<Type, Exp>::template
+		static constexpr Image a_is_<<<MODULE>>> = pattern_match_<<<MODULE>>>_<Type, Exp>::template
 		a_match_induct
 		<
 			Continuation, Image

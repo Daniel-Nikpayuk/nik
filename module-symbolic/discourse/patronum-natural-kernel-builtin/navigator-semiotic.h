@@ -34,19 +34,14 @@
 
 										  template
 										  <
-											typename Type,
+											typename Type, typename Exp,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_s_to_values,
-
-											template<Type...> class ListType =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<Type>::template
-											pattern_match_values
+											ch_s_grow_to_values
 										  >
 	using nik_safe(PREFIX, s_builtin_)					= typename pnk_builtin_ss::navigator::template
-										  s_builtin_<Type, Continuation, ListType>;
+										  s_builtin_<Type, Exp, Continuation>;
 
 //
 
@@ -56,7 +51,7 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_a_to_value,
+											ch_a_grow_to_value,
 
 											typename Image = Type
 										  >

@@ -4,7 +4,7 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_s_to_match_value,
+											ch_s_match_to_value,
 
 											typename Kind = bool,
 
@@ -13,5 +13,5 @@
 											dependent_memoization<Kind>::template
 											pattern_match_values
 										  >
-	using nik_safe(PREFIX, s_<<<MODULE>>>_)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_<Type, Continuation, ListKind>;
+	using nik_safe(PREFIX, s_is_<<<MODULE>>>)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  s_is_<<<MODULE>>><Type, Continuation, Kind, ListKind>;

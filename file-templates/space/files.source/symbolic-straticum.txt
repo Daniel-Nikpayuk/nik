@@ -1,6 +1,6 @@
 		template
 		<
 			typename Exp,
-			typename Continuation = ch_s_to_values
+			typename Continuation = ch_s_grow_to_values
 		>
 		using s_<<<MODULE>>>_ = s_<<<MODULE>>>_<, Exp, Continuation>;

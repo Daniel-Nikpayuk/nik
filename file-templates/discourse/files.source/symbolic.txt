@@ -1,15 +1,10 @@
 										  template
 										  <
-											typename Type,
+											typename Type, typename Exp,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_s_to_values,
-
-											template<Type...> class ListType =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<Type>::template
-											pattern_match_values
+											ch_s_grow_to_values
 										  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_)					= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_<Type, Continuation, ListType>;
+										  s_<<<MODULE>>>_<Type, Exp, Continuation>;

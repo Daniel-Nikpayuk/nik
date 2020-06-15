@@ -34,6 +34,8 @@
 <<<END TRUE>>>
 
 /***********************************************************************************************************************/
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
 <<<BEGIN FALSE>>>
 				// assemblic:
@@ -42,9 +44,9 @@
 					<
 						typename Continuation, typename Image
 					>
-				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image af_match_induct = Continuation::template result	// a_value
 						<
-							Image, bool, false
+							Image, (Image) false
 						>;
 
 <<<END FALSE>>>
@@ -55,9 +57,9 @@
 					<
 						typename Continuation, typename Image
 					>
-				static constexpr Image a_match_induct = Continuation::template result	// a_match_to_value
+				static constexpr Image af_match_induct = Continuation::template result	// a_value
 						<
-							Image, bool, true
+							Image, (Image) true
 						>;
 
 <<<END TRUE>>>

@@ -30,7 +30,7 @@ namespace nik
 
 		//
 
-////		#include"structure-semiotic.hpp"
+		#include"structure-semiotic.hpp"
 //		#include"filter-semiotic.hpp"
 
 	nik_end_module(patronum, natural, kernel, builtin, symbolic, semiotic)

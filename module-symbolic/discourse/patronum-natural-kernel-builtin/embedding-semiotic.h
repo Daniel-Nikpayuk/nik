@@ -31,56 +31,28 @@
 
 //
 
-/*
 									  template
 									  <
-										typename Continuation,
-										const char* string_literal
-									  >
-	using nik_safe(PREFIX, cp_s_type_to_string_literal)		= typename pnk_builtin_ss::embedding::template
-									  cp_s_type_to_string_literal<Continuation, string_literal>;
-
-									  template
-									  <
-										typename Type, const char* string_literal,
-
-										typename Continuation =
-										typename pnk_builtin_ss::inductor::
-										ch_symbolic_values,
-
-										template<typename> class Memoizer =
-										pnk_builtin_ss::inductor::template
-										dependent_memoization
+										typename Type,
+										template<typename> class Op,
+										typename Continuation = nik::ch_a_to_value,
+										typename Kind = const char*
 									  >
 	using nik_safe(PREFIX, s_type_literal)				= typename pnk_builtin_ss::embedding::template
-									  s_type_literal<Type, string_literal, Continuation, Memoizer>;
-*/
+									  s_type_literal<Type, Op, Continuation, Kind>;
 
 //
-
-/*
-									  template
-									  <
-										typename Continuation,
-										const char* string_literal
-									  >
-	using nik_safe(PREFIX, cp_a_type_to_string_literal)		= typename pnk_builtin_ss::embedding::template
-									  cp_a_type_to_string_literal<Continuation, string_literal>;
-*/
 
 									  template
 									  <
 										typename Type,
 										template<typename> class Op,
-
-										typename Continuation =
-										typename pnk_builtin_ss::inductor::
-										ch_a_to_value,
-
-										typename Image = const char*
+										typename Continuation = nik::ch_a_to_value,
+										typename Kind = const char*,
+										typename Image = Kind
 									  >
 	static constexpr Image nik_safe(PREFIX, a_type_literal)		= pnk_builtin_ss::embedding::template
-									  a_type_literal<Type, Op, Continuation, Image>;
+									  a_type_literal<Type, Op, Continuation, Kind, Image>;
 
 //
 

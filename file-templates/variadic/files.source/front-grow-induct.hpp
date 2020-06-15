@@ -1,5 +1,5 @@
 <<<BEGIN VALUES>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// symbolic:
 
@@ -11,14 +11,14 @@
 
 						typename List, Type... Args
 					>
-				using s_back_grow_induct = typename Continuation::template result	// s_grow_to_values
+				using s_front_grow_induct = typename Continuation::template result	// s_grow_to_values
 						<
-							Type, pattern_match_values, List, Values..., Args...
+							Type, pattern_match_values, List, Args..., Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// symbolic:
 
@@ -30,14 +30,14 @@
 
 						typename List, Type... Args
 					>
-				using s_back_grow_induct = typename Continuation::template result	// s_grow_to_values
+				using s_front_grow_induct = typename Continuation::template result	// s_grow_to_values
 						<
-							Type, ListType, List, Values..., Args...
+							Type, ListType, List, Args..., Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// symbolic:
 
@@ -49,14 +49,14 @@
 
 						typename List, typename... Args
 					>
-				using s_back_grow_induct = typename Continuation::template result	// s_grow_to_types
+				using s_front_grow_induct = typename Continuation::template result	// s_grow_to_types
 						<
-							pattern_match_types, List, Types..., Args...
+							pattern_match_types, List, Args..., Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// symbolic:
 
@@ -68,9 +68,9 @@
 
 						typename List, typename... Args
 					>
-				using s_back_grow_induct = typename Continuation::template result	// s_grow_to_types
+				using s_front_grow_induct = typename Continuation::template result	// s_grow_to_types
 						<
-							ListName, List, Types..., Args...
+							ListName, List, Args..., Types...
 						>;
 
 <<<END TYPES LIST>>>
@@ -80,7 +80,7 @@
 /***********************************************************************************************************************/
 
 <<<BEGIN VALUES>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// assemblic:
 
@@ -92,14 +92,14 @@
 
 						typename List, Type... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Image, Type, pattern_match_values, List, Values..., Args...
+							Image, Type, pattern_match_values, List, Args..., Values...
 						>;
 
 <<<END VALUES>>>
 <<<BEGIN VALUES LIST>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// assemblic:
 
@@ -111,14 +111,14 @@
 
 						typename List, Type... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// a_grow_to_value
 						<
-							Image, Type, ListType, List, Values..., Args...
+							Image, Type, ListType, List, Args..., Values...
 						>;
 
 <<<END VALUES LIST>>>
 <<<BEGIN TYPES>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// assemblic:
 
@@ -130,14 +130,14 @@
 
 						typename List, typename... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// ?
 						<
-							Image, pattern_match_types, List, Types..., Args...
+							Image, pattern_match_types, List, Args..., Types...
 						>;
 
 <<<END TYPES>>>
 <<<BEGIN TYPES LIST>>>
-			// back grow: multipush, push, multiunite, unite.
+			// front grow: null, multicons, cons, car, cdr, length, catenate.
 
 				// assemblic:
 
@@ -149,9 +149,9 @@
 
 						typename List, typename... Args
 					>
-				static constexpr Image a_back_grow_induct = Continuation::template result	// ?
+				static constexpr Image a_front_grow_induct = Continuation::template result	// ?
 						<
-							Image, ListName, List, Types..., Args...
+							Image, ListName, List, Args..., Types...
 						>;
 
 <<<END TYPES LIST>>>

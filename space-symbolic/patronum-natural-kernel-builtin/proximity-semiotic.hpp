@@ -26,7 +26,7 @@ struct proximity
 		template
 		<
 			typename Type, typename Exp,
-			typename Continuation = ch_s_to_values
+			typename Continuation = ch_s_grow_to_values
 		>
 		using s_builtin_ = typename pattern_match_builtin_<Type, Exp>::template
 		s_front_grow_induct
@@ -38,13 +38,13 @@ struct proximity
 
 		template
 		<
-			typename Type, typename Exp,
-			typename Continuation = ch_a_to_value,
+			typename Type, typename Exp1, typename Exp2,
+			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_builtin_ = pattern_match_builtin_<Type, Exp>::template
-		a_front_grow_induct
+		static constexpr Image a_builtin_ = pattern_match_builtin_<Type, Exp1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Continuation, Image, filler
+			Continuation, Image, Type, Exp2, Op
 		>;
 };
