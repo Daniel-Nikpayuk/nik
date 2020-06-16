@@ -35,9 +35,7 @@
 	using nik_safe(PREFIX, pattern_match_bool)					= typename snk_builtin_ss::inductor::template
 											  pattern_match_bool<Exp>;
 
-											  template<typename Exp>
-	using nik_safe(PREFIX, pattern_match_char)					= typename snk_builtin_ss::inductor::template
-											  pattern_match_char<Exp>;
+//
 
 											  template<typename Exp>
 	using nik_safe(PREFIX, pattern_match_unsigned_char)				= typename snk_builtin_ss::inductor::template
@@ -46,18 +44,6 @@
 											  template<typename Exp>
 	using nik_safe(PREFIX, pattern_match_signed_char)				= typename snk_builtin_ss::inductor::template
 											  pattern_match_signed_char<Exp>;
-
-											  template<typename Exp>
-	using nik_safe(PREFIX, pattern_match_wchar_t)					= typename snk_builtin_ss::inductor::template
-											  pattern_match_wchar_t<Exp>;
-
-											  template<typename Exp>
-	using nik_safe(PREFIX, pattern_match_char16_t)					= typename snk_builtin_ss::inductor::template
-											  pattern_match_char16_t<Exp>;
-
-											  template<typename Exp>
-	using nik_safe(PREFIX, pattern_match_char32_t)					= typename snk_builtin_ss::inductor::template
-											  pattern_match_char32_t<Exp>;
 
 											  template<typename Exp>
 	using nik_safe(PREFIX, pattern_match_unsigned_short)				= typename snk_builtin_ss::inductor::template
@@ -90,6 +76,24 @@
 											  template<typename Exp>
 	using nik_safe(PREFIX, pattern_match_signed_long_long)				= typename snk_builtin_ss::inductor::template
 											  pattern_match_signed_long_long<Exp>;
+
+//
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_wchar_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_wchar_t<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char16_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char16_t<Exp>;
+
+											  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_char32_t)					= typename snk_builtin_ss::inductor::template
+											  pattern_match_char32_t<Exp>;
 
 //
 

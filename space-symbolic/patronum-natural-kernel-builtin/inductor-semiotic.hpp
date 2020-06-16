@@ -2610,7 +2610,7 @@ struct inductor
 					Kind (*Op)(Type1, Type2), Type1... Values1
 				>
 				using result = typename Values2::template
-				sf_vv_zip_to_v_mutate_induct
+				sf_vv_zip_v_mutate_induct
 				<
 					Continuation, Kind, Type1, Op, Values1...
 				>;
@@ -2625,7 +2625,7 @@ struct inductor
 				typename Continuation = ch_s_values
 			>
 			using sf_values_zip = typename Values1::template
-			s_vv_zip_to_v_mutate_induct
+			s_vv_zip_v_mutate_induct
 			<
 				cp_sf_values_zip_induct<Continuation>, Kind, Type2, Values2, Op
 			>;
@@ -2644,7 +2644,7 @@ struct inductor
 					Kind (*Op)(Type1, Type2), Type1... Values1
 				>
 				static constexpr Image result = Values2::template
-				af_vv_zip_to_v_mutate_induct
+				af_vv_zip_v_mutate_induct
 				<
 					Continuation, Image, Kind, Type1, Op, Values1...
 				>;
@@ -2659,7 +2659,7 @@ struct inductor
 				typename Continuation = ch_a_to_value
 			>
 			static constexpr Image af_values_zip = Values1::template
-			a_vv_zip_to_v_mutate_induct
+			a_vv_zip_v_mutate_induct
 			<
 				cp_af_values_zip_induct<Continuation>, Image, Kind, Type2, Values2, Op
 			>;
@@ -2713,7 +2713,7 @@ struct inductor
 				>
 				using result = typename dependent_memoization<Type2>::template
 				pattern_match_values_list<Values2>::template
-				sf_vv_zip_to_v_mutate_induct
+				sf_vv_zip_v_mutate_induct
 				<
 					Continuation, Kind, ListKind, Type1, Op, Values1...
 				>;
@@ -2729,7 +2729,7 @@ struct inductor
 			>
 			using sf_values_list_zip = typename dependent_memoization<Type1>::template
 			pattern_match_values_list<Values1>::template
-			s_vv_zip_to_v_mutate_induct
+			s_vv_zip_v_mutate_induct
 			<
 				cp_sf_values_list_zip_induct<Continuation>, Kind, ListKind, Type2, Values2, Op
 			>;
@@ -2749,7 +2749,7 @@ struct inductor
 				>
 				static constexpr Image result = dependent_memoization<Type2>::template
 				pattern_match_values_list<Values2>::template
-				af_vv_zip_to_v_mutate_induct
+				af_vv_zip_v_mutate_induct
 				<
 					Continuation, Image, Kind, ListKind, Type1, Op, Values1...
 				>;
@@ -2766,7 +2766,7 @@ struct inductor
 			>
 			static constexpr Image af_values_list_zip = dependent_memoization<Type1>::template
 			pattern_match_values_list<Values1>::template
-			a_vv_zip_to_v_mutate_induct
+			a_vv_zip_v_mutate_induct
 			<
 				cp_af_values_list_zip_induct<Continuation>, Image, Kind, ListKind, Type2, Values2, Op
 			>;
@@ -2781,7 +2781,7 @@ struct inductor
 				typename Continuation = ch_s_values
 			>
 			using sf_types_map = typename Names::template
-			sf_t_map_to_v_mutate_induct
+			sf_t_map_v_mutate_induct
 			<
 				Continuation, Kind, Op
 			>;
@@ -2795,7 +2795,7 @@ struct inductor
 				typename Continuation = ch_a_to_value
 			>
 			static constexpr Image af_types_map = Names::template
-			af_t_map_to_v_mutate_induct
+			af_t_map_v_mutate_induct
 			<
 				Continuation, Image, Kind, Op
 			>;

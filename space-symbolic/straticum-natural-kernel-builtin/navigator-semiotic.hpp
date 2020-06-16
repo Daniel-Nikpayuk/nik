@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-struct filter
+struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
@@ -26,18 +26,17 @@ struct filter
 		template
 		<
 			typename Exp,
-			typename Continuation = ch_symbolic_values,
-			template<typename> class Memoizer = dependent_memoization
+			typename Continuation = ch_s_grow_to_values
 		>
-		using s_builtin_ = s_builtin_<Exp, Continuation, Memoizer>;
+		using s_builtin_ = s_builtin_<, Exp, Continuation>;
 
 		// assemblic:
 
 		template
 		<
 			typename Exp,
-			typename Continuation = ch_assemblic_value,
-			typename Image
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = 
 		>
-		static constexpr Image a_builtin_ = a_builtin_<Exp, Continuation, Image>;
+		static constexpr Image a_builtin_ = a_builtin_<, Exp, Continuation, Image>;
 };

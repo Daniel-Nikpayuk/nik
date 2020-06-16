@@ -19,50 +19,54 @@ struct inductor
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// builtin types:
+	// bool types:
 
 	template<typename Exp> using pattern_match_bool				= typename dependent_memoization<bool>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
-	template<typename Exp> using pattern_match_char				= typename dependent_memoization<char>::template
-										  pattern_match_types<Exp>;
+	// int types:
 
 	template<typename Exp> using pattern_match_unsigned_char		= typename dependent_memoization<unsigned char>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_signed_char			= typename dependent_memoization<signed char>::template
-										  pattern_match_types<Exp>;
-
-	template<typename Exp> using pattern_match_wchar_t			= typename dependent_memoization<wchar_t>::template
-										  pattern_match_types<Exp>;
-
-	template<typename Exp> using pattern_match_char16_t			= typename dependent_memoization<char16_t>::template
-										  pattern_match_types<Exp>;
-
-	template<typename Exp> using pattern_match_char32_t			= typename dependent_memoization<char32_t>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_unsigned_short		= typename dependent_memoization<unsigned short>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_signed_short			= typename dependent_memoization<signed short>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_unsigned_int			= typename dependent_memoization<unsigned int>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_signed_int			= typename dependent_memoization<signed int>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_unsigned_long		= typename dependent_memoization<unsigned long>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_signed_long			= typename dependent_memoization<signed long>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_unsigned_long_long		= typename dependent_memoization<unsigned long long>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
 
 	template<typename Exp> using pattern_match_signed_long_long		= typename dependent_memoization<signed long long>::template
-										  pattern_match_types<Exp>;
+										  pattern_match_type<Exp>;
+
+	// char types:
+
+	template<typename Exp> using pattern_match_char				= typename dependent_memoization<char>::template
+										  pattern_match_type<Exp>;
+
+	template<typename Exp> using pattern_match_wchar_t			= typename dependent_memoization<wchar_t>::template
+										  pattern_match_type<Exp>;
+
+	template<typename Exp> using pattern_match_char16_t			= typename dependent_memoization<char16_t>::template
+										  pattern_match_type<Exp>;
+
+	template<typename Exp> using pattern_match_char32_t			= typename dependent_memoization<char32_t>::template
+										  pattern_match_type<Exp>;
 };
