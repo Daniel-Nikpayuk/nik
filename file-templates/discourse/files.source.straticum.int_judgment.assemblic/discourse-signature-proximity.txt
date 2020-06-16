@@ -15,72 +15,44 @@
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_s_to_match_value,
-
-												template<bool...> class ListType =
-												pnk_builtin_ss::inductor::template
-												dependent_memoization<bool>::template
-												pattern_match_values
+												typename Continuation = nik::ch_s_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_less_than)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_less_than
-												<Value1, Value2, Continuation, ListType>;
+												<Value1, Value2, Continuation>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_s_to_match_value,
-
-												template<bool...> class ListType =
-												pnk_builtin_ss::inductor::template
-												dependent_memoization<bool>::template
-												pattern_match_values
+												typename Continuation = nik::ch_s_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_less_than_or_equal)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_less_than_or_equal
-												<Value1, Value2, Continuation, ListType>;
+												<Value1, Value2, Continuation>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_s_to_match_value,
-
-												template<bool...> class ListType =
-												pnk_builtin_ss::inductor::template
-												dependent_memoization<bool>::template
-												pattern_match_values
+												typename Continuation = nik::ch_s_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_greater_than)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_greater_than
-												<Value1, Value2, Continuation, ListType>;
+												<Value1, Value2, Continuation>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation =
-												typename pnk_builtin_ss::inductor::
-												ch_s_to_match_value,
-
-												template<bool...> class ListType =
-												pnk_builtin_ss::inductor::template
-												dependent_memoization<bool>::template
-												pattern_match_values
+												typename Continuation = nik::ch_s_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_greater_than_or_equal)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_greater_than_or_equal
-												<Value1, Value2, Continuation, ListType>;
+												<Value1, Value2, Continuation>;
 
 //
 

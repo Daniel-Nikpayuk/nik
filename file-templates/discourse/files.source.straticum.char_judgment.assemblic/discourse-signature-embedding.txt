@@ -14,17 +14,10 @@
 										  <
 											<<<TYPE>>> Value,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_s_to_values,
-
-											template<<<<TYPE>>>...> class ListType =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<<<<TYPE>>>>::template
-											pattern_match_values
+											typename Continuation = nik::ch_s_values
 										  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_value)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_value<Value, Continuation, ListType>;
+										  s_<<<MODULE>>>_value<Value, Continuation>;
 
 //
 

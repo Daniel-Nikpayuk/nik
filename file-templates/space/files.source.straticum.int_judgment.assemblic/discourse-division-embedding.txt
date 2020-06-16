@@ -1,6 +1,5 @@
 struct <<<DIVISION>>>
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
 	// judgment value:
@@ -10,12 +9,11 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value,
-			typename Continuation = ch_s_to_values,
-			template<<<<TYPE>>>...> class ListType = dependent_memoization<<<<TYPE>>>::template pattern_match_values
+			typename Continuation = ch_s_values
 		>
 		using s_<<<MODULE>>>_value = sf_judgment_value
 		<
-			<<<TYPE>>>, Value, Continuation, ListType
+			<<<TYPE>>>, Value, Continuation
 		>;
 
 	// display:

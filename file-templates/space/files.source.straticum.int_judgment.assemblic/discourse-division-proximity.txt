@@ -1,6 +1,5 @@
 struct <<<DIVISION>>>
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
 	// less than:
@@ -10,12 +9,11 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_to_values,
-			template<<<<TYPE>>>...> class ListType = dependent_memoization<<<<TYPE>>>>::template pattern_match_values
+			typename Continuation = ch_s_values
 		>
 		using s_<<<MODULE>>>_less_than = sf_judgment_less_than
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation, ListType
+			<<<TYPE>>>, Value1, Value2, Continuation
 		>;
 
 		// assemblic:
@@ -34,12 +32,11 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_to_values,
-			template<<<<TYPE>>>...> class ListType = dependent_memoization<<<<TYPE>>>>::template pattern_match_values
+			typename Continuation = ch_s_values
 		>
 		using s_<<<MODULE>>>_less_than_or_equal = sf_judgment_less_than_or_equal
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation, ListType
+			<<<TYPE>>>, Value1, Value2, Continuation
 		>;
 
 		// assemblic:
@@ -58,12 +55,11 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_to_values,
-			template<<<<TYPE>>>...> class ListType = dependent_memoization<<<<TYPE>>>>::template pattern_match_values
+			typename Continuation = ch_s_values
 		>
 		using s_<<<MODULE>>>_greater_than = sf_judgment_greater_than
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation, ListType
+			<<<TYPE>>>, Value1, Value2, Continuation
 		>;
 
 		// assemblic:
@@ -82,12 +78,11 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_to_values,
-			template<<<<TYPE>>>...> class ListType = dependent_memoization<<<<TYPE>>>>::template pattern_match_values
+			typename Continuation = ch_s_values
 		>
 		using s_<<<MODULE>>>_greater_than_or_equal = sf_judgment_greater_than_or_equal
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation, ListType
+			<<<TYPE>>>, Value1, Value2, Continuation
 		>;
 
 		// assemblic:
