@@ -32,29 +32,18 @@
 
 //
 
-/*
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_s_judgment_type)				= typename pnk_judgment_ss::embedding::template
-										  cp_s_judgment_type<Continuation>;
-
 										  template
 										  <
 											typename Type, typename Judgment,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_type
+											ch_s_grow_to_type
 										  >
 	using nik_safe(PREFIX, s_judgment_type)					= typename pnk_judgment_ss::embedding::template
 										  s_judgment_type<Type, Judgment, Continuation>;
-*/
 
 //
-
-/*
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_s_judgment_value)				= typename pnk_judgment_ss::embedding::template
-										  cp_s_judgment_value<Continuation>;
 
 										  template
 										  <
@@ -62,18 +51,12 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_s_grow_to_values
 										  >
 	using nik_safe(PREFIX, s_judgment_value)				= typename pnk_judgment_ss::embedding::template
 										  s_judgment_value<Type, Judgment, Continuation>;
-*/
 
 //
-
-/*
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_s_curried_judgment_type)			= typename pnk_judgment_ss::embedding::template
-										  cp_s_curried_judgment_type<Continuation>;
 
 										  template
 										  <
@@ -81,33 +64,25 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_type
+											ch_s_grow_to_type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_type)				= typename pnk_judgment_ss::embedding::template
 										  s_curried_judgment_type<Type, Judgment, Continuation>;
-*/
 
 //
 
-/*
 										  template
 										  <
 											typename Type, typename Judgment,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_s_grow_to_values
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_value)			= typename pnk_judgment_ss::embedding::template
 										  s_curried_judgment_value<Type, Judgment, Continuation>;
-*/
 
 //
-
-/*
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_a_judgment_value)				= typename pnk_judgment_ss::embedding::template
-										  cp_a_judgment_value<Continuation>;
 
 										  template
 										  <
@@ -115,19 +90,15 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											ch_a_grow_to_value,
+
+											typename Image = Type
 										  >
-	static constexpr Type nik_safe(PREFIX, a_judgment_value)		= pnk_judgment_ss::embedding::template
-										  a_judgment_value<Type, Judgment, Continuation>;
-*/
+	static constexpr Image nik_safe(PREFIX, a_judgment_value)		= pnk_judgment_ss::embedding::template
+										  a_judgment_value
+											<Type, Judgment, Continuation, Image>;
 
 //
-
-/*
-										  template<typename Continuation>
-	using nik_safe(PREFIX, cp_a_curried_judgment_value)			= typename pnk_judgment_ss::embedding::template
-										  cp_a_curried_judgment_value<Continuation>;
-*/
 
 										  template
 										  <

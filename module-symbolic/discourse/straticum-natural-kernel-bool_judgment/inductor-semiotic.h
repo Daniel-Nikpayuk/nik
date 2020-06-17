@@ -17,11 +17,11 @@
 
 #include nik_size_type(define)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+#define snk_bool_judgment_ss nik_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snkbj_inductor_as_
+	#define PREFIX		snkbj_inductor_ss_
 
 #else
 
@@ -31,26 +31,14 @@
 
 //
 
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
-
-										  template
-										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
+										  template<typename Type>
+	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_ss::inductor::template
+										  pattern_match_bool_judgment<Type>;
 
 //
 
 #undef PREFIX
 
-#undef snk_bool_judgment_as
+#undef snk_bool_judgment_ss
 
 #include nik_size_type(undef)

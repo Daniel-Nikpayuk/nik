@@ -17,11 +17,12 @@
 
 #include nik_size_type(define)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_bool_judgment_ss nik_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snkbj_inductor_as_
+	#define PREFIX		snkbj_filter_ss_
 
 #else
 
@@ -31,26 +32,37 @@
 
 //
 
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
+										  template
+										  <
+											typename Type, typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_grow_to_values
+										  >
+	using nik_safe(PREFIX, s_bool_judgment_)					= typename snk_bool_judgment_ss::filter::template
+										  s_bool_judgment_<Type, Exp, Continuation>;
+
+//
 
 										  template
 										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
+											typename Type,
 
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_a_grow_to_value,
+
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_)		= snk_bool_judgment_ss::filter::template
+										  a_bool_judgment_<Type, Continuation, Image>;
 
 //
 
 #undef PREFIX
 
-#undef snk_bool_judgment_as
+#undef snk_bool_judgment_ss
+#undef pnk_builtin_ss
 
 #include nik_size_type(undef)

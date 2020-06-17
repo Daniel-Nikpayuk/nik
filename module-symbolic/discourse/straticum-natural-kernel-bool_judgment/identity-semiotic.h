@@ -17,11 +17,12 @@
 
 #include nik_size_type(define)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_bool_judgment_ss nik_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		snkbj_inductor_as_
+	#define PREFIX		snkbj_identity_ss_
 
 #else
 
@@ -31,26 +32,40 @@
 
 //
 
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_is_bool_judgment)				= typename snk_bool_judgment_ss::identity::template
+										  s_is_bool_judgment<Type, Continuation, Kind, ListKind>;
+
+//
 
 										  template
 										  <
-											bool Value,
-											typename Antecedent, typename Consequent
+											typename Type,
+											typename Continuation = nik::ch_a_value,
+											typename Image = bool
 										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
+	static constexpr Image nik_safe(PREFIX, a_is_bool_judgment)		= snk_bool_judgment_ss::identity::template
+										  a_is_bool_judgment<Type, Continuation, Image>;
 
 //
 
 #undef PREFIX
 
-#undef snk_bool_judgment_as
+#undef snk_bool_judgment_ss
+#undef pnk_builtin_ss
 
 #include nik_size_type(undef)

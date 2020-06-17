@@ -15,42 +15,15 @@
 **
 ************************************************************************************************************************/
 
-#include nik_size_type(define)
+#ifndef NIK_STRATICUM_NATURAL_KERNEL_BOOL_JUDGMENT_SYMBOLIC_SEMIOTIC_H
+#define NIK_STRATICUM_NATURAL_KERNEL_BOOL_JUDGMENT_SYMBOLIC_SEMIOTIC_H
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+	#include"patronum-natural-kernel-judgment-semiotic.h"
 
-#ifdef safe_name
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-	#define PREFIX		snkbj_inductor_as_
+	#include"../../space-symbolic/straticum-natural-kernel-bool_judgment/semiotic.h"
 
-#else
-
-	#define PREFIX
+#undef local_scope
 
 #endif
-
-//
-
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
-
-										  template
-										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
-
-//
-
-#undef PREFIX
-
-#undef snk_bool_judgment_as
-
-#include nik_size_type(undef)

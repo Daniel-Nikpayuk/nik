@@ -34,29 +34,249 @@
 
 										  template
 										  <
-											typename Type, typename Exp,
+											typename Type,
+											typename Value1, typename Value2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_s_grow_to_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
-	using nik_safe(PREFIX, s_judgment_)					= typename pnk_judgment_ss::proximity::template
-										  s_judgment_<Type, Exp, Continuation>;
+	using nik_safe(PREFIX, s_judgment_less_than)				= typename pnk_judgment_ss::proximity::template
+										  s_judgment_less_than
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_less_than)			= typename pnk_judgment_ss::proximity::template
+										  s_curried_judgment_less_than
+											<Type, Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_less_than_or_equal)			= typename pnk_judgment_ss::proximity::template
+										  s_judgment_less_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_less_than_or_equal)		= typename pnk_judgment_ss::proximity::template
+										  s_curried_judgment_less_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_greater_than)				= typename pnk_judgment_ss::proximity::template
+										  s_judgment_greater_than
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_greater_than)			= typename pnk_judgment_ss::proximity::template
+										  s_curried_judgment_greater_than
+											<Type, Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_greater_than_or_equal)		= typename pnk_judgment_ss::proximity::template
+										  s_judgment_greater_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_greater_than_or_equal)	= typename pnk_judgment_ss::proximity::template
+										  s_curried_judgment_greater_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind>;
 
 //
 
 										  template
 										  <
 											typename Type,
+											typename Value1, typename Value2,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
 
-											typename Image = Type
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
 										  >
-	static constexpr Image nik_safe(PREFIX, a_judgment_)		= pnk_judgment_ss::proximity::template
-										  a_judgment_<Type, Continuation, Image>;
+	static constexpr Image nik_safe(PREFIX, a_judgment_less_than)		= pnk_judgment_ss::proximity::template
+										  a_judgment_less_than
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_less_than)	= pnk_judgment_ss::proximity::template
+										  a_curried_judgment_less_than
+											<Type, Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_less_than_or_equal)	= pnk_judgment_ss::proximity::template
+										  a_judgment_less_than_or_equal
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_less_than_or_equal)	= pnk_judgment_ss::proximity::template
+										  a_curried_judgment_less_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_greater_than)	= pnk_judgment_ss::proximity::template
+										  a_judgment_greater_than
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_greater_than)	= pnk_judgment_ss::proximity::template
+										  a_curried_judgment_greater_than
+											<Type, Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_greater_than_or_equal) = pnk_judgment_ss::proximity::template
+										  a_judgment_greater_than_or_equal
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_greater_than_or_equal)	= pnk_judgment_ss::proximity::template
+										  a_curried_judgment_greater_than_or_equal
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 //
 

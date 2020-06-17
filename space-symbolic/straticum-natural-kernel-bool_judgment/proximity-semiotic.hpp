@@ -15,42 +15,28 @@
 **
 ************************************************************************************************************************/
 
-#include nik_size_type(define)
+struct proximity
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+	// :
 
-#ifdef safe_name
+		// symbolic:
 
-	#define PREFIX		snkbj_inductor_as_
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_s_grow_to_values
+		>
+		using s_bool_judgment_ = s_bool_judgment_<, Exp, Continuation>;
 
-#else
+		// assemblic:
 
-	#define PREFIX
-
-#endif
-
-//
-
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
-
-										  template
-										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
-
-//
-
-#undef PREFIX
-
-#undef snk_bool_judgment_as
-
-#include nik_size_type(undef)
+		template
+		<
+			typename Exp1, typename Exp2,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_bool_judgment_ = a_bool_judgment_<, Exp1, Exp2, Continuation, Image>;
+};

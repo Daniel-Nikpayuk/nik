@@ -15,42 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#include nik_size_type(define)
+struct inductor
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, inductor)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
-
-#ifdef safe_name
-
-	#define PREFIX		snkbj_inductor_as_
-
-#else
-
-	#define PREFIX
-
-#endif
-
-//
-
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
-
-										  template
-										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
-
-//
-
-#undef PREFIX
-
-#undef snk_bool_judgment_as
-
-#include nik_size_type(undef)
+	template<typename Exp>
+	using pattern_match_bool_judgment = pattern_match_judgment<bool, Exp>;
+};

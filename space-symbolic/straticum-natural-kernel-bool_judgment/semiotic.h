@@ -15,42 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#include nik_size_type(define)
+namespace nik
+{
+	nik_begin_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
 
-#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
+		#include"inductor-semiotic.hpp"
+		#include"navigator-semiotic.hpp"
 
-#ifdef safe_name
+		//
 
-	#define PREFIX		snkbj_inductor_as_
+//		#include"identity-semiotic.hpp"
+//		#include"proximity-semiotic.hpp"
+//		#include"embedding-semiotic.hpp"
 
-#else
+		//
 
-	#define PREFIX
+//		#include"structure-semiotic.hpp"
+//		#include"filter-semiotic.hpp"
 
-#endif
-
-//
-
-										  template<auto Value>
-	using nik_safe(PREFIX, fast_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  fast_match_bool_judgment<Value>;
-
-										  template
-										  <
-											bool Value,
-											typename Antecedent, typename Consequent
-										  >
-	using nik_safe(PREFIX, if_then_else)					= typename snk_bool_judgment_as::inductor::template
-										  if_then_else<Value, Antecedent, Consequent>;
-
-										  template<auto Value>
-	using nik_safe(PREFIX, pattern_match_bool_judgment)			= typename snk_bool_judgment_as::inductor::template
-										  pattern_match_bool_judgment<Value>;
-
-//
-
-#undef PREFIX
-
-#undef snk_bool_judgment_as
-
-#include nik_size_type(undef)
+	nik_end_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
+}

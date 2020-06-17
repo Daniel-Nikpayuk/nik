@@ -38,10 +38,18 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_s_match_to_value,
+
+											typename Kind=bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_is_judgment)					= typename pnk_judgment_ss::identity::template
-										  s_is_judgment<Type, Exp, Continuation>;
+										  s_is_judgment
+											<Type, Exp, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -49,34 +57,38 @@
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
-											ch_symbolic_values
+											ch_s_match_to_value,
+
+											typename Kind=bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_is_curried_judgment)				= typename pnk_judgment_ss::identity::template
-										  s_is_curried_judgment<Type, Exp, Continuation>;
+										  s_is_curried_judgment
+											<Type, Exp, Continuation, Kind, ListKind>;
 
 //
 
 										  template
 										  <
 											typename Type, typename Exp,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											typename Continuation = nik::ch_a_value,
+											typename Image = bool
 										  >
 	static constexpr bool nik_safe(PREFIX, a_is_judgment)			= pnk_judgment_ss::identity::template
-										  a_is_judgment<Type, Exp, Continuation>;
+										  a_is_judgment<Type, Exp, Continuation, Image>;
 
 										  template
 										  <
 											typename Type, typename Exp,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_assemblic_value
+											typename Continuation = nik::ch_a_value,
+											typename Image = bool
 										  >
 	static constexpr bool nik_safe(PREFIX, a_is_curried_judgment)		= pnk_judgment_ss::identity::template
-										  a_is_curried_judgment<Type, Exp, Continuation>;
+										  a_is_curried_judgment<Type, Exp, Continuation, Image>;
 
 //
 

@@ -20,7 +20,7 @@
 struct inductor
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, embedding)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
 		// The general nik algorithmic paradigm is ignored here as it is intended for the nik narrative design.
 		// Notably, the issue here is we have implemented judgments as specialized lists in order to privilege

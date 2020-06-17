@@ -24,39 +24,61 @@ struct identity
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_is_judgment = typename pattern_match_judgment<Type, Exp>::template
-		symbolic_match
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+		>
+		using s_is_judgment = typename pattern_match_judgment<Type, Exp>::template
+		s_match
+		<
+			Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_judgment = pattern_match_judgment<Type, Exp>::template
-		assemblic_match
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_judgment = pattern_match_judgment<Type, Exp>::template
+		af_match
+		<
+			Continuation, Image
 		>;
 
 	// is curried judgment:
 
 		// symbolic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_symbolic_values>
-		using s_is_curried_judgment = typename pattern_match_curried_judgment<Type, Exp>::template
-		symbolic_match
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+		>
+		using s_is_curried_judgment = typename pattern_match_curried_judgment<Type, Exp>::template
+		s_match
+		<
+			Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
 
-		template<typename Type, typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_curried_judgment = pattern_match_curried_judgment<Type, Exp>::template
-		assemblic_match
+		template
 		<
-			Continuation
+			typename Type, typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_curried_judgment = pattern_match_curried_judgment<Type, Exp>::template
+		af_match
+		<
+			Continuation, Image
 		>;
 };

@@ -38,15 +38,16 @@
 											typename Value1, typename Value2,
 
 											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
 
-											template<Type...> class ListType =
+											template<Kind...> class ListKind =
 											pnk_builtin_ss::inductor::template
-											dependent_memoization<Type>::template
+											dependent_memoization<Kind>::template
 											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_judgment_add)					= typename pnk_judgment_ss::navigator::template
 										  s_judgment_add
-											<Type, Value1, Value2, Continuation, ListType>;
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -59,6 +60,118 @@
 										  s_curried_judgment_add
 											<Type, Value1, Value2, Continuation>;
 
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_subtract)				= typename pnk_judgment_ss::navigator::template
+										  s_judgment_subtract
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_subtract)			= typename pnk_judgment_ss::navigator::template
+										  s_curried_judgment_subtract
+											<Type, Value1, Value2, Continuation>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_multiply)				= typename pnk_judgment_ss::navigator::template
+										  s_judgment_multiply
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_multiply)			= typename pnk_judgment_ss::navigator::template
+										  s_curried_judgment_multiply
+											<Type, Value1, Value2, Continuation>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_divide)				= typename pnk_judgment_ss::navigator::template
+										  s_judgment_divide
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_divide)			= typename pnk_judgment_ss::navigator::template
+										  s_curried_judgment_divide
+											<Type, Value1, Value2, Continuation>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
+										  >
+	using nik_safe(PREFIX, s_judgment_modulo)				= typename pnk_judgment_ss::navigator::template
+										  s_judgment_modulo
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values
+										  >
+	using nik_safe(PREFIX, s_curried_judgment_modulo)			= typename pnk_judgment_ss::navigator::template
+										  s_curried_judgment_modulo
+											<Type, Value1, Value2, Continuation>;
+
 //
 
 										  template
@@ -67,17 +180,18 @@
 											typename Value1, typename Value2,
 
 											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
 
-											template<Type...> class ListType =
+											template<Kind...> class ListKind =
 											pnk_builtin_ss::inductor::template
-											dependent_memoization<Type>::template
+											dependent_memoization<Kind>::template
 											pattern_match_values,
 
-											typename Image = Type
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_judgment_add)			= pnk_judgment_ss::navigator::template
 										  a_judgment_add
-											<Type, Value1, Value2, Continuation, ListType, Image>;
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
 
 										  template
 										  <
@@ -89,6 +203,130 @@
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_add)		= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_add
+											<Type, Value1, Value2, Continuation, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_subtract)		= pnk_judgment_ss::navigator::template
+										  a_judgment_subtract
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_subtract)	= pnk_judgment_ss::navigator::template
+										  a_curried_judgment_subtract
+											<Type, Value1, Value2, Continuation, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_multiply)		= pnk_judgment_ss::navigator::template
+										  a_judgment_multiply
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_multiply)	= pnk_judgment_ss::navigator::template
+										  a_curried_judgment_multiply
+											<Type, Value1, Value2, Continuation, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_divide)		= pnk_judgment_ss::navigator::template
+										  a_judgment_divide
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_divide)	= pnk_judgment_ss::navigator::template
+										  a_curried_judgment_divide
+											<Type, Value1, Value2, Continuation, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_modulo)		= pnk_judgment_ss::navigator::template
+										  a_judgment_modulo
+										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Type,
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_judgment_modulo)	= pnk_judgment_ss::navigator::template
+										  a_curried_judgment_modulo
 											<Type, Value1, Value2, Continuation, Image>;
 
 //

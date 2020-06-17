@@ -17,7 +17,7 @@
 
 struct navigator
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
 	// logical not:
 
@@ -31,7 +31,7 @@ struct navigator
 		using sf_bool_judgment_not = typename Continuation::template result
 		<
 			bool,
-			dependent_memoization<bool>::template pattern_match_values,
+			pattern_match_bool_judgment,
 			!Value
 		>;
 
@@ -55,7 +55,7 @@ struct navigator
 		using sf_bool_judgment_and = typename Continuation::template result
 		<
 			bool,
-			dependent_memoization<bool>::template pattern_match_values,
+			pattern_match_bool_judgment,
 			Value1 && Value2
 		>;
 
@@ -79,7 +79,7 @@ struct navigator
 		using sf_bool_judgment_or = typename Continuation::template result
 		<
 			bool,
-			dependent_memoization<bool>::template pattern_match_values,
+			pattern_match_bool_judgment,
 			Value1 || Value2
 		>;
 
@@ -103,7 +103,7 @@ struct navigator
 		using sf_bool_judgment_implies = typename Continuation::template result
 		<
 			bool,
-			dependent_memoization<bool>::template pattern_match_values,
+			pattern_match_bool_judgment,
 			!Value1 || Value2
 		>;
 
@@ -127,7 +127,7 @@ struct navigator
 		using sf_bool_judgment_equivalent = typename Continuation::template result
 		<
 			bool,
-			dependent_memoization<bool>::template pattern_match_values,
+			pattern_match_bool_judgment,
 			Value1 == Value2
 		>;
 

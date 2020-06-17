@@ -104,7 +104,7 @@
 /***********************************************************************************************************************/
 
 
-//#include nik_source(., straticum, natural, kernel, bool_judgment, symbolic, semiotic)			// redundant inclusion
+#include nik_source(., straticum, natural, kernel, bool_judgment, symbolic, semiotic)			// redundant inclusion
 
 //#include nik_source(., straticum, natural, kernel, unsigned_char_judgment, symbolic, semiotic)		// redundant inclusion
 //#include nik_source(., straticum, natural, kernel, signed_char_judgment, symbolic, semiotic)			// redundant inclusion

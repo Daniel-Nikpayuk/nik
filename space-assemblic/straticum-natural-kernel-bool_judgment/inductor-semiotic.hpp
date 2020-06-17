@@ -17,9 +17,37 @@
 
 struct inductor
 {
-		// The following bool value pattern matcher is here as its induction operator requires its own specialization.
+	template<bool True, typename = filler>
+	struct fast_match_bool_judgment
+	{
+		template<typename Antecedent, typename Consequent>
+		using s_induct = Antecedent;
+	};
 
-	template<auto, typename = filler>
+	template<typename Filler>
+	struct fast_match_bool_judgment<false, Filler>
+	{
+		template<typename Antecedent, typename Consequent>
+		using s_induct = Consequent;
+	};
+
+	// fast if then else:
+
+		// symbolic:
+
+			// this grammatical construct breaks the standard paradigm and nomenclature
+			// due to its history and importance within programming literature.
+
+		template<bool Value, typename Antecedent, typename Consequent>
+		using if_then_else = typename fast_match_bool_judgment<Value>::template
+		s_induct
+		<
+			Antecedent, Consequent
+		>;
+
+	// The following bool value pattern matcher is here as its induction operator requires its own specialization.
+
+	template<auto>
 	struct pattern_match_bool_judgment
 	{
 		// match: id.
@@ -49,8 +77,8 @@ struct inductor
 					>;
 	};
 
-	template<typename Filler>
-	struct pattern_match_bool_judgment<true, Filler>
+	template<bool Value>
+	struct pattern_match_bool_judgment<Value>
 	{
 		// match: id.
 
@@ -90,56 +118,11 @@ struct inductor
 				>
 			using s_induct = typename Continuation::template result			// s_type
 					<
-						Antecedent
-					>;
-
-			// assemblic:
-
-				// not implemented as it's better to use the native C++ ( ? : ) grammar.
-	};
-
-	template<typename Filler>
-	struct pattern_match_bool_judgment<false, Filler>
-	{
-		// match: id.
-
-			// symbolic:
-
-				template
-				<
-					typename Continuation,
-
-					typename Kind, template<Kind...> class ListKind
-				>
-			using s_match_induct = typename Continuation::template result		// s_match_to_values
-					<
-						Kind, ListKind, bool, true
-					>;
-
-			// assemblic:
-
-				template
-				<
-					typename Continuation, typename Image
-				>
-			static constexpr Image af_match_induct = Continuation::template result	// a_value
-					<
-						Image, (Image) true
-					>;
-
-		// induct:
-
-			// symbolic:
-
-				template
-				<
-					typename Continuation,
-
-					typename Antecedent, typename Consequent
-				>
-			using s_induct = typename Continuation::template result			// s_type
-					<
-						Consequent
+						typename fast_match_bool_judgment<Value>::template
+						s_induct
+						<
+							Antecedent, Consequent
+						>
 					>;
 
 			// assemblic:

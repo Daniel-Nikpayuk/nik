@@ -19,6 +19,22 @@ struct embedding
 {
 	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
+	// judgment value:
+
+		// symbolic:
+
+		template
+		<
+			bool Value,
+			typename Continuation = ch_s_values
+		>
+		using sf_bool_judgment_value = typename Continuation::template result
+		<
+			bool,
+			pattern_match_bool_judgment,
+			Value
+		>;
+
 	// if then else:
 
 		// symbolic:
@@ -32,34 +48,6 @@ struct embedding
 		s_induct
 		<
 			Continuation, Antecedent, Consequent
-		>;
-
-	// fast if then else:
-
-			// this grammatical construct breaks the standard paradigm and nomenclature
-			// due to its history and importance within programming literature.
-
-		// symbolic:
-
-		template<bool True, typename = filler>
-		struct fast_match_bool_judgment
-		{
-			template<typename Antecedent, typename Consequent>
-			using s_induct = Antecedent;
-		};
-
-		template<typename Filler>
-		struct fast_match_bool_judgment<false, Filler>
-		{
-			template<typename Antecedent, typename Consequent>
-			using s_induct = Consequent;
-		};
-
-		template<bool Value, typename Antecedent, typename Consequent>
-		using if_then_else = typename fast_match_bool_judgment<Value>::template
-		s_induct
-		<
-			Antecedent, Consequent
 		>;
 
 	// display:

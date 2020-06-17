@@ -35,6 +35,15 @@
 								  template
 								  <
 									bool Value,
+
+									typename Continuation = nik::ch_s_values
+								  >
+	using nik_safe(PREFIX, sf_bool_judgment_value)		= typename snk_bool_judgment_as::embedding::template
+								  sf_bool_judgment_value<Value, Continuation>;
+
+								  template
+								  <
+									bool Value,
 									typename Antecedent,
 									typename Consequent,
 
@@ -42,15 +51,6 @@
 								  >
 	using nik_safe(PREFIX, s_if_then_else)			= typename snk_bool_judgment_as::embedding::template
 								  s_if_then_else<Value, Antecedent, Consequent, Continuation>;
-
-								  template
-								  <
-									bool Value,
-									typename Antecedent,
-									typename Consequent
-								  >
-	using nik_safe(PREFIX, if_then_else)			= typename snk_bool_judgment_as::embedding::template
-								  if_then_else<Value, Antecedent, Consequent>;
 
 //
 
