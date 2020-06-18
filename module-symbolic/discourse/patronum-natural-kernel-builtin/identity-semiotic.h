@@ -39,7 +39,7 @@
 											typename pnk_builtin_ss::inductor::
 											ch_s_match_to_value,
 
-											typename Kind=bool,
+											typename Kind = bool,
 
 											template<Kind...> class ListKind =
 											pnk_builtin_ss::inductor::template

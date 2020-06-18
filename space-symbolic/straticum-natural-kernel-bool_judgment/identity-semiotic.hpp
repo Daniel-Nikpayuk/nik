@@ -18,8 +18,10 @@
 struct identity
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, identity)
 
-	// :
+	// is bool judgment:
 
 		// symbolic:
 
@@ -28,9 +30,9 @@ struct identity
 			typename Exp,
 			typename Continuation = ch_s_match_to_value,
 			typename Kind = bool,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+			template<Kind...> class ListKind = pattern_match_bool_judgment
 		>
-		using s_is_bool_judgment = s_is_bool_judgment<, Exp, Continuation, Kind, ListKind>;
+		using s_is_bool_judgment = s_is_judgment<bool, Exp, Continuation, Kind, ListKind>;
 
 		// assemblic:
 
@@ -40,5 +42,27 @@ struct identity
 			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_is_bool_judgment = a_is_bool_judgment<, Exp, Continuation, Image>;
+		static constexpr Image a_is_bool_judgment = a_is_judgment<bool, Exp, Continuation, Image>;
+
+	// is curried bool judgment:
+
+		// symbolic:
+
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool
+		>
+		using s_is_curried_bool_judgment = s_is_curried_judgment<bool, Exp, Continuation, Kind>;
+
+		// assemblic:
+
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_curried_bool_judgment = a_is_curried_judgment<bool, Exp, Continuation, Image>;
 };

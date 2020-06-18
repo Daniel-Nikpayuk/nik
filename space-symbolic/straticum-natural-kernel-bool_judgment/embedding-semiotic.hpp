@@ -19,24 +19,78 @@ struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+#define safe_name
+
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, embedding)
+
+#undef safe_name
+
+	// value:
+
+		// symbolic:
+
+		// assemblic:
+
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = bool
+		>
+		static constexpr Image a_bool_judgment_value = dependent_memoization<bool>::template
+		pattern_match_values_list<Judgment>::template
+		a_front_grow_induct
+		<
+			Continuation, Image, filler
+		>;
+
+	// curried value:
+
+		// symbolic:
+
+		// assemblic:
+
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = bool
+		>
+		static constexpr Image a_curried_bool_judgment_value = Judgment::template
+		a_front_grow_induct
+		<
+			Continuation, Image, filler
+		>;
+
+	// if then else:
 
 		// symbolic:
 
 		template
 		<
-			typename Exp,
-			typename Continuation = ch_s_grow_to_values
+			typename Value, typename Antecedent, typename Consequent,
+			typename Continuation = ch_s_type
 		>
-		using s_bool_judgment_ = s_bool_judgment_<, Exp, Continuation>;
+		using s_bool_judgment_if_then_else = snkbj_embedding_as_s_bool_judgment_if_then_else
+		<
+			a_bool_judgment_value<Value>, Antecedent, Consequent, Continuation
+		>;
 
-		// assemblic:
+	// curried if then else:
+
+		// symbolic:
 
 		template
 		<
-			typename Exp,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = 
+			typename Value, typename Antecedent, typename Consequent,
+			typename Continuation = ch_s_type
 		>
-		static constexpr Image a_bool_judgment_ = a_bool_judgment_<, Exp, Continuation, Image>;
+		using s_curried_bool_judgment_if_then_else = snkbj_embedding_as_s_bool_judgment_if_then_else
+		<
+			a_curried_bool_judgment_value<Value>, Antecedent, Consequent, Continuation
+		>;
 };

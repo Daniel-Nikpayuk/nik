@@ -40,7 +40,7 @@
 											typename pnk_builtin_ss::inductor::
 											ch_s_match_to_value,
 
-											typename Kind=bool,
+											typename Kind = bool,
 
 											template<Kind...> class ListKind =
 											pnk_builtin_ss::inductor::template
@@ -48,8 +48,7 @@
 											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_is_judgment)					= typename pnk_judgment_ss::identity::template
-										  s_is_judgment
-											<Type, Exp, Continuation, Kind, ListKind>;
+										  s_is_judgment<Type, Exp, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -59,16 +58,10 @@
 											typename pnk_builtin_ss::inductor::
 											ch_s_match_to_value,
 
-											typename Kind=bool,
-
-											template<Kind...> class ListKind =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<Kind>::template
-											pattern_match_values
+											typename Kind = bool
 										  >
 	using nik_safe(PREFIX, s_is_curried_judgment)				= typename pnk_judgment_ss::identity::template
-										  s_is_curried_judgment
-											<Type, Exp, Continuation, Kind, ListKind>;
+										  s_is_curried_judgment<Type, Exp, Continuation, Kind>;
 
 //
 

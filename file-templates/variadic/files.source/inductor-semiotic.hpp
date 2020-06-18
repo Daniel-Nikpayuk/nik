@@ -351,6 +351,38 @@ struct inductor
 		// The following values (list) functions are only here due to the above values (list)
 		// pattern matcher, otherwise they narratively belong with their respective list languages.
 
+		// values map:
+
+			// symbolic:
+
+			template
+			<
+				typename Kind,
+				typename Type, typename Values,
+				Kind (*Op)(Type),
+				typename Continuation = ch_s_values
+			>
+			using sf_values_map = typename Values::template
+			sf_v_map_v_mutate_induct
+			<
+				Continuation, Kind, Op
+			>;
+
+			// assemblic:
+
+			template
+			<
+				typename Image, typename Kind,
+				typename Type, typename Values,
+				Kind (*Op)(Type),
+				typename Continuation = ch_a_to_value
+			>
+			static constexpr Image af_values_map = Values::template
+			af_v_map_v_mutate_induct
+			<
+				Continuation, Image, Kind, Op
+			>;
+
 		// values zip:
 
 			// symbolic:
@@ -452,6 +484,41 @@ struct inductor
 
 			// The following values function is only here due to the above values pattern
 			// matcher, otherwise it narratively belongs with its respective list languages.
+
+		// values list map:
+
+			// symbolic:
+
+			template
+			<
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, typename Values,
+				Kind (*Op)(Type),
+				typename Continuation = ch_s_values
+			>
+			using sf_values_list_map = typename dependent_memoization<Type>::template
+			pattern_match_values_list<Values>::template
+			sf_v_map_v_mutate_induct
+			<
+				Continuation, Kind, ListKind, Op
+			>;
+
+			// assemblic:
+
+			template
+			<
+				typename Image,
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, typename Values,
+				Kind (*Op)(Type),
+				typename Continuation = ch_a_to_value
+			>
+			static constexpr Image af_values_list_map = dependent_memoization<Type>::template
+			pattern_match_values_list<Values>::template
+			a_v_map_v_mutate_induct
+			<
+				Continuation, Image, Kind, ListKind, Op
+			>;
 
 		// values list zip:
 

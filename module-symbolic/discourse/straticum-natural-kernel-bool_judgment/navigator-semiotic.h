@@ -18,6 +18,7 @@
 #include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define snk_bool_judgment_as nik_module(straticum, natural, kernel, bool_judgment, assemblic, semiotic)
 #define snk_bool_judgment_ss nik_module(straticum, natural, kernel, bool_judgment, symbolic, semiotic)
 
 #ifdef safe_name
@@ -34,73 +35,277 @@
 
 										  template
 										  <
+											typename Value,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment
+										  >
+	using nik_safe(PREFIX, s_bool_judgment_not)				= typename snk_bool_judgment_ss::navigator::template
+										  s_bool_judgment_not
+											<Value, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Value,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_not)			= typename snk_bool_judgment_ss::navigator::template
+										  s_curried_bool_judgment_not
+											<Value, Continuation, Kind>;
+
+										  template
+										  <
 											typename Value1, typename Value2,
 
 											typename Continuation = nik::ch_s_values,
 											typename Kind = bool,
 
 											template<Kind...> class ListKind =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<Kind>::template
-											pattern_match_values
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment
 										  >
 	using nik_safe(PREFIX, s_bool_judgment_and)				= typename snk_bool_judgment_ss::navigator::template
 										  s_bool_judgment_and
 											<Value1, Value2, Continuation, Kind, ListKind>;
 
-/*
 										  template
 										  <
-											typename Type,
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_and)			= typename snk_bool_judgment_ss::navigator::template
+										  s_curried_bool_judgment_and
+											<Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment
 										  >
-	using nik_safe(PREFIX, s_curried_judgment_add)				= typename snk_bool_judgment_ss::navigator::template
-										  s_curried_judgment_add
-											<Type, Value1, Value2, Continuation>;
-*/
+	using nik_safe(PREFIX, s_bool_judgment_or)				= typename snk_bool_judgment_ss::navigator::template
+										  s_bool_judgment_or
+											<Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_or)			= typename snk_bool_judgment_ss::navigator::template
+										  s_curried_bool_judgment_or
+											<Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment
+										  >
+	using nik_safe(PREFIX, s_bool_judgment_implies)				= typename snk_bool_judgment_ss::navigator::template
+										  s_bool_judgment_implies
+											<Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_implies)			= typename snk_bool_judgment_ss::navigator::template
+										  s_curried_bool_judgment_implies
+											<Value1, Value2, Continuation, Kind>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment
+										  >
+	using nik_safe(PREFIX, s_bool_judgment_equivalent)			= typename snk_bool_judgment_ss::navigator::template
+										  s_bool_judgment_equivalent
+											<Value1, Value2, Continuation, Kind, ListKind>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_equivalent)		= typename snk_bool_judgment_ss::navigator::template
+										  s_curried_bool_judgment_equivalent
+											<Value1, Value2, Continuation, Kind>;
 
 //
 
-/*
 										  template
 										  <
-											typename Type,
-											typename Value1, typename Value2,
+											typename Value,
 
-											typename Continuation = nik::ch_a_to_value,
-											typename Kind = Type,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
 
 											template<Kind...> class ListKind =
-											pnk_builtin_ss::inductor::template
-											dependent_memoization<Kind>::template
-											pattern_match_values,
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment,
 
 											typename Image = Kind
 										  >
-	static constexpr Image nik_safe(PREFIX, a_judgment_add)			= snk_bool_judgment_ss::navigator::template
-										  a_judgment_add
-										<Type, Value1, Value2, Continuation, Kind, ListKind, Image>;
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_not)		= snk_bool_judgment_ss::navigator::template
+										  a_bool_judgment_not
+											<Value, Continuation, Kind, ListKind, Image>;
 
 										  template
 										  <
-											typename Type,
+											typename Value,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_not)	= snk_bool_judgment_ss::navigator::template
+										  a_curried_bool_judgment_not
+											<Value, Continuation, Kind, Image>;
+
+										  template
+										  <
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment,
+
+											typename Image = Kind
 										  >
-	static constexpr Image nik_safe(PREFIX, a_curried_judgment_add)		= snk_bool_judgment_ss::navigator::template
-										  a_curried_judgment_add
-											<Type, Value1, Value2, Continuation, Image>;
-*/
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_and)		= snk_bool_judgment_ss::navigator::template
+										  a_bool_judgment_and
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_and)	= snk_bool_judgment_ss::navigator::template
+										  a_curried_bool_judgment_and
+											<Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_or)		= snk_bool_judgment_ss::navigator::template
+										  a_bool_judgment_or
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_or)	= snk_bool_judgment_ss::navigator::template
+										  a_curried_bool_judgment_or
+											<Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_implies)	= snk_bool_judgment_ss::navigator::template
+										  a_bool_judgment_implies
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_implies) = snk_bool_judgment_ss::navigator::template
+										  a_curried_bool_judgment_implies
+											<Value1, Value2, Continuation, Kind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											snk_bool_judgment_as::inductor::template
+											pattern_match_bool_judgment,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_equivalent)	= snk_bool_judgment_ss::navigator::template
+										  a_bool_judgment_equivalent
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+										  template
+										  <
+											typename Value1, typename Value2,
+											typename Continuation = nik::ch_s_values,
+											typename Kind = bool,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_equivalent) = snk_bool_judgment_ss::navigator::template
+										  a_curried_bool_judgment_equivalent
+											<Value1, Value2, Continuation, Kind, Image>;
 
 //
 
 #undef PREFIX
 
 #undef snk_bool_judgment_ss
+#undef snk_bool_judgment_as
 #undef pnk_builtin_ss
 
 #include nik_size_type(undef)

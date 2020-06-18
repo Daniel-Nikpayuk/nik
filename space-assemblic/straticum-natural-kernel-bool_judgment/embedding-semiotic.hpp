@@ -44,7 +44,7 @@ struct embedding
 			bool Value, typename Antecedent, typename Consequent,
 			typename Continuation = ch_s_type
 		>
-		using s_if_then_else = typename pattern_match_bool_judgment<Value>::template
+		using s_bool_judgment_if_then_else = typename pattern_match_bool_judgment<Value>::template
 		s_induct
 		<
 			Continuation, Antecedent, Consequent

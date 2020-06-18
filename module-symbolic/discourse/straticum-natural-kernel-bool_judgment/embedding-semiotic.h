@@ -34,29 +34,57 @@
 
 										  template
 										  <
-											typename Type, typename Exp,
+											typename Value,
+											typename Antecedent,
+											typename Consequent,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_s_grow_to_values
+											typename Continuation = nik::ch_s_type
 										  >
-	using nik_safe(PREFIX, s_bool_judgment_)					= typename snk_bool_judgment_ss::embedding::template
-										  s_bool_judgment_<Type, Exp, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgment_if_then_else)			= typename snk_bool_judgment_ss::embedding::template
+										  s_bool_judgment_if_then_else
+											<Value, Antecedent, Consequent, Continuation>;
+
+										  template
+										  <
+											typename Value,
+											typename Antecedent,
+											typename Consequent,
+
+											typename Continuation = nik::ch_s_type
+										  >
+	using nik_safe(PREFIX, s_curried_bool_judgment_if_then_else)		= typename snk_bool_judgment_ss::embedding::template
+										  s_curried_bool_judgment_if_then_else
+											<Value, Antecedent, Consequent, Continuation>;
 
 //
 
 										  template
 										  <
-											typename Type,
+											typename Judgment,
 
 											typename Continuation =
 											typename pnk_builtin_ss::inductor::
 											ch_a_grow_to_value,
 
-											typename Image = Type
+											typename Image = bool
 										  >
-	static constexpr Image nik_safe(PREFIX, a_bool_judgment_)		= snk_bool_judgment_ss::embedding::template
-										  a_bool_judgment_<Type, Continuation, Image>;
+	static constexpr Image nik_safe(PREFIX, a_bool_judgment_value)		= snk_bool_judgment_ss::embedding::template
+										  a_bool_judgment_value
+											<Judgment, Continuation, Image>;
+
+										  template
+										  <
+											typename Judgment,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_a_grow_to_value,
+
+											typename Image = bool
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_value)	= snk_bool_judgment_ss::embedding::template
+										  a_curried_bool_judgment_value
+											<Judgment, Continuation, Image>;
 
 //
 

@@ -49,8 +49,8 @@
 
 									typename Continuation = nik::ch_s_type
 								  >
-	using nik_safe(PREFIX, s_if_then_else)			= typename snk_bool_judgment_as::embedding::template
-								  s_if_then_else<Value, Antecedent, Consequent, Continuation>;
+	using nik_safe(PREFIX, s_bool_judgment_if_then_else)	= typename snk_bool_judgment_as::embedding::template
+								  s_bool_judgment_if_then_else<Value, Antecedent, Consequent, Continuation>;
 
 //
 

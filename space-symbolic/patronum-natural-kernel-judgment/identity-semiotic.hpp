@@ -59,13 +59,12 @@ struct identity
 		<
 			typename Type, typename Exp,
 			typename Continuation = ch_s_match_to_value,
-			typename Kind = bool,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+			typename Kind = bool
 		>
 		using s_is_curried_judgment = typename pattern_match_curried_judgment<Type, Exp>::template
 		s_match
 		<
-			Continuation, Kind, ListKind
+			Continuation, Kind, dependent_memoization<Kind>::template pattern_match_values
 		>;
 
 		// assemblic:

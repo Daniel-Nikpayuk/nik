@@ -19,7 +19,7 @@ struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// judgment type:
+	// type:
 
 		// symbolic:
 
@@ -37,7 +37,7 @@ struct embedding
 			Continuation, filler
 		>;
 
-	// judgment value:
+	// value:
 
 		// symbolic:
 
@@ -72,7 +72,7 @@ struct embedding
 			Continuation, Image, filler
 		>;
 
-	// curried judgment type:
+	// curried type:
 
 		// symbolic:
 
@@ -89,11 +89,11 @@ struct embedding
 			Continuation, filler
 		>;
 
-	// curried judgment value:
-
-			// optimized to assume Judgment is in fact a judgment.
+	// curried value:
 
 		// symbolic:
+
+			// optimized to assume Judgment is in fact a judgment.
 
 		template
 		<

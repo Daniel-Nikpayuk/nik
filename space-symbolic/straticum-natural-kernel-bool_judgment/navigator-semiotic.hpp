@@ -18,6 +18,7 @@
 struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
 #define safe_name
 
@@ -29,25 +30,78 @@ struct navigator
 
 		// symbolic:
 
-/*
 		template
 		<
-			typename Type, typename Value1, typename Value2,
+			typename Value,
 			typename Continuation = ch_s_values,
-			template<Type...> class ListType = dependent_memoization<Type>::template pattern_match_values
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment
 		>
-		using s_judgment_add = typename independent_memoization::template
+		using s_bool_judgment_not = typename independent_memoization::template
 		sf_values_list_map
 		<
-			Type, ListType,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_add<Type>,
+			Kind, ListKind,
+			bool, Value,
+			snkbj_navigator_as_p_bool_judgment_not,
 			Continuation
 		>;
-*/
 
 		// assemblic:
+
+		template
+		<
+			typename Value,
+			typename Continuation = ch_s_values,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			typename Image = Kind
+		>
+		static constexpr Image a_bool_judgment_not = independent_memoization::template
+		af_values_list_map
+		<
+			Image,
+			Kind, ListKind,
+			bool, Value,
+			snkbj_navigator_as_p_bool_judgment_not,
+			Continuation
+		>;
+
+	// curried logical not:
+
+		// symbolic:
+
+		template
+		<
+			typename Value,
+			typename Continuation = ch_s_values,
+			typename Kind = bool
+		>
+		using s_curried_bool_judgment_not = typename independent_memoization::template
+		sf_values_map
+		<
+			Kind,
+			bool, Value,
+			snkbj_navigator_as_p_bool_judgment_not,
+			Continuation
+		>;
+
+		// assemblic:
+
+		template
+		<
+			typename Value,
+			typename Continuation = ch_s_values,
+			typename Kind = bool,
+			typename Image = Kind
+		>
+		static constexpr Image a_curried_bool_judgment_not = independent_memoization::template
+		af_values_map
+		<
+			Image, Kind,
+			bool, Value,
+			snkbj_navigator_as_p_bool_judgment_not,
+			Continuation
+		>;
 
 	// logical and:
 
@@ -58,7 +112,7 @@ struct navigator
 			typename Value1, typename Value2,
 			typename Continuation = ch_s_values,
 			typename Kind = bool,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+			template<Kind...> class ListKind = pattern_match_bool_judgment
 		>
 		using s_bool_judgment_and = typename independent_memoization::template
 		sf_values_list_zip
@@ -70,23 +124,23 @@ struct navigator
 			Continuation
 		>;
 
-/*
 		// assemblic:
 
 		template
 		<
-			typename Type, typename Value1, typename Value2,
+			typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			template<Type...> class ListType = dependent_memoization<Type>::template pattern_match_values,
-			typename Image = Type
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			typename Image = Kind
 		>
-		static constexpr Image a_judgment_add = independent_memoization::template
+		static constexpr Image a_bool_judgment_and = independent_memoization::template
 		af_values_list_zip
 		<
 			Image,
-			Type, ListType,
-			Type, Value1,
-			Type, Value2,
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
 			snkbj_navigator_as_p_bool_judgment_and,
 			Continuation
 		>;
@@ -97,15 +151,16 @@ struct navigator
 
 		template
 		<
-			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool
 		>
-		using s_curried_judgment_add = typename independent_memoization::template
+		using s_curried_bool_judgment_and = typename independent_memoization::template
 		sf_values_zip
 		<
-			Type,
-			Type, Value1,
-			Type, Value2,
+			Kind,
+			bool, Value1,
+			bool, Value2,
 			snkbj_navigator_as_p_bool_judgment_and,
 			Continuation
 		>;
@@ -114,56 +169,261 @@ struct navigator
 
 		template
 		<
-			typename Type, typename Value1, typename Value2,
+			typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Kind = bool,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_add = independent_memoization::template
+		static constexpr Image a_curried_bool_judgment_and = independent_memoization::template
 		af_values_zip
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
+			Image, Kind,
+			bool, Value1,
+			bool, Value2,
 			snkbj_navigator_as_p_bool_judgment_and,
 			Continuation
 		>;
-*/
-
-/***********************************************************************************************************************/
 
 	// logical or:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment
+		>
+		using s_bool_judgment_or = typename independent_memoization::template
+		sf_values_list_zip
+		<
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_or,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			typename Image = Kind
+		>
+		static constexpr Image a_bool_judgment_or = independent_memoization::template
+		af_values_list_zip
+		<
+			Image,
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_or,
+			Continuation
+		>;
 
 	// curried logical or:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool
+		>
+		using s_curried_bool_judgment_or = typename independent_memoization::template
+		sf_values_zip
+		<
+			Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_or,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			typename Image = Kind
+		>
+		static constexpr Image a_curried_bool_judgment_or = independent_memoization::template
+		af_values_zip
+		<
+			Image, Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_or,
+			Continuation
+		>;
 
 	// logical implies:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment
+		>
+		using s_bool_judgment_implies = typename independent_memoization::template
+		sf_values_list_zip
+		<
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_implies,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			typename Image = Kind
+		>
+		static constexpr Image a_bool_judgment_implies = independent_memoization::template
+		af_values_list_zip
+		<
+			Image,
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_implies,
+			Continuation
+		>;
 
 	// curried logical implies:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool
+		>
+		using s_curried_bool_judgment_implies = typename independent_memoization::template
+		sf_values_zip
+		<
+			Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_implies,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			typename Image = Kind
+		>
+		static constexpr Image a_curried_bool_judgment_implies = independent_memoization::template
+		af_values_zip
+		<
+			Image, Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_implies,
+			Continuation
+		>;
 
 	// logical equivalent:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment
+		>
+		using s_bool_judgment_equivalent = typename independent_memoization::template
+		sf_values_list_zip
+		<
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_equivalent,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			typename Image = Kind
+		>
+		static constexpr Image a_bool_judgment_equivalent = independent_memoization::template
+		af_values_list_zip
+		<
+			Image,
+			Kind, ListKind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_equivalent,
+			Continuation
+		>;
 
 	// curried logical equivalent:
 
 		// symbolic:
 
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_s_values,
+			typename Kind = bool
+		>
+		using s_curried_bool_judgment_equivalent = typename independent_memoization::template
+		sf_values_zip
+		<
+			Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_equivalent,
+			Continuation
+		>;
+
 		// assemblic:
+
+		template
+		<
+			typename Value1, typename Value2,
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			typename Image = Kind
+		>
+		static constexpr Image a_curried_bool_judgment_equivalent = independent_memoization::template
+		af_values_zip
+		<
+			Image, Kind,
+			bool, Value1,
+			bool, Value2,
+			snkbj_navigator_as_p_bool_judgment_equivalent,
+			Continuation
+		>;
 };
