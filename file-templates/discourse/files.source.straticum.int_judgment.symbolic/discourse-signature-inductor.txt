@@ -1,0 +1,23 @@
+<<<DEFINE_DEPENDENCIES_TEXT>>>#ifdef safe_name
+
+	#define PREFIX		<<<DIV_SIGNATURE>>>_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_<<<MODULE>>>)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  pattern_match_<<<MODULE>>><Exp>;
+
+										  template<typename Exp>
+	using nik_safe(PREFIX, pattern_match_curried_<<<MODULE>>>)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  pattern_match_curried_<<<MODULE>>><Exp>;
+
+//
+
+#undef PREFIX<<<UNDEF_DEPENDENCIES_TEXT>>>

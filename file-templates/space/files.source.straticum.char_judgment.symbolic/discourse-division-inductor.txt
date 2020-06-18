@@ -1,10 +1,10 @@
 struct <<<DIVISION>>>
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, inductor)
 
-	// implemented at a lower level for performance:
+	template<typename Exp>
+	using pattern_match_<<<MODULE>>>			= pattern_match_judgment<<<<TYPE>>>, Exp>;
 
-	template<auto Value>
-	using pattern_match_<<<MODULE>>>			= typename dependent_memoization<<<<TYPE>>>>::template
-										  pattern_match_values<Value>;
+	template<typename Exp>
+	using pattern_match_curried_<<<MODULE>>>		= pattern_match_curried_judgment<<<<TYPE>>>, Exp>;
 };

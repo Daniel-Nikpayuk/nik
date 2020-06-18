@@ -74,12 +74,13 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type
 		>
 		using s_curried_judgment_add = typename independent_memoization::template
 		sf_values_zip
 		<
-			Type,
+			Kind,
 			Type, Value1,
 			Type, Value2,
 			pnkj_navigator_as_p_judgment_add<Type>,

@@ -7,43 +7,56 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
-		template<typename Exp, typename Continuation = ch_symbolic_values>
-		using s_is_unsigned_long_judgment = s_is_judgment<unsigned long, Exp, Continuation>;
-
-		// assemblic:
-
-		template<typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_unsigned_long_judgment = a_is_judgment<unsigned long, Exp, Continuation>;
-
-	// is dependent judgment:
-
-		// symbolic:
-
-		template<typename Exp, typename Continuation = ch_symbolic_values>
-		using s_is_unsigned_long_dependent_judgment = s_is_dependent_judgment<unsigned long, Exp, Continuation>;
-
-		// assemblic:
-
-		template<typename Exp, typename Continuation = ch_assemblic_value>
-		static constexpr bool a_is_unsigned_long_dependent_judgment =
-			a_is_dependent_judgment<unsigned long, Exp, Continuation>;
-
-	// is equal:
-
-		// symbolic:
-
-		template<<<<TYPE>>> Value1, <<<TYPE>>> Value2, typename Continuation = ch_symbolic_values>
-		using s_<<<MODULE>>>_is_equal = sf_judgment_is_equal
+		template
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+		>
+		using s_is_<<<MODULE>>> = s_is_judgment
+		<
+			<<<TYPE>>>, Exp, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
 
-			// is not implemented as it's better to use constexpr functions.
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_<<<MODULE>>> = a_is_judgment
+		<
+			<<<TYPE>>>, Exp, Continuation, Image
+		>;
 
-		// procedural:
+	// is curried judgment:
 
-		static constexpr bool (*p_<<<MODULE>>>_is_equal)(<<<TYPE>>>, <<<TYPE>>>) =
-			p_judgment_is_equal<<<<TYPE>>>>;
+		// symbolic:
+
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool
+		>
+		using s_is_curried_<<<MODULE>>> = s_is_curried_judgment
+		<
+			<<<TYPE>>>, Exp, Continuation, Kind
+		>;
+
+		// assemblic:
+
+		template
+		<
+			typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_curried_<<<MODULE>>> = a_is_curried_judgment
+		<
+			<<<TYPE>>>, Exp, Continuation, Image
+		>;
 };

@@ -2,7 +2,7 @@ struct <<<DIVISION>>>
 {
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
-	// judgment value:
+	// value:
 
 		// symbolic:
 

@@ -19,7 +19,7 @@ struct embedding
 {
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, embedding)
 
-	// judgment value:
+	// value:
 
 		// symbolic:
 

@@ -1,0 +1,43 @@
+<<<DEFINE_DEPENDENCIES_TEXT>>>#ifdef safe_name
+
+	#define PREFIX		<<<DIV_SIGNATURE>>>_
+
+#else
+
+	#define PREFIX
+
+#endif
+
+//
+
+										  template
+										  <
+										  	typename Judgment,
+
+										  	typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_a_grow_to_value,
+
+										  	typename Image = <<<TYPE>>>
+										  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_value)		= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  a_<<<MODULE>>>_value
+											<Judgment, Continuation, Image>;
+
+										  template
+										  <
+										  	typename Judgment,
+
+										  	typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_a_grow_to_value,
+
+										  	typename Image = <<<TYPE>>>
+										  >
+	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_value)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  a_curried_<<<MODULE>>>_value
+											<Judgment, Continuation, Image>;
+
+//
+
+#undef PREFIX<<<UNDEF_DEPENDENCIES_TEXT>>>

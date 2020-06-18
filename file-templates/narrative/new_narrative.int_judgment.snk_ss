@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cat "../int_types.txt"	|
+while read u_type format type
+do
+	new_narrative "straticum" "natural" "kernel" "$u_type""_judgment" "symbolic" "semiotic" "straticum.judgment"
+done
+

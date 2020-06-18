@@ -1,21 +1,43 @@
 struct <<<DIVISION>>>
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
-	// judgment value:
+	// value:
 
 		// symbolic:
 
-		template<<<<TYPE>>> Value, typename Continuation = ch_symbolic_values>
-		using s_<<<MODULE>>>_value = sf_judgment_value
+		// assemblic:
+
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
 		<
-			<<<TYPE>>>, Value, Continuation
+			typename Judgment,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = <<<TYPE>>>
+		>
+		static constexpr Image a_<<<MODULE>>>_value = a_judgment_value
+		<
+			<<<TYPE>>>, Judgment, Continuation, Image
 		>;
 
-	// display:
+	// curried value:
 
-		// procedural:
+		// symbolic:
 
-		static constexpr void p_<<<MODULE>>>_display(<<<TYPE>>> v) { printf("%<<<FORMAT>>>", v); }
+		// assemblic:
+
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = <<<TYPE>>>
+		>
+		static constexpr Image a_curried_<<<MODULE>>>_value = a_curried_judgment_value
+		<
+			<<<TYPE>>>, Judgment, Continuation, Image
+		>;
 };
