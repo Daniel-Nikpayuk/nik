@@ -37,55 +37,100 @@
 												signed short Value1,
 												signed short Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = signed short,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_short_judgment_add)				= typename snk_signed_short_judgment_as::navigator::template
 											  s_signed_short_judgment_add
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												signed short Value1,
 												signed short Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = signed short,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_short_judgment_multiply)				= typename snk_signed_short_judgment_as::navigator::template
 											  s_signed_short_judgment_multiply
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												signed short Value1,
 												signed short Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = signed short,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_short_judgment_subtract)				= typename snk_signed_short_judgment_as::navigator::template
 											  s_signed_short_judgment_subtract
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												signed short Value1,
 												signed short Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = signed short,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_short_judgment_divide)				= typename snk_signed_short_judgment_as::navigator::template
 											  s_signed_short_judgment_divide
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												signed short Value1,
 												signed short Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = signed short,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_short_judgment_modulo)				= typename snk_signed_short_judgment_as::navigator::template
 											  s_signed_short_judgment_modulo
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

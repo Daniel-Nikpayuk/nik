@@ -17,6 +17,7 @@
 
 struct proximity
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, proximity)
 
 	// less than:
@@ -26,11 +27,13 @@ struct proximity
 		template
 		<
 			unsigned short Value1, unsigned short Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_short_judgment_less_than = sf_judgment_less_than
 		<
-			unsigned short, Value1, Value2, Continuation
+			unsigned short, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -49,11 +52,13 @@ struct proximity
 		template
 		<
 			unsigned short Value1, unsigned short Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_short_judgment_less_than_or_equal = sf_judgment_less_than_or_equal
 		<
-			unsigned short, Value1, Value2, Continuation
+			unsigned short, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -72,11 +77,13 @@ struct proximity
 		template
 		<
 			unsigned short Value1, unsigned short Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_short_judgment_greater_than = sf_judgment_greater_than
 		<
-			unsigned short, Value1, Value2, Continuation
+			unsigned short, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -95,11 +102,13 @@ struct proximity
 		template
 		<
 			unsigned short Value1, unsigned short Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_short_judgment_greater_than_or_equal = sf_judgment_greater_than_or_equal
 		<
-			unsigned short, Value1, Value2, Continuation
+			unsigned short, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

@@ -7,6 +7,21 @@ struct <<<DIVISION>>>
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(<<<TYPE>>>) = p_identity<Kind>
+		>
+		using s_<<<MODULE>>>_value = s_judgment_value
+		<
+			<<<TYPE>>>, Judgment, Continuation, Kind, ListKind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -14,18 +29,35 @@ struct <<<DIVISION>>>
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = <<<TYPE>>>
+			typename Continuation = ch_a_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(<<<TYPE>>>) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_<<<MODULE>>>_value = a_judgment_value
 		<
-			<<<TYPE>>>, Judgment, Continuation, Image
+			<<<TYPE>>>, Judgment, Continuation, Kind, ListKind, Op, Image
 		>;
 
 	// curried value:
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = <<<TYPE>>>,
+			Kind (*Op)(<<<TYPE>>>) = p_identity<Kind>
+		>
+		using s_curried_<<<MODULE>>>_value = s_curried_judgment_value
+		<
+			<<<TYPE>>>, Judgment, Continuation, Kind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -33,11 +65,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = <<<TYPE>>>
+			typename Continuation = ch_a_to_value,
+			typename Kind = <<<TYPE>>>,
+			Kind (*Op)(<<<TYPE>>>) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_curried_<<<MODULE>>>_value = a_curried_judgment_value
 		<
-			<<<TYPE>>>, Judgment, Continuation, Image
+			<<<TYPE>>>, Judgment, Continuation, Kind, Op, Image
 		>;
 };

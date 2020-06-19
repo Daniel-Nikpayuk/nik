@@ -26,13 +26,13 @@ struct navigator
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_add = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value1 + Value2
+			Kind, ListKind, Type, Value1 + Value2
 		>;
 
 		// assemblic:
@@ -51,13 +51,13 @@ struct navigator
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_subtract = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value1 - Value2
+			Kind, ListKind, Type, Value1 - Value2
 		>;
 
 		// assemblic:
@@ -76,13 +76,13 @@ struct navigator
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_multiply = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value1 * Value2
+			Kind, ListKind, Type, Value1 * Value2
 		>;
 
 		// assemblic:
@@ -101,13 +101,13 @@ struct navigator
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_divide = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value1 / Value2
+			Kind, ListKind, Type, Value1 / Value2
 		>;
 
 		// assemblic:
@@ -126,13 +126,13 @@ struct navigator
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_modulo = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value1 % Value2
+			Kind, ListKind, Type, Value1 % Value2
 		>;
 
 		// assemblic:

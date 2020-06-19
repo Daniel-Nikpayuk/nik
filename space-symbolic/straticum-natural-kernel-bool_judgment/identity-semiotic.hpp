@@ -21,7 +21,7 @@ struct identity
 	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, identity)
 
-	// is bool judgment:
+	// is judgment:
 
 		// symbolic:
 
@@ -44,7 +44,7 @@ struct identity
 		>
 		static constexpr Image a_is_bool_judgment = a_is_judgment<bool, Exp, Continuation, Image>;
 
-	// is curried bool judgment:
+	// is curried judgment:
 
 		// symbolic:
 

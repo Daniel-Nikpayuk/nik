@@ -36,14 +36,12 @@ struct proximity
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_less_than = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_less_than = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_less_than<Type>
 		>;
 
 		// assemblic:
@@ -56,15 +54,12 @@ struct proximity
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_less_than = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_less_than = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_less_than<Type>
 		>;
 
 	// curried less than:
@@ -77,14 +72,11 @@ struct proximity
 			typename Continuation = ch_s_values,
 			typename Kind = bool
 		>
-		using s_curried_judgment_less_than = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_less_than = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_proximity_as_p_judgment_less_than<Type>
 		>;
 
 		// assemblic:
@@ -96,14 +88,11 @@ struct proximity
 			typename Kind = bool,
 			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_less_than = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_less_than = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_proximity_as_p_judgment_less_than<Type>
 		>;
 
 	// less than or equal:
@@ -117,14 +106,12 @@ struct proximity
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_less_than_or_equal = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_less_than_or_equal = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_less_than_or_equal<Type>
 		>;
 
 		// assemblic:
@@ -137,15 +124,12 @@ struct proximity
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_less_than_or_equal = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_less_than_or_equal = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_less_than_or_equal<Type>
 		>;
 
 	// curried less than or equal:
@@ -158,14 +142,11 @@ struct proximity
 			typename Continuation = ch_s_values,
 			typename Kind = bool
 		>
-		using s_curried_judgment_less_than_or_equal = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_less_than_or_equal = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_proximity_as_p_judgment_less_than_or_equal<Type>
 		>;
 
 		// assemblic:
@@ -177,14 +158,11 @@ struct proximity
 			typename Kind = bool,
 			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_less_than_or_equal = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_less_than_or_equal = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_less_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_proximity_as_p_judgment_less_than_or_equal<Type>
 		>;
 
 	// greater than:
@@ -198,14 +176,12 @@ struct proximity
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_greater_than = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_greater_than = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than<Type>
 		>;
 
 		// assemblic:
@@ -218,15 +194,12 @@ struct proximity
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_greater_than = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_greater_than = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than<Type>
 		>;
 
 	// curried greater than:
@@ -239,14 +212,11 @@ struct proximity
 			typename Continuation = ch_s_values,
 			typename Kind = bool
 		>
-		using s_curried_judgment_greater_than = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_greater_than = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than<Type>
 		>;
 
 		// assemblic:
@@ -258,14 +228,11 @@ struct proximity
 			typename Kind = bool,
 			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_greater_than = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_greater_than = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than<Type>
 		>;
 
 	// greater than or equal:
@@ -279,14 +246,12 @@ struct proximity
 			typename Kind = bool,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_greater_than_or_equal = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_greater_than_or_equal = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>
 		>;
 
 		// assemblic:
@@ -299,15 +264,12 @@ struct proximity
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_greater_than_or_equal = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_greater_than_or_equal = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>
 		>;
 
 	// curried greater than or equal:
@@ -320,14 +282,11 @@ struct proximity
 			typename Continuation = ch_s_values,
 			typename Kind = bool
 		>
-		using s_curried_judgment_greater_than_or_equal = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_greater_than_or_equal = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>
 		>;
 
 		// assemblic:
@@ -339,13 +298,10 @@ struct proximity
 			typename Kind = bool,
 			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_greater_than_or_equal = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_greater_than_or_equal = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_proximity_as_p_judgment_greater_than_or_equal<Type>
 		>;
 };

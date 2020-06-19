@@ -17,6 +17,7 @@
 
 struct proximity
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, proximity)
 
 	// less than:
@@ -26,11 +27,13 @@ struct proximity
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_less_than = sf_judgment_less_than
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -49,11 +52,13 @@ struct proximity
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_less_than_or_equal = sf_judgment_less_than_or_equal
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -72,11 +77,13 @@ struct proximity
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_greater_than = sf_judgment_greater_than
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -95,11 +102,13 @@ struct proximity
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_greater_than_or_equal = sf_judgment_greater_than_or_equal
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

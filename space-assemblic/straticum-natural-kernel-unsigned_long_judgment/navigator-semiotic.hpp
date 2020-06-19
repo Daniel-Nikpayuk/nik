@@ -17,6 +17,7 @@
 
 struct navigator
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, navigator)
 
 	// add:
@@ -26,11 +27,13 @@ struct navigator
 		template
 		<
 			unsigned long Value1, unsigned long Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = unsigned long,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_long_judgment_add = sf_judgment_add
 		<
-			unsigned long, Value1, Value2, Continuation
+			unsigned long, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -49,11 +52,13 @@ struct navigator
 		template
 		<
 			unsigned long Value1, unsigned long Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = unsigned long,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_long_judgment_subtract = sf_judgment_subtract
 		<
-			unsigned long, Value1, Value2, Continuation
+			unsigned long, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -72,11 +77,13 @@ struct navigator
 		template
 		<
 			unsigned long Value1, unsigned long Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = unsigned long,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_long_judgment_multiply = sf_judgment_multiply
 		<
-			unsigned long, Value1, Value2, Continuation
+			unsigned long, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -95,11 +102,13 @@ struct navigator
 		template
 		<
 			unsigned long Value1, unsigned long Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = unsigned long,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_long_judgment_divide = sf_judgment_divide
 		<
-			unsigned long, Value1, Value2, Continuation
+			unsigned long, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -118,11 +127,13 @@ struct navigator
 		template
 		<
 			unsigned long Value1, unsigned long Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = unsigned long,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_long_judgment_modulo = sf_judgment_modulo
 		<
-			unsigned long, Value1, Value2, Continuation
+			unsigned long, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

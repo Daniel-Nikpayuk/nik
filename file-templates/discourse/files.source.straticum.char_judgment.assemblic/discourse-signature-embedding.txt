@@ -14,10 +14,20 @@
 										  <
 											<<<TYPE>>> Value,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = <<<TYPE>>>,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_value)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  s_<<<MODULE>>>_value<Value, Continuation>;
+										  s_<<<MODULE>>>_value
+											<Value, Continuation, Kind, ListKind>;
 
 //
 

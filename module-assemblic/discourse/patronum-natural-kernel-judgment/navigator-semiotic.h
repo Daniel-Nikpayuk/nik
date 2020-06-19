@@ -38,10 +38,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_add)					= typename pnk_judgment_as::navigator::template
-										  sf_judgment_add<Type, Value1, Value2, Continuation>;
+										  sf_judgment_add
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -49,10 +59,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_subtract)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_subtract<Type, Value1, Value2, Continuation>;
+										  sf_judgment_subtract
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -60,10 +80,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_multiply)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_multiply<Type, Value1, Value2, Continuation>;
+										  sf_judgment_multiply
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -71,10 +101,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_divide)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_divide<Type, Value1, Value2, Continuation>;
+										  sf_judgment_divide
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -82,10 +122,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_modulo)				= typename pnk_judgment_as::navigator::template
-										  sf_judgment_modulo<Type, Value1, Value2, Continuation>;
+										  sf_judgment_modulo
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

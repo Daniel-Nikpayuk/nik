@@ -36,14 +36,12 @@ struct navigator
 			typename Kind = Type,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_add = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_add = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_add<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_add<Type>
 		>;
 
 		// assemblic:
@@ -56,15 +54,12 @@ struct navigator
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_add = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_add = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_add<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_add<Type>
 		>;
 
 	// curried add:
@@ -77,14 +72,11 @@ struct navigator
 			typename Continuation = ch_s_values,
 			typename Kind = Type
 		>
-		using s_curried_judgment_add = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_add = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_add<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_navigator_as_p_judgment_add<Type>
 		>;
 
 		// assemblic:
@@ -93,16 +85,14 @@ struct navigator
 		<
 			typename Type, typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Kind = Type,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_add = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_add = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_add<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_navigator_as_p_judgment_add<Type>
 		>;
 
 	// subtract:
@@ -116,14 +106,12 @@ struct navigator
 			typename Kind = Type,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_subtract = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_subtract = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_subtract<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_subtract<Type>
 		>;
 
 		// assemblic:
@@ -136,15 +124,12 @@ struct navigator
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_subtract = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_subtract = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_subtract<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_subtract<Type>
 		>;
 
 	// curried subtract:
@@ -154,16 +139,14 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type
 		>
-		using s_curried_judgment_subtract = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_subtract = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_subtract<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_navigator_as_p_judgment_subtract<Type>
 		>;
 
 		// assemblic:
@@ -172,16 +155,14 @@ struct navigator
 		<
 			typename Type, typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Kind = Type,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_subtract = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_subtract = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_subtract<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_navigator_as_p_judgment_subtract<Type>
 		>;
 
 	// multiply:
@@ -195,14 +176,12 @@ struct navigator
 			typename Kind = Type,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_multiply = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_multiply = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_multiply<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_multiply<Type>
 		>;
 
 		// assemblic:
@@ -215,15 +194,12 @@ struct navigator
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_multiply = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_multiply = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_multiply<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_multiply<Type>
 		>;
 
 	// curried multiply:
@@ -233,16 +209,14 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type
 		>
-		using s_curried_judgment_multiply = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_multiply = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_multiply<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_navigator_as_p_judgment_multiply<Type>
 		>;
 
 		// assemblic:
@@ -251,16 +225,14 @@ struct navigator
 		<
 			typename Type, typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Kind = Type,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_multiply = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_multiply = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_multiply<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_navigator_as_p_judgment_multiply<Type>
 		>;
 
 	// divide:
@@ -274,14 +246,12 @@ struct navigator
 			typename Kind = Type,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_divide = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_divide = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_divide<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_divide<Type>
 		>;
 
 		// assemblic:
@@ -294,15 +264,12 @@ struct navigator
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_divide = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_divide = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_divide<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_divide<Type>
 		>;
 
 	// curried divide:
@@ -312,16 +279,14 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type
 		>
-		using s_curried_judgment_divide = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_divide = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_divide<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_navigator_as_p_judgment_divide<Type>
 		>;
 
 		// assemblic:
@@ -330,16 +295,14 @@ struct navigator
 		<
 			typename Type, typename Value1, typename Value2,
 			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Kind = Type,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_divide = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_divide = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_divide<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_navigator_as_p_judgment_divide<Type>
 		>;
 
 	// modulo:
@@ -353,14 +316,12 @@ struct navigator
 			typename Kind = Type,
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
-		using s_judgment_modulo = typename independent_memoization::template
-		sf_values_list_zip
+		using s_judgment_modulo = typename dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		s_vv_zip_v_mutate_induct
 		<
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_modulo<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_list_zip_induct<Continuation>,
+			Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_modulo<Type>
 		>;
 
 		// assemblic:
@@ -373,15 +334,12 @@ struct navigator
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Image = Kind
 		>
-		static constexpr Image a_judgment_modulo = independent_memoization::template
-		af_values_list_zip
+		static constexpr Image a_judgment_modulo = dependent_memoization<Type>::template
+		pattern_match_values_list<Value1>::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image,
-			Kind, ListKind,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_modulo<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>,
+			Image, Kind, ListKind, Type, Value2, pnkj_navigator_as_p_judgment_modulo<Type>
 		>;
 
 	// curried modulo:
@@ -391,16 +349,14 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type
 		>
-		using s_curried_judgment_modulo = typename independent_memoization::template
-		sf_values_zip
+		using s_curried_judgment_modulo = typename Value1::template
+		s_vv_zip_v_mutate_induct
 		<
-			Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_modulo<Type>,
-			Continuation
+			typename independent_memoization::template cp_sf_values_zip_induct<Continuation>,
+			Kind, Type, Value2, pnkj_navigator_as_p_judgment_modulo<Type>
 		>;
 
 		// assemblic:
@@ -408,16 +364,14 @@ struct navigator
 		template
 		<
 			typename Type, typename Value1, typename Value2,
-			typename Continuation = ch_a_to_value,
-			typename Image = Type
+			typename Continuation = ch_s_values,
+			typename Kind = Type,
+			typename Image = Kind
 		>
-		static constexpr Image a_curried_judgment_modulo = independent_memoization::template
-		af_values_zip
+		static constexpr Image a_curried_judgment_modulo = Value1::template
+		a_vv_zip_v_mutate_induct
 		<
-			Image, Type,
-			Type, Value1,
-			Type, Value2,
-			pnkj_navigator_as_p_judgment_modulo<Type>,
-			Continuation
+			typename independent_memoization::template cp_af_values_zip_induct<Continuation>,
+			Image, Kind, Type, Value2, pnkj_navigator_as_p_judgment_modulo<Type>
 		>;
 };

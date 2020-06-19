@@ -27,11 +27,13 @@ struct identity
 		template
 		<
 			unsigned short Value1, unsigned short Value2,
-			typename Continuation = ch_s_match_to_value
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_unsigned_short_judgment_is_equal = sf_judgment_is_equal
 		<
-			unsigned short, Value1, Value2, Continuation
+			unsigned short, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

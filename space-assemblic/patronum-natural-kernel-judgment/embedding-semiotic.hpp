@@ -26,12 +26,12 @@ struct embedding
 		template
 		<
 			typename Type, Type Value,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_value = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			Value
+			Kind, ListKind, Type, Value
 		>;
 };

@@ -15,55 +15,100 @@
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = <<<TYPE>>>,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_add)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_add
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = <<<TYPE>>>,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_multiply)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_multiply
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = <<<TYPE>>>,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_subtract)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_subtract
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = <<<TYPE>>>,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_divide)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_divide
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												<<<TYPE>>> Value1,
 												<<<TYPE>>> Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = <<<TYPE>>>,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_modulo)				= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_modulo
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

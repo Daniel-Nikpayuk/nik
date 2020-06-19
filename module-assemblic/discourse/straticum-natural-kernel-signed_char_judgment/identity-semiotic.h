@@ -39,11 +39,18 @@
 
 												typename Continuation =
 												typename pnk_builtin_ss::inductor::
-												ch_s_match_to_value
+												ch_s_match_to_value,
+
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_signed_char_judgment_is_equal)					= typename snk_signed_char_judgment_as::identity::template
 											  s_signed_char_judgment_is_equal
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

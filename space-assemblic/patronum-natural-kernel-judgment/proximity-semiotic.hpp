@@ -26,13 +26,13 @@ struct proximity
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_less_than = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			(Value1 < Value2)
+			Kind, ListKind, bool, (Value1 < Value2)
 		>;
 
 		// assemblic:
@@ -51,13 +51,13 @@ struct proximity
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_less_than_or_equal = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			(Value1 <= Value2)
+			Kind, ListKind, bool, (Value1 <= Value2)
 		>;
 
 		// assemblic:
@@ -76,13 +76,13 @@ struct proximity
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_greater_than = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			(Value1 > Value2)
+			Kind, ListKind, bool, (Value1 > Value2)
 		>;
 
 		// assemblic:
@@ -101,13 +101,13 @@ struct proximity
 		template
 		<
 			typename Type, Type Value1, Type Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using sf_judgment_greater_than_or_equal = typename Continuation::template result
 		<
-			Type,
-			dependent_memoization<Type>::template pattern_match_values,
-			(Value1 >= Value2)
+			Kind, ListKind, bool, (Value1 >= Value2)
 		>;
 
 		// assemblic:

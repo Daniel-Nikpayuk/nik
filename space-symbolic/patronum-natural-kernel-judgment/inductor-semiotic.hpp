@@ -22,6 +22,20 @@ struct inductor
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
+			template
+			<
+				typename Type, typename List,
+				typename Continuation = ch_a_value,
+				typename Image = size_type
+			>
+			static constexpr Image af_values_list_length = dependent_memoization<Type>::template
+			pattern_match_values_list<List>::template
+			a_front_grow_induct
+			<
+				typename independent_memoization::template cp_af_grow_to_value_length<Continuation>,
+				Image, filler
+			>;
+
 		// The general nik algorithmic paradigm is ignored here as it is intended for the nik narrative design.
 		// Notably, the issue here is we have implemented judgments as specialized lists in order to privilege
 		// meta C++ minimal memoization best practices, but we otherwise don't yet have the necessary boolean
@@ -31,7 +45,7 @@ struct inductor
 	using pattern_match_judgment = if_then_else
 	<
 		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template af_match_induct<ch_a_value, bool>	&&
-		independent_memoization::template af_values_list_length<size_type, Type, Exp> == NIK_ONE				,
+		af_values_list_length<Type, Exp> == NIK_ONE										,
 
 		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>						,
 		typename dependent_memoization<Type>::template pattern_match_values_list<filler>
@@ -43,7 +57,7 @@ struct inductor
 	using pattern_match_curried_judgment = if_then_else
 	<
 		dependent_memoization<Type>::template pattern_match_values_list<Exp>::template af_match_induct<ch_a_value, bool>	&&
-		independent_memoization::template af_values_list_length<size_type, Type, Exp> == NIK_ONE				&&
+		af_values_list_length<Type, Exp> == NIK_ONE										&&
 		independent_memoization::template pattern_match_s_front_grow_induct<Exp>::template af_match_induct<ch_a_value, bool>	,
 
 		typename dependent_memoization<Type>::template pattern_match_values_list<Exp>						,

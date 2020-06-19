@@ -2595,38 +2595,6 @@ struct inductor
 		// The following values (list) functions are only here due to the above values (list)
 		// pattern matcher, otherwise they narratively belong with their respective list languages.
 
-		// values map:
-
-			// symbolic:
-
-			template
-			<
-				typename Kind,
-				typename Type, typename Values,
-				Kind (*Op)(Type),
-				typename Continuation = ch_s_values
-			>
-			using sf_values_map = typename Values::template
-			sf_v_map_v_mutate_induct
-			<
-				Continuation, Kind, Op
-			>;
-
-			// assemblic:
-
-			template
-			<
-				typename Image, typename Kind,
-				typename Type, typename Values,
-				Kind (*Op)(Type),
-				typename Continuation = ch_a_to_value
-			>
-			static constexpr Image af_values_map = Values::template
-			af_v_map_v_mutate_induct
-			<
-				Continuation, Image, Kind, Op
-			>;
-
 		// values zip:
 
 			// symbolic:
@@ -2648,20 +2616,6 @@ struct inductor
 				>;
 			};
 
-			template
-			<
-				typename Kind,
-				typename Type1, typename Values1,
-				typename Type2, typename Values2,
-				Kind (*Op)(Type1, Type2),
-				typename Continuation = ch_s_values
-			>
-			using sf_values_zip = typename Values1::template
-			s_vv_zip_v_mutate_induct
-			<
-				cp_sf_values_zip_induct<Continuation>, Kind, Type2, Values2, Op
-			>;
-
 			// assemblic:
 
 			template<typename Continuation>
@@ -2682,20 +2636,6 @@ struct inductor
 				>;
 			};
 
-			template
-			<
-				typename Image, typename Kind,
-				typename Type1, typename Values1,
-				typename Type2, typename Values2,
-				Kind (*Op)(Type1, Type2),
-				typename Continuation = ch_a_to_value
-			>
-			static constexpr Image af_values_zip = Values1::template
-			a_vv_zip_v_mutate_induct
-			<
-				cp_af_values_zip_induct<Continuation>, Image, Kind, Type2, Values2, Op
-			>;
-
 		// values list length:
 
 			// assemblic:
@@ -2714,55 +2654,8 @@ struct inductor
 				>;
 			};
 
-			template
-			<
-				typename Image, typename Type, typename List,
-				typename Continuation = ch_a_value
-			>
-			static constexpr Image af_values_list_length = dependent_memoization<Type>::template
-			pattern_match_values_list<List>::template
-			a_front_grow_induct
-			<
-				cp_af_grow_to_value_length<Continuation>, Image, filler
-			>;
-
 			// The following values function is only here due to the above values pattern
 			// matcher, otherwise it narratively belongs with its respective list languages.
-
-		// values list map:
-
-			// symbolic:
-
-			template
-			<
-				typename Kind, template<Kind...> class ListKind,
-				typename Type, typename Values,
-				Kind (*Op)(Type),
-				typename Continuation = ch_s_values
-			>
-			using sf_values_list_map = typename dependent_memoization<Type>::template
-			pattern_match_values_list<Values>::template
-			sf_v_map_v_mutate_induct
-			<
-				Continuation, Kind, ListKind, Op
-			>;
-
-			// assemblic:
-
-			template
-			<
-				typename Image,
-				typename Kind, template<Kind...> class ListKind,
-				typename Type, typename Values,
-				Kind (*Op)(Type),
-				typename Continuation = ch_a_to_value
-			>
-			static constexpr Image af_values_list_map = dependent_memoization<Type>::template
-			pattern_match_values_list<Values>::template
-			a_v_map_v_mutate_induct
-			<
-				Continuation, Image, Kind, ListKind, Op
-			>;
 
 		// values list zip:
 
@@ -2786,21 +2679,6 @@ struct inductor
 				>;
 			};
 
-			template
-			<
-				typename Kind, template<Kind...> class ListKind,
-				typename Type1, typename Values1,
-				typename Type2, typename Values2,
-				Kind (*Op)(Type1, Type2),
-				typename Continuation = ch_s_values
-			>
-			using sf_values_list_zip = typename dependent_memoization<Type1>::template
-			pattern_match_values_list<Values1>::template
-			s_vv_zip_v_mutate_induct
-			<
-				cp_sf_values_list_zip_induct<Continuation>, Kind, ListKind, Type2, Values2, Op
-			>;
-
 			// assemblic:
 
 			template<typename Continuation>
@@ -2821,50 +2699,5 @@ struct inductor
 					Continuation, Image, Kind, ListKind, Type1, Op, Values1...
 				>;
 			};
-
-			template
-			<
-				typename Image,
-				typename Kind, template<Kind...> class ListKind,
-				typename Type1, typename Values1,
-				typename Type2, typename Values2,
-				Kind (*Op)(Type1, Type2),
-				typename Continuation = ch_a_to_value
-			>
-			static constexpr Image af_values_list_zip = dependent_memoization<Type1>::template
-			pattern_match_values_list<Values1>::template
-			a_vv_zip_v_mutate_induct
-			<
-				cp_af_values_list_zip_induct<Continuation>, Image, Kind, ListKind, Type2, Values2, Op
-			>;
-
-		// types map:
-
-			// symbolic:
-
-			template
-			<
-				typename Kind, typename Names, template<typename> class Op,
-				typename Continuation = ch_s_values
-			>
-			using sf_types_map = typename Names::template
-			sf_t_map_v_mutate_induct
-			<
-				Continuation, Kind, Op
-			>;
-
-			// assemblic:
-
-			template
-			<
-				typename Image,
-				typename Kind, typename Names, template<typename> class Op,
-				typename Continuation = ch_a_to_value
-			>
-			static constexpr Image af_types_map = Names::template
-			af_t_map_v_mutate_induct
-			<
-				Continuation, Image, Kind, Op
-			>;
 	};
 };

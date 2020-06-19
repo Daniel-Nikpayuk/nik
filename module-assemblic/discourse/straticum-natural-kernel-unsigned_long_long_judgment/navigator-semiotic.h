@@ -37,55 +37,100 @@
 												unsigned long long Value1,
 												unsigned long long Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = unsigned long long,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_judgment_add)				= typename snk_unsigned_long_long_judgment_as::navigator::template
 											  s_unsigned_long_long_judgment_add
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												unsigned long long Value1,
 												unsigned long long Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = unsigned long long,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_judgment_multiply)				= typename snk_unsigned_long_long_judgment_as::navigator::template
 											  s_unsigned_long_long_judgment_multiply
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												unsigned long long Value1,
 												unsigned long long Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = unsigned long long,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_judgment_subtract)				= typename snk_unsigned_long_long_judgment_as::navigator::template
 											  s_unsigned_long_long_judgment_subtract
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												unsigned long long Value1,
 												unsigned long long Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = unsigned long long,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_judgment_divide)				= typename snk_unsigned_long_long_judgment_as::navigator::template
 											  s_unsigned_long_long_judgment_divide
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
 												unsigned long long Value1,
 												unsigned long long Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation =
+												typename pnk_builtin_ss::inductor::
+												ch_s_match_to_value,
+
+												typename Kind = unsigned long long,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_unsigned_long_long_judgment_modulo)				= typename snk_unsigned_long_long_judgment_as::navigator::template
 											  s_unsigned_long_long_judgment_modulo
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

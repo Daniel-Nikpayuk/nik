@@ -17,6 +17,7 @@
 
 struct navigator
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, navigator)
 
 	// add:
@@ -26,11 +27,13 @@ struct navigator
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_add = sf_judgment_add
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -49,11 +52,13 @@ struct navigator
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_subtract = sf_judgment_subtract
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -72,11 +77,13 @@ struct navigator
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_multiply = sf_judgment_multiply
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -95,11 +102,13 @@ struct navigator
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_divide = sf_judgment_divide
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -118,11 +127,13 @@ struct navigator
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_modulo = sf_judgment_modulo
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

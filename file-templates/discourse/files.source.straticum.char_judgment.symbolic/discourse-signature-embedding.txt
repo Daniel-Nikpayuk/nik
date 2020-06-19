@@ -14,29 +14,64 @@
 										  <
 										  	typename Judgment,
 
-										  	typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
+										  	typename Continuation = nik::ch_s_values,
+										  	typename Kind = <<<TYPE>>>,
 
-										  	typename Image = <<<TYPE>>>
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											Kind (*Op)(<<<TYPE>>>) = nik::p_identity<Kind>
 										  >
-	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_value)		= <<<SIGNATURE>>>::<<<DIVISION>>>::template
-										  a_<<<MODULE>>>_value
-											<Judgment, Continuation, Image>;
+	using nik_safe(PREFIX, s_<<<MODULE>>>_value)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  s_<<<MODULE>>>_value
+											<Judgment, Continuation, Kind, ListKind, Op>;
+
+										  template
+										  <
+										  	typename Judgment,
+										  	typename Continuation = nik::ch_s_values,
+										  	typename Kind = <<<TYPE>>>,
+											Kind (*Op)(<<<TYPE>>>) = nik::p_identity<Kind>
+										  >
+	using nik_safe(PREFIX, s_curried_<<<MODULE>>>_value)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  s_curried_<<<MODULE>>>_value
+											<Judgment, Continuation, Kind, Op>;
+
+//
 
 										  template
 										  <
 										  	typename Judgment,
 
-										  	typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
+										  	typename Continuation = nik::ch_a_to_value,
+										  	typename Kind = <<<TYPE>>>,
 
-										  	typename Image = <<<TYPE>>>
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											Kind (*Op)(<<<TYPE>>>) = nik::p_identity<Kind>,
+
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_value)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+										  a_<<<MODULE>>>_value
+											<Judgment, Continuation, Kind, ListKind, Op, Image>;
+
+										  template
+										  <
+										  	typename Judgment,
+										  	typename Continuation = nik::ch_a_to_value,
+										  	typename Kind = <<<TYPE>>>,
+											Kind (*Op)(<<<TYPE>>>) = nik::p_identity<Kind>,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_value)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
 										  a_curried_<<<MODULE>>>_value
-											<Judgment, Continuation, Image>;
+											<Judgment, Continuation, Kind, Op, Image>;
 
 //
 

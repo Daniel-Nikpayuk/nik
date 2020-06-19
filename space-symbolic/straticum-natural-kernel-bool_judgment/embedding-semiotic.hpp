@@ -18,6 +18,7 @@
 struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
 
 #define safe_name
 
@@ -36,14 +37,17 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = bool
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = pattern_match_bool_judgment,
+			Kind (*Op)(bool) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_bool_judgment_value = dependent_memoization<bool>::template
 		pattern_match_values_list<Judgment>::template
-		a_front_grow_induct
+		af_v_map_v_mutate_induct
 		<
-			Continuation, Image, filler
+			Continuation, Image, Kind, ListKind, Op
 		>;
 
 	// curried value:
@@ -57,13 +61,15 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = bool
+			typename Continuation = ch_a_to_value,
+			typename Kind = bool,
+			Kind (*Op)(bool) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_curried_bool_judgment_value = Judgment::template
-		a_front_grow_induct
+		af_v_map_v_mutate_induct
 		<
-			Continuation, Image, filler
+			Continuation, Image, Kind, Op
 		>;
 
 	// if then else:

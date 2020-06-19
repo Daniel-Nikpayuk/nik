@@ -46,13 +46,16 @@ struct embedding
 		template
 		<
 			typename Type, typename Judgment,
-			typename Continuation = ch_s_grow_to_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(Type) = p_identity<Kind>
 		>
 		using s_judgment_value = typename dependent_memoization<Type>::template
 		pattern_match_values_list<Judgment>::template
-		s_front_grow_induct
+		sf_v_map_v_mutate_induct
 		<
-			Continuation, filler
+			Continuation, Kind, ListKind, Op
 		>;
 
 		// assemblic:
@@ -62,14 +65,17 @@ struct embedding
 		template
 		<
 			typename Type, typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = Type
+			typename Continuation = ch_a_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(Type) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_judgment_value = dependent_memoization<Type>::template
 		pattern_match_values_list<Judgment>::template
-		a_front_grow_induct
+		af_v_map_v_mutate_induct
 		<
-			Continuation, Image, filler
+			Continuation, Image, Kind, ListKind, Op
 		>;
 
 	// curried type:
@@ -98,12 +104,14 @@ struct embedding
 		template
 		<
 			typename Type, typename Judgment,
-			typename Continuation = ch_s_grow_to_values
+			typename Continuation = ch_s_values,
+			typename Kind = Type,
+			Kind (*Op)(Type) = p_identity<Kind>
 		>
 		using s_curried_judgment_value = typename Judgment::template
-		s_front_grow_induct
+		sf_v_map_v_mutate_induct
 		<
-			Continuation, filler
+			Continuation, Kind, Op
 		>;
 
 		// assemblic:
@@ -113,12 +121,14 @@ struct embedding
 		template
 		<
 			typename Type, typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = Type
+			typename Continuation = ch_a_to_value,
+			typename Kind = Type,
+			Kind (*Op)(Type) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_curried_judgment_value = Judgment::template
-		a_front_grow_induct
+		af_v_map_v_mutate_induct
 		<
-			Continuation, Image, filler
+			Continuation, Image, Kind, Op
 		>;
 };

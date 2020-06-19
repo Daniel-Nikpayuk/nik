@@ -54,11 +54,12 @@
 											typename Type,
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_add)				= typename pnk_judgment_ss::navigator::template
 										  s_curried_judgment_add
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind>;
 
 										  template
 										  <
@@ -82,11 +83,12 @@
 											typename Type,
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_subtract)			= typename pnk_judgment_ss::navigator::template
 										  s_curried_judgment_subtract
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind>;
 
 										  template
 										  <
@@ -110,11 +112,12 @@
 											typename Type,
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_multiply)			= typename pnk_judgment_ss::navigator::template
 										  s_curried_judgment_multiply
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind>;
 
 										  template
 										  <
@@ -138,11 +141,12 @@
 											typename Type,
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_divide)			= typename pnk_judgment_ss::navigator::template
 										  s_curried_judgment_divide
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind>;
 
 										  template
 										  <
@@ -166,11 +170,12 @@
 											typename Type,
 											typename Value1, typename Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_modulo)			= typename pnk_judgment_ss::navigator::template
 										  s_curried_judgment_modulo
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind>;
 
 //
 
@@ -197,13 +202,13 @@
 										  <
 											typename Type,
 											typename Value1, typename Value2,
-
 											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Kind = Type,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_add)		= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_add
-											<Type, Value1, Value2, Continuation, Image>;
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 										  template
 										  <
@@ -228,13 +233,13 @@
 										  <
 											typename Type,
 											typename Value1, typename Value2,
-
 											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Kind = Type,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_subtract)	= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_subtract
-											<Type, Value1, Value2, Continuation, Image>;
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 										  template
 										  <
@@ -259,13 +264,13 @@
 										  <
 											typename Type,
 											typename Value1, typename Value2,
-
 											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Kind = Type,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_multiply)	= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_multiply
-											<Type, Value1, Value2, Continuation, Image>;
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 										  template
 										  <
@@ -290,13 +295,13 @@
 										  <
 											typename Type,
 											typename Value1, typename Value2,
-
 											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Kind = Type,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_divide)	= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_divide
-											<Type, Value1, Value2, Continuation, Image>;
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 										  template
 										  <
@@ -321,13 +326,13 @@
 										  <
 											typename Type,
 											typename Value1, typename Value2,
-
 											typename Continuation = nik::ch_a_to_value,
-											typename Image = Type
+											typename Kind = Type,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_modulo)	= pnk_judgment_ss::navigator::template
 										  a_curried_judgment_modulo
-											<Type, Value1, Value2, Continuation, Image>;
+											<Type, Value1, Value2, Continuation, Kind, Image>;
 
 //
 

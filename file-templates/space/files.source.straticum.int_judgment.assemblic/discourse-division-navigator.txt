@@ -1,5 +1,6 @@
 struct <<<DIVISION>>>
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
 	// add:
@@ -9,11 +10,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_add = sf_judgment_add
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -32,11 +35,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_subtract = sf_judgment_subtract
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -55,11 +60,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_multiply = sf_judgment_multiply
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -78,11 +85,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_divide = sf_judgment_divide
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
@@ -101,11 +110,13 @@ struct <<<DIVISION>>>
 		template
 		<
 			<<<TYPE>>> Value1, <<<TYPE>>> Value2,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = <<<TYPE>>>,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_<<<MODULE>>>_modulo = sf_judgment_modulo
 		<
-			<<<TYPE>>>, Value1, Value2, Continuation
+			<<<TYPE>>>, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:

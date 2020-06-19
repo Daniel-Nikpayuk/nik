@@ -36,10 +36,20 @@
 										  <
 											signed char Value,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = signed char,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, s_signed_char_judgment_value)				= typename snk_signed_char_judgment_as::embedding::template
-										  s_signed_char_judgment_value<Value, Continuation>;
+										  s_signed_char_judgment_value
+											<Value, Continuation, Kind, ListKind>;
 
 //
 

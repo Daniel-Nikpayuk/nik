@@ -41,7 +41,8 @@
 											ch_s_grow_to_type
 										  >
 	using nik_safe(PREFIX, s_judgment_type)					= typename pnk_judgment_ss::embedding::template
-										  s_judgment_type<Type, Judgment, Continuation>;
+										  s_judgment_type
+											<Type, Judgment, Continuation>;
 
 //
 
@@ -49,12 +50,19 @@
 										  <
 											typename Type, typename Judgment,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_s_grow_to_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											Kind (*Op)(Type) = nik::p_identity<Kind>
 										  >
 	using nik_safe(PREFIX, s_judgment_value)				= typename pnk_judgment_ss::embedding::template
-										  s_judgment_value<Type, Judgment, Continuation>;
+										  s_judgment_value
+											<Type, Judgment, Continuation, Kind, ListKind, Op>;
 
 //
 
@@ -67,20 +75,21 @@
 											ch_s_grow_to_type
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_type)				= typename pnk_judgment_ss::embedding::template
-										  s_curried_judgment_type<Type, Judgment, Continuation>;
+										  s_curried_judgment_type
+											<Type, Judgment, Continuation>;
 
 //
 
 										  template
 										  <
 											typename Type, typename Judgment,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_s_grow_to_values
+											typename Continuation = nik::ch_s_values,
+											typename Kind = Type,
+											Kind (*Op)(Type) = nik::p_identity<Kind>
 										  >
 	using nik_safe(PREFIX, s_curried_judgment_value)			= typename pnk_judgment_ss::embedding::template
-										  s_curried_judgment_value<Type, Judgment, Continuation>;
+										  s_curried_judgment_value
+											<Type, Judgment, Continuation, Kind, Op>;
 
 //
 
@@ -88,31 +97,35 @@
 										  <
 											typename Type, typename Judgment,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
 
-											typename Image = Type
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											Kind (*Op)(Type) = nik::p_identity<Kind>,
+
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_judgment_value)		= pnk_judgment_ss::embedding::template
 										  a_judgment_value
-											<Type, Judgment, Continuation, Image>;
+										<Type, Judgment, Continuation, Kind, ListKind, Op, Image>;
 
 //
 
 										  template
 										  <
 											typename Type, typename Judgment,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
-
-											typename Image = Type
+											typename Continuation = nik::ch_a_to_value,
+											typename Kind = Type,
+											Kind (*Op)(Type) = nik::p_identity<Kind>,
+											typename Image = Kind
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_judgment_value)	= pnk_judgment_ss::embedding::template
 										  a_curried_judgment_value
-											<Type, Judgment, Continuation, Image>;
+										<Type, Judgment, Continuation, Kind, Op, Image>;
 
 //
 

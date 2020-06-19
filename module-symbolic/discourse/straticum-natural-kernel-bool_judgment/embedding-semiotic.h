@@ -61,11 +61,7 @@
 										  template
 										  <
 											typename Judgment,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
-
+											typename Continuation = nik::ch_a_to_value,
 											typename Image = bool
 										  >
 	static constexpr Image nik_safe(PREFIX, a_bool_judgment_value)		= snk_bool_judgment_ss::embedding::template
@@ -75,11 +71,7 @@
 										  template
 										  <
 											typename Judgment,
-
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
-
+											typename Continuation = nik::ch_a_to_value,
 											typename Image = bool
 										  >
 	static constexpr Image nik_safe(PREFIX, a_curried_bool_judgment_value)	= snk_bool_judgment_ss::embedding::template

@@ -24,6 +24,21 @@ struct embedding
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = signed short,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(signed short) = p_identity<Kind>
+		>
+		using s_signed_short_judgment_value = s_judgment_value
+		<
+			signed short, Judgment, Continuation, Kind, ListKind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -31,18 +46,35 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = signed short
+			typename Continuation = ch_a_to_value,
+			typename Kind = signed short,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(signed short) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_signed_short_judgment_value = a_judgment_value
 		<
-			signed short, Judgment, Continuation, Image
+			signed short, Judgment, Continuation, Kind, ListKind, Op, Image
 		>;
 
 	// curried value:
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = signed short,
+			Kind (*Op)(signed short) = p_identity<Kind>
+		>
+		using s_curried_signed_short_judgment_value = s_curried_judgment_value
+		<
+			signed short, Judgment, Continuation, Kind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -50,11 +82,13 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = signed short
+			typename Continuation = ch_a_to_value,
+			typename Kind = signed short,
+			Kind (*Op)(signed short) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_curried_signed_short_judgment_value = a_curried_judgment_value
 		<
-			signed short, Judgment, Continuation, Image
+			signed short, Judgment, Continuation, Kind, Op, Image
 		>;
 };

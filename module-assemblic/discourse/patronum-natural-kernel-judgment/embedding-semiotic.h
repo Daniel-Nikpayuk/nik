@@ -36,10 +36,20 @@
 										  <
 											typename Type, Type Value,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = Type,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_value)				= typename pnk_judgment_as::embedding::template
-										  sf_judgment_value<Type, Value, Continuation>;
+										  sf_judgment_value
+											<Type, Value, Continuation, Kind, ListKind>;
 
 //
 

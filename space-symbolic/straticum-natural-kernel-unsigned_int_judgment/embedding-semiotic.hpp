@@ -24,6 +24,21 @@ struct embedding
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = unsigned int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(unsigned int) = p_identity<Kind>
+		>
+		using s_unsigned_int_judgment_value = s_judgment_value
+		<
+			unsigned int, Judgment, Continuation, Kind, ListKind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -31,18 +46,35 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = unsigned int
+			typename Continuation = ch_a_to_value,
+			typename Kind = unsigned int,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(unsigned int) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_unsigned_int_judgment_value = a_judgment_value
 		<
-			unsigned int, Judgment, Continuation, Image
+			unsigned int, Judgment, Continuation, Kind, ListKind, Op, Image
 		>;
 
 	// curried value:
 
 		// symbolic:
 
+			// optimized to assume Judgment is in fact a judgment.
+
+		template
+		<
+			typename Judgment,
+			typename Continuation = ch_s_values,
+			typename Kind = unsigned int,
+			Kind (*Op)(unsigned int) = p_identity<Kind>
+		>
+		using s_curried_unsigned_int_judgment_value = s_curried_judgment_value
+		<
+			unsigned int, Judgment, Continuation, Kind, Op
+		>;
+
 		// assemblic:
 
 			// optimized to assume Judgment is in fact a judgment.
@@ -50,11 +82,13 @@ struct embedding
 		template
 		<
 			typename Judgment,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = unsigned int
+			typename Continuation = ch_a_to_value,
+			typename Kind = unsigned int,
+			Kind (*Op)(unsigned int) = p_identity<Kind>,
+			typename Image = Kind
 		>
 		static constexpr Image a_curried_unsigned_int_judgment_value = a_curried_judgment_value
 		<
-			unsigned int, Judgment, Continuation, Image
+			unsigned int, Judgment, Continuation, Kind, Op, Image
 		>;
 };

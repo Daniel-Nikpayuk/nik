@@ -30,11 +30,10 @@ struct embedding
 			typename Kind = const char*
 		>
 		using s_type_literal = typename independent_memoization::template
-		sf_types_map
+		pattern_match_types<Type>::template
+		sf_t_map_v_mutate_induct
 		<
-			Kind,
-			typename independent_memoization::template pattern_match_types<Type>,
-			Op, Continuation
+			Continuation, Kind, Op
 		>;
 
 		// assemblic:
@@ -47,10 +46,9 @@ struct embedding
 			typename Image = Kind
 		>
 		static constexpr Image a_type_literal = independent_memoization::template
-		af_types_map
+		pattern_match_types<Type>::template
+		af_t_map_v_mutate_induct
 		<
-			Image, Kind,
-			typename independent_memoization::template pattern_match_types<Type>,
-			Op, Continuation
+			Continuation, Image, Kind, Op
 		>;
 };

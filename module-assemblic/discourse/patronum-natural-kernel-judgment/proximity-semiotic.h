@@ -38,11 +38,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_less_than)				= typename pnk_judgment_as::proximity::template
 										  sf_judgment_less_than
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -50,11 +59,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_less_than_or_equal)			= typename pnk_judgment_as::proximity::template
 										  sf_judgment_less_than_or_equal
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -62,11 +80,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_greater_than)			= typename pnk_judgment_as::proximity::template
 										  sf_judgment_greater_than
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 										  template
 										  <
@@ -74,11 +101,20 @@
 											Type Value1,
 											Type Value2,
 
-											typename Continuation = nik::ch_s_values
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_match_to_value,
+
+											typename Kind = bool,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values
 										  >
 	using nik_safe(PREFIX, sf_judgment_greater_than_or_equal)		= typename pnk_judgment_as::proximity::template
 										  sf_judgment_greater_than_or_equal
-											<Type, Value1, Value2, Continuation>;
+											<Type, Value1, Value2, Continuation, Kind, ListKind>;
 
 //
 

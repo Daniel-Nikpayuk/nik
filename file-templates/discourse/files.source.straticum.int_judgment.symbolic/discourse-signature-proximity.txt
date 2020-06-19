@@ -12,61 +12,241 @@
 
 											  template
 											  <
-												<<<TYPE>>> Value1,
-												<<<TYPE>>> Value2,
+												typename Value1,
+												typename Value2,
 
-												typename Continuation = nik::ch_s_values
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_less_than)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_less_than
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
-												<<<TYPE>>> Value1,
-												<<<TYPE>>> Value2,
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool
+											  >
+	using nik_safe(PREFIX, s_curried_<<<MODULE>>>_less_than)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  s_curried_<<<MODULE>>>_less_than
+											<Value1, Value2, Continuation, Kind>;
 
-												typename Continuation = nik::ch_s_values
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_less_than_or_equal)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_less_than_or_equal
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
-												<<<TYPE>>> Value1,
-												<<<TYPE>>> Value2,
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool
+											  >
+	using nik_safe(PREFIX, s_curried_<<<MODULE>>>_less_than_or_equal)	= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  s_curried_<<<MODULE>>>_less_than_or_equal
+											<Value1, Value2, Continuation, Kind>;
 
-												typename Continuation = nik::ch_s_values
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_greater_than)			= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_greater_than
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
 
 											  template
 											  <
-												<<<TYPE>>> Value1,
-												<<<TYPE>>> Value2,
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool
+											  >
+	using nik_safe(PREFIX, s_curried_<<<MODULE>>>_greater_than)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  s_curried_<<<MODULE>>>_greater_than
+											<Value1, Value2, Continuation, Kind>;
 
-												typename Continuation = nik::ch_s_values
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values
 											  >
 	using nik_safe(PREFIX, s_<<<MODULE>>>_greater_than_or_equal)		= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
 											  s_<<<MODULE>>>_greater_than_or_equal
-												<Value1, Value2, Continuation>;
+											<Value1, Value2, Continuation, Kind, ListKind>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_s_values,
+												typename Kind = bool
+											  >
+	using nik_safe(PREFIX, s_curried_<<<MODULE>>>_greater_than_or_equal)	= typename <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  s_curried_<<<MODULE>>>_greater_than_or_equal
+											<Value1, Value2, Continuation, Kind>;
 
 //
 
-	static constexpr bool (*nik_safe(PREFIX, p_<<<MODULE>>>_less_than))(<<<TYPE>>>, <<<TYPE>>>) =
-		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<MODULE>>>_less_than;
+											  template
+											  <
+												typename Value1,
+												typename Value2,
 
-	static constexpr bool (*nik_safe(PREFIX, p_<<<MODULE>>>_less_than_or_equal))(<<<TYPE>>>, <<<TYPE>>>) =
-		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<MODULE>>>_less_than_or_equal;
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
 
-	static constexpr bool (*nik_safe(PREFIX, p_<<<MODULE>>>_greater_than))(<<<TYPE>>>, <<<TYPE>>>) =
-		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<MODULE>>>_greater_than;
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values,
 
-	static constexpr bool (*nik_safe(PREFIX, p_<<<MODULE>>>_greater_than_or_equal))(<<<TYPE>>>, <<<TYPE>>>) =
-		<<<SIGNATURE>>>::<<<DIVISION>>>::p_<<<MODULE>>>_greater_than_or_equal;
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_less_than)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_<<<MODULE>>>_less_than
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_less_than)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_curried_<<<MODULE>>>_less_than
+											<Value1, Value2, Continuation, Kind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values,
+
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_less_than_or_equal)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_<<<MODULE>>>_less_than_or_equal
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_less_than_or_equal)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_curried_<<<MODULE>>>_less_than_or_equal
+											<Value1, Value2, Continuation, Kind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values,
+
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_greater_than)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_<<<MODULE>>>_greater_than
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_greater_than)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_curried_<<<MODULE>>>_greater_than
+											<Value1, Value2, Continuation, Kind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+
+												template<Kind...> class ListKind =
+												pnk_builtin_ss::inductor::template
+												dependent_memoization<Kind>::template
+												pattern_match_values,
+
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_<<<MODULE>>>_greater_than_or_equal)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_<<<MODULE>>>_greater_than_or_equal
+											<Value1, Value2, Continuation, Kind, ListKind, Image>;
+
+											  template
+											  <
+												typename Value1,
+												typename Value2,
+												typename Continuation = nik::ch_a_to_value,
+												typename Kind = bool,
+												typename Image = Kind
+											  >
+	static constexpr Image nik_safe(PREFIX, a_curried_<<<MODULE>>>_greater_than_or_equal)	= <<<SIGNATURE>>>::<<<DIVISION>>>::template
+											  a_curried_<<<MODULE>>>_greater_than_or_equal
+											<Value1, Value2, Continuation, Kind, Image>;
 
 //
 

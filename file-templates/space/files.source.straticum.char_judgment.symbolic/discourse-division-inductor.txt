@@ -1,6 +1,6 @@
 struct <<<DIVISION>>>
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, inductor)
+	#include nik_symbolic_typedef(patronum, natural, kernel, judgment, <<<DIVISION>>>)
 
 	template<typename Exp>
 	using pattern_match_<<<MODULE>>>			= pattern_match_judgment<<<<TYPE>>>, Exp>;

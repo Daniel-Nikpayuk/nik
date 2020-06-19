@@ -17,6 +17,7 @@
 
 struct embedding
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, embedding)
 
 	// value:
@@ -26,11 +27,13 @@ struct embedding
 		template
 		<
 			signed short Value,
-			typename Continuation = ch_s_values
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = signed short,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_short_judgment_value = sf_judgment_value
 		<
-			signed short, Value, Continuation
+			signed short, Value, Continuation, Kind, ListKind
 		>;
 
 	// display:

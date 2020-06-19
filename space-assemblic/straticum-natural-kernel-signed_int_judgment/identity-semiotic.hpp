@@ -27,11 +27,13 @@ struct identity
 		template
 		<
 			signed int Value1, signed int Value2,
-			typename Continuation = ch_s_match_to_value
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
 		>
 		using s_signed_int_judgment_is_equal = sf_judgment_is_equal
 		<
-			signed int, Value1, Value2, Continuation
+			signed int, Value1, Value2, Continuation, Kind, ListKind
 		>;
 
 		// assemblic:
