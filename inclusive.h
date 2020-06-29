@@ -143,6 +143,12 @@
 /***********************************************************************************************************************/
 
 
+#include nik_source(., patronum, natural, kernel, judgment_list, assemblic, semiotic)
+
+
+/***********************************************************************************************************************/
+
+
 #include nik_source(., straticum, natural, kernel, char_list, assemblic, semiotic)				// 
 														// string literal
 														// display
