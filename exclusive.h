@@ -111,6 +111,13 @@ namespace nik
 
 		// procedural:
 
+			// void:
+
+				struct ch_p_void
+				{
+					static constexpr void result() { }
+				};
+
 			// identity:
 
 				struct ch_p_identity

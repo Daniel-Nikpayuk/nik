@@ -79,6 +79,12 @@
 
 //
 
+
+	using nik_safe(PREFIX, ch_p_v_map_void_mutate_to_void)				= typename pnk_builtin_ss::inductor::
+											  ch_p_v_map_void_mutate_to_void;
+
+//
+
 											  template<typename Type>
 	using nik_safe(PREFIX, dependent_memoization)					= typename pnk_builtin_ss::inductor::template
 											  dependent_memoization<Type>;

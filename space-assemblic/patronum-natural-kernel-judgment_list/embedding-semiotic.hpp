@@ -22,6 +22,8 @@ struct embedding
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, navigator)
 	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, identity)
 
+	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
+
 	// length:
 
 		// symbolic:
@@ -88,39 +90,37 @@ struct embedding
 
 		// procedural:
 
-		template<bool isEmpty, typename Type, void (*)(Type)>
-		struct fast_display
+		template<typename Continuation>
+		struct cp_p_judgment_list_display1
 		{
-			template<typename List>
+			template<typename Type, template<Type...> class ListType, void (*Display)(Type), Type Value, Type... Values>
 			static constexpr void result()
 			{
-				// do nothing.
+				Display(Value);
+				if (bool(sizeof...(Values))) printf("%s", ", ");
+				cp_p_judgment_list_display0<Continuation>::template result<Type, ListType, Display, Values...>();
 			}
 		};
 
-		template<typename Type, void (*Display)(Type), typename List>
+		template<typename Continuation>
+		struct cp_p_judgment_list_display0
+		{
+			template<typename Type, template<Type...> class ListType, void (*Display)(Type), Type... Values>
+			static constexpr void (*result)() = if_then_else
+			<
+				bool(sizeof...(Values)), cp_p_judgment_list_display1<Continuation>, Continuation
+
+			>::template result<Type, ListType, Display, Values...>;
+		};
+
+		template<typename Type, void (*Display)(Type), typename List, typename Continuation = ch_p_v_map_void_mutate_to_void>
 		static constexpr void p_judgment_list_display()
 		{
-			fast_display
+			dependent_memoization<Type>::template pattern_match_values_list<List>::template
+			p_v_map_void_mutate_induct
 			<
-				a_is_judgment_list_empty<Type, List>,
-				Type, Display
+				cp_p_judgment_list_display0<Continuation>, Display
 
-			>::template result<List>();
+			>();
 		}
-
-		template<typename Type, void (*Display)(Type)>
-		struct fast_display<false, Type, Display>
-		{
-			template<typename List>
-			static constexpr void result()
-			{
-				using Rest = s_judgment_list_cdr<Type, List>;
-
-				Display(a_judgment_list_car<Type, List>);
-				if (!a_is_judgment_list_empty<Type, Rest>) printf("%s", ", ");
-
-				p_judgment_list_display<Type, Display, Rest>();
-			}
-		};
 };

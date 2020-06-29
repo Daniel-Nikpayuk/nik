@@ -64,9 +64,17 @@
 
 //
 
-	template<typename Type, void (*Display)(Type), typename List>
+	template
+	<
+		typename Type,
+		void (*Display)(Type),
+		typename List,
+		typename Continuation =
+		typename pnk_builtin_ss::inductor::
+		ch_p_v_map_void_mutate_to_void
+	>
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_display))() =
-		pnk_judgment_list_as::embedding::p_judgment_list_display<Type, Display, List>;
+		pnk_judgment_list_as::embedding::p_judgment_list_display<Type, Display, List, Continuation>;
 
 /*
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_))() =

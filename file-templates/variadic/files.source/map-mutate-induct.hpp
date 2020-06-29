@@ -625,3 +625,24 @@
 						>;
 
 <<<END TYPES LIST>>>
+
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES LIST>>>
+			// type map to void mutate: map, display.
+
+				// procedural:
+
+					template
+					<
+						typename Continuation,
+
+						void (*Op)(Type)
+					>
+				static constexpr void (*p_v_map_void_mutate_induct)() = Continuation::template result
+							<
+								Type, ListType, Op, Values...
+							>;
+
+<<<END VALUES LIST>>>

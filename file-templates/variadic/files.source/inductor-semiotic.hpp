@@ -228,6 +228,21 @@ struct inductor
 
 				using ch_a_vv_zip_v_mutate_to_value	= cp_a_vv_zip_v_mutate_to_value<ch_a_value>;
 
+		// procedural:
+
+			// void:
+
+				// map:
+
+				template<typename Continuation>
+				struct cp_p_v_map_void_mutate_to_void
+				{
+					template<typename Type, template<Type...> class ListType, void (*Display)(Type), Type... Values>
+					static constexpr void (*result)() = Continuation::result;
+				};
+
+				using ch_p_v_map_void_mutate_to_void	= cp_p_v_map_void_mutate_to_void<ch_p_void>;
+
 	// dependent memoization:
 
 		// The expense of the extra dependent alias is justified in contexts where Type, Kind, Image bindings
