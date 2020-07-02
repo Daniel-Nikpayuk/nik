@@ -92,24 +92,26 @@ struct embedding
 		static constexpr bool (*zero_before_count)(size_type)					= 0;
 
 		template<typename Type> static constexpr bool (*zero_before_act)(Type)			= 0;
-		template<typename Type> static constexpr bool (*zero_after_act)(Type)			= 0;
-		template<typename Type> static constexpr bool (*zero_before_left_combine)(Type)		= 0;
-		template<typename Type> static constexpr bool (*zero_before_right_combine)(Type)	= 0;
-		template<typename Type> static constexpr bool (*zero_after_combine)(Type)		= 0;
+		template<typename Moment> static constexpr bool (*zero_after_act)(Moment)		= 0;
+		template<typename Kind> static constexpr bool (*zero_before_left_combine)(Kind)		= 0;
+		template<typename Moment> static constexpr bool (*zero_before_right_combine)(Moment)	= 0;
+		template<typename Kind> static constexpr bool (*zero_after_combine)(Kind)		= 0;
 
 		template<typename Condition, typename Break, typename Next>
 		struct cp_s_vv_v_shrink_stem
 		{
 			template
 			<
-				typename Kind, typename Moment, typename Type,
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
 				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
 				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
 				bool (*After_Combine)(Kind),
 
-				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Moment Snapshot, Type... Values
 			>
@@ -117,24 +119,24 @@ struct embedding
 			<
 				Condition::template result
 				<
-					Kind, Moment, Type,
+					Kind, ListKind, Moment, Type, ListType,
 
 					Before_Depth, Before_Count, Before_Act, After_Act,
 					Before_Left_Combine, Before_Right_Combine, After_Combine,
 
-					Act, Combine, depth, count, Instance, Snapshot, Values...
+					Combine, Act, depth, count, Instance, Snapshot, Values...
 				>,
 
 				Break, Next
 
 			>::template result
 			<
-				Kind, Moment, Type,
+				Kind, ListKind, Moment, Type, ListType,
 
 				Before_Depth, Before_Count, Before_Act, After_Act,
 				Before_Left_Combine, Before_Right_Combine, After_Combine,
 
-				Act, Combine, depth, count, Instance, Snapshot, Values...
+				Combine, Act, depth, count, Instance, Snapshot, Values...
 			>;
 		};
 
@@ -142,14 +144,16 @@ struct embedding
 		{
 			template
 			<
-				typename Kind, typename Moment, typename Type,
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
 				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
 				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
 				bool (*After_Combine)(Kind),
 
-				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Moment Snapshot, Type... Values
 			>
@@ -157,29 +161,55 @@ struct embedding
 		};
 
 		template<typename Continuation>
-		struct cp_s_vv_v_shrink_act
+		struct cp_s_vv_v_shrink_to_values
 		{
 			template
 			<
-				typename Kind, typename Moment, typename Type,
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
 				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
 				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
 				bool (*After_Combine)(Kind),
 
-				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type... Values
+			>
+			using result = typename Continuation::template result
+			<
+				Kind, ListKind, Instance
+			>;
+		};
+
+		template<typename Continuation>
+		struct cp_s_vv_v_shrink_act
+		{
+			template
+			<
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Moment Snapshot, Type Value, Type... Values
 			>
 			using result = typename Continuation::template result
 			<
-				Kind, Moment, Type,
+				Kind, ListKind, Moment, Type, ListType,
 
 				Before_Depth, Before_Count, Before_Act, After_Act,
 				Before_Left_Combine, Before_Right_Combine, After_Combine,
 
-				Act, Combine, depth, count, Instance, Act(Value), Values...
+				Combine, Act, depth, count, Instance, Act(Value), Values...
 			>;
 		};
 
@@ -188,50 +218,56 @@ struct embedding
 		{
 			template
 			<
-				typename Kind, typename Moment, typename Type,
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
 				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
 				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
 				bool (*After_Combine)(Kind),
 
-				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Moment Snapshot, Type... Values
 			>
 			using result = typename Continuation::template result
 			<
-				Kind, Moment, Type,
+				Kind, ListKind, Moment, Type, ListType,
 
 				Before_Depth, Before_Count, Before_Act, After_Act,
 				Before_Left_Combine, Before_Right_Combine, After_Combine,
 
-				Act, Combine, depth, count, Combine(Instance, Snapshot), Snapshot, Values...
+				Combine, Act, depth, count, Combine(Instance, Snapshot), Snapshot, Values...
 			>;
 		};
 
 	// fold:
+
+		// symbolic:
 
 		template<typename Continuation>
 		struct cr_s_vv_v_fold
 		{
 			template
 			<
-				typename Kind, typename Moment, typename Type,
+				typename Kind, template<Kind...> class ListKind,
+				typename Moment,
+				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
 				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
 				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
 				bool (*After_Combine)(Kind),
 
-				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Moment Snapshot, Type... Values
 			>
 			using result = typename cp_s_vv_v_shrink_stem
 			<
 				cp_s_vv_v_shrink_before_value_condition,
-				Continuation,
+				cp_s_vv_v_shrink_to_values<Continuation>,
 				cp_s_vv_v_shrink_act
 				<
 					cp_s_vv_v_shrink_combine
@@ -242,16 +278,44 @@ struct embedding
 
 			>::template result
 			<
-				Kind, Moment, Type,
+				Kind, ListKind, Moment, Type, ListType,
 
 				Before_Depth, Before_Count, Before_Act, After_Act,
 				Before_Left_Combine, Before_Right_Combine, After_Combine,
 
-				Act, Combine, depth, count, Instance, Snapshot, Values...
+				Combine, Act, depth, count, Instance, Snapshot, Values...
 			>;
 		};
 
-		// symbolic:
+		template<typename Moment, typename Type>
+		static constexpr Moment (*zero_act)(Type) = 0;
+
+		template<typename Kind, typename Moment>
+		static constexpr Kind (*zero_combine)(Kind, Moment) = 0;
+
+		template
+		<
+			typename Type, typename List,
+
+			typename Moment = Type,
+			typename Kind = Type,
+			Moment Snapshot = default_value<Moment>,
+			Kind Instance = default_value<Kind>,
+			Kind (*Combine)(Kind, Moment) = zero_combine<Kind, Moment>,
+
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			typename Continuation = ch_s_values
+		>
+		using s_vv_v_fold = typename dependent_memoization<Type>::template pattern_match_values_list<List>::template
+		s_vv_v_shrink_induct
+		<
+			cr_s_vv_v_fold<Continuation>, Kind, ListKind, Moment,
+
+			zero_before_depth, zero_before_count, zero_before_act<Type>, zero_after_act<Moment>,
+			zero_before_left_combine<Kind>, zero_before_right_combine<Moment>, zero_after_combine<Kind>,
+
+			Combine, zero_act<Moment, Type>, 0, 0, Instance, Snapshot
+		>;
 
 /*
 		template<typename Continuation>
