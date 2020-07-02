@@ -88,6 +88,222 @@ struct embedding
 		>;
 */
 
+		static constexpr bool (*zero_before_depth)(size_type)					= 0;
+		static constexpr bool (*zero_before_count)(size_type)					= 0;
+
+		template<typename Type> static constexpr bool (*zero_before_act)(Type)			= 0;
+		template<typename Type> static constexpr bool (*zero_after_act)(Type)			= 0;
+		template<typename Type> static constexpr bool (*zero_before_left_combine)(Type)		= 0;
+		template<typename Type> static constexpr bool (*zero_before_right_combine)(Type)	= 0;
+		template<typename Type> static constexpr bool (*zero_after_combine)(Type)		= 0;
+
+		template<typename Condition, typename Break, typename Next>
+		struct cp_s_vv_v_shrink_stem
+		{
+			template
+			<
+				typename Kind, typename Moment, typename Type,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type... Values
+			>
+			using result = typename if_then_else
+			<
+				Condition::template result
+				<
+					Kind, Moment, Type,
+
+					Before_Depth, Before_Count, Before_Act, After_Act,
+					Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+					Act, Combine, depth, count, Instance, Snapshot, Values...
+				>,
+
+				Break, Next
+
+			>::template result
+			<
+				Kind, Moment, Type,
+
+				Before_Depth, Before_Count, Before_Act, After_Act,
+				Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+				Act, Combine, depth, count, Instance, Snapshot, Values...
+			>;
+		};
+
+		struct cp_s_vv_v_shrink_before_value_condition
+		{
+			template
+			<
+				typename Kind, typename Moment, typename Type,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type... Values
+			>
+			static constexpr bool result = sizeof...(Values);
+		};
+
+		template<typename Continuation>
+		struct cp_s_vv_v_shrink_act
+		{
+			template
+			<
+				typename Kind, typename Moment, typename Type,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type Value, Type... Values
+			>
+			using result = typename Continuation::template result
+			<
+				Kind, Moment, Type,
+
+				Before_Depth, Before_Count, Before_Act, After_Act,
+				Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+				Act, Combine, depth, count, Instance, Act(Value), Values...
+			>;
+		};
+
+		template<typename Continuation>
+		struct cp_s_vv_v_shrink_combine
+		{
+			template
+			<
+				typename Kind, typename Moment, typename Type,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type... Values
+			>
+			using result = typename Continuation::template result
+			<
+				Kind, Moment, Type,
+
+				Before_Depth, Before_Count, Before_Act, After_Act,
+				Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+				Act, Combine, depth, count, Combine(Instance, Snapshot), Snapshot, Values...
+			>;
+		};
+
+	// fold:
+
+		template<typename Continuation>
+		struct cr_s_vv_v_fold
+		{
+			template
+			<
+				typename Kind, typename Moment, typename Type,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*After_Combine)(Kind),
+
+				Moment (*Act)(Type), Kind (*Combine)(Kind, Moment),
+				size_type depth, size_type count,
+				Kind Instance, Moment Snapshot, Type... Values
+			>
+			using result = typename cp_s_vv_v_shrink_stem
+			<
+				cp_s_vv_v_shrink_before_value_condition,
+				Continuation,
+				cp_s_vv_v_shrink_act
+				<
+					cp_s_vv_v_shrink_combine
+					<
+						cr_s_vv_v_fold
+					>
+				>
+
+			>::template result
+			<
+				Kind, Moment, Type,
+
+				Before_Depth, Before_Count, Before_Act, After_Act,
+				Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+				Act, Combine, depth, count, Instance, Snapshot, Values...
+			>;
+		};
+
+		// symbolic:
+
+/*
+		template<typename Continuation>
+		struct cp_p_judgment_list_display1
+		{
+			template<typename Type, template<Type...> class ListType, void (*Display)(Type), Type Value, Type... Values>
+			static constexpr void result()
+			{
+				Display(Value);
+				if (bool(sizeof...(Values))) printf("%s", ", ");
+				cp_p_judgment_list_display0<Continuation>::template result<Type, ListType, Display, Values...>();
+			}
+		};
+
+		template<typename Continuation>
+		struct cp_a_judgment_list_fold0
+		{
+			template
+			<
+				typename Image,
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+				Kind (*Op)(Kind, Type), size_type count, Kind... Moment, Type... Values
+			>
+			static constexpr void (*result)() = if_then_else
+			<
+				bool(sizeof...(Values)), cp_p_judgment_list_display1<Continuation>, Continuation
+
+			>::template result<Type, ListType, Display, Values...>;
+		};
+
+		template
+		<
+			typename Type, typename List,
+			typename Continuation = ch_a_vv_v_shrink_to_value,
+			typename Kind = Type,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
+			Kind (*Op)(Kind, Type) = p_left_identity,
+			typename Image = Kind
+		>
+		static constexpr Image a_judgment_list_fold = dependent_memoization<Type>::template
+		pattern_match_values_list<List>::template
+		a_vv_v_shrink_induct
+		<
+			cp_a_judgment_list_fold0<Continuation>, Image, Kind, ListKind, Op, count, Moment...
+		>;
+*/
+
+		// assemblic:
+
+	// display:
+
 		// procedural:
 
 		template<typename Continuation>

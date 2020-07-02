@@ -46,3 +46,23 @@
 /***********************************************************************************************************************/
 /***********************************************************************************************************************/
 
+<<<BEGIN VALUES LIST>>>
+			// value x value to value shrink: split_fold, fold, find, multicdr, multicar, reverse.
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Kind, Type), size_type count, Kind... Moment
+					>
+				static constexpr Image a_vv_v_shrink_induct = Continuation::template result	// ?
+						<
+							Image, Kind, ListKind, Type, ListType, Op, count, Moment..., Values...
+						>;
+
+<<<END VALUES LIST>>>
+

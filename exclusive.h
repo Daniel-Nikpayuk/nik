@@ -88,7 +88,7 @@ namespace nik
 				};
 
 				template<typename Type>
-				using s_identity				= ch_s_type::template result<Type>;
+				using s_identity					= ch_s_type::template result<Type>;
 
 				struct ch_s_values
 				{
@@ -107,7 +107,7 @@ namespace nik
 				};
 
 				template<typename Type, Type Value>
-				static constexpr Type a_identity		= ch_a_value::template result<Type, Value>;
+				static constexpr Type a_identity			= ch_a_value::template result<Type, Value>;
 
 		// procedural:
 
@@ -127,7 +127,18 @@ namespace nik
 				};
 
 				template<typename Type>
-				static constexpr Type (*p_identity)(Type)	= ch_p_identity::template result<Type>;
+				static constexpr Type (*p_identity)(Type)		= ch_p_identity::template result<Type>;
+
+			// left identity:
+
+				struct ch_p_left_identity
+				{
+					template<typename Kind, typename Type>
+					static constexpr Kind result(Kind value, Type) { return value; }
+				};
+
+				template<typename Kind, typename Type>
+				static constexpr Kind (*p_left_identity)(Kind, Type)	= ch_p_left_identity::template result<Kind, Type>;
 
 	// continuation passers:
 
@@ -145,7 +156,7 @@ namespace nik
 					>;
 				};
 
-				using ch_s_types_to_type			= cp_s_types_to_type<ch_s_type>;
+				using ch_s_types_to_type				= cp_s_types_to_type<ch_s_type>;
 
 			// value:
 
@@ -169,8 +180,9 @@ namespace nik
 					>;
 				};
 
-				using ch_a_values_to_value			= cp_a_values_to_value<ch_a_value>;
-				using ch_a_to_value				= cp_a_values_to_value<ch_a_value>;	// library default.
+				using ch_a_values_to_value				= cp_a_values_to_value<ch_a_value>;
+				using ch_a_to_value					= cp_a_values_to_value<ch_a_value>;
+														// library default.
 
 
 /***********************************************************************************************************************/
