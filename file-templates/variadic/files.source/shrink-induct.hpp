@@ -27,12 +27,25 @@
 						typename Continuation,
 
 						typename Kind, template<Kind...> class ListKind,
+						typename Moment,
 
-						typename Op_Cond, size_type count, Kind... Moment
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Act)(Type), bool (*After_Act)(Moment),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Moment Snapshot
 					>
-				using s_shrink_induct = typename Continuation::template result		// ?
+				using s_v_map_v_fold_v_shrink_induct = typename Continuation::template result		// ?
 						<
-							Kind, ListKind, Type, ListType, Op_Cond, count, Moment..., Values...
+							Kind, ListKind, Moment, Type, ListType,
+
+							Before_Depth, Before_Count, Before_Act, After_Act,
+							Before_Left_Combine, Before_Right_Combine, After_Combine,
+
+							Combine, Act, depth, count, Instance, Snapshot, Values...
 						>;
 
 <<<END VALUES LIST>>>
