@@ -128,22 +128,19 @@
 
 //#include nik_source(., patronum, natural, kernel, pair, symbolic, semiotic)
 //#include nik_source(., patronum, natural, kernel, copair, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, boolean, symbolic, semiotic)
+//#include nik_source(., patronum, natural, kernel, function, symbolic, semiotic)				// redundant inclusion
 
-//#include nik_source(., patronum, natural, kernel, list, symbolic, semiotic)
-
-//#include nik_source(., patronum, natural, kernel, colist, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, operate, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, literal, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, number, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, integer32, symbolic, semiotic)
-//#include nik_source(., patronum, natural, kernel, function, symbolic, semiotic)
+//#include nik_source(., patronum, natural, kernel, typename_stem, symbolic, semiotic)
+//#include nik_source(., patronum, natural, kernel, typename_list, symbolic, semiotic)
+//#include nik_source(., patronum, natural, kernel, typename_colist, symbolic, semiotic)
 
 
 /***********************************************************************************************************************/
 
 
+//#include nik_source(., patronum, natural, kernel, judgment_stem, assemblic, semiotic)				// redundant inclusion
 #include nik_source(., patronum, natural, kernel, judgment_list, assemblic, semiotic)
+//#include nik_source(., patronum, natural, kernel, judgment_colist, assemblic, semiotic)
 
 
 /***********************************************************************************************************************/

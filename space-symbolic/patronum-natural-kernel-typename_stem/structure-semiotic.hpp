@@ -15,16 +15,36 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
+struct structure
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
-	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
+	// :
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+		// symbolic:
 
-	#include"../../space-assemblic/patronum-natural-kernel-judgment_list/semiotic.h"
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_s_grow_to_values
+		>
+		using s_typename_stem_ = typename pattern_match_typename_stem_<Type, Exp>::template
+		s_front_grow_induct
+		<
+			Continuation, filler
+		>;
 
-#undef local_scope
+		// assemblic:
 
-#endif
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = Type
+		>
+		static constexpr Image a_typename_stem_ = pattern_match_typename_stem_<Type, Exp>::template
+		a_front_grow_induct
+		<
+			Continuation, Image, filler
+		>;
+};

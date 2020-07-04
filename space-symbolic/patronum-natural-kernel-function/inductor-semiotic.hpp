@@ -15,16 +15,10 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
+struct inductor
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
-	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
-
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
-
-	#include"../../space-assemblic/patronum-natural-kernel-judgment_list/semiotic.h"
-
-#undef local_scope
-
-#endif
+	template<typename Type, typename Exp>
+	using pattern_match_function = typename dependent_memoization<Type>::template pattern_match_<Exp>;
+};

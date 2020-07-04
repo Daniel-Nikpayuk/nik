@@ -900,39 +900,9 @@ struct inductor
 							List2, Op, Values...
 						>;
 
-			// shrink: split_fold, fold, find, multicdr, multicar, reverse.
+<<<SHRINK_INDUCT_TEXT>>>
 
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						typename Kind, typename Op_Cond, size_type count, Kind... Moment
-					>
-				using s_shrink_induct = typename Continuation::template result		// ?
-						<
-							Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op_Cond, count, Moment..., Values...
-						>;
-
-			// patch: split_zip, split_map.
-
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
-					>
-				using s_patch_induct = typename Continuation::template result		// ?
-						<
-							Kind,
-							dependent_memoization<Kind>::template pattern_match_values,
-							Type, Op_Cond, count, List0, List1, Values...
-						>;
+<<<PATCH_INDUCT_TEXT>>>
 		};
 
 		// list:
@@ -1494,69 +1464,9 @@ struct inductor
 							Image, ListLabel, Type, ListType, List2, Op, Values...
 						>;
 
-			// shrink: split_fold, fold, find, multicdr, multicar, reverse.
+<<<SHRINK_INDUCT_TEXT>>>
 
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						typename Kind, template<Kind...> class ListKind,
-						typename Moment,
-
-						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-						bool (*Before_Act)(Type), bool (*After_Act)(Moment),
-						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
-						bool (*After_Combine)(Kind),
-
-						Kind (*Combine)(Kind, Moment), Moment (*Act)(Type),
-						size_type depth, size_type count,
-						Kind Instance, Moment Snapshot
-					>
-				using s_v_map_v_fold_v_shrink_induct = typename Continuation::template result		// ?
-						<
-							Kind, ListKind, Moment, Type, ListType,
-
-							Before_Depth, Before_Count, Before_Act, After_Act,
-							Before_Left_Combine, Before_Right_Combine, After_Combine,
-
-							Combine, Act, depth, count, Instance, Snapshot, Values...
-						>;
-
-			// value x value to value shrink: split_fold, fold, find, multicdr, multicar, reverse.
-
-				// assemblic:
-
-					template
-					<
-						typename Continuation, typename Image,
-
-						typename Kind, template<Kind...> class ListKind,
-
-						Kind (*Op)(Kind, Type), size_type count, Kind... Moment
-					>
-				static constexpr Image a_vv_v_shrink_induct = Continuation::template result	// ?
-						<
-							Image, Kind, ListKind, Type, ListType, Op, count, Moment..., Values...
-						>;
-
-			// patch: split_zip, split_map.
-
-				// symbolic:
-
-					template
-					<
-						typename Continuation,
-
-						typename Kind, template<Kind...> class ListKind,
-
-						typename Op_Cond, size_type count, typename List0, typename List1
-					>
-				using s_patch_induct = typename Continuation::template result		// ?
-						<
-							Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
-						>;
+<<<PATCH_INDUCT_TEXT>>>
 		};
 	};
 
@@ -2108,6 +2018,10 @@ struct inductor
 						<
 							Image, pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
+
+<<<SHRINK_INDUCT_TEXT>>>
+
+<<<PATCH_INDUCT_TEXT>>>
 		};
 
 		// list:
@@ -2650,6 +2564,10 @@ struct inductor
 						<
 							Image, ListLabel, ListName, List2, Op, Types...
 						>;
+
+<<<SHRINK_INDUCT_TEXT>>>
+
+<<<PATCH_INDUCT_TEXT>>>
 		};
 
 		// The following values (list) functions are only here due to the above values (list)

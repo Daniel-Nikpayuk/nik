@@ -19,6 +19,20 @@ struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
+	// builtin additive identity:
+
+		// assemblic:
+
+		template<typename Type>
+		static constexpr Type additive_identity = 0;
+
+	// builtin multiplicative identity:
+
+		// assemblic:
+
+		template<typename Type>
+		static constexpr Type multiplicative_identity = 1;
+
 	// type literal:
 
 		// symbolic:

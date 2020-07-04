@@ -15,16 +15,30 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
+#include nik_size_type(define)
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
-	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
+#define pnk_function_ss nik_module(patronum, natural, kernel, function, symbolic, semiotic)
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+#ifdef safe_name
 
-	#include"../../space-assemblic/patronum-natural-kernel-judgment_list/semiotic.h"
+	#define PREFIX		pnkf_inductor_ss_
 
-#undef local_scope
+#else
+
+	#define PREFIX
 
 #endif
+
+//
+
+										  template<typename Type>
+	using nik_safe(PREFIX, pattern_match_function)			= typename pnk_function_ss::inductor::template
+										  pattern_match_function<Type>;
+
+//
+
+#undef PREFIX
+
+#undef pnk_function_ss
+
+#include nik_size_type(undef)

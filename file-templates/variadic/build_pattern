@@ -66,8 +66,8 @@ build-pattern ()
 	local BACK_GROW_INDUCT_TEXT=""
 	local MAP_MUTATE_INDUCT_TEXT=""
 	local ZIP_MUTATE_INDUCT_TEXT=""
-	local SHRINK_INDUCT_TEXT=""
-	local PATCH_INDUCT_TEXT=""
+	local MAP_COMBINE_INDUCT_TEXT=""
+	local ZIP_COMBINE_INDUCT_TEXT=""
 #
 	if [ -f "$SOURCE_DIR/$PATTERN-$DISPATCH.txt" ]
 	then
@@ -93,8 +93,8 @@ build-pattern ()
 	BACK_GROW_INDUCT_TEXT="$(get-variadic-text "back-grow" "$PATTERN")"
 	MAP_MUTATE_INDUCT_TEXT="$(get-variadic-text "map-mutate" "$PATTERN")"
 	ZIP_MUTATE_INDUCT_TEXT="$(get-variadic-text "zip-mutate" "$PATTERN")"
-	SHRINK_INDUCT_TEXT="$(get-variadic-text "shrink" "$PATTERN")"
-	PATCH_INDUCT_TEXT="$(get-variadic-text "patch" "$PATTERN")"
+	MAP_COMBINE_INDUCT_TEXT="$(get-variadic-text "map-combine" "$PATTERN")"
+	ZIP_COMBINE_INDUCT_TEXT="$(get-variadic-text "zip-combine" "$PATTERN")"
 #
 	local mawk_prog='
 	{
@@ -105,8 +105,8 @@ build-pattern ()
 		gsub("<<<BACK_GROW_INDUCT_TEXT>>>", BACK_GROW_INDUCT_TEXT);
 		gsub("<<<MAP_MUTATE_INDUCT_TEXT>>>", MAP_MUTATE_INDUCT_TEXT);
 		gsub("<<<ZIP_MUTATE_INDUCT_TEXT>>>", ZIP_MUTATE_INDUCT_TEXT);
-		gsub("<<<SHRINK_INDUCT_TEXT>>>", SHRINK_INDUCT_TEXT);
-		gsub("<<<PATCH_INDUCT_TEXT>>>", PATCH_INDUCT_TEXT);
+		gsub("<<<MAP_COMBINE_INDUCT_TEXT>>>", MAP_COMBINE_INDUCT_TEXT);
+		gsub("<<<ZIP_COMBINE_INDUCT_TEXT>>>", ZIP_COMBINE_INDUCT_TEXT);
 
 		print $0;
 	}'
@@ -120,8 +120,8 @@ build-pattern ()
 		-v BACK_GROW_INDUCT_TEXT="$BACK_GROW_INDUCT_TEXT"		\
 		-v MAP_MUTATE_INDUCT_TEXT="$MAP_MUTATE_INDUCT_TEXT"		\
 		-v ZIP_MUTATE_INDUCT_TEXT="$ZIP_MUTATE_INDUCT_TEXT"		\
-		-v SHRINK_INDUCT_TEXT="$SHRINK_INDUCT_TEXT"			\
-		-v PATCH_INDUCT_TEXT="$PATCH_INDUCT_TEXT"			\
+		-v MAP_COMBINE_INDUCT_TEXT="$MAP_COMBINE_INDUCT_TEXT"		\
+		-v ZIP_COMBINE_INDUCT_TEXT="$ZIP_COMBINE_INDUCT_TEXT"		\
 										\
 	"$mawk_prog"
 }

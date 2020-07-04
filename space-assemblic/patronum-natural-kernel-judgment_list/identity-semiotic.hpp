@@ -23,6 +23,25 @@ struct identity
 
 		// symbolic:
 
+		// assemblic
+
+		template<typename Continuation>
+		struct cp_a_values_to_value_is_empty
+		{
+			template<typename Image, typename Type, template<Type...> class ListType, Type... Values>
+			static constexpr Image result = Continuation::template result
+			<
+				Image, (Image) !bool(sizeof...(Values))
+			>;
+		};
+
+		using ch_a_values_to_value_is_empty = cp_a_values_to_value_is_empty<ch_a_value>;
+
+		using ch_a_v_map_v_combine_v_condition_before_front_is_empty = cp_a_v_map_v_combine_v_to_values
+		<
+			ch_a_values_to_value_is_empty
+		>;
+
 /*
 		template
 		<

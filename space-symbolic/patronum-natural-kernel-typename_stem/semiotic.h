@@ -15,16 +15,23 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
+namespace nik
+{
+	nik_begin_module(patronum, natural, kernel, typename_stem, symbolic, semiotic)
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
-	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
+//		#include"inductor-semiotic.hpp"
+//		#include"navigator-semiotic.hpp"
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+		//
 
-	#include"../../space-assemblic/patronum-natural-kernel-judgment_list/semiotic.h"
+//		#include"identity-semiotic.hpp"
+//		#include"proximity-semiotic.hpp"
+//		#include"embedding-semiotic.hpp"
 
-#undef local_scope
+		//
 
-#endif
+//		#include"structure-semiotic.hpp"
+//		#include"filter-semiotic.hpp"
+
+	nik_end_module(patronum, natural, kernel, typename_stem, symbolic, semiotic)
+}

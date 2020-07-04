@@ -9,7 +9,7 @@
 
 						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
 					>
-				using s_patch_induct = typename Continuation::template result		// ?
+				using s_zip_combine_induct = typename Continuation::template result		// ?
 						<
 							Kind,
 							dependent_memoization<Kind>::template pattern_match_values,
@@ -30,7 +30,7 @@
 
 						typename Op_Cond, size_type count, typename List0, typename List1
 					>
-				using s_patch_induct = typename Continuation::template result		// ?
+				using s_zip_combine_induct = typename Continuation::template result		// ?
 						<
 							Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
 						>;

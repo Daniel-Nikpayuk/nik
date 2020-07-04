@@ -44,12 +44,11 @@ enum struct Module : global_size_type
 
 	pair,
 	copair,
+	function,
 
-	hold,
-	pend,
-	stem,
-
+	judgment_stem,
 	judgment_list,
+	judgment_colist,
 
 	bool_list,
 
@@ -69,9 +68,9 @@ enum struct Module : global_size_type
 	char16_t_list,
 	char32_t_list,
 
+	typename_stem,
 	typename_list,
-
-	colist,
+	typename_colist,
 
 	builtin_judgment, // dispatch by builtin judgment
 

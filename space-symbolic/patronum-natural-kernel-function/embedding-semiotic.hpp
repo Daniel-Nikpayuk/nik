@@ -15,16 +15,21 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
+struct embedding
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
-	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
+	// function zero:
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+		// assemblic:
 
-	#include"../../space-assemblic/patronum-natural-kernel-judgment_list/semiotic.h"
+		template<typename Kind, typename Type>
+		static constexpr Kind (*function_zero)(Type) = 0;
 
-#undef local_scope
+	// function binary zero:
 
-#endif
+		// assemblic:
+
+		template<typename Kind, typename Type1, typename Type2>
+		static constexpr Kind (*function_binary_zero)(Type1, Type2) = 0;
+};
