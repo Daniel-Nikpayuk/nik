@@ -22,65 +22,12 @@ struct inductor
 	template<typename Type, typename Exp>
 	using pattern_match_judgment_list = typename dependent_memoization<Type>::template pattern_match_values_list<Exp>;
 
-	static constexpr size_type default_depth = 0;
-	static constexpr size_type default_count = 0;
+	// default constants:
+
+		static constexpr size_type default_depth = 0;
+		static constexpr size_type default_count = 0;
 
 	// v map v shrink v:
-
-		// to values:
-
-			// symbolic:
-
-			template<typename Continuation>
-			struct cp_s_v_map_v_combine_v_to_values
-			{
-				template
-				<
-					typename Kind, template<Kind...> class ListKind,
-					typename Aspect,
-					typename Type, template<Type...> class ListType,
-
-					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-					bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
-					bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
-					bool (*After_Combine)(Kind),
-
-					Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
-					size_type depth, size_type count,
-					Kind Instance, Aspect Moment, Type... Values
-				>
-				using result = typename Continuation::template result
-				<
-					Type, ListType, Values...
-				>;
-			};
-
-			// assemblic:
-
-			template<typename Continuation>
-			struct cp_a_v_map_v_combine_v_to_values
-			{
-				template
-				<
-					typename Image,
-					typename Kind, template<Kind...> class ListKind,
-					typename Aspect,
-					typename Type, template<Type...> class ListType,
-
-					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-					bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
-					bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
-					bool (*After_Combine)(Kind),
-
-					Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
-					size_type depth, size_type count,
-					Kind Instance, Aspect Moment, Type... Values
-				>
-				using result = typename Continuation::template result
-				<
-					Image, Type, ListType, Values...
-				>;
-			};
 
 		// apply map:
 

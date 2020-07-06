@@ -15,36 +15,21 @@
 **
 ************************************************************************************************************************/
 
-struct structure
+struct embedding
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+//	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// :
+	// zero:
 
-		// symbolic:
+		// procedural:
 
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_s_grow_to_values
-		>
-		using s_function_ = typename pattern_match_function_<Type, Exp>::template
-		s_front_grow_induct
-		<
-			Continuation, filler
-		>;
+		template<typename Kind, typename Type>
+		static constexpr Kind (*p_function_zero)(Type) = 0;
 
-		// assemblic:
+	// binary zero:
 
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = Type
-		>
-		static constexpr Image a_function_ = pattern_match_function_<Type, Exp>::template
-		a_front_grow_induct
-		<
-			Continuation, Image, filler
-		>;
+		// procedural:
+
+		template<typename Kind, typename Type1, typename Type2>
+		static constexpr Kind (*p_function_binary_zero)(Type1, Type2) = 0;
 };

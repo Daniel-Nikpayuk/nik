@@ -37,6 +37,31 @@
 
 //
 
+	static constexpr SIZE_TYPE nik_safe(PREFIX, default_depth)		= pnk_judgment_list_as::inductor::
+										  default_depth;
+
+	static constexpr SIZE_TYPE nik_safe(PREFIX, default_count)		= pnk_judgment_list_as::inductor::
+										  default_count;
+
+//
+
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_s_v_map_v_combine_v_apply_map)		= typename pnk_judgment_list_as::inductor::template
+										  cp_s_v_map_v_combine_v_apply_map
+											<Continuation>;
+
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_s_v_map_v_combine_v_apply_combine)		= typename pnk_judgment_list_as::inductor::template
+										  cp_s_v_map_v_combine_v_apply_combine
+											<Continuation>;
+
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_s_v_map_v_combine_v_apply_identity_map_then_combine) = typename pnk_judgment_list_as::inductor::template
+										  cp_s_v_map_v_combine_v_apply_identity_map_then_combine
+											<Continuation>;
+
+//
+
 #undef PREFIX
 
 #undef pnk_judgment_list_as

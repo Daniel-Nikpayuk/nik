@@ -17,13 +17,10 @@
 
 struct identity
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, alias)
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	// is empty:
-
-		// symbolic:
-
-		// assemblic
+	// continuation passers:
 
 		template<typename Continuation>
 		struct cp_a_values_to_value_is_empty
@@ -35,11 +32,16 @@ struct identity
 			>;
 		};
 
-		using ch_a_values_to_value_is_empty = cp_a_values_to_value_is_empty<ch_a_value>;
+	// is empty:
 
-		using ch_a_v_map_v_combine_v_condition_before_front_is_empty = cp_a_v_map_v_combine_v_to_values
+		// symbolic:
+
+		// assemblic
+
+		using ch_a_v_map_v_combine_v_to_value_is_empty = typename pnk_builtin_ss::inductor::template
+		cp_a_v_map_v_combine_v_to_values
 		<
-			ch_a_values_to_value_is_empty
+			cp_a_values_to_value_is_empty<ch_a_value>
 		>;
 
 /*
@@ -60,14 +62,10 @@ struct identity
 		// assemblic:
 
 		template<typename Continuation>
-		struct cp_af_grow_to_value_empty
-		{
-			template<typename Image, typename Type, template<Type...> class ListType, typename _Drop_, Type... Values>
-			static constexpr Image result = Continuation::template result
-			<
-				Image, (Image) !bool(sizeof...(Values))
-			>;
-		};
+		using cp_a_grow_to_value_is_empty = typename pnk_builtin_ss::inductor::template cp_a_grow_to_values
+		<
+			cp_a_values_to_value_is_empty<Continuation>
+		>;
 
 		template
 		<
@@ -75,11 +73,11 @@ struct identity
 			typename Continuation = ch_a_value,
 			typename Image = bool
 		>
-		static constexpr Image a_is_judgment_list_empty = dependent_memoization<Type>::template
+		static constexpr Image a_judgment_list_is_empty = dependent_memoization<Type>::template
 		pattern_match_values_list<List>::template
 		a_front_grow_induct
 		<
-			cp_af_grow_to_value_empty<Continuation>, Image, filler
+			cp_a_grow_to_value_is_empty<Continuation>, Image, filler
 		>;
 
 		// procedural:

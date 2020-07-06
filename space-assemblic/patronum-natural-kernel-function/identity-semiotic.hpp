@@ -15,15 +15,43 @@
 **
 ************************************************************************************************************************/
 
-#ifndef NIK_PATRONUM_NATURAL_KERNEL_FUNCTION_SYMBOLIC_SEMIOTIC_H
-#define NIK_PATRONUM_NATURAL_KERNEL_FUNCTION_SYMBOLIC_SEMIOTIC_H
+struct identity
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	#include"patronum-natural-kernel-builtin-semiotic.h"
+	// :
 
-#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
+		// symbolic:
 
-	#include"../../space-symbolic/patronum-natural-kernel-function/semiotic.h"
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_s_match_to_value,
+			typename Kind = bool,
+			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
+		>
+		using s_is_function = typename pattern_match_function_<Type, Exp>::template
+		s_match_induct
+		<
+			Continuation, Kind, ListKind
+		>;
 
-#undef local_scope
+		// assemblic:
 
-#endif
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_is_function = pattern_match_function_<Type, Exp>::template
+		a_match_induct
+		<
+			Continuation, Image
+		>;
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr Type p_function_(Type v) { return v; }
+};

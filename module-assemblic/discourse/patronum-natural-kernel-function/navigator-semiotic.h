@@ -18,11 +18,11 @@
 #include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define pnk_function_ss nik_module(patronum, natural, kernel, function, symbolic, semiotic)
+#define pnk_function_as nik_module(patronum, natural, kernel, function, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		pnkf_navigator_ss_
+	#define PREFIX		pnkf_navigator_as_
 
 #else
 
@@ -40,7 +40,7 @@
 											typename pnk_builtin_ss::inductor::
 											ch_s_grow_to_values
 										  >
-	using nik_safe(PREFIX, s_function_)					= typename pnk_function_ss::navigator::template
+	using nik_safe(PREFIX, s_function_)					= typename pnk_function_as::navigator::template
 										  s_function_<Type, Exp, Continuation>;
 
 //
@@ -55,14 +55,19 @@
 
 											typename Image = Type
 										  >
-	static constexpr Image nik_safe(PREFIX, a_function_)		= pnk_function_ss::navigator::template
+	static constexpr Image nik_safe(PREFIX, a_function_)		= pnk_function_as::navigator::template
 										  a_function_<Type, Continuation, Image>;
+
+//
+
+	static constexpr void (*nik_safe(PREFIX, p_function_))() =
+		pnk_function_as::navigator::p_function_;
 
 //
 
 #undef PREFIX
 
-#undef pnk_function_ss
+#undef pnk_function_as
 #undef pnk_builtin_ss
 
 #include nik_size_type(undef)

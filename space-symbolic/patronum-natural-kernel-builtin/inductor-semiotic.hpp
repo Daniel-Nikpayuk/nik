@@ -43,7 +43,7 @@ struct inductor
 				using ch_s_grow_to_type			= cp_s_grow_to_types<ch_s_types_to_type>;
 				using ch_s_grow_to_types		= cp_s_grow_to_types<ch_s_types>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_s_t_map_t_mutate_to_grow
@@ -63,7 +63,7 @@ struct inductor
 				using ch_s_t_map_t_mutate_to_type	= cp_s_t_map_t_mutate_to_grow<ch_s_grow_to_type>;
 				using ch_s_t_map_t_mutate_to_types	= cp_s_t_map_t_mutate_to_grow<ch_s_grow_to_types>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_s_tt_zip_t_mutate_to_grow
@@ -114,7 +114,7 @@ struct inductor
 
 				using ch_s_grow_to_values		= cp_s_grow_to_values<ch_s_values>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_s_v_map_v_mutate_to_grow
@@ -133,7 +133,7 @@ struct inductor
 
 				using ch_s_v_map_v_mutate_to_values	= cp_s_v_map_v_mutate_to_grow<ch_s_grow_to_values>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_s_vv_zip_v_mutate_to_grow
@@ -151,6 +151,32 @@ struct inductor
 				};
 
 				using ch_s_vv_zip_v_mutate_to_values	= cp_s_vv_zip_v_mutate_to_grow<ch_s_grow_to_values>;
+
+				// map combine:
+
+				template<typename Continuation>
+				struct cp_s_v_map_v_combine_v_to_values
+				{
+					template
+					<
+						typename Kind, template<Kind...> class ListKind,
+						typename Aspect,
+						typename Type, template<Type...> class ListType,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Aspect Moment, Type... Values
+					>
+					using result = typename Continuation::template result
+					<
+						Type, ListType, Values...
+					>;
+				};
 
 		// assemblic:
 
@@ -188,7 +214,7 @@ struct inductor
 
 				using ch_a_grow_to_value		= cp_a_grow_to_values<ch_a_values_to_value>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_a_v_map_v_mutate_to_value
@@ -208,7 +234,7 @@ struct inductor
 
 				using ch_a_v_map_v_mutate_to_value	= cp_a_v_map_v_mutate_to_value<ch_a_value>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_a_vv_zip_v_mutate_to_value
@@ -227,6 +253,33 @@ struct inductor
 				};
 
 				using ch_a_vv_zip_v_mutate_to_value	= cp_a_vv_zip_v_mutate_to_value<ch_a_value>;
+
+				// map combine:
+
+				template<typename Continuation>
+				struct cp_a_v_map_v_combine_v_to_values
+				{
+					template
+					<
+						typename Image,
+						typename Kind, template<Kind...> class ListKind,
+						typename Aspect,
+						typename Type, template<Type...> class ListType,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Aspect Moment, Type... Values
+					>
+					static constexpr Image result = Continuation::template result
+					<
+						Image, Type, ListType, Values...
+					>;
+				};
 
 		// procedural:
 
@@ -900,9 +953,39 @@ struct inductor
 							List2, Op, Values...
 						>;
 
-<<<SHRINK_INDUCT_TEXT>>>
+			// map_combine: split_fold, fold, find, multicdr, multicar, reverse.
 
-<<<PATCH_INDUCT_TEXT>>>
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, typename Op_Cond, size_type count, Kind... Aspect
+					>
+				using s_map_combine_induct = typename Continuation::template result		// ?
+						<
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type, Op_Cond, count, Aspect..., Values...
+						>;
+
+			// patch: split_zip, split_map.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, typename Op_Cond, size_type count, typename List0, typename List1
+					>
+				using s_zip_combine_induct = typename Continuation::template result		// ?
+						<
+							Kind,
+							dependent_memoization<Kind>::template pattern_match_values,
+							Type, Op_Cond, count, List0, List1, Values...
+						>;
 		};
 
 		// list:
@@ -1464,9 +1547,67 @@ struct inductor
 							Image, ListLabel, Type, ListType, List2, Op, Values...
 						>;
 
-<<<SHRINK_INDUCT_TEXT>>>
+			// value map value combine value: split_fold, fold, find, multicdr, multicar, reverse.
 
-<<<PATCH_INDUCT_TEXT>>>
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, template<Kind...> class ListKind,
+						typename Aspect,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Aspect Moment
+					>
+				using s_v_map_v_combine_v_induct = typename Continuation::template result		// ?
+						<
+							Kind, ListKind, Aspect, Type, ListType,
+							Before_Depth, Before_Count, Before_Map, After_Map,
+							Before_Left_Combine, Before_Right_Combine, After_Combine,
+							Combine, Map, depth, count, Instance, Moment, Values...
+						>;
+
+			// value map value combine value: split_fold, fold, find, multicdr, multicar, reverse.
+
+				// assemblic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						Kind (*Op)(Kind, Type), size_type count, Kind... Aspect
+					>
+				static constexpr Image a_v_map_v_combine_v_induct = Continuation::template result	// ?
+						<
+							Image, Kind, ListKind, Type, ListType, Op, count, Aspect..., Values...
+						>;
+
+			// patch: split_zip, split_map.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						typename Op_Cond, size_type count, typename List0, typename List1
+					>
+				using s_zip_combine_induct = typename Continuation::template result		// ?
+						<
+							Kind, ListKind, Type, ListType, Op_Cond, count, List0, List1, Values...
+						>;
 		};
 	};
 
@@ -2018,10 +2159,6 @@ struct inductor
 						<
 							Image, pattern_match_types, pattern_match_types, List2, Op, Types...
 						>;
-
-<<<SHRINK_INDUCT_TEXT>>>
-
-<<<PATCH_INDUCT_TEXT>>>
 		};
 
 		// list:
@@ -2564,10 +2701,6 @@ struct inductor
 						<
 							Image, ListLabel, ListName, List2, Op, Types...
 						>;
-
-<<<SHRINK_INDUCT_TEXT>>>
-
-<<<PATCH_INDUCT_TEXT>>>
 		};
 
 		// The following values (list) functions are only here due to the above values (list)

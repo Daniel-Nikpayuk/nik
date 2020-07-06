@@ -45,6 +45,23 @@
 										  s_judgment_list_<Type, Exp, Continuation>;
 */
 
+										  template
+										  <
+											typename Type, Type Instance,
+											Type (*Monoid)(Type, Type),
+											typename List,
+
+											template<Type...> class ListType =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Type>::template
+											pattern_match_values,
+
+											typename Continuation = nik::ch_s_values
+										  >
+	using nik_safe(PREFIX, s_judgment_list_monoid_fold)			= typename pnk_judgment_list_as::embedding::template
+										  s_judgment_list_monoid_fold
+										<Type, Instance, Monoid, List, ListType, Continuation>;
+
 //
 
 /*
@@ -64,6 +81,7 @@
 
 //
 
+/*
 	template
 	<
 		typename Type,
@@ -75,6 +93,7 @@
 	>
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_display))() =
 		pnk_judgment_list_as::embedding::p_judgment_list_display<Type, Display, List, Continuation>;
+*/
 
 /*
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_))() =

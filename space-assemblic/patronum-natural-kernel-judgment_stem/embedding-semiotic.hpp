@@ -18,47 +18,4 @@
 struct embedding
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
-
-	// v map v combine v:
-
-		// symbolic:
-
-		template<typename Condition, typename Break, typename Next>
-		struct cp_s_judgment_stem_v_map_v_combine_v
-		{
-			template
-			<
-				typename Kind, template<Kind...> class ListKind,
-				typename Aspect,
-				typename Type, template<Type...> class ListType,
-
-				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-				bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
-				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
-				bool (*After_Combine)(Kind),
-
-				Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
-				size_type depth, size_type count,
-				Kind Instance, Aspect Moment, Type... Values
-			>
-			using result = typename if_then_else
-			<
-				Condition::template result
-				<
-					Kind, ListKind, Aspect, Type, ListType,
-					Before_Depth, Before_Count, Before_Map, After_Map,
-					Before_Left_Combine, Before_Right_Combine, After_Combine,
-					Combine, Map, depth, count, Instance, Moment, Values...
-				>,
-
-				Break, Next
-
-			>::template result
-			<
-				Kind, ListKind, Aspect, Type, ListType,
-				Before_Depth, Before_Count, Before_Map, After_Map,
-				Before_Left_Combine, Before_Right_Combine, After_Combine,
-				Combine, Map, depth, count, Instance, Moment, Values...
-			>;
-		};
 };

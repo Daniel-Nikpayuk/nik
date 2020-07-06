@@ -31,9 +31,18 @@
 
 //
 
+/*
 										  template<typename Type>
 	using nik_safe(PREFIX, pattern_match_judgment_stem)			= typename pnk_judgment_stem_as::inductor::template
 										  pattern_match_judgment_stem<Type>;
+*/
+
+//
+
+										  template<typename Condition, typename Break, typename Next>
+	using nik_safe(PREFIX, cp_s_judgment_stem_v_map_v_combine_v)		= typename pnk_judgment_stem_as::inductor::template
+										  cp_s_judgment_stem_v_map_v_combine_v
+											<Condition, Break, Next>;
 
 //
 

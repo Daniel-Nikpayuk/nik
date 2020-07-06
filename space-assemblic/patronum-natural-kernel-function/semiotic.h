@@ -15,36 +15,23 @@
 **
 ************************************************************************************************************************/
 
-struct navigator
+namespace nik
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+	nik_begin_module(patronum, natural, kernel, function, assemblic, semiotic)
 
-	// :
+//		#include"inductor-semiotic.hpp"
+//		#include"navigator-semiotic.hpp"
 
-		// symbolic:
+		//
 
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_s_grow_to_values
-		>
-		using s_function_ = typename pattern_match_function_<Type, Exp>::template
-		s_front_grow_induct
-		<
-			Continuation, filler
-		>;
+//		#include"identity-semiotic.hpp"
+//		#include"proximity-semiotic.hpp"
+		#include"embedding-semiotic.hpp"
 
-		// assemblic:
+		//
 
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_a_grow_to_value,
-			typename Image = Type
-		>
-		static constexpr Image a_function_ = pattern_match_function_<Type, Exp>::template
-		a_front_grow_induct
-		<
-			Continuation, Image, filler
-		>;
-};
+//		#include"structure-semiotic.hpp"
+//		#include"filter-semiotic.hpp"
+
+	nik_end_module(patronum, natural, kernel, function, assemblic, semiotic)
+}

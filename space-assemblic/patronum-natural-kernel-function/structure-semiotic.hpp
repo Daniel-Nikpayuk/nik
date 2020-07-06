@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-struct proximity
+struct structure
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
@@ -38,13 +38,18 @@ struct proximity
 
 		template
 		<
-			typename Type, typename Exp1, typename Exp2,
-			typename Continuation = ch_a_value,
-			typename Image = bool
+			typename Type, typename Exp,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = Type
 		>
-		static constexpr Image a_function_ = pattern_match_function_<Type, Exp1>::template
-		a_vv_zip_v_mutate_induct
+		static constexpr Image a_function_ = pattern_match_function_<Type, Exp>::template
+		a_front_grow_induct
 		<
-			Continuation, Image, Type, Exp2, Op
+			Continuation, Image, filler
 		>;
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr Type p_function_(Type v) { return v; }
 };

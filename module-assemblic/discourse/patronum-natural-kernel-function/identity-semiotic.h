@@ -18,11 +18,11 @@
 #include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define pnk_function_ss nik_module(patronum, natural, kernel, function, symbolic, semiotic)
+#define pnk_function_as nik_module(patronum, natural, kernel, function, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		pnkf_identity_ss_
+	#define PREFIX		pnkf_identity_as_
 
 #else
 
@@ -47,7 +47,7 @@
 											dependent_memoization<Kind>::template
 											pattern_match_values
 										  >
-	using nik_safe(PREFIX, s_is_function)				= typename pnk_function_ss::identity::template
+	using nik_safe(PREFIX, s_is_function)				= typename pnk_function_as::identity::template
 										  s_is_function<Type, Continuation, Kind, ListKind>;
 
 //
@@ -58,14 +58,19 @@
 											typename Continuation = nik::ch_a_value,
 											typename Image = bool
 										  >
-	static constexpr Image nik_safe(PREFIX, a_is_function)		= pnk_function_ss::identity::template
+	static constexpr Image nik_safe(PREFIX, a_is_function)		= pnk_function_as::identity::template
 										  a_is_function<Type, Continuation, Image>;
+
+//
+
+	static constexpr void (*nik_safe(PREFIX, p_function_))() =
+		pnk_function_as::identity::p_function_;
 
 //
 
 #undef PREFIX
 
-#undef pnk_function_ss
+#undef pnk_function_as
 #undef pnk_builtin_ss
 
 #include nik_size_type(undef)

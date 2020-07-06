@@ -20,135 +20,137 @@ struct embedding
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, embedding)
 
-			// It would be preferrable to pass the string literals directly, but only C++20 and greater allow for it.
+	// builtin to literal:
 
-		template<typename, typename = filler> struct builtin_to_literal;
+				// It would be preferrable to pass the string literals directly, but only C++20 and greater allow for it.
 
-	// bool types:
+			template<typename, typename = filler> struct builtin_to_literal;
 
-		template<typename Filler>
-		struct builtin_to_literal<bool, Filler>
-		{
-			static constexpr const char string_literal[] = "bool";
+		// bool types:
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<bool, Filler>
+			{
+				static constexpr const char string_literal[] = "bool";
 
-	// int types:
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-		template<typename Filler>
-		struct builtin_to_literal<unsigned char, Filler>
-		{
-			static constexpr const char string_literal[] = "unsigned char";
+		// int types:
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<unsigned char, Filler>
+			{
+				static constexpr const char string_literal[] = "unsigned char";
 
-		template<typename Filler>
-		struct builtin_to_literal<signed char, Filler>
-		{
-			static constexpr const char string_literal[] = "signed char";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<signed char, Filler>
+			{
+				static constexpr const char string_literal[] = "signed char";
 
-		template<typename Filler>
-		struct builtin_to_literal<unsigned short, Filler>
-		{
-			static constexpr const char string_literal[] = "unsigned short";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<unsigned short, Filler>
+			{
+				static constexpr const char string_literal[] = "unsigned short";
 
-		template<typename Filler>
-		struct builtin_to_literal<signed short, Filler>
-		{
-			static constexpr const char string_literal[] = "signed short";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<signed short, Filler>
+			{
+				static constexpr const char string_literal[] = "signed short";
 
-		template<typename Filler>
-		struct builtin_to_literal<unsigned int, Filler>
-		{
-			static constexpr const char string_literal[] = "unsigned int";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<unsigned int, Filler>
+			{
+				static constexpr const char string_literal[] = "unsigned int";
 
-		template<typename Filler>
-		struct builtin_to_literal<signed int, Filler>
-		{
-			static constexpr const char string_literal[] = "signed int";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<signed int, Filler>
+			{
+				static constexpr const char string_literal[] = "signed int";
 
-		template<typename Filler>
-		struct builtin_to_literal<unsigned long, Filler>
-		{
-			static constexpr const char string_literal[] = "unsigned long";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<unsigned long, Filler>
+			{
+				static constexpr const char string_literal[] = "unsigned long";
 
-		template<typename Filler>
-		struct builtin_to_literal<signed long, Filler>
-		{
-			static constexpr const char string_literal[] = "signed long";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<signed long, Filler>
+			{
+				static constexpr const char string_literal[] = "signed long";
 
-		template<typename Filler>
-		struct builtin_to_literal<unsigned long long, Filler>
-		{
-			static constexpr const char string_literal[] = "unsigned long long";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<unsigned long long, Filler>
+			{
+				static constexpr const char string_literal[] = "unsigned long long";
 
-		template<typename Filler>
-		struct builtin_to_literal<signed long long, Filler>
-		{
-			static constexpr const char string_literal[] = "signed long long";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<signed long long, Filler>
+			{
+				static constexpr const char string_literal[] = "signed long long";
 
-	// char types:
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-		template<typename Filler>
-		struct builtin_to_literal<char, Filler>
-		{
-			static constexpr const char string_literal[] = "char";
+		// char types:
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<char, Filler>
+			{
+				static constexpr const char string_literal[] = "char";
 
-		template<typename Filler>
-		struct builtin_to_literal<wchar_t, Filler>
-		{
-			static constexpr const char string_literal[] = "wchar_t";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<wchar_t, Filler>
+			{
+				static constexpr const char string_literal[] = "wchar_t";
 
-		template<typename Filler>
-		struct builtin_to_literal<char16_t, Filler>
-		{
-			static constexpr const char string_literal[] = "char16_t";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<char16_t, Filler>
+			{
+				static constexpr const char string_literal[] = "char16_t";
 
-		template<typename Filler>
-		struct builtin_to_literal<char32_t, Filler>
-		{
-			static constexpr const char string_literal[] = "char32_t";
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
-			template<typename Type> static constexpr Type result = string_literal;
-		};
+			template<typename Filler>
+			struct builtin_to_literal<char32_t, Filler>
+			{
+				static constexpr const char string_literal[] = "char32_t";
+
+				template<typename Type> static constexpr Type result = string_literal;
+			};
 
 	// bool builtins to literal:
 

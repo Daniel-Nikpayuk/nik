@@ -43,7 +43,7 @@ struct inductor
 				using ch_s_grow_to_type			= cp_s_grow_to_types<ch_s_types_to_type>;
 				using ch_s_grow_to_types		= cp_s_grow_to_types<ch_s_types>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_s_t_map_t_mutate_to_grow
@@ -63,7 +63,7 @@ struct inductor
 				using ch_s_t_map_t_mutate_to_type	= cp_s_t_map_t_mutate_to_grow<ch_s_grow_to_type>;
 				using ch_s_t_map_t_mutate_to_types	= cp_s_t_map_t_mutate_to_grow<ch_s_grow_to_types>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_s_tt_zip_t_mutate_to_grow
@@ -114,7 +114,7 @@ struct inductor
 
 				using ch_s_grow_to_values		= cp_s_grow_to_values<ch_s_values>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_s_v_map_v_mutate_to_grow
@@ -133,7 +133,7 @@ struct inductor
 
 				using ch_s_v_map_v_mutate_to_values	= cp_s_v_map_v_mutate_to_grow<ch_s_grow_to_values>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_s_vv_zip_v_mutate_to_grow
@@ -151,6 +151,32 @@ struct inductor
 				};
 
 				using ch_s_vv_zip_v_mutate_to_values	= cp_s_vv_zip_v_mutate_to_grow<ch_s_grow_to_values>;
+
+				// map combine:
+
+				template<typename Continuation>
+				struct cp_s_v_map_v_combine_v_to_values
+				{
+					template
+					<
+						typename Kind, template<Kind...> class ListKind,
+						typename Aspect,
+						typename Type, template<Type...> class ListType,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Aspect Moment, Type... Values
+					>
+					using result = typename Continuation::template result
+					<
+						Type, ListType, Values...
+					>;
+				};
 
 		// assemblic:
 
@@ -188,7 +214,7 @@ struct inductor
 
 				using ch_a_grow_to_value		= cp_a_grow_to_values<ch_a_values_to_value>;
 
-				// map:
+				// map mutate:
 
 				template<typename Continuation>
 				struct cp_a_v_map_v_mutate_to_value
@@ -208,7 +234,7 @@ struct inductor
 
 				using ch_a_v_map_v_mutate_to_value	= cp_a_v_map_v_mutate_to_value<ch_a_value>;
 
-				// zip:
+				// zip mutate:
 
 				template<typename Continuation>
 				struct cp_a_vv_zip_v_mutate_to_value
@@ -227,6 +253,33 @@ struct inductor
 				};
 
 				using ch_a_vv_zip_v_mutate_to_value	= cp_a_vv_zip_v_mutate_to_value<ch_a_value>;
+
+				// map combine:
+
+				template<typename Continuation>
+				struct cp_a_v_map_v_combine_v_to_values
+				{
+					template
+					<
+						typename Image,
+						typename Kind, template<Kind...> class ListKind,
+						typename Aspect,
+						typename Type, template<Type...> class ListType,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+						bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+						bool (*After_Combine)(Kind),
+
+						Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+						size_type depth, size_type count,
+						Kind Instance, Aspect Moment, Type... Values
+					>
+					static constexpr Image result = Continuation::template result
+					<
+						Image, Type, ListType, Values...
+					>;
+				};
 
 		// procedural:
 

@@ -18,7 +18,7 @@
 #ifndef NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
 #define NIK_PATRONUM_NATURAL_KERNEL_JUDGMENT_LIST_ASSEMBLIC_SEMIOTIC_H
 
-	#include"../../module-symbolic/narrative/patronum-natural-kernel-function-semiotic.h"
+	#include"patronum-natural-kernel-function-semiotic.h"
 	#include"patronum-natural-kernel-judgment_stem-semiotic.h"
 
 #define local_scope // only applies if we're unpacking/importing aliases within a division or module.

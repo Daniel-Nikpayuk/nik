@@ -18,11 +18,11 @@
 #include nik_size_type(define)
 
 #define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
-#define pnk_function_ss nik_module(patronum, natural, kernel, function, symbolic, semiotic)
+#define pnk_function_as nik_module(patronum, natural, kernel, function, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		pnkf_filter_ss_
+	#define PREFIX		pnkf_embedding_as_
 
 #else
 
@@ -32,6 +32,7 @@
 
 //
 
+/*
 										  template
 										  <
 											typename Type, typename Exp,
@@ -40,11 +41,13 @@
 											typename pnk_builtin_ss::inductor::
 											ch_s_grow_to_values
 										  >
-	using nik_safe(PREFIX, s_function_)					= typename pnk_function_ss::filter::template
+	using nik_safe(PREFIX, s_function_)					= typename pnk_function_as::embedding::template
 										  s_function_<Type, Exp, Continuation>;
+*/
 
 //
 
+/*
 										  template
 										  <
 											typename Type,
@@ -55,14 +58,31 @@
 
 											typename Image = Type
 										  >
-	static constexpr Image nik_safe(PREFIX, a_function_)		= pnk_function_ss::filter::template
+	static constexpr Image nik_safe(PREFIX, a_function_)		= pnk_function_as::embedding::template
 										  a_function_<Type, Continuation, Image>;
+*/
+
+//
+
+		template<typename Kind, typename Type>
+		using zero_type = Kind (*)(Type);
+
+		template<typename Kind, typename Type>
+	static constexpr zero_type<Kind, Type> nik_safe(PREFIX, p_function_zero) =
+		pnk_function_as::embedding::template p_function_zero<Kind, Type>;
+
+		template<typename Kind, typename Type1, typename Type2>
+		using binary_zero_type = Kind (*)(Type1, Type2);
+
+		template<typename Kind, typename Type1, typename Type2>
+	static constexpr binary_zero_type<Kind, Type1, Type2> nik_safe(PREFIX, p_function_binary_zero) =
+		pnk_function_as::embedding::template p_function_binary_zero<Kind, Type1, Type2>;
 
 //
 
 #undef PREFIX
 
-#undef pnk_function_ss
+#undef pnk_function_as
 #undef pnk_builtin_ss
 
 #include nik_size_type(undef)

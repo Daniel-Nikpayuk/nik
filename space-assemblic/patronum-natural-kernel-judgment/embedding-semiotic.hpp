@@ -34,4 +34,19 @@ struct embedding
 		<
 			Kind, ListKind, Type, Value
 		>;
+
+	// constant zero:
+
+		// assemblic:
+
+		template<typename Type> static constexpr Type af_judgment_zero			= 0;
+		template<typename Type> static constexpr Type additive_identity			= 0;
+		template<typename Type> static constexpr Type af_judgment_filler		= 0;
+
+	// constant one:
+
+		// assemblic:
+
+		template<typename Type> static constexpr Type af_judgment_one			= 1;
+		template<typename Type> static constexpr Type multiplicative_identity		= 1;
 };

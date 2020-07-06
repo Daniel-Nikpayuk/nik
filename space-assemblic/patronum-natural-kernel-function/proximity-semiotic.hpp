@@ -15,8 +15,41 @@
 **
 ************************************************************************************************************************/
 
-#include nik_size_type(define)
+struct proximity
+{
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	using pnk_function_ss = nik_module(patronum, natural, kernel, function, symbolic, semiotic);
+	// :
 
-#include nik_size_type(undef)
+		// symbolic:
+
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_s_grow_to_values
+		>
+		using s_function_ = typename pattern_match_function_<Type, Exp>::template
+		s_front_grow_induct
+		<
+			Continuation, filler
+		>;
+
+		// assemblic:
+
+		template
+		<
+			typename Type, typename Exp1, typename Exp2,
+			typename Continuation = ch_a_value,
+			typename Image = bool
+		>
+		static constexpr Image a_function_ = pattern_match_function_<Type, Exp1>::template
+		a_vv_zip_v_mutate_induct
+		<
+			Continuation, Image, Type, Exp2, Op
+		>;
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr Type p_function_(Type v) { return v; }
+};

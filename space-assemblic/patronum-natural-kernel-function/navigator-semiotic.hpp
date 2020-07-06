@@ -15,7 +15,7 @@
 **
 ************************************************************************************************************************/
 
-struct filter
+struct navigator
 {
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
@@ -47,4 +47,9 @@ struct filter
 		<
 			Continuation, Image, filler
 		>;
+
+		// procedural:
+
+		template<typename Type>
+		static constexpr Type p_function_(Type v) { return v; }
 };

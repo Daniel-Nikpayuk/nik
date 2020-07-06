@@ -15,21 +15,30 @@
 **
 ************************************************************************************************************************/
 
-struct embedding
-{
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+#include nik_size_type(define)
 
-	// function zero:
+#define pnk_function_as nik_module(patronum, natural, kernel, function, assemblic, semiotic)
 
-		// assemblic:
+#ifdef safe_name
 
-		template<typename Kind, typename Type>
-		static constexpr Kind (*function_zero)(Type) = 0;
+	#define PREFIX		pnkf_inductor_as_
 
-	// function binary zero:
+#else
 
-		// assemblic:
+	#define PREFIX
 
-		template<typename Kind, typename Type1, typename Type2>
-		static constexpr Kind (*function_binary_zero)(Type1, Type2) = 0;
-};
+#endif
+
+//
+
+										  template<typename Type>
+	using nik_safe(PREFIX, pattern_match_function)			= typename pnk_function_as::inductor::template
+										  pattern_match_function<Type>;
+
+//
+
+#undef PREFIX
+
+#undef pnk_function_as
+
+#include nik_size_type(undef)

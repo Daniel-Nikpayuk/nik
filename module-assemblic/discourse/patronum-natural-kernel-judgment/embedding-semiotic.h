@@ -53,6 +53,28 @@
 
 //
 
+											  template<typename Type>
+	static constexpr Type nik_safe(PREFIX, af_judgment_zero)			= pnk_judgment_as::embedding::template
+											  af_judgment_zero<Type>;
+
+											  template<typename Type>
+	static constexpr Type nik_safe(PREFIX, additive_identity)			= pnk_judgment_as::embedding::template
+											  additive_identity<Type>;
+
+											  template<typename Type>
+	static constexpr Type nik_safe(PREFIX, af_judgment_filler)			= pnk_judgment_as::embedding::template
+											  af_judgment_filler<Type>;
+
+											  template<typename Type>
+	static constexpr Type nik_safe(PREFIX, af_judgment_one)				= pnk_judgment_as::embedding::template
+											  af_judgment_one<Type>;
+
+											  template<typename Type>
+	static constexpr Type nik_safe(PREFIX, multiplicative_identity)			= pnk_judgment_as::embedding::template
+											  multiplicative_identity<Type>;
+
+//
+
 #undef PREFIX
 
 #undef pnk_judgment_as

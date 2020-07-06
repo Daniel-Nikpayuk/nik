@@ -17,11 +17,12 @@
 
 #include nik_size_type(define)
 
-#define pnk_function_ss nik_module(patronum, natural, kernel, function, symbolic, semiotic)
+#define pnk_builtin_ss nik_module(patronum, natural, kernel, builtin, symbolic, semiotic)
+#define pnk_function_as nik_module(patronum, natural, kernel, function, assemblic, semiotic)
 
 #ifdef safe_name
 
-	#define PREFIX		pnkf_inductor_ss_
+	#define PREFIX		pnkf_proximity_as_
 
 #else
 
@@ -31,14 +32,42 @@
 
 //
 
-										  template<typename Type>
-	using nik_safe(PREFIX, pattern_match_function)			= typename pnk_function_ss::inductor::template
-										  pattern_match_function<Type>;
+										  template
+										  <
+											typename Type, typename Exp,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_s_grow_to_values
+										  >
+	using nik_safe(PREFIX, s_function_)					= typename pnk_function_as::proximity::template
+										  s_function_<Type, Exp, Continuation>;
+
+//
+
+										  template
+										  <
+											typename Type,
+
+											typename Continuation =
+											typename pnk_builtin_ss::inductor::
+											ch_a_grow_to_value,
+
+											typename Image = Type
+										  >
+	static constexpr Image nik_safe(PREFIX, a_function_)		= pnk_function_as::proximity::template
+										  a_function_<Type, Continuation, Image>;
+
+//
+
+	static constexpr void (*nik_safe(PREFIX, p_function_))() =
+		pnk_function_as::proximity::p_function_;
 
 //
 
 #undef PREFIX
 
-#undef pnk_function_ss
+#undef pnk_function_as
+#undef pnk_builtin_ss
 
 #include nik_size_type(undef)

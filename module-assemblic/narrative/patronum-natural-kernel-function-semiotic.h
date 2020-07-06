@@ -15,40 +15,15 @@
 **
 ************************************************************************************************************************/
 
-struct embedding
-{
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+#ifndef NIK_PATRONUM_NATURAL_KERNEL_FUNCTION_ASSEMBLIC_SEMIOTIC_H
+#define NIK_PATRONUM_NATURAL_KERNEL_FUNCTION_ASSEMBLIC_SEMIOTIC_H
 
-	// type literal:
+//	#include"../../module-symbolic/narrative/patronum-natural-kernel-builtin-semiotic.h"
 
-		// symbolic:
+#define local_scope // only applies if we're unpacking/importing aliases within a division or module.
 
-		template
-		<
-			typename Type, template<typename> class Op,
-			typename Continuation = ch_s_values,
-			typename Kind = const char*
-		>
-		using s_type_literal = typename independent_memoization::template
-		pattern_match_types<Type>::template
-		sf_t_map_v_mutate_induct
-		<
-			Continuation, Kind, Op
-		>;
+	#include"../../space-assemblic/patronum-natural-kernel-function/semiotic.h"
 
-		// assemblic:
+#undef local_scope
 
-		template
-		<
-			typename Type, template<typename> class Op,
-			typename Continuation = ch_a_to_value,
-			typename Kind = const char*,
-			typename Image = Kind
-		>
-		static constexpr Image a_type_literal = independent_memoization::template
-		pattern_match_types<Type>::template
-		af_t_map_v_mutate_induct
-		<
-			Continuation, Image, Kind, Op
-		>;
-};
+#endif

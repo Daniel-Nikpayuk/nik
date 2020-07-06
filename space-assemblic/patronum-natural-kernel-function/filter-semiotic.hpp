@@ -15,23 +15,41 @@
 **
 ************************************************************************************************************************/
 
-namespace nik
+struct filter
 {
-	nik_begin_module(patronum, natural, kernel, function, symbolic, semiotic)
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-//		#include"inductor-semiotic.hpp"
-//		#include"navigator-semiotic.hpp"
+	// :
 
-		//
+		// symbolic:
 
-//		#include"identity-semiotic.hpp"
-//		#include"proximity-semiotic.hpp"
-//		#include"embedding-semiotic.hpp"
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_s_grow_to_values
+		>
+		using s_function_ = typename pattern_match_function_<Type, Exp>::template
+		s_front_grow_induct
+		<
+			Continuation, filler
+		>;
 
-		//
+		// assemblic:
 
-//		#include"structure-semiotic.hpp"
-//		#include"filter-semiotic.hpp"
+		template
+		<
+			typename Type, typename Exp,
+			typename Continuation = ch_a_grow_to_value,
+			typename Image = Type
+		>
+		static constexpr Image a_function_ = pattern_match_function_<Type, Exp>::template
+		a_front_grow_induct
+		<
+			Continuation, Image, filler
+		>;
 
-	nik_end_module(patronum, natural, kernel, function, symbolic, semiotic)
-}
+		// procedural:
+
+		template<typename Type>
+		static constexpr Type p_function_(Type v) { return v; }
+};

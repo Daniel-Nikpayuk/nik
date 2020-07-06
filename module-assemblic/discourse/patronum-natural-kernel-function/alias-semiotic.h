@@ -15,38 +15,8 @@
 **
 ************************************************************************************************************************/
 
-struct identity
-{
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+#include nik_size_type(define)
 
-	// :
+	using pnk_function_as = nik_module(patronum, natural, kernel, function, assemblic, semiotic);
 
-		// symbolic:
-
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_s_match_to_value,
-			typename Kind = bool,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values
-		>
-		using s_is_function = typename pattern_match_function_<Type, Exp>::template
-		s_match_induct
-		<
-			Continuation, Kind, ListKind
-		>;
-
-		// assemblic:
-
-		template
-		<
-			typename Type, typename Exp,
-			typename Continuation = ch_a_value,
-			typename Image = bool
-		>
-		static constexpr Image a_is_function = pattern_match_function_<Type, Exp>::template
-		a_match_induct
-		<
-			Continuation, Image
-		>;
-};
+#include nik_size_type(undef)

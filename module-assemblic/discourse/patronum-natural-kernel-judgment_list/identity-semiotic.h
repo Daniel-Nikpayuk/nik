@@ -52,6 +52,9 @@
 										  s_is_judgment_list<Type, Continuation, Kind, ListKind>;
 */
 
+	using nik_safe(PREFIX, ch_a_v_map_v_combine_v_to_value_is_empty)	= typename pnk_judgment_list_as::identity::
+										  ch_a_v_map_v_combine_v_to_value_is_empty;
+
 //
 
 										  template
@@ -60,8 +63,8 @@
 											typename Continuation = nik::ch_a_value,
 											typename Image = bool
 										  >
-	static constexpr Image nik_safe(PREFIX, a_is_judgment_list_empty)	= pnk_judgment_list_as::identity::template
-										  a_is_judgment_list_empty
+	static constexpr Image nik_safe(PREFIX, a_judgment_list_is_empty)	= pnk_judgment_list_as::identity::template
+										  a_judgment_list_is_empty
 											<Type, List, Continuation, Image>;
 
 /*

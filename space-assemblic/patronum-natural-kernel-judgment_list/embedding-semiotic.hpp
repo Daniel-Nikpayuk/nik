@@ -17,12 +17,15 @@
 
 struct embedding
 {
+	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, alias)
 	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, navigator)
-	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, identity)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment, embedding)
+	#include nik_assemblic_typedef(patronum, natural, kernel, function, embedding)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_stem, inductor)
 
-	#include nik_assemblic_typedef(straticum, natural, kernel, bool_judgment, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, inductor)
+	#include nik_assemblic_typedef(patronum, natural, kernel, judgment_list, identity)
 
 	// length:
 
@@ -93,6 +96,30 @@ struct embedding
 		// symbolic:
 
 		template<typename Continuation>
+		struct cp_s_v_map_v_combine_v_to_values_fold_break
+		{
+			template
+			<
+				typename Kind, template<Kind...> class ListKind,
+				typename Aspect,
+				typename Type, template<Type...> class ListType,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+				bool (*After_Combine)(Kind),
+
+				Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+				size_type depth, size_type count,
+				Kind Instance, Aspect Moment, Type... Values
+			>
+			using result = typename Continuation::template result
+			<
+				Kind, ListKind, Instance
+			>;
+		};
+
+		template<typename Continuation>
 		struct cr_s_v_map_v_combine_v_fold
 		{
 			template
@@ -102,18 +129,18 @@ struct embedding
 				typename Type, template<Type...> class ListType,
 
 				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-				bool (*Before_Map)(Type), bool (*After_Map)(Moment),
-				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Moment),
+				bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+				bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
 				bool (*After_Combine)(Kind),
 
-				Kind (*Combine)(Kind, Moment), Moment (*Map)(Type),
+				Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
 				size_type depth, size_type count,
 				Kind Instance, Aspect Moment, Type... Values
 			>
 			using result = typename cp_s_judgment_stem_v_map_v_combine_v
 			<
-				ch_a_v_map_v_combine_v_condition_before_front_is_empty,
-				cp_s_v_map_v_combine_v_to_values<Continuation>,
+				ch_a_v_map_v_combine_v_to_value_is_empty,
+				cp_s_v_map_v_combine_v_to_values_fold_break<Continuation>,
 				cp_s_v_map_v_combine_v_apply_identity_map_then_combine
 				<
 					cr_s_v_map_v_combine_v_fold
@@ -140,18 +167,18 @@ struct embedding
 			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
 			typename Continuation = ch_s_values
 		>
-		using s_v_map_v_combine_v_fold = typename dependent_memoization<Type>::template
+		using s_judgment_list_v_map_v_combine_v_fold = typename dependent_memoization<Type>::template
 		pattern_match_values_list<List>::template
 		s_v_map_v_combine_v_induct
 		<
 			cr_s_v_map_v_combine_v_fold<Continuation>, Kind, ListKind, Aspect,
 
-			function_zero<bool, size_type>, function_zero<bool, size_type>, // before depth, before count
-			function_zero<bool, Type>, function_zero<bool, Aspect>,		// before act, after act
-			function_zero<bool, Kind>, function_zero<bool, Aspect>,		// before left combine, before right combine
-			function_zero<bool, Kind>,					// after combine
+			p_function_zero<bool, size_type>, p_function_zero<bool, size_type>,	// before depth, before count
+			p_function_zero<bool, Type>, p_function_zero<bool, Aspect>,		// before act, after act
+			p_function_zero<bool, Kind>, p_function_zero<bool, Aspect>,		// before left combine, before right combine
+			p_function_zero<bool, Kind>,						// after combine
 
-			Combine, function_zero<Aspect, Type>,
+			Combine, p_function_zero<Aspect, Type>,
 			default_depth, default_count, Instance, Moment
 		>;
 
@@ -164,19 +191,19 @@ struct embedding
 			template<Type...> class ListType = dependent_memoization<Type>::template pattern_match_values,
 			typename Continuation = ch_s_values
 		>
-		using s_monoid_fold = typename dependent_memoization<Type>::template
+		using s_judgment_list_monoid_fold = typename dependent_memoization<Type>::template
 		pattern_match_values_list<List>::template
 		s_v_map_v_combine_v_induct
 		<
 			cr_s_v_map_v_combine_v_fold<Continuation>, Type, ListType, Type,
 
-			function_zero<bool, size_type>, function_zero<bool, size_type>, // before depth, before count
-			function_zero<bool, Type>, function_zero<bool, Type>,		// before act, after act
-			function_zero<bool, Type>, function_zero<bool, Type>,		// before left combine, before right combine
-			function_zero<bool, Type>,					// after combine
+			p_function_zero<bool, size_type>, p_function_zero<bool, size_type>,	// before depth, before count
+			p_function_zero<bool, Type>, p_function_zero<bool, Type>,		// before act, after act
+			p_function_zero<bool, Type>, p_function_zero<bool, Type>,		// before left combine, before right combine
+			p_function_zero<bool, Type>,						// after combine
 
-			Monoid, function_zero<Type, Type>,
-			default_depth, default_count, Instance, judgment_filler<Type>
+			Monoid, p_function_zero<Type, Type>,
+			default_depth, default_count, Instance, af_judgment_filler<Type>
 		>;
 
 /*
@@ -232,6 +259,7 @@ struct embedding
 
 		// procedural:
 
+/*
 		template<typename Continuation>
 		struct cp_p_judgment_list_display1
 		{
@@ -265,4 +293,5 @@ struct embedding
 
 			>();
 		}
+*/
 };
