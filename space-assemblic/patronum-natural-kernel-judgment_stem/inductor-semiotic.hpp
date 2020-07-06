@@ -67,4 +67,47 @@ struct inductor
 				Combine, Map, depth, count, Instance, Moment, Values...
 			>;
 		};
+
+	// v map t combine v:
+
+		// assemblic:
+
+		template<typename Condition, typename Break, typename Next>
+		struct cp_a_judgment_stem_v_map_t_combine_v
+		{
+			template
+			<
+				typename Image,
+				typename Kind, template<Kind...> class ListKind,
+				typename Type, template<Type...> class ListType,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Map)(Type), template<typename> class After_Map,
+				bool (*Before_Left_Combine)(Kind), template<typename> class Before_Right_Combine,
+				bool (*After_Combine)(Kind),
+
+				template<Kind, typename> class Combine, template<Type> class Map,
+				size_type depth, size_type count,
+				Kind Instance, typename Moment, Type... Values
+			>
+			static constexpr Image result = if_then_else
+			<
+				Condition::template result
+				<
+					bool, Kind, ListKind, Type, ListType,
+					Before_Depth, Before_Count, Before_Map, After_Map,
+					Before_Left_Combine, Before_Right_Combine, After_Combine,
+					Combine, Map, depth, count, Instance, Moment, Values...
+				>,
+
+				Break, Next
+
+			>::template result
+			<
+				Image, Kind, ListKind, Type, ListType,
+				Before_Depth, Before_Count, Before_Map, After_Map,
+				Before_Left_Combine, Before_Right_Combine, After_Combine,
+				Combine, Map, depth, count, Instance, Moment, Values...
+			>;
+		};
 };

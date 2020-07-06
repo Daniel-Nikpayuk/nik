@@ -64,24 +64,55 @@
 
 //
 
-/*
 										  template
 										  <
-											typename Type,
+											typename Type, typename Kind,
+											typename Moment, Kind Instance,
+											template<Type> class Map,
+											template<Kind, typename> class Combine,
+											typename List,
 
-											typename Continuation =
-											typename pnk_builtin_ss::inductor::
-											ch_a_grow_to_value,
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
 
-											typename Image = Type
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Kind
 										  >
-	static constexpr Image nik_safe(PREFIX, a_judgment_list_)		= pnk_judgment_list_as::embedding::template
-										  a_judgment_list_<Type, Continuation, Image>;
-*/
+	static constexpr Image nik_safe(PREFIX, a_judgment_list_v_map_t_combine_v) = pnk_judgment_list_as::embedding::template
+										  a_judgment_list_v_map_t_combine_v
+								<Type, Kind, Moment, Instance, Map, Combine, ListKind, Continuation, Image>;
+
+										  template
+										  <
+											typename Type, typename List,
+
+											typename Kind = void (*)(),
+											Kind Instance = nik::ch_p_void::result,
+
+											template<Type> class Map =
+											pnk_judgment_list_as::embedding::template
+											dependent_display<Type>::template map,
+
+											template<Kind, typename> class Combine =
+											pnk_judgment_list_as::embedding::template
+											dependent_display<Kind>::template combine,
+
+											template<Kind...> class ListKind =
+											pnk_builtin_ss::inductor::template
+											dependent_memoization<Kind>::template
+											pattern_match_values,
+
+											typename Continuation = nik::ch_a_to_value,
+											typename Image = Kind
+										  >
+	static constexpr Image nik_safe(PREFIX, a_judgment_list_display) = pnk_judgment_list_as::embedding::template
+										  a_judgment_list_display
+								<Type, List, Kind, Instance, Map, Combine, ListKind, Continuation, Image>;
 
 //
 
-/*
 	template
 	<
 		typename Type,
@@ -93,7 +124,6 @@
 	>
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_display))() =
 		pnk_judgment_list_as::embedding::p_judgment_list_display<Type, Display, List, Continuation>;
-*/
 
 /*
 	static constexpr void (*nik_safe(PREFIX, p_judgment_list_))() =

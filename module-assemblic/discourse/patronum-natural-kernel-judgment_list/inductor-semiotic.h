@@ -62,6 +62,18 @@
 
 //
 
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_a_v_map_t_combine_v_apply_map)		= typename pnk_judgment_list_as::inductor::template
+										  cp_a_v_map_t_combine_v_apply_map
+											<Continuation>;
+
+										  template<typename Continuation>
+	using nik_safe(PREFIX, cp_a_v_map_t_combine_v_apply_combine)		= typename pnk_judgment_list_as::inductor::template
+										  cp_a_v_map_t_combine_v_apply_combine
+											<Continuation>;
+
+//
+
 #undef PREFIX
 
 #undef pnk_judgment_list_as

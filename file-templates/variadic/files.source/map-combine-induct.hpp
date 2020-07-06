@@ -77,3 +77,34 @@
 
 <<<END VALUES LIST>>>
 
+/***********************************************************************************************************************/
+
+<<<BEGIN VALUES LIST>>>
+			// value map type combine value: split_fold, fold, find, multicdr, multicar, reverse.
+
+				// symbolic:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						typename Kind, template<Kind...> class ListKind,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type), template<typename> class After_Map,
+						bool (*Before_Left_Combine)(Kind), template<typename> class Before_Right_Combine,
+						bool (*After_Combine)(Kind),
+
+						template<Kind, typename> class Combine, template<Type> class Map,
+						size_type depth, size_type count,
+						Kind Instance, typename Moment
+					>
+				static constexpr Image a_v_map_t_combine_v_induct = Continuation::template result		// ?
+						<
+							Image, Kind, ListKind, Type, ListType,
+							Before_Depth, Before_Count, Before_Map, After_Map,
+							Before_Left_Combine, Before_Right_Combine, After_Combine,
+							Combine, Map, depth, count, Instance, Moment, Values...
+						>;
+
+<<<END VALUES LIST>>>

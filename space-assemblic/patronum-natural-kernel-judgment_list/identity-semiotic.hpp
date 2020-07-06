@@ -44,6 +44,12 @@ struct identity
 			cp_a_values_to_value_is_empty<ch_a_value>
 		>;
 
+		using ch_a_v_map_t_combine_v_to_value_is_empty = typename pnk_builtin_ss::inductor::template
+		cp_a_v_map_t_combine_v_to_values
+		<
+			cp_a_values_to_value_is_empty<ch_a_value>
+		>;
+
 /*
 		template
 		<
