@@ -487,13 +487,10 @@ struct embedding
 		};
 
 		template<typename Type, void (*Display)(Type), typename List, typename Continuation = ch_p_v_map_void_mutate_to_void>
-		static constexpr void p_judgment_list_display()
-		{
-			dependent_memoization<Type>::template pattern_match_values_list<List>::template
-			p_v_map_void_mutate_induct
-			<
-				cp_p_judgment_list_display0<Continuation>, Display
-
-			>();
-		}
+		static constexpr void (*p_judgment_list_display)() = dependent_memoization<Type>::template
+		pattern_match_values_list<List>::template
+		p_v_map_void_mutate_induct
+		<
+			cp_p_judgment_list_display0<Continuation>, Display
+		>;
 };

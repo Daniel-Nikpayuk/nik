@@ -19,7 +19,7 @@ namespace nik
 {
 	nik_begin_module(patronum, natural, kernel, function, assemblic, semiotic)
 
-//		#include"inductor-semiotic.hpp"
+		#include"inductor-semiotic.hpp"
 //		#include"navigator-semiotic.hpp"
 
 		//

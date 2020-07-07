@@ -1641,7 +1641,7 @@ struct inductor
 
 			// value map type combine value: split_fold, fold, find, multicdr, multicar, reverse.
 
-				// symbolic:
+				// assemblic:
 
 					template
 					<
@@ -1664,6 +1664,27 @@ struct inductor
 							Before_Depth, Before_Count, Before_Map, After_Map,
 							Before_Left_Combine, Before_Right_Combine, After_Combine,
 							Combine, Map, depth, count, Instance, Moment, Values...
+						>;
+
+			// value map void combine void: split_fold, fold, find, multicdr, multicar, reverse.
+
+				// procedural:
+
+					template
+					<
+						typename Continuation,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type),
+
+						void (*Map)(Type),
+						size_type depth, size_type count
+					>
+				static constexpr void (*p_v_map_void_combine_void_induct)() = Continuation::template result	// ?
+						<
+							Type, ListType,
+							Before_Depth, Before_Count, Before_Map,
+							Map, depth, count, Values...
 						>;
 
 			// patch: split_zip, split_map.
@@ -2774,6 +2795,29 @@ struct inductor
 				static constexpr Image a_tt_zip_t_mutate_induct = Continuation::template result	// ?
 						<
 							Image, ListLabel, ListName, List2, Op, Types...
+						>;
+
+
+			// type map auto combine value: split_fold, fold, find, multicdr, multicar, reverse.
+
+				// procedural:
+
+					template
+					<
+						typename Continuation, typename Image,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						template<typename> class Before_Map, template<auto> class After_Map,
+
+						template<typename> class Map,
+						size_type depth, size_type count,
+						auto Moment
+					>
+				static constexpr Image p_v_map_t_combine_v_induct = Continuation::template result		// ?
+						<
+							Image, ListName,
+							Before_Depth, Before_Count, Before_Map, After_Map,
+							Map, depth, count, Moment, Types...
 						>;
 		};
 

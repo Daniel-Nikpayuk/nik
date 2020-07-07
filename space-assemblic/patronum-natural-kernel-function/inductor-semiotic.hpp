@@ -17,8 +17,15 @@
 
 struct inductor
 {
-	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
+//	#include nik_symbolic_typedef(patronum, natural, kernel, builtin, inductor)
 
-	template<typename Type, typename Exp>
-	using pattern_match_function = typename dependent_memoization<Type>::template pattern_match_<Exp>;
+	template<auto>
+	struct pattern_match_function
+	{
+	};
+
+	template<typename Kind, typename Type, Kind (*Function)(Type)>
+	struct pattern_match_function<Function>
+	{
+	};
 };

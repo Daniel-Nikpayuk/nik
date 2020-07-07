@@ -27,7 +27,7 @@ struct inductor
 		static constexpr size_type default_depth = 0;
 		static constexpr size_type default_count = 0;
 
-	// v map v shrink v:
+	// v map v combine v:
 
 		// apply map:
 
@@ -122,7 +122,7 @@ struct inductor
 				>;
 			};
 
-	// v map t shrink v:
+	// v map t combine v:
 
 		// apply map:
 
@@ -184,5 +184,82 @@ struct inductor
 					Before_Left_Combine, Before_Right_Combine, After_Combine,
 					Combine, Map, depth, count, Combine<Instance, Moment>::template result<Kind>, Moment, Values...
 				>;
+			};
+
+	// v map v combine v:
+
+		// apply:
+
+			// assemblic:
+
+			template<typename Continuation>
+			struct cp_a_v_map_v_combine_v_apply
+			{
+				template
+				<
+					typename Image,
+					typename Kind, template<Kind...> class ListKind,
+					typename Aspect,
+					typename Type, template<Type...> class ListType,
+
+					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+					bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+					bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+					bool (*After_Combine)(Kind),
+
+					Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+					size_type depth, size_type count,
+					Kind Instance, Aspect Moment, Type Value, Type... Values
+				>
+				static constexpr Image result = []()
+				{
+					Continuation::template result
+					<
+						Image, Kind, ListKind, Aspect, Type, ListType,
+						Before_Depth, Before_Count, Before_Map, After_Map,
+						Before_Left_Combine, Before_Right_Combine, After_Combine,
+						Combine, Map, depth, count, Instance, Moment, Values...
+
+					>(Map(Value));
+				};
+			};
+
+	// v map void combine void:
+
+		// apply:
+
+			// assemblic:
+
+			template<typename Continuation>
+			struct cp_a_v_map_void_combine_void_apply
+			{
+				template
+				<
+					typename Image,
+					typename Kind, template<Kind...> class ListKind,
+					typename Aspect,
+					typename Type, template<Type...> class ListType,
+
+					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+					bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
+					bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
+					bool (*After_Combine)(Kind),
+
+					Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+					size_type depth, size_type count,
+					Kind Instance, Aspect Moment, Type Value, Type... Values
+				>
+				static constexpr Image result = []()
+				{
+					Map(Value);
+
+					Continuation::template result
+					<
+						Image, Kind, ListKind, Aspect, Type, ListType,
+						Before_Depth, Before_Count, Before_Map, After_Map,
+						Before_Left_Combine, Before_Right_Combine, After_Combine,
+						Combine, Map, depth, count, Instance, Moment, Values...
+					>();
+				};
 			};
 };
