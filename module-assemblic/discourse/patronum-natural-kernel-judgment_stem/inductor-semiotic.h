@@ -49,6 +49,11 @@
 										  cp_a_judgment_stem_v_map_t_combine_v
 											<Condition, Break, Next>;
 
+										  template<typename Condition, typename Break, typename Next>
+	using nik_safe(PREFIX, cp_af_judgment_stem_v_map_void_combine_void)	= typename pnk_judgment_stem_as::inductor::template
+										  cp_af_judgment_stem_v_map_void_combine_void
+											<Condition, Break, Next>;
+
 //
 
 #undef PREFIX

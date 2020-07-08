@@ -32,6 +32,16 @@ struct identity
 			>;
 		};
 
+		template<typename Continuation>
+		struct cp_a_values_to_value_is_last
+		{
+			template<typename Image, typename Type, template<Type...> class ListType, Type... Values>
+			static constexpr Image result = Continuation::template result
+			<
+				Image, (Image) bool(sizeof...(Values) == 1)
+			>;
+		};
+
 	// is empty:
 
 		// symbolic:
@@ -48,6 +58,18 @@ struct identity
 		cp_a_v_map_t_combine_v_to_values
 		<
 			cp_a_values_to_value_is_empty<ch_a_value>
+		>;
+
+	// is last:
+
+		// symbolic:
+
+		// assemblic
+
+		using ch_af_v_map_void_combine_void_to_value_is_last = typename pnk_builtin_ss::inductor::template
+		cp_af_v_map_void_combine_void_to_values
+		<
+			cp_a_values_to_value_is_last<ch_a_value>
 		>;
 
 /*

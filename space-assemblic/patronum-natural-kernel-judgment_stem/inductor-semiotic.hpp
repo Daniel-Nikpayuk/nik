@@ -110,4 +110,41 @@ struct inductor
 				Combine, Map, depth, count, Instance, Moment, Values...
 			>;
 		};
+
+	// v map void combine void:
+
+		// procedural:
+
+		template<typename Condition, typename Break, typename Next>
+		struct cp_af_judgment_stem_v_map_void_combine_void
+		{
+			template
+			<
+				typename Type, template<Type...> class ListType,
+
+				bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+				bool (*Before_Map)(Type),
+
+				void (*Map)(Type),
+				size_type depth, size_type count,
+				Type... Values
+			>
+			static constexpr void (*result)() = if_then_else
+			<
+				Condition::template result
+				<
+					bool, Type, ListType,
+					Before_Depth, Before_Count, Before_Map,
+					Map, depth, count, Values...
+				>,
+
+				Break, Next
+
+			>::template result
+			<
+				Type, ListType,
+				Before_Depth, Before_Count, Before_Map,
+				Map, depth, count, Values...
+			>;
+		};
 };

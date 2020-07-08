@@ -62,7 +62,10 @@ struct embedding
 		template<typename Continuation>
 		using cp_af_values_list_zip_induct = typename independent_memoization::template cp_af_values_list_zip_induct<Continuation>;
 
-	// v map v shrink v:
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
+
+	// v map v combine v:
 
 		// cp fold break:
 
@@ -189,7 +192,9 @@ struct embedding
 				default_depth, default_count, Instance, af_judgment_filler<Type>
 			>;
 
-	// v map t shrink v:
+/***********************************************************************************************************************/
+
+	// v map t combine v:
 
 		// fold break:
 
@@ -294,172 +299,100 @@ struct embedding
 				default_depth, default_count, Instance, Moment
 			>;
 
-/*
-		template<typename Continuation>
-		struct cp_p_judgment_list_display1
-		{
-			template<typename Type, template<Type...> class ListType, void (*Display)(Type), Type Value, Type... Values>
-			static constexpr void result()
-			{
-				Display(Value);
-				if (bool(sizeof...(Values))) printf("%s", ", ");
-				cp_p_judgment_list_display0<Continuation>::template result<Type, ListType, Display, Values...>();
-			}
-		};
+/***********************************************************************************************************************/
 
-		template<typename Continuation>
-		struct cp_a_judgment_list_fold0
-		{
+	// v map void combine void:
+
+		// break:
+
+			// assemblic:
+
+			template<typename Continuation>
+			struct cp_af_v_map_void_combine_void_break
+			{
+				template
+				<
+					typename Type, template<Type...> class ListType,
+
+					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+					bool (*Before_Map)(Type),
+
+					void (*Map)(Type),
+					size_type depth, size_type count,
+					Type... Values
+				>
+				static constexpr void (*result)() = Continuation::template result
+				<
+					Type, ListType,
+					Before_Depth, Before_Count, Before_Map,
+					Map, depth, count, Values...
+				>;
+			};
+
+		// cr:
+
+			// assemblic:
+
+			template<typename Continuation>
+			struct cr_af_v_map_void_combine_void
+			{
+				template
+				<
+					typename Type, template<Type...> class ListType,
+
+					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+					bool (*Before_Map)(Type),
+
+					void (*Map)(Type),
+					size_type depth, size_type count,
+					Type... Values
+				>
+				static constexpr void (*result)() = cp_af_judgment_stem_v_map_void_combine_void
+				<
+					ch_af_v_map_void_combine_void_to_value_is_last,
+					cp_af_v_map_void_combine_void_break<Continuation>,
+					cp_af_v_map_void_combine_void_apply
+					<
+						cr_af_v_map_void_combine_void
+					>
+
+				>::template result
+				<
+					Type, ListType,
+					Before_Depth, Before_Count, Before_Map,
+					Map, depth, count, Values...
+				>;
+			};
+
+		// map combine:
+
+			// procedural:
+
 			template
 			<
-				typename Image,
-				typename Kind, template<Kind...> class ListKind,
-				typename Type, template<Type...> class ListType,
-				Kind (*Op)(Kind, Type), size_type count, Kind... Moment, Type... Values
+				typename Type,
+				void (*Map)(Type),
+				typename List,
+
+				typename Continuation// = ch_a_to_value
 			>
-			static constexpr void (*result)() = if_then_else
-			<
-				bool(sizeof...(Values)), cp_p_judgment_list_display1<Continuation>, Continuation
-
-			>::template result<Type, ListType, Display, Values...>;
-		};
-
-		template
-		<
-			typename Type, typename List,
-			typename Continuation = ch_a_vv_v_shrink_to_value,
-			typename Kind = Type,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
-			Kind (*Op)(Kind, Type) = p_left_identity,
-			typename Image = Kind
-		>
-		static constexpr Image a_judgment_list_fold = dependent_memoization<Type>::template
-		pattern_match_values_list<List>::template
-		a_vv_v_shrink_induct
-		<
-			cp_a_judgment_list_fold0<Continuation>, Image, Kind, ListKind, Op, count, Moment...
-		>;
-*/
-
-	// display:
-
-		// assemblic:
-
-/*
-		template<typename Type>
-		struct dependent_display
-		{
-			template<Type Value>
-			struct map
-			{
-				static constexpr void result()
-				{
-					printf("%lld", Value);
-					printf("%s", ", ");
-				}
-			};
-
-			template<Type Instance, typename Map>
-			struct combine
-			{
-				static constexpr void let_result()
-				{
-					Instance();
-					Map::result();
-				}
-
-				template<typename Kind>
-				static constexpr Kind result = let_result;
-			};
-		};
-*/
-
-		template<typename Type>
-		struct dependent_display
-		{
-			template<Type Value>
-			struct map
-			{
-				static constexpr Type result = Value;
-			};
-
-			template<Type Instance, typename Map>
-			struct combine
-			{
-				static constexpr void let_result()
-				{
-					Instance();
-					printf("%lld", Map::result);
-					printf("%s", ", ");
-				}
-
-				template<typename Kind>
-				static constexpr Kind result = let_result;
-			};
-		};
-
-		template
-		<
-			typename Type, typename List,
-
-			typename Kind = void (*)(),
-			Kind Instance = ch_p_void::result,
-			template<Type> class Map = dependent_display<Type>::template map,
-			template<Kind, typename> class Combine = dependent_display<Kind>::template combine,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
-			typename Continuation = ch_a_to_value,
-			typename Image = Kind
-		>
-		static constexpr Image a_judgment_list_display = a_judgment_list_v_map_t_combine_v
-		<
-			Type, Kind, filler, Instance, Map, Combine, List, ListKind, Continuation, Image
-		>;
-
-		// version 1:
-
-/*
-		template<typename Continuation>
-		struct memoized_functions
-		{
-			template<typename Image, >
-			static constexpr Image result = dependent_memoization<Type>::template
+			static constexpr void (*af_judgment_list_v_map_void_combine_void)() = dependent_memoization<Type>::template
 			pattern_match_values_list<List>::template
-			af_v_map_t_mutate_induct
+			af_v_map_void_combine_void_induct
 			<
-				Continuation, Image, ListLabel, Op//<Type>
+				cr_af_v_map_void_combine_void<Continuation>,
+
+				p_function_zero<bool, size_type>, p_function_zero<bool, size_type>,	// before depth, before count
+				p_function_zero<bool, Type>,						// before act
+
+				Map,
+				default_depth, default_count
 			>;
 
-							Image, ListLabel, Op<Values>...
-		};
+/***********************************************************************************************************************/
+/***********************************************************************************************************************/
 
-		template
-		<
-			typename Type, typename List,
-
-			typename Kind = void (*)(),
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
-			typename Continuation = ch_a_to_value,
-			typename Image = Kind
-		>
-		static constexpr Image a_judgment_list_display =
-
-		template
-		<
-			typename Type, typename List,
-
-			typename Kind = void (*)(),
-			Kind Instance = ch_p_void::result,
-			template<Type> class Map = dependent_display<Type>::template map,
-			template<Kind, typename> class Combine = dependent_display<Kind>::template combine,
-			template<Kind...> class ListKind = dependent_memoization<Kind>::template pattern_match_values,
-			typename Continuation = ch_a_to_value,
-			typename Image = Kind
-		>
-		static constexpr Image a_judgment_list_display = a_judgment_list_v_map_t_combine_v
-		<
-			Type, Kind, filler, Instance, Map, Combine, List, ListKind, Continuation, Image
-		>;
-*/
+	// display:
 
 		// procedural:
 
@@ -492,5 +425,44 @@ struct embedding
 		p_v_map_void_mutate_induct
 		<
 			cp_p_judgment_list_display0<Continuation>, Display
+		>;
+
+		// version 1:
+
+			static constexpr void af_judgment_list_display_map(size_type value)
+			{
+				printf("%lld", value);
+				printf("%s", ", ");
+			}
+
+			struct ch_af_v_map_void_combine_void_print_last
+			{
+				template
+				<
+					typename Type, template<Type...> class ListType,
+
+					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+					bool (*Before_Map)(Type),
+
+					void (*Map)(Type),
+					size_type depth, size_type count,
+					Type Value
+				>
+				static constexpr void result()
+				{
+					printf("%lld", Value);
+				}
+			};
+
+		template
+		<
+			typename Type, typename List,
+
+			void (*Map)(Type) = af_judgment_list_display_map,
+			typename Continuation = ch_af_v_map_void_combine_void_print_last
+		>
+		static constexpr void (*af_judgment_list_display)() = af_judgment_list_v_map_void_combine_void
+		<
+			Type, Map, List, Continuation
 		>;
 };

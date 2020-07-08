@@ -343,6 +343,27 @@ struct inductor
 
 				using ch_p_v_map_void_mutate_to_void	= cp_p_v_map_void_mutate_to_void<ch_p_void>;
 
+				template<typename Continuation>
+				struct cp_af_v_map_void_combine_void_to_values
+				{
+					template
+					<
+						typename Image,
+						typename Type, template<Type...> class ListType,
+
+						bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
+						bool (*Before_Map)(Type),
+
+						void (*Map)(Type),
+						size_type depth, size_type count,
+						Type... Values
+					>
+					static constexpr Image result = Continuation::template result
+					<
+						Image, Type, ListType, Values...
+					>;
+				};
+
 	// dependent memoization:
 
 		// The expense of the extra dependent alias is justified in contexts where Type, Kind, Image bindings
@@ -1680,7 +1701,7 @@ struct inductor
 						void (*Map)(Type),
 						size_type depth, size_type count
 					>
-				static constexpr void (*p_v_map_void_combine_void_induct)() = Continuation::template result	// ?
+				static constexpr void (*af_v_map_void_combine_void_induct)() = Continuation::template result	// ?
 						<
 							Type, ListType,
 							Before_Depth, Before_Count, Before_Map,
@@ -2813,7 +2834,7 @@ struct inductor
 						size_type depth, size_type count,
 						auto Moment
 					>
-				static constexpr Image p_v_map_t_combine_v_induct = Continuation::template result		// ?
+				static constexpr Image af_t_map_v_combine_v_induct = Continuation::template result		// ?
 						<
 							Image, ListName,
 							Before_Depth, Before_Count, Before_Map, After_Map,

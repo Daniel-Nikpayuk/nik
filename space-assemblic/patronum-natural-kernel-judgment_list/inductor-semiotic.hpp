@@ -231,34 +231,28 @@ struct inductor
 			// assemblic:
 
 			template<typename Continuation>
-			struct cp_a_v_map_void_combine_void_apply
+			struct cp_af_v_map_void_combine_void_apply
 			{
 				template
 				<
-					typename Image,
-					typename Kind, template<Kind...> class ListKind,
-					typename Aspect,
 					typename Type, template<Type...> class ListType,
 
 					bool (*Before_Depth)(size_type), bool (*Before_Count)(size_type),
-					bool (*Before_Map)(Type), bool (*After_Map)(Aspect),
-					bool (*Before_Left_Combine)(Kind), bool (*Before_Right_Combine)(Aspect),
-					bool (*After_Combine)(Kind),
+					bool (*Before_Map)(Type),
 
-					Kind (*Combine)(Kind, Aspect), Aspect (*Map)(Type),
+					void (*Map)(Type),
 					size_type depth, size_type count,
-					Kind Instance, Aspect Moment, Type Value, Type... Values
+					Type Value, Type... Values
 				>
-				static constexpr Image result = []()
+				static constexpr void result()
 				{
 					Map(Value);
 
 					Continuation::template result
 					<
-						Image, Kind, ListKind, Aspect, Type, ListType,
-						Before_Depth, Before_Count, Before_Map, After_Map,
-						Before_Left_Combine, Before_Right_Combine, After_Combine,
-						Combine, Map, depth, count, Instance, Moment, Values...
+						Type, ListType,
+						Before_Depth, Before_Count, Before_Map,
+						Map, depth, count, Values...
 					>();
 				};
 			};

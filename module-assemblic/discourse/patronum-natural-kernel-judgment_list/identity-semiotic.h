@@ -58,6 +58,9 @@
 	using nik_safe(PREFIX, ch_a_v_map_t_combine_v_to_value_is_empty)	= typename pnk_judgment_list_as::identity::
 										  ch_a_v_map_t_combine_v_to_value_is_empty;
 
+	using nik_safe(PREFIX, ch_af_v_map_void_combine_void_to_value_is_last)	= typename pnk_judgment_list_as::identity::
+										  ch_af_v_map_void_combine_void_to_value_is_last;
+
 //
 
 										  template

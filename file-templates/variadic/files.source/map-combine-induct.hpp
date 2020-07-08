@@ -126,7 +126,7 @@
 						void (*Map)(Type),
 						size_type depth, size_type count
 					>
-				static constexpr void (*p_v_map_void_combine_void_induct)() = Continuation::template result	// ?
+				static constexpr void (*af_v_map_void_combine_void_induct)() = Continuation::template result	// ?
 						<
 							Type, ListType,
 							Before_Depth, Before_Count, Before_Map,
@@ -150,7 +150,7 @@
 						size_type depth, size_type count,
 						auto Moment
 					>
-				static constexpr Image p_v_map_t_combine_v_induct = Continuation::template result		// ?
+				static constexpr Image af_t_map_v_combine_v_induct = Continuation::template result		// ?
 						<
 							Image, ListName,
 							Before_Depth, Before_Count, Before_Map, After_Map,
