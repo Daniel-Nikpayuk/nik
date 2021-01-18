@@ -1,6 +1,6 @@
 /************************************************************************************************************************
 **
-** Copyright 2015-2020 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
+** Copyright 2015-2021 Daniel Nikpayuk, Inuit Nunangat, The Inuit Nation
 **
 ** This file is part of nik.
 **
@@ -16,79 +16,130 @@
 ************************************************************************************************************************/
 
 
+enum struct Library : global_size_type
+{
+		straticum,
+		patronum,
+		modulum,
+
+		dimension // filler
+};
+
+enum struct Lens : global_size_type
+{
+		asserted,
+		compiled,
+
+		dimension // filler
+};
+
+enum struct Branch : global_size_type
+{
+// asserted (math):
+
+	// patronum:
+
+		kernel, (peano?)
+		group,
+		ring,
+		field,
+		vector,
+		matrix,
+		topology,
+
+	// straticum:
+
+		natural,
+		real,
+		complex,
+
+// compiled (hardware):
+
+	// patronum, straticum:
+
+		numeric,
+		literic,
+		graphic,
+		kinetic,
+		phonetic,
+		interic,
+
+		dimension // filler
+};
+
 enum struct Module : global_size_type
 {
 // kernel:
 
-	builtin,
+		builtin,
 
-	judgment,
+		judgment,
 
-	bool_judgment,
+		bool_judgment,
 
-	unsigned_char_judgment,
-	signed_char_judgment,
-	unsigned_short_judgment,
-	signed_short_judgment,
-	unsigned_int_judgment,
-	signed_int_judgment,
-	unsigned_long_judgment,
-	signed_long_judgment,
-	unsigned_long_long_judgment,
-	signed_long_long_judgment,
+		unsigned_char_judgment,
+		signed_char_judgment,
+		unsigned_short_judgment,
+		signed_short_judgment,
+		unsigned_int_judgment,
+		signed_int_judgment,
+		unsigned_long_judgment,
+		signed_long_judgment,
+		unsigned_long_long_judgment,
+		signed_long_long_judgment,
 
-	char_judgment,
-	wchar_t_judgment,
-	char16_t_judgment,
-	char32_t_judgment,
+		char_judgment,
+		wchar_t_judgment,
+		char16_t_judgment,
+		char32_t_judgment,
 
-	pair,
-	copair,
-	function,
+		pair,
+		copair,
+		function,
 
-	judgment_stem,
-	judgment_list,
-	judgment_colist,
+		judgment_stem,
+		judgment_list,
+		judgment_colist,
 
-	bool_list,
+		bool_list,
 
-	unsigned_char_list,
-	signed_char_list,
-	unsigned_short_list,
-	signed_short_list,
-	unsigned_int_list,
-	signed_int_list,
-	unsigned_long_list,
-	signed_long_list,
-	unsigned_long_long_list,
-	signed_long_long_list,
+		unsigned_char_list,
+		signed_char_list,
+		unsigned_short_list,
+		signed_short_list,
+		unsigned_int_list,
+		signed_int_list,
+		unsigned_long_list,
+		signed_long_list,
+		unsigned_long_long_list,
+		signed_long_long_list,
 
-	char_list,
-	wchar_t_list,
-	char16_t_list,
-	char32_t_list,
+		char_list,
+		wchar_t_list,
+		char16_t_list,
+		char32_t_list,
 
-	typename_stem,
-	typename_list,
-	typename_colist,
+		typename_stem,
+		typename_list,
+		typename_colist,
 
-	builtin_judgment, // dispatch by builtin judgment
+		builtin_judgment, // dispatch by builtin judgment
 
-	regular_text,
+		regular_text,
 
-	literal,
+		literal,
 
-	natural8,
-	natural16,
-	natural32,
-	natural64,
+		natural8,
+		natural16,
+		natural32,
+		natural64,
 
-	integer8,
-	integer16,
-	integer32,
-	integer64,
+		integer8,
+		integer16,
+		integer32,
+		integer64,
 
-	number,
+		number,
 
 // real:
 
